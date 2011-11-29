@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = LLGabor; LANGUAGE = ObjC; SUPERCLASS = LLVisualStimulus; }, 
+        {
+            CLASS = LLVisualStimulus; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dialogWindow = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

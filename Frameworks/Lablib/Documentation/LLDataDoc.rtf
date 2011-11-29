@@ -1,0 +1,565 @@
+{\rtf0\ansi{\fonttbl\f0\fnil Times;\f1\ftech Symbol;\f2\fswiss Helvetica;\f3\fmodern Courier;\f4\fmodern Ohlfs;}
+\paperw16220
+\paperh9060
+\margl120
+\margr120
+\f0\b0\i0\ulnone\ql\fs24\fi0\li0\gray0\fc0\cf0\up0\dn0 Version 1.1 Copyright 
+\f1 ã
+\f0 2003.  All Rights Reserved.  
+\i 
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+\
+\
+\
+
+\pard\tx4880\fi-2780\li4880\fc0\cf0 \
+
+\pard\f2\b\fs56\li2100\fc0\cf0 LLDataDoc\
+
+\pard\tx4880\f0\b0\fs16\fi-2780\li4880\fc0\cf0 \
+\
+\
+
+\fs28 \
+
+\f2\b Inherits From:	
+\f0\b0 NSDocument\
+
+\fs20 \
+
+\f2\b\fs28 Declared In:
+\f0\b0 	LLDataDoc.h\
+
+\f2\b\fs16 \
+
+\pard\li1360\fc0\cf0 \
+\
+\
+
+\fs36 Class Description\
+
+\fs16 \
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 No class description.\
+
+\pard\tx4880\fi-2780\li4880\fc0\cf0 \
+
+\pard\tx6140\tx9660\tx10180\f2\b\fs16\fi-4040\li6140\fc0\cf0 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Defined Types
+\f0\b0\fs28 
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 
+\f2\b\fs20 \
+
+\pard\tx6780\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\f0\fs28\fi-4040\li6140\fc0\cf0 DataEvent	
+\b0 typedef struct \{	\
+		NSString *name;\
+		NSData *data;\
+		unsigned long time;\
+	\} 
+\b DataEvent
+\b0 ;\
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\fi-4040\li6140\fc0\cf0 
+\f2\b\fs20 \
+
+\pard\tx6780\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\f0\fs28\fi-4040\li6140\fc0\cf0 EventDef	
+\b0 typedef struct \{	\
+	NSString *name; long dataBytes; \} 
+\b EventDef
+\b0 ;\
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\fi-4040\li6140\fc0\cf0 
+\f2\b\fs20 \
+
+\pard\tx6780\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\f0\fs28\fi-4040\li6140\fc0\cf0 EventDesc	
+\b0 typedef struct \{	\
+	long code; NSString *name; long dataBytes; \} 
+\b EventDesc
+\b0 ;\
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\tx11340\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx6140\tx9660\tx10180\fi-4040\li6140\fc0\cf0 \
+
+\f2\b\fs16 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Symbolic Constants
+\f0\b0\fs28 
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\fs28\fi-4040\li6140\fc0\cf0 kInitialBufferSize	
+\b0 1000000
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\fs28\fi-4040\li6140\fc0\cf0 LLDefaultDataFileType	
+\b0 'DAT6'
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\fs28\fi-4040\li6140\fc0\cf0 LLDataFormatString	
+\b0 "\\007\\005006.0\\000"\
+
+\pard\tx6140\tx9660\tx10180\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx6140\tx9660\tx10180\f2\b\fs16\li1360\fc0\cf0 \
+\
+
+\pard\li1360\fc0\cf0 \
+
+\fs36 Instance Variables\
+
+\fs16 \
+
+\pard\tx2480\tx8000\tx10140\f0\b0\fs28\li2100\fc0\cf0 \
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSMutableData *
+\b data
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSFileHandle *
+\b dataFileHandle
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSMutableDictionary *
+\b eventDict
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSLock *
+\b eventLock
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSMutableArray *
+\b eventsByCode
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 unsigned long 
+\b lastRead
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 unsigned long 
+\b lastWrite
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSMutableArray *
+\b observerArray
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSLock *
+\b observerLock
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 BOOL 
+\b useDefaultDir
+\b0 ;
+\fs48 \
+
+\pard\tx2100\fs16\fi-400\li2100\fc0\cf0 \
+\
+
+\pard\tx6140\tx9660\tx10180\fs28\fi-4040\li6140\fc0\cf0 data	No description.\
+dataFileHandle	No description.\
+eventDict	No description.\
+eventLock	No description.\
+eventsByCode	No description.\
+lastRead	No description.\
+lastWrite	No description.\
+observerArray	No description.\
+observerLock	No description.\
+useDefaultDir	No description.\
+
+\pard\tx6120\fi-3840\li5940\fc0\cf0 
+\f2\b\fs16 \
+
+\pard\li1360\fc0\cf0 \
+\
+\
+
+\fs36 Method Types\
+
+\pard\tx6140\tx9660\tx10180\f0\b0\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx6120\fs28\fi-3840\li5940\fc0\cf0 	- addObserver:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- closeDataFile\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- createDataFileWithCreator:type:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- dataFileHeaderData\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- defineEvents:number:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- dispatchEvents\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- eventToBuffer:dataPtr:bytes:writeLength:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- findViews:respondingToSelector:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- getEventBytes:length:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- getEventDesc:pDescription:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- putEvent:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- putEvent:withData:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- putEvent:withData:lengthBytes:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- removeObserver:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- setUseDefaultDataDirectory:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0  \
+
+\pard\f2\b\fs16\li1360\fc0\cf0 \
+\
+
+\fs36 Instance Methods\
+
+\fs16 \
+
+\pard\tx6140\tx9660\tx10180\f0\b0\fs28\fi-4040\li6140\fc0\cf0 
+\f2\b addObserver:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b addObserver:
+\b0 (id)
+\i anObserver
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b closeDataFile\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b closeDataFile
+\b0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b createDataFileWithCreator:type:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (BOOL)
+\b createDataFileWithCreator:
+\b0 (OSType)
+\i creator
+\i0  
+\b type:
+\b0 (OSType)
+\i type
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b dataFileHeaderData\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (NSData *)
+\b dataFileHeaderData
+\b0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b defineEvents:number:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (BOOL)
+\b defineEvents:
+\b0 (EventDef *)
+\i eventDefs
+\i0  
+\b number:
+\b0 (unsigned long)
+\i count
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b dispatchEvents\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b dispatchEvents
+\b0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b eventToBuffer:dataPtr:bytes:writeLength:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b eventToBuffer:
+\b0 (unsigned long)
+\i code
+\i0  
+\b dataPtr:
+\b0 (void *)
+\i pData
+\i0  
+\b bytes:
+\b0 (unsigned long)
+\i lengthBytes
+\i0  
+\b writeLength:
+\b0 (BOOL)
+\i writeLength
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b findViews:respondingToSelector:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (NSArray *)
+\b findViews:
+\b0 (NSView *)
+\i view
+\i0  
+\b respondingToSelector:
+\b0 (SEL)
+\i selector
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b getEventBytes:length:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b getEventBytes:
+\b0 (void *)
+\i pData
+\i0  
+\b length:
+\b0 (unsigned long)
+\i numBytes
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b getEventDesc:pDescription:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (BOOL)
+\b getEventDesc:
+\b0 (NSString *)
+\i eventKey
+\i0  
+\b pDescription:
+\b0 (EventDesc *)
+\i pDesc
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b putEvent:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b putEvent:
+\b0 (NSString *)
+\i eventKey
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b putEvent:withData:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b putEvent:
+\b0 (NSString *)
+\i eventKey
+\i0  
+\b withData:
+\b0 (void *)
+\i pDdata
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b putEvent:withData:lengthBytes:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b putEvent:
+\b0 (NSString *)
+\i eventKey
+\i0  
+\b withData:
+\b0 (char *)
+\i pData
+\i0  
+\b lengthBytes:
+\b0 (long)
+\i length
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b removeObserver:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b removeObserver:
+\b0 (id)
+\i anObserver
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b setUseDefaultDataDirectory:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b setUseDefaultDataDirectory:
+\b0 (BOOL)
+\i state
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 \
+ \
+
+\f2\b\fs16 \
+
+}

@@ -1,0 +1,179 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                changeDataSource = id; 
+                closeDocument = id; 
+                resetRequest = id; 
+                runStop = id; 
+                saveDocument = id; 
+                showBehaviorPanel = id; 
+                showPreferencePanel = id; 
+                showStimulusPanel = id; 
+            }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                changeAcquire = id; 
+                changeBlocks = id; 
+                changeFixWidth = id; 
+                changeFixate = id; 
+                changeIntertrial = id; 
+                changeLever = id; 
+                changeResponseTime = id; 
+                changeReward = id; 
+                changeTooFast = id; 
+                changeTries = id; 
+            }; 
+            CLASS = BehaviorSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                acquireField = NSTextField; 
+                blocksField = NSTextField; 
+                fixWidthField = NSTextField; 
+                fixateCheckBox = NSButton; 
+                intertrialField = NSTextField; 
+                leverCheckBox = NSButton; 
+                responseTimeField = NSTextField; 
+                rewardField = NSTextField; 
+                tooFastField = NSTextField; 
+                triesField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {changeZoom = id; }; 
+            CLASS = BehaviorView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {scrollView = NSScrollView; zoomButton = NSPopUpButton; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {changeSource = id; ok = id; }; 
+            CLASS = DataSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {okButton = NSButton; sourceMenu = NSPopUpButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                changeButtonBits = id; 
+                changeCollectVBLs = id; 
+                changeFirstSpikeBit = id; 
+                changeMouseGain = id; 
+                changeMouseXBits = id; 
+                changeMouseYBits = id; 
+                changeSpikeChannels = id; 
+                changeSynthDefaults = id; 
+                changeSynthEyeBreak = id; 
+                changeSynthEyeIgnore = id; 
+                changeSynthEyeInterval = id; 
+                changeSynthEyeNoise = id; 
+                changeSynthEyeX = id; 
+                changeSynthEyeY = id; 
+                changeSynthLeverBit = id; 
+                changeSynthLeverDown = id; 
+                changeSynthLeverIgnore = id; 
+                changeSynthLeverLatency = id; 
+                changeSynthLeverUp = id; 
+                changeSynthSpikes = id; 
+                changeSynthSpikesRandom = id; 
+                changeSynthVBL = id; 
+                changeSynthVBLPeriod = id; 
+                changeVBLBit = id; 
+                ok = id; 
+            }; 
+            CLASS = LLDataSourceSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                VBLBitField = NSTextField; 
+                buttonBits = NSMatrix; 
+                collectVBLButton = NSButton; 
+                firstSpikeBitField = NSTextField; 
+                hardwareTabView = NSTabView; 
+                mouseGainField = NSTextField; 
+                mouseXBits = NSMatrix; 
+                mouseYBits = NSMatrix; 
+                okButton = NSButton; 
+                spikeChannelsField = NSTextField; 
+                synthEyeBreakField = NSTextField; 
+                synthEyeIgnoreField = NSTextField; 
+                synthEyeIntervalField = NSTextField; 
+                synthEyeNoiseField = NSTextField; 
+                synthEyeXButton = NSButton; 
+                synthEyeYButton = NSButton; 
+                synthLeverBitButton = NSButton; 
+                synthLeverIgnoreField = NSTextField; 
+                synthLeverLatencyField = NSTextField; 
+                synthLeverSpontDownField = NSTextField; 
+                synthLeverSpontUpField = NSTextField; 
+                synthRandomSpikesMatrix = NSMatrix; 
+                synthSpikeChannelsField = NSTextField; 
+                synthVBLButton = NSButton; 
+                synthVBLPeriodField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                changeButtonBits = id; 
+                changeMouseGain = id; 
+                changeMouseXBits = id; 
+                changeMouseYBits = id; 
+                ok = id; 
+            }; 
+            CLASS = LLMouseDataSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                buttonBits = NSMatrix; 
+                mouseGainField = NSTextField; 
+                mouseXBits = NSMatrix; 
+                mouseYBits = NSMatrix; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = LLMouseDataSource; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = PrefController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                dataCheckBox = NSButton; 
+                formatMatrix = NSMatrix; 
+                interTrialTextBox = NSTextField; 
+                timeCheckBox = NSButton; 
+                timeOfDayCheckBox = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                changeFormat = id; 
+                changeShowAddress = id; 
+                changeShowData = id; 
+                changeShowTime = id; 
+                changeShowTimeOfDay = id; 
+            }; 
+            CLASS = PreferenceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addressCheckBox = NSButton; 
+                dataCheckBox = NSButton; 
+                formatMatrix = NSMatrix; 
+                timeCheckBox = NSButton; 
+                timeOfDayCheckBox = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = SettingsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {interTrialTextBox = NSTextField; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

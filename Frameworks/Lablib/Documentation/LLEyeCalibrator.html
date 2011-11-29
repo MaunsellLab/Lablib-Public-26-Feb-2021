@@ -1,0 +1,380 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLEyeCalibrator">LLEyeCalibrator</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSWindowController</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLEyeCalibrator.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Defined Types</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/LLEyeCalibrationData">
+			typedef struct {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+float offsetSizeDeg; NSPoint currentOffsetDeg; NSPoint targetDeg[kOffsets]; NSPoint actualUnits[kOffsets]; NSAffineTransformStruct calibration; } <B>LLEyeCalibrationData</B>;</A></CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Symbolic Constants</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kOffsets">kOffsets</A></B>&nbsp;&nbsp;4</CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Variables</H2>
+	<blockquote>
+	
+		<CODE>NSAffineTransformStruct <B>currentCalibration</B>;</CODE><BR>
+		<CODE>NSAffineTransformStruct <B>calibration</B>;</CODE><BR>
+		<CODE>NSAffineTransform *<B>degToUnits</B>;</CODE><BR>
+		<CODE>float <B>fixCorrectFactor</B>;</CODE><BR>
+		<CODE>float <B>fixOffsetDeg</B>;</CODE><BR>
+		<CODE>NSAffineTransformStruct <B>offsetCalibration</B>;</CODE><BR>
+		<CODE>NSPoint <B>offsetDeg</B>[kOffsets];</CODE><BR>
+		<CODE>long <B>offsetIndex</B>;</CODE><BR>
+		<CODE>NSPoint <B>offsetUnits</B>[kOffsets];</CODE><BR>
+		<CODE>BOOL <B>positionDone</B>[kOffsets];</CODE><BR>
+		<CODE>long <B>positionsDone</B>;</CODE><BR>
+		<CODE>NSAffineTransform *<B>unitsToDeg</B>;</CODE><BR>
+		<CODE>IBOutlet NSButton *<B>defaultsButton</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>fixCorrectField</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>fixOffsetField</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>m11Field</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>m12Field</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>m21Field</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>m22Field</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>tXField</B>;</CODE><BR>
+		<CODE>IBOutlet NSTextField *<B>tYField</B>;</CODE><BR>
+	<P><TABLE>
+	
+		<TR><TD>currentCalibration</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>calibration</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>degToUnits</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>fixCorrectFactor</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>fixOffsetDeg</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>offsetCalibration</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>offsetDeg</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>offsetIndex</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>offsetUnits</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>positionDone</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>positionsDone</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>unitsToDeg</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>defaultsButton</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>fixCorrectField</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>fixOffsetField</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>m11Field</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>m12Field</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>m21Field</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>m22Field</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>tXField</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>tYField</TD><TD>No description.</TD></TR>
+	
+	</TABLE>
+	</blockquote>
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#- calibration">- calibration</A></DD>
+		
+			<DD> <A HREF="#- calibrationData">- calibrationData</A></DD>
+		
+			<DD> <A HREF="#- degPointFromUnitPoint:">- degPointFromUnitPoint:</A></DD>
+		
+			<DD> <A HREF="#- loadDialogFields">- loadDialogFields</A></DD>
+		
+			<DD> <A HREF="#- loadTransforms">- loadTransforms</A></DD>
+		
+			<DD> <A HREF="#- nextCalibrationPosition">- nextCalibrationPosition</A></DD>
+		
+			<DD> <A HREF="#- offsetDeg">- offsetDeg</A></DD>
+		
+			<DD> <A HREF="#- parametersChanged">- parametersChanged</A></DD>
+		
+			<DD> <A HREF="#- readDefaults">- readDefaults</A></DD>
+		
+			<DD> <A HREF="#- saveDefaults">- saveDefaults</A></DD>
+		
+			<DD> <A HREF="#- unitPointFromDegPoint:">- unitPointFromDegPoint:</A></DD>
+		
+			<DD> <A HREF="#- unitRectFromDegRect:">- unitRectFromDegRect:</A></DD>
+		
+			<DD> <A HREF="#- unitRectFromEyeWindow:">- unitRectFromEyeWindow:</A></DD>
+		
+			<DD> <A HREF="#- unitSizeFromDegSize:">- unitSizeFromDegSize:</A></DD>
+		
+			<DD> <A HREF="#- updateCalibration:">- updateCalibration:</A></DD>
+		
+			<DD> <A HREF="#- changeToDefaults:">- changeToDefaults:</A></DD>
+		
+			<DD> <A HREF="#- changeFixCorrect:">- changeFixCorrect:</A></DD>
+		
+			<DD> <A HREF="#- changeFixOffset:">- changeFixOffset:</A></DD>
+		
+			<DD> <A HREF="#- changeM11:">- changeM11:</A></DD>
+		
+			<DD> <A HREF="#- changeM12:">- changeM12:</A></DD>
+		
+			<DD> <A HREF="#- changeM21:">- changeM21:</A></DD>
+		
+			<DD> <A HREF="#- changeM22:">- changeM22:</A></DD>
+		
+			<DD> <A HREF="#- changeTX:">- changeTX:</A></DD>
+		
+			<DD> <A HREF="#- changeTY:">- changeTY:</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+ 
+
+	<HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Methods</H2>
+ 
+	
+		
+		<A NAME="- calibration"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/calibration">calibration</A></H3><P>
+		<CODE>- (NSAffineTransformStruct)<B>calibration</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- calibrationData"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/calibrationData">calibrationData</A></H3><P>
+		<CODE>- (LLEyeCalibrationData *)<B>calibrationData</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeFixCorrect:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeFixCorrect:">changeFixCorrect:</A></H3><P>
+		<CODE>- (IBAction)<B>changeFixCorrect:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeFixOffset:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeFixOffset:">changeFixOffset:</A></H3><P>
+		<CODE>- (IBAction)<B>changeFixOffset:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeM11:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeM11:">changeM11:</A></H3><P>
+		<CODE>- (IBAction)<B>changeM11:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeM12:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeM12:">changeM12:</A></H3><P>
+		<CODE>- (IBAction)<B>changeM12:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeM21:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeM21:">changeM21:</A></H3><P>
+		<CODE>- (IBAction)<B>changeM21:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeM22:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeM22:">changeM22:</A></H3><P>
+		<CODE>- (IBAction)<B>changeM22:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeTX:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeTX:">changeTX:</A></H3><P>
+		<CODE>- (IBAction)<B>changeTX:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeTY:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeTY:">changeTY:</A></H3><P>
+		<CODE>- (IBAction)<B>changeTY:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- changeToDefaults:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/changeToDefaults:">changeToDefaults:</A></H3><P>
+		<CODE>- (IBAction)<B>changeToDefaults:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- degPointFromUnitPoint:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/degPointFromUnitPoint:">degPointFromUnitPoint:</A></H3><P>
+		<CODE>- (NSPoint)<B>degPointFromUnitPoint:</B>(NSPoint)<EM>unitPoint</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- loadDialogFields"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/loadDialogFields">loadDialogFields</A></H3><P>
+		<CODE>- (void)<B>loadDialogFields</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- loadTransforms"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/loadTransforms">loadTransforms</A></H3><P>
+		<CODE>- (void)<B>loadTransforms</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- nextCalibrationPosition"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/nextCalibrationPosition">nextCalibrationPosition</A></H3><P>
+		<CODE>- (long)<B>nextCalibrationPosition</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- offsetDeg"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/offsetDeg">offsetDeg</A></H3><P>
+		<CODE>- (NSPoint)<B>offsetDeg</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- parametersChanged"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/parametersChanged">parametersChanged</A></H3><P>
+		<CODE>- (void)<B>parametersChanged</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- readDefaults"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/readDefaults">readDefaults</A></H3><P>
+		<CODE>- (void)<B>readDefaults</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- saveDefaults"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/saveDefaults">saveDefaults</A></H3><P>
+		<CODE>- (void)<B>saveDefaults</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- unitPointFromDegPoint:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/unitPointFromDegPoint:">unitPointFromDegPoint:</A></H3><P>
+		<CODE>- (NSPoint)<B>unitPointFromDegPoint:</B>(NSPoint)<EM>degPoint</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- unitRectFromDegRect:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/unitRectFromDegRect:">unitRectFromDegRect:</A></H3><P>
+		<CODE>- (NSRect)<B>unitRectFromDegRect:</B>(NSRect)<EM>rectDeg</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- unitRectFromEyeWindow:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/unitRectFromEyeWindow:">unitRectFromEyeWindow:</A></H3><P>
+		<CODE>- (NSRect)<B>unitRectFromEyeWindow:</B>(LLEyeWindow *)<EM>eyeWindow</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- unitSizeFromDegSize:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/unitSizeFromDegSize:">unitSizeFromDegSize:</A></H3><P>
+		<CODE>- (NSSize)<B>unitSizeFromDegSize:</B>(NSSize)<EM>sizeDeg</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- updateCalibration:"></A><H3><A NAME="//apple_ref/occ/instm/LLEyeCalibrator/updateCalibration:">updateCalibration:</A></H3><P>
+		<CODE>- (void)<B>updateCalibration:</B>(NSPoint)<EM>pointDeg</EM>
+			
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

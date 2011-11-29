@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {freeze = id; refresh = id; }; 
+            CLASS = LLReportController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                freezeButton = NSButton; 
+                headerField = NSTextField; 
+                refreshButton = NSButton; 
+                text = NSTextView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {refresh = id; }; 
+            CLASS = LLSettingsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {headerField = NSTextField; refreshButton = NSButton; text = NSTextView; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

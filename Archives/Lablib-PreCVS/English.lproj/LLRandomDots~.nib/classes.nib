@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = LLRandomDots; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {versionTextField = NSTextField; }; 
+            SUPERCLASS = LLVisualStimulus; 
+        }, 
+        {
+            CLASS = LLVisualStimulus; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dialogWindow = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

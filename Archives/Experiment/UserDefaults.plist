@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>doDataDirectory</key>
+	<true/>
+	<key>azimuthDeg</key>
+	<real>3</real>
+	<key>Behavior Window Visible</key>
+	<true/>
+	<key>Behavior Window Zoom</key>
+	<integer>100</integer>
+	<key>kdlPhiDeg</key>
+	<real>180</real>
+	<key>kdlThetaDeg</key>
+	<real>90</real>
+	<key>contrastFactor</key>
+	<real>0.5</real>
+	<key>contrasts</key>
+	<integer>8</integer>
+	<key>DAChannel</key>
+	<integer>0</integer>
+	<key>Data Directory Pref</key>
+	<integer>1</integer>
+	<key>currentFactor</key>
+	<real>0.5</real>
+	<key>currents</key>
+	<integer>4</integer>
+	<key>DAChannel</key>
+	<integer>0</integer>
+	<key>frequencyHZ</key>
+	<real>200</real>
+	<key>doGate</key>
+	<integer>1</integer>
+	<key>gateBit</key>
+	<integer>1</integer>
+	<key>markerPulseBit</key>
+	<integer>0</integer>
+	<key>doMarkerPulse</key>
+	<integer>1</integer>
+	<key>maxCurrent</key>
+	<real>10</real>
+	<key>pulseWidthUS</key>
+	<integer>200</integer>
+	<key>uAPerV</key>
+	<integer>10</integer>
+	<key>elevationDeg</key>
+	<real>3</real>
+	<key>Eye Dot Life</key>
+	<real>1</real>
+	<key>Eye Dot Size</key>
+	<real>0.025000000000000001</real>
+	<key>Eye XY Do Grid</key>
+	<integer>1</integer>
+	<key>Eye XY Do Ticks</key>
+	<integer>1</integer>
+	<key>Eye XY Draw Calibration</key>
+	<true/>
+	<key>Eye XY Grid Deg</key>
+	<real>5</real>
+	<key>Eye XY H Scroll</key>
+	<integer>3500</integer>
+	<key>Eye XY Magnification</key>
+	<integer>100</integer>
+	<key>Eye XY Tick Deg</key>
+	<real>1</real>
+	<key>Eye XY V Scroll</key>
+	<integer>3500</integer>
+	<key>Eye XY Window Visible</key>
+	<true/>
+	<key>Fade Eye Dots</key>
+	<integer>1</integer>
+	<key>gapMS</key>
+	<integer>250</integer>
+	<key>intervalMS</key>
+	<integer>250</integer>
+	<key>maxContrast</key>
+	<real>40</real>
+	<key>One In N Eye Dot</key>
+	<integer>1</integer>
+	<key>orientationDeg</key>
+	<real>0.0</real>
+	<key>postintervalMS</key>
+	<integer>50</integer>
+	<key>preintervalMS</key>
+	<integer>250</integer>
+	<key>radiusDeg</key>
+	<real>1</real>
+	<key>sigmaDeg</key>
+	<real>0.25</real>
+	<key>spatialFreqCPD</key>
+	<real>4</real>
+	<key>spatialPhaseDeg</key>
+	<real>45</real>
+	<key>Spike Window Visible</key>
+	<true/>
+	<key>Spike Window Zoom</key>
+	<integer>100</integer>
+	<key>Stim Train Amplitude</key>
+	<real>1.5</real>
+	<key>Stim Train DA Channel</key>
+	<integer>0</integer>
+	<key>Stim Train Duration</key>
+	<integer>250</integer>
+	<key>Stim Train Frequency</key>
+	<real>200</real>
+	<key>Stim Train Mark Pulse Channel</key>
+	<integer>0</integer>
+	<key>Stim Train Pulse Duration</key>
+	<integer>200</integer>
+	<key>Stim Train uA Per V</key>
+	<integer>1</integer>
+	<key>stimType</key>
+	<integer>0</integer>
+	<key>Summary Window Broke Count</key>
+	<integer>0</integer>
+	<key>Summary Window Computer Count</key>
+	<integer>0</integer>
+	<key>Summary Window Correct Count</key>
+	<integer>0</integer>
+	<key>Summary Window Date Count</key>
+	<integer>0</integer>
+	<key>Summary Window Failed Count</key>
+	<integer>0</integer>
+	<key>Summary Window Ignored Count</key>
+	<integer>0</integer>
+	<key>Summary Window Total Count</key>
+	<integer>0</integer>
+	<key>Summary Window Visible</key>
+	<true/>
+	<key>Summary Window Wrong Count</key>
+	<integer>0</integer>
+	<key>Summary Window Zoom</key>
+	<integer>100</integer>
+	<key>temporalFreqHz</key>
+	<real>0.0</real>
+	<key>Trial Window Visible</key>
+	<true/>
+	<key>Trial Window Zoom</key>
+	<integer>100</integer>
+	<key>tries</key>
+	<integer>1</integer>
+	<key>acquireMS</key>
+	<integer>2000</integer>
+	<key>blockLimit</key>
+	<integer>100</integer>
+	<key>fixSpotSizeDeg</key>
+	<real>0.05000000074505806</real>
+	<key>fixWindowWidthDeg</key>
+	<real>1</real>
+	<key>fixate</key>
+	<true/>
+	<key>intertrialMS</key>
+	<integer>1500</integer>
+	<key>nontargetContrastPC</key>
+	<integer>100</integer>
+	<key>playSounds</key>
+	<true/>
+	<key>respWind0Azi</key>
+	<real>0.0</real>
+	<key>respWind0Ele</key>
+	<real>0.0</real>
+	<key>respWind1Azi</key>
+	<real>5</real>
+	<key>respWind1Ele</key>
+	<real>-5</real>
+	<key>responseMS</key>
+	<integer>500</integer>
+	<key>responseSpotSizeDeg</key>
+	<real>0.25</real>
+	<key>responseWindowWidthDeg</key>
+	<real>2</real>
+	<key>rewardMS</key>
+	<integer>100</integer>
+	<key>saccadeMS</key>
+	<integer>200</integer>
+	<key>tooFastMS</key>
+	<integer>100</integer>
+	<key>writingDataFile</key>
+	<false/>
+</dict>
+</plist>

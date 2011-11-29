@@ -1,0 +1,17 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {doJuice = id; doReset = id; doTaskMode = id; }; 
+            CLASS = LLControlPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                fileNameDisplay = NSTextField; 
+                resetButton = NSButton; 
+                taskModeButton = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

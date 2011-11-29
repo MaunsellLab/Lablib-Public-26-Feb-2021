@@ -1,0 +1,561 @@
+{\rtf0\ansi{\fonttbl\f0\fnil Times;\f1\ftech Symbol;\f2\fswiss Helvetica;\f3\fmodern Courier;\f4\fmodern Ohlfs;}
+\paperw16220
+\paperh9060
+\margl120
+\margr120
+\f0\b0\i0\ulnone\ql\fs24\fi0\li0\gray0\fc0\cf0\up0\dn0 Version 1.1 Copyright 
+\f1 ã
+\f0 2003.  All Rights Reserved.  
+\i 
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+\
+\
+\
+
+\pard\tx4880\fi-2780\li4880\fc0\cf0 \
+
+\pard\f2\b\fs56\li2100\fc0\cf0 LLXTView\
+
+\pard\tx4880\f0\b0\fs16\fi-2780\li4880\fc0\cf0 \
+\
+\
+
+\fs28 \
+
+\f2\b Inherits From:	
+\f0\b0 NSView\
+
+\fs20 \
+
+\f2\b\fs28 Declared In:
+\f0\b0 	LLXTView.h\
+
+\f2\b\fs16 \
+
+\pard\li1360\fc0\cf0 \
+\
+\
+
+\fs36 Class Description\
+
+\fs16 \
+
+\pard\tx2480\tx2860\tx3240\f0\b0\fs28\li2100\fc0\cf0 No class description.\
+
+\pard\tx4880\fi-2780\li4880\fc0\cf0 \
+
+\f2\b\fs16 \
+\
+\
+
+\pard\fs36\li1360\fc0\cf0 Symbolic Constants
+\f0\b0\fs28 
+\f2\b\fs36 \
+
+\pard\tx6140\tx9660\tx10180\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx2100\tx6140\tx6780\tx7440\tx8080\tx9360\fs20\fi-4440\li6140\fc0\cf0 SYNOPSIS
+\f0\b0\fs28 
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\fs28\fi-4040\li6140\fc0\cf0 kEyePlots	
+\b0 2
+\f2\b\fs20 \
+
+\pard\tx7440\tx8080\tx8720\tx9360\tx10020\tx10660\f0\fs28\fi-4040\li6140\fc0\cf0 kSpikePlots	
+\b0 1\
+
+\pard\tx6140\tx9660\tx10180\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx6140\tx9660\tx10180\f2\b\fs16\li1360\fc0\cf0 \
+\
+
+\pard\li1360\fc0\cf0 \
+
+\fs36 Instance Variables\
+
+\fs16 \
+
+\pard\tx2480\tx8000\tx10140\f0\b0\fs28\li2100\fc0\cf0 \
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 double 
+\b durationMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 LLXTEventPlot *
+\b eventPlot
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 LLXTEyePlot *
+\b eyePlots
+\b0 [kEyePlots];\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 float 
+\b eyeWindowOrigin
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 float 
+\b eyeWindowWidth
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 float 
+\b eyeWindowWidthFactor
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 BOOL 
+\b freeze
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 LLXTEyePlot *
+\b hEyePlot
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b lastEventTimeMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b lastTimePlottedMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b lastScrollTimeMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSColor *
+\b majorGridColor
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSColor *
+\b minorGridColor
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b sampleBaseTimeMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b sampleCount
+\b0 [kEyePlots];\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b samplePeriodMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 LLViewScale *
+\b scale
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b spikeChannels
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 LLXTSpikePlot *
+\b spikePlots
+\b0 [kSpikePlots];\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b spikeTimeBaseMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b spikeTimesPerMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 LLXTStimPlot *
+\b stimPlot
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 long 
+\b timeOffsetMS
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSTimer *
+\b timer
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 LLXTEyePlot *
+\b vEyePlot
+\b0 ;\
+
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\fc0\cf0 NSMutableArray *
+\b xtPlots
+\b0 ;
+\fs48 \
+
+\pard\tx2100\fs16\fi-400\li2100\fc0\cf0 \
+\
+
+\pard\tx6140\tx9660\tx10180\fs28\fi-4040\li6140\fc0\cf0 durationMS	No description.\
+eventPlot	No description.\
+eyePlots	No description.\
+eyeWindowOrigin	No description.\
+eyeWindowWidth	No description.\
+eyeWindowWidthFactor	No description.\
+freeze	No description.\
+hEyePlot	No description.\
+lastEventTimeMS	No description.\
+lastTimePlottedMS	No description.\
+lastScrollTimeMS	No description.\
+majorGridColor	No description.\
+minorGridColor	No description.\
+sampleBaseTimeMS	No description.\
+sampleCount	No description.\
+samplePeriodMS	No description.\
+scale	No description.\
+spikeChannels	No description.\
+spikePlots	No description.\
+spikeTimeBaseMS	No description.\
+spikeTimesPerMS	No description.\
+stimPlot	No description.\
+timeOffsetMS	No description.\
+timer	No description.\
+vEyePlot	No description.\
+xtPlots	No description.\
+
+\pard\tx6120\fi-3840\li5940\fc0\cf0 
+\f2\b\fs16 \
+
+\pard\li1360\fc0\cf0 \
+\
+\
+
+\fs36 Method Types\
+
+\pard\tx6140\tx9660\tx10180\f0\b0\fs16\fi-4040\li6140\fc0\cf0 \
+
+\pard\tx6120\fs28\fi-3840\li5940\fc0\cf0 	- eventName:eventTime:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- eyeRect:time:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- reset:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- sampleChannel:value:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- sampleZeroTimeMS:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- setDurationS:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- setFrameSize\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- setFreeze:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- setSamplePeriodMS:spikeChannels:spikeTickPerMS:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- spikeChannel:time:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- spikeZeroTimeMS:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- stimulusBarColor:eventTime:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- sizePix\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0 	- updateEventTime:\
+
+\pard\tx6120\tx9000\fi-3840\li5940\fc0\cf0  \
+
+\pard\f2\b\fs16\li1360\fc0\cf0 \
+\
+
+\fs36 Instance Methods\
+
+\fs16 \
+
+\pard\tx6140\tx9660\tx10180\f0\b0\fs28\fi-4040\li6140\fc0\cf0 
+\f2\b eventName:eventTime:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b eventName:
+\b0 (NSString *)
+\i name
+\i0  
+\b eventTime:
+\b0 (NSNumber *)
+\i time
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b eyeRect:time:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b eyeRect:
+\b0 (NSRect)
+\i rect
+\i0  
+\b time:
+\b0 (long)
+\i time
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b reset:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b reset:
+\b0 (long)
+\i resetTime
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b sampleChannel:value:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b sampleChannel:
+\b0 (short)
+\i channel
+\i0  
+\b value:
+\b0 (short)
+\i value
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b sampleZeroTimeMS:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b sampleZeroTimeMS:
+\b0 (long)
+\i zeroTime
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b setDurationS:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b setDurationS:
+\b0 (double)
+\i dur
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b setFrameSize\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b setFrameSize
+\b0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b setFreeze:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b setFreeze:
+\b0 (BOOL)
+\i state
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b setSamplePeriodMS:spikeChannels:spikeTickPerMS:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b setSamplePeriodMS:
+\b0 (short)
+\i samplePerMS
+\i0  
+\b spikeChannels:
+\b0 (short)
+\i spikes
+\i0  
+\b spikeTickPerMS:
+\b0 (long)
+\i ticksPerMS
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b sizePix\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (NSSize)
+\b sizePix
+\b0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b spikeChannel:time:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b spikeChannel:
+\b0 (short)
+\i channel
+\i0  
+\b time:
+\b0 (long)
+\i time
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b spikeZeroTimeMS:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b spikeZeroTimeMS:
+\b0 (long)
+\i zeroTimeMS
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b stimulusBarColor:eventTime:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b stimulusBarColor:
+\b0 (NSColor *)
+\i color
+\i0  
+\b eventTime:
+\b0 (NSNumber *)
+\i time
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 
+\f2\b updateEventTime:\
+
+\pard\f1\b0\fi-760\li3240\fc0\cf0 -
+\f0  (void)
+\b updateEventTime:
+\b0 (long)
+\i timeMS
+\i0 \
+
+\pard\tx2480\tx2860\tx3240\fs16\li2100\fc0\cf0 \
+
+\fs28 No method description.\
+
+\pard\tx7140\f2\b\fs16\fi-380\li2480\fc0\cf0 \
+\
+\
+\
+
+\f0\b0\fs28 \
+ \
+
+\f2\b\fs16 \
+
+}

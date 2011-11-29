@@ -1,0 +1,132 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLPlotAxes">LLPlotAxes</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSObject</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLPlotAxes.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Symbolic Constants</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kMaxTicks">kMaxTicks</A></B>&nbsp;&nbsp;100</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kTickHeightPix">kTickHeightPix</A></B>&nbsp;&nbsp;5</CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#+ drawXAxisWithScale:from:to:atY:tickSpacing:tickLabelSpacing:tickLabels:label:">+ drawXAxisWithScale:from:to:atY:tickSpacing:tickLabelSpacing:tickLabels:label:</A></DD>
+		
+			<DD> <A HREF="#+ drawYAxisWithScale:from:to:atX:tickSpacing:tickLabelSpacing:tickLabels:label:">+ drawYAxisWithScale:from:to:atX:tickSpacing:tickLabelSpacing:tickLabels:label:</A></DD>
+		
+			<DD> <A HREF="#+ getLimitsForTick:fromValue:toValue:pLow:pHigh:">+ getLimitsForTick:fromValue:toValue:pLow:pHigh:</A></DD>
+		
+			<DD> <A HREF="#+ precisionForMin:andMax:">+ precisionForMin:andMax:</A></DD>
+		
+			<DD> <A HREF="#+ tickHeightPix">+ tickHeightPix</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Class Methods</H2>
+ 
+	
+		
+		<A NAME="+ drawXAxisWithScale:from:to:atY:tickSpacing:tickLabelSpacing:tickLabels:label:"></A><H3><A NAME="//apple_ref/occ/clm/LLPlotAxes/drawXAxisWithScale:from:to:atY:tickSpacing:tickLabelSpacing:tickLabels:label:">drawXAxisWithScale:from:to:atY:tickSpacing:tickLabelSpacing:tickLabels:label:</A></H3>
+		<CODE>+ (void)<B>drawXAxisWithScale:</B>(LLViewScale *)<EM>scale</EM> <B>from:</B>(float)<EM>startX</EM> <B>to:</B>(float)<EM>stopX</EM> <B>atY:</B>(float)<EM>y</EM> <B>tickSpacing:</B>(float)<EM>tickInt</EM> <B>tickLabelSpacing:</B>(long)<EM>labelInt</EM> <B>tickLabels:</B>(NSArray *)<EM>tickLabels</EM> <B>label:</B>(NSString *)<EM>axisLabel</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="+ drawYAxisWithScale:from:to:atX:tickSpacing:tickLabelSpacing:tickLabels:label:"></A><H3><A NAME="//apple_ref/occ/clm/LLPlotAxes/drawYAxisWithScale:from:to:atX:tickSpacing:tickLabelSpacing:tickLabels:label:">drawYAxisWithScale:from:to:atX:tickSpacing:tickLabelSpacing:tickLabels:label:</A></H3>
+		<CODE>+ (void)<B>drawYAxisWithScale:</B>(LLViewScale *)<EM>scale</EM> <B>from:</B>(float)<EM>startY</EM> <B>to:</B>(float)<EM>stopY</EM> <B>atX:</B>(float)<EM>x</EM> <B>tickSpacing:</B>(float)<EM>tickInt</EM> <B>tickLabelSpacing:</B>(long)<EM>labelInt</EM> <B>tickLabels:</B>(NSArray *)<EM>tickLabels</EM> <B>label:</B>(NSString *)<EM>axisLabel</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="+ getLimitsForTick:fromValue:toValue:pLow:pHigh:"></A><H3><A NAME="//apple_ref/occ/clm/LLPlotAxes/getLimitsForTick:fromValue:toValue:pLow:pHigh:">getLimitsForTick:fromValue:toValue:pLow:pHigh:</A></H3>
+		<CODE>+ (void)<B>getLimitsForTick:</B>(float)<EM>tickSpacing</EM> <B>fromValue:</B>(float)<EM>v1</EM> <B>toValue:</B>(float)<EM>v2</EM> <B>pLow:</B>(float *)<EM>pLow</EM> <B>pHigh:</B>(float *)<EM>pHigh</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="+ precisionForMin:andMax:"></A><H3><A NAME="//apple_ref/occ/clm/LLPlotAxes/precisionForMin:andMax:">precisionForMin:andMax:</A></H3>
+		<CODE>+ (long)<B>precisionForMin:</B>(float)<EM>axisMinValue</EM> <B>andMax:</B>(float)<EM>axisMaxValue</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="+ tickHeightPix"></A><H3><A NAME="//apple_ref/occ/clm/LLPlotAxes/tickHeightPix">tickHeightPix</A></H3>
+		<CODE>+ (long)<B>tickHeightPix</B>
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

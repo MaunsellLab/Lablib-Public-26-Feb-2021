@@ -1,0 +1,205 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLSettingsController">LLSettingsController</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSWindowController</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLSettingsController.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Global Variables</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE>NSString *<B><A NAME="//apple_ref/c/data/LLSettingsChanged">LLSettingsChanged</A></B>;</CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Variables</H2>
+	<blockquote>
+	
+		<CODE>BOOL <B>disallowNextSelectionChange</B>;</CODE><BR>
+		<CODE>NSDictionary *<B>defaultDictionary</B>;</CODE><BR>
+		<CODE>NSMutableArray *<B>settingsNameArray</B>;</CODE><BR>
+		<CODE>IBOutlet NSButton *<B>deleteButton</B>;</CODE><BR>
+		<CODE>IBOutlet NSButton *<B>duplicateButton</B>;</CODE><BR>
+		<CODE>IBOutlet NSButton *<B>newButton</B>;</CODE><BR>
+		<CODE>IBOutlet NSButton *<B>okButton</B>;</CODE><BR>
+		<CODE>IBOutlet NSTableView *<B>settingsTable</B>;</CODE><BR>
+	<P><TABLE>
+	
+		<TR><TD>disallowNextSelectionChange</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>defaultDictionary</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>settingsNameArray</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>deleteButton</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>duplicateButton</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>newButton</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>okButton</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>settingsTable</TD><TD>No description.</TD></TR>
+	
+	</TABLE>
+	</blockquote>
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#- createSettingsWithName:dictionary:">- createSettingsWithName:dictionary:</A></DD>
+		
+			<DD> <A HREF="#- defaultSettings">- defaultSettings</A></DD>
+		
+			<DD> <A HREF="#- domainNameWithName:">- domainNameWithName:</A></DD>
+		
+			<DD> <A HREF="#- selectSettings">- selectSettings</A></DD>
+		
+			<DD> <A HREF="#- synchronize">- synchronize</A></DD>
+		
+			<DD> <A HREF="#- uniqueSettingsName">- uniqueSettingsName</A></DD>
+		
+			<DD> <A HREF="#- deleteSettings:">- deleteSettings:</A></DD>
+		
+			<DD> <A HREF="#- duplicateSettings:">- duplicateSettings:</A></DD>
+		
+			<DD> <A HREF="#- newSettings:">- newSettings:</A></DD>
+		
+			<DD> <A HREF="#- ok:">- ok:</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+ 
+
+	<HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Methods</H2>
+ 
+	
+		
+		<A NAME="- createSettingsWithName:dictionary:"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/createSettingsWithName:dictionary:">createSettingsWithName:dictionary:</A></H3><P>
+		<CODE>- (void)<B>createSettingsWithName:</B>(NSString *)<EM>name</EM> <B>dictionary:</B>(NSDictionary *)<EM>dict</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- defaultSettings"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/defaultSettings">defaultSettings</A></H3><P>
+		<CODE>- (NSUserDefaults *)<B>defaultSettings</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- deleteSettings:"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/deleteSettings:">deleteSettings:</A></H3><P>
+		<CODE>- (IBAction)<B>deleteSettings:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- domainNameWithName:"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/domainNameWithName:">domainNameWithName:</A></H3><P>
+		<CODE>- (NSString *)<B>domainNameWithName:</B>(NSString *)<EM>name</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- duplicateSettings:"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/duplicateSettings:">duplicateSettings:</A></H3><P>
+		<CODE>- (IBAction)<B>duplicateSettings:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- newSettings:"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/newSettings:">newSettings:</A></H3><P>
+		<CODE>- (IBAction)<B>newSettings:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- ok:"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/ok:">ok:</A></H3><P>
+		<CODE>- (IBAction)<B>ok:</B>(id)<EM>sender</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- selectSettings"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/selectSettings">selectSettings</A></H3><P>
+		<CODE>- (void)<B>selectSettings</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- synchronize"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/synchronize">synchronize</A></H3><P>
+		<CODE>- (void)<B>synchronize</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- uniqueSettingsName"></A><H3><A NAME="//apple_ref/occ/instm/LLSettingsController/uniqueSettingsName">uniqueSettingsName</A></H3><P>
+		<CODE>- (NSString *)<B>uniqueSettingsName</B>
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {deleteSettings = id; duplicateSettings = id; newSettings = id; ok = id; }; 
+            CLASS = LLSettingsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                deleteButton = NSButton; 
+                duplicateButton = NSButton; 
+                newButton = NSButton; 
+                okButton = NSButton; 
+                settingsTable = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

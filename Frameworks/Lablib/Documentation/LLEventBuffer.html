@@ -1,0 +1,236 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLEventBuffer">LLEventBuffer</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSObject</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLEventBuffer.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Defined Types</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/DataEvent">
+			typedef struct {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;NSString *name;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;NSData *data;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned long time;<BR>
+} <B>DataEvent</B>;</A></CODE><BR>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/EventBuffer">
+			typedef struct {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+long sizeBytes; long next; long pc; char *data; } <B>EventBuffer</B>;</A></CODE><BR>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/EventDef">
+			typedef struct {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+NSString *name; long dataBytes; } <B>EventDef</B>;</A></CODE><BR>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/EventDesc">
+			typedef struct {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+long code; long dataBytes; } <B>EventDesc</B>;</A></CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Variables</H2>
+	<blockquote>
+	
+		<CODE>EventBuffer <B>buffer</B>;</CODE><BR>
+		<CODE>NSMutableDictionary *<B>eventDict</B>;</CODE><BR>
+		<CODE>NSLock *<B>eventLock</B>;</CODE><BR>
+		<CODE>NSMutableArray *<B>eventNames</B>;</CODE><BR>
+		<CODE>NSMutableArray *<B>observerArray</B>;</CODE><BR>
+		<CODE>NSLock *<B>observerLock</B>;</CODE><BR>
+	<P><TABLE>
+	
+		<TR><TD>buffer</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eventDict</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eventLock</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eventNames</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>observerArray</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>observerLock</TD><TD>No description.</TD></TR>
+	
+	</TABLE>
+	</blockquote>
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#- addObserver:">- addObserver:</A></DD>
+		
+			<DD> <A HREF="#- defineEvents:number:">- defineEvents:number:</A></DD>
+		
+			<DD> <A HREF="#- defineStandardEvents">- defineStandardEvents</A></DD>
+		
+			<DD> <A HREF="#- dispatchEvents">- dispatchEvents</A></DD>
+		
+			<DD> <A HREF="#- eventToBuffer:dataPtr:bytes:">- eventToBuffer:dataPtr:bytes:</A></DD>
+		
+			<DD> <A HREF="#- getEventBytes:length:">- getEventBytes:length:</A></DD>
+		
+			<DD> <A HREF="#- getEventDesc:pDescription:">- getEventDesc:pDescription:</A></DD>
+		
+			<DD> <A HREF="#- initWithBufferSize:">- initWithBufferSize:</A></DD>
+		
+			<DD> <A HREF="#- putEvent:">- putEvent:</A></DD>
+		
+			<DD> <A HREF="#- putEvent:withData:">- putEvent:withData:</A></DD>
+		
+			<DD> <A HREF="#- removeObserver:">- removeObserver:</A></DD>
+		
+			<DD> <A HREF="#- ringBufferWrite:bytes:">- ringBufferWrite:bytes:</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+ 
+
+	<HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Methods</H2>
+ 
+	
+		
+		<A NAME="- addObserver:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/addObserver:">addObserver:</A></H3><P>
+		<CODE>- (void)<B>addObserver:</B>(id)<EM>anObserver</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- defineEvents:number:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/defineEvents:number:">defineEvents:number:</A></H3><P>
+		<CODE>- (BOOL)<B>defineEvents:</B>(EventDef *)<EM>eventDefs</EM> <B>number:</B>(long)<EM>count</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- defineStandardEvents"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/defineStandardEvents">defineStandardEvents</A></H3><P>
+		<CODE>- (void)<B>defineStandardEvents</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- dispatchEvents"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/dispatchEvents">dispatchEvents</A></H3><P>
+		<CODE>- (void)<B>dispatchEvents</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- eventToBuffer:dataPtr:bytes:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/eventToBuffer:dataPtr:bytes:">eventToBuffer:dataPtr:bytes:</A></H3><P>
+		<CODE>- (void)<B>eventToBuffer:</B>(unsigned long)<EM>code</EM> <B>dataPtr:</B>(char *)<EM>pData</EM> <B>bytes:</B>(long)<EM>lengthBytes</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getEventBytes:length:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/getEventBytes:length:">getEventBytes:length:</A></H3><P>
+		<CODE>- (BOOL)<B>getEventBytes:</B>(char *)<EM>pData</EM> <B>length:</B>(long)<EM>numBytes</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getEventDesc:pDescription:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/getEventDesc:pDescription:">getEventDesc:pDescription:</A></H3><P>
+		<CODE>- (BOOL)<B>getEventDesc:</B>(NSString *)<EM>eventKey</EM> <B>pDescription:</B>(EventDesc *)<EM>pDesc</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- initWithBufferSize:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/initWithBufferSize:">initWithBufferSize:</A></H3><P>
+		<CODE>- (id)<B>initWithBufferSize:</B>(long)<EM>bufferSizeBytes</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- putEvent:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/putEvent:">putEvent:</A></H3><P>
+		<CODE>- (void)<B>putEvent:</B>(NSString *)<EM>eventKey</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- putEvent:withData:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/putEvent:withData:">putEvent:withData:</A></H3><P>
+		<CODE>- (void)<B>putEvent:</B>(NSString *)<EM>eventKey</EM> <B>withData:</B>(char *)<EM>pDdata</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- removeObserver:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/removeObserver:">removeObserver:</A></H3><P>
+		<CODE>- (void)<B>removeObserver:</B>(id)<EM>anObserver</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- ringBufferWrite:bytes:"></A><H3><A NAME="//apple_ref/occ/instm/LLEventBuffer/ringBufferWrite:bytes:">ringBufferWrite:bytes:</A></H3><P>
+		<CODE>- (void)<B>ringBufferWrite:</B>(char *)<EM>pData</EM> <B>bytes:</B>(long)<EM>bytesToWrite</EM>
+			
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

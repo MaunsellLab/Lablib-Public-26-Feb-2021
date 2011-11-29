@@ -1,0 +1,299 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLXTView">LLXTView</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSView</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLXTView.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Symbolic Constants</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kEyePlots">kEyePlots</A></B>&nbsp;&nbsp;2</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kSpikePlots">kSpikePlots</A></B>&nbsp;&nbsp;1</CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Variables</H2>
+	<blockquote>
+	
+		<CODE>double <B>durationMS</B>;</CODE><BR>
+		<CODE>LLXTEventPlot *<B>eventPlot</B>;</CODE><BR>
+		<CODE>LLXTEyePlot *<B>eyePlots</B>[kEyePlots];</CODE><BR>
+		<CODE>float <B>eyeWindowOrigin</B>;</CODE><BR>
+		<CODE>float <B>eyeWindowWidth</B>;</CODE><BR>
+		<CODE>float <B>eyeWindowWidthFactor</B>;</CODE><BR>
+		<CODE>BOOL <B>freeze</B>;</CODE><BR>
+		<CODE>LLXTEyePlot *<B>hEyePlot</B>;</CODE><BR>
+		<CODE>long <B>lastEventTimeMS</B>;</CODE><BR>
+		<CODE>long <B>lastTimePlottedMS</B>;</CODE><BR>
+		<CODE>long <B>lastScrollTimeMS</B>;</CODE><BR>
+		<CODE>NSColor *<B>majorGridColor</B>;</CODE><BR>
+		<CODE>NSColor *<B>minorGridColor</B>;</CODE><BR>
+		<CODE>long <B>sampleBaseTimeMS</B>;</CODE><BR>
+		<CODE>long <B>sampleCount</B>[kEyePlots];</CODE><BR>
+		<CODE>long <B>samplePeriodMS</B>;</CODE><BR>
+		<CODE>LLViewScale *<B>scale</B>;</CODE><BR>
+		<CODE>long <B>spikeChannels</B>;</CODE><BR>
+		<CODE>LLXTSpikePlot *<B>spikePlots</B>[kSpikePlots];</CODE><BR>
+		<CODE>long <B>spikeTimeBaseMS</B>;</CODE><BR>
+		<CODE>long <B>spikeTimesPerMS</B>;</CODE><BR>
+		<CODE>LLXTStimPlot *<B>stimPlot</B>;</CODE><BR>
+		<CODE>long <B>timeOffsetMS</B>;</CODE><BR>
+		<CODE>NSTimer *<B>timer</B>;</CODE><BR>
+		<CODE>LLXTEyePlot *<B>vEyePlot</B>;</CODE><BR>
+		<CODE>NSMutableArray *<B>xtPlots</B>;</CODE><BR>
+	<P><TABLE>
+	
+		<TR><TD>durationMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eventPlot</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eyePlots</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eyeWindowOrigin</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eyeWindowWidth</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>eyeWindowWidthFactor</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>freeze</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>hEyePlot</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>lastEventTimeMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>lastTimePlottedMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>lastScrollTimeMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>majorGridColor</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>minorGridColor</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>sampleBaseTimeMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>sampleCount</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>samplePeriodMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>scale</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>spikeChannels</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>spikePlots</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>spikeTimeBaseMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>spikeTimesPerMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>stimPlot</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>timeOffsetMS</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>timer</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>vEyePlot</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>xtPlots</TD><TD>No description.</TD></TR>
+	
+	</TABLE>
+	</blockquote>
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#- eventName:eventTime:">- eventName:eventTime:</A></DD>
+		
+			<DD> <A HREF="#- eyeRect:time:">- eyeRect:time:</A></DD>
+		
+			<DD> <A HREF="#- reset:">- reset:</A></DD>
+		
+			<DD> <A HREF="#- sampleChannel:value:">- sampleChannel:value:</A></DD>
+		
+			<DD> <A HREF="#- sampleZeroTimeMS:">- sampleZeroTimeMS:</A></DD>
+		
+			<DD> <A HREF="#- setDurationS:">- setDurationS:</A></DD>
+		
+			<DD> <A HREF="#- setFrameSize">- setFrameSize</A></DD>
+		
+			<DD> <A HREF="#- setFreeze:">- setFreeze:</A></DD>
+		
+			<DD> <A HREF="#- setSamplePeriodMS:spikeChannels:spikeTickPerMS:">- setSamplePeriodMS:spikeChannels:spikeTickPerMS:</A></DD>
+		
+			<DD> <A HREF="#- spikeChannel:time:">- spikeChannel:time:</A></DD>
+		
+			<DD> <A HREF="#- spikeZeroTimeMS:">- spikeZeroTimeMS:</A></DD>
+		
+			<DD> <A HREF="#- stimulusBarColor:eventTime:">- stimulusBarColor:eventTime:</A></DD>
+		
+			<DD> <A HREF="#- sizePix">- sizePix</A></DD>
+		
+			<DD> <A HREF="#- updateEventTime:">- updateEventTime:</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+ 
+
+	<HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Methods</H2>
+ 
+	
+		
+		<A NAME="- eventName:eventTime:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/eventName:eventTime:">eventName:eventTime:</A></H3><P>
+		<CODE>- (void)<B>eventName:</B>(NSString *)<EM>name</EM> <B>eventTime:</B>(NSNumber *)<EM>time</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- eyeRect:time:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/eyeRect:time:">eyeRect:time:</A></H3><P>
+		<CODE>- (void)<B>eyeRect:</B>(NSRect)<EM>rect</EM> <B>time:</B>(long)<EM>time</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- reset:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/reset:">reset:</A></H3><P>
+		<CODE>- (void)<B>reset:</B>(long)<EM>resetTime</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- sampleChannel:value:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/sampleChannel:value:">sampleChannel:value:</A></H3><P>
+		<CODE>- (void)<B>sampleChannel:</B>(short)<EM>channel</EM> <B>value:</B>(short)<EM>value</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- sampleZeroTimeMS:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/sampleZeroTimeMS:">sampleZeroTimeMS:</A></H3><P>
+		<CODE>- (void)<B>sampleZeroTimeMS:</B>(long)<EM>zeroTime</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setDurationS:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/setDurationS:">setDurationS:</A></H3><P>
+		<CODE>- (void)<B>setDurationS:</B>(double)<EM>dur</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setFrameSize"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/setFrameSize">setFrameSize</A></H3><P>
+		<CODE>- (void)<B>setFrameSize</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setFreeze:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/setFreeze:">setFreeze:</A></H3><P>
+		<CODE>- (void)<B>setFreeze:</B>(BOOL)<EM>state</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setSamplePeriodMS:spikeChannels:spikeTickPerMS:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/setSamplePeriodMS:spikeChannels:spikeTickPerMS:">setSamplePeriodMS:spikeChannels:spikeTickPerMS:</A></H3><P>
+		<CODE>- (void)<B>setSamplePeriodMS:</B>(short)<EM>samplePerMS</EM> <B>spikeChannels:</B>(short)<EM>spikes</EM> <B>spikeTickPerMS:</B>(long)<EM>ticksPerMS</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- sizePix"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/sizePix">sizePix</A></H3><P>
+		<CODE>- (NSSize)<B>sizePix</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- spikeChannel:time:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/spikeChannel:time:">spikeChannel:time:</A></H3><P>
+		<CODE>- (void)<B>spikeChannel:</B>(short)<EM>channel</EM> <B>time:</B>(long)<EM>time</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- spikeZeroTimeMS:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/spikeZeroTimeMS:">spikeZeroTimeMS:</A></H3><P>
+		<CODE>- (void)<B>spikeZeroTimeMS:</B>(long)<EM>zeroTimeMS</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- stimulusBarColor:eventTime:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/stimulusBarColor:eventTime:">stimulusBarColor:eventTime:</A></H3><P>
+		<CODE>- (void)<B>stimulusBarColor:</B>(NSColor *)<EM>color</EM> <B>eventTime:</B>(NSNumber *)<EM>time</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- updateEventTime:"></A><H3><A NAME="//apple_ref/occ/instm/LLXTView/updateEventTime:">updateEventTime:</A></H3><P>
+		<CODE>- (void)<B>updateEventTime:</B>(long)<EM>timeMS</EM>
+			
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

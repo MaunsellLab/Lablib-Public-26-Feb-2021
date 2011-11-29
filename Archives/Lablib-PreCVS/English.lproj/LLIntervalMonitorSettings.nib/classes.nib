@@ -1,0 +1,43 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                changeDoSuccessGreater = id; 
+                changeDoSuccessLess = id; 
+                changeDoWarnDisarm = id; 
+                changeDoWarnGreater = id; 
+                changeDoWarnLess = id; 
+                changeDoWarnSequential = id; 
+                changeSuccessGreaterCount = id; 
+                changeSuccessGreaterMS = id; 
+                changeSuccessLessCount = id; 
+                changeSuccessLessMS = id; 
+                changeWarnGreaterCount = id; 
+                changeWarnLessCount = id; 
+                changeWarnSequentialCount = id; 
+            }; 
+            CLASS = LLIntervalMonitorSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                greaterStandardField = NSTextField; 
+                lessStandardField = NSTextField; 
+                successGreaterButton = NSButton; 
+                successGreaterCountField = NSTextField; 
+                successGreaterMSField = NSTextField; 
+                successLessButton = NSButton; 
+                successLessCountField = NSTextField; 
+                successLessMSField = NSTextField; 
+                warnDisarmButton = NSButton; 
+                warnGreaterButton = NSButton; 
+                warnGreaterCountField = NSTextField; 
+                warnLessButton = NSButton; 
+                warnLessCountField = NSTextField; 
+                warnSequentialButton = NSButton; 
+                warnSequentialCountField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

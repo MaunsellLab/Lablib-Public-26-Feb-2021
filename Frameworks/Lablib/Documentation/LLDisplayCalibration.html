@@ -1,0 +1,269 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLDisplayCalibration">LLDisplayCalibration</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSObject</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLDisplayCalibration.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Defined Types</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/DisplayParam">
+			typedef struct {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;long pixelBits;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;long widthPix;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;long heightPix;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;float hPixPerMM;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;float vPixPerMM;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;float frameRateHz;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;float distanceMM;<BR>
+} <B>DisplayParam</B>;</A></CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Symbolic Constants</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kMaxDisplay">kMaxDisplay</A></B>&nbsp;&nbsp;16</CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Variables</H2>
+	<blockquote>
+	
+		<CODE>DisplayParam <B>display</B>;</CODE><BR>
+		<CODE>CGDisplayCount <B>numDisplays</B>;</CODE><BR>
+		<CODE>CGDirectDisplayID <B>displayIDs</B>[kMaxDisplay];</CODE><BR>
+	<P><TABLE>
+	
+		<TR><TD>display</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>numDisplays</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>displayIDs</TD><TD>No description.</TD></TR>
+	
+	</TABLE>
+	</blockquote>
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#- captureDisplayWithIndex:">- captureDisplayWithIndex:</A></DD>
+		
+			<DD> <A HREF="#- doSettingsPanelForIndex:">- doSettingsPanelForIndex:</A></DD>
+		
+			<DD> <A HREF="#- dumpCurrentDisplayMode:">- dumpCurrentDisplayMode:</A></DD>
+		
+			<DD> <A HREF="#- dumpDisplayModes:">- dumpDisplayModes:</A></DD>
+		
+			<DD> <A HREF="#- dumpDisplayModeValues:">- dumpDisplayModeValues:</A></DD>
+		
+			<DD> <A HREF="#- getDefaultsForIndex:">- getDefaultsForIndex:</A></DD>
+		
+			<DD> <A HREF="#- getDisplayBoundsForIndex:">- getDisplayBoundsForIndex:</A></DD>
+		
+			<DD> <A HREF="#- getDisplayParametersForIndex:">- getDisplayParametersForIndex:</A></DD>
+		
+			<DD> <A HREF="#- getDisplayParametersFromDevice:">- getDisplayParametersFromDevice:</A></DD>
+		
+			<DD> <A HREF="#- getOpenGLDisplayID:">- getOpenGLDisplayID:</A></DD>
+		
+			<DD> <A HREF="#- getValue:forKey:">- getValue:forKey:</A></DD>
+		
+			<DD> <A HREF="#- numDisplays">- numDisplays</A></DD>
+		
+			<DD> <A HREF="#- release:">- release:</A></DD>
+		
+			<DD> <A HREF="#- setDisplayMode:size:bitDepth:frameRate:">- setDisplayMode:size:bitDepth:frameRate:</A></DD>
+		
+			<DD> <A HREF="#- showDisplayParametersPanelForIndex:">- showDisplayParametersPanelForIndex:</A></DD>
+		
+			<DD> <A HREF="#- displaySizeDeg:">- displaySizeDeg:</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+ 
+
+	<HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Methods</H2>
+ 
+	
+		
+		<A NAME="- captureDisplayWithIndex:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/captureDisplayWithIndex:">captureDisplayWithIndex:</A></H3><P>
+		<CODE>- (BOOL)<B>captureDisplayWithIndex:</B>(long)<EM>displayIndex</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- displaySizeDeg:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/displaySizeDeg:">displaySizeDeg:</A></H3><P>
+		<CODE>- (NSSize)<B>displaySizeDeg:</B>(long)<EM>index</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- doSettingsPanelForIndex:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/doSettingsPanelForIndex:">doSettingsPanelForIndex:</A></H3><P>
+		<CODE>- (void)<B>doSettingsPanelForIndex:</B>(long)<EM>index</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- dumpCurrentDisplayMode:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/dumpCurrentDisplayMode:">dumpCurrentDisplayMode:</A></H3><P>
+		<CODE>- (void)<B>dumpCurrentDisplayMode:</B>(CGDisplayCount)<EM>displayIndex</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- dumpDisplayModeValues:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/dumpDisplayModeValues:">dumpDisplayModeValues:</A></H3><P>
+		<CODE>- (void)<B>dumpDisplayModeValues:</B>(CFDictionaryRef)<EM>values</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- dumpDisplayModes:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/dumpDisplayModes:">dumpDisplayModes:</A></H3><P>
+		<CODE>- (void)<B>dumpDisplayModes:</B>(CGDisplayCount)<EM>displayIndex</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getDefaultsForIndex:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/getDefaultsForIndex:">getDefaultsForIndex:</A></H3><P>
+		<CODE>- (BOOL)<B>getDefaultsForIndex:</B>(long)<EM>index</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getDisplayBoundsForIndex:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/getDisplayBoundsForIndex:">getDisplayBoundsForIndex:</A></H3><P>
+		<CODE>- (NSRect)<B>getDisplayBoundsForIndex:</B>(long)<EM>mainDisplayIndex</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getDisplayParametersForIndex:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/getDisplayParametersForIndex:">getDisplayParametersForIndex:</A></H3><P>
+		<CODE>- (DisplayParam)<B>getDisplayParametersForIndex:</B>(long)<EM>index</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getDisplayParametersFromDevice:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/getDisplayParametersFromDevice:">getDisplayParametersFromDevice:</A></H3><P>
+		<CODE>- (void)<B>getDisplayParametersFromDevice:</B>(CGDirectDisplayID)<EM>displayID</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getOpenGLDisplayID:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/getOpenGLDisplayID:">getOpenGLDisplayID:</A></H3><P>
+		<CODE>- (u_int32_t)<B>getOpenGLDisplayID:</B>(CGDisplayCount)<EM>displayIndex</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- getValue:forKey:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/getValue:forKey:">getValue:forKey:</A></H3><P>
+		<CODE>- (long)<B>getValue:</B>(CFDictionaryRef)<EM>values</EM> <B>forKey:</B>(CFStringRef)<EM>key</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- numDisplays"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/numDisplays">numDisplays</A></H3><P>
+		<CODE>- (short)<B>numDisplays</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- release:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/release:">release:</A></H3><P>
+		<CODE>- (BOOL)<B>release:</B>(CGDisplayCount)<EM>displayIndex</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setDisplayMode:size:bitDepth:frameRate:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/setDisplayMode:size:bitDepth:frameRate:">setDisplayMode:size:bitDepth:frameRate:</A></H3><P>
+		<CODE>- (BOOL)<B>setDisplayMode:</B>(long)<EM>displayIndex</EM> <B>size:</B>(CGSize)<EM>size</EM> <B>bitDepth:</B>(size_t)<EM>pixelDepthBits</EM> <B>frameRate:</B>(CGRefreshRate)<EM>hz</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- showDisplayParametersPanelForIndex:"></A><H3><A NAME="//apple_ref/occ/instm/LLDisplayCalibration/showDisplayParametersPanelForIndex:">showDisplayParametersPanelForIndex:</A></H3><P>
+		<CODE>- (void)<B>showDisplayParametersPanelForIndex:</B>(long)<EM>index</EM>
+			
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

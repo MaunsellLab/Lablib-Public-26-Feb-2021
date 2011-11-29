@@ -1,0 +1,208 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLScheduleController">LLScheduleController</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSObject</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLScheduleController.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Defined Types</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/ScheduleSettings">
+			typedef struct ScheduleSettings {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+id controller; unsigned long count; unsigned long delayMS; BOOL dropOutOK; NSLock *lock; id object; unsigned long periodMS; double *pN; double *pSum; double *pSumsq; double *pMin; double *pMax; SEL selector; id target; } <B>ScheduleSettings</B>;</A></CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Symbolic Constants</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kStatUpdatePeriodS">kStatUpdatePeriodS</A></B>&nbsp;&nbsp;1.0</CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#- abort:">- abort:</A></DD>
+		
+			<DD> <A HREF="#- isActive:">- isActive:</A></DD>
+		
+			<DD> <A HREF="#- report">- report</A></DD>
+		
+			<DD> <A HREF="#- schedule:toTarget:">- schedule:toTarget:</A></DD>
+		
+			<DD> <A HREF="#- schedule:toTarget:withObject:">- schedule:toTarget:withObject:</A></DD>
+		
+			<DD> <A HREF="#- schedule:toTarget:withObject:delayMS:">- schedule:toTarget:withObject:delayMS:</A></DD>
+		
+			<DD> <A HREF="#- schedule:toTarget:withObject:delayMS:count:periodMS:">- schedule:toTarget:withObject:delayMS:count:periodMS:</A></DD>
+		
+			<DD> <A HREF="#- schedule:toTarget:withObject:count:periodMS:">- schedule:toTarget:withObject:count:periodMS:</A></DD>
+		
+			<DD> <A HREF="#- schedule:toTarget:withObject:count:periodMS:dropOutOK:">- schedule:toTarget:withObject:count:periodMS:dropOutOK:</A></DD>
+		
+			<DD> <A HREF="#- schedule:toTarget:withObject:delayMS:count:periodMS:dropOutOK:">- schedule:toTarget:withObject:delayMS:count:periodMS:dropOutOK:</A></DD>
+		
+			<DD> <A HREF="#- scheduleCompleted:">- scheduleCompleted:</A></DD>
+		
+			<DD> <A HREF="#- selectorOK:toTarget:">- selectorOK:toTarget:</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+ 
+
+	<HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Methods</H2>
+ 
+	
+		
+		<A NAME="- abort:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/abort:">abort:</A></H3><P>
+		<CODE>- (BOOL)<B>abort:</B>(id)<EM>schedule</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- isActive:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/isActive:">isActive:</A></H3><P>
+		<CODE>- (BOOL)<B>isActive:</B>(id)<EM>schedule</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- report"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/report">report</A></H3><P>
+		<CODE>- (NSString *)<B>report</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- schedule:toTarget:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/schedule:toTarget:">schedule:toTarget:</A></H3><P>
+		<CODE>- (id)<B>schedule:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- schedule:toTarget:withObject:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/schedule:toTarget:withObject:">schedule:toTarget:withObject:</A></H3><P>
+		<CODE>- (id)<B>schedule:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM> <B>withObject:</B>(id)<EM>object</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- schedule:toTarget:withObject:count:periodMS:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/schedule:toTarget:withObject:count:periodMS:">schedule:toTarget:withObject:count:periodMS:</A></H3><P>
+		<CODE>- (id)<B>schedule:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM> <B>withObject:</B>(id)<EM>object</EM> <B>count:</B>(unsigned long)<EM>count</EM> <B>periodMS:</B>(unsigned long)<EM>period</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- schedule:toTarget:withObject:count:periodMS:dropOutOK:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/schedule:toTarget:withObject:count:periodMS:dropOutOK:">schedule:toTarget:withObject:count:periodMS:dropOutOK:</A></H3><P>
+		<CODE>- (id)<B>schedule:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM> <B>withObject:</B>(id)<EM>object</EM> <B>count:</B>(unsigned long)<EM>count</EM> <B>periodMS:</B>(unsigned long)<EM>period</EM> <B>dropOutOK:</B>(BOOL)<EM>dropFlag</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- schedule:toTarget:withObject:delayMS:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/schedule:toTarget:withObject:delayMS:">schedule:toTarget:withObject:delayMS:</A></H3><P>
+		<CODE>- (id)<B>schedule:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM> <B>withObject:</B>(id)<EM>object</EM> <B>delayMS:</B>(unsigned long)<EM>delay</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- schedule:toTarget:withObject:delayMS:count:periodMS:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/schedule:toTarget:withObject:delayMS:count:periodMS:">schedule:toTarget:withObject:delayMS:count:periodMS:</A></H3><P>
+		<CODE>- (id)<B>schedule:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM> <B>withObject:</B>(id)<EM>object</EM> <B>delayMS:</B>(unsigned long)<EM>delay</EM> <B>count:</B>(unsigned long)<EM>count</EM> <B>periodMS:</B>(unsigned long)<EM>period</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- schedule:toTarget:withObject:delayMS:count:periodMS:dropOutOK:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/schedule:toTarget:withObject:delayMS:count:periodMS:dropOutOK:">schedule:toTarget:withObject:delayMS:count:periodMS:dropOutOK:</A></H3><P>
+		<CODE>- (id)<B>schedule:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM> <B>withObject:</B>(id)<EM>object</EM> <B>delayMS:</B>(unsigned long)<EM>delay</EM> <B>count:</B>(unsigned long)<EM>count</EM> <B>periodMS:</B>(unsigned long)<EM>period</EM> <B>dropOutOK:</B>(BOOL)<EM>dropFlag</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- scheduleCompleted:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/scheduleCompleted:">scheduleCompleted:</A></H3><P>
+		<CODE>- (void)<B>scheduleCompleted:</B>(id)<EM>schedule</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- selectorOK:toTarget:"></A><H3><A NAME="//apple_ref/occ/instm/LLScheduleController/selectorOK:toTarget:">selectorOK:toTarget:</A></H3><P>
+		<CODE>- (BOOL)<B>selectorOK:</B>(SEL)<EM>selector</EM> <B>toTarget:</B>(id)<EM>target</EM>
+			
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

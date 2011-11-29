@@ -1,0 +1,76 @@
+
+
+LLEyeCalibrator:
+
+060214
+
+I think there is a problem with offsets.
+
+Try this experiment.  In microstim, set the fake monkey calibration to the default but with tX & tY = 1.  
+Then set the eye calibration to the same, so now everything is in perfect calibration.  However, when 
+LLEyeCalibrator updates the calibration, tX & tY get set to 0, and we are now off calibration.
+
+060215 
+
+Thanks for the update.  I fixed this bug in my calibrator (which is the same as yours except I solve for the 
+calibration using SVD from numerical recipes).
+
+The main thing I changed is that offsetDeg[] now holds the absolute coordinate of each fix point.  This 
+turned out to be a major simplification in the code and easily allows the fix point to moved to any place 
+on the screen.
+
+060225
+
+I may have uncovered bug in the LL eye calibration.  For our video tracker, the coordinate system is reversed.  
+So our eye calibration has NEGATIVE values for m11 and m22.
+
+I just noticed that these negative values cause our eye calibrators (LL's and my calibrator are mostly the same) 
+to return negative values for the unit size of the fix window width and height.  Below is an example output for 
+m11=-.001 m21=0 m12=0 m22=-001(note the negative width & height units):
+
+fixWindowData.windowDeg  x=-1.500000  y=-1.500000  width=3.000000   
+height=3.000000
+fixWindowData.windowUnits  x=1500.0  y=1500.0   width=-3000.0    
+height=-3000.0
+
+I think the solution is to have [eyeCalibrator unitRectFromDegRect:] return the absolute value of the width 
+and height.  But I am still trying to understand how LL's fixWindow handles the negative width and height....
+any thoughts?
+
+060228
+
+No problem, it's not a major bug.
+
+BTW - when you get back into your calibrator code, can we talk about eye coordinate systems and offsets?  
+There are a few small changes I made in the way your calibrator handles offsets that makes things conceptually 
+easier.
+
+______________________________________________________________________________________________________________
+LLCalibration or LLEyeWindow:
+
+Explicitly describing the fields worked.  I'll do that for now.  I know I've said this before, but adding data 
+definitions was a very good thing.  Thanks. 
+
+On another note, I just noticed with negative calibration values (as we have with our video because the image 
+moves in the opposite direction of the eye position), LL produces an eye window with negative width and height 
+units (see below).  Not a critical problem, but can this be put on the bug list?
+
+trials(1).ecEyeCalibration.cal.m11 = -0.001000;
+trials(1).ecEyeCalibration.cal.m12 = 0.000000;
+trials(1).ecEyeCalibration.cal.m21 = 0.000000;
+trials(1).ecEyeCalibration.cal.m22 = -0.001000;
+trials(1).ecEyeCalibration.cal.tX = -9.000000;
+trials(1).ecEyeCalibration.cal.tY = -1.000000;
+trials(1).fixWindowData.index = 0;
+trials(1).fixWindowData.windowDeg.origin.x = -1.000000;
+trials(1).fixWindowData.windowDeg.origin.y = -1.000000;
+trials(1).fixWindowData.windowDeg.size.width = 2.000000;
+trials(1).fixWindowData.windowDeg.size.height = 2.000000;
+trials(1).fixWindowData.windowUnits.origin.x = -8000.000000;
+trials(1).fixWindowData.windowUnits.origin.y = 0.000000;
+trials(1).fixWindowData.windowUnits.size.width = -1999.999878;
+trials(1).fixWindowData.windowUnits.size.height = -1999.999878;
+
+
+
+

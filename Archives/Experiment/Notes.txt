@@ -1,0 +1,13 @@
+• Following problems on first time start up:
+	Eye calibration values don't seem to be at default
+
+• Need to set the sampling of eye position up to 500 Hz (from 200 Hz) when data collection has been fixed.
+• There is some bug with changes in number of stimuli crashing the the behavior window (index > number at 
+    end of the trial?)
+	
+	
+Bindings:
+
+	Need a way to know when a bound value changes, so that we can put the relevant event
+		Need to see the values change when we change configurations
+	

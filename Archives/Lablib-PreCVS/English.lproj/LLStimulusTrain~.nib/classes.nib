@@ -1,0 +1,33 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                changeAmplitude = id; 
+                changeDAChannel = id; 
+                changeDoGate = id; 
+                changeDoMarkers = id; 
+                changeDuration = id; 
+                changeFrequency = id; 
+                changeGateBit = id; 
+                changeMarkerBit = id; 
+                changePulseWidth = id; 
+                changeUAPerV = id; 
+            }; 
+            CLASS = LLStimulusTrain; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                DAChannelField = NSTextField; 
+                amplitudeField = NSTextField; 
+                durationField = NSTextField; 
+                frequencyField = NSTextField; 
+                markerBitField = NSTextField; 
+                pulseWidthField = NSTextField; 
+                pulsesCheckBox = NSButton; 
+                uAPerVField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

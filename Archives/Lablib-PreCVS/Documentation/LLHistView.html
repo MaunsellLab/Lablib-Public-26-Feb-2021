@@ -1,0 +1,399 @@
+<HTML><HEAD><TITLE></TITLE></HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+
+<BR><BR><FONT COLOR="#000066"><H1><A NAME="//apple_ref/occ/cl/LLHistView">LLHistView</A></H1></FONT><BR>
+
+
+
+	<blockquote><DL><DT><B>Inherits From:</B></DT>  
+	<DD>NSView</DD>
+</DL></blockquote>
+
+
+
+
+
+	<blockquote><DL><DT><B>Declared In:</B></DT>
+	<DD>LLHistView.h</DD>
+	</DL></blockquote>
+
+<BR><BR>
+
+
+<H2>Class Description</H2>
+No class description.
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Defined Types</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><A NAME="//apple_ref/c/tdef/XHistAxisMark">
+			typedef struct {&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;float xMin;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;float xMax;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;long yPix;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;NSColor *color;<BR>
+} <B>XHistAxisMark</B>;</A></CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Symbolic Constants</H2>
+	<blockquote>
+	
+		
+		<H4>Synopsis:</H4>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kDefaultBins">kDefaultBins</A></B>&nbsp;&nbsp;50</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kHighlightPix">kHighlightPix</A></B>&nbsp;&nbsp;1</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kMarginPix">kMarginPix</A></B>&nbsp;&nbsp;2</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kLabelExtraPix">kLabelExtraPix</A></B>&nbsp;&nbsp;15 // Extra margin for x tick labels</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kShadowPix">kShadowPix</A></B>&nbsp;&nbsp;1</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/topMarginPix">topMarginPix</A></B>&nbsp;&nbsp;(kHighlightPix + kMarginPix + textLineHeightPix)</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/leftMarginPix">leftMarginPix</A></B>&nbsp;&nbsp;(kHighlightPix + kMarginPix + 2 * textLineHeightPix + kTickHeightPix)</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/kRightMarginPix">kRightMarginPix</A></B>&nbsp;&nbsp;(kShadowPix + kHighlightPix + kMarginPix + kLabelExtraPix)</CODE><BR>
+		
+			<CODE><B><A NAME="//apple_ref/c/econst/bottomMarginPix">bottomMarginPix</A></B>&nbsp;&nbsp;(kShadowPix + kHighlightPix + kMarginPix + 2 * textLineHeightPix + kTickHeightPix)</CODE><BR>
+		
+		
+	
+	</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Variables</H2>
+	<blockquote>
+	
+		<CODE>BOOL <B>autoBinWidth</B>;</CODE><BR>
+		<CODE>double *<B>data</B>;</CODE><BR>
+		<CODE>long <B>dataLength</B>;</CODE><BR>
+		<CODE>BOOL <B>highlight</B>;</CODE><BR>
+		<CODE>BOOL <B>hidden</B>;</CODE><BR>
+		<CODE>NSColor *<B>histColor</B>;</CODE><BR>
+		<CODE>float <B>maxBin</B>;</CODE><BR>
+		<CODE>NSMutableArray *<B>marks</B>;</CODE><BR>
+		<CODE>long <B>plotBins</B>;</CODE><BR>
+		<CODE>LLViewScale *<B>scale</B>;</CODE><BR>
+		<CODE>BOOL <B>sumWhenBinning</B>;</CODE><BR>
+		<CODE>NSString *<B>title</B>;</CODE><BR>
+		<CODE>float <B>textLineHeightPix</B>;</CODE><BR>
+		<CODE>BOOL <B>useXDisplayValues</B>;</CODE><BR>
+		<CODE>BOOL <B>useYDisplayValues</B>;</CODE><BR>
+		<CODE>NSString *<B>xAxisLabel</B>;</CODE><BR>
+		<CODE>float <B>xMaxDisplayValue</B>;</CODE><BR>
+		<CODE>float <B>xMinDisplayValue</B>;</CODE><BR>
+		<CODE>float <B>xTickLabelSpacing</B>;</CODE><BR>
+		<CODE>float <B>xTickSpacing</B>;</CODE><BR>
+		<CODE>NSString *<B>yAxisLabel</B>;</CODE><BR>
+		<CODE>float <B>yMaxDisplayValue</B>;</CODE><BR>
+		<CODE>float <B>yMinDisplayValue</B>;</CODE><BR>
+		<CODE>double <B>yUnit</B>;</CODE><BR>
+	<P><TABLE>
+	
+		<TR><TD>autoBinWidth</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>data</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>dataLength</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>highlight</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>hidden</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>histColor</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>maxBin</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>marks</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>plotBins</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>scale</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>sumWhenBinning</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>title</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>textLineHeightPix</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>useXDisplayValues</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>useYDisplayValues</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>xAxisLabel</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>xMaxDisplayValue</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>xMinDisplayValue</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>xTickLabelSpacing</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>xTickSpacing</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>yAxisLabel</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>yMaxDisplayValue</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>yMinDisplayValue</TD><TD>No description.</TD></TR>
+	
+		<TR><TD>yUnit</TD><TD>No description.</TD></TR>
+	
+	</TABLE>
+	</blockquote>
+
+
+
+
+	<P><HR WIDTH=50% ALIGN=LEFT>
+	<H2>Method Types</H2>
+	<blockquote>
+	
+		
+		<DL><DT></DT>
+		
+			<DD> <A HREF="#- clearAllFills">- clearAllFills</A></DD>
+		
+			<DD> <A HREF="#- fillXAxisFrom:to:heightPix:color:">- fillXAxisFrom:to:heightPix:color:</A></DD>
+		
+			<DD> <A HREF="#- fillXFrom:to:color:">- fillXFrom:to:color:</A></DD>
+		
+			<DD> <A HREF="#- handleScaleChange:">- handleScaleChange:</A></DD>
+		
+			<DD> <A HREF="#- hide:">- hide:</A></DD>
+		
+			<DD> <A HREF="#- initWithFrame:scaling:">- initWithFrame:scaling:</A></DD>
+		
+			<DD> <A HREF="#- initializeWithScale:">- initializeWithScale:</A></DD>
+		
+			<DD> <A HREF="#- setAutoBinWidth:">- setAutoBinWidth:</A></DD>
+		
+			<DD> <A HREF="#- setData:length:color:">- setData:length:color:</A></DD>
+		
+			<DD> <A HREF="#- setDataLength:">- setDataLength:</A></DD>
+		
+			<DD> <A HREF="#- setDisplayXMin:xMax:">- setDisplayXMin:xMax:</A></DD>
+		
+			<DD> <A HREF="#- setDisplayYMin:yMax:">- setDisplayYMin:yMax:</A></DD>
+		
+			<DD> <A HREF="#- setHighlightHist:">- setHighlightHist:</A></DD>
+		
+			<DD> <A HREF="#- setPlotBins:">- setPlotBins:</A></DD>
+		
+			<DD> <A HREF="#- setScale:">- setScale:</A></DD>
+		
+			<DD> <A HREF="#- setSumWhenBinning:">- setSumWhenBinning:</A></DD>
+		
+			<DD> <A HREF="#- setTitle:">- setTitle:</A></DD>
+		
+			<DD> <A HREF="#- setXAxisLabel:">- setXAxisLabel:</A></DD>
+		
+			<DD> <A HREF="#- setXAxisTickLabelSpacing:">- setXAxisTickLabelSpacing:</A></DD>
+		
+			<DD> <A HREF="#- setXAxisTickSpacing:">- setXAxisTickSpacing:</A></DD>
+		
+			<DD> <A HREF="#- setYAxisLabel:">- setYAxisLabel:</A></DD>
+		
+			<DD> <A HREF="#- setYUnit:">- setYUnit:</A></DD>
+		
+		</DL>
+	
+	</blockquote>
+
+
+
+
+ 
+
+	<HR WIDTH=50% ALIGN=LEFT>
+	<H2>Instance Methods</H2>
+ 
+	
+		
+		<A NAME="- clearAllFills"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/clearAllFills">clearAllFills</A></H3><P>
+		<CODE>- (void)<B>clearAllFills</B>
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- fillXAxisFrom:to:heightPix:color:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/fillXAxisFrom:to:heightPix:color:">fillXAxisFrom:to:heightPix:color:</A></H3><P>
+		<CODE>- (void)<B>fillXAxisFrom:</B>(float)<EM>xMin</EM> <B>to:</B>(float)<EM>xMax</EM> <B>heightPix:</B>(long)<EM>heightPix</EM> <B>color:</B>(NSColor *)<EM>color</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- fillXFrom:to:color:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/fillXFrom:to:color:">fillXFrom:to:color:</A></H3><P>
+		<CODE>- (void)<B>fillXFrom:</B>(float)<EM>xMin</EM> <B>to:</B>(float)<EM>xMax</EM> <B>color:</B>(NSColor *)<EM>color</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- handleScaleChange:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/handleScaleChange:">handleScaleChange:</A></H3><P>
+		<CODE>- (void)<B>handleScaleChange:</B>(NSNotification *)<EM>note</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- hide:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/hide:">hide:</A></H3><P>
+		<CODE>- (void)<B>hide:</B>(BOOL)<EM>state</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- initWithFrame:scaling:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/initWithFrame:scaling:">initWithFrame:scaling:</A></H3><P>
+		<CODE>- (id)<B>initWithFrame:</B>(NSRect)<EM>frame</EM> <B>scaling:</B>(LLViewScale *)<EM>histScale</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- initializeWithScale:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/initializeWithScale:">initializeWithScale:</A></H3><P>
+		<CODE>- (void)<B>initializeWithScale:</B>(LLViewScale *)<EM>histScale</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setAutoBinWidth:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setAutoBinWidth:">setAutoBinWidth:</A></H3><P>
+		<CODE>- (void)<B>setAutoBinWidth:</B>(BOOL)<EM>state</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setData:length:color:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setData:length:color:">setData:length:color:</A></H3><P>
+		<CODE>- (void)<B>setData:</B>(double *)<EM>histData</EM> <B>length:</B>(long)<EM>histLength</EM> <B>color:</B>(NSColor *)<EM>color</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setDataLength:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setDataLength:">setDataLength:</A></H3><P>
+		<CODE>- (void)<B>setDataLength:</B>(long)<EM>length</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setDisplayXMin:xMax:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setDisplayXMin:xMax:">setDisplayXMin:xMax:</A></H3><P>
+		<CODE>- (void)<B>setDisplayXMin:</B>(float)<EM>xMin</EM> <B>xMax:</B>(float)<EM>xMax</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setDisplayYMin:yMax:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setDisplayYMin:yMax:">setDisplayYMin:yMax:</A></H3><P>
+		<CODE>- (void)<B>setDisplayYMin:</B>(float)<EM>yMin</EM> <B>yMax:</B>(float)<EM>yMax</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setHighlightHist:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setHighlightHist:">setHighlightHist:</A></H3><P>
+		<CODE>- (void)<B>setHighlightHist:</B>(BOOL)<EM>state</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setPlotBins:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setPlotBins:">setPlotBins:</A></H3><P>
+		<CODE>- (void)<B>setPlotBins:</B>(long)<EM>binsToPlot</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setScale:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setScale:">setScale:</A></H3><P>
+		<CODE>- (void)<B>setScale:</B>(LLViewScale *)<EM>newScaling</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setSumWhenBinning:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setSumWhenBinning:">setSumWhenBinning:</A></H3><P>
+		<CODE>- (void)<B>setSumWhenBinning:</B>(BOOL)<EM>state</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setTitle:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setTitle:">setTitle:</A></H3><P>
+		<CODE>- (void)<B>setTitle:</B>(NSString *)<EM>string</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setXAxisLabel:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setXAxisLabel:">setXAxisLabel:</A></H3><P>
+		<CODE>- (void)<B>setXAxisLabel:</B>(NSString *)<EM>label</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setXAxisTickLabelSpacing:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setXAxisTickLabelSpacing:">setXAxisTickLabelSpacing:</A></H3><P>
+		<CODE>- (void)<B>setXAxisTickLabelSpacing:</B>(float)<EM>spacing</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setXAxisTickSpacing:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setXAxisTickSpacing:">setXAxisTickSpacing:</A></H3><P>
+		<CODE>- (void)<B>setXAxisTickSpacing:</B>(float)<EM>spacing</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setYAxisLabel:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setYAxisLabel:">setYAxisLabel:</A></H3><P>
+		<CODE>- (void)<B>setYAxisLabel:</B>(NSString *)<EM>label</EM>
+			
+		</CODE><P>
+		No method description.
+	
+		<P><HR WIDTH=25% ALIGN=LEFT>
+		<A NAME="- setYUnit:"></A><H3><A NAME="//apple_ref/occ/instm/LLHistView/setYUnit:">setYUnit:</A></H3><P>
+		<CODE>- (void)<B>setYUnit:</B>(double)<EM>unitValue</EM>
+			
+		</CODE><P>
+		No method description.
+	
+
+
+
+
+<P><HR>
+Version 1.1 Copyright &copy;2003.  All Rights Reserved.  
+<P>
+</BODY></HTML>

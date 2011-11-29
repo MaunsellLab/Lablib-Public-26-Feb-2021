@@ -1,0 +1,115 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                changeDataSource = id; 
+                closeDocument = id; 
+                resetRequest = id; 
+                runStop = id; 
+                saveDocument = id; 
+                showBehaviorPanel = id; 
+                showPreferencePanel = id; 
+                showStimulusPanel = id; 
+            }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                changeAcquire = id; 
+                changeBlocks = id; 
+                changeFixWidth = id; 
+                changeFixate = id; 
+                changeIntertrial = id; 
+                changeLever = id; 
+                changeResponseTime = id; 
+                changeReward = id; 
+                changeTooFast = id; 
+                changeTries = id; 
+            }; 
+            CLASS = BehaviorSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                acquireField = NSTextField; 
+                blocksField = NSTextField; 
+                fixWidthField = NSTextField; 
+                fixateCheckBox = NSButton; 
+                intertrialField = NSTextField; 
+                leverCheckBox = NSButton; 
+                responseTimeField = NSTextField; 
+                rewardField = NSTextField; 
+                tooFastField = NSTextField; 
+                triesField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {changeZoom = id; }; 
+            CLASS = BehaviorView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {scrollView = NSScrollView; zoomButton = NSPopUpButton; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {changeSource = id; ok = id; }; 
+            CLASS = DataSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {okButton = NSButton; sourceMenu = NSPopUpButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {configure = id; ok = id; updateConfigureButton = id; }; 
+            CLASS = LLDataSourceSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {configureButton = NSButton; sourceMenu = NSPopUpButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {ok = id; }; 
+            CLASS = LLNewIODeviceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {deviceTable = NSTableView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = PrefController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                dataCheckBox = NSButton; 
+                formatMatrix = NSMatrix; 
+                interTrialTextBox = NSTextField; 
+                timeCheckBox = NSButton; 
+                timeOfDayCheckBox = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                changeFormat = id; 
+                changeShowAddress = id; 
+                changeShowData = id; 
+                changeShowTime = id; 
+                changeShowTimeOfDay = id; 
+            }; 
+            CLASS = PreferenceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addressCheckBox = NSButton; 
+                dataCheckBox = NSButton; 
+                formatMatrix = NSMatrix; 
+                timeCheckBox = NSButton; 
+                timeOfDayCheckBox = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = SettingsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {interTrialTextBox = NSTextField; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
