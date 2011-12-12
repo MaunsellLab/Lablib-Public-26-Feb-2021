@@ -253,7 +253,7 @@ float stencilRadiusDeg = FLT_MAX;
 	
 	currentFrame = frame;
 	if (frame > [frameList count] && !warned) {
-		NSLog(@"LLRandomDots: warning, attempting to draw frame %d with only %d frames created", frame, 
+		NSLog(@"LLRandomDots: warning, attempting to draw frame %ld with only %d frames created", frame, 
 			  [frameList count]);
 		warned = YES;
 	}
@@ -269,9 +269,9 @@ float stencilRadiusDeg = FLT_MAX;
 		return;
 	}
 	frameData = [frameList objectAtIndex:frame];
-	NSLog(@"Frame %d, %d bytes, length %d", frame, [frameData length], [frameData length] / sizeof(NSPoint));
+	NSLog(@"Frame %ld, %d bytes, length %lu", frame, [frameData length], [frameData length] / sizeof(NSPoint));
 	for (index = 0; index < [frameData length] / sizeof(NSPoint); index++) {
-		NSLog(@"%2d: %.2f %.2f", index, ((NSPoint *)[frameData bytes])[index].x, ((NSPoint *)[frameData bytes])[index].y);
+		NSLog(@"%2ld: %.2f %.2f", index, ((NSPoint *)[frameData bytes])[index].x, ((NSPoint *)[frameData bytes])[index].y);
 	}
 }
 

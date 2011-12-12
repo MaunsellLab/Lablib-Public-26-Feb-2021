@@ -194,7 +194,7 @@
 
 	dataVersion = (long)EDID[kEDIDStructVersion];
 	if (dataVersion != 1) {
-		NSLog(@"LLDisplayEDID: Communicating with monitor that does not use Version 1 EDID (Version %d)", dataVersion);
+		NSLog(@"LLDisplayEDID: Communicating with monitor that does not use Version 1 EDID (Version %ld)", dataVersion);
 	}
 	dataRevision = (long)EDID[kEDIDStructRevision];
 

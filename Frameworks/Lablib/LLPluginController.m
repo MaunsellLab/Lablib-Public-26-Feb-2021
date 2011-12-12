@@ -237,11 +237,12 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 
 NSInteger sortPluginsByName(id desc1, id desc2, void *context)
 {
-	PluginDesc p1, p2;
+    PluginDesc p1, p2;
 	
 	[desc1 getValue:&p1];
 	[desc2 getValue:&p2];
-	return [[p1.class className] compare:[p2.class className] options:NSCaseInsensitiveSearch];
+	return [[p1.plugin className] compare:[p2.plugin className] options:NSCaseInsensitiveSearch];
+    //	return [[p1.class className] compare:[p2.class className] options:NSCaseInsensitiveSearch];
 }
 
 @end

@@ -27,10 +27,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69A9E3CA0588E51700F6A0DD"
-               BuildableName = "DataConvert.app"
-               BlueprintName = "DataConvert"
-               ReferencedContainer = "container:../../Applications/DataConvert/DataConvert.xcodeproj">
+               BlueprintIdentifier = "69F368B0056705B9009AED51"
+               BuildableName = "LablibITC18.framework"
+               BlueprintName = "LablibITC18"
+               ReferencedContainer = "container:../LablibITC18/LablibITC18.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "69D82C9D0B069FF500E8C369"
+               BuildableName = "LablibITC18 Plugin.bundle"
+               BlueprintName = "LablibITC18 Plugin"
+               ReferencedContainer = "container:../LablibITC18/LablibITC18.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,20 +59,6 @@
                BuildableName = "FixateTask.plugin"
                BlueprintName = "Fixate"
                ReferencedContainer = "container:../../Plugins/Fixate/Fixate.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69F36A7205670A9A009AED51"
-               BuildableName = "Knot.app"
-               BlueprintName = "Knot"
-               ReferencedContainer = "container:../../Applications/Knot/Knot.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -111,38 +111,38 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69F368B0056705B9009AED51"
-               BuildableName = "LablibITC18.framework"
-               BlueprintName = "LablibITC18"
-               ReferencedContainer = "container:../LablibITC18/LablibITC18.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69D82C9D0B069FF500E8C369"
-               BuildableName = "LablibITC18 Plugin.bundle"
-               BlueprintName = "LablibITC18 Plugin"
-               ReferencedContainer = "container:../LablibITC18/LablibITC18.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "6933B3A80784BBE2006963FA"
                BuildableName = "RFMap.bundle"
                BlueprintName = "RFMap"
                ReferencedContainer = "container:../../Plugins/RFMap/RFMap.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "69F36A7205670A9A009AED51"
+               BuildableName = "Knot.app"
+               BlueprintName = "Knot"
+               ReferencedContainer = "container:../../Applications/Knot/Knot.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "69A9E3CA0588E51700F6A0DD"
+               BuildableName = "DataConvert.app"
+               BlueprintName = "DataConvert"
+               ReferencedContainer = "container:../../Applications/DataConvert/DataConvert.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

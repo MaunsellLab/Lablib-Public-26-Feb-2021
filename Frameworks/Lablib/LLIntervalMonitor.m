@@ -212,7 +212,7 @@ NSString *standardKey = @"LLMonitorTarget";
 
 	for (index = 0; index < [times count]; index++) {
 		if ([[times objectAtIndex:index] floatValue] > 30) {
-			NSLog(@"%d %.0f", index, [[times objectAtIndex:index] floatValue]);
+			NSLog(@"%ld %.0f", index, [[times objectAtIndex:index] floatValue]);
 		}
 	}
 	

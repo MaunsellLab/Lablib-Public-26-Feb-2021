@@ -653,7 +653,7 @@ NSString *LLGaborTemporalPhaseDegKey = @"temporalPhaseDeg";
 // NB: You must set the baseGabor values (using -store) before starting a counterphasing grating, and
 // you must restore the original contrast (using -restore) when you have finished the counterphasing.
 //				
-				case kCounterPhase:
+            case kCounterPhase:
 			default:
 				[self setContrast:(baseGabor.contrast *
 						sin(frame / framesPerHalfCycle * kPI + temporalPhaseDeg * kRadiansPerDeg))];

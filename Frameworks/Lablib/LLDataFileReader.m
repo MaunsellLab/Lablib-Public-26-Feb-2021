@@ -138,7 +138,7 @@ enum {kSingleDevice = 1, kMultiDevice};
 	trialStartEventCode = [self eventCodeForEventName:@"trialStart"];
 	trialCount = 0;
 	while ((eventCode = [self readEventCode]) != kNoEventCode) {
-		if ((eventCode == trialStartEventCode)) {
+		if (eventCode == trialStartEventCode) {
 			[trialStartIndices addObject:[NSNumber numberWithUnsignedLong:currentEventIndex]];
 			[cumulativeEvents addObject:[NSData dataWithBytes:eventCounts 
 													length:(numEvents * sizeof(unsigned long))]];
@@ -411,7 +411,7 @@ them.
 	[self rewind];
 	while ((pEvent = [self readEvent]) != nil) {
 		eventTrialCounts[pEvent->code]++;
-		if ((pEvent->code == trialStartEventCode)) {
+		if (pEvent->code == trialStartEventCode) {
 			break;
 		}
 	}
@@ -449,14 +449,14 @@ them.
 		
 // Process the event
 
-		if ((pEvent->code == fileEndEventCode)) {		// don't convert fileEnd
+		if (pEvent->code == fileEndEventCode) {		// don't convert fileEnd
 			continue;
 		}
 
 // trialStart is the boundary between trials.  We write all the buffered values out, and then clear
 // buffers to start the next trial.
 
-		if ((pEvent->code == trialStartEventCode)) {
+		if (pEvent->code == trialStartEventCode) {
 			[self writeBuffersToMatlab:data prefix:prefix];	// write out the data we have buffered & clear buffers
 			for (event = 0; event < numEvents; event++) {
 				eventTrialCounts[event] = 0;

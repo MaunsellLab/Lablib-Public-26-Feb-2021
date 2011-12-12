@@ -3,7 +3,7 @@
 //  Lablib
 //
 //  Created by John Maunsell on Sun May 04 2003.
-//  Copyright (c) 2006. All rights reserved.
+//  Copyright (c) 2011. All rights reserved.
 //
 
 #import "LLPlotView.h"
