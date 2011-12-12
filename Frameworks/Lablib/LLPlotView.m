@@ -119,7 +119,7 @@
     for (plot = 0; plot < [plotValues count]; plot++) {		// For each of the lines to plot
 		enabled = [[enable objectAtIndex:plot] boolValue];
         values = [plotValues objectAtIndex:plot];
-        [[plotColors objectAtIndex:plot] set];
+        [(NSColor *)[plotColors objectAtIndex:plot] set];
 		noPoints = YES;
         for (index = 0; index < plotPoints && index < [values count]; index++) {
             dataPoint = [values objectAtIndex:index];

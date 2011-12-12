@@ -319,10 +319,11 @@
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = DataConvert;
+				SDKROOT = "";
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
@@ -346,10 +347,11 @@
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = DataConvert;
+				SDKROOT = "";
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Deployment;
 		};
@@ -372,7 +374,9 @@
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = DataConvert;
+				SDKROOT = "";
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
 			};
@@ -381,27 +385,36 @@
 		69B8D161088DAC45002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				SDKROOT = "";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				SDKROOT = macosx;
 			};
 			name = Development;
 		};
 		69B8D162088DAC45002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				SDKROOT = "";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
 		69B8D163088DAC45002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				MACOSX_DEPLOYMENT_TARGET = "";
-				SDKROOT = "";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				SDKROOT = macosx;
 			};
 			name = Default;
 		};

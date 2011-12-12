@@ -13,11 +13,12 @@ int main(int argc, const char *argv[])
 	NSDebugEnabled = YES;
 	NSZombieEnabled = YES;
 	NSDeallocateZombies = NO;
-	NSHangOnUncaughtException = YES;
+    //	NSHangOnUncaughtException = YES;
+    //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHangOnUncaughtExceptionMask];
 	NSLog(@"NSDebugEnabled: %d", NSDebugEnabled);
 	NSLog(@"NSZombieEnabled: %d", NSZombieEnabled);
 	NSLog(@"NSDeallocateZombies: %d", NSDeallocateZombies);
-	NSLog(@"NSHangOnUncaughtException: %d", NSHangOnUncaughtException);
+//	NSLog(@"NSHangOnUncaughtException: %d", NSHangOnUncaughtException);
 
     return NSApplicationMain(argc, (const char **)argv);
 }

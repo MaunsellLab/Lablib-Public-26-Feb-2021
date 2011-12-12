@@ -45,10 +45,10 @@ typedef struct {
 
 #define kRadiusLimitSigma   3.0						// maximum radius relative to sigma
 
-enum {kSineModulation = 0, kSquareModulation, kTriangleModulation};		// spatial modulation
-enum {kCounterPhase = 0, kDrifting, kRandom};				// temporal modulation
-enum {kSPhase = 0, kDirection, kKdlTheta, kKdlPhi};						// temporal modulation param
-enum {kDrawColor, kDrawTextures, kDrawCircle, kDrawTypes};				// display lists
+enum {kSineModulation = 0, kSquareModulation, kTriangleModulation} SpatialModulation;		// spatial modulation
+enum {kCounterPhase = 0, kDrifting, kRandom} TemporalModulation;				// temporal modulation
+enum {kSPhase = 0, kDirection, kKdlTheta, kKdlPhi} TemporalModulationParam;						// temporal modulation param
+enum {kDrawColor, kDrawTextures, kDrawCircle, kDrawTypes} DisplayLists;				// display lists
 
 extern NSString *LLGaborAzimuthDegKey;
 extern NSString *LLGaborBackColorKey;

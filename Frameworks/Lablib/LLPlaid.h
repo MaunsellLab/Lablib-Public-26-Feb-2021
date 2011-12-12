@@ -67,10 +67,10 @@ typedef struct {
 	float	temporalPhaseDeg1;			// Temporal Phase
 } Plaid;
 
-enum {kLLPlaidSineModulation = 0, kLLPlaidSquareModulation, kLLPlaidTriangleModulation};	// spatial modulation
-enum {kLLPlaidCounterPhase = 0, kLLPlaidDrifting, kLLPlaidRandom};							// temporal modulation
-enum {kLLPlaidSPhase = 0, kLLPlaidDirection, kLLPlaidKdlTheta, kLLPlaidKdlPhi};							// temporal modulation param
-enum {kLLPlaidDrawColor, kLLPlaidDrawTextures, kLLPlaidDrawCircle, kLLPlaidDrawTypes};									// display lists
+enum  {kLLPlaidSineModulation = 0, kLLPlaidSquareModulation, kLLPlaidTriangleModulation} SpatialModulation0;	// spatial modulation
+enum {kLLPlaidCounterPhase = 0, kLLPlaidDrifting, kLLPlaidRandom} TemporalModulation0;							// temporal modulation
+enum {kLLPlaidSPhase = 0, kLLPlaidDirection, kLLPlaidKdlTheta, kLLPlaidKdlPhi} TemporalModulationParam0;							// temporal modulation param
+enum {kLLPlaidDrawColor, kLLPlaidDrawTextures, kLLPlaidDrawCircle, kLLPlaidDrawTypes} DisplayList0;									// display lists
 
 #define kComponents			2
 

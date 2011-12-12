@@ -388,7 +388,6 @@
 					"-Wunreachable-code",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
@@ -414,7 +413,6 @@
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Deployment;
 		};
@@ -440,7 +438,6 @@
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Default;
 		};
@@ -449,6 +446,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = "";
 			};
@@ -460,6 +459,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				SDKROOT = "";
 			};
 			name = Deployment;
@@ -469,6 +470,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				SDKROOT = "";
 			};
 			name = Default;

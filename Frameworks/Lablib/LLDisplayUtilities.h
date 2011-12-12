@@ -7,7 +7,7 @@
  *
  */
 
-enum {RED, GRN, BLU};
+enum {RED, GRN, BLU} ColorNames;
 
 typedef struct {
     double red;
