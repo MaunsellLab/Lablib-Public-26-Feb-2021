@@ -460,6 +460,7 @@
 		69B8D100088DAB78002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "/Documents/Lablib/Frameworks/LablibITC18/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -474,8 +475,8 @@
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = LablibITC18_Framework.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				INSTALL_PATH = "@execuable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xd1000000,
@@ -493,6 +494,7 @@
 		69B8D101088DAB78002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "/Documents/Lablib/Frameworks/LablibITC18/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -528,6 +530,7 @@
 		69B8D102088DAB78002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "/Documents/Lablib/Frameworks/LablibITC18/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -541,6 +544,7 @@
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = LablibITC18_Framework.plist;
+				INSTALL_PATH = "@execuable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = LablibITC18;
 				SECTORDER_FLAGS = "";
