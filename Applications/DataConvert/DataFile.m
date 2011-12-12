@@ -348,9 +348,9 @@ static PrintView	*printView;
     
 // Highlight any text that is selected
 
-    if ((selectedBytesStart >= line * kBytesPerLine) && (selectedBytesStart < (line + 1) * kBytesPerLine) ||
-                (selectedBytesStop >= line * kBytesPerLine) && (selectedBytesStop < (line + 1) * kBytesPerLine) ||
-                (selectedBytesStart <= line * kBytesPerLine) && (selectedBytesStop >= (line + 1) * kBytesPerLine)) {
+    if (((selectedBytesStart >= line * kBytesPerLine) && (selectedBytesStart < (line + 1) * kBytesPerLine)) ||
+                ((selectedBytesStop >= line * kBytesPerLine) && (selectedBytesStop < (line + 1) * kBytesPerLine)) ||
+                ((selectedBytesStart <= line * kBytesPerLine) && (selectedBytesStop >= (line + 1) * kBytesPerLine))) {
         selectCharStart = hexAddressTextCols + 3 +
             ((selectedBytesStart < line * kBytesPerLine) ? 
                             0 : kCharsPerByte * (selectedBytesStart - (line * kBytesPerLine)));

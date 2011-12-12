@@ -11,9 +11,6 @@
       location = "group:Applications/Knot/Knot.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Applications/DataConvert/DataConvert.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
    </FileRef>
    <FileRef
@@ -27,5 +24,8 @@
    </FileRef>
    <FileRef
       location = "group:Plugins/RFMap/RFMap.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Applications/DataConvert/DataConvert.xcodeproj">
    </FileRef>
 </Workspace>

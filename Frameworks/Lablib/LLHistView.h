@@ -81,6 +81,6 @@ typedef struct {
 - (void)setXAxisTickSpacing:(float)spacing;
 - (void)setYAxisLabel:(NSString *)label;
 - (void)setYUnit:(double)unitValue;
-- (void) setYUnit:(double)unitValue index:(long)index;
+- (void)setYUnit:(double)unitValue index:(long)index;
 
 @end

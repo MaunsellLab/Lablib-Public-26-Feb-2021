@@ -13,6 +13,7 @@ extern NSString	*LLDataFileExtention;
 
 }
 
++ (NSArray *)allowedFileTypes;
 + (BOOL)alphaIncrement:(const char *)cString characters:(long)length;
 + (NSString *)defaultDirPath;
 + (NSString *)defaultFileExtension;

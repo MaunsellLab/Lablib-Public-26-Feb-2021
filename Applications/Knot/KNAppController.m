@@ -12,6 +12,7 @@
 #import "KNAppController.h"
 #import "KNSummaryController.h"
 #import <Foundation/NSDebug.h>
+#import <ExceptionHandling/NSExceptionHandler.h>
 
 char *idString = "Knot Version 2.2";
 
@@ -344,11 +345,12 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	NSDebugEnabled = YES; 
 	NSZombieEnabled = YES;
 	NSDeallocateZombies = NO;
-	NSHangOnUncaughtException = YES;
+//	NSHangOnUncaughtException = YES;
+//    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHangOnUncaughtExceptionMask];
 	NSLog(@"NSDebugEnabled: %d", NSDebugEnabled);
 	NSLog(@"NSZombieEnabled: %d", NSZombieEnabled);
 	NSLog(@"NSDeallocateZombies: %d", NSDeallocateZombies);
-	NSLog(@"NSHangOnUncaughtException: %d", NSHangOnUncaughtException);
+//	NSLog(@"NSHangOnUncaughtException: %d", NSHangOnUncaughtException);
 
     [self setDelegate:self];
 	[LLSystemUtil preventSleep];							// don't let the computer sleep

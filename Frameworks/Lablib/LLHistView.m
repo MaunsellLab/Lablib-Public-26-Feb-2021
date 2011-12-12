@@ -104,7 +104,7 @@
 		}
 		[dataPath lineToPoint:[scale scaledPoint:NSMakePoint(bin, 0)]];
 		[dataPath closePath];
-		[[colorArray objectAtIndex:hist] set]; 
+		[(NSColor *)[colorArray objectAtIndex:hist] set]; 
 		if ([[enableArray objectAtIndex:hist] boolValue]) {			// do the rest for maxBin
 			[dataPath fill];
 		}

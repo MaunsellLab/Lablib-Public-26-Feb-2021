@@ -28,6 +28,7 @@
 	NSString *dirPath, *fileName;
 	NSFileManager *manager;
 	NSSavePanel *savePanel;
+    NSURL *fileURL;
 	
 	manager = [NSFileManager defaultManager];
 	
@@ -48,14 +49,16 @@
 
 	savePanel = [NSSavePanel savePanel];
 	[savePanel setTitle:@"Save Data"];
-	[savePanel setRequiredFileType:[LLStandardFileNames defaultFileExtension]];
-	if ([savePanel runModalForDirectory:dirPath file:fileName] != NSOKButton) {
+	[savePanel setAllowedFileTypes:[LLStandardFileNames allowedFileTypes]];
+	if ([savePanel runModal] != NSOKButton) {
+//        if ([savePanel runModalForDirectory:dirPath file:fileName] != NSOKButton) {
 		return NO;
 	}
 	
 // Create the file
 
-	filePath = [savePanel filename];
+	fileURL = [savePanel URL];
+	filePath = [fileURL path];
 	[filePath retain]; 
 	if ([manager fileExistsAtPath:filePath]) {
 		[manager removeItemAtPath:filePath error:NULL];

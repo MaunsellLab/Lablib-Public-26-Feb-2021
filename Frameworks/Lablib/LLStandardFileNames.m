@@ -15,6 +15,11 @@ NSString	*LLDataFileExtention = @"dat";
 
 @implementation LLStandardFileNames
 
++ (NSArray *)allowedFileTypes {
+    
+	return [NSArray arrayWithObject:LLDataFileExtention];
+}
+
 + (BOOL)alphaIncrement:(const char *)cString characters:(long)length {
 
 	long index;
