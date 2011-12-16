@@ -1,6 +1,5 @@
 //
 //  LLDisplays.h
-//  Experiment 
 //
 //  Created by John Maunsell on Thu Feb 13 2003.
 //  Copyright (c) 2003. All rights reserved.
@@ -23,22 +22,22 @@ typedef struct {
 } kdlTransform;
 
 typedef struct {
-	double frameRateHz;					// the following entries are read from the device
-	long pixelBits;	
-	long widthPix;
-	long heightPix;
-	RGBDouble CIEx;						// the following entries are read from system-wide settings
-	RGBDouble CIEy;
-	double distanceMM;
-	double widthMM;
-	double heightMM;
+	double      frameRateHz;		// the following entries are read from the device
+	long        pixelBits;	
+	long        widthPix;
+	long        heightPix;
+	RGBDouble   CIEx;				// the following entries are read from system-wide settings
+	RGBDouble   CIEy;
+	double      distanceMM;
+	double      widthMM;
+	double      heightMM;
 } DisplayParam;
 
 typedef struct {
-	long widthPix;
-	long heightPix;
-	long pixelBits;
-	float frameRateHz;
+	long    widthPix;
+	long    heightPix;
+	long    pixelBits;
+	float   frameRateHz;
 } DisplayModeParam;
 
 @interface LLDisplays : NSObject { 
