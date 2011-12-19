@@ -26,8 +26,6 @@
 		69D82D1D0B06A1FB00E8C369 /* LLITC18DataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */; };
 		69D82D830B06A30000E8C369 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		69D82DE60B06A77D00E8C369 /* ITC.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69F2BB2504D31F1600F95507 /* ITC.framework */; };
-		69E8CD9B0B0A64AA00DBD2A2 /* LLITC18IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69F2BB1404D31D4400F95507 /* LLITC18IODevice.h */; };
-		69E8CD9C0B0A64AB00DBD2A2 /* LLITC18IODevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F2BB1504D31D4400F95507 /* LLITC18IODevice.m */; };
 		69F368B2056705B9009AED51 /* LLITC18_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* LLITC18_Prefix.h */; };
 		69F368B5056705B9009AED51 /* LLITCMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 69080C6804FCF4AF00F95530 /* LLITCMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F368B6056705B9009AED51 /* LLITCMonitorSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6971395F0506215500F95523 /* LLITCMonitorSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -279,7 +277,6 @@
 				6917B197091EFCC40082A1F4 /* LLITC18DataDevice.h in Headers */,
 				69D31B5E097C5C98001102CA /* LLITC18.h in Headers */,
 				69941F74097C5E1900FD57B5 /* LablibITC18.h in Headers */,
-				69E8CD9B0B0A64AA00DBD2A2 /* LLITC18IODevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +396,6 @@
 				69F368BC056705B9009AED51 /* LLITCMonitor.m in Sources */,
 				69F368BD056705B9009AED51 /* LLITCMonitorSettings.m in Sources */,
 				6917B198091EFCC40082A1F4 /* LLITC18DataDevice.m in Sources */,
-				69E8CD9C0B0A64AB00DBD2A2 /* LLITC18IODevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

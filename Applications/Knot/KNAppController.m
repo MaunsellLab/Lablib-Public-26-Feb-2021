@@ -342,9 +342,9 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		return nil;
 	}
 
-	NSDebugEnabled = YES; 
-	NSZombieEnabled = YES;
-	NSDeallocateZombies = NO;
+//	NSDebugEnabled = YES; 
+//	NSZombieEnabled = YES;
+//	NSDeallocateZombies = NO;
 //	NSHangOnUncaughtException = YES;
 //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHangOnUncaughtExceptionMask];
 	NSLog(@"NSDebugEnabled: %d", NSDebugEnabled);
