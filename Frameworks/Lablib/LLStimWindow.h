@@ -52,5 +52,6 @@
 - (BOOL)setDisplayMode:(DisplayModeParam)mode;
 - (void)showDisplayParametersPanel;
 - (void)unlock;
+- (void)updateContentView;
 
 @end
