@@ -72,7 +72,7 @@ struct screenMode {
 		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {
 			continue;
         }
-		if((CGDisplayModeGetWidth(mode) >= pDP->widthPix) && (CGDisplayModeGetHeight(mode) >= pDP->heightPix)) {
+		if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
 			displayMode = mode;
 			exactMatch = YES;
 			break;

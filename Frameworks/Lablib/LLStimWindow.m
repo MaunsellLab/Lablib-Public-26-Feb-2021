@@ -176,17 +176,16 @@
 //    NSRect stimulusRect;
     NSSize stimWindowSize;
     const GLint swapParam = 1;
-//    NSOpenGLPixelFormat *fmt;
-//
-//    NSOpenGLPixelFormatAttribute windowedAttrib[] = {
-//        NSOpenGLPFANoRecovery, NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer,
-//        NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute) 24,
-//        NSOpenGLPFAAlphaSize, (NSOpenGLPixelFormatAttribute) 8,
-//        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
-//        NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
-//        NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
-//        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
-//    };
+    NSOpenGLPixelFormatAttribute windowedAttrib[] = {
+        NSOpenGLPFANoRecovery, NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer,
+        NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute) 24,
+        NSOpenGLPFAAlphaSize, (NSOpenGLPixelFormatAttribute) 8,
+        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
+        NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
+        NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
+        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
+        };
+    NSOpenGLPixelFormat *fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
 	
 	openGLLock = [[NSLock alloc] init];
 	displays = [[LLDisplays alloc] init];
@@ -262,16 +261,16 @@
 //		[stimOpenGLContext setFullScreen];
 		break;
 	}
-    [self updateContentView];
-//    fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
-//    if (fmt == nil) {
-//        NSLog(@"Cannot create NSOpenGLPixelFormat");
-//        [self autorelease];
-//        return nil;
-//    }
-//    [self setContentView:[[[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, display.widthPix, display.heightPix)
-//                           pixelFormat:fmt] autorelease]];
-//    stimOpenGLContext = [[self contentView] openGLContext];
+//    [self updateContentView];
+    fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
+    if (fmt == nil) {
+        NSLog(@"Cannot create NSOpenGLPixelFormat");
+        [self autorelease];
+        return nil;
+    }
+    [self setContentView:[[[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, display.widthPix, display.heightPix)
+                           pixelFormat:fmt] autorelease]];
+    stimOpenGLContext = [[self contentView] openGLContext];
     [stimOpenGLContext makeCurrentContext];
     [stimOpenGLContext setValues:&swapParam forParameter:NSOpenGLCPSwapInterval];
     [self makeKeyAndOrderFront:nil];
@@ -405,7 +404,8 @@
 		display = [displays displayParameters:displayIndex];		// get new display parameters
 		[monitor setTargetIntervalMS:1000.0 / display.frameRateHz];	// assign monitor new framerate
 
-        [self setFrame:[displays displayBoundsLLOrigin:displayIndex] display:NO];
+//        [self setFrame:[displays displayBoundsLLOrigin:displayIndex] display:NO];
+        [self setFrame:NSMakeRect(2500, 832 - 132, 1024, 768) display:NO];
 
         [self updateContentView];
 //		[stimOpenGLContext update];									// force context to update for new size
@@ -450,25 +450,32 @@
 
 - (void)updateContentView;
 {
-    NSOpenGLPixelFormatAttribute windowedAttrib[] = {
-        NSOpenGLPFANoRecovery, NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer,
-        NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute) 24,
-        NSOpenGLPFAAlphaSize, (NSOpenGLPixelFormatAttribute) 8,
-        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
-        NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
-        NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
-        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
-    };
-    NSOpenGLPixelFormat *fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
+//    NSOpenGLPixelFormatAttribute windowedAttrib[] = {
+//        NSOpenGLPFANoRecovery, NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer,
+//        NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute) 24,
+//        NSOpenGLPFAAlphaSize, (NSOpenGLPixelFormatAttribute) 8,
+//        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
+//        NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
+//        NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
+//        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
+//    };
+//    NSOpenGLPixelFormat *fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
+//    
+//    if (fmt == nil) {
+//        NSLog(@"Cannotcreate NSOpenGLPixelFormat");
+//        [self autorelease];
+//        return;
+//    }
+//    [self setContentView:[[[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, display.widthPix, display.heightPix)
+//                                        pixelFormat:fmt] autorelease]];
+//    stimOpenGLContext = [[self contentView] openGLContext];
     
-    if (fmt == nil) {
-        NSLog(@"Cannotcreate NSOpenGLPixelFormat");
-        [self autorelease];
-        return;
-    }
-    [self setContentView:[[[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, display.widthPix, display.heightPix)
-                                        pixelFormat:fmt] autorelease]];
-    stimOpenGLContext = [[self contentView] openGLContext];
+    NSRect windowRect = [self frame];
+    NSRect displayRect = [displays displayBoundsLLOrigin:displayIndex];
+    
+    NSLog(@"windowRect origin %f %f", windowRect.origin.x, windowRect.origin.y);
+    NSLog(@"displayRect origin %f %f", displayRect.origin.x, displayRect.origin.y);
+    
     [stimOpenGLContext makeCurrentContext];
     glViewport(0, 0, (long)display.widthPix, (long)display.heightPix);
 }

@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Frameworks/Lablib/LLStimWindow.m"
-         timestampString = "346085352.863704"
+         timestampString = "346125983.158501"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "469"
-         endingLineNumber = "469"
+         startingLineNumber = "474"
+         endingLineNumber = "474"
          landmarkName = "-updateContentView"
          landmarkType = "5">
       </FileBreakpoint>
@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Frameworks/Lablib/LLStimWindow.m"
-         timestampString = "346085359.967736"
+         timestampString = "346125834.903306"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "478"
-         endingLineNumber = "478"
+         startingLineNumber = "485"
+         endingLineNumber = "485"
          landmarkName = "-windowWillResize:toSize:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -37,12 +37,40 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Frameworks/Lablib/LLStimWindow.m"
-         timestampString = "346085375.313613"
+         timestampString = "346126558.979731"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "390"
-         endingLineNumber = "390"
-         landmarkName = "-setDisplayMode:"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
+         landmarkName = "-erase"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Frameworks/Lablib/LLStimWindow.m"
+         timestampString = "346126565.921341"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "143"
+         endingLineNumber = "143"
+         landmarkName = "-flushBuffer"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Frameworks/Lablib/LLStimWindow.m"
+         timestampString = "346126572.614166"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "158"
+         endingLineNumber = "158"
+         landmarkName = "-grayScreen"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
