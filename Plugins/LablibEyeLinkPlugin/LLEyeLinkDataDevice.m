@@ -82,7 +82,7 @@ void handler(int signal) {
 		
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * EyeLinkSamplePeriodS;
 				
-		if(i=open_eyelink_connection(0)){
+		if((i=open_eyelink_connection(0))){
 			deviceEnabled=NO;
 			devicePresent=NO;
 		}
