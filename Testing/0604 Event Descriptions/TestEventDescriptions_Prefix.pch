@@ -1,6 +1,0 @@
-//
-// Prefix header for all source files of the 'TestEventDescriptions' target in the 'TestEventDescriptions' project
-//
-
-#import <AppKit/AppKit.h>
-#import <Lablib/Lablib.h>

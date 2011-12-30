@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>LLpi</string>
 	<key>CFBundleVersion</key>
-	<string>4.0.0</string>
+	<string>4.2.0</string>
 	<key>NSPrincipalClass</key>
 	<string>LLITC18DataDevice</string>
 </dict>

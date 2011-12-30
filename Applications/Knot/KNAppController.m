@@ -347,9 +347,9 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 //	NSDeallocateZombies = NO;
 //	NSHangOnUncaughtException = YES;
 //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHangOnUncaughtExceptionMask];
-	NSLog(@"NSDebugEnabled: %d", NSDebugEnabled);
-	NSLog(@"NSZombieEnabled: %d", NSZombieEnabled);
-	NSLog(@"NSDeallocateZombies: %d", NSDeallocateZombies);
+//	NSLog(@"NSDebugEnabled: %d", NSDebugEnabled);
+//	NSLog(@"NSZombieEnabled: %d", NSZombieEnabled);
+//	NSLog(@"NSDeallocateZombies: %d", NSDeallocateZombies);
 //	NSLog(@"NSHangOnUncaughtException: %d", NSHangOnUncaughtException);
 
     [self setDelegate:self];

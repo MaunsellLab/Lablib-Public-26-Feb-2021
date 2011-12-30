@@ -9,9 +9,9 @@
 #define	kUseLLDataDevices
 
 #ifdef kUseLLDataDevices
-#define kLLPluginVersion	4010
+#define kLLPluginVersion	4200
 #else
-#define kLLPluginVersion	4011
+#define kLLPluginVersion	4201
 #endif
 
 @interface LLPluginController : NSWindowController {
