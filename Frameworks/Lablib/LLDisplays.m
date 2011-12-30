@@ -68,6 +68,8 @@ struct screenMode {
 
     CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
     for (index = 0; index < CFArrayGetCount(allModes); index++)	{
+        NSLog(@"Mode %ld; Depth %lu; Width %lu; Height %lu, Rate %f", index, [self bitsPerPixelForMode:mode],
+              CGDisplayModeGetWidth(mode), CGDisplayModeGetHeight(mode), CGDisplayModeGetRefreshRate(mode));
 		mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
 		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {
 			continue;
