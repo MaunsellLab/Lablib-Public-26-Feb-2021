@@ -53,8 +53,8 @@ struct screenMode {
 - (CGDisplayModeRef)bestMatchForMode:(DisplayParam *)pDP forDisplayID:(CGDirectDisplayID)displayID;
 {    
     long index;
-    CGDisplayModeRef mode;
-	BOOL exactMatch = false;
+    CGDisplayModeRef mode = NULL;
+    float bestDifference = FLT_MAX;
     
 // Get a copy of the current display mode
     
@@ -68,34 +68,32 @@ struct screenMode {
 
     CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
     for (index = 0; index < CFArrayGetCount(allModes); index++)	{
-        NSLog(@"Mode %ld; Depth %lu; Width %lu; Height %lu, Rate %f", index, [self bitsPerPixelForMode:mode],
-              CGDisplayModeGetWidth(mode), CGDisplayModeGetHeight(mode), CGDisplayModeGetRefreshRate(mode));
 		mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
-		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {
+//        NSLog(@"Mode %ld; Depth %lu; Width %lu; Height %lu, Rate %f", index, [self bitsPerPixelForMode:mode],
+//              CGDisplayModeGetWidth(mode), CGDisplayModeGetHeight(mode), CGDisplayModeGetRefreshRate(mode));
+		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
 			continue;
         }
 		if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
-			displayMode = mode;
-			exactMatch = YES;
-			break;
-		}
-	}
-    
-// No depth match was found
-    
-    if (!exactMatch) {
-		for (index = 0; index < CFArrayGetCount(allModes); index++) {
-			mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
-			if ([self bitsPerPixelForMode: mode] >= pDP->pixelBits) {
-				continue;
+            if (CGDisplayModeGetRefreshRate(mode) == pDP->frameRateHz) {
+                displayMode = mode;
+                break;
             }
-			if ((CGDisplayModeGetWidth(mode) >= pDP->widthPix) && (CGDisplayModeGetHeight(mode) >= pDP->heightPix)) {
-				displayMode = mode;
-				break;
-			}
+            else {
+                if (fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz) < bestDifference) {
+                    bestDifference = fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz);
+                    displayMode = mode;
+                }
+            }
 		}
 	}
-	return displayMode;
+    if (displayMode == NULL) {
+        NSRunAlertPanel(@"LLDisplays", 
+                [NSString stringWithFormat:@"Could not match requested display mode: %d bpp (%d x %d).",
+                pDP->pixelBits, pDP->widthPix, pDP->heightPix], @"OK", nil, nil);
+		exit(0);
+    }
+    return displayMode;
 }
 
 - (size_t)bitsPerPixelForMode:(CGDisplayModeRef)mode;

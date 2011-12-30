@@ -1,3 +1,4 @@
+111230 Knot crashing on quit.  Something deep in the DisplayAPI? (message) or _createDocMenu? (message).
 
 ______________________________________
 
