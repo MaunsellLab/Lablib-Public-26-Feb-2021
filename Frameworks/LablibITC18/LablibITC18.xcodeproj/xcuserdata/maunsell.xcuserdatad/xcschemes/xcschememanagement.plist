@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>LablibITC18 1.plugin.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
+		</dict>
 		<key>LablibITC18 Plugin.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,6 +22,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>690869D714AEA30E00347B8F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>6917CF9213B79AD700E4D1D4</key>
 		<dict>
 			<key>primary</key>

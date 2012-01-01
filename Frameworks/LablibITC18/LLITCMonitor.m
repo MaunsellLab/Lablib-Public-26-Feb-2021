@@ -28,8 +28,8 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
     if (fabs(driftParts) < [defaults integerForKey:[self uniqueKey:driftLimitKey]]) {
 		NSLog(@"Warning: ITC clock drift is %d:%.0f relative to computer.", 
 					driftParts >= 0 ? 1 : -1, driftParts);
-		NSLog(@"previous.sequences: %d", previous.sequences);
-		NSLog(@"previous.instructions: %d", previous.instructions);
+		NSLog(@"previous.sequences: %ld", previous.sequences);
+		NSLog(@"previous.instructions: %ld", previous.instructions);
 		NSLog(@"previous.instructionPeriodMS: %f", previous.instructionPeriodMS);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
         [self doAlarm:[NSString stringWithFormat:@"Warning: ITC clock drift is %d:%.0f relative to computer.",

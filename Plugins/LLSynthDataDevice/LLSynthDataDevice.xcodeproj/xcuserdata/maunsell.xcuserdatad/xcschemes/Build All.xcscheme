@@ -70,7 +70,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "69D82C9D0B069FF500E8C369"
-               BuildableName = "LablibITC18 Plugin.bundle"
+               BuildableName = "LablibITC18.plugin"
                BlueprintName = "LablibITC18 Plugin"
                ReferencedContainer = "container:../../Frameworks/LablibITC18/LablibITC18.xcodeproj">
             </BuildableReference>
