@@ -17,6 +17,8 @@ are yoked to a single sampling rate
 #import "LLSystemUtil.h"
 #import "LLSynthSaccade.h"
 
+enum {kXChannel = 0, kYChannel, kRXChannel, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel};
+
 #define kLeverJitter 0.25
 #define kUnitsPerDeg 500.0
 
@@ -25,8 +27,6 @@ NSString *LLSynthEyeBreakKey = @"LLSynthEyeBreak";
 NSString *LLSynthEyeIgnoreKey = @"LLSynthEyeIgnore";
 NSString *LLSynthEyeIntervalKey = @"LLSynthEyeInterval";
 NSString *LLSynthEyeNoiseKey = @"LLSynthEyeNoise";
-NSString *LLSynthEyeXKey = @"LLSynthEyeX";
-NSString *LLSynthEyeYKey = @"LLSynthEyeY";
 NSString *LLSynthLeverBitKey = @"LLSynthLeverBit";
 NSString *LLSynthLeverLatencyKey = @"LLSynthLeverLatency";
 NSString *LLSynthLeverIgnoreKey = @"LLSynthLeverIgnore";
@@ -227,28 +227,26 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 - (NSData **)sampleData;
 {
 	short sample, index;
-	long xChannel, yChannel;
 	double fixNoiseDeg, timeNowS;
 	NSSize fixNoiseEye;
 	DeviceADData theSample;							// struct for holding a sample
-    NSMutableData *xData, *yData, *otherData;
+    NSMutableData *xData, *yData, *rXData, *rYData, *rPData, *lXData, *lYData, *lPData;
 	
     if (!dataEnabled) {								// no data being collected
         return nil;
     }
 	timeNowS = [LLSystemUtil getTimeS];
-	xChannel = [defaults integerForKey:LLSynthEyeXKey];
-	yChannel = [defaults integerForKey:LLSynthEyeYKey];
-	if (xChannel < 0 && yChannel < 0) {
-		[self updateEyePosition:timeNowS];
-		return nil;									// not doing x or y data
-	}
 
 // Pick up all the data available from both channels and store them in NSData objects
 
 	xData = [NSMutableData dataWithLength:0];
 	yData = [NSMutableData dataWithLength:0];
-	otherData = [NSMutableData dataWithLength:0];
+	rXData = [NSMutableData dataWithLength:0];
+	rYData = [NSMutableData dataWithLength:0];
+	rPData = [NSMutableData dataWithLength:0];
+	lXData = [NSMutableData dataWithLength:0];
+	lYData = [NSMutableData dataWithLength:0];
+	lPData = [NSMutableData dataWithLength:0];
 	theSample.device = deviceIndex;
 	while (timeNowS >= nextSampleTimeS) {
 		[self updateEyePosition:nextSampleTimeS];
@@ -260,36 +258,56 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 		if (fixNoiseEye.height != 0) {
 			fixNoiseEye.height = (rand() % (long)fixNoiseEye.height) - fixNoiseEye.height / 2;
 		}
-		if (xChannel >= 0) {
-			sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition.x + fixNoiseEye.width));
-			[xData appendBytes:&sample length:sizeof(sample)];
-		}
-		if (yChannel >= 0) {
-			sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition.y + fixNoiseEye.height));
-			[yData appendBytes:&sample length:sizeof(sample)];
-		}
-		nextSampleTimeS += [[samplePeriodMS objectAtIndex:
-								[defaults integerForKey:LLSynthEyeXKey]] floatValue] / 1000.0;
+        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition.x + fixNoiseEye.width));
+        [xData appendBytes:&sample length:sizeof(sample)];
+        [rXData appendBytes:&sample length:sizeof(sample)];
+        [lXData appendBytes:&sample length:sizeof(sample)];
+        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition.y + fixNoiseEye.height));
+        [yData appendBytes:&sample length:sizeof(sample)];
+        [rYData appendBytes:&sample length:sizeof(sample)];
+        [lYData appendBytes:&sample length:sizeof(sample)];
+		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] / 1000.0;
 	}
 
 // Bundle the data into an array.  If the channel is disabled, nil is returned.  If the 
 // data length is zero, nil is returned.
 
-	otherData = [NSMutableData dataWithLength:[xData length]];		// an array of zeros
+    rPData = [NSMutableData dataWithLength:[xData length]];		// an array of zeros
+    lPData = [NSMutableData dataWithLength:[xData length]];		// an array of zeros
+
 	for (index = 0; index < kLLSynthADChannels; index++) {
 		if (!(sampleChannels & (0x1 << index)) || [xData length] == 0) {
 			sampleData[index] = nil;
 			continue;
 		}
-		if (index == xChannel) {
-			sampleData[index] = xData;
-		}
-		else if (index == yChannel) {
-			sampleData[index] = yData;
-		}
-		else {
-			sampleData[index] = otherData;
-		}
+        switch (index) {
+            case kXChannel:
+                sampleData[index] = xData;
+                break;
+            case kYChannel:
+                sampleData[index] = yData;
+                break;
+            case kRXChannel:
+                sampleData[index] = rXData;
+                break;
+            case kRYChannel:
+                sampleData[index] = rYData;
+                break;
+            case kRPChannel:
+                sampleData[index] = rPData;
+                break;
+            case kLXChannel:
+                sampleData[index] = lXData;
+                break;
+            case kLYChannel:
+                sampleData[index] = lYData;
+                break;
+            case kLPChannel:
+                sampleData[index] = lPData;
+                break;
+            default:
+                break;
+        }
 	}
 	return sampleData;
 }
@@ -498,8 +516,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
             fixate = NO;
         }
 		calibration = [degToUnits transformSize:NSMakeSize(1.0, 1.0)].height;
-		eyeSamplePeriod = [[samplePeriodMS objectAtIndex:[defaults integerForKey:LLSynthEyeXKey]]
-										floatValue];
+		eyeSamplePeriod = [[samplePeriodMS objectAtIndex:0] floatValue];
         if (fixate) {
 			saccade = [[LLSynthSaccade alloc] initFrom:(NSPoint)eyePosition
                         to:[degToUnits transformPoint:
