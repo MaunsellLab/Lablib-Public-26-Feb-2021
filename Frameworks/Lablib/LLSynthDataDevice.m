@@ -232,7 +232,9 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 	DeviceADData theSample;							// struct for holding a sample
     NSMutableData *xData, *yData, *rXData, *rYData, *rPData, *lXData, *lYData, *lPData;
     
-    static short pupilValue = 500.0;
+    static short pupilValue = 3750.0;
+    static short pupilNoise = 0;
+    static long pupilCount = 0;
 	
     if (!dataEnabled) {								// no data being collected
         return nil;
@@ -269,8 +271,11 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         [rYData appendBytes:&sample length:sizeof(sample)];
         [lYData appendBytes:&sample length:sizeof(sample)];
         
-        pupilValue = 0.95 * pupilValue + (rand() % 1000);
-        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, 1000 + pupilValue));
+        if ((++pupilCount % 100) == 0) {
+            pupilNoise = (rand() % 2500);
+        }
+        pupilValue += 0.02 * (2500 + pupilNoise - pupilValue);
+        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, 2500 + pupilValue));
         [rPData appendBytes:&sample length:sizeof(pupilValue)];
         [lPData appendBytes:&sample length:sizeof(pupilValue)];
 
