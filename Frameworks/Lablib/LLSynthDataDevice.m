@@ -231,6 +231,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 	NSSize fixNoiseEye;
 	DeviceADData theSample;							// struct for holding a sample
     NSMutableData *xData, *yData, *rXData, *rYData, *rPData, *lXData, *lYData, *lPData;
+    
+    static short pupilValue = 500.0;
 	
     if (!dataEnabled) {								// no data being collected
         return nil;
@@ -266,14 +268,17 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         [yData appendBytes:&sample length:sizeof(sample)];
         [rYData appendBytes:&sample length:sizeof(sample)];
         [lYData appendBytes:&sample length:sizeof(sample)];
+        
+        pupilValue = 0.95 * pupilValue + (rand() % 1000);
+        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, 1000 + pupilValue));
+        [rPData appendBytes:&sample length:sizeof(pupilValue)];
+        [lPData appendBytes:&sample length:sizeof(pupilValue)];
+
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] / 1000.0;
 	}
 
 // Bundle the data into an array.  If the channel is disabled, nil is returned.  If the 
 // data length is zero, nil is returned.
-
-    rPData = [NSMutableData dataWithLength:[xData length]];		// an array of zeros
-    lPData = [NSMutableData dataWithLength:[xData length]];		// an array of zeros
 
 	for (index = 0; index < kLLSynthADChannels; index++) {
 		if (!(sampleChannels & (0x1 << index)) || [xData length] == 0) {
