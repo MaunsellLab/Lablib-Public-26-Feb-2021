@@ -18,16 +18,13 @@ enum {kXChannel = 0, kYChannel, kPChannel, kChannels};
 
 @implementation LLEyeLinkDataDevice
 
-volatile int x = 0;
+volatile int shouldKillThread = 0;
 
 void handler(int signal) {
-    x++;
 	stop_recording();
 	printf("received signal: %d\n",signal);
 	[[NSApplication sharedApplication] terminate:nil];
 }
-
-
 
 + (int)version;
 {
@@ -58,17 +55,17 @@ void handler(int signal) {
 	int i, error;
 
 	if ((self = [super init]) != nil) {
+		
+		NSLog(@"EyeLink Device init\n");
 
 		xData = [[NSMutableData alloc] init];
 		yData = [[NSMutableData alloc] init];
 		pupilData = [[NSMutableData alloc] init];
-		
-		NSLog(@"EyeLink Device init\n");
 
-		pollThread=nil;
-		deviceEnabled=NO;
-		dataEnabled=NO;
-		devicePresent=YES;
+		pollThread = nil;
+		deviceEnabled = NO;
+		dataEnabled = NO;
+		devicePresent = YES;
 		EyeLinkSamplePeriodS = 0.001;
 			
 		dataLock = [[NSLock alloc] init];
@@ -82,20 +79,17 @@ void handler(int signal) {
 		
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * EyeLinkSamplePeriodS;
 				
-		if((i=open_eyelink_connection(0))){
-			deviceEnabled=NO;
-			devicePresent=NO;
+		if ((i = open_eyelink_connection(0))) {
+			deviceEnabled = devicePresent = NO;
 		}
 		else {
-			deviceEnabled=YES;
-			devicePresent=YES;
-			stop_recording();
+			deviceEnabled = devicePresent = YES;
+			stop_recording();                           // make sure we're stopped
 		}
-		if (deviceEnabled) {
-			error = start_recording(0,0,1,1);
-			if(error != 0) {
-				deviceEnabled=NO;
-				devicePresent=NO;
+		if (deviceEnabled) {                            // find out which eyes are in play
+			error = start_recording(0, 0, 1, 1);
+			if (error != 0) {
+				deviceEnabled = devicePresent = NO;
 			}
 			else {
 				eye_used = eyelink_eye_available();
@@ -157,8 +151,6 @@ void handler(int signal) {
 	return [samplePeriodMS count];
 }
 
-volatile int shouldKillThread = 0;
-
 - (void)pollSamples
 {
 	int i = 0;
@@ -189,7 +181,7 @@ volatile int shouldKillThread = 0;
 				oldSample = newSample;
 			}
 		}
-		usleep(1000);										// sleep one millisecond			
+		usleep(1000);										// sleep 1 ms			
 	}
 }
 
@@ -202,8 +194,9 @@ volatile int shouldKillThread = 0;
 	
 	[dataLock lock];
 	
-	// We have the lock, so copy the pointers to the data
-	xDataCopy = xData;
+// We have the lock, so copy the pointers to the data
+	
+    xDataCopy = xData;
 	yDataCopy = yData;
 	pupilDataCopy = pupilData;
 	
@@ -213,15 +206,17 @@ volatile int shouldKillThread = 0;
 	xData = [[NSMutableData alloc] init];
 	yData = [[NSMutableData alloc] init];
 	pupilData = [[NSMutableData alloc] init];
-	// Now unlock
-	[dataLock unlock];
+	
+// Now unlock
+	
+    [dataLock unlock];
 	
 //	xChannel = 0;		//[defaults integerForKey:LLSynthEyeXKey];   //FIXME
 //	yChannel = 1;		//[defaults integerForKey:LLSynthEyeYKey];	 //FIXME
 //	pChannel = 2;
 	
-	// Bundle the data into an array.  If the channel is disabled, nil is returned.  If the 
-	// data length is zero, nil is returned.
+// Bundle the data into an array.  If the channel is disabled, nil is returned.  If the 
+// data length is zero, nil is returned.
 
 	for (index = 0; index < kChannels; index++) {
 		if (!(sampleChannels & (0x1 << index)) || [xDataCopy length] == 0) {
@@ -243,18 +238,18 @@ volatile int shouldKillThread = 0;
 
 - (void)setDataEnabled:(NSNumber *)state;
 {
-    int available;
+    int available, error;
 	long channel;
 	double channelPeriodMS;
 	long maxSamplingRateHz = 1000;
 	
-	if ([state boolValue] && !dataEnabled) {						//Toggle Data from OFF to ON
+	if ([state boolValue] && !dataEnabled) {						// toggle from OFF to ON
         [deviceLock lock];
 		if (maxSamplingRateHz != 0) {							    // no channels enabled
 			sampleTimeS = EyeLinkSamplePeriodS;						// one period complete on first sample
 			justStartedEyeLink = YES;
 			//[deviceLock lock];
-			start_recording(0,0,1,0);
+			start_recording(0,0,1,0);                               // tell device to start recording
 			//[deviceLock unlock];
 			[monitor initValues:&values];
 			values.samplePeriodMS = EyeLinkSamplePeriodS * 1000.0;
@@ -264,11 +259,8 @@ volatile int shouldKillThread = 0;
 		}
         [deviceLock unlock];
 	} 
-	else if (![state boolValue] && dataEnabled) {					// Toggle Data From ON to OFF
-
-        int error;
+	else if (![state boolValue] && dataEnabled) {					// toggle from ON to OFF
 		values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
-		
 		lastReadDataTimeS = 0;
 		[deviceLock lock];
 		stop_recording();
@@ -281,9 +273,11 @@ volatile int shouldKillThread = 0;
 
 - (void)setDeviceEnabled:(NSNumber *)state;
 {
+    int error;
+    
 	if (![state boolValue] && deviceEnabled) {						// Disable the device
-		deviceEnabled = NO;
-		[self setDataEnabled:state];
+		[self setDataEnabled:NO];
+        deviceEnabled = NO;
 		shouldKillThread = YES;
 		while (pollThread != nil) {
 			usleep(100);
@@ -299,7 +293,6 @@ volatile int shouldKillThread = 0;
 	}
 	
 	if ([state boolValue] && !deviceEnabled) {						// Enable the device
-		int error;
 		deviceEnabled = YES;
 		signal(SIGKILL, handler);
 		//signal(SIGINT, handler);
@@ -311,10 +304,7 @@ volatile int shouldKillThread = 0;
 		if (pollThread == nil) {
 			shouldKillThread = NO;
 			[NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
-			
-			// start receiving via link, not to a file.
-			// Only record samples, not events
-			error = start_recording(0,0,1,0);
+			error = start_recording(0, 0, 1, 0);                    // Eyelink: link, not file, samples, no events
 		}
 	}
 }
