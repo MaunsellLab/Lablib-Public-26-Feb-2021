@@ -12,8 +12,6 @@
 #import <Lablib/LLSystemUtil.h>
 #import "LLEyeLinkDataDevice.h"
 
-enum {kXChannel = 0, kYChannel, kPChannel, kChannels};
-
 //#define kUseLLDataDevices        // needed for versioning
 
 @implementation LLEyeLinkDataDevice
@@ -40,9 +38,12 @@ void handler(int signal) {
 	}
 	close_eyelink_system();					// shut down system (MUST do before exiting)
 	[dataLock lock];
-	[xData release];
-	[yData release];
-	[pupilData release];
+	[lXData release];
+	[lYData release];
+	[lPData release];
+	[rXData release];
+	[rYData release];
+	[rPData release];
 	[dataLock unlock];
 	[dataLock release];
 	[deviceLock release];
@@ -52,15 +53,18 @@ void handler(int signal) {
 
 - (id)init;
 { 
-	int i, error;
+	int index, error;
 
 	if ((self = [super init]) != nil) {
 		
 		NSLog(@"EyeLink Device init\n");
 
-		xData = [[NSMutableData alloc] init];
-		yData = [[NSMutableData alloc] init];
-		pupilData = [[NSMutableData alloc] init];
+		lXData = [[NSMutableData alloc] init];
+		lYData = [[NSMutableData alloc] init];
+		lPData = [[NSMutableData alloc] init];
+		rXData = [[NSMutableData alloc] init];
+		rYData = [[NSMutableData alloc] init];
+		rPData = [[NSMutableData alloc] init];
 
 		pollThread = nil;
 		deviceEnabled = NO;
@@ -70,16 +74,18 @@ void handler(int signal) {
 			
 		dataLock = [[NSLock alloc] init];
 		deviceLock = [[NSLock alloc] init];
-		
-		[samplePeriodMS addObject:[NSNumber numberWithFloat:1.0F]];
-		[samplePeriodMS addObject:[NSNumber numberWithFloat:1.0F]];
-		[samplePeriodMS addObject:[NSNumber numberWithFloat:1.0F]];
-		
+
+// The NSMutableArry samplePeriodMS contains one entry for each possible channel.  We initialize it for 6
+// (X, Y, and P for left and right eyes).  Default to 500 Hz (2 ms) sampling.
+        
+        for (index = 0; index < kEyeLinkChannels; index++) {
+            [samplePeriodMS addObject:[NSNumber numberWithFloat:2.0F]];
+		}
 		monitor = [[LLEyeLinkMonitor alloc] initWithID:@"EyeLink" description:@"EyeLink Eye Monitor"];
 		
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * EyeLinkSamplePeriodS;
 				
-		if ((i = open_eyelink_connection(0))) {
+		if ((index = open_eyelink_connection(0))) {
 			deviceEnabled = devicePresent = NO;
 		}
 		else {
@@ -138,8 +144,7 @@ void handler(int signal) {
 - (float)samplePeriodMSForChannel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-		NSRunAlertPanel(@"LLEyeLinkDataDevice",  
-				@"Requested sample period %d of %d for device %@",
+		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Requested sample period %d of %d for device %@",
 				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
 		exit(0);
 	}
@@ -151,9 +156,11 @@ void handler(int signal) {
 	return [samplePeriodMS count];
 }
 
+// ??? NEED TO FIGURE OUT HOW THE DATA ARE PACKAGED AND EXTRACT THEM APPROPRIATELY.
+
 - (void)pollSamples
 {
-	int i = 0;
+	int index = 0;
 	short sample = 0;
 	ISAMPLE oldSample, newSample;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -167,15 +174,21 @@ void handler(int signal) {
 			pollThread = nil;
 			[NSThread exit];
 		}
-		while ((i = eyelink_get_sample(&newSample))) {
-			if (i && (newSample.time != oldSample.time)) {
+		while ((index = eyelink_get_sample(&newSample))) {
+			if (index && (newSample.time != oldSample.time)) {
 				[dataLock lock];
-				sample = (short)(newSample.gx[eye_used]);
-				[xData appendBytes:&sample length:sizeof(sample)];
-				sample = (short)(-newSample.gy[eye_used]);
-				[yData appendBytes:&sample length:sizeof(sample)];
-				sample = (short)(newSample.pa[eye_used]);
-				[pupilData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(newSample.gx[RIGHT_EYE]);
+				[rXData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(-newSample.gy[RIGHT_EYE]);
+				[rYData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(newSample.pa[RIGHT_EYE]);
+				[rPData appendBytes:&sample length:sizeof(sample)];				
+                sample = (short)(newSample.gx[LEFT_EYE]);
+				[lXData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(-newSample.gy[LEFT_EYE]);
+				[lYData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(newSample.pa[LEFT_EYE]);
+				[lPData appendBytes:&sample length:sizeof(sample)];
 				values.samples++;
 				[dataLock unlock];
 				oldSample = newSample;
@@ -187,51 +200,43 @@ void handler(int signal) {
 
 - (NSData **)sampleData;
 {
-	int i;
 	short sample, index;
-//	long xChannel, yChannel, pChannel;
-    NSMutableData *xDataCopy, *yDataCopy, *pupilDataCopy;
+    NSMutableData  *lXDataCopy, *lYDataCopy, *lPDataCopy, *rXDataCopy, *rYDataCopy, *rPDataCopy;
+    NSMutableData *samples;
+	NSArray *sampleArray;
+    
+    // Lock, then copy pointers to the sample data
 	
-	[dataLock lock];
-	
-// We have the lock, so copy the pointers to the data
-	
-    xDataCopy = xData;
-	yDataCopy = yData;
-	pupilDataCopy = pupilData;
+	[dataLock lock];	
+    sampleArray = [NSArray arrayWithObjects:lXData, lYData, lPData, rXData, rYData, rPData, nil];
 	
 	//Now alloc/init new data instances and swap those in
 	//(For performance reasons, it might be worthwhile to preallocate two sets of these, and swap them in and out)
 
-	xData = [[NSMutableData alloc] init];
-	yData = [[NSMutableData alloc] init];
-	pupilData = [[NSMutableData alloc] init];
-	
-// Now unlock
+	lXData = [[NSMutableData alloc] init];
+	lYData = [[NSMutableData alloc] init];
+	lPData = [[NSMutableData alloc] init];
+	rXData = [[NSMutableData alloc] init];
+	rYData = [[NSMutableData alloc] init];
+	rPData = [[NSMutableData alloc] init];
 	
     [dataLock unlock];
 	
-//	xChannel = 0;		//[defaults integerForKey:LLSynthEyeXKey];   //FIXME
-//	yChannel = 1;		//[defaults integerForKey:LLSynthEyeYKey];	 //FIXME
-//	pChannel = 2;
-	
-// Bundle the data into an array.  If the channel is disabled, nil is returned.  If the 
+// Bundle the data pointers into an array.  If the channel is disabled, nil is returned.  If the 
 // data length is zero, nil is returned.
 
-	for (index = 0; index < kChannels; index++) {
-		if (!(sampleChannels & (0x1 << index)) || [xDataCopy length] == 0) {
-			sampleData[index] = nil;
-			continue;
+	for (index = 0; index < kEyeLinkChannels; index++) {
+        samples = [sampleArray objectAtIndex:index];
+		if (!(sampleChannels & (0x1 << index))) {                   // disabled channel
+			sampleData[index] = nil;                                // not enabled or no samples
+        }
+        else if ([samples length] == 0) {                           // no data samples
+			sampleData[index] = nil;                                // not enabled or no samples
 		}
-		if (index == kXChannel) {
-			sampleData[index] = [xDataCopy autorelease];
-		}
-		else if (index == kYChannel) {
-			sampleData[index] = [yDataCopy autorelease];
-		}
-		else if (index == kPChannel){
-			sampleData[index] = [pupilDataCopy autorelease];
-		}
+        else {
+            sampleData[index] = samples;
+        }
+        [samples autorelease];
 	}
 	return sampleData;
 }
@@ -312,8 +317,7 @@ void handler(int signal) {
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-		NSRunAlertPanel(@"LLEyeLinkDataDevice",  
-				@"Attempt to set sample period %d of %d for device %@",
+		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Attempt to set sample period %d of %d for device %@",
 				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
 		exit(0);
 	}

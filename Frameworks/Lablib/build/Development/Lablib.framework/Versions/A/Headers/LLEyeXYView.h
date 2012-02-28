@@ -43,6 +43,7 @@
 - (void)addSample:(NSPoint)samplePoint;
 - (void)centerDisplay;
 - (void)clearSamples;
+- (float)dotSizeDeg;
 - (NSColor *)eyeColor;
 - (long)oneInN;
 - (NSPoint)pixPointFromDegPoint:(NSPoint)eyePointDeg;

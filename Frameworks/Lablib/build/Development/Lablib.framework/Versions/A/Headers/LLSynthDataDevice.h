@@ -20,8 +20,6 @@ extern NSString *LLSynthEyeBreakKey;
 extern NSString *LLSynthEyeIgnoreKey;
 extern NSString *LLSynthEyeIntervalKey;
 extern NSString *LLSynthEyeNoiseKey;
-extern NSString *LLSynthEyeXKey;
-extern NSString *LLSynthEyeYKey;
 extern NSString *LLSynthLeverBitKey;
 extern NSString *LLSynthLeverLatencyKey;
 extern NSString *LLSynthLeverIgnoreKey;
