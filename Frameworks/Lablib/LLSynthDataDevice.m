@@ -27,6 +27,8 @@ NSString *LLSynthEyeBreakKey = @"LLSynthEyeBreak";
 NSString *LLSynthEyeIgnoreKey = @"LLSynthEyeIgnore";
 NSString *LLSynthEyeIntervalKey = @"LLSynthEyeInterval";
 NSString *LLSynthEyeNoiseKey = @"LLSynthEyeNoise";
+NSString *LLSynthEyeXKey = @"LLSynthEyeX";
+NSString *LLSynthEyeYKey = @"LLSynthEyeY";
 NSString *LLSynthLeverBitKey = @"LLSynthLeverBit";
 NSString *LLSynthLeverLatencyKey = @"LLSynthLeverLatency";
 NSString *LLSynthLeverIgnoreKey = @"LLSynthLeverIgnore";
@@ -42,6 +44,7 @@ NSString *LLSynthTXKey = @"LLSynthTX";
 NSString *LLSynthTYKey = @"LLSynthTY";
 NSString *LLSynthVBLKey = @"LLSynthVBL";
 NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
+
 
 @implementation LLSynthDataDevice
 
