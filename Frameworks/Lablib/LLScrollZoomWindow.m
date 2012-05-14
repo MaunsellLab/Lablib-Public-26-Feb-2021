@@ -13,7 +13,7 @@ NSString *windowZoomKey = @"WindowZoom";
 
 @implementation LLScrollZoomWindow
 
-- (void)changeZoom:(id)sender;
+- (IBAction)changeZoom:(id)sender;
 {
     long zoomValue;
     
