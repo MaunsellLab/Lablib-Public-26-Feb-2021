@@ -157,11 +157,12 @@
 	if (displayPort == 0) {
 		return self;
 	}
-	displayDict = IOCreateDisplayInfoDictionary(displayPort, 0);       
+	displayDict =  IODisplayCreateInfoDictionary(displayPort, 0);       
 	if (displayDict == nil) {
 		return self;
 	}
 	EDIDValue = CFDictionaryGetValue(displayDict, CFSTR(kIODisplayEDIDKey));
+    //   CFRelease(displayDict);
 	if (EDIDValue == nil) {		// this will fail on e.g., powerbook s-video output 
 		return self;
 	}
