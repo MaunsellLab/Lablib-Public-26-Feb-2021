@@ -30,9 +30,9 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
     if (fabs(driftParts) < [defaults integerForKey:[self uniqueKey:driftLimitKey]]) {
 		NSLog(@"Warning: EyeLink clock drift is %d:%.0f relative to computer.", 
 					driftParts >= 0 ? 1 : -1, driftParts);
-		NSLog(@"previous.samples: %d", previous.samples);
-		NSLog(@"previous.samplePeriodMS: %d", previous.samplePeriodMS);
-		NSLog(@"previous.sequences: %d", previous.sequences);
+		NSLog(@"previous.samples: %ld", previous.samples);
+		NSLog(@"previous.samplePeriodMS: %f", previous.samplePeriodMS);
+		NSLog(@"previous.sequences: %ld", previous.sequences);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
         [self doAlarm:[NSString stringWithFormat:@"Warning: EyeLink clock drift is %d:%.0f relative to computer.",
 				driftParts >= 0 ? 1 : -1, driftParts]];
@@ -162,7 +162,7 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 
     long index;
     double eyelinkSampleTimeMS, CPUMS;
-    NSMutableString *string = [[NSMutableString alloc] init];
+    NSMutableString *string = [[[NSMutableString alloc] init] autorelease];
     
     CPUMS = pValues->cumulativeTimeMS;
 	eyelinkSampleTimeMS = pValues->samples * pValues->samplePeriodMS;
