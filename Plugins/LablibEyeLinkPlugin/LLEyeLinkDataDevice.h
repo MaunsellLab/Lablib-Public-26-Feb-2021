@@ -8,6 +8,8 @@
 #import <Lablib/LLDataDevice.h>
 #import "LLEyeLinkMonitor.h"
 
+enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel, kEyeLinkChannels};
+
 @interface LLEyeLinkDataDevice : LLDataDevice {
 
 	int						eye_used;
@@ -17,8 +19,9 @@
 	double					monitorStartTimeS;
 	double					lastReadDataTimeS;
 	BOOL					justStartedEyeLink;	
-	NSMutableData			*sampleData[3];
-	NSMutableData			*xData, *yData, *pupilData;
+	NSMutableData			*sampleData[kEyeLinkChannels];
+	NSMutableData			*lXData, *lYData, *lPData;
+	NSMutableData			*rXData, *rYData, *rPData;
 	NSLock					*dataLock;
 	NSLock					*deviceLock;
 	NSThread				*pollThread;

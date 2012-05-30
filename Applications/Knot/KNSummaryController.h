@@ -9,10 +9,7 @@
 @interface KNSummaryController:NSWindowController {
 
 @private
-    //    double				accumulatedRunTimeS;
     NSSize				baseMaxContentSize;
-    //   long				blockLimit;
-    // long				blocksDone;
 	long				dayComputer;			// Count of trials with computer certification errors
 	long				dayEOTs[kEOTTypes];
     long				dayEOTTotal;
@@ -22,8 +19,6 @@
     NSDictionary		*labelFontAttr; 
     NSDictionary		*leftFontAttr;
 	long 				lastEOTCode;
-    // double				lastStartTimeS;
-    // NSSize				staticWindowFrame;
 
     IBOutlet			LLEOTView *dayPlot;
     IBOutlet			LLEOTHistoryView *eotHistory;

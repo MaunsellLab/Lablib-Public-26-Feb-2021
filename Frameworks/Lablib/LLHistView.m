@@ -110,6 +110,7 @@
 		}
 		[dataPath removeAllPoints];
 	}
+    [dataPath release];
 
 // Draw the axes
 

@@ -15,7 +15,7 @@
 #import "LLStateSystem.h"
 #import "LLStimWindow.h"
 #import "LLSynthDataDevice.h"
-#import "LLSynthIODevice.h"
+#import  <Lablib/LLSynthIODevice.h>
 #import "LLUserDefaults.h"
 
 @interface LLTaskPlugIn : NSObject {
@@ -24,7 +24,7 @@
 	NSTimer					*collectorTimer;
 	NSPoint					currentEyeDeg;
 	LLDataDoc				*dataDoc;
-	id<LLIODevice>			dataSource;
+	id<LLIODevice>		dataSource;
 	LLDataDeviceController	*dataController;
 	LLUserDefaults			*defaults;
 	LLEyeCalibrator			*eyeCalibrator;

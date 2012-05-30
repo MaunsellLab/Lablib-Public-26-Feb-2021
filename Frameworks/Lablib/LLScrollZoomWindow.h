@@ -16,7 +16,7 @@
 	IBOutlet		NSPopUpButton *zoomButton;
 }
 
-- (void)changeZoom:(id)sender;
+- (IBAction)changeZoom:(id)sender;
 - (id)initWithWindowNibName:(NSString *)nibName defaults:(NSUserDefaults *)taskDefaults;
 - (void)setBaseMaxContentSize:(NSSize)newSize;
 - (void)setScaleFactor:(float)newFactor;
