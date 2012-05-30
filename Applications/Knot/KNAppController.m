@@ -124,7 +124,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	[settingsController release];
 
     [defaults synchronize];									// synchronize defaults with disk
-    [defaults release];
+//    [defaults release];
+//    defaults = nil;
 }
 
 // The main nib has been loaded now, so we can initialize with impunity 
@@ -282,7 +283,9 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 // For this reason, we do all our releases and clean up in applicationWillTerminate.  We do this so that
 // any object that is trying to synchronize, etc. at dealloc will get a chance to. 
 
-- (void) dealloc {
+- (void) dealloc;
+{
+    [defaults release];
 	[super dealloc];
 }
 

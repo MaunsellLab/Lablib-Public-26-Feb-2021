@@ -274,13 +274,13 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
     }
 }
 
-- (void)windowDidBecomeKey:(NSNotification *)aNotification {
-
+- (void)windowDidBecomeKey:(NSNotification *)aNotification;
+{
 	[defaults setObject:[NSNumber numberWithBool:YES]  forKey:KNSummaryWindowVisibleKey];
 }
 
-- (void) windowDidLoad {
-    
+- (void) windowDidLoad;
+{
 	long index, defaultZoom;
 
     [[zoomButton cell] setBordered:NO];
@@ -302,7 +302,6 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
     else {
         [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     }
-    
     [self positionZoomButton];							// position zoom must be after visible
     [percentTable reloadData];
     [super windowDidLoad];
@@ -311,13 +310,13 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
 // We use a delegate method to detect when the window has resized, and 
 // adjust the postion of the zoom button when it does.
 
-- (void) windowDidResize:(NSNotification *)aNotification {
-
+- (void) windowDidResize:(NSNotification *)aNotification;
+{
 	[self positionZoomButton];
 }
 
-- (BOOL) windowShouldClose:(NSNotification *)aNotification {
-
+- (BOOL) windowShouldClose:(NSNotification *)aNotification;
+{
     [[self window] orderOut:self];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:KNSummaryWindowVisibleKey];
     [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];

@@ -7,13 +7,26 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Frameworks/Lablib/LLScrollZoomWindow.m"
-         timestampString = "359574320.628179"
+         filePath = "Applications/Knot/KNAppController.m"
+         timestampString = "360099348.486647"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "106"
-         endingLineNumber = "106"
-         landmarkName = "-setWindowMaxSize"
+         startingLineNumber = "288"
+         endingLineNumber = "288"
+         landmarkName = "-dealloc"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Applications/Knot/KNSummaryController.m"
+         timestampString = "360099774.279545"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "320"
+         endingLineNumber = "320"
+         landmarkName = "-windowShouldClose:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
