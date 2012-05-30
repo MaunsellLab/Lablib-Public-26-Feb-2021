@@ -75,6 +75,11 @@
 	return doDotFade;
 }
 
+- (float)dotSizeDeg;
+{
+    return dotSizeDeg;
+}
+
 - (void)drawRect:(NSRect)rect;
 {
     long index, ticks, grids, p, numPoints, numToDelete, rectCount, numRects;
