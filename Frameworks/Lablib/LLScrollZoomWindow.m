@@ -94,15 +94,17 @@ NSString *windowZoomKey = @"WindowZoom";
 	maxContentSize.width = baseMaxContentSize.width * scaleFactor;
 	maxContentSize.height = baseMaxContentSize.height * scaleFactor;
 	scrollFrameRect.origin = NSMakePoint(0, 0);
-//	scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
-//                                           hasHorizontalScroller:YES hasVerticalScroller:YES 
-//                                           borderType:[scrollView borderType]];
     hScroller = [scrollView horizontalScroller];
     vScroller = [scrollView verticalScroller];
-	scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
-                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class] 
-                borderType:[scrollView borderType]
-                controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
+                    horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class] 
+                    borderType:[scrollView borderType]
+                    controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
+                    hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
+#endif	
 	window = [self window];
 	windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect styleMask:[window styleMask]];
 	[window setMaxSize:windowFrameRect.size];
