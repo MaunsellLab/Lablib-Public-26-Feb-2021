@@ -577,12 +577,14 @@ NSString *LLGaborTemporalPhaseDegKey = @"temporalPhaseDeg";
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
-	glPixelTransferf(GL_RED_BIAS, 0.5);
-	glPixelTransferf(GL_GREEN_BIAS, 0.5);
-	glPixelTransferf(GL_BLUE_BIAS, 0.5);
+    
+    // There seems to be a rounding problem if we use a bias of 0.5.  
+    
+	glPixelTransferf(GL_RED_BIAS, 0.5001);
+	glPixelTransferf(GL_GREEN_BIAS, 0.5001);
+	glPixelTransferf(GL_BLUE_BIAS, 0.5001);
 	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kGaussianImagePix, kGaussianImagePix, 
-	                 0, GL_ALPHA, GL_FLOAT, gaussianImage);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kGaussianImagePix, kGaussianImagePix, 0, GL_ALPHA, GL_FLOAT, gaussianImage);
 }
 
 - (void)restore;
@@ -842,9 +844,12 @@ NSString *LLGaborTemporalPhaseDegKey = @"temporalPhaseDeg";
 
     glEnable(GL_TEXTURE_1D);
     glBindTexture(GL_TEXTURE_1D, cycleTexture);	
-    glPixelTransferf(GL_RED_BIAS, 0.5 - rgb.red / 2.0);
-    glPixelTransferf(GL_GREEN_BIAS, 0.5 - rgb.green / 2.0);
-    glPixelTransferf(GL_BLUE_BIAS, 0.5 - rgb.blue / 2.0);
+    
+    // There seems to be a rounding problem if we use a bias of 0.5.  
+    
+    glPixelTransferf(GL_RED_BIAS, 0.5001 - rgb.red / 2.0);
+    glPixelTransferf(GL_GREEN_BIAS, 0.5001 - rgb.green / 2.0);
+    glPixelTransferf(GL_BLUE_BIAS, 0.5001 - rgb.blue / 2.0);
     glPixelTransferf(GL_RED_SCALE, rgb.red);
     glPixelTransferf(GL_GREEN_SCALE, rgb.green);
     glPixelTransferf(GL_BLUE_SCALE, rgb.blue);
