@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'LablibITC18' target in the 'LablibITC18' project.
+// Prefix header.
 //
 
 #ifdef __OBJC__

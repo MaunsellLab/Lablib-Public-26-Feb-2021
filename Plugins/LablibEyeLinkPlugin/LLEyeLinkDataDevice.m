@@ -51,6 +51,9 @@ void handler(int signal) {
 	[super dealloc];
 }
 
+// If the link to the EyeLink computer is not opening, check that the IP address for the Mac port that connects to t
+// the EyeLink has been set to Manual and 100.1.1.2 and subnet mask 255.255.255.0
+
 - (id)init;
 { 
 	int index, error;
