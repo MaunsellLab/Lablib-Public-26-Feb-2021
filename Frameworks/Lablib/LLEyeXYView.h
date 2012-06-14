@@ -12,6 +12,7 @@
 
 #define kAlphaLevels		8
 #define kMaxSamplesDisplay	1000
+enum {kLeftEye, kRightEye, kEyes};
 
 @interface LLEyeXYView:NSView {
 
@@ -25,26 +26,32 @@
     float			dotSizeDeg;
     NSMutableArray	*drawables;
 	BOOL			drawOnlyDirtyRect;
-	NSColor			*eyeColor;
+	NSColor			*eyeColor[kEyes];
     NSMutableArray	*eyeWindows;
 	NSColor			*gridColor;
 	float			gridDeg;
     long			oneInN;
     NSMutableArray	*paths;
-	NSColor			*pointColors[kMaxSamplesDisplay];
-	long			sampleCount;
+	NSColor			*pointColors[kEyes][kMaxSamplesDisplay];
+	long			sampleCount[kEyes];
     NSLock			*sampleLock;
-    NSMutableArray  *sampleRectsDeg;
+    NSMutableArray  *sampleRectsDeg[kEyes];
 	long			samplesToSave;
 	float			tickDeg;
 }
 
 - (void)addDrawable:(id <LLDrawable>)drawable;
-- (void)addSample:(NSPoint)samplePoint;
+- (void)addLSample:(NSPoint)samplePointDeg;
+- (void)addRSample:(NSPoint)samplePointDeg;
+- (void)addSample:(NSPoint)samplePointDeg;
+- (void)addSample:(NSPoint)samplePointDeg forEye:(long)eyeIndex;
 - (void)centerDisplay;
 - (void)clearSamples;
 - (float)dotSizeDeg;
+- (void)drawPointsForEye:(long)eyeIndex;
 - (NSColor *)eyeColor;
+- (NSColor *)eyeLColor;
+- (NSColor *)eyeRColor;
 - (long)oneInN;
 - (NSPoint)pixPointFromDegPoint:(NSPoint)eyePointDeg;
 - (NSRect)pixRectFromDegRect:(NSRect)eyeRectDeg;
@@ -56,6 +63,8 @@
 - (void)setDotSizeDeg:(double)sizeDeg;
 - (void)setDrawOnlyDirtyRect:(BOOL)state;
 - (void)setEyeColor:(NSColor *)newColor;
+- (void)setLEyeColor:(NSColor *)newColor;
+- (void)setREyeColor:(NSColor *)newColor;
 - (void)setGridDeg:(float)spacingDeg;
 - (void)setGrid:(BOOL)state;
 - (void)setOneInN:(double)n;
@@ -63,5 +72,6 @@
 - (void)setTickDeg:(float)spacingDeg;
 - (void)setTicks:(BOOL)state;
 - (void)updatePointColors;
+
 
 @end

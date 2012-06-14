@@ -3,7 +3,10 @@
 //  Lablib
 //
 //  Created by John Maunsell on Thu May 01 2003.
-//  Copyright (c) 2003. All rights reserved.
+//  Copyright (c) 2003-2012. All rights reserved.
+//
+// Display eye positions in an XY plot.  Binocular plots are supported.  If no eye is specified, the left eye 
+// channel is used by default.
 //
 
 #import "LLEyeXYView.h"
@@ -21,19 +24,19 @@
 	[drawables addObject:drawable];
 }
 
-- (void)addSample:(NSPoint)samplePointDeg;
+- (void)addSample:(NSPoint)samplePointDeg forEye:(long)eyeIndex;
 {
 	NSRect rectDeg;
 	
 	rectDeg = NSMakeRect(samplePointDeg.x - dotSizeDeg / 2.0, samplePointDeg.y - dotSizeDeg / 2.0,
 		dotSizeDeg, dotSizeDeg);
 	[sampleLock lock];
-    [sampleRectsDeg addObject:[NSValue valueWithRect:rectDeg]];	
+    [sampleRectsDeg[eyeIndex] addObject:[NSValue valueWithRect:rectDeg]];	
 	[sampleLock unlock];
 	
 	dirtyRectPix = NSUnionRect(dirtyRectPix, [self pixRectFromDegRect:rectDeg]);
 	
-	if (!((sampleCount++) % oneInN)) {
+	if (!((sampleCount[eyeIndex]++) % oneInN)) {
 		if (drawOnlyDirtyRect) {
 			dirtyRectPix = NSInsetRect(dirtyRectPix, -1.0, -1.0);			// allow for rounding error
 			[self setNeedsDisplayInRect:dirtyRectPix];
@@ -42,7 +45,23 @@
 			[self setNeedsDisplay:YES];
 		}
 	}
-} 
+}
+
+- (void)addLSample:(NSPoint)samplePointDeg;
+{
+    [self addSample:samplePointDeg forEye:kLeftEye];
+}
+
+- (void)addRSample:(NSPoint)samplePointDeg;
+{
+    [self addSample:samplePointDeg forEye:kRightEye];
+}
+
+- (void)addSample:(NSPoint)samplePointDeg;
+{
+    [self addSample:samplePointDeg forEye:kLeftEye];
+}
+
 
 - (void)centerDisplay;
 {
@@ -55,16 +74,19 @@
 - (void)clearSamples;
 {
 	[sampleLock lock];
-	[sampleRectsDeg removeAllObjects];
+	[sampleRectsDeg[kLeftEye] removeAllObjects];
+	[sampleRectsDeg[kRightEye] removeAllObjects];
 	dirtyRectPix = NSMakeRect(0, 0, 0, 0);
 	[sampleLock unlock];
 }
 
 - (void)dealloc;
 {
-	[eyeColor release];
+	[eyeColor[kLeftEye] release];
+	[eyeColor[kRightEye] release];
 	[gridColor release];
-	[sampleRectsDeg release];
+	[sampleRectsDeg[kLeftEye] release];
+	[sampleRectsDeg[kRightEye] release];
 	[sampleLock release];
     [drawables release];
     [super dealloc];
@@ -82,11 +104,9 @@
 
 - (void)drawRect:(NSRect)rect;
 {
-    long index, ticks, grids, p, numPoints, numToDelete, rectCount, numRects;
-	NSSize dotPointSizeDeg;
-    NSRect b, cumRectDeg;
+    long index, ticks, grids;
+    NSRect b;
 	NSAffineTransform *transform;
-	NSRect	pointRectsDeg[kMaxSamplesDisplay];
 	
 // Clear
 
@@ -102,13 +122,11 @@
 	[transform translateXBy:b.size.width / 2.0 yBy:b.size.height / 2.0];
 	[transform scaleXBy:b.size.width / kMaxDeg yBy:b.size.height / kMaxDeg];
 	[transform concat];
-//	[NSBezierPath setDefaultLineWidth:kMaxDeg / (float)b.size.width];
 	[NSBezierPath setDefaultLineWidth:kMaxDeg / b.size.width];
 
 // Plot grid lines and tick marks
 
     [gridColor set];
-//    [[NSColor blueColor] set];
 	grids = (doGrid && gridDeg > 0) ? (long)(kMaxDeg / gridDeg) : 1;
 	index = (doGrid && gridDeg > 0) ? -grids : 0;
 	for ( ; index < grids; index++) {
@@ -136,38 +154,59 @@
 // Plot eye positions.  The MIN() on the index for plotColors is essential, because the array data
 // may change size (larger or smaller) while we are in the loop.  That might make us go beyond the
 // end of the plotColors array.
+    
+    [self drawPointsForEye:kLeftEye];
+    [self drawPointsForEye:kRightEye];
 
-	numPoints = [sampleRectsDeg count];
+    [NSBezierPath setDefaultLineWidth:1.0];
+	[[NSColor blackColor] set];
+}
+
+- (void)drawPointsForEye:(long)eyeIndex;
+{
+    long p, numPoints, numToDelete, numRects, rectCount;
+ 	NSSize dotPointSizeDeg;
+    NSRect cumRectDeg, pointRectsDeg[kMaxSamplesDisplay];
+   
+	numPoints = [sampleRectsDeg[eyeIndex] count];
 	if (numPoints > 0 && [sampleLock tryLock]) {
 		if (numPoints > samplesToSave) {			// clear overflow points first
-			numToDelete = ([sampleRectsDeg count] - samplesToSave + 1) / oneInN * oneInN;
-			[sampleRectsDeg removeObjectsInRange:NSMakeRange(0, numToDelete)];
+			numToDelete = ([sampleRectsDeg[eyeIndex] count] - samplesToSave + 1) / oneInN * oneInN;
+			[sampleRectsDeg[eyeIndex] removeObjectsInRange:NSMakeRange(0, numToDelete)];
 			numPoints -= numToDelete;
 		}
 		numRects = MIN(samplesToSave / oneInN, kMaxSamplesDisplay);
 		dotPointSizeDeg = NSMakeSize(dotSizeDeg, dotSizeDeg);
 		cumRectDeg = NSMakeRect(0, 0, 0, 0);
 		for (rectCount = 0, p = 0; p < numPoints && rectCount < numRects; p += oneInN, rectCount++) {
-			pointRectsDeg[rectCount] = [[sampleRectsDeg objectAtIndex:p] rectValue];
+			pointRectsDeg[rectCount] = [[sampleRectsDeg[eyeIndex] objectAtIndex:p] rectValue];
 			cumRectDeg = NSUnionRect(cumRectDeg, pointRectsDeg[rectCount]);
 		}
 		dirtyRectPix = [self pixRectFromDegRect:cumRectDeg];
 		[sampleLock unlock];
 		if (doDotFade) {
-			NSRectFillListWithColors(pointRectsDeg, pointColors, rectCount);
+			NSRectFillListWithColors(pointRectsDeg, pointColors[eyeIndex], rectCount);
 		}
 		else {
-			[eyeColor set];
+			[eyeColor[eyeIndex] set];
 			NSRectFillList(pointRectsDeg, rectCount);
 		}
 	}
-    [NSBezierPath setDefaultLineWidth:1.0];
-	[[NSColor blackColor] set];
 }
 
 - (NSColor *)eyeColor;
 {
-	return eyeColor;
+	return eyeColor[kLeftEye];
+}
+
+- (NSColor *)eyeLColor;
+{
+	return eyeColor[kLeftEye];
+}
+
+- (NSColor *)eyeRColor;
+{
+	return eyeColor[kRightEye];
 }
 
 - (id) initWithFrame:(NSRect)frame;
@@ -175,14 +214,16 @@
     if ((self = [super initWithFrame:frame]) != nil) {
 		[self setEyeColor:[NSColor blueColor]];
         drawables = [[NSMutableArray alloc] init];		
-		eyeColor = [[NSColor blueColor] retain];
+		eyeColor[kLeftEye] = [[NSColor blueColor] retain];
+		eyeColor[kRightEye] = [[NSColor redColor] retain];
 		tickDeg = 1.0;
 		doTicks = doGrid = YES;
 		gridDeg = 5.0;
 		gridColor = [[NSColor blueColor] retain];
 
 		sampleLock = [[NSLock alloc] init];
-		sampleRectsDeg = [[NSMutableArray alloc] init];
+		sampleRectsDeg[kLeftEye] = [[NSMutableArray alloc] init];
+		sampleRectsDeg[kRightEye] = [[NSMutableArray alloc] init];
 		dirtyRectPix = NSMakeRect(0, 0, 0, 0);
     }
     return self;
@@ -190,15 +231,15 @@
 
 // Overwrite isOpaque to improve performance
 
-- (BOOL)isOpaque {
-
+- (BOOL)isOpaque;
+{
 	return YES;
 }
 
 // Return the one in n ratio that tells what fraction of the points will be plotted
 
-- (long)oneInN {
-
+- (long)oneInN;
+{
 	return oneInN;
 }
 
@@ -244,8 +285,8 @@
     doDotFade = state;
 }
 
-- (void)setDotFade:(BOOL)state {
-
+- (void)setDotFade:(BOOL)state;
+{
     doDotFade = state;
 }
 
@@ -263,63 +304,79 @@
 }
 
 - (void)setEyeColor:(NSColor *)newColor;
- {
+{
+    [self setLEyeColor:newColor];
+}
+
+- (void)setLEyeColor:(NSColor *)newColor;
+{
 	[newColor retain];
-	[eyeColor release];
-	eyeColor = newColor;
+	[eyeColor[kLeftEye] release];
+	eyeColor[kLeftEye] = newColor;
 	[self updatePointColors];
 }
 
-- (void)setGridDeg:(float)spacingDeg {
+- (void)setREyeColor:(NSColor *)newColor;
+{
+	[newColor retain];
+	[eyeColor[kRightEye] release];
+	eyeColor[kRightEye] = newColor;
+	[self updatePointColors];
+}
 
+- (void)setGridDeg:(float)spacingDeg;
+{
 	gridDeg = spacingDeg;
 }
 
-- (void)setGrid:(BOOL)state {
-
+- (void)setGrid:(BOOL)state;
+{
 	doGrid = state;
 }
 
-- (void) setOneInN:(double)n {
-
+- (void) setOneInN:(double)n;
+{
     oneInN = n;
 }
 
 - (void)setSamplesToSave:(long)samples;
 {
-	long numToDelete;
+	long eye, numToDelete;
 	
 	samplesToSave = samples;
-    if ([sampleRectsDeg count] > samplesToSave) {
-		[sampleLock lock];
-		numToDelete = ([sampleRectsDeg count] - samplesToSave + 1) / oneInN * oneInN;
-        [sampleRectsDeg removeObjectsInRange:NSMakeRange(0, numToDelete)];
-		[sampleLock unlock];
+    for (eye = kLeftEye; eye < kEyes; eye++) {
+        if ([sampleRectsDeg[eye] count] > samplesToSave) {
+            [sampleLock lock];
+            numToDelete = ([sampleRectsDeg[eye] count] - samplesToSave + 1) / oneInN * oneInN;
+            [sampleRectsDeg[eye] removeObjectsInRange:NSMakeRange(0, numToDelete)];
+            [sampleLock unlock];
+        }
     }
 	[self updatePointColors];
 }
 
-- (void)setTickDeg:(float)spacingDeg {
-
+- (void)setTickDeg:(float)spacingDeg; 
+{
 	tickDeg = spacingDeg;
 }
 
-- (void)setTicks:(BOOL)state {
-
+- (void)setTicks:(BOOL)state;
+{
 	doTicks = state;
 }
 
 - (void)updatePointColors;
 {
-	long a, limit;
+	long a, eye, limit;
 	
 	limit = MIN(samplesToSave, kMaxSamplesDisplay);
-	for (a = 0; a < limit; a++) {
-		[pointColors[a] release];
-		pointColors[a] = [[eyeColor 
-						blendedColorWithFraction:(1.0 - (float)a / limit) 
-						ofColor:[NSColor whiteColor]] retain];
-	}
+    for (eye = kLeftEye; eye < kEyes; eye++) {
+        for (a = 0; a < limit; a++) {
+            [pointColors[eye][a] release];
+            pointColors[eye][a] = [[eyeColor[eye] blendedColorWithFraction:(1.0 - (float)a / limit) 
+                                                          ofColor:[NSColor whiteColor]] retain];
+        }
+    }
 }
 
 @end
