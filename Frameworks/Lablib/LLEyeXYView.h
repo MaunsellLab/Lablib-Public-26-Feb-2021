@@ -12,7 +12,11 @@
 
 #define kAlphaLevels		8
 #define kMaxSamplesDisplay	1000
-enum {kLeftEye, kRightEye, kEyes};
+
+#ifndef kEyes
+enum {kLeftEye, kRightEye};
+#define kEyes   (kRightEye + 1)
+#endif
 
 @interface LLEyeXYView:NSView {
 

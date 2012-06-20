@@ -19,12 +19,18 @@
 	[defaults setFloat:kLLSynthEyeNoiseDefault forKey:LLSynthEyeNoiseKey];
 	[defaults setInteger:kLLSynthEyeXDefault forKey:LLSynthEyeXKey];
 	[defaults setInteger:kLLSynthEyeYDefault forKey:LLSynthEyeYKey];
-	[defaults setFloat:kLLDefaultM11 forKey:LLSynthM11Key];
-	[defaults setFloat:kLLDefaultM12 forKey:LLSynthM12Key];
-	[defaults setFloat:kLLDefaultM21 forKey:LLSynthM21Key];
-	[defaults setFloat:kLLDefaultM22 forKey:LLSynthM22Key];
-	[defaults setFloat:kLLDefaultTX forKey:LLSynthTXKey];
-	[defaults setFloat:kLLDefaultTY forKey:LLSynthTYKey];
+	[defaults setFloat:kLLDefaultM11 forKey:LLSynthLM11Key];
+	[defaults setFloat:kLLDefaultM12 forKey:LLSynthLM12Key];
+	[defaults setFloat:kLLDefaultM21 forKey:LLSynthLM21Key];
+	[defaults setFloat:kLLDefaultM22 forKey:LLSynthLM22Key];
+	[defaults setFloat:kLLDefaultTX forKey:LLSynthLTXKey];
+	[defaults setFloat:kLLDefaultTY forKey:LLSynthLTYKey];
+	[defaults setFloat:kLLDefaultM11 forKey:LLSynthRM11Key];
+	[defaults setFloat:kLLDefaultM12 forKey:LLSynthRM12Key];
+	[defaults setFloat:kLLDefaultM21 forKey:LLSynthRM21Key];
+	[defaults setFloat:kLLDefaultM22 forKey:LLSynthRM22Key];
+	[defaults setFloat:kLLDefaultTX forKey:LLSynthRTXKey];
+	[defaults setFloat:kLLDefaultTY forKey:LLSynthRTYKey];
 
 	[defaults setInteger:kLLSynthLeverBitDefault forKey:LLSynthLeverBitKey];
 	[defaults setFloat:kLLSynthLeverDownDefault forKey:LLSynthLeverDownKey];

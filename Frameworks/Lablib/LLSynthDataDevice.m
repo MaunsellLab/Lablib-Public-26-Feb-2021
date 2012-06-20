@@ -34,14 +34,20 @@ NSString *LLSynthLeverLatencyKey = @"LLSynthLeverLatency";
 NSString *LLSynthLeverIgnoreKey = @"LLSynthLeverIgnore";
 NSString *LLSynthLeverDownKey = @"LLSynthLeverDown";
 NSString *LLSynthLeverUpKey = @"LLSynthLeverUp";
-NSString *LLSynthM11Key = @"LLSynthM11";
-NSString *LLSynthM12Key = @"LLSynthM12";
-NSString *LLSynthM21Key = @"LLSynthM21";
-NSString *LLSynthM22Key = @"LLSynthM22";
+NSString *LLSynthLM11Key = @"LLSynthLM11";
+NSString *LLSynthLM12Key = @"LLSynthLM12";
+NSString *LLSynthLM21Key = @"LLSynthLM21";
+NSString *LLSynthLM22Key = @"LLSynthLM22";
+NSString *LLSynthRM11Key = @"LLSynthRM11";
+NSString *LLSynthRM12Key = @"LLSynthRM12";
+NSString *LLSynthRM21Key = @"LLSynthRM21";
+NSString *LLSynthRM22Key = @"LLSynthRM22";
 NSString *LLSynthSpikesKey = @"LLSynthSpikes";
 NSString *LLSynthSpikesRandomKey = @"LLSynthSpikesRandom";
-NSString *LLSynthTXKey = @"LLSynthTX";
-NSString *LLSynthTYKey = @"LLSynthTY";
+NSString *LLSynthLTXKey = @"LLSynthLTX";
+NSString *LLSynthLTYKey = @"LLSynthLTY";
+NSString *LLSynthRTXKey = @"LLSynthRTX";
+NSString *LLSynthRTYKey = @"LLSynthRTY";
 NSString *LLSynthVBLKey = @"LLSynthVBL";
 NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
@@ -70,14 +76,15 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 		synthSettings = [[LLSynthDataSettings alloc] init];
 	}
 	[synthSettings runPanel];
-	[self loadAffineTransform];
+	[self loadAffineTransforms];
 }
 
 - (void)dealloc;
 {
 	[synthSettings release];
 	[eyeCalibrator release];
-	[degToUnits release];
+	[degToUnits[kLeftEye] release];
+	[degToUnits[kRightEye] release];
     [super dealloc];
 }
 
@@ -176,12 +183,13 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
     if ((self = [super init]) != nil) {
         spikeRateHz = 0.0;
         eyeCalibrator = [[LLEyeCalibrator alloc] init];
-		degToUnits = [[NSAffineTransform alloc] init];
+		degToUnits[kLeftEye] = [[NSAffineTransform alloc] init];
+		degToUnits[kRightEye] = [[NSAffineTransform alloc] init];
 		defaultsPath = [[NSBundle bundleForClass:[LLSynthDataDevice class]] pathForResource:@"LLSynthDataDevice" ofType:@"plist"];
 		defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
 		defaults = [NSUserDefaults standardUserDefaults];
 		[defaults registerDefaults:defaultsDict];
-		[self loadAffineTransform];
+		[self loadAffineTransforms];
 		for (channel = 0; channel < kLLSynthADChannels; channel++)  {
 			[samplePeriodMS addObject:[NSNumber numberWithFloat:kLLSynthSamplePeriodMS]];
 		}
@@ -197,16 +205,25 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 // the transform used for calibration.  But here was are going to use it only for degToUnits, so we invert it
 // after it is loaded. 
 
-- (void) loadAffineTransform {
-
-	transform.m11 = [defaults floatForKey:LLSynthM11Key];
-	transform.m12 = [defaults floatForKey:LLSynthM12Key];
-	transform.m21 = [defaults floatForKey:LLSynthM21Key];
-	transform.m22 = [defaults floatForKey:LLSynthM22Key];
-	transform.tX = [defaults floatForKey:LLSynthTXKey];
-	transform.tY = [defaults floatForKey:LLSynthTYKey];
-	[degToUnits setTransformStruct:transform];
-	[degToUnits invert];
+- (void)loadAffineTransforms;
+{
+	transform[kLeftEye].m11 = [defaults floatForKey:LLSynthLM11Key];
+	transform[kLeftEye].m12 = [defaults floatForKey:LLSynthLM12Key];
+	transform[kLeftEye].m21 = [defaults floatForKey:LLSynthLM21Key];
+	transform[kLeftEye].m22 = [defaults floatForKey:LLSynthLM22Key];
+	transform[kLeftEye].tX = [defaults floatForKey:LLSynthLTXKey];
+	transform[kLeftEye].tY = [defaults floatForKey:LLSynthLTYKey];
+	[degToUnits[kLeftEye] setTransformStruct:transform[kLeftEye]];
+	[degToUnits[kLeftEye] invert];
+    
+	transform[kRightEye].m11 = [defaults floatForKey:LLSynthRM11Key];
+	transform[kRightEye].m12 = [defaults floatForKey:LLSynthRM12Key];
+	transform[kRightEye].m21 = [defaults floatForKey:LLSynthRM21Key];
+	transform[kRightEye].m22 = [defaults floatForKey:LLSynthRM22Key];
+	transform[kRightEye].tX = [defaults floatForKey:LLSynthRTXKey];
+	transform[kRightEye].tY = [defaults floatForKey:LLSynthRTYKey];
+	[degToUnits[kRightEye] setTransformStruct:transform[kRightEye]];
+	[degToUnits[kRightEye] invert];
 }
 
 - (NSString *)name
@@ -229,11 +246,11 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (NSData **)sampleData;
 {
-	short sample, index;
+	short sample, index, eyeIndex;
 	double fixNoiseDeg, timeNowS;
 	NSSize fixNoiseEye;
 	DeviceADData theSample;							// struct for holding a sample
-    NSMutableData *xData, *yData, *rXData, *rYData, *rPData, *lXData, *lYData, *lPData;
+    NSMutableData *xData, *yData, *eyePData[kEyes], *eyeXData[kEyes], *eyeYData[kEyes];
     
     static short pupilValue = 3750.0;
     static short pupilNoise = 0;
@@ -248,40 +265,37 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 	xData = [NSMutableData dataWithLength:0];
 	yData = [NSMutableData dataWithLength:0];
-	rXData = [NSMutableData dataWithLength:0];
-	rYData = [NSMutableData dataWithLength:0];
-	rPData = [NSMutableData dataWithLength:0];
-	lXData = [NSMutableData dataWithLength:0];
-	lYData = [NSMutableData dataWithLength:0];
-	lPData = [NSMutableData dataWithLength:0];
+    for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
+        eyeXData[eyeIndex] = [NSMutableData dataWithLength:0];
+        eyeYData[eyeIndex] = [NSMutableData dataWithLength:0];
+        eyePData[eyeIndex] = [NSMutableData dataWithLength:0];
+    }
 	theSample.device = deviceIndex;
 	while (timeNowS >= nextSampleTimeS) {
-		[self updateEyePosition:nextSampleTimeS];
-		fixNoiseDeg = [defaults floatForKey:LLSynthEyeNoiseKey];
-		fixNoiseEye = [degToUnits transformSize:NSMakeSize(fixNoiseDeg, fixNoiseDeg)];
-		if (fixNoiseEye.width != 0) {
-			fixNoiseEye.width = (rand() % (long)fixNoiseEye.width) - fixNoiseEye.width / 2;
-		}
-		if (fixNoiseEye.height != 0) {
-			fixNoiseEye.height = (rand() % (long)fixNoiseEye.height) - fixNoiseEye.height / 2;
-		}
-        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition.x + fixNoiseEye.width));
-        [xData appendBytes:&sample length:sizeof(sample)];
-        [rXData appendBytes:&sample length:sizeof(sample)];
-        [lXData appendBytes:&sample length:sizeof(sample)];
-        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition.y + fixNoiseEye.height));
-        [yData appendBytes:&sample length:sizeof(sample)];
-        [rYData appendBytes:&sample length:sizeof(sample)];
-        [lYData appendBytes:&sample length:sizeof(sample)];
-        
+		[self updateEyePositions:nextSampleTimeS];
+        fixNoiseDeg = [defaults floatForKey:LLSynthEyeNoiseKey];
         if ((++pupilCount % 100) == 0) {
             pupilNoise = (rand() % 2500);
         }
-        pupilValue += 0.02 * (2500 + pupilNoise - pupilValue);
-        sample = MIN(SHRT_MAX, MAX(SHRT_MIN, 2500 + pupilValue));
-        [rPData appendBytes:&sample length:sizeof(pupilValue)];
-        [lPData appendBytes:&sample length:sizeof(pupilValue)];
-
+        for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
+            fixNoiseEye = [degToUnits[eyeIndex] transformSize:NSMakeSize(fixNoiseDeg, fixNoiseDeg)];
+            if (fixNoiseEye.width != 0) {
+                fixNoiseEye.width = (rand() % (long)fixNoiseEye.width) - fixNoiseEye.width / 2;
+            }
+            if (fixNoiseEye.height != 0) {
+                fixNoiseEye.height = (rand() % (long)fixNoiseEye.height) - fixNoiseEye.height / 2;
+            }
+            sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition[eyeIndex].x + fixNoiseEye.width));
+            [xData appendBytes:&sample length:sizeof(sample)];
+            [eyeXData[eyeIndex] appendBytes:&sample length:sizeof(sample)];
+            sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition[eyeIndex].y + fixNoiseEye.height));
+            [yData appendBytes:&sample length:sizeof(sample)];
+            [eyeYData[eyeIndex] appendBytes:&sample length:sizeof(sample)];
+            
+            pupilValue += 0.02 * (2500 + pupilNoise - pupilValue);
+            sample = MIN(SHRT_MAX, MAX(SHRT_MIN, 2500 + pupilValue));
+            [eyePData[eyeIndex] appendBytes:&sample length:sizeof(pupilValue)];
+        }
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] / 1000.0;
 	}
 
@@ -301,22 +315,22 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
                 sampleData[index] = yData;
                 break;
             case kRXChannel:
-                sampleData[index] = rXData;
+                sampleData[index] = eyeXData[kRightEye];
                 break;
             case kRYChannel:
-                sampleData[index] = rYData;
+                sampleData[index] = eyeYData[kRightEye];
                 break;
             case kRPChannel:
-                sampleData[index] = rPData;
+                sampleData[index] = eyePData[kRightEye];
                 break;
             case kLXChannel:
-                sampleData[index] = lXData;
+                sampleData[index] = eyeXData[kLeftEye];
                 break;
             case kLYChannel:
-                sampleData[index] = lYData;
+                sampleData[index] = eyeYData[kLeftEye];
                 break;
             case kLPChannel:
-                sampleData[index] = lPData;
+                sampleData[index] = eyePData[kLeftEye];
                 break;
             default:
                 break;
@@ -495,16 +509,18 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 	return timestampData;
 }
 
-- (void)updateEyePosition:(double)timeNowS {
-
+- (void)updateEyePositions:(double)timeNowS;
+{
+    long eyeIndex;
     BOOL fixate;
-	float eyeSamplePeriod;
-    double deltaS, noChangeProb, spontBreaksPerS, calibration;
+    NSPoint eyePositionDeg[kEyes];
+	float eyeSamplePeriodMS;
+    double deltaS, noChangeProb, spontBreaksPerS;
 	    
-// If we are in the miadde of the saccade, do the next step of for the saccade
+// If we are in the middle of the saccade, do the next step of for the saccade
     
     if (saccade != nil) {
-        eyePosition = [saccade nextPosition];
+        [saccade nextPositions:eyePosition];
         if ([saccade done]) {
             [saccade release];
             saccade = nil;
@@ -528,20 +544,23 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         else {
             fixate = NO;
         }
-		calibration = [degToUnits transformSize:NSMakeSize(1.0, 1.0)].height;
-		eyeSamplePeriod = [[samplePeriodMS objectAtIndex:0] floatValue];
+        eyeSamplePeriodMS = [[samplePeriodMS objectAtIndex:0] floatValue];
+        for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
+            [degToUnits[eyeIndex] invert];
+            eyePositionDeg[eyeIndex] = [degToUnits[eyeIndex] transformPoint:eyePosition[eyeIndex]];
+            [degToUnits[eyeIndex] invert];
+        }
         if (fixate) {
-			saccade = [[LLSynthSaccade alloc] initFrom:(NSPoint)eyePosition
-                        to:[degToUnits transformPoint:
-						NSMakePoint(eyeTargetDeg.x + offsetDeg.x, eyeTargetDeg.y + offsetDeg.y)]
-                        samplePerMS:eyeSamplePeriod	unitsPerDeg:calibration];
+            saccade = [[LLSynthBinocSaccade alloc] initFrom:eyePositionDeg
+                        to:NSMakePoint(eyeTargetDeg.x + offsetDeg.x, eyeTargetDeg.y + offsetDeg.y)
+                        degToUnits:degToUnits samplePerMS:eyeSamplePeriodMS];
         }
         else {
-            saccade = [[LLSynthSaccade alloc] initFrom:(NSPoint)eyePosition
-                        samplePerMS:eyeSamplePeriod	unitsPerDeg:calibration];
+            saccade = [[LLSynthBinocSaccade alloc] initFrom:eyePositionDeg
+                        degToUnits:degToUnits samplePerMS:eyeSamplePeriodMS];
             lastSpontBreakCheckTimeS = 0;
         }
-        eyePosition = [saccade nextPosition];
+        [saccade nextPositions:eyePosition];
     } 
 }
 

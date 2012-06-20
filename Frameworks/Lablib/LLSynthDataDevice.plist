@@ -20,22 +20,34 @@
 	<integer>250</integer>
 	<key>LLSynthLeverUp</key>
 	<real>0.1</real>
-	<key>LLSynthM11</key>
+	<key>LLSynthLM11</key>
 	<real>0.001</real>
-	<key>LLSynthM12</key>
+	<key>LLSynthLM12</key>
 	<real>0</real>
-	<key>LLSynthM21</key>
+	<key>LLSynthLM21</key>
 	<real>0</real>
-	<key>LLSynthM22</key>
+	<key>LLSynthLM22</key>
 	<real>0.001</real>
 	<key>LLSynthSpikes</key>
 	<integer>12</integer>
 	<key>LLSynthSpikesRandom</key>
 	<integer>0</integer>
-	<key>LLSynthTX</key>
+	<key>LLSynthLTX</key>
 	<real>0</real>
-	<key>LLSynthTY</key>
+	<key>LLSynthLTY</key>
 	<real>0</real>
+	<key>LLSynthRM11</key>
+	<real>0.001</real>
+	<key>LLSynthRM12</key>
+	<integer>0</integer>
+	<key>LLSynthRM21</key>
+	<integer>0</integer>
+	<key>LLSynthRM22</key>
+	<real>0.001</real>
+	<key>LLSynthRTX</key>
+	<integer>0</integer>
+	<key>LLSynthRTY</key>
+	<integer>0</integer>
 	<key>LLSynthVBL</key>
 	<true/>
 	<key>LLSynthVBLRate</key>
