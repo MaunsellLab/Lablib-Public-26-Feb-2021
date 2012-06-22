@@ -52,7 +52,8 @@
 {
 	[dataDoc release];
 	[defaults release];
-	[eyeCalibrator release];
+	[eyeCalibrator[kLeftEye] release];
+	[eyeCalibrator[kRightEye] release];
 	[stimWindow release];
 	[synthDataDevice release];
 	[synthDataSource release];
@@ -82,7 +83,7 @@
 
 - (LLEyeCalibrator *)eyeCalibrator;
 {
-	return eyeCalibrator;
+	return eyeCalibrator[kLeftEye];
 }
 
 - (BOOL)initialized;
@@ -92,6 +93,11 @@
 
 - (void)initializationDidFinish;
 {
+}
+
+- (LLEyeCalibrator *)leftEyeCalibrator;
+{
+	return eyeCalibrator[kLeftEye];
 }
 
 - (long)mode;
@@ -116,6 +122,11 @@
 	displayMode.pixelBits = 0;								// don't care 
 	displayMode.frameRateHz = 0;							// don't care 
 	return displayMode;
+}
+
+- (LLEyeCalibrator *)rightEyeCalibrator;
+{
+	return eyeCalibrator[kRightEye];
 }
 
 - (void)setDataDocument:(LLDataDoc *)doc;
@@ -144,9 +155,7 @@
 
 - (void)setEyeCalibrator:(LLEyeCalibrator *)calibrator;
 {
-	[eyeCalibrator release];
-	eyeCalibrator = calibrator;
-	[eyeCalibrator retain];
+    [self setLeftEyeCalibrator:calibrator];
 }
 
 - (void)setHost:(id)newHost;
@@ -166,10 +175,25 @@
 	mode = newMode;
 }
 
+- (void)setLeftEyeCalibrator:(LLEyeCalibrator *)calibrator;
+{
+	[eyeCalibrator[kLeftEye] release];
+	eyeCalibrator[kLeftEye] = calibrator;
+	[eyeCalibrator[kLeftEye] retain];
+}
+
 - (void)setMonitorController:(LLMonitorController *)controller;
 {
 	monitorController = controller;
 }
+
+- (void)setRightEyeCalibrator:(LLEyeCalibrator *)calibrator;
+{
+	[eyeCalibrator[kRightEye] release];
+	eyeCalibrator[kRightEye] = calibrator;
+	[eyeCalibrator[kRightEye] retain];
+}
+
 
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 {

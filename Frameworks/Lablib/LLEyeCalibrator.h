@@ -51,6 +51,7 @@ typedef struct {
 - (void)readDefaults;
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
 - (void)setCalibrationOffsetDeg:(float)newOffset;
+- (void)setCalibrationPosition:(long)index;
 - (void)setFixAzimuthDeg:(float)newAzimuthDeg elevationDeg:(float)newElevationDeg;
 - (NSPoint)unitPointFromDegPoint:(NSPoint)degPoint;
 - (NSRect)unitRectFromDegRect:(NSRect)rectDeg;

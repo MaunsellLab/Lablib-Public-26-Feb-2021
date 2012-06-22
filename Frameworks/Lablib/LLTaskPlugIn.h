@@ -24,10 +24,10 @@
 	NSTimer					*collectorTimer;
 	NSPoint					currentEyeDeg;
 	LLDataDoc				*dataDoc;
-	id<LLIODevice>		dataSource;
+	id<LLIODevice>          dataSource;
 	LLDataDeviceController	*dataController;
 	LLUserDefaults			*defaults;
-	LLEyeCalibrator			*eyeCalibrator;
+	LLEyeCalibrator			*eyeCalibrator[kEyes];
 	id						host;
 	BOOL					initialized;
 	long					mode;
@@ -54,10 +54,12 @@
 - (BOOL)handlesEvents;
 - (BOOL)initialized;
 - (void)initializationDidFinish;
+- (LLEyeCalibrator *)leftEyeCalibrator;
 - (long)mode;
 - (LLMonitorController *)monitorController;
 - (NSString *)name;
 - (DisplayModeParam)requestedDisplayMode;
+- (LLEyeCalibrator *)rightEyeCalibrator;
 - (void)setDataDeviceController:(LLDataDeviceController *)controller;
 - (void)setDataDocument:(LLDataDoc *)doc;
 - (void)setDataSource:(id<LLIODevice>)source;
@@ -65,8 +67,10 @@
 - (void)setEyeCalibrator:(LLEyeCalibrator *)calibrator;
 - (void)setHost:(id)newHost;
 - (void)setInitialized:(BOOL)state;
+- (void)setLeftEyeCalibrator:(LLEyeCalibrator *)calibrator;
 - (void)setMode:(long)mode;
 - (void)setMonitorController:(LLMonitorController *)controller;
+- (void)setRightEyeCalibrator:(LLEyeCalibrator *)calibrator;
 - (void)setWritingDataFile:(BOOL)state;
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 - (void)setSynthDataDevice:(LLSynthDataDevice *)device;

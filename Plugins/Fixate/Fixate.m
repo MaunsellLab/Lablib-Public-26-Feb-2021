@@ -127,7 +127,7 @@ LLTaskPlugIn	*task = nil;
 	if ((data = [dataController dataOfType:@"eyeData"]) != nil) {
 		[dataDoc putEvent:@"eyeData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
 		pEyeData = (short *)([data bytes] + [data length] - 2 * sizeof(short));
-		currentEyeDeg = [eyeCalibrator degPointFromUnitPoint:NSMakePoint(pEyeData[0], pEyeData[1])];
+		currentEyeDeg = [[task eyeCalibrator] degPointFromUnitPoint:NSMakePoint(pEyeData[0], pEyeData[1])];
 	}
 	if ((data = [dataController dataOfType:@"VBLData"]) != nil) {
 		[dataDoc putEvent:@"VBLData" withData:(Ptr)[data bytes] lengthBytes:[data length]];

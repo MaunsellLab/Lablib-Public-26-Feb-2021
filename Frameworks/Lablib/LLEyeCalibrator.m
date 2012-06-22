@@ -367,8 +367,8 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 	[degToUnits invert];
 }
 
-- (long)nextCalibrationPosition {
-
+- (long)nextCalibrationPosition;
+{
 	double halfOffsetDeg;
 	long index;
 	
@@ -477,6 +477,33 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 {
 	[taskDefaults setFloat:newOffset forKey:LLFixCalOffsetDegKey];
 	[self parametersChanged:self];
+}
+
+// When we use two calibrators, only one of them will select the next offset to use (via nextCalibrationPosition).
+// The second calibrator is kept in synch by passing the newly selected offset to it using this function.
+
+- (void)setCalibrationPosition:(long)newOffsetIndex;
+{
+    long index;
+	double halfOffsetDeg;
+	
+// If we have completed a block of positions, we need to update the calibration before moving on
+    
+	if (positionsDone >= kLLEyeCalibratorOffsets) {
+		halfOffsetDeg = [taskDefaults floatForKey:LLFixCalOffsetDegKey] / 2.0;
+		if (halfOffsetDeg > 0) {								// avoid degenerate case
+			[self computeTransformFromOffsets];
+		}
+		for (index = 0; index < kLLEyeCalibratorOffsets; index++) {
+			positionDone[index] = NO;
+		}
+		positionsDone = 0;
+	}
+    offsetIndex = newOffsetIndex;
+	currentCalibration = [self readCalibration];
+	currentCalibration.tX -= offsetDeg[offsetIndex].x;
+	currentCalibration.tY -= offsetDeg[offsetIndex].y;
+	[self loadTransforms];
 }
 
 - (void)setDefaults:(NSUserDefaults *)newDefaults;

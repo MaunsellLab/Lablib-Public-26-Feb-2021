@@ -180,6 +180,8 @@
 		cumRectDeg = NSMakeRect(0, 0, 0, 0);
 		for (rectCount = 0, p = 0; p < numPoints && rectCount < numRects; p += oneInN, rectCount++) {
 			pointRectsDeg[rectCount] = [[sampleRectsDeg[eyeIndex] objectAtIndex:p] rectValue];
+//            NSLog(@"Draw eye Index %ld %.0f %.0f", eyeIndex, pointRectsDeg[rectCount].origin.x, pointRectsDeg[rectCount].origin.y);
+
 			cumRectDeg = NSUnionRect(cumRectDeg, pointRectsDeg[rectCount]);
 		}
 		dirtyRectPix = [self pixRectFromDegRect:cumRectDeg];

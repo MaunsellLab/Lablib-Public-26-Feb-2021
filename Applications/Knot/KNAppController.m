@@ -120,7 +120,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	mouseDataDevice = nil;									// nil the pointer to the released data devices
 	[monitorController release];
     [dataDoc release];										// release data document
-    [eyeCalibration release];
+    [eyeCalibration[kLeftEye] release];
+    [eyeCalibration[kRightEye] release];
 	[settingsController release];
 
     [defaults synchronize];									// synchronize defaults with disk
@@ -152,8 +153,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 // Set up the eye calibration system and a fixation window
 
-	eyeCalibration = [[LLEyeCalibrator alloc] init]; 
-	[eyeCalibration setDefaults:defaults];
+	eyeCalibration[kLeftEye] = [[LLEyeCalibrator alloc] init]; 
+    [eyeCalibration[kLeftEye] setDefaults:defaults];
+	eyeCalibration[kRightEye] = [[LLEyeCalibrator alloc] init]; 
+    [eyeCalibration[kRightEye] setDefaults:defaults];
 
 // Set up the controller that will handle getting data from input devices, files, etc.
 // We create hardware data sources for synthetic data, mouse data, and ITC-18 data (lab I/O).
@@ -218,7 +221,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 				[task setDataDeviceController:dataDeviceController];
 				[task setSynthDataDevice:synthDataDevice];
 				[task setDataDocument:dataDoc];
-				[task setEyeCalibrator:eyeCalibration];
+				[task setLeftEyeCalibrator:eyeCalibration[kLeftEye]];
+				[task setRightEyeCalibrator:eyeCalibration[kRightEye]];
 				[task setMonitorController:monitorController];
 				[task setStimWindow:stimWindow];
 				[task initializationDidFinish];
@@ -267,7 +271,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 				if ((window != stimWindow) &&
 					(window != [summaryController window]) &&
 					(window != [monitorController window]) &&
-					(window != [eyeCalibration window])) {
+					(window != [eyeCalibration[kLeftEye] window]) &&
+					(window != [eyeCalibration[kRightEye] window])) {
 						[window performClose:self];
 			}
 		}
@@ -530,7 +535,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (IBAction)showEyeCalibratorPanel:(id)sender {
 
-    [eyeCalibration showWindow:self];
+    [eyeCalibration[kLeftEye] showWindow:self];
 }
 
 - (IBAction)showReportPanel:(id)sender {
