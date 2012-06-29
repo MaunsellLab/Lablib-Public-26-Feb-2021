@@ -8,7 +8,7 @@
 
 #import "LLIODevice.h"
 #import "LLEyeCalibrator.h"
-#import <Lablib/LLSynthIOSettings.h>
+//#import <Lablib/LLSynthIOSettings.h>
 #import "LLSynthSaccade.h"
 
 #define kLLDefaultM11					0.001
@@ -87,7 +87,7 @@ extern NSString *LLSynthVBLRateKey;
 	LLSynthSaccade		*saccade;
     double 				samplePeriodMS;
     double				spikeRateHz;
-	LLSynthIOSettings	*synthSettings;
+    //	LLSynthIOSettings	*synthSettings;
 	unsigned short		timestampBits;
 	double				timestampRefS;
 	double				timestampTickPerMS;

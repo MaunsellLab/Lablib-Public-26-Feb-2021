@@ -27,12 +27,6 @@ NSString *LLFixCalAzimuthDegKey = @"LLFixCalAzimuthDeg";
 NSString *LLFixCalElevationDegKey = @"LLFixCalElevationDeg";
 NSString *LLFixCalOffsetDegKey = @"LLFixCalOffsetDeg";
 NSString *LLFixCorrectFactorKey = @"LLFixCorrectFactor";
-NSString *LLFixCalM11Key = @"LLFixCalM11";
-NSString *LLFixCalM12Key = @"LLFixCalM12";
-NSString *LLFixCalM21Key = @"LLFixCalM21";
-NSString *LLFixCalM22Key = @"LLFixCalM22";
-NSString *LLFixCalTXKey = @"LLFixCalTX";
-NSString *LLFixCalTYKey = @"LLFixCalTY";
 
 @implementation LLEyeCalibrator
 
@@ -156,12 +150,12 @@ NSString *LLFixCalTYKey = @"LLFixCalTY";
 
 - (IBAction)changeToDefaults:(id)sender;
 {
-	[taskDefaults setFloat:kDefaultM11 forKey:LLFixCalM11Key];
-	[taskDefaults setFloat:kDefaultM12 forKey:LLFixCalM12Key];
-	[taskDefaults setFloat:kDefaultM21 forKey:LLFixCalM21Key];
-	[taskDefaults setFloat:kDefaultM22 forKey:LLFixCalM22Key];
-	[taskDefaults setFloat:kDefaultTX forKey:LLFixCalTXKey];
-	[taskDefaults setFloat:kDefaultTY forKey:LLFixCalTYKey];
+	[taskDefaults setFloat:kDefaultM11 forKey:[self keyFor:@"M11"]];
+	[taskDefaults setFloat:kDefaultM12 forKey:[self keyFor:@"M12"]];
+	[taskDefaults setFloat:kDefaultM21 forKey:[self keyFor:@"M21"]];
+	[taskDefaults setFloat:kDefaultM22 forKey:[self keyFor:@"M22"]];
+	[taskDefaults setFloat:kDefaultTX forKey:[self keyFor:@"TX"]];
+	[taskDefaults setFloat:kDefaultTY forKey:[self keyFor:@"TY"]];
 	[self readDefaults];							// Load transforms and compute parameters 
 }
 
@@ -184,108 +178,16 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 
 // Save the new calibration
 
-	[taskDefaults setFloat:calibration.m11 forKey:LLFixCalM11Key];
-	[taskDefaults setFloat:calibration.m12 forKey:LLFixCalM12Key];
-	[taskDefaults setFloat:calibration.m21 forKey:LLFixCalM21Key];
-	[taskDefaults setFloat:calibration.m22 forKey:LLFixCalM22Key];
-	[taskDefaults setFloat:calibration.tX forKey:LLFixCalTXKey];
-	[taskDefaults setFloat:calibration.tY forKey:LLFixCalTYKey];
+	[taskDefaults setFloat:calibration.m11 forKey:[self keyFor:@"M11"]];
+	[taskDefaults setFloat:calibration.m12 forKey:[self keyFor:@"M12"]];
+	[taskDefaults setFloat:calibration.m21 forKey:[self keyFor:@"M21"]];
+	[taskDefaults setFloat:calibration.m22 forKey:[self keyFor:@"M22"]];
+	[taskDefaults setFloat:calibration.tX forKey:[self keyFor:@"TX"]];
+	[taskDefaults setFloat:calibration.tY forKey:[self keyFor:@"TY"]];
 	
 	currentCalibration = calibration;
 	[self loadTransforms];
 }
-
-/*
-Find the best fitting affine transform.  
-Calibration is done by offseting the fixation point to the corners of square on different trials.  These corners 
-(in units of degrees of azimuth and elevation) define a 2x4 matrix of values (4 pairs of x,y), Y.  The running average 
-of eye positions values (in A/D units) associated with each of these offsets defines another 2x4 matrix, X. We want an 
-affine transform, A, (2x2 matrix (without translation)) that minimizes the squared error between transformed X and Y (Y = AX).  
-The transform that minimizes this error is given by A = YX+ where X+ is the pseudoinverse of X, 
-A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed. 
-*/
-/*
-- (void)computeTransformFromOffsets {
-
-	long index;
-	double x, y, tX, tY, denom;
-	double YXt11, YXt12, YXt21, YXt22;
-	double XXt11, XXt12, XXt21, XXt22;
-	double IXXt11, IXXt12, IXXt21, IXXt22;
-	NSSize degT;
-	NSAffineTransformStruct calibration;
-	NSAffineTransform *trans;
-	
-// We need to center both sets of points. The optimal translation is given by the difference
-// vector between the centriods of the two sets.  The degree values are always centered on 0,0, so
-// we need only to take out the centriod of the eye unit set.  Here we get that vector,
-// so we can remove it from the eye unit set
-
-	tX = tY = 0;
-	for (index = 0; index < kLLEyeCalibratorOffsets; index++) {
-		tX += offsetUnits[index].x;
-		tY += offsetUnits[index].y;
-	}
-	tX = tX / kLLEyeCalibratorOffsets;
-	tY = tY / kLLEyeCalibratorOffsets; 
-
-// Get the values in the 2x2 matrix that is Y Xt (Y multiplied by X transposed: YXt**),
-// and also for the product of X with Xt (X multiplied by X transposed: XXt**).
-	
-	YXt11 = YXt12 = YXt21 = YXt22 = 0;
-	XXt11 = XXt12 = XXt21 = XXt22 = 0;
-	for (index = 0; index < kLLEyeCalibratorOffsets; index++) {
-		x = offsetUnits[index].x - tX;
-		y = offsetUnits[index].y - tY;
-		
-		YXt11 += x * offsetDeg[index].x;
-		YXt12 += y * offsetDeg[index].x;
-		YXt21 += x * offsetDeg[index].y;
-		YXt22 += y * offsetDeg[index].y;
-		
-		XXt11 += x * x;
-		XXt12 += x * y;
-		XXt21 += y * x;
-		XXt22 += y * y;
-	}
-
-// Compute the inverse of the product of X and Xt ((X Xt)^-1), which is the pseudoinverse of X
-
-	denom = XXt11 * XXt22 - XXt12 * XXt21;
-	IXXt11 = XXt22 / denom;
-	IXXt12 = -XXt12 / denom;
-	IXXt21 = -XXt21 / denom;
-	IXXt22 = XXt11 / denom;
-	
-// Compute the product of ((X Xt)^-1) and Y Xt, which is A, the matrix we seek
-
-	calibration.m11 = YXt11 * IXXt11 + YXt12 * IXXt21;
-	calibration.m21 = YXt11 * IXXt12 + YXt12 * IXXt22;
-	calibration.m12 = YXt21 * IXXt11 + YXt22 * IXXt21;
-	calibration.m22 = YXt21 * IXXt12 + YXt22 * IXXt22;
-	calibration.tX = calibration.tY = 0.0;
-
-// Use the new transform to compute the new translation in X and Y degrees
-
-	trans = [NSAffineTransform transform];
-	[trans setTransformStruct:calibration];
-	degT = [trans transformSize:NSMakeSize(tX, tY)];
-	calibration.tX = -degT.width;
-	calibration.tY = -degT.height;
-	
-// Save the new calibration
-
-	[taskDefaults setFloat:calibration.m11 forKey:LLFixCalM11Key];
-	[taskDefaults setFloat:calibration.m12 forKey:LLFixCalM12Key];
-	[taskDefaults setFloat:calibration.m21 forKey:LLFixCalM21Key];
-	[taskDefaults setFloat:calibration.m22 forKey:LLFixCalM22Key];
-	[taskDefaults setFloat:calibration.tX forKey:LLFixCalTXKey];
-	[taskDefaults setFloat:calibration.tY forKey:LLFixCalTYKey];
-	
-	currentCalibration = calibration;
-	[self loadTransforms];
-}
-*/
 
 - (void)dealloc {
 
@@ -294,6 +196,7 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 	[unitsToDeg release];
 	[taskDefaults release];
 	[SVDSolver release];
+    [keyPrefix release];
 	[super dealloc];
 }
 
@@ -308,29 +211,50 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 		currentCalibration.m11, currentCalibration.m12, currentCalibration.m21, currentCalibration.m22,
 		currentCalibration.tX, currentCalibration.tY];
 }
-	
+
 - (id)init;
 {
-	NSString *defaultsPath;
-	NSDictionary *defaultsDict;
-	
     if ((self = [super initWithWindowNibName:@"LLEyeCalibrator"]) != nil) {
-        [self setWindowFrameAutosaveName:@"LLEyeCalibrator"];
-		unitsToDeg = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-		degToUnits = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-		SVDSolver = [[LLSVDSolver alloc] init];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingsChanged:)
-				name:LLSettingsChanged object:nil];
-
-// Set default calibration values, then try to read stored values
-
-		defaultsPath = [[NSBundle bundleForClass:[LLEyeCalibrator class]] pathForResource:@"LLEyeCalibrator" ofType:@"plist"];
-		defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-		taskDefaults = [[NSUserDefaults standardUserDefaults] retain];
-		[taskDefaults registerDefaults:defaultsDict];
-		[self readDefaults];
+        keyPrefix = [[NSString stringWithString:@"LLFixCal"] retain];
+        [self initFinish];
     }
     return self;
+}
+
+- (void)initFinish;
+{        
+	NSString *defaultsPath;
+	NSDictionary *defaultsDict;
+
+    [self setWindowFrameAutosaveName:@"LLEyeCalibrator"];
+    unitsToDeg = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+    degToUnits = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+    SVDSolver = [[LLSVDSolver alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingsChanged:)
+                                                 name:LLSettingsChanged object:nil];
+    
+    // Set default calibration values, then try to read stored values
+    
+    defaultsPath = [[NSBundle bundleForClass:[LLEyeCalibrator class]] pathForResource:@"LLEyeCalibrator" ofType:@"plist"];
+    defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    taskDefaults = [[NSUserDefaults standardUserDefaults] retain];
+    [taskDefaults registerDefaults:defaultsDict];
+    [self readDefaults];
+}
+
+- (id)initWithKeyPrefix:(NSString *)theKey;
+{
+    if ((self = [super initWithWindowNibName:@"LLEyeCalibrator"]) != nil) {
+        keyPrefix = theKey;
+        [keyPrefix retain];
+        [self initFinish];
+    }
+    return self;
+}
+
+- (NSString *)keyFor:(NSString *)keyType;
+{
+    return [NSString stringWithFormat:@"%@%@", keyPrefix, keyType];
 }
 
 // Load the offset arrays that hold the positions that should be used for calibration. The offsets contain the 
@@ -442,12 +366,12 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 {
 	NSAffineTransformStruct calibration;
 	
-	calibration.m11 = [taskDefaults floatForKey:LLFixCalM11Key];
-	calibration.m12 = [taskDefaults floatForKey:LLFixCalM12Key];
-	calibration.m21 = [taskDefaults floatForKey:LLFixCalM21Key];
-	calibration.m22 = [taskDefaults floatForKey:LLFixCalM22Key];
-	calibration.tX = [taskDefaults floatForKey:LLFixCalTXKey];
-	calibration.tY = [taskDefaults floatForKey:LLFixCalTYKey];
+	calibration.m11 = [taskDefaults floatForKey:[self keyFor:@"M11"]];
+	calibration.m12 = [taskDefaults floatForKey:[self keyFor:@"M12"]];
+	calibration.m21 = [taskDefaults floatForKey:[self keyFor:@"M21"]];
+	calibration.m22 = [taskDefaults floatForKey:[self keyFor:@"M22"]];
+	calibration.tX = [taskDefaults floatForKey:[self keyFor:@"TX"]];
+	calibration.tY = [taskDefaults floatForKey:[self keyFor:@"TY"]];
 	return calibration;
 }
 
@@ -520,6 +444,14 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 	[self parametersChanged:self];
 }
 
+- (void)setKeyPrefix:(NSString *)newKey;
+{
+    [keyPrefix autorelease];
+    keyPrefix = newKey;
+    [keyPrefix retain];
+    [self readDefaults];
+}
+
 // This function gets called at initialization and when the settings folder is changed.
 // Neither of these should happen when the task is running.
 
@@ -539,9 +471,6 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 
 	unitRect.origin = [degToUnits transformPoint:degRect.origin];
 	unitRect.size = [degToUnits transformSize:degRect.size];
-//	unitRect.size.width = fabsf(unitRect.size.width);
-//	unitRect.size.height = fabsf(unitRect.size.height);
-// EPC: if size is negative, flip the rect to make size > 0
 	if (unitRect.size.width < 0) {
 		unitRect.size.width = -unitRect.size.width;
 		unitRect.origin.x -= unitRect.size.width;

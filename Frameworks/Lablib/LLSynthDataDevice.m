@@ -286,10 +286,14 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
                 fixNoiseEye.height = (rand() % (long)fixNoiseEye.height) - fixNoiseEye.height / 2;
             }
             sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition[eyeIndex].x + fixNoiseEye.width));
-            [xData appendBytes:&sample length:sizeof(sample)];
+            if (eyeIndex == kLeftEye) {
+                [xData appendBytes:&sample length:sizeof(sample)];
+            }
             [eyeXData[eyeIndex] appendBytes:&sample length:sizeof(sample)];
             sample = MIN(SHRT_MAX, MAX(SHRT_MIN, eyePosition[eyeIndex].y + fixNoiseEye.height));
-            [yData appendBytes:&sample length:sizeof(sample)];
+            if (eyeIndex == kLeftEye) {
+                [yData appendBytes:&sample length:sizeof(sample)];
+            }
             [eyeYData[eyeIndex] appendBytes:&sample length:sizeof(sample)];
             
             pupilValue += 0.02 * (2500 + pupilNoise - pupilValue);

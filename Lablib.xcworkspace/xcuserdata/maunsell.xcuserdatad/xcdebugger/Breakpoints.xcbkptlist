@@ -2,6 +2,23 @@
 <Bucket
    type = "0"
    version = "1.0">
+   <FileBreakpoints>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         condition = "eyeIndex == 1 &amp;&amp; numPoints &gt; 0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Frameworks/Lablib/LLEyeXYView.m"
+         timestampString = "362160518.205725"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "172"
+         endingLineNumber = "172"
+         landmarkName = "-drawPointsForEye:"
+         landmarkType = "5">
+      </FileBreakpoint>
+   </FileBreakpoints>
    <SymbolicBreakpoints>
       <SymbolicBreakpoint
          shouldBeEnabled = "Yes"

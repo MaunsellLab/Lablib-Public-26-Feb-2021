@@ -34,6 +34,11 @@
 	return currentEyeDeg;
 }
 
+- (NSPoint *)currentEyesDeg;
+{
+	return currentEyesDeg;
+}
+
 - (LLDataDeviceController *)dataController;
 {
 	return dataController;
@@ -52,8 +57,7 @@
 {
 	[dataDoc release];
 	[defaults release];
-	[eyeCalibrator[kLeftEye] release];
-	[eyeCalibrator[kRightEye] release];
+	[eyeCalibrator release];
 	[stimWindow release];
 	[synthDataDevice release];
 	[synthDataSource release];
@@ -65,6 +69,22 @@
 {
 	return defaults;
 }
+
+- (LLBinocCalibrator *)eyeCalibrator;
+{
+    return eyeCalibrator;
+}
+
+- (LLEyeCalibrator *)eyeLeftCalibrator;
+{
+    return [eyeCalibrator calibratorForEye:kLeftEye];
+}
+
+- (LLEyeCalibrator *)eyeRightCalibrator;
+{
+    return [eyeCalibrator calibratorForEye:kRightEye];
+}
+
 
 // Overwrite this method to handle OS events.  It should return YES if it consumes the event,
 // and must return NO otherwise;
@@ -81,11 +101,6 @@
 	return NO;
 }
 
-- (LLEyeCalibrator *)eyeCalibrator;
-{
-	return eyeCalibrator[kLeftEye];
-}
-
 - (BOOL)initialized;
 {
 	return initialized;
@@ -93,11 +108,6 @@
 
 - (void)initializationDidFinish;
 {
-}
-
-- (LLEyeCalibrator *)leftEyeCalibrator;
-{
-	return eyeCalibrator[kLeftEye];
 }
 
 - (long)mode;
@@ -124,11 +134,6 @@
 	return displayMode;
 }
 
-- (LLEyeCalibrator *)rightEyeCalibrator;
-{
-	return eyeCalibrator[kRightEye];
-}
-
 - (void)setDataDocument:(LLDataDoc *)doc;
 {
 	[dataDoc release];
@@ -153,9 +158,11 @@
 	[defaults retain];
 }
 
-- (void)setEyeCalibrator:(LLEyeCalibrator *)calibrator;
+- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
 {
-    [self setLeftEyeCalibrator:calibrator];
+	[eyeCalibrator release];
+	eyeCalibrator = calibrator;
+	[eyeCalibrator retain];
 }
 
 - (void)setHost:(id)newHost;
@@ -175,25 +182,10 @@
 	mode = newMode;
 }
 
-- (void)setLeftEyeCalibrator:(LLEyeCalibrator *)calibrator;
-{
-	[eyeCalibrator[kLeftEye] release];
-	eyeCalibrator[kLeftEye] = calibrator;
-	[eyeCalibrator[kLeftEye] retain];
-}
-
 - (void)setMonitorController:(LLMonitorController *)controller;
 {
 	monitorController = controller;
 }
-
-- (void)setRightEyeCalibrator:(LLEyeCalibrator *)calibrator;
-{
-	[eyeCalibrator[kRightEye] release];
-	eyeCalibrator[kRightEye] = calibrator;
-	[eyeCalibrator[kRightEye] retain];
-}
-
 
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 {

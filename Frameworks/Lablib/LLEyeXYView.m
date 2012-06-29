@@ -47,16 +47,6 @@
 	}
 }
 
-- (void)addLSample:(NSPoint)samplePointDeg;
-{
-    [self addSample:samplePointDeg forEye:kLeftEye];
-}
-
-- (void)addRSample:(NSPoint)samplePointDeg;
-{
-    [self addSample:samplePointDeg forEye:kRightEye];
-}
-
 - (void)addSample:(NSPoint)samplePointDeg;
 {
     [self addSample:samplePointDeg forEye:kLeftEye];
@@ -307,22 +297,14 @@
 
 - (void)setEyeColor:(NSColor *)newColor;
 {
-    [self setLEyeColor:newColor];
+    [self setEyeColor:newColor forEye:kLeftEye];
 }
 
-- (void)setLEyeColor:(NSColor *)newColor;
+- (void)setEyeColor:(NSColor *)newColor forEye:(long)eyeIndex;
 {
 	[newColor retain];
-	[eyeColor[kLeftEye] release];
-	eyeColor[kLeftEye] = newColor;
-	[self updatePointColors];
-}
-
-- (void)setREyeColor:(NSColor *)newColor;
-{
-	[newColor retain];
-	[eyeColor[kRightEye] release];
-	eyeColor[kRightEye] = newColor;
+	[eyeColor[eyeIndex] release];
+	eyeColor[eyeIndex] = newColor;
 	[self updatePointColors];
 }
 

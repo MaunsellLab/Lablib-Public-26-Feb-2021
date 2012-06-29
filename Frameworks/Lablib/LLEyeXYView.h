@@ -45,8 +45,6 @@ enum {kLeftEye, kRightEye};
 }
 
 - (void)addDrawable:(id <LLDrawable>)drawable;
-- (void)addLSample:(NSPoint)samplePointDeg;
-- (void)addRSample:(NSPoint)samplePointDeg;
 - (void)addSample:(NSPoint)samplePointDeg;
 - (void)addSample:(NSPoint)samplePointDeg forEye:(long)eyeIndex;
 - (void)centerDisplay;
@@ -67,8 +65,7 @@ enum {kLeftEye, kRightEye};
 - (void)setDotSizeDeg:(double)sizeDeg;
 - (void)setDrawOnlyDirtyRect:(BOOL)state;
 - (void)setEyeColor:(NSColor *)newColor;
-- (void)setLEyeColor:(NSColor *)newColor;
-- (void)setREyeColor:(NSColor *)newColor;
+- (void)setEyeColor:(NSColor *)newColor forEye:(long)eyeIndex;
 - (void)setGridDeg:(float)spacingDeg;
 - (void)setGrid:(BOOL)state;
 - (void)setOneInN:(double)n;

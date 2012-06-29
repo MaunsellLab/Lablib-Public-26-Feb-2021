@@ -8,7 +8,7 @@
 
 #import "LLDataDoc.h"
 #import "LLDisplays.h"
-#import "LLEyeCalibrator.h"
+#import "LLBinocCalibrator.h"
 #import "LLIODevice.h"
 #import "LLDataDeviceController.h"
 #import "LLMonitorController.h"
@@ -23,11 +23,12 @@
 	BOOL					active;
 	NSTimer					*collectorTimer;
 	NSPoint					currentEyeDeg;
+	NSPoint					currentEyesDeg[kEyes];
 	LLDataDoc				*dataDoc;
 	id<LLIODevice>          dataSource;
 	LLDataDeviceController	*dataController;
 	LLUserDefaults			*defaults;
-	LLEyeCalibrator			*eyeCalibrator[kEyes];
+	LLBinocCalibrator		*eyeCalibrator;
 	id						host;
 	BOOL					initialized;
 	long					mode;
@@ -44,33 +45,32 @@
 - (BOOL)active;
 - (NSTimer *)collectorTimer;
 - (NSPoint)currentEyeDeg;
+- (NSPoint *)currentEyesDeg;
 - (LLDataDeviceController *)dataController;
 - (LLDataDoc *)dataDoc;
 - (id<LLIODevice>)dataSource;
 - (IBAction)deactivate:(id)sender;
 - (LLUserDefaults *)defaults;
-- (LLEyeCalibrator *)eyeCalibrator;
+- (LLBinocCalibrator *)eyeCalibrator;
+- (LLEyeCalibrator *)eyeLeftCalibrator;
+- (LLEyeCalibrator *)eyeRightCalibrator;
 - (BOOL)handleEvent:(NSEvent *)theEvent;
 - (BOOL)handlesEvents;
 - (BOOL)initialized;
 - (void)initializationDidFinish;
-- (LLEyeCalibrator *)leftEyeCalibrator;
 - (long)mode;
 - (LLMonitorController *)monitorController;
 - (NSString *)name;
 - (DisplayModeParam)requestedDisplayMode;
-- (LLEyeCalibrator *)rightEyeCalibrator;
 - (void)setDataDeviceController:(LLDataDeviceController *)controller;
 - (void)setDataDocument:(LLDataDoc *)doc;
 - (void)setDataSource:(id<LLIODevice>)source;
 - (void)setDefaults:(LLUserDefaults *)newDefaults;
-- (void)setEyeCalibrator:(LLEyeCalibrator *)calibrator;
+- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
 - (void)setHost:(id)newHost;
 - (void)setInitialized:(BOOL)state;
-- (void)setLeftEyeCalibrator:(LLEyeCalibrator *)calibrator;
 - (void)setMode:(long)mode;
 - (void)setMonitorController:(LLMonitorController *)controller;
-- (void)setRightEyeCalibrator:(LLEyeCalibrator *)calibrator;
 - (void)setWritingDataFile:(BOOL)state;
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 - (void)setSynthDataDevice:(LLSynthDataDevice *)device;

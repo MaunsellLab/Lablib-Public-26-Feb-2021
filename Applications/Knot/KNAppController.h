@@ -17,7 +17,7 @@
 	id<LLIODevice>			dataSource;
 	LLUserDefaults			*defaults;
 	LLDataDeviceController	*dataDeviceController;
-	LLEyeCalibrator			*eyeCalibration[kEyes];
+	LLBinocCalibrator		*eyeCalibration;
 	BOOL					initialized;
 	LLMouseDataDevice		*mouseDataDevice;
 	LLMonitorController		*monitorController;

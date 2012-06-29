@@ -25,6 +25,7 @@
 }
 
 #import <Lablib/LLBar.h>
+#import <Lablib/LLBinocCalibrator.h>
 #import <Lablib/LLBinomDist.h>
 #import <Lablib/LLControlPanel.h>
 #import <Lablib/LLDataDevice.h>
