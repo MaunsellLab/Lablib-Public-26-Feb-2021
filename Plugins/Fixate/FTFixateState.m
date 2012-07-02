@@ -7,6 +7,7 @@
 //
 
 #import "FTFixateState.h"
+#import "FTUtilities.h"
 
 @implementation FTFixateState
 
@@ -38,7 +39,7 @@
 		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey] && 
-						![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+						![FTUtilities inWindow:fixWindow]) {
 		eotCode = kEOTBroke;
 		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
@@ -51,8 +52,9 @@
 
 - (void)updateCalibration {
 
-	if ([fixWindow inWindowDeg:[task currentEyeDeg]]) {
-		[[task eyeCalibrator] updateCalibration:[task currentEyeDeg]];
+	if ([FTUtilities inWindow:fixWindow]) {
+        [[task eyeCalibrator] updateLeftCalibration:([task currentEyesDeg])[kLeftEye] 
+                                   rightCalibration:([task currentEyesDeg])[kRightEye]];
 	}
 }
 
