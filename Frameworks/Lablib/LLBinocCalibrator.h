@@ -54,6 +54,7 @@ enum {kLeftEye, kRightEye};
 - (NSRect)unitRectFromEyeWindow:(LLEyeWindow *)eyeWindow forEye:(long)eyeIndex;
 - (NSSize)unitSizeFromDegSize:(NSSize)sizeDeg;
 - (void)updateCalibration:(NSPoint)pointDeg;
+- (void)updateCalibration:(NSPoint)pointDeg forEye:(long)eyeIndex;
 - (void)updateLeftCalibration:(NSPoint)pointLDeg rightCalibration:(NSPoint)pointRDeg;
 
 - (IBAction)changeToDefaults:(id)sender;

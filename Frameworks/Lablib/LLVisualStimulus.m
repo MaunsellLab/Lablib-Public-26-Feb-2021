@@ -77,14 +77,12 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 			[[NSUserDefaults standardUserDefaults] setFloat:0.0 forKey:prefixedKey];
 			NSLog(@"Registering value for %@", prefixedKey);
 		}
-		[self bind:key 
-				toObject:[NSUserDefaultsController sharedUserDefaultsController] 
+		[self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
 				withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] options:nil];
 	}
 	key = LLForeColorKey;
 	prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
-	[self bind:key 
-				toObject:[NSUserDefaultsController sharedUserDefaultsController] 
+	[self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
 				withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] 
 				options:[NSDictionary dictionaryWithObjects:
 				[NSArray arrayWithObjects:NSUnarchiveFromDataTransformerName,
@@ -93,8 +91,7 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 				@"NSValueTransformerName", NSNullPlaceholderBindingOption, nil]]];
 	key = LLBackColorKey;
 	prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
-	[self bind:key 
-				toObject:[NSUserDefaultsController sharedUserDefaultsController] 
+	[self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
 				withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] 
 				options:[NSDictionary dictionaryWithObjects:
 				[NSArray arrayWithObjects:NSUnarchiveFromDataTransformerName,

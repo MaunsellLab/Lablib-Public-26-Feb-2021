@@ -813,8 +813,8 @@
 		696E8AC50463354D00A80164 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				692ADEB30491714100F95509 /* Data Utilities */,
 				692ADEB20491710F00F95509 /* Data Devices */,
+				692ADEB30491714100F95509 /* Data Utilities */,
 			);
 			name = Data;
 			sourceTree = "<group>";
