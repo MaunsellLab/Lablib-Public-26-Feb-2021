@@ -331,6 +331,11 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
 	positionsDone++;
 }
 
+- (void)updateCalibration:(NSPoint)pointDeg forEye:(long)eyeIndex;
+{
+    [calibrators[eyeIndex] updateCalibration:pointDeg];
+}
+
 - (void)updateLeftCalibration:(NSPoint)pointLDeg rightCalibration:(NSPoint)pointRDeg;
 {
     [calibrators[kLeftEye] updateCalibration:pointLDeg];

@@ -43,6 +43,7 @@
 		697CC99D077E01CA0025E7D2 /* FTStimuli.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC99C077E01CA0025E7D2 /* FTStimuli.h */; };
 		697CC9A1077E01E00025E7D2 /* FTStimuli.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CC9A0077E01E00025E7D2 /* FTStimuli.m */; };
 		697CD04B077F6B510025E7D2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697CD04A077F6B510025E7D2 /* OpenGL.framework */; };
+		69952B7415A247C0002CD226 /* FTUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 69952B7315A247C0002CD226 /* FTUtilities.m */; };
 		69B8D545088EB863002FCFD4 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B8D544088EB863002FCFD4 /* Lablib.framework */; };
 		69C19D6007834E7B00D2B044 /* FTSummaryController.h in Resources */ = {isa = PBXBuildFile; fileRef = 69C19D5F07834E7B00D2B044 /* FTSummaryController.h */; };
 		69C19D6407834E8C00D2B044 /* FTSummaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C19D6307834E8C00D2B044 /* FTSummaryController.m */; };
@@ -92,6 +93,8 @@
 		697CC99C077E01CA0025E7D2 /* FTStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FTStimuli.h; sourceTree = "<group>"; };
 		697CC9A0077E01E00025E7D2 /* FTStimuli.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FTStimuli.m; sourceTree = "<group>"; };
 		697CD04A077F6B510025E7D2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		69952B7215A247C0002CD226 /* FTUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTUtilities.h; sourceTree = "<group>"; };
+		69952B7315A247C0002CD226 /* FTUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTUtilities.m; sourceTree = "<group>"; };
 		69B8D544088EB863002FCFD4 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
 		69C19D5F07834E7B00D2B044 /* FTSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FTSummaryController.h; sourceTree = "<group>"; };
 		69C19D6307834E8C00D2B044 /* FTSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FTSummaryController.m; sourceTree = "<group>"; };
@@ -199,6 +202,8 @@
 			children = (
 				697CC50E077DD6F10025E7D2 /* FT.h */,
 				694E0E6D07C2B90400A965E0 /* FT_Prefix.h */,
+				69952B7215A247C0002CD226 /* FTUtilities.h */,
+				69952B7315A247C0002CD226 /* FTUtilities.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 				694D19B6077C76B70025BAA4 /* FTXTController.m in Sources */,
 				697CC9A1077E01E00025E7D2 /* FTStimuli.m in Sources */,
 				69C19D6407834E8C00D2B044 /* FTSummaryController.m in Sources */,
+				69952B7415A247C0002CD226 /* FTUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

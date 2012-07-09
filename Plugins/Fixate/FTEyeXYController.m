@@ -28,7 +28,8 @@ NSString *FTEyeXYHScrollKey = @"FTEyeXYHScroll";
 NSString *FTEyeXYMagKey = @"FTEyeXYMag";
 NSString *FTEyeXYVScrollKey = @"FTEyeXYVScroll";
 NSString *FTEyeXYWindowVisibleKey = @"FTEyeXYWindowVisible";
-NSString *FTEyeXYEyeColorKey = @"FTEyeXYEyeColor";
+NSString *FTEyeXYLEyeColorKey = @"FTEyeXYLEyeColor";
+NSString *FTEyeXYREyeColorKey = @"FTEyeXYREyeColor";
 NSString *FTEyeXYSamplesToSaveKey = @"FTEyeXYSamplesToSave";
 NSString *FTEyeXYTickDegKey = @"FTEyeXYTickDeg";
 NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
@@ -42,7 +43,6 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 - (IBAction)changeZoom:(id)sender {
 
-//    [self setScaleFactor:1.0 / ([sender maxValue] - [sender floatValue] + 1)];
     [self setScaleFactor:[sender floatValue]];
 }
 
@@ -59,24 +59,26 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 - (void) dealloc;
 {
-
+    long eyeIndex;
      NSRect r;
     
 	r = [eyePlot visibleRect];
 	[[NSUserDefaults standardUserDefaults] setFloat:r.origin.x forKey:FTEyeXYHScrollKey];
 	[[NSUserDefaults standardUserDefaults] setFloat:r.origin.y forKey:FTEyeXYVScrollKey];
 	[fixWindowColor release];
-	[calColor release];
-	[unitsToDeg release];
-	[degToUnits release];
-	[calBezierPath release];
+    for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
+        [unitsToDeg[eyeIndex] release];
+        [degToUnits[eyeIndex] release];
+        [calBezierPath[eyeIndex] release];
+        [eyeXSamples[eyeIndex] release];
+        [eyeYSamples[eyeIndex] release];
+    }
     [super dealloc];
 }
 
-- (IBAction) doOptions:(id)sender {
-	
-    [NSApp beginSheet:optionsSheet modalForWindow:[self window] modalDelegate:self
-        didEndSelector:Nil contextInfo:Nil];
+- (IBAction)doOptions:(id)sender;
+{	
+    [NSApp beginSheet:optionsSheet modalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
 // Because we have added ourself as an LLDrawable to the eyePlot, this draw method
@@ -90,7 +92,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 // Draw the fixation window
 
-	if (NSPointInRect(currentEyeDeg, eyeWindowRectDeg)) {
+	if (inWindow) {
 		[[fixWindowColor highlightWithLevel:0.90] set];
 		[NSBezierPath fillRect:eyeWindowRectDeg];
 	}
@@ -100,14 +102,17 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 // Draw the calibration for the fixation window
 	
-	if ([[NSUserDefaults standardUserDefaults] integerForKey:FTEyeXYDoDrawCalKey]) {
-		[calColor set];
-		[calBezierPath stroke];
+	if ([[task defaults] integerForKey:FTEyeXYDoDrawCalKey]) {
+        [[eyePlot eyeLColor] set];
+		[calBezierPath[kLeftEye] stroke];
+        [[eyePlot eyeRColor] set];
+		[calBezierPath[kRightEye] stroke];
 	}
 }
 
-- (IBAction) endOptionSheet:(id)sender {
-
+- (IBAction) endOptionSheet:(id)sender;
+{
+	[self setEyePlotValues];
     [optionsSheet orderOut:sender];
     [NSApp endSheet:optionsSheet returnCode:1];
 }
@@ -116,37 +121,71 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 {
 	NSString *key;
 	NSEnumerator *enumerator;
-	NSArray *keyArray = [NSArray arrayWithObjects:
-			FTEyeXYDoGridKey, FTEyeXYDoTicksKey, FTEyeXYSamplesToSaveKey, FTEyeXYDotSizeDegKey,
-			FTEyeXYGridDegKey, FTEyeXYTickDegKey, FTEyeXYDoDotFadeKey, FTEyeXYOneInNKey, 
-			nil];
 		
     if ((self = [super initWithWindowNibName:@"FTEyeXYController"]) != Nil) {
  		[self setShouldCascadeWindows:NO];
         [self setWindowFrameAutosaveName:FTEyeXYAutosaveKey];
-		[[NSUserDefaults standardUserDefaults] registerDefaults:
-					[NSDictionary dictionaryWithObject:
-					[NSArchiver archivedDataWithRootObject:[NSColor blueColor]] 
-					forKey:FTEyeXYEyeColorKey]];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:
+                [NSArchiver archivedDataWithRootObject:[NSColor blueColor]] forKey:FTEyeXYLEyeColorKey]];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:
+                [NSArchiver archivedDataWithRootObject:[NSColor redColor]] forKey:FTEyeXYREyeColorKey]];
+		eyeXSamples[kLeftEye] = [[NSMutableData alloc] init];
+		eyeYSamples[kLeftEye] = [[NSMutableData alloc] init];
+		eyeXSamples[kRightEye] = [[NSMutableData alloc] init];
+		eyeYSamples[kRightEye] = [[NSMutableData alloc] init];
+		sampleLock = [[NSLock alloc] init];
+ 		[self setShouldCascadeWindows:NO];
+        [self setWindowFrameAutosaveName:@"FTXYAutosave"];
         [self window];							// Force the window to load now
-
-// Bind the LLEyeXYView values to our keys
-
-		enumerator = [keyArray objectEnumerator];
-		while ((key = [enumerator nextObject]) != nil) {
-			[eyePlot bind:[LLTextUtil stripPrefixAndDecapitalize:key prefix:@"FTEyeXY"]
-				toObject:[NSUserDefaultsController sharedUserDefaultsController]
-				withKeyPath:[NSString stringWithFormat:@"values.%@", key] 
-				options:nil];
-		}
-		[eyePlot bind:@"eyeColor"
-			toObject:[NSUserDefaultsController sharedUserDefaultsController]
-			withKeyPath:@"values.FTEyeXYEyeColor" 
-			options:[NSDictionary dictionaryWithObject:@"NSUnarchiveFromData" 
-			forKey:@"NSValueTransformerName"]];
     }
     return self;
 }
+
+- (void)processEyeSamplePairs;
+{
+	long index, eyeIndex;
+	NSEnumerator *enumerator;
+	NSArray *pairs;
+	NSValue *value;
+	
+    for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
+        [sampleLock lock];
+        pairs = [LLDataUtil pairXSamples:eyeXSamples[eyeIndex] withYSamples:eyeYSamples[eyeIndex]];
+        [sampleLock unlock];
+        if (pairs != nil) {
+            enumerator = [pairs objectEnumerator];
+            while (value = [enumerator nextObject]) {
+                currentEyeDeg[eyeIndex] = [unitsToDeg[eyeIndex] transformPoint:[value pointValue]];
+                [eyePlot addSample:currentEyeDeg[eyeIndex] forEye:eyeIndex];
+            }
+        }
+    }
+	if ((!inWindow && 
+         (NSPointInRect(currentEyeDeg[kLeftEye], eyeWindowRectDeg) || 
+          NSPointInRect(currentEyeDeg[kRightEye], eyeWindowRectDeg))) ||
+        (inWindow && (!NSPointInRect(currentEyeDeg[kLeftEye], eyeWindowRectDeg) &&
+                      !NSPointInRect(currentEyeDeg[kRightEye], eyeWindowRectDeg)))) {
+		[eyePlot setNeedsDisplayInRect:[eyePlot pixRectFromDegRect:eyeWindowRectDeg]];
+		inWindow = !inWindow;
+	}
+}
+
+- (void)setEyePlotValues;
+{    
+	[eyePlot setDotSizeDeg:[[task defaults] floatForKey:FTEyeXYDotSizeDegKey]];
+	[eyePlot setDotFade:[[task defaults] boolForKey:FTEyeXYDoDotFadeKey]];
+    [eyePlot setEyeColor:[NSUnarchiver unarchiveObjectWithData:[[task defaults] objectForKey:FTEyeXYLEyeColorKey]]
+                  forEye:kLeftEye];
+    [eyePlot setEyeColor:[NSUnarchiver unarchiveObjectWithData:[[task defaults] objectForKey:FTEyeXYREyeColorKey]]
+                  forEye:kRightEye];
+	[eyePlot setGrid:[[task defaults] boolForKey:FTEyeXYDoGridKey]];
+	[eyePlot setGridDeg:[[task defaults] floatForKey:FTEyeXYGridDegKey]];
+	[eyePlot setOneInN:[[task defaults] integerForKey:FTEyeXYOneInNKey]];
+	[eyePlot setTicks:[[task defaults] boolForKey:FTEyeXYDoTicksKey]];
+	[eyePlot setTickDeg:[[task defaults] floatForKey:FTEyeXYTickDegKey]];
+	[eyePlot setSamplesToSave:[[task defaults] integerForKey:FTEyeXYSamplesToSaveKey]];
+}
+
 
 // Change the scaling factor for the view
 // Because scaleUnitSquareToSize acts on the current scaling, not the original scaling,
@@ -163,6 +202,21 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 	[self centerDisplay:self];
 }
 
+- (void)updateEyeCalibration:(long)eyeIndex eventData:(NSData *)eventData;
+{
+	LLEyeCalibrationData cal;
+    
+	[eventData getBytes:&cal];
+    
+	[unitsToDeg[eyeIndex] setTransformStruct:cal.calibration];
+	[degToUnits[eyeIndex] setTransformStruct:cal.calibration];
+	[degToUnits[eyeIndex] invert];
+    
+	[calBezierPath[eyeIndex] autorelease];
+	calBezierPath[eyeIndex] = [LLEyeCalibrator bezierPathForCalibration:cal];
+	[calBezierPath[eyeIndex] retain];
+}
+
 - (void)windowDidBecomeKey:(NSNotification *)aNotification {
 
 	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] 
@@ -174,33 +228,34 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 - (void) windowDidLoad {
 
-	calBezierPath = [[NSBezierPath alloc] init];
-    calColor = [[NSColor colorWithDeviceRed:0.60 green:0.45 blue:0.15 alpha:1.0] retain];
     fixWindowColor = [[NSColor colorWithDeviceRed:0.00 green:0.00 blue:1.00 alpha:1.0] retain];
-	unitsToDeg = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-	degToUnits = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-	[slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYMagKey]];
-    [self setScaleFactor:[[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYMagKey]];
-    [eyePlot setDrawOnlyDirtyRect:YES];
-	[eyePlot addDrawable:self];
+	unitsToDeg[kLeftEye] = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+	unitsToDeg[kRightEye] = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+	degToUnits[kLeftEye] = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+	degToUnits[kRightEye] = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+    [self setScaleFactor:[[task defaults] floatForKey:FTEyeXYMagKey]];
+	[self setEyePlotValues];
+	[eyePlot setDrawOnlyDirtyRect:YES];
+    [eyePlot addDrawable:self];
 	[self changeZoom:slider];
-	[eyePlot scrollPoint:NSMakePoint(
-            [[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYHScrollKey], 
-            [[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYVScrollKey])];
-	[[self window] setFrameUsingName:FTEyeXYAutosaveKey];			// Needed when opened a second time
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:FTEyeXYWindowVisibleKey]) {
+	[eyePlot scrollPoint:NSMakePoint([[task defaults] floatForKey:FTEyeXYHScrollKey], 
+                                     [[task defaults] floatForKey:FTEyeXYVScrollKey])];
+	
+	[[self window] setFrameUsingName:@"FTXYAutosave"];			// Needed when opened a second time
+    if ([[task defaults] boolForKey:FTEyeXYWindowVisibleKey]) {
         [[self window] makeKeyAndOrderFront:self];
     }
     else {
         [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     }
+    [scrollView setPostsBoundsChangedNotifications:YES];
     [super windowDidLoad];
 }
 
 - (BOOL) windowShouldClose:(NSNotification *)aNotification {
 
     [[self window] orderOut:self];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] 
+    [[task defaults] setObject:[NSNumber numberWithBool:NO] 
                 forKey:FTEyeXYWindowVisibleKey];
     [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     return NO;
@@ -211,41 +266,47 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 // Update the display of the calibration in the xy window.  We get the calibration structure
 // and use it to construct crossing lines that mark ±1 degree.
 
-- (void)eyeCalibration:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	NSBezierPath *oldPath;
-	LLEyeCalibrationData cal;
-	
-	[eventData getBytes:&cal];
-	[unitsToDeg setTransformStruct:cal.calibration];
-	[degToUnits setTransformStruct:cal.calibration];
-	[degToUnits invert];
-
-
-    oldPath = calBezierPath;
-	calBezierPath = [LLEyeCalibrator bezierPathForCalibration:cal];
-	[calBezierPath retain];
-	[oldPath release];
+- (void)eyeLeftCalibration:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
+    [self updateEyeCalibration:kLeftEye eventData:eventData];
 }
 
-- (void)eyeData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+- (void)eyeRightCalibration:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
-	short *pSamples;
-	long samplePair, samplePairs, x, y;
-	
-	samplePairs = [eventData length] / (2 * sizeof(short));
-	pSamples = (short *)[eventData bytes];
-	for (samplePair = 0; samplePair < samplePairs; samplePair++) {
-		x = *pSamples++;
-		y = *pSamples++;
-		currentEyeDeg = [unitsToDeg transformPoint:NSMakePoint(x, y)];
-		[eyePlot addSample:currentEyeDeg];
-	}
-	if (!inWindow && NSPointInRect(currentEyeDeg, eyeWindowRectDeg) ||
-				(inWindow && !NSPointInRect(currentEyeDeg, eyeWindowRectDeg))) {
-		[eyePlot setNeedsDisplayInRect:[eyePlot pixRectFromDegRect:eyeWindowRectDeg]];
-		inWindow = !inWindow;
-	}
+    [self updateEyeCalibration:kRightEye eventData:eventData];
+}
+
+- (void)eyeLXData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
+	[sampleLock lock];
+	[eyeXSamples[kLeftEye] appendData:eventData];
+	[sampleLock unlock];
+    //	[self processEyeSamplePairs];
+}
+
+- (void)eyeLYData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
+	[sampleLock lock];
+	[eyeYSamples[kLeftEye] appendData:eventData];
+	[sampleLock unlock];
+	[self processEyeSamplePairs];
+}
+
+- (void)eyeRXData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
+	[sampleLock lock];
+	[eyeXSamples[kRightEye] appendData:eventData];
+	[sampleLock unlock];
+    //	[self processEyeSamplePairs];
+}
+
+- (void)eyeRYData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
+	[sampleLock lock];
+	[eyeYSamples[kRightEye] appendData:eventData];
+	[sampleLock unlock];
+	[self processEyeSamplePairs];
 }
 
 - (void)eyeWindow:(NSData *)eventData eventTime:(NSNumber *)eventTime;
@@ -256,5 +317,6 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 	eyeWindowRectDeg = fixWindowData.windowDeg;
     [eyePlot setNeedsDisplay:YES];
 }
+
 
 @end

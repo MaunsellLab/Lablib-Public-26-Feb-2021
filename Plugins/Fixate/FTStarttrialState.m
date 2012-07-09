@@ -7,6 +7,7 @@
 //
 
 #import "FTStarttrialState.h"
+#import "FTUtilities.h"
 
 @implementation FTStarttrialState
 
@@ -32,7 +33,8 @@
 	longValue = kTimestampTickMS;
 	[[task dataDoc] putEvent:@"spikeZero" withData:&longValue];
     [[task dataController] setDataEnabled:[NSNumber numberWithBool:YES]];
-	[[task dataDoc] putEvent:@"eyeCalibration" withData:[[task eyeCalibrator] calibrationData]];
+	[[task dataDoc] putEvent:@"eyeLeftCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kLeftEye]];
+	[[task dataDoc] putEvent:@"eyeRightCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kRightEye]];
 	[[task dataDoc] putEvent:@"eyeWindow" withData:&fixWindowData];
 }
 
@@ -48,7 +50,7 @@
 		return  [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey] && 
-			[fixWindow inWindowDeg:[task currentEyeDeg]]) {
+			[FTUtilities inWindow:fixWindow]) {
 		return [[task stateSystem] stateNamed:@"Blocked"];
 	}
 	else {

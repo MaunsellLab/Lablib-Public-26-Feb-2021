@@ -7,6 +7,7 @@
 //
 
 #import "FTFixonState.h"
+#import "FTUtilities.h"
 
 @implementation FTFixonState
 
@@ -37,7 +38,7 @@
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey]) {
 		return [[task stateSystem] stateNamed:@"Fixate"];
     }
-	else if ([fixWindow inWindowDeg:[task currentEyeDeg]])  {
+	else if ([FTUtilities inWindow:fixWindow])  {
 		return [[task stateSystem] stateNamed:@"Fixate"];
     }
 	if ([LLSystemUtil timeIsPast:expireTime]) {

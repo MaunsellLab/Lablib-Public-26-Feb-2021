@@ -14,6 +14,7 @@
 
 	NSMenuItem				*actionsMenuItem;
 	LLControlPanel			*controlPanel;
+	NSPoint					currentEyesUnits[kEyes];
     FTEyeXYController		*eyeXYController;				// Eye position display
 	NSMenuItem				*settingsMenuItem;
     NSWindowController 		*summaryController;

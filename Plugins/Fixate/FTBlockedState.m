@@ -7,6 +7,7 @@
 //
 
 #import "FTBlockedState.h"
+#import "FTUtilities.h"
 
 @implementation FTBlockedState
 
@@ -26,7 +27,7 @@
 - (LLState *)nextState {
 
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey] || 
-						![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+						![FTUtilities inWindow:fixWindow]) {
 		return [[task stateSystem] stateNamed:@"Fixon"];
     }
 	if ([task mode] == kTaskIdle) {
