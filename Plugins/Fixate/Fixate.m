@@ -37,12 +37,6 @@ DataAssignment spikeDataAssignment = {@"spikeData", @"Synthetic", 2, 1};
 EventDefinition FTEvents[] = {	
 	{@"taskMode", 			sizeof(long),			{@"long"}},
 	{@"reset", 				sizeof(long),			{@"long"}}, 
-	{@"eyeLXData",			sizeof(short),			{@"short", @"eyeLXData", -1, 0, sizeof(short)}},
-	{@"eyeLYData",			sizeof(short),			{@"short", @"eyeLYData", -1, 0, sizeof(short)}},
-	{@"eyeLPData",			sizeof(short),			{@"short", @"eyeLPData", -1, 0, sizeof(short)}},
-	{@"eyeRXData",			sizeof(short),			{@"short", @"eyeRXData", -1, 0, sizeof(short)}},
-	{@"eyeRYData",			sizeof(short),			{@"short", @"eyeRYData", -1, 0, sizeof(short)}},
-	{@"eyeRPData",			sizeof(short),			{@"short", @"eyeRPData", -1, 0, sizeof(short)}},
 };
 
 LLTaskPlugIn	*task = nil;
