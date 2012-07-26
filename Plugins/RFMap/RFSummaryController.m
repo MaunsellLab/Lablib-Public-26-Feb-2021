@@ -174,41 +174,41 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             break;
         case kDayColumn:
             if (row == kTotalRow) {
-                string = [NSString stringWithFormat:@"%d", dayEOTTotal];
+                string = [NSString stringWithFormat:@"%ld", dayEOTTotal];
             }
             else if (row == kRewardsRow) {
-                string = [NSString stringWithFormat:@"%d", dayEOTs[kEOTCorrect]];
+                string = [NSString stringWithFormat:@"%ld", dayEOTs[kEOTCorrect]];
             }
             else if (dayEOTTotal == 0) {
                 string = @" ";
             }
 			else if (row == kComputerRow) {		// row reserved for computer failures
-               string = [NSString stringWithFormat:@"%d", dayComputer];
+               string = [NSString stringWithFormat:@"%ld", dayComputer];
 			}
             else {
-               string = [NSString stringWithFormat:@"%d%%", 
+               string = [NSString stringWithFormat:@"%ld%%", 
 							(long)round(dayEOTs[kLastEOTTypeDisplayed - row] * 100.0 / dayEOTTotal)];
             }
             break;
        case kRecentColumn:
             if (row == kTotalRow) {
-                string = [NSString stringWithFormat:@"%d", recentEOTTotal];
+                string = [NSString stringWithFormat:@"%ld", recentEOTTotal];
             }
             else if (row == kRewardsRow) {
-                string = [NSString stringWithFormat:@"%d", recentEOTs[kEOTCorrect]];
+                string = [NSString stringWithFormat:@"%ld", recentEOTs[kEOTCorrect]];
             }
             else if (recentEOTTotal == 0) {
                 string = @" ";
             }
 			else if (row == kComputerRow) {		// row reserved for computer failures
-               string = [NSString stringWithFormat:@"%d", recentComputer];
+               string = [NSString stringWithFormat:@"%ld", recentComputer];
 			}
            else {
 				if (recentEOTTotal == 0) {
 					string = @"";
 				}
 				else {
-					string = [NSString stringWithFormat:@"%d%%", 
+					string = [NSString stringWithFormat:@"%ld%%",
 							(long)round(recentEOTs[kLastEOTTypeDisplayed - row] * 100.0 / recentEOTTotal)];
 				}
             }
@@ -338,31 +338,31 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             string = @"";
             break;
         case 3:
-            string = [NSString stringWithFormat:@"Trial %d of %d", 
+            string = [NSString stringWithFormat:@"Trial %ld of %ld", 
                 MIN(pStimParam->levels, trialsDoneThisBlock + 1), pStimParam->levels];
             break;
         case 4:
-            string = [NSString stringWithFormat:@"Block %d of %d", blocksDone + 1, blockLimit];
+            string = [NSString stringWithFormat:@"Block %ld of %ld", blocksDone + 1, blockLimit];
 			break;
         case 5:
             remainingTrials =  MAX(0, (blockLimit - blocksDone) * pStimParam->levels - trialsDoneThisBlock);
             doneTrials = trialsDoneThisBlock + blocksDone * pStimParam->levels;
             if (doneTrials == 0) {
-                string = [NSString stringWithFormat:@"Remaining: %d trials", remainingTrials];
+                string = [NSString stringWithFormat:@"Remaining: %ld trials", remainingTrials];
             }
             else {
                 timeLeftS = ([LLSystemUtil getTimeS] - lastStartTimeS + accumulatedRunTimeS)
 													/ doneTrials * remainingTrials;
                 if (timeLeftS < 60.0) {
-                    string = [NSString stringWithFormat:@"Remaining: %d trials (%.1f s)", 
+                    string = [NSString stringWithFormat:@"Remaining: %ld trials (%.1f s)", 
                                 remainingTrials, timeLeftS];
                 }
                 else if (timeLeftS < 3600.0) {
-                    string = [NSString stringWithFormat:@"Remaining: %d trials (%.1f m)", 
+                    string = [NSString stringWithFormat:@"Remaining: %ld trials (%.1f m)", 
                                 remainingTrials, timeLeftS / 60.0];
                 }
                 else {
-                    string = [NSString stringWithFormat:@"Remaining: %d trials (%.1f h)", 
+                    string = [NSString stringWithFormat:@"Remaining: %ld trials (%.1f h)", 
                                 remainingTrials, timeLeftS / 3600.0];
                 }
             }

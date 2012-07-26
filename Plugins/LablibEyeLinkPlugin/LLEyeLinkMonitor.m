@@ -137,7 +137,7 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 		[textString appendString:@"\n\n(No data sequences have been compiled)"];
 	}
 	else {
-		[textString appendString:[NSString stringWithFormat:@"\n\n%d sampling sequences completed\n\n", 
+		[textString appendString:[NSString stringWithFormat:@"\n\n%ld sampling sequences completed\n\n", 
 			cumulative.sequences]];
 		if (previous.samples > 0) {
 			[textString appendString:@"Last Sequence:\n\n"];

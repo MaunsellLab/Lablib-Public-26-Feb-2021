@@ -120,7 +120,7 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 - (NSString *)description;
 {
 	return [NSString stringWithFormat:@"(0x%x) state: %s azi: %.1f ele: %.1f rad: %.1f dir %.1f",
-		self, (state ? "\"On\"" : "\"Off\""), azimuthDeg, elevationDeg, radiusDeg, directionDeg];
+		(unsigned int)self, (state ? "\"On\"" : "\"Off\""), azimuthDeg, elevationDeg, radiusDeg, directionDeg];
 }
 
 // We need this to adhere to the LLVisualStimulus protocol, but return zero because we have no direction

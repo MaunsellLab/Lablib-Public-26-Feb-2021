@@ -37,7 +37,7 @@ typedef struct {
                 label:(NSString *)axisLabel;
 + (void)getTickLimits:(TickSettings *)pTicks spacing:(float)tickSpacing fromValue:(float)v1 toValue:(float)v2;
 + (void)getTickLimits:(TickSettings *)pTicks style:(long)style fromValue:(float)v1 toValue:(float)v2;
-+ (long)precisionForMin:(float)axisMinValue andMax:(float)axisMaxValue;
++ (int)precisionForMin:(float)axisMinValue andMax:(float)axisMaxValue;
 + (long)tickHeightPix;
 
 @end

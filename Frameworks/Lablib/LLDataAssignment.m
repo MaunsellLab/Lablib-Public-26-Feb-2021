@@ -23,7 +23,7 @@
 
 - (NSString *)description;
 {
-	return [NSString stringWithFormat:@"%@: name %@; device %d; channel %d; type %d; groupIndex %d", 
+	return [NSString stringWithFormat:@"%@: name %@; device %ld; channel %ld; type %ld; groupIndex %ld", 
 		[self class], name, device, channel, type, groupIndex];
 }
 

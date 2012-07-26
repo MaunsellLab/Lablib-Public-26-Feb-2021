@@ -41,7 +41,7 @@ static long			printWidthPix;
         case 0:
             [[[document fileURL] lastPathComponent] drawAtPoint:NSMakePoint(kXMarginPix, line * charSize.height)
                                                         withAttributes:printFontAttributes];
-            pageString = [[NSString alloc] initWithFormat:@"Page %d of %d", line / linesPerPage + 1, pages];
+            pageString = [[NSString alloc] initWithFormat:@"Page %ld of %ld", line / linesPerPage + 1, pages];
             stringXOffset = [pageString sizeWithAttributes:printFontAttributes].width;
             [pageString  drawAtPoint:NSMakePoint(printWidthPix - stringXOffset, line * charSize.height)
                 withAttributes:printFontAttributes];
@@ -74,7 +74,7 @@ static long			printWidthPix;
     [printFontAttributes setObject:font forKey:NSFontAttributeName];
     [printFontAttributes retain];
 
-    charSize = [[NSString stringWithString:@"X"] sizeWithAttributes:printFontAttributes];
+    charSize = [@"X" sizeWithAttributes:printFontAttributes];
     printWidthPix = [printInfo paperSize].width - [printInfo leftMargin] - [printInfo rightMargin];
     linesPerPage = ([printInfo paperSize].height - [printInfo topMargin] - [printInfo bottomMargin]) / charSize.height;
     printableLinesPerPage = linesPerPage - 2;				// two lines left for the header

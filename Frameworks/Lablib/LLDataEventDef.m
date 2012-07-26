@@ -162,7 +162,7 @@ static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1};
 // event with no data, we set its value to the time since the start of the trial
 
 	if ([def.typeName isEqualToString:@"no data"]) {
-		return [NSArray arrayWithObject:[NSString stringWithFormat:@"%@%@%@ = %d", 
+		return [NSArray arrayWithObject:[NSString stringWithFormat:@"%@%@%@ = %lu",
 				prefix, def.dataName, suffix, pEvent->trialTime]];
 	}
 	
@@ -304,7 +304,7 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 			items = (def.elements == -1) ? (length / def.elementBytes) : def.elements;
 			for (index = 0; index < items; index++) {		// for each struct instance in array
 				prefix = [prefix stringByAppendingString:	// upate the prefix
-							[NSString stringWithFormat:@"(%d).", index + 1]];
+							[NSString stringWithFormat:@"(%ld).", index + 1]];
 				defIndex = previousDefIndex;
 				for (tag = 0; tag < def.tags; tag++) {		// get each struct tag
 					defIndex++;								// advance to next definition
@@ -603,13 +603,13 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 		theString = [NSString stringWithFormat:@" []"];
 		break;
 	case kCharType:
-		theString = [NSString stringWithFormat:@" %hi", ((char *)dPtr)[index]];
+		theString = [NSString stringWithFormat:@" %hhi", ((char *)dPtr)[index]];
 		break;
 	case kUnsignedCharType:
-		theString = [NSString stringWithFormat:@" %hu", ((unsigned char *)dPtr)[index]];
+		theString = [NSString stringWithFormat:@" %hhu", ((unsigned char *)dPtr)[index]];
 		break;
 	case kBooleanType:
-		theString = [NSString stringWithFormat:@" %hi", ((BOOL *)dPtr)[index]];
+		theString = [NSString stringWithFormat:@" %hhi", ((BOOL *)dPtr)[index]];
 		break;
 	case kShortType:
 		theString = [NSString stringWithFormat:@" %hi", ((short *)dPtr)[index]];
@@ -618,10 +618,10 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 		theString = [NSString stringWithFormat:@" %hu", ((unsigned short *)dPtr)[index]];
 		break;
 	case kLongType:
-		theString = [NSString stringWithFormat:@" %d", ((long *)dPtr)[index]];
+		theString = [NSString stringWithFormat:@" %ld", ((long *)dPtr)[index]];
 		break;
 	case kUnsignedLongType:
-		theString = [NSString stringWithFormat:@" %u", ((unsigned long *)dPtr)[index]];
+		theString = [NSString stringWithFormat:@" %lu", ((unsigned long *)dPtr)[index]];
 		break;
 	case kFloatType:
 		theString = [NSString stringWithFormat:@" %f", ((float *)dPtr)[index]];

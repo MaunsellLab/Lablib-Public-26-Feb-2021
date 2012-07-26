@@ -137,7 +137,7 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 		[textString appendString:@"\n\n(No data sequences have been compiled)"];
 	}
 	else {
-		[textString appendString:[NSString stringWithFormat:@"\n\n%d sampling sequences completed\n\n", 
+		[textString appendString:[NSString stringWithFormat:@"\n\n%ld sampling sequences completed\n\n", 
 			cumulative.sequences]];
 		if (previous.samples > 0) {
 			[textString appendString:@"Last Sequence:\n\n"];
@@ -175,13 +175,13 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
                 pValues->cumulativeTimeMS / pValues->samples]];
     for (index = 0; index < kLLITC18DigitalBits; index++) {
         if (pValues->timestampCount[index] > 0) {
-            [string appendString:[NSString stringWithFormat:@" %8d", index]];
+            [string appendString:[NSString stringWithFormat:@" %8ld", index]];
         }
     }
     [string appendString:@"\n  Counts:"];
     for (index = 0; index < kLLITC18DigitalBits; index++) {
         if (pValues->timestampCount[index] > 0) {
-            [string appendString:[NSString stringWithFormat:@" %8d", pValues->timestampCount[index]]];
+            [string appendString:[NSString stringWithFormat:@" %8ld", pValues->timestampCount[index]]];
         }
     }
     [string appendString:@"\n   Per S:"];

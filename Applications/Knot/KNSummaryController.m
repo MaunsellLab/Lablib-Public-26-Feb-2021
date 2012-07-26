@@ -165,19 +165,19 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
             break;
         case kDayColumn:
             if (row == kTotalRow) {
-                string = [NSString stringWithFormat:@"%d", dayEOTTotal];
+                string = [NSString stringWithFormat:@"%ld", dayEOTTotal];
             }
             else if (row == kRewardsRow) {
-                string = [NSString stringWithFormat:@"%d", dayEOTs[kEOTCorrect]];
+                string = [NSString stringWithFormat:@"%ld", dayEOTs[kEOTCorrect]];
             }
             else if (dayEOTTotal == 0) {
                 string = @" ";
             }
 			else if (row == kComputerRow) {		// row reserved for computer failures
-               string = [NSString stringWithFormat:@"%d", dayComputer];
+               string = [NSString stringWithFormat:@"%ld", dayComputer];
 			}
             else {
-               string = [NSString stringWithFormat:@"%d%%", 
+               string = [NSString stringWithFormat:@"%ld%%", 
 							(long)round(dayEOTs[kLastEOTTypeDisplayed - row] * 100.0 / dayEOTTotal)];
             }
             break;

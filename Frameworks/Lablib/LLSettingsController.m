@@ -373,7 +373,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 	
 	count = [settingsNameArray count];
 	do {
-		newName = [NSString stringWithFormat:@"Settings %d", count++];
+		newName = [NSString stringWithFormat:@"Settings %ld", count++];
 	} while ([settingsNameArray containsObject:newName]);
 	return newName;
 }

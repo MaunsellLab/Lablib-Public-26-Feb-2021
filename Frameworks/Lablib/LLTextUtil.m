@@ -18,7 +18,7 @@
 			[string substringFromIndex:1]];
 }
 
-+ (long)precisionForValue:(float)value significantDigits:(long)digits {
++ (int)precisionForValue:(float)value significantDigits:(long)digits {
 
 	long log10Rounded;
 	

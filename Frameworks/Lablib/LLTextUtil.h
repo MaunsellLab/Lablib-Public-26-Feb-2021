@@ -11,7 +11,7 @@
 }
 
 + (NSString *)capitalize:(NSString *)string prefix:(NSString *)prefix;
-+ (long)precisionForValue:(float)value significantDigits:(long)digits;
++ (int)precisionForValue:(float)value significantDigits:(long)digits;
 + (NSString *)stripPrefixAndDecapitalize:(NSString *)string prefix:(NSString *)prefix;
 
 @end

@@ -84,7 +84,7 @@ NSString *LLWidthMMKey = @"LL Width MM";
 
 	if (![self readParameters:displayIndex] && !initialized[displayIndex]) {
 		displayDescription = (displayIndex == 0) ? @"Main Display" :
-				[NSString stringWithFormat:@"Display %d", displayIndex];
+				[NSString stringWithFormat:@"Display %ld", displayIndex];
 		NSRunAlertPanel(@"LLDisplayPhysical", @"No display calibration information found for \"%@\" (%@).  \
 You may provide calibration information in the dialog that will appear next.", @"OK", nil, nil, 
 				[LLDisplays displayNameUsingIndex:displayIndex], displayDescription);
@@ -107,7 +107,7 @@ You may provide calibration information in the dialog that will appear next.", @
 
 - (void)doSettingsPanel:(long)displayIndex {
 
-	NSString *domainName = [NSString stringWithFormat:@"%@ %d", kLLScreenDomainName, displayIndex];
+	NSString *domainName = [NSString stringWithFormat:@"%@ %ld", kLLScreenDomainName, displayIndex];
 
 	currentParam = displayParam[displayIndex];
 	if (!initialized[displayIndex]) {
@@ -199,7 +199,7 @@ values on this machine.  Your values will last only while this program runs.", @
 	NSString *domainName;
 	DisplayPhysicalParam *pDP = &displayParam[index];
 		
-	domainName = [NSString stringWithFormat:@"%@ %d", kLLScreenDomainName, index];
+	domainName = [NSString stringWithFormat:@"%@ %ld", kLLScreenDomainName, index];
 	
 	if (![self readDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM]) {
 		return NO;
@@ -240,7 +240,7 @@ values on this machine.  Your values will last only while this program runs.", @
 - (void)writeParameters:(long)index {
 
 	DisplayPhysicalParam *pDP = &displayParam[index];
-	NSString *domainName = [NSString stringWithFormat:@"%@ %d", kLLScreenDomainName, index];
+	NSString *domainName = [NSString stringWithFormat:@"%@ %ld", kLLScreenDomainName, index];
 
 	[self writeDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM];
 	[self writeDomain:domainName key:LLHeightMMKey doublePtr:&pDP->heightMM];

@@ -215,7 +215,7 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 - (id)init;
 {
     if ((self = [super initWithWindowNibName:@"LLEyeCalibrator"]) != nil) {
-        keyPrefix = [[NSString stringWithString:@"LLFixCal"] retain];
+        keyPrefix = [@"LLFixCal" retain];
         [self initFinish];
     }
     return self;

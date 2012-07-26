@@ -251,10 +251,10 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 
 - (NSString *)description;
 {
-    return[NSString stringWithFormat:@"\n\tLLPlaid (0x%x): Az = %.1f, El = %.1 fRad = %.1f, Sig = %.1f, \n\
+    return[NSString stringWithFormat:@"\n\tLLPlaid (0x%x): Az = %.1f, El = %.1f Rad = %.1f, Sig = %.1f, \n\
 		   \tDir = %.1f Cont = %.2f\tSF = %.1f\n\
 		   \tDir = %.1f Cont = %.2f\tSF = %.1f\n",
-        self, azimuthDeg, elevationDeg, radiusDeg, sigmaDeg, directionDeg0, contrast0, spatialFreqCPD0, 
+        (unsigned int)self, azimuthDeg, elevationDeg, radiusDeg, sigmaDeg, directionDeg0, contrast0, spatialFreqCPD0,
 		   directionDeg1, contrast1, spatialFreqCPD1];
 }
 
