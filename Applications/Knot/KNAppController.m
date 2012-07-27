@@ -60,6 +60,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	
 // Nothing to worry about before quitting
 	
+    NSLog(@"Knot applicationShouldTerminate");
 	if (([currentTask mode] == kTaskIdle) && !writingDataFile) {
 		[currentTask deactivate:self];
 		return NSTerminateNow;
@@ -92,6 +93,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
 
+    NSLog(@"Knot applicationWillTerminate");
     [dataDeviceController setDataEnabled:[NSNumber numberWithBool:NO]];
     [currentTask deactivate:self];
 	[settingsController synchronize];		// Wait until after task deactivates, in case it saves settings
@@ -113,19 +115,20 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	[pluginController release];
 
 	[aboutPanel release];
+    NSLog(@"Knot applicationWillTerminate [stimWindow release]");
     [stimWindow release];
 	
     [dataDeviceController release];
 	synthDataDevice = nil;									// nil the pointer to the released data devices
 	mouseDataDevice = nil;									// nil the pointer to the released data devices
 	[monitorController release];
+    NSLog(@"Knot applicationWillTerminate [dataDoc release]");
     [dataDoc release];										// release data document
     [eyeCalibration release];
 	[settingsController release];
 
     [defaults synchronize];									// synchronize defaults with disk
-//    [defaults release];
-//    defaults = nil;
+    NSLog(@"Knot applicationWillTerminate is done");
 }
 
 // The main nib has been loaded now, so we can initialize with impunity 
@@ -285,8 +288,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void) dealloc;
 {
+    NSLog(@"Knot dealloc");
     [defaults release];
 	[super dealloc];
+    NSLog(@"Knot dealloc is done");
 }
 
 - (IBAction)doPluginController:(id)sender;
