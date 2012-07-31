@@ -399,7 +399,7 @@ them.
 // in the Matlab file. We have to count the occurences of each event before the first trialStart so we know whether
 // we have to assign subscripts to the events
 
-	eventTrialCounts = calloc(numEvents, sizeof(unsigned long));	// count of each event in current trial
+	eventTrialCounts = calloc(numEvents, sizeof(long));	// count of each event in current trial
 	multiTrialEvents = calloc(numEvents, sizeof(BOOL));				// events with subscript in "file"
 	multiFileEvents = calloc(numEvents, sizeof(BOOL));				// events with subscript in "trial"
 	data = [[NSMutableData alloc] init];

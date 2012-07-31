@@ -23,7 +23,7 @@ void readEDID(CGDirectDisplayID displayID);
 {
 	NSDictionary *displayDictionary, *productNamesDictionary;
 	io_service_t service;
-	NSString *displayName;
+	NSString *displayName = nil;
 
 	service = CGDisplayIOServicePort(displayID);
 	displayDictionary = (NSDictionary *)IODisplayCreateInfoDictionary(service, kIODisplayOnlyPreferredName);
@@ -33,7 +33,7 @@ void readEDID(CGDirectDisplayID displayID);
 			displayName = [[productNamesDictionary allValues] objectAtIndex:0];
 		}
 	}
-	return (displayName != NULL) ? displayName : @"Unknown Display";
+	return (displayName != nil) ? displayName : @"Unknown Display";
 }
 
 + (NSString *)displayNameUsingIndex:(long)displayIndex;

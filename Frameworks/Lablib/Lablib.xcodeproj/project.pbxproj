@@ -1611,6 +1611,7 @@
 				CONFIGURATION_BUILD_DIR = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				MACOSX_DEPLOYMENT_TARGET = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
 			};
 			name = Development;
@@ -1620,6 +1621,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
 			};
 			name = Deployment;
@@ -1629,6 +1631,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
 			};
 			name = Default;

@@ -55,14 +55,14 @@ static void preventSleepCallback(CFRunLoopTimerRef timer, void *info);
 
     int mib[2];
     unsigned int miblen;
-    int busSpeed, status;
+    int busSpeed;
     size_t length;
     
     mib[0] = CTL_HW;
     mib[1] = HW_BUS_FREQ;
     miblen = 2;
     length = 4;
-    status = sysctl(mib, miblen, &busSpeed, &length, NULL, 0);
+    sysctl(mib, miblen, &busSpeed, &length, NULL, 0);
     return busSpeed;
 }
 

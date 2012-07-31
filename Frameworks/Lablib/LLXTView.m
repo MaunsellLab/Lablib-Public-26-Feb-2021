@@ -205,7 +205,7 @@
 {
     eyeWindowOrigin = rect.origin.x;
     eyeWindowWidth = rect.size.width;
-    time -= timeOffsetMS;
+//    time -= timeOffsetMS;
     if (kEyePlots > 0) {
         [eyePlots[0] setEyeWindowOrigin:rect.origin.x width:rect.size.width];
 		if (kEyePlots > 1) {

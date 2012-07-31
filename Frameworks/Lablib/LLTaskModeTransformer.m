@@ -24,7 +24,6 @@
 - (id)transformedValue:(id)value;
 {
 	NSNumber *number = nil;
-	long mode;
 	
     if (value == nil) {
 		return nil;
@@ -33,9 +32,7 @@
 // Attempt to get a reasonable value from the 
 // value object. 
 
-    if ([value respondsToSelector: @selector(intValue)]) {
-        mode = [value intValue];		 // handles NSString and NSNumber
-    } else {
+    if (![value respondsToSelector: @selector(intValue)]) {
         [NSException raise: NSInternalInconsistencyException
 				format: @"LLTaskModeTransformer: Value (%@) does not respond to -floatValue.",
 			[value class]];

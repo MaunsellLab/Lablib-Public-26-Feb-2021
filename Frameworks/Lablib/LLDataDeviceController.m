@@ -376,6 +376,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			[sampleData[[assign device]][[assign channel]] setLength:0];
 			break;
 		case kLLTimestampData:
+        default:
 			data = [NSData dataWithData:timestampData[[assign device]][[assign channel]]];
 			[timestampData[[assign device]][[assign channel]] setLength:0];
 			break;
@@ -572,7 +573,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 - (BOOL)readDefaults:(LLDataAssignment *)assign pTiming:(float *)pTiming;
 {
 	long deviceIndex, channelIndex;
-	NSArray *defaultsArray;
+	NSArray *defaultsArray = nil;
 	
 	if ([assign type] == kLLSampleData) {
 		defaultsArray = [defaults arrayForKey:[NSString stringWithFormat:@"%@%@%ld",

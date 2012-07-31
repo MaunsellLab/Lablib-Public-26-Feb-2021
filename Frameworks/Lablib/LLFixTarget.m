@@ -29,7 +29,6 @@ NSString *LLFixShapeKey = @"shape";
 
 - (void)draw;
 {	
-	float thirdRadiusDeg;
 	GLUquadricObj *quadric;
     
 	BOOL transparent;
@@ -69,7 +68,6 @@ NSString *LLFixShapeKey = @"shape";
 		glRectf(-innerRadiusDeg, innerRadiusDeg, innerRadiusDeg, -innerRadiusDeg);
 		break;
 	case kLLCross:
-		thirdRadiusDeg = radiusDeg / 3.0;
 		glBegin(GL_QUADS);
 		[self drawRectWithWidthDeg:(radiusDeg / 3.0) lengthDeg:radiusDeg];
 		[self drawRectWithWidthDeg:radiusDeg lengthDeg:(radiusDeg / 3.0)];
