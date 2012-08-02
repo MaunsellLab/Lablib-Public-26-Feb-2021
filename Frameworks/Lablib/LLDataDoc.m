@@ -69,6 +69,7 @@
 	if (![[NSFileManager defaultManager] createFileAtPath:filePath
 								contents:nil attributes:attr]) {
 		NSRunAlertPanel(@"LLDataDoc",  @"Unable to create file %@", @"OK", nil, nil, filePath);
+        filePath = nil;
 		return NO;
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:[[filePath pathComponents] lastObject] 

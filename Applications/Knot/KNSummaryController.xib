@@ -46,7 +46,7 @@
 			<object class="NSWindowTemplate" id="959325668">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{19, 460}, {240, 255}}</string>
+				<string key="NSWindowRect">{{19, 460}, {240, 254}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle">Overall Summary</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -635,11 +635,11 @@
 							</object>
 						</object>
 					</array>
-					<string key="NSFrameSize">{240, 255}</string>
+					<string key="NSFrameSize">{240, 254}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="148068428"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {2560, 1578}}</string>
+				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
 				<string key="NSMinSize">{150, 172}</string>
 				<string key="NSMaxSize">{240, 277}</string>
 				<string key="NSFrameAutosaveName">KNSummaryController</string>
