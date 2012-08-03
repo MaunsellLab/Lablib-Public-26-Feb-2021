@@ -67,8 +67,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (IBAction)deleteSettings:(id)sender;
 {
-	long row = [settingsTable selectedRow];
-	
 	if ([settingsNameArray count] == 1) {
 		NSBeginAlertSheet(@"LLSettingsController", 
 			@"OK", nil, nil, [self window], self, nil,
@@ -79,8 +77,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 		NSBeginAlertSheet(@"LLSettingsController", 
 			@"Delete", @"Cancel", nil, [self window], self, nil,
 			@selector(deleteSheetDidEnd:returnCode:contextInfo:), nil,
-			[NSString stringWithFormat:@"Really delete configuration \"%@\"? This operation cannot be undone.",
-			[settingsNameArray objectAtIndex:row]]);
+                          @"Really delete configuration? This operation cannot be undone.");
 	}
 }
 

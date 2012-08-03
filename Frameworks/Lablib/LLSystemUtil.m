@@ -11,6 +11,7 @@
 #include <mach/mach_init.h> 
 #include <mach/thread_policy.h> 
 #include <mach/thread_act.h> 
+#import <IOKit/pwr_mgt/IOPMLib.h>
 
 static void preventSleepCallback(CFRunLoopTimerRef timer, void *info);
 
@@ -146,8 +147,13 @@ extern void CGSDeferredUpdates(int);
 
 
 static void preventSleepCallback(CFRunLoopTimerRef timer, void *info) {
-
-	UpdateSystemActivity(OverallAct);
+ 
+    IOPMAssertionID assertionID;
+    CFStringRef reasonForActivity= CFSTR("Collecting Data");
+    
+    IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep, kIOPMAssertionLevelOn,
+                                               reasonForActivity, &assertionID);
+//    UpdateSystemActivity(OverallAct);
 }
 
 

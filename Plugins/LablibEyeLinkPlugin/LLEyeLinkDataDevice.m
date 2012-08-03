@@ -147,7 +147,7 @@ void handler(int signal) {
 - (float)samplePeriodMSForChannel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Requested sample period %d of %d for device %@",
+		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Requested sample period %ld of %d for device %@",
 				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
 		exit(0);
 	}
@@ -320,7 +320,7 @@ void handler(int signal) {
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Attempt to set sample period %d of %d for device %@",
+		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Attempt to set sample period %ld of %d for device %@",
 				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
 		exit(0);
 	}

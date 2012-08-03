@@ -146,7 +146,7 @@ static long	ITCCount = 0;
 	if (itc != nil) {
 		[deviceLock lock];
 		ITC18_Close(itc);
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 		[deviceLock unlock];
 	}
@@ -516,7 +516,7 @@ static long	ITCCount = 0;
 
     [deviceLock lock];
 	if (itc == nil) {						// currently opened?
-		if ((itc = NewPtr(ITC18_GetStructureSize())) == nil) {
+		if ((itc = malloc(ITC18_GetStructureSize())) == nil) {
 			[deviceLock unlock];
 			NSRunAlertPanel(@"LLITC18IODevice",  @"Failed to allocate pLocal memory.", @"OK", nil, nil);
 			exit(0);
@@ -547,7 +547,7 @@ static long	ITCCount = 0;
 		}
 	}
 	if (!devicePresent) {
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 	}
 	else {

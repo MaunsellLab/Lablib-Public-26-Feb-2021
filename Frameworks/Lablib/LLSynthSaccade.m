@@ -10,6 +10,7 @@
 
 #define kAccelDegPerSPerS		5000.0
 #define	kCenteringProb			0.50
+#define kPi                     3.14159
 
 @implementation LLSynthSaccade
 
@@ -41,10 +42,10 @@
 // saccade will be in the direction of the center position ((0, 0) ±90°);
     
        if ((rand() % 100) < (kCenteringProb * 100)) {
-            dirRad = atan2(-currentPosition.y, -currentPosition.x) + ((rand() % 90) - 45) * pi / 180.0;
+            dirRad = atan2(-currentPosition.y, -currentPosition.x) + ((rand() % 90) - 45) * kPi / 180.0;
         }
         else {
-            dirRad = (rand() % 360) / 2.0 / pi;
+            dirRad = (rand() % 360) / 2.0 / kPi;
         }
         [self initParameters];
     }

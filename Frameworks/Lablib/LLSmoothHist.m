@@ -103,7 +103,7 @@
 	else {
 		gHalfDown = glength / 2;
 		gHalfUp = (glength + 1) / 2;
-		if ((temp = (double *)NewPtrClear(sizeof(double) * bins)) == NULL) {
+		if ((temp = (double *)calloc(bins, sizeof(double))) == NULL) {
 			// ??? Fatal exit
 		}
 
@@ -159,7 +159,7 @@
 			hist[bin] = temp[bin];
 			maxbin = MAX(maxbin, hist[bin]);
 		}
-		DisposePtr((Ptr)temp);
+		free((void *)temp);
 	}
 	return maxbin;
 }

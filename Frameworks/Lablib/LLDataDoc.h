@@ -28,6 +28,7 @@
     NSLock				*observerLock;
 	BOOL				retainEvents;			// don't flush events after dispatch
 	AbsoluteTime		startTime;
+	NSDate              *startDate;
 	unsigned long		threadingThreshold;
 	BOOL				useDefaultDir;
 }

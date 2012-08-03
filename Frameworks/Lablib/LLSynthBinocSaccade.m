@@ -10,6 +10,7 @@
 
 #define kAccelDegPerSPerS		5000.0
 #define	kCenteringProb			0.50
+#define kPi                     3.14159
 
 @implementation LLSynthBinocSaccade
 
@@ -39,10 +40,10 @@
         
         if ((rand() % 100) < (kCenteringProb * 100)) {
             dirRad = atan2(-currentDeg[kLeftEye].y, -currentDeg[kLeftEye].x) + 
-                                            ((rand() % 90) - 45) * pi / 180.0;
+                                            ((rand() % 90) - 45) * kPi / 180.0;
         }
         else {
-            dirRad = (rand() % 360) / 2.0 / pi;
+            dirRad = (rand() % 360) / 2.0 / kPi;
         }
         
         targetDeg.x = (currentDeg[kLeftEye].x + currentDeg[kRightEye].x) / 2.0 + cos(dirRad) * magDeg;

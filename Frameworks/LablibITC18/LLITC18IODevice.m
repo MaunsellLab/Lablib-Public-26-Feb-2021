@@ -110,7 +110,7 @@
 	if (itc != nil) {
 		[deviceLock lock];
 		ITC18_Close(itc);
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 		[deviceLock unlock];
 	}
@@ -259,7 +259,7 @@
 		return;
 	}
 	if (timestampTickPerMS < 1 || timestampTickPerMS > 10) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"%.1 timestamp ticks per ms is not supported", 
+		NSRunAlertPanel(@"LLITC18IODevice",  @"%f timestamp ticks per ms is not supported",
 					@"OK", nil, nil, timestampTickPerMS);
 		return;
 	}
@@ -292,18 +292,18 @@
 
 	if (instructionBufferLength < numInstr) {
 		if (pInstructions != nil) {
-			DisposePtr((char *)pInstructions);
+			free((char *)pInstructions);
 		}
-		pInstructions = (int *)NewPtr(numInstr * sizeof(int));
+		pInstructions = (int *)malloc(numInstr * sizeof(int));
 		if (pInstructions == nil) {
 			NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: Could not alloc pInstructions memory.", 
 						@"OK", nil, nil);
 			exit(0);
 		}
 		if (pSamples != nil) {
-			DisposePtr((char *)pSamples);
+			free((char *)pSamples);
 		}
-		pSamples = (short *)NewPtr(numInstr * sizeof(short));
+		pSamples = (short *)malloc(numInstr * sizeof(short));
 		if (pSamples == nil) {
 			NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: Could not alloc pSamples memory.", 
 						@"OK", nil, nil);
@@ -351,7 +351,7 @@
 
     [deviceLock lock];
 	if (itc == nil) {						// current opened?
-		if ((itc = NewPtr(ITC18_GetStructureSize())) == nil) {
+		if ((itc = malloc(ITC18_GetStructureSize())) == nil) {
 			NSRunAlertPanel(@"LLITC18IODevice",  @"Failed to allocate pLocal memory.", @"OK", nil, nil);
 			exit(0);
 		}
@@ -363,7 +363,7 @@
 // Now the ITC is closed, and we have a valid pointer
 
 	if (ITC18_Open(itc, deviceNum) != noErr) {			// no ITC, return
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 		itcExists = NO;
         [deviceLock unlock];
@@ -373,7 +373,7 @@
 // the ITC has opened, now initialize it
 
 	if (ITC18_Initialize(itc, ITC18_STANDARD) != noErr) { 
-		DisposePtr(itc);
+		free(itc);
 		if (itcExists) {
 			NSRunAlertPanel(@"LLITC18IODevice",  @"An ITC18 Laboratory Interface card was found, but the\
 						remote device did not initialize correctly.", @"OK", nil, nil);
