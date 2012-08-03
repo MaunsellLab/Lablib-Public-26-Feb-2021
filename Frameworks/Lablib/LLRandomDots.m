@@ -591,7 +591,7 @@ float stencilRadiusDeg = FLT_MAX;
 		if (taskPrefix != nil) {
 			[dialogWindow setTitle:[NSString stringWithFormat:@"%@ Random Dots", taskPrefix]];
 		}
-		[versionTextField setStringValue:[NSString stringWithFormat:@"Random Dots Version %d",
+		[versionTextField setStringValue:[NSString stringWithFormat:@"Random Dots Version %ld",
 			version]];
 	}
 	[dialogWindow makeKeyAndOrderFront:self];

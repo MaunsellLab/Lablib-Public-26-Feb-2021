@@ -263,7 +263,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 69CA1DF1088DA56D00D7ADEE /* Build configuration list for PBXProject "Knot" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -358,6 +358,7 @@
 		69CA1DEA088DA56D00D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -394,6 +395,7 @@
 		69CA1DEB088DA56D00D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Documents/Lablib/Frameworks/Lablib/build/Development,
@@ -419,6 +421,7 @@
 		69CA1DEC088DA56D00D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Documents/Lablib/Frameworks/Lablib/build/Development,

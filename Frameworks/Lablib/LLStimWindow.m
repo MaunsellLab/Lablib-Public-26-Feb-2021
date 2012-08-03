@@ -192,7 +192,8 @@
         NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
         NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
         };
-    NSOpenGLPixelFormat *fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
+    NSOpenGLPixelFormat *fmt;
+//    NSOpenGLPixelFormat *fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
 	
 	openGLLock = [[NSLock alloc] init];
 	displays = [[LLDisplays alloc] init];
@@ -328,7 +329,7 @@
     heightPix = [[self contentView] bounds].size.height;
     widthPix = [[self contentView] bounds].size.width;
 //	}
-//	displayDeg = [displays displaySizeDeg:displayIndex];
+	displayDeg = [displays displaySizeDeg:displayIndex];
 	pointPix.x = widthPix / 2 + widthPix * (pointDeg.x + scaleOffsetDeg.x) / displayDeg.width;
 	pointPix.y = heightPix / 2 + heightPix * (pointDeg.y + scaleOffsetDeg.y) / displayDeg.height;
 	return pointPix;

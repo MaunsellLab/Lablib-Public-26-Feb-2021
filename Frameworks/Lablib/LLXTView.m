@@ -125,7 +125,7 @@
             [NSBezierPath strokeLineFromPoint:NSMakePoint(x, y) 
                 toPoint:NSMakePoint(x - kTickHeightPix, y)];
             [LLViewUtilities 
-                drawString:[NSString stringWithFormat:@"%d", (long)(index / 10.0) % 100] 
+                drawString:[NSString stringWithFormat:@"%ld", (long)(index / 10.0) % 100] 
                 rightAndCenterAtPoint:NSMakePoint(x - kTickHeightPix, y) 
                 rotation:0.0 withAttributes:nil];
             [minorGridColor set];				// restore for the (many) minor lines
@@ -205,7 +205,7 @@
 {
     eyeWindowOrigin = rect.origin.x;
     eyeWindowWidth = rect.size.width;
-    time -= timeOffsetMS;
+//    time -= timeOffsetMS;
     if (kEyePlots > 0) {
         [eyePlots[0] setEyeWindowOrigin:rect.origin.x width:rect.size.width];
 		if (kEyePlots > 1) {

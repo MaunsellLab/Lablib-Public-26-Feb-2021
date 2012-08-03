@@ -1490,6 +1490,7 @@
 		69CA1DDE088DA53700D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
@@ -1537,6 +1538,7 @@
 		69CA1DDF088DA53700D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1575,6 +1577,7 @@
 		69CA1DE0088DA53700D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DEPLOYMENT_LOCATION = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1608,6 +1611,7 @@
 				CONFIGURATION_BUILD_DIR = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				MACOSX_DEPLOYMENT_TARGET = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
 			};
 			name = Development;
@@ -1617,6 +1621,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
 			};
 			name = Deployment;
@@ -1626,6 +1631,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
 			};
 			name = Default;

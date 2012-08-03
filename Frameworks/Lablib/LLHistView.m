@@ -140,6 +140,12 @@
     }
 }
 
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"LLHistView (%lx) hidden: %d dataLength: %ld",
+            (unsigned long)&self, hidden, dataLength];
+}
+
 - (void)disableAll;
 {
 	long index;

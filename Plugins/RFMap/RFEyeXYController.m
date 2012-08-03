@@ -238,7 +238,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 		currentEyeDeg = [unitsToDeg transformPoint:NSMakePoint(x, y)];
 		[eyePlot addSample:currentEyeDeg];
 	}
-	if (!inWindow && NSPointInRect(currentEyeDeg, eyeWindowRectDeg) ||
+	if ((!inWindow && NSPointInRect(currentEyeDeg, eyeWindowRectDeg)) ||
 				(inWindow && !NSPointInRect(currentEyeDeg, eyeWindowRectDeg))) {
 		[eyePlot setNeedsDisplayInRect:[eyePlot pixRectFromDegRect:eyeWindowRectDeg]];
 		inWindow = !inWindow;

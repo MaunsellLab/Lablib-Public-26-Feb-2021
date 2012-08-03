@@ -439,15 +439,15 @@
 			NSLog(@"WARNING: LLITC18: values.instructions == 0");
 			NSLog(@"sequenceStartTimeS: %f", sequenceStartTimeS);
 			NSLog(@"time now: %f", [LLSystemUtil getTimeS]);
-			NSLog(@"timestampTime: %d", timestampTime);
+			NSLog(@"timestampTime: %ld", timestampTime);
 			NSLog(@"justStartedITC18: %d", justStartedITC18);
 			NSLog(@"dataEnabled: %d", dataEnabled);
 			NSLog(@"values.cumulativeTimeMS: %f", values.cumulativeTimeMS);
-			NSLog(@"values.samples: %d", values.samples);
+			NSLog(@"values.samples: %ld", values.samples);
 			NSLog(@"values.samplePeriodMS: %f", values.samplePeriodMS);
-			NSLog(@"values.instructions: %d", values.instructions);
+			NSLog(@"values.instructions: %ld", values.instructions);
 			NSLog(@"values.instructionPeriodMS: %f", values.instructionPeriodMS);
-			NSLog(@"values.sequences: %d", values.sequences);
+			NSLog(@"values.sequences: %ld", values.sequences);
 			NSLog(@" ");
 		}
 		else {

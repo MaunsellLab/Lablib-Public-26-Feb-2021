@@ -246,7 +246,7 @@ LLTaskPlugIn	*task = nil;
 							stimCenterDeg.x, stimCenterDeg.y];
 		break;
 	case kEccentricityAngle:
-		displayString = [NSString stringWithFormat:@"Eccentricy: %5.1f\nAngle: %5d",
+		displayString = [NSString stringWithFormat:@"Eccentricy: %5.1f\nAngle: %5ld",
 				sqrt(stimCenterDeg.x * stimCenterDeg.x + stimCenterDeg.y * stimCenterDeg.y), 
 				(long)(atan2(stimCenterDeg.y, stimCenterDeg.x) * kDegPerRadian) % 180];
 		break;

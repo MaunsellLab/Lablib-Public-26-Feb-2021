@@ -34,7 +34,7 @@ NSString *mWKey = @"mW";
 		return -FLT_MAX;
 	}
 	calibrationArray = [NSMutableArray arrayWithArray:[taskDefaults arrayForKey:LLLaserCalibratorArrayKey]];
-	for (index = 1; index < [calibrationArray count]; index++) {
+	for (index = 1, outputVoltage = 0; index < [calibrationArray count]; index++) {
 		[self getValuesForCalibrationIndex:index voltagePtr:&voltage mWPtr:&mW];
 		if (mW < inputMW) {
 			lastMW = mW;

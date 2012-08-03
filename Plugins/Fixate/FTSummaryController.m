@@ -169,19 +169,19 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
             break;
         case kDayColumn:
             if (row == kTotalRow) {
-                string = [NSString stringWithFormat:@"%d", recentEOTTotal];
+                string = [NSString stringWithFormat:@"%ld", recentEOTTotal];
             }
             else if (row == kRewardsRow) {
-                string = [NSString stringWithFormat:@"%d", recentEOTs[kEOTCorrect]];
+                string = [NSString stringWithFormat:@"%ld", recentEOTs[kEOTCorrect]];
             }
             else if (recentEOTTotal == 0) {
                 string = @" ";
             }
 			else if (row == kComputerRow) {		// row reserved for computer failures
-               string = [NSString stringWithFormat:@"%d", recentComputer];
+               string = [NSString stringWithFormat:@"%ld", recentComputer];
 			}
             else {
-               string = [NSString stringWithFormat:@"%d%%", 
+               string = [NSString stringWithFormat:@"%ld%%", 
 							(long)round(recentEOTs[kLastEOTTypeDisplayed - row] * 100.0 / recentEOTTotal)];
             }
             break;

@@ -284,12 +284,12 @@ static long	ITCCount = 0;
 // Load sampling values
 
 	for (channel = 0; channel < kLLITC18ADChannels; channel++)  {
-		keySuffix = [NSString stringWithFormat:@"%1d", channel];
+		keySuffix = [NSString stringWithFormat:@"%1ld", channel];
 		period = [defaults floatForKey:[sampleKey stringByAppendingString:keySuffix]];
 		[samplePeriodMS addObject:[NSNumber numberWithFloat:period]];
 	}
 	for (channel = 0; channel < kLLITC18DigitalBits; channel++)  {
-		keySuffix = [NSString stringWithFormat:@"%02d", channel];
+		keySuffix = [NSString stringWithFormat:@"%02ld", channel];
 		period = [defaults floatForKey:[timestampKey stringByAppendingString:keySuffix]];
 		[timestampPeriodMS addObject:[NSNumber numberWithFloat:period]];
 	}
@@ -486,7 +486,7 @@ static long	ITCCount = 0;
 
 - (NSString *)name;
 {
-	return ((deviceNum == 0) ? @"ITC-18" : [NSString stringWithFormat:@"ITC-18 %d", deviceNum]);
+	return ((deviceNum == 0) ? @"ITC-18" : [NSString stringWithFormat:@"ITC-18 %ld", deviceNum]);
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;

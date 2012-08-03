@@ -23,7 +23,7 @@ void readEDID(CGDirectDisplayID displayID);
 {
 	NSDictionary *displayDictionary, *productNamesDictionary;
 	io_service_t service;
-	NSString *displayName;
+	NSString *displayName = nil;
 
 	service = CGDisplayIOServicePort(displayID);
 	displayDictionary = (NSDictionary *)IODisplayCreateInfoDictionary(service, kIODisplayOnlyPreferredName);
@@ -33,7 +33,7 @@ void readEDID(CGDirectDisplayID displayID);
 			displayName = [[productNamesDictionary allValues] objectAtIndex:0];
 		}
 	}
-	return (displayName != NULL) ? displayName : @"Unknown Display";
+	return (displayName != nil) ? displayName : @"Unknown Display";
 }
 
 + (NSString *)displayNameUsingIndex:(long)displayIndex;
@@ -89,7 +89,7 @@ struct screenMode {
 	}
     if (displayMode == NULL) {
         NSRunAlertPanel(@"LLDisplays", 
-                [NSString stringWithFormat:@"Could not match requested display mode: %d bpp (%d x %d).",
+                [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
                 pDP->pixelBits, pDP->widthPix, pDP->heightPix], @"OK", nil, nil);
 		exit(0);
     }

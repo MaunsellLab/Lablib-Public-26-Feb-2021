@@ -90,8 +90,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 // As a delegate for the NSApplication, we are automatically registered
 // for this notification.
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
+{
     [dataDeviceController setDataEnabled:[NSNumber numberWithBool:NO]];
     [currentTask deactivate:self];
 	[settingsController synchronize];		// Wait until after task deactivates, in case it saves settings
@@ -122,10 +122,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     [dataDoc release];										// release data document
     [eyeCalibration release];
 	[settingsController release];
-
     [defaults synchronize];									// synchronize defaults with disk
-//    [defaults release];
-//    defaults = nil;
 }
 
 // The main nib has been loaded now, so we can initialize with impunity 
@@ -264,10 +261,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		for (index = 0; index < [windows count]; index++) {
 			window = [windows objectAtIndex:index];
 			if ([window isVisible])
-				if ((window != stimWindow) &&
-					(window != [summaryController window]) &&
-					(window != [monitorController window]) &&
-					(window != [eyeCalibration window])) {
+				if ((window != stimWindow) && (window != [summaryController window]) &&
+					(window != [monitorController window]) && (window != [eyeCalibration window])) {
 						[window performClose:self];
 			}
 		}
@@ -285,8 +280,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void) dealloc;
 {
+    NSLog(@"Knot dealloc");
     [defaults release];
 	[super dealloc];
+    NSLog(@"Knot dealloc is done");
 }
 
 - (IBAction)doPluginController:(id)sender;

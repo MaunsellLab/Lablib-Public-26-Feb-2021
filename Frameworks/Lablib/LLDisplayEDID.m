@@ -90,22 +90,22 @@
 {
 	NSString *string;
 	
-	string = [NSString stringWithFormat:@"\nEDID Version %d revision %d", dataVersion, dataRevision];
-	string = [string stringByAppendingFormat:@"\n   Identifier \"%s\" VendorName \"%s\" Manufactured %d", 
+	string = [NSString stringWithFormat:@"\nEDID Version %ld revision %ld", dataVersion, dataRevision];
+	string = [string stringByAppendingFormat:@"\n   Identifier \"%s\" VendorName \"%s\" Manufactured %ld", 
 				monitorName, vendorSign, yearMade];
-	string = [string stringByAppendingFormat:@"\n   Size: %d x %d cm", hSizeCM, vSizeCM];
-	string = [string stringByAppendingFormat:@"\n   Mode: %d x %d pixels", hActive, vActive];
+	string = [string stringByAppendingFormat:@"\n   Size: %ld x %ld cm", hSizeCM, vSizeCM];
+	string = [string stringByAppendingFormat:@"\n   Mode: %ld x %ld pixels", hActive, vActive];
 	string = [string stringByAppendingFormat:@"\n   vFreq %3.3f Hz, hFreq %6.3f kHz", vFreqHz, hFreqHz];
 	string = [string stringByAppendingFormat:@"\n   Pixel clock %f MHz", (double)pixelClockMHz / 1000000.0];
-	string = [string stringByAppendingFormat:@"\n   HTimings %u %u %u %u", hActive, hActive + hSyncOffset,
+	string = [string stringByAppendingFormat:@"\n   HTimings %lu %lu %lu %lu", hActive, hActive + hSyncOffset,
 			hActive + hSyncOffset + hSyncWidth, hTotal];
-	string = [string stringByAppendingFormat:@"\n   VTimings %u %u %u %u", vActive, vActive + vSyncOffset,
+	string = [string stringByAppendingFormat:@"\n   VTimings %lu %lu %lu %lu", vActive, vActive + vSyncOffset,
 			vActive + vSyncOffset + vSyncWidth, vTotal];
 	if (validLimits) {
-		string = [string stringByAppendingFormat:@"\n   Horizontal Sync: %u-%u", hSyncMin, hSyncMax];
-		string = [string stringByAppendingFormat:@"\n   Vertical Refresh: %u-%u", vSyncMin, vSyncMax];
-		string = [string stringByAppendingFormat:@"\n   Max pixel clock %u MHz", (long)pixelClockMaxMHz * 10];
-		string = [string stringByAppendingFormat:@"\n   GFT Support %d", GFTSupport];
+		string = [string stringByAppendingFormat:@"\n   Horizontal Sync: %lu-%lu", hSyncMin, hSyncMax];
+		string = [string stringByAppendingFormat:@"\n   Vertical Refresh: %lu-%lu", vSyncMin, vSyncMax];
+		string = [string stringByAppendingFormat:@"\n   Max pixel clock %lu MHz", (long)pixelClockMaxMHz * 10];
+		string = [string stringByAppendingFormat:@"\n   GFT Support %ld", GFTSupport];
 	}
 	string = [string stringByAppendingFormat:@"\n   Power Management: active off: %s  suspend: %s  standby: %s",
 			(DPMSActiveOff) ? "yes" : "no", (DPMSSuspend) ? "yes" : "no", (DPMSStandby) ? "yes" : "no"];

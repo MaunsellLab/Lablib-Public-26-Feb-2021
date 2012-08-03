@@ -218,7 +218,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 69B8D160088DAC45002FCFD4 /* Build configuration list for PBXProject "DataConvert" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -300,6 +300,7 @@
 		69B8D15D088DAC45002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -327,6 +328,7 @@
 		69B8D15E088DAC45002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -351,6 +353,7 @@
 		69B8D15F088DAC45002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DataConvert_Prefix.h;

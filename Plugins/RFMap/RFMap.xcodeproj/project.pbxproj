@@ -328,7 +328,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 69B8D128088DABDB002FCFD4 /* Build configuration list for PBXProject "RFMap" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -457,6 +457,7 @@
 		69B8D125088DABDB002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"";
@@ -500,6 +501,7 @@
 		69B8D126088DABDB002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Documents/Lablib/Frameworks/Lablib/build/Development,
@@ -532,6 +534,7 @@
 		69B8D127088DABDB002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Documents/Lablib/Frameworks/Lablib/build/Development,

@@ -25,7 +25,7 @@
 - (BOOL)createDataFile;
 {
 	NSDictionary *attr;
-	NSString *dirPath, *fileName;
+	NSString *dirPath;
 	NSFileManager *manager;
 	NSSavePanel *savePanel;
     NSURL *fileURL;
@@ -38,11 +38,11 @@
 		if ((dirPath = [LLStandardFileNames defaultDirPath]) == nil) {
 			useDefaultDir = NO;
 		}
-		fileName = [LLStandardFileNames defaultFileName];
+//		fileName = [LLStandardFileNames defaultFileName];
 	}
 	else {
 		dirPath = nil;
-		fileName = [[NSUserDefaults standardUserDefaults] stringForKey:LLLastFileNameKey];
+//		fileName = [[NSUserDefaults standardUserDefaults] stringForKey:LLLastFileNameKey];
 	}
 	
 // Run the save panel to get the user's input

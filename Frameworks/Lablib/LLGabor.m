@@ -238,7 +238,7 @@ NSString *LLGaborTemporalPhaseDegKey = @"temporalPhaseDeg";
 {
     return[NSString stringWithFormat:@"\n\tLLGabor (0x%x): Az = %.1f, El = %.1f\n\tDir = %.1f Cont = %.2f\n\
 \tRad = %.1f, Sig = %.1f, SF = %.1f\n\tKdl = %.1f, %.1f",
-        self, azimuthDeg, elevationDeg, directionDeg, contrast, radiusDeg, sigmaDeg, spatialFreqCPD, 
+       (unsigned int)self, azimuthDeg, elevationDeg, directionDeg, contrast, radiusDeg, sigmaDeg, spatialFreqCPD,
 				kdlThetaDeg, kdlPhiDeg];
 }
 

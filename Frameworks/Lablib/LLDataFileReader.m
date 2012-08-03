@@ -80,7 +80,7 @@ enum {kSingleDevice = 1, kMultiDevice};
 	string = [NSMutableString stringWithFormat:@"%@ = [", lValueString];
 	for (index = 0; index < [array count]; index++) {
 		number = [array objectAtIndex:index];
-		[string appendString:[NSString stringWithFormat:@" %d", [number longValue]]];
+		[string appendString:[NSString stringWithFormat:@" %ld", [number longValue]]];
 		if (((index % 2000) == 0) && (index > 0)) {
 			[string appendString:[NSString stringWithFormat:@"];\n%@ = [%@ ",
 				lValueString, lValueString]];
@@ -303,7 +303,7 @@ enum {kSingleDevice = 1, kMultiDevice};
 {
 	prefix = (prefix == nil) ? @"" : prefix;				// need a valid NSString for prefix
 	suffix = (suffix == nil) ? @"" : suffix;				// need a valid NSString for suffix
-	return [NSString stringWithFormat:@"%@%@_TrialTime%@ = %d;\n",
+	return [NSString stringWithFormat:@"%@%@_TrialTime%@ = %ld;\n",
 							prefix, pEvent->name, suffix, pEvent->trialTime];
 }
 
@@ -399,7 +399,7 @@ them.
 // in the Matlab file. We have to count the occurences of each event before the first trialStart so we know whether
 // we have to assign subscripts to the events
 
-	eventTrialCounts = calloc(numEvents, sizeof(unsigned long));	// count of each event in current trial
+	eventTrialCounts = calloc(numEvents, sizeof(long));	// count of each event in current trial
 	multiTrialEvents = calloc(numEvents, sizeof(BOOL));				// events with subscript in "file"
 	multiFileEvents = calloc(numEvents, sizeof(BOOL));				// events with subscript in "trial"
 	data = [[NSMutableData alloc] init];
@@ -462,8 +462,8 @@ them.
 				eventTrialCounts[event] = 0;
 			}
 			[prefix release];
-			prefix = [[NSString alloc] initWithFormat:@"trials(%d).", ++trial];
-			eventString = [NSString stringWithFormat:@"%@trialStartTime = %d;\n",
+			prefix = [[NSString alloc] initWithFormat:@"trials(%ld).", ++trial];
+			eventString = [NSString stringWithFormat:@"%@trialStartTime = %ld;\n",
 				prefix, pEvent->time];
 			[self appendMatlabString:eventString toData:data];
 			pMultiEvents = multiTrialEvents;					// at first trialStart, start using multi trial
@@ -499,10 +499,10 @@ them.
 			suffix = nil;
 		}
 		else if ([eventDef isStringData]) {
-			suffix = [NSString stringWithFormat:@"{%d}", eventTrialCounts[pEvent->code] + 1];
+			suffix = [NSString stringWithFormat:@"{%ld}", eventTrialCounts[pEvent->code] + 1];
 		}
 		else {
-			suffix = [NSString stringWithFormat:@"(%d)", eventTrialCounts[pEvent->code] + 1];
+			suffix = [NSString stringWithFormat:@"(%ld)", eventTrialCounts[pEvent->code] + 1];
 		}
 		eventStrings = [eventDef eventDataAsStrings:pEvent prefix:nil suffix:suffix];
 		for (string = 0; string < [eventStrings count]; string++) {

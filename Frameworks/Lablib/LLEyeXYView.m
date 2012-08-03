@@ -155,7 +155,7 @@
 - (void)drawPointsForEye:(long)eyeIndex;
 {
     long p, numPoints, numToDelete, numRects, rectCount;
- 	NSSize dotPointSizeDeg;
+// 	NSSize dotPointSizeDeg;
     NSRect cumRectDeg, pointRectsDeg[kMaxSamplesDisplay];
    
 	numPoints = [sampleRectsDeg[eyeIndex] count];
@@ -166,7 +166,7 @@
 			numPoints -= numToDelete;
 		}
 		numRects = MIN(samplesToSave / oneInN, kMaxSamplesDisplay);
-		dotPointSizeDeg = NSMakeSize(dotSizeDeg, dotSizeDeg);
+//		dotPointSizeDeg = NSMakeSize(dotSizeDeg, dotSizeDeg);
 		cumRectDeg = NSMakeRect(0, 0, 0, 0);
 		for (rectCount = 0, p = 0; p < numPoints && rectCount < numRects; p += oneInN, rectCount++) {
 			pointRectsDeg[rectCount] = [[sampleRectsDeg[eyeIndex] objectAtIndex:p] rectValue];

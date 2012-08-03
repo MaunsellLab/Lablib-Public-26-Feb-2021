@@ -15,7 +15,8 @@ ColorPatches computeKdlColors(RGBDouble CIEx, RGBDouble CIEy) {
 
 	ColorPatches calibratedColor;
 	float bmr[4], bmg[4], bmb[4], r[3], g[3], b[3];
-	float bmcg, cardg, cardy, bmbcy;
+//	float bmcg, cardg, cardy, bmbcy;
+	float cardg, cardy;
 	float gbrb;
 	float rede, greene, bluee;
 	float x[3], y[3], z[3];
@@ -50,13 +51,13 @@ ColorPatches computeKdlColors(RGBDouble CIEx, RGBDouble CIEy) {
 	bmg[3] = 1.0 - bmr[3];
 	bmb[3] = 0.0160806;
 	cardg = (bmb[3] - bmb[2]) / (bmb[1] - bmb[2]);
-	bmcg = cardg * bmr[1] + (1.0 - cardg) * bmr[2];
+	//bmcg = cardg * bmr[1] + (1.0 - cardg) * bmr[2];
     //	bmcr = 2.0 * bmr[3] - bmcg;
 	calibratedColor.cardinalGreen.red = 0.0;
 	calibratedColor.cardinalGreen.green = cardg;
 	calibratedColor.cardinalGreen.blue = 1 - cardg;
 	cardy = (bmr[3] - bmr[1]) / (bmr[0] - bmr[1]);
-	bmbcy = cardy * bmb[0] + (1.0 - cardy) * bmb[1];	
+	//bmbcy = cardy * bmb[0] + (1.0 - cardy) * bmb[1];
     //	bmbcb = 2 * bmb[3] - bmbcy;
 	calibratedColor.cardinalYellow.red = cardy;
 	calibratedColor.cardinalYellow.green = 1 - cardy;

@@ -45,7 +45,7 @@ NSString *standardKey = @"LLMonitorTarget";
 	}
 	if ([defaults boolForKey:[self uniqueKey:doWarnGreaterKey]]) {
 		if (greaterFailures >= [defaults integerForKey:[self uniqueKey:warnGreaterCountKey]]) {
-			[self doAlarm:[NSString stringWithFormat:@"Warning: %d intervals %.1f ms greater than average.",
+			[self doAlarm:[NSString stringWithFormat:@"Warning: %ld intervals %.1f ms greater than average.",
 				greaterFailures, cumulativeValues.rangeMaxMS]];
 			greaterFailures = 0;
 			return;
@@ -53,7 +53,7 @@ NSString *standardKey = @"LLMonitorTarget";
 	}
 	if ([defaults boolForKey:[self uniqueKey:doWarnLessKey]]) {
 		if (lessFailures >= [defaults integerForKey:[self uniqueKey:warnLessCountKey]]) {
-			[self doAlarm:[NSString stringWithFormat:@"Warning: %d intervals %.1f ms less than average.",
+			[self doAlarm:[NSString stringWithFormat:@"Warning: %ld intervals %.1f ms less than average.",
 				lessFailures, cumulativeValues.rangeMinMS]];
 			lessFailures = 0;
 			return;
@@ -61,7 +61,7 @@ NSString *standardKey = @"LLMonitorTarget";
 	}
 	if ([defaults boolForKey:[self uniqueKey:doWarnSequentialKey]]) {
 		if (sequentialFailures >= [defaults integerForKey:[self uniqueKey:warnSequentialCountKey]]) {
-			[self doAlarm:[NSString stringWithFormat:@"Warning: %d sequences in a row have failed.",
+			[self doAlarm:[NSString stringWithFormat:@"Warning: %ld sequences in a row have failed.",
 				sequentialFailures]];
 			sequentialFailures = 0;
 			return;
@@ -144,7 +144,7 @@ NSString *standardKey = @"LLMonitorTarget";
 		[defaultSettings setObject:[NSNumber numberWithInt:3] forKey:[self uniqueKey:warnSequentialCountKey]];
 		
 		[defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:[self uniqueKey:doWarnDisarmKey]];
-		[defaultSettings setObject:[NSString stringWithString:@"mean"] forKey:[self uniqueKey:standardKey]];
+		[defaultSettings setObject:@"mean" forKey:[self uniqueKey:standardKey]];
 
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
 		[defaultSettings release];
@@ -222,14 +222,14 @@ NSString *standardKey = @"LLMonitorTarget";
 		[textString appendString:@"\n\n(No interval sequences have been completed)"];
 	}
 	else {
-		[textString appendString:[NSString stringWithFormat:@"\n\n%d interval sequences have been completed", 
+		[textString appendString:[NSString stringWithFormat:@"\n\n%ld interval sequences have been completed", 
 			sequenceCount]];
 		
 		if (greaterFailures == 0) {
 			[textString appendString:@"\n    None"];
 		}
 		else {
-			[textString appendString:[NSString stringWithFormat:@"\n    %d", greaterFailures]];
+			[textString appendString:[NSString stringWithFormat:@"\n    %ld", greaterFailures]];
 		}
 		[textString appendString:[NSString stringWithFormat:
 				@" failed owing to more than %d intervals %.1f ms > ",
@@ -241,7 +241,7 @@ NSString *standardKey = @"LLMonitorTarget";
 			[textString appendString:@"\n    None"];
 		}
 		else {
-			[textString appendString:[NSString stringWithFormat:@"\n    %d", lessFailures]];
+			[textString appendString:[NSString stringWithFormat:@"\n    %ld", lessFailures]];
 		}
 		[textString appendString:[NSString stringWithFormat:
 				@" failed owing to more than %d intervals %.1f ms < ",

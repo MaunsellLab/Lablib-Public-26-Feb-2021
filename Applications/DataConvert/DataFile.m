@@ -210,7 +210,7 @@ static PrintView	*printView;
                 }
                 switch (dataFormat) {
                 case kCharFormat:
-                    pBuffer += sprintf(pBuffer, "%0*hx ", formatChars[dataFormat], 
+                    pBuffer += sprintf(pBuffer, "%0*hhx ", formatChars[dataFormat], 
                                 *(unsigned char *)([pEvent->data bytes] + index));
                     index += sizeof(char);
                     break;
@@ -335,7 +335,7 @@ static PrintView	*printView;
 			pBuffer += sprintf(pBuffer, "%c", dataBytes[byte]);
 		}
 		else {
-			pBuffer += sprintf(pBuffer, "¥");
+			pBuffer += sprintf(pBuffer, "*");
 		}
     }
     pBuffer += sprintf(pBuffer, "]");
@@ -406,7 +406,7 @@ static PrintView	*printView;
         fontDefaultAttributes = [[NSMutableDictionary alloc] init];
         [fontDefaultAttributes setObject:font forKey:NSFontAttributeName];
         [fontDefaultAttributes retain];
-        charSize = [[NSString stringWithString:@"X"] sizeWithAttributes:fontDefaultAttributes];
+        charSize = [@"X" sizeWithAttributes:fontDefaultAttributes];
         lineDescenderPix = [font descender];				// Longest line descender in pixels
 		selectedEventLine = selectedBytesStart = selectedEventCode = selectedBytesStop = -1;
 
