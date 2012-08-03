@@ -103,7 +103,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		[defaults setBool:NO forKey:KNWritingDataFileKey];
 	}
     [dataDoc removeObserver:summaryController];
-    [summaryController close];
+
+// I had been getting an intermittent crash when the following call was [summaryController close];
+    
+    [[summaryController window] performClose:self];
     [summaryController release];
 
     while ([currentTask mode] != kTaskIdle) {};				// wait for state system to stop, then release it
