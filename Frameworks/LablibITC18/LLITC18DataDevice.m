@@ -98,26 +98,29 @@ static long	ITCCount = 0;
 
 @implementation LLITC18DataDevice
 
-+ (void)initialize;
-{
-	NSString *ITCFrameworkPath, *myBundlePath;
-	NSBundle *ITCFramework;
 
-	myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-	if (![[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
-		return;
-	}
-	ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
-	ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
-	if ([ITCFramework load]) {
-		NSLog(@"ITC framework loaded");
-	}
-	else
-	{
-		NSLog(@"Error, ITC framework to load\nAborting.");
-		exit(1);
-	}
-}
+// I'm not sure we need to load the ITC framework now that it is bundled with Knot. JHRM 120804
+
+//+ (void)initialize;
+//{
+//	NSString *ITCFrameworkPath, *myBundlePath;
+//	NSBundle *ITCFramework;
+//
+//	myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+//	if ([[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
+//		return;
+//	}
+//	ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
+//	ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
+//	if ([ITCFramework load]) {
+//		NSLog(@"ITC framework loaded");
+//	}
+//	else
+//	{
+//		NSLog(@"Error, ITC framework failed to load\nAborting.");
+//		exit(1);
+//	}
+//}
 
 + (NSInteger)version;
 {

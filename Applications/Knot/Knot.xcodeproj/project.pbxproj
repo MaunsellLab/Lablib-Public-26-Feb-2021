@@ -14,6 +14,7 @@
 		699981E50A8A7B5400101ABF /* loud200Hz200msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */; };
 		699981E60A8A7B5400101ABF /* shortCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DE0A8A7B5400101ABF /* shortCorrect.aiff */; };
 		699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */; };
+		699EB85615CDC3B4004E2B0D /* LablibITC18.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 699EB85515CDC3B4004E2B0D /* LablibITC18.framework */; };
 		69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */; };
 		69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */; };
 		69F11F470B1E70260068A6CF /* 4G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F460B1E70260068A6CF /* 4G.aiff */; };
@@ -48,6 +49,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				69F120460B1E72F00068A6CF /* Lablib.framework in CopyFiles */,
+				699EB85615CDC3B4004E2B0D /* LablibITC18.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +74,7 @@
 		699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = loud200Hz200msSq.aiff; path = ../../Resources/Sounds/loud200Hz200msSq.aiff; sourceTree = SOURCE_ROOT; };
 		699981DE0A8A7B5400101ABF /* shortCorrect.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shortCorrect.aiff; path = ../../Resources/Sounds/shortCorrect.aiff; sourceTree = SOURCE_ROOT; };
 		699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shortNotCorrect.aiff; path = ../../Resources/Sounds/shortNotCorrect.aiff; sourceTree = SOURCE_ROOT; };
+		699EB85515CDC3B4004E2B0D /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = ../../Frameworks/LablibITC18/build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		69B9AE700482FB9F00F95509 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = KNSummaryController.xib; sourceTree = "<group>"; };
 		69B9AE720482FBDD00F95509 /* KNSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KNSummaryController.h; sourceTree = "<group>"; };
 		69B9AE730482FBDD00F95509 /* KNSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KNSummaryController.m; sourceTree = "<group>"; };
@@ -111,25 +114,6 @@
 				696D3833059E19DE0018E5D5 /* Controllers */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				69F11F5C0B1E70700068A6CF /* Lablib.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
-				E7A443DD0132ED6B0ACA2124 /* OpenGL.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -193,8 +177,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
-				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+				69F11F5C0B1E70700068A6CF /* Lablib.framework */,
+				699EB85515CDC3B4004E2B0D /* LablibITC18.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				E7A443DD0132ED6B0ACA2124 /* OpenGL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
