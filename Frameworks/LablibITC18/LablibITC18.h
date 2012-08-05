@@ -8,9 +8,6 @@
  */
 
 #import <LablibITC18/LLITC18.h>
-
 #import <LablibITC18/LLITC18DataDevice.h>
-//#import <LablibITC18/LLITC18IODevice.h>
 #import <LablibITC18/LLITCMonitor.h>
 #import <LablibITC18/LLITCMonitorSettings.h>
-//#import <LablibITC18/LLITC18StimTrainDevice.h>

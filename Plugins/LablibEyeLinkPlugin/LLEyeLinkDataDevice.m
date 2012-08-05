@@ -60,7 +60,7 @@ void handler(int signal) {
 
 	if ((self = [super init]) != nil) {
 		
-		NSLog(@"EyeLink Device init\n");
+		NSLog(@"EyeLink Device init");
 
 		lXData = [[NSMutableData alloc] init];
 		lYData = [[NSMutableData alloc] init];

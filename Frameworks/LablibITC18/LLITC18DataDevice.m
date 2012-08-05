@@ -99,7 +99,7 @@ static long	ITCCount = 0;
 @implementation LLITC18DataDevice
 
 
-// I'm not sure we need to load the ITC framework now that it is bundled with Knot. JHRM 120804
+// I'm not sure we need to load the ITC framework. It should be picked up automatically. JHRM 120804
 
 //+ (void)initialize;
 //{
@@ -107,7 +107,7 @@ static long	ITCCount = 0;
 //	NSBundle *ITCFramework;
 //
 //	myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-//	if ([[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
+//	if (![[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
 //		return;
 //	}
 //	ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
@@ -796,6 +796,13 @@ static long	ITCCount = 0;
 	else {
 		return NO;
 	}
+}
+
+// Always try to creaete a second ITC18 data device
+
+- (BOOL)shouldCreateAnotherDevice;
+{
+    return (ITCCount == 1);
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;

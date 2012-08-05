@@ -5,12 +5,15 @@
 // This controller is set to be a delegate for the application.
 //
 //  Created by John Maunsell on Fri Apr 11 2003.
-//  Copyright (c) 2005-2007. All rights reserved.
+//  Copyright (c) 2005-2012. All rights reserved.
 //
 
 #import "Knot.h" 
 #import "KNAppController.h"
 #import "KNSummaryController.h"
+#import <LablibITC18/LLITC18DataDevice.h>
+//#import <LablibITC18/LLITC18DataDevice0.h>
+//#import <LablibITC18/LLITC18DataDevice1.h>
 #import <Foundation/NSDebug.h>
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -24,6 +27,35 @@ NSString *KNPreviousTaskNameKey = @"KNPreviousTaskName";
 NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 @implementation KNAppController
+
+// See notes for information about the following class method
+
+//+ (void)_forceLinkerToKeepClassesInApplication;
+//{
+//    [LLITC18DataDevice0 class];
+//    [LLITC18DataDevice1 class];
+//}
+
+//+ (void)initialize;
+//{
+//	NSString *ITCFrameworkPath, *myBundlePath;
+//	NSBundle *ITCFramework;
+//    
+//	myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+//	if ([[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
+//		return;
+//	}
+//	ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/LablibITC18.framework"];
+//	ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
+//	if ([ITCFramework load]) {
+//		NSLog(@"LablibITC18 framework loaded");
+//	}
+//	else
+//	{
+//		NSLog(@"Error, LablibITC18 framework failed to load\nAborting.");
+//		exit(1);
+//	}
+//}
 
 - (void)activateCurrentTask;
 {
@@ -406,12 +438,15 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 						kLLPluginVersion);
 				}
 				else {
-					theDevice = [[[theClass alloc] init] autorelease];
-					[dataDeviceController addDataDevice:theDevice];
-					if ([theDevice respondsToSelector:@selector(monitor)]) {
-						[monitorController addMonitor:[theDevice performSelector:@selector(monitor)]];
-					}
-	
+                    do {
+                        theDevice = [[[theClass alloc] init] autorelease];
+                        [dataDeviceController addDataDevice:theDevice];
+                        NSLog(@"Loaded data device %@", [theDevice name]);
+                        if ([theDevice respondsToSelector:@selector(monitor)]) {
+                            [monitorController addMonitor:[theDevice performSelector:@selector(monitor)]];
+                        }
+                    } while ([theDevice shouldCreateAnotherDevice]);
+
 // We need some special handing of particular data devices, if they are present.
 
 					if ([theClass isSubclassOfClass:[LLSynthDataDevice class]]) {

@@ -231,6 +231,11 @@
 	return YES;
 }
 
+- (BOOL)shouldCreateAnotherDevice;
+{
+    return NO;
+}
+
 - (long)timestampChannels;
 {
 	return [timestampPeriodMS count];
