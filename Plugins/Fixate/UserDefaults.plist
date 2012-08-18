@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>FTAcquireMS</key>
 	<integer>5000</integer>
 	<key>FTAzimuthDeg</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>FTDoFixate</key>
 	<true/>
 	<key>FTDoSounds</key>
 	<true/>
 	<key>FTElevationDeg</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>FTEyeXYDoDotFade</key>
 	<true/>
 	<key>FTEyeXYDoDrawCal</key>
@@ -26,7 +26,7 @@
 	<real>5</real>
 	<key>FTEyeXYHScroll</key>
 	<integer>0</integer>
-	<key>FTEyeXYMagKey</key>
+	<key>FTEyeXYMag</key>
 	<integer>30</integer>
 	<key>FTEyeXYOneInN</key>
 	<integer>1</integer>
@@ -49,7 +49,7 @@
 	<key>FTIntertrialMS</key>
 	<integer>1500</integer>
 	<key>FTOuterRadiusDeg</key>
-	<real>0.10</real>
+	<real>0.1</real>
 	<key>FTRewardMS</key>
 	<integer>150</integer>
 	<key>FTSummaryWindowVisible</key>

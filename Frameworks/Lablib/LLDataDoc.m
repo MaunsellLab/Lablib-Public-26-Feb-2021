@@ -504,7 +504,8 @@ This variant accepts only events definitions that include data definitions.
         eventLock = [[NSLock alloc] init];
         observerLock = [[NSLock alloc] init];
         observerArray = [[NSMutableArray alloc] init];
-		useDefaultDir = retainEvents = YES;
+		useDefaultDir = YES;
+        retainEvents = NO;                          // flush event buffer whenever possible
 		threadingThreshold = kDefaultThreadingThreshold;
 //		startTime = UpTime();
 		startDate = [[NSDate date] retain];

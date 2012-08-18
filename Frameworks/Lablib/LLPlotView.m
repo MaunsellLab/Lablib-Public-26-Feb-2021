@@ -252,7 +252,7 @@
         
     textLineHeightPix = [layoutManager defaultLineHeightForFont:[NSFont userFontOfSize:0]];
     if (plotScale == nil) {
-        plotScale = [[LLViewScale alloc] init];
+        plotScale = [[[LLViewScale alloc] init] autorelease];
     }
     [self setScale:plotScale];
     defaultColors = [[LLPlotColors alloc] init];
@@ -320,8 +320,8 @@
 	}
 }
 	
-- (void) setPoints:(long)pointsToPlot {
-
+- (void)setPoints:(long)pointsToPlot;
+{
     plotPoints = pointsToPlot;
 }
 
