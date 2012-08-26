@@ -31,6 +31,7 @@
 	LLBinocCalibrator		*eyeCalibrator;
 	id						host;
 	BOOL					initialized;
+    NSDate                  *lastDataCollectionDate;
 	long					mode;
 	LLMonitorController		*monitorController;
 	DisplayModeParam		displayMode;
@@ -58,6 +59,7 @@
 - (BOOL)handlesEvents;
 - (BOOL)initialized;
 - (void)initializationDidFinish;
+- (NSDate *)lastDataCollectionDate;
 - (long)mode;
 - (LLMonitorController *)monitorController;
 - (NSString *)name;
@@ -69,6 +71,7 @@
 - (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
 - (void)setHost:(id)newHost;
 - (void)setInitialized:(BOOL)state;
+- (void)setLastDataCollectionDate:(NSDate *)newDate;
 - (void)setMode:(long)mode;
 - (void)setMonitorController:(LLMonitorController *)controller;
 - (void)setWritingDataFile:(BOOL)state;

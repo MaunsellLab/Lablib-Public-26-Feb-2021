@@ -350,7 +350,7 @@ This variant accepts only events definitions that include data definitions.
 	NSAutoreleasePool *threadPool;
 	NSDate *nextRelease;
     SEL methodSelector;
-
+    
 // Initialize and get the start time for this schedule
 
     threadPool = [[NSAutoreleasePool alloc] init];
@@ -409,7 +409,7 @@ This variant accepts only events definitions that include data definitions.
             [eventTime retain];
             [eventLock unlock];										// Free lock while we dispatch data bytes
             
-// Dispatch the event to all observers that accept it
+            // Dispatch the event to all observers that accept it
 
             methodSelector = NSSelectorFromString([NSString stringWithFormat:@"%@:eventTime:", [eventDef name]]);
             for (obs = 0; obs < [observerArray count]; obs++) {
@@ -425,10 +425,11 @@ This variant accepts only events definitions that include data definitions.
 			[eventData release];
         }        
         else {														// No events left, sleep
-			[eventLock unlock];										// Unlock the locked events
-			if (!retainEvents) {
-				[self clearEvents];
+			if (!retainEvents) {                                    // If we're not retaining events, clear the buffer
+                [data setLength:0];                                 // Not safe to use clearEvents, because events
+                lastRead = [data length];                           // might get posted between the unlock and lock.
 			}
+            [eventLock unlock];
 			[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
 			if ([nextRelease timeIntervalSinceNow] < 0.0) {
 				[nextRelease release];
