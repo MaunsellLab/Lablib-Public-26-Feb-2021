@@ -92,7 +92,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	
 	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
 	if (overflow != 0) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: FIFO overflow", @"OK", nil, nil);
+		NSRunAlertPanel(@"LLITC18PulseTrainDevice",  @"Fatal error: FIFO overflow", @"OK", nil, nil);
 		exit(0);
 	}
 	return available;
