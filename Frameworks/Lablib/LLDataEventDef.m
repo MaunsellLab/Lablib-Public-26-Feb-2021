@@ -124,7 +124,7 @@ static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1};
 	}
 	else {
 		if (pDef->elementBytes == 0) {
-			NSRunAlertPanel(@"LLDataEventDef",  @"Struct %@ in event definition for %@ did no declare number of bytes"
+			NSRunAlertPanel(@"LLDataEventDef", @"Struct %@ in event definition for %@ did not declare number of bytes",
 				@"OK", nil, nil, name, pDef->typeName);
 			exit(0);
 		}
@@ -478,7 +478,7 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 
 	if (pDef->offsetBytes < offsetBytes) {
 		NSRunAlertPanel([self className],  
-				@"Error in description of data event %@: offsetBytes (%d) looks too small for entry \"%@\"", 
+				@"Error in description of data event %@: offsetBytes (%ld) looks too small for entry \"%@\"", 
 				@"OK", nil, nil, name, pDef->offsetBytes, pDef->dataName);
 		exit(0);
 	}

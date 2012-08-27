@@ -175,6 +175,7 @@
     [eventLock release];
     [observerLock release];
     [observerArray release];
+    [startDate release];
     [super dealloc];
 }
 
@@ -284,7 +285,8 @@ This variant accepts only events definitions that include data definitions.
     unsigned long numEvents;
 	NSMutableData *eventData;
 	
-	eventTimeMS = UnsignedWideToUInt64(AbsoluteDeltaToNanoseconds(UpTime(), startTime)) / 1000000.0; 
+//	eventTimeMS = UnsignedWideToUInt64(AbsoluteDeltaToNanoseconds(UpTime(), startTime)) / 1000000.0;
+	eventTimeMS = -[startDate timeIntervalSinceNow] * 1000.0;
 	eventData = [[NSMutableData alloc] init];
 
 // Start the event with the code for the event.  The number of bytes used depends
@@ -348,7 +350,7 @@ This variant accepts only events definitions that include data definitions.
 	NSAutoreleasePool *threadPool;
 	NSDate *nextRelease;
     SEL methodSelector;
-
+    
 // Initialize and get the start time for this schedule
 
     threadPool = [[NSAutoreleasePool alloc] init];
@@ -377,7 +379,7 @@ This variant accepts only events definitions that include data definitions.
 
 			eventDef = [eventsByCode objectAtIndex:eventCode];
 			if ([eventDef code] != eventCode) {
-				NSRunAlertPanel(@"LLDataDoc", @"dispatchEvents: Event \"%@\" code mismatch (%d v. %d).",
+				NSRunAlertPanel(@"LLDataDoc", @"dispatchEvents: Event \"%@\" code mismatch (%ld v. %ld).",
 					@"OK", nil, nil, [eventDef name], [eventDef code], eventCode);
 				exit(0);
 			}
@@ -407,7 +409,7 @@ This variant accepts only events definitions that include data definitions.
             [eventTime retain];
             [eventLock unlock];										// Free lock while we dispatch data bytes
             
-// Dispatch the event to all observers that accept it
+            // Dispatch the event to all observers that accept it
 
             methodSelector = NSSelectorFromString([NSString stringWithFormat:@"%@:eventTime:", [eventDef name]]);
             for (obs = 0; obs < [observerArray count]; obs++) {
@@ -423,10 +425,11 @@ This variant accepts only events definitions that include data definitions.
 			[eventData release];
         }        
         else {														// No events left, sleep
-			[eventLock unlock];										// Unlock the locked events
-			if (!retainEvents) {
-				[self clearEvents];
+			if (!retainEvents) {                                    // If we're not retaining events, clear the buffer
+                [data setLength:0];                                 // Not safe to use clearEvents, because events
+                lastRead = [data length];                           // might get posted between the unlock and lock.
 			}
+            [eventLock unlock];
 			[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
 			if ([nextRelease timeIntervalSinceNow] < 0.0) {
 				[nextRelease release];
@@ -492,8 +495,8 @@ This variant accepts only events definitions that include data definitions.
     lastRead += numBytes;
 }
 
-- (id) init {
-
+- (id)init;
+{
     if ((self = [super init])) {
         data = [[NSMutableData alloc] initWithCapacity:kLLInitialBufferSize];
         lastRead = [data length];
@@ -502,9 +505,11 @@ This variant accepts only events definitions that include data definitions.
         eventLock = [[NSLock alloc] init];
         observerLock = [[NSLock alloc] init];
         observerArray = [[NSMutableArray alloc] init];
-		useDefaultDir = retainEvents = YES;
+		useDefaultDir = YES;
+        retainEvents = NO;                          // flush event buffer whenever possible
 		threadingThreshold = kDefaultThreadingThreshold;
-		startTime = UpTime();
+//		startTime = UpTime();
+		startDate = [[NSDate date] retain];
         [NSThread detachNewThreadSelector:@selector(dispatchEvents) toTarget:self withObject:nil];
     }
     return self;

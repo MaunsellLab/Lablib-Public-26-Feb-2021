@@ -92,7 +92,8 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 							NSLog(@"Deleting");
 							success = [[NSFileManager defaultManager] removeItemAtPath:currPath error:NULL];
 							if (!success) {
-								NSRunAlertPanel(@"LLPluginController", @"Failed to delete %@.", @"OK", @"nil", nil);
+								NSRunAlertPanel(@"LLPluginController", @"Failed to delete %@.", @"OK", @"nil",
+                                                nil, currPath);
 							}
 						}
 					}

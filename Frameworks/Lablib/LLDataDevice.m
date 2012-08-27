@@ -152,7 +152,7 @@
 {
 	if (channel >= [samplePeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Requested sample period %d of %d for device %@",
+				@"Requested sample period %ld of %d for device %@",
 				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
 		exit(0);
 	}
@@ -196,7 +196,7 @@
 {
 	if (channel >= [samplePeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set sample period %d of %d for device %@",
+				@"Attempt to set sample period %ld of %d for device %@",
 				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
 		exit(0);
 	}
@@ -209,7 +209,7 @@
 {
 	if (channel >= [timestampPeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set timestamp period for channel %d of %d for device %@",
+				@"Attempt to set timestamp period for channel %ld of %d for device %@",
 				@"OK", nil, nil, channel, [timestampPeriodMS count], [self name]);
 		exit(0);
 	}
@@ -222,13 +222,18 @@
 {
 	if (channel >= [timestampPeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set timestamp period for channel %d of %d for device %@",
+				@"Attempt to set timestamp period for channel %ld of %d for device %@",
 				@"OK", nil, nil, channel, [timestampPeriodMS count], [self name]);
 		exit(0);
 	}
 	[timestampPeriodMS replaceObjectAtIndex:channel 
 					withObject:[NSNumber numberWithFloat:(1.0 / ticksPerMS)]];
 	return YES;
+}
+
+- (BOOL)shouldCreateAnotherDevice;
+{
+    return NO;
 }
 
 - (long)timestampChannels;
@@ -248,7 +253,7 @@
 			return(1);
 		}
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Requested %d timestamp ticks per ms for channel %d of device \"%@\"",
+				@"Requested %d timestamp ticks per ms for channel %ld of device \"%@\"",
 				@"OK", nil, nil, [timestampPeriodMS count], channel, [self name]);
 		exit(0);
 	}
@@ -262,7 +267,7 @@
 			return(1);
 		}
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Requested %d timestamp ticks per ms for channel %d of device \"%@\"",
+				@"Requested %d timestamp ticks per ms for channel %ld of device \"%@\"",
 				@"OK", nil, nil, [timestampPeriodMS count], channel, [self name]);
 		exit(0);
 	}

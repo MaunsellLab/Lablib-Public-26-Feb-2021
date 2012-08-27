@@ -61,6 +61,7 @@
 	[stimWindow release];
 	[synthDataDevice release];
 	[synthDataSource release];
+    [lastDataCollectionDate release];
 	[host release];
 	[super dealloc];
 }
@@ -108,6 +109,11 @@
 
 - (void)initializationDidFinish;
 {
+}
+
+- (NSDate *)lastDataCollectionDate;
+{
+    return lastDataCollectionDate;
 }
 
 - (long)mode;
@@ -175,6 +181,15 @@
 - (void)setInitialized:(BOOL)state;
 {
 	initialized = state;
+}
+
+- (void)setLastDataCollectionDate:(NSDate *)newDate;
+{
+    NSDate *theDate;
+    
+    theDate = lastDataCollectionDate;
+    lastDataCollectionDate = [newDate retain];
+    [theDate release];
 }
 
 - (void)setMode:(long)newMode;

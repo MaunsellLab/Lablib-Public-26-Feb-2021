@@ -98,26 +98,29 @@ static long	ITCCount = 0;
 
 @implementation LLITC18DataDevice
 
-+ (void)initialize;
-{
-	NSString *ITCFrameworkPath, *myBundlePath;
-	NSBundle *ITCFramework;
 
-	myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-	if (![[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
-		return;
-	}
-	ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
-	ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
-	if ([ITCFramework load]) {
-		NSLog(@"ITC framework loaded");
-	}
-	else
-	{
-		NSLog(@"Error, ITC framework to load\nAborting.");
-		exit(1);
-	}
-}
+// I'm not sure we need to load the ITC framework. It should be picked up automatically. JHRM 120804
+
+//+ (void)initialize;
+//{
+//	NSString *ITCFrameworkPath, *myBundlePath;
+//	NSBundle *ITCFramework;
+//
+//	myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+//	if (![[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
+//		return;
+//	}
+//	ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
+//	ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
+//	if ([ITCFramework load]) {
+//		NSLog(@"ITC framework loaded");
+//	}
+//	else
+//	{
+//		NSLog(@"Error, ITC framework failed to load\nAborting.");
+//		exit(1);
+//	}
+//}
 
 + (NSInteger)version;
 {
@@ -146,7 +149,7 @@ static long	ITCCount = 0;
 	if (itc != nil) {
 		[deviceLock lock];
 		ITC18_Close(itc);
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 		[deviceLock unlock];
 	}
@@ -516,7 +519,7 @@ static long	ITCCount = 0;
 
     [deviceLock lock];
 	if (itc == nil) {						// currently opened?
-		if ((itc = NewPtr(ITC18_GetStructureSize())) == nil) {
+		if ((itc = malloc(ITC18_GetStructureSize())) == nil) {
 			[deviceLock unlock];
 			NSRunAlertPanel(@"LLITC18IODevice",  @"Failed to allocate pLocal memory.", @"OK", nil, nil);
 			exit(0);
@@ -547,7 +550,7 @@ static long	ITCCount = 0;
 		}
 	}
 	if (!devicePresent) {
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 	}
 	else {
@@ -793,6 +796,13 @@ static long	ITCCount = 0;
 	else {
 		return NO;
 	}
+}
+
+// Always try to creaete a second ITC18 data device
+
+- (BOOL)shouldCreateAnotherDevice;
+{
+    return (ITCCount == 1);
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;

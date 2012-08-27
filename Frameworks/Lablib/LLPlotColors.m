@@ -21,13 +21,13 @@ static float colorValues[][kGuns] = {
 
 @implementation LLPlotColors
 
--(void) dealloc {
-
-    long index;
-    
-    for (index = 0; index < [colors count]; index++) {
-        [[colors objectAtIndex:index] release];
-    }
+-(void) dealloc;
+{
+//    long index;
+//    
+//    for (index = 0; index < [colors count]; index++) {
+//        [[colors objectAtIndex:index] release];
+//    }
     [colors release];
     [super dealloc];
 }

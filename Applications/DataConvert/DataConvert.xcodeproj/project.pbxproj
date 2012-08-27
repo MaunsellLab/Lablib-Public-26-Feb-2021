@@ -379,10 +379,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = /Applications;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
+				SYMROOT = build;
 			};
 			name = Development;
 		};
@@ -395,6 +397,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
+				SYMROOT = build;
 			};
 			name = Deployment;
 		};
@@ -407,6 +410,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
+				SYMROOT = build;
 			};
 			name = Default;
 		};

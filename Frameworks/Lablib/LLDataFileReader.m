@@ -852,7 +852,7 @@ them.
 	}
 	
 	if (eventCode >= numEvents) {
-		NSRunAlertPanel(@"LLDataFileReader",  @"Read event code %d at 0x%x but only %d event defined", 
+		NSRunAlertPanel(@"LLDataFileReader",  @"Read event code %ld at 0x%lx but only %ld event defined", 
 			@"OK", nil, nil, eventCode, currentEventIndex, numEvents);
 		exit(0); 
 	}

@@ -155,7 +155,7 @@ static	LLMouseDataSettings	*mouseSettings;
 {
 	if (channel >= [samplePeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set sample period %d of %d for device %@",
+				@"Attempt to set sample period %ld of %d for device %@",
 				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
 		exit(0);
 	}

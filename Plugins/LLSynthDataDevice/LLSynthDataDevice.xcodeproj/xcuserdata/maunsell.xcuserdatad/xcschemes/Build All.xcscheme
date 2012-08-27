@@ -70,9 +70,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69D82C9D0B069FF500E8C369"
-               BuildableName = "LablibITC18.plugin"
-               BlueprintName = "LablibITC18 Plugin"
+               BlueprintIdentifier = "699EB85715CDC562004E2B0D"
+               BuildableName = "LablibITC18 0.plugin"
+               BlueprintName = "LablibITC18 0.plugin"
+               ReferencedContainer = "container:../../Frameworks/LablibITC18/LablibITC18.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "690869D714AEA30E00347B8F"
+               BuildableName = "LablibITC18 1.plugin"
+               BlueprintName = "LablibITC18 1.plugin"
                ReferencedContainer = "container:../../Frameworks/LablibITC18/LablibITC18.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

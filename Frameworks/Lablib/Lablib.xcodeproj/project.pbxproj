@@ -677,6 +677,8 @@
 				69EBE5DB07E1988D00037090 /* LLDataEventDef.m */,
 				69BCEEC706B2D32B0046C824 /* LLDataFileReader.h */,
 				69BCEEC806B2D32B0046C824 /* LLDataFileReader.m */,
+				69897B6A099BA633001EE2DA /* LLDataUtil.h */,
+				69897B6B099BA633001EE2DA /* LLDataUtil.m */,
 				69CFF82B0477F8E000F95509 /* LLEyeCalibrator.h */,
 				69CFF82C0477F8E000F95509 /* LLEyeCalibrator.m */,
 				69CFF8270477D3B900F95509 /* LLEyeWindow.h */,
@@ -716,8 +718,6 @@
 			isa = PBXGroup;
 			children = (
 				69C0944D0BDA3B4E00DB7DE8 /* LLDistributions */,
-				69897B6A099BA633001EE2DA /* LLDataUtil.h */,
-				69897B6B099BA633001EE2DA /* LLDataUtil.m */,
 				695C06D3064BDEA600809DAA /* LLDefaultAboutBox.h */,
 				695C06D4064BDEA600809DAA /* LLDefaultAboutBox.m */,
 				696FEDD10B7B854A002D6D54 /* LLMathUtil.h */,
@@ -1593,6 +1593,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "Info-Lablib.plist";
 				INSTALLHDRS_COPY_PHASE = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "";
