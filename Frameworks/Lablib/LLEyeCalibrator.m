@@ -48,8 +48,16 @@ NSString *LLFixCorrectFactorKey = @"LLFixCorrectFactor";
 		return nil;
 	}
 	unitsToDeg = [[NSAffineTransform alloc] init];
-	[unitsToDeg setTransformStruct:cal.calibration];
 	degToUnits = [[NSAffineTransform alloc] init];
+    
+    if (cal.calibration.m11 * cal.calibration.m22 - cal.calibration.m12 * cal.calibration.m21 == 0) {
+        NSLog(@"LLEyeCalibrator +bezierPathForCalibration: attempting to invert non-invertable transform");
+        NSLog(@"M11: %f, M22 %f, M12: %f, M21: %f", cal.calibration.m11, cal.calibration.m22,
+              cal.calibration.m12, cal.calibration.m21);
+        cal.calibration.m12 += 0.000001;
+    }
+    
+	[unitsToDeg setTransformStruct:cal.calibration];
 	[degToUnits setTransformStruct:cal.calibration];
 	[degToUnits invert];
 	calBezierPath = [NSBezierPath bezierPath];
@@ -286,6 +294,14 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 
 - (void)loadTransforms;
 {
+    
+    if (currentCalibration.m11 * currentCalibration.m22 - currentCalibration.m12 * currentCalibration.m21 == 0) {
+        NSLog(@"LLEyeCalibrator +bezierPathForCalibration: attempting to invert non-invertable transform");
+        NSLog(@"M11: %f, M22 %f, M12: %f, M21: %f", currentCalibration.m11, currentCalibration.m22,
+              currentCalibration.m12, currentCalibration.m21);
+        currentCalibration.m12 += 0.000001;
+    }
+    
 	[unitsToDeg setTransformStruct:currentCalibration];
 	[degToUnits setTransformStruct:currentCalibration];
 	[degToUnits invert];
