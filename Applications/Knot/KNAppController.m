@@ -84,8 +84,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	[self activateCurrentTask];
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
+{
 	long choice;
 	NSString *theString = @"";
 	BOOL writingDataFile = [defaults boolForKey:KNWritingDataFileKey];
@@ -97,6 +97,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		return NSTerminateNow;
 	}
 
+    NSLog(@"Knot applicationShouldTerminate: sender %@; mode %ld", sender, [currentTask mode]);
+    
 // Task running and/or data file open.  Ask for permission to terminate
 
 	if (!([currentTask mode] == kTaskIdle) && writingDataFile) {
