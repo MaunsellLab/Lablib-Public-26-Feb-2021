@@ -13,7 +13,7 @@
 #import "LLXTStimPlot.h"
 
 #define kEyePlots			2
-#define kSpikePlots			1
+#define kSpikePlots			2
 
 @interface LLXTView : NSView {
 

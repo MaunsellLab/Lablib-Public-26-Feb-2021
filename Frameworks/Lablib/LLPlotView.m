@@ -179,9 +179,8 @@
             width:(plotWidth * (1 + 2 * kExtraSpaceFraction))];
 	}
 
-    [LLPlotAxes drawXAxisWithScale:scale from:xAxisMin to:xAxisMax 
-        atY:yAxisMin tickSpacing:xTickSpacing tickLabelSpacing:1 
-        tickLabels:xTickLabels label:xAxisLabel];
+    [LLPlotAxes drawXAxisWithScale:scale from:xAxisMin to:xAxisMax atY:yAxisMin tickSpacing:xTickSpacing
+                  tickLabelSpacing:1 tickLabels:xTickLabels label:xAxisLabel];
     [LLPlotAxes drawYAxisWithScale:scale from:yAxisMin to:yAxisMax 
         atX:xOriginForPlot tickSpacing:kMaxMinTicks tickLabelSpacing:2  
 		tickLabels:yTickLabels label:yAxisLabel];
@@ -256,8 +255,7 @@
     }
     [self setScale:plotScale];
     defaultColors = [[LLPlotColors alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-            selector:@selector(handleScaleChange:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleScaleChange:)
             name:@"LLYScaleChanged" object:scale];
     xTickSpacing = 1.0;
 	[scale setAutoAdjustYMin:NO];
@@ -306,6 +304,11 @@
 		}
 	}
 	[self setNeedsDisplay:YES];
+}
+
+- (long)points;
+{
+    return plotPoints;
 }
 
 - (LLViewScale *)scale;
@@ -398,7 +401,7 @@
     xAxisLabel = label;
 }
 
-- (void) setXAxisTickSpacing:(float)spacing {
+- (void)setXAxisTickSpacing:(float)spacing {
 
     xTickSpacing = spacing;
 }
@@ -445,6 +448,16 @@
     yMaxDisplayValue = yMax;
     yMinDisplayValue = yMin;
     useYDisplayValues = YES;						
+}
+
+- (float)xMaxDisplayValue;
+{
+    return xMaxDisplayValue;
+}
+
+- (float)xMinDisplayValue;
+{
+    return xMinDisplayValue;
 }
 
 @end

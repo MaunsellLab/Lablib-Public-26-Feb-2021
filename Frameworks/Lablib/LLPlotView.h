@@ -62,7 +62,8 @@ typedef struct {
 - (void)handleScaleChange:(NSNotification *)note;
 - (void)initializeWithScale:(LLViewScale *)plotScale;
 - (id) initWithFrame:(NSRect)frame; 
-- (id) initWithFrame:(NSRect)frame scaling:(LLViewScale *)histScale; 
+- (id) initWithFrame:(NSRect)frame scaling:(LLViewScale *)histScale;
+- (long)points;
 - (LLViewScale *)scale;
 - (void)setColor:(NSColor *)newColor forPlot:(long)plotIndex;
 - (void)setHighlightPlot:(BOOL)state;
@@ -81,5 +82,7 @@ typedef struct {
 - (void)setYAxisTickLabels:(NSArray *)tickLabelArray;
 - (void)setYAxisTickSpacing:(float)spacing;
 - (void)setYMin:(float)yMin yMax:(float)yMax;
+- (float)xMaxDisplayValue;
+- (float)xMinDisplayValue;
 
 @end
