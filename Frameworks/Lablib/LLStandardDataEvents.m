@@ -108,7 +108,7 @@ static EventDefinition standardEventsWithDataDefs[] = {
 	{@"trialCertify",		sizeof(long),			{@"long"}},
 	{@"spikeZero",			sizeof(long),			{@"long"}},
 	{@"sampleZero",			sizeof(long),			{@"long"}},
-	{@"spike",				sizeof(TimestampData),	{@"struct", @"timestamp", 1, 0, sizeof(TimestampData), timestampDef}},
+	{@"spike",				sizeof(TimestampData),	{@"struct", @"spike", 1, 0, sizeof(TimestampData), timestampDef}},
 	{@"spike0",				sizeof(long),			{@"long"}},
 	{@"sample",				sizeof(ADData),			{@"struct", @"ADData", 1, 0, sizeof(ADData), ADDataDef}},
 	{@"sample01",			2 * sizeof(short),		{@"short", @"sample01", 2}},
