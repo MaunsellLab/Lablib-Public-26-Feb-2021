@@ -333,7 +333,7 @@ static long	ITCCount = 0;
 	
 	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
 	if (overflow != 0) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: FIFO overflow", @"OK", nil, nil);
+		NSRunAlertPanel(@"LLITC18DataDevice",  @"Fatal error: FIFO overflow", @"OK", nil, nil);
 		exit(0);
 	}
 	return available;
