@@ -126,7 +126,7 @@
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				697BD676098841E600D9176F /* Plists */,
 				6917CF9513B79AD700E4D1D4 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
@@ -134,12 +134,16 @@
 			name = LablibITC18;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+				6975F2950B3328C200312509 /* Lablib.framework */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				69F2BB2504D31F1600F95507 /* ITC.framework */,
+				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
 			);
-			name = "External Frameworks and Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
@@ -169,18 +173,6 @@
 				697139600506215500F95523 /* LLITCMonitorSettings.m */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6975F2950B3328C200312509 /* Lablib.framework */,
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-				69F2BB2504D31F1600F95507 /* ITC.framework */,
-				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
@@ -279,7 +271,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibITC18" */;
 			compatibilityVersion = "Xcode 3.2";
