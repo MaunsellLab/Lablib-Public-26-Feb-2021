@@ -148,6 +148,12 @@
     [yMins release];
     [super dealloc];
 }
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"LLViewScale (%lx): xMin %f xMax %f yMin %f yMax %f", (unsigned long)&self,
+            scaleRect.origin.x, scaleRect.origin.y, scaleRect.size.width, scaleRect.size.height];
+}
  
 - (float)height {
 

@@ -54,13 +54,12 @@
 #import <Lablib/LLIODeviceController.h>
 #import <Lablib/LLDataDeviceController.h>
 #import <Lablib/LLGabor.h>
+#import <Lablib/LLHeatMapView.h>
 #import <Lablib/LLIntervalMonitor.h>
 #import <Lablib/LLLaserCalibrator.h>
 #import <Lablib/LLMathUtil.h>
 #import <Lablib/LLMonitorController.h>
 #import <Lablib/LLMouseDataDevice.h>
-//#import <Lablib/LLMouseIODevice.h>
-//#import <Lablib/LLMouseIOSettings.h>
 #import <Lablib/LLMultiplierTransformer.h>
 #import <Lablib/LLNoise.h>
 #import <Lablib/LLNormDist.h>
@@ -89,7 +88,6 @@
 #import <Lablib/LLStimWindow.h>
 #import <Lablib/LLSVDSolver.h>
 #import <Lablib/LLSynthDataDevice.h>
-//#import <Lablib/LLSynthIODevice.h>
 #import <Lablib/LLSystemUtil.h>
 #import <Lablib/LLTaskMode.h>
 #import <Lablib/LLTaskModeTransformer.h>
