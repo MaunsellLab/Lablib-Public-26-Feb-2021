@@ -27,6 +27,8 @@
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69366665139E66B9000508B6 /* ResetButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69366664139E66B9000508B6 /* ResetButton.tif */; };
 		693BAB420906F01B008574BF /* LLSynthDataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 693BAB410906F01B008574BF /* LLSynthDataDevice.plist */; };
+		693D9EB91605299B00113D5D /* LLHeatMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = 693D9EB81605299B00113D5D /* LLHeatMapView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		693D9EBB160529A700113D5D /* LLHeatMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 693D9EBA160529A700113D5D /* LLHeatMapView.m */; };
 		693F0A970F4CF3D600C5E111 /* LLPlaid.h in Headers */ = {isa = PBXBuildFile; fileRef = 693F0A950F4CF3D600C5E111 /* LLPlaid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		693F0A980F4CF3D600C5E111 /* LLPlaid.m in Sources */ = {isa = PBXBuildFile; fileRef = 693F0A960F4CF3D600C5E111 /* LLPlaid.m */; };
 		693F0A9D0F4CF3F400C5E111 /* LLPlaid.nib in Resources */ = {isa = PBXBuildFile; fileRef = 693F0A9B0F4CF3F400C5E111 /* LLPlaid.nib */; };
@@ -240,7 +242,7 @@
 		69F8D4C109D9B8B100DF2F63 /* LLProgressIndicator.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69F8D4BF09D9B8B100DF2F63 /* LLProgressIndicator.nib */; };
 		69FB5517078B84AA00AC42FA /* LLUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5515078B84AA00AC42FA /* LLUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FB5518078B84AA00AC42FA /* LLUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FB5516078B84AA00AC42FA /* LLUserDefaults.m */; };
-		69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5570095DA531006F86F9 /* LLNullDataDevice.h */; };
+		69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5570095DA531006F86F9 /* LLNullDataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FB5573095DA531006F86F9 /* LLNullDataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FB5571095DA531006F86F9 /* LLNullDataDevice.m */; };
 /* End PBXBuildFile section */
 
@@ -283,6 +285,8 @@
 		69366664139E66B9000508B6 /* ResetButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ResetButton.tif; path = ../../Resources/Images/ResetButton.tif; sourceTree = SOURCE_ROOT; };
 		693BA7D904AA6C8500995423 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLEyeCalibrator.xib; sourceTree = "<group>"; };
 		693BAB410906F01B008574BF /* LLSynthDataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLSynthDataDevice.plist; sourceTree = "<group>"; };
+		693D9EB81605299B00113D5D /* LLHeatMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHeatMapView.h; sourceTree = "<group>"; };
+		693D9EBA160529A700113D5D /* LLHeatMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLHeatMapView.m; sourceTree = "<group>"; };
 		693F0A950F4CF3D600C5E111 /* LLPlaid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPlaid.h; sourceTree = "<group>"; };
 		693F0A960F4CF3D600C5E111 /* LLPlaid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPlaid.m; sourceTree = "<group>"; };
 		693F0A9C0F4CF3F400C5E111 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLPlaid.xib; sourceTree = "<group>"; };
@@ -761,6 +765,8 @@
 				6934455504856D8300FE06D7 /* LLEOTView.m */,
 				69E96F910472CCA400F95509 /* LLEyeXYView.h */,
 				69E96F920472CCA400F95509 /* LLEyeXYView.m */,
+				693D9EB81605299B00113D5D /* LLHeatMapView.h */,
+				693D9EBA160529A700113D5D /* LLHeatMapView.m */,
 				69405EF70461C83E00A80164 /* LLHistView.h */,
 				69405EF80461C83E00A80164 /* LLHistView.m */,
 				697BA2CD0464924600A80164 /* LLPlotAxes.h */,
@@ -990,12 +996,14 @@
 				69F36CB00567EA5D009AED51 /* LLEyeWindow.h in Headers */,
 				69F36CB10567EA5D009AED51 /* LLEyeXYView.h in Headers */,
 				69F36CB20567EA5D009AED51 /* LLGabor.h in Headers */,
+				693D9EB91605299B00113D5D /* LLHeatMapView.h in Headers */,
 				69F36CB30567EA5D009AED51 /* LLHistView.h in Headers */,
 				69F36CB40567EA5D009AED51 /* LLIntervalMonitor.h in Headers */,
 				69F36CB50567EA5D009AED51 /* LLIntervalMonitorSettings.h in Headers */,
 				696944B11502A9D800D39C41 /* LLIODeviceController.h in Headers */,
 				69F36CB90567EA5D009AED51 /* LLMonitor.h in Headers */,
 				69F36CBA0567EA5D009AED51 /* LLMonitorController.h in Headers */,
+				69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */,
 				69F36CBD0567EA5D009AED51 /* LLPlotAxes.h in Headers */,
 				69F36CBE0567EA5D009AED51 /* LLPlotColors.h in Headers */,
 				69F36CBF0567EA5D009AED51 /* LLPlotView.h in Headers */,
@@ -1056,7 +1064,6 @@
 				6912F8320918FD8B009B1CD1 /* LLMouseDataDevice.h in Headers */,
 				6912F8A70919029C009B1CD1 /* LLMouseDataSettings.h in Headers */,
 				69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */,
-				69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */,
 				69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */,
 				6905D24C0966EDB2009C96F6 /* LLPluginController.h in Headers */,
 				69BDCF09098C09B500578E91 /* LLScrollZoomWindow.h in Headers */,
@@ -1270,6 +1277,7 @@
 				696944AE1502A7E100D39C41 /* LLIODeviceSettings.m in Sources */,
 				698F5967159000EC00366393 /* LLSynthBinocSaccade.m in Sources */,
 				697A296E159526EC00095DB3 /* LLBinocCalibrator.m in Sources */,
+				693D9EBB160529A700113D5D /* LLHeatMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1490,6 +1498,7 @@
 		69CA1DDE088DA53700D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
@@ -1508,6 +1517,7 @@
 				GCC_PREFIX_HEADER = Lablib_Prefix.h;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
@@ -1538,6 +1548,7 @@
 		69CA1DDF088DA53700D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
@@ -1552,6 +1563,7 @@
 				GCC_PREFIX_HEADER = Lablib_Prefix.h;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "Info-Lablib.plist";
 				INSTALLHDRS_COPY_PHASE = YES;
@@ -1577,6 +1589,7 @@
 		69CA1DE0088DA53700D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DEPLOYMENT_LOCATION = NO;
@@ -1590,6 +1603,7 @@
 				GCC_PREFIX_HEADER = Lablib_Prefix.h;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "Info-Lablib.plist";
 				INSTALLHDRS_COPY_PHASE = YES;

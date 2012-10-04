@@ -53,8 +53,7 @@ LLDataDef RGBDoubleDef[] = {
 LLDataDef ADDataDef[] = {
 		{@"short",	@"channel", 1, offsetof(ADData, channel)},
 		{@"short",	@"data", 1, offsetof(ADData, data)},
-		{nil}
-};
+		{nil}};
 
 LLDataDef dataParamDef[] = {
 		{@"char",	@"dataName", sizeof(Str31), offsetof(DataParam, dataName)},
@@ -82,8 +81,7 @@ LLDataDef eyeCalibrationDataDef[] = {
 		{@"struct", @"targetDeg", kLLEyeCalibratorOffsets, offsetof(LLEyeCalibrationData, targetDeg), sizeof(NSPoint), NSPointDataDef},
 		{@"struct", @"actualUnits", kLLEyeCalibratorOffsets, offsetof(LLEyeCalibrationData, actualUnits), sizeof(NSPoint), NSPointDataDef},
 		{@"struct", @"cal", 1, offsetof(LLEyeCalibrationData, calibration), sizeof(NSAffineTransformStruct), NSAffineTransformStructDataDef},
-		{nil}
-};
+		{nil}};
 
 LLDataDef fixWindowDataDef[] = {
 		{@"long",	@"index", 1, offsetof(FixWindowData, index)},
