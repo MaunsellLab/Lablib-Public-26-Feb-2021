@@ -28,9 +28,7 @@ NSString *successLessMSKey = @"LLSuccessLessS";
 NSString *successGreaterCountKey = @"LLSuccessGreaterCounter";
 NSString *successGreaterMSKey = @"LLSuccessGreaterS";
 NSString *warnGreaterCountKey = @"LLWarnGreaterCount";
-//NSString *warnGreaterMSKey = @"LLWarnGreaterS";
 NSString *warnLessCountKey = @"LLWarnLessCount";
-//NSString *warnLessMSKey = @"LLWarnLessS";
 NSString *warnSequentialCountKey = @"LLWarnSequentialCount";
 NSString *standardKey = @"LLMonitorTarget";
 
