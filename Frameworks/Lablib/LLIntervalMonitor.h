@@ -20,9 +20,7 @@ extern NSString	*successLessMSKey;
 extern NSString	*successGreaterCountKey;
 extern NSString	*successGreaterMSKey;
 extern NSString	*warnGreaterCountKey;
-//extern NSString	*warnGreaterMSKey;
 extern NSString	*warnLessCountKey;
-//extern NSString	*warnLessMSKey;
 extern NSString	*warnSequentialCountKey;
 extern NSString	*standardKey;
 

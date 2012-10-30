@@ -99,7 +99,6 @@ NSString *LLFixShapeKey = @"shape";
 	glVertex2f(-widthDeg, -lengthDeg);
 }	
 
-
 - (NSColor *)fixTargetColor;
 {
 	return foreColor;
@@ -108,11 +107,11 @@ NSString *LLFixShapeKey = @"shape";
 - (id)init;
 {	
 	if ((self = [super init]) != nil) {
-		shape = kLLCircle;
-		radiusDeg = 0.25;
+		shape = kLLSquare;
+		radiusDeg = 0.1;
 		innerRadiusDeg = 0.0;
 		stimPrefix = @"Fix";								// make our keys different from other LLVisualStimuli
-		[keys addObjectsFromArray:[NSArray arrayWithObjects:LLFixInnerRadiusDegKey	, LLFixShapeKey	, nil]];	
+		[keys addObjectsFromArray:[NSArray arrayWithObjects:LLFixInnerRadiusDegKey, LLFixShapeKey, nil]];
 
 // Provide convenient access to keys declared in LLVisualStimulus
 
