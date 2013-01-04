@@ -421,11 +421,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Documents/Lablib/Frameworks/Lablib/build,
-					/Documents/Lablib/Frameworks/LablibITC18/build,
-					"$(SRCROOT)/../../Frameworks/Lablib/build/Development",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;
@@ -442,11 +438,7 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				FRAMEWORK_SEARCH_PATHS = (
-					/Documents/Lablib/Frameworks/Lablib/build,
-					/Documents/Lablib/Frameworks/LablibITC18/build,
-					"$(SRCROOT)/../../Frameworks/Lablib/build/Development",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;

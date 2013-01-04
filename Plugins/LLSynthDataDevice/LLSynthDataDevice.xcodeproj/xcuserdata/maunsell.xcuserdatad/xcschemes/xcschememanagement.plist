@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Build All.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>10</integer>
-		</dict>
 		<key>LLSynthDataDevice.xcscheme</key>
 		<dict>
 			<key>orderHint</key>

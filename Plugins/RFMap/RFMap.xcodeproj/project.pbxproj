@@ -460,7 +460,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -503,11 +504,8 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
-				FRAMEWORK_SEARCH_PATHS = (
-					/Documents/Lablib/Frameworks/Lablib/build/Development,
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RFMap_Prefix.h;
@@ -536,11 +534,8 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
-				FRAMEWORK_SEARCH_PATHS = (
-					/Documents/Lablib/Frameworks/Lablib/build/Development,
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RFMap_Prefix.h;
 				INFOPLIST_FILE = Info.plist;

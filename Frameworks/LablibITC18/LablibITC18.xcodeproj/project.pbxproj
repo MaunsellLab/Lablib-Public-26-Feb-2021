@@ -375,11 +375,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Documents/Lablib/Frameworks/LablibITC18/build/$(CONFIGURATION)";
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Lablib/build/Development";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -409,14 +409,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Documents/Lablib/Frameworks/LablibITC18/build/$(CONFIGURATION)";
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Documents/Lablib/Frameworks/Lablib/build,
-					"$(SRCROOT)/../Lablib/build/Development",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Lablib/build/Development";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -445,11 +442,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Documents/Lablib/Frameworks/LablibITC18/build/$(CONFIGURATION)";
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Lablib/build/Development";
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
