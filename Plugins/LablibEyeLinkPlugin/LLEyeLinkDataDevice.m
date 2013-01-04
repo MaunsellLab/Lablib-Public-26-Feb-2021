@@ -17,6 +17,8 @@
 @implementation LLEyeLinkDataDevice
 
 volatile int shouldKillThread = 0;
+BOOL firstTrialSample;
+long ELTrialStartTimeMS;
 
 void handler(int signal) {
 	stop_recording();
@@ -73,7 +75,7 @@ void handler(int signal) {
 		deviceEnabled = NO;
 		dataEnabled = NO;
 		devicePresent = YES;
-		EyeLinkSamplePeriodS = 0.001;
+		EyeLinkSamplePeriodS = 0.002;
 			
 		dataLock = [[NSLock alloc] init];
 		deviceLock = [[NSLock alloc] init];
@@ -159,8 +161,6 @@ void handler(int signal) {
 	return [samplePeriodMS count];
 }
 
-// ??? NEED TO FIGURE OUT HOW THE DATA ARE PACKAGED AND EXTRACT THEM APPROPRIATELY.
-
 - (void)pollSamples
 {
 	int index = 0;
@@ -180,6 +180,14 @@ void handler(int signal) {
 		while ((index = eyelink_get_sample(&newSample))) {
 			if (index && (newSample.time != oldSample.time)) {
 				[dataLock lock];
+                if (!firstTrialSample) {
+                    ELTrialStartTimeMS = eyelink_tracker_msec();
+                    NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
+                    NSLog(@"EyeLink Sample Time stamp: %li", newSample.time);
+                    NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
+                    NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
+                    firstTrialSample = YES;
+                }
 				sample = (short)(newSample.gx[RIGHT_EYE]);
 				[rXData appendBytes:&sample length:sizeof(sample)];
 				sample = (short)(-newSample.gy[RIGHT_EYE]);
@@ -264,6 +272,7 @@ void handler(int signal) {
 			monitorStartTimeS = [LLSystemUtil getTimeS];
 			lastReadDataTimeS = 0;
 			dataEnabled = YES;
+            firstTrialSample = NO;
 		}
         [deviceLock unlock];
 	} 
