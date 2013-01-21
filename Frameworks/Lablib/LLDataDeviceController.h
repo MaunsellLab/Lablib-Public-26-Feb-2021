@@ -88,6 +88,8 @@ samples) have multiple objects in the array, one for each channel.
 - (void)setDataEnabled:(NSNumber *)state;
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
 - (void)setMinCollectionIntervalS:(long)newIntervalS;
+- (void)startDevice;
+- (void)stopDevice;
 - (void)writeDefaults:(LLDataAssignment *)assign;
 
 - (IBAction)changeDigitalInput:(id)sender;

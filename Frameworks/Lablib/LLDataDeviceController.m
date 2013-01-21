@@ -640,6 +640,16 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	minCollectionIntS = newIntervalS;
 }
 
+- (void)startDevice;
+{
+	[dataDevices makeObjectsPerformSelector:@selector(startDevice)];
+}
+
+- (void)stopDevice;
+{
+	[dataDevices makeObjectsPerformSelector:@selector(stopDevice)];
+}
+
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 {
 	LLDataAssignment *assign;
