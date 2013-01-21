@@ -53,6 +53,8 @@
 - (BOOL)setTimestampPeriodMS:(float)newPeriodMS channel:(long)channel;
 - (BOOL)setTimestampTicksPerMS:(long)newTicksPerMS channel:(long)channel;
 - (BOOL)shouldCreateAnotherDevice;
+- (void)startDevice;
+- (void)stopDevice;
 - (long)timestampChannels;
 - (NSData **)timestampData;
 - (float)timestampPeriodMSForChannel:(long)channel;

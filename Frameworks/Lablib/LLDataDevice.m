@@ -236,6 +236,16 @@
     return NO;
 }
 
+// For devices that need to start and stop activity at transitions between running and idle
+
+- (void)startDevice;
+{
+}
+
+- (void)stopDevice;
+{
+}
+
 - (long)timestampChannels;
 {
 	return [timestampPeriodMS count];
