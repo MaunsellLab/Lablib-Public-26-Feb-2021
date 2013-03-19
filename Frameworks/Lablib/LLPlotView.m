@@ -245,7 +245,7 @@
     return self;
 }
 
-- (void) initializeWithScale:(LLViewScale *)plotScale;
+- (void)initializeWithScale:(LLViewScale *)plotScale;
 {
 	NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
         

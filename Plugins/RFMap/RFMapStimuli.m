@@ -9,6 +9,7 @@ December 26, 2004 John Maunsell
 #import <Carbon/Carbon.h>
 #import <OpenGL/gl.h>
 
+#define kAutoreleaseIntS	10
 #define kMidGray				0.5
 #define kGridGray				0.6
 #define kRadiansPerDeg			(kPI / 180.0)
@@ -253,10 +254,12 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 	NSRect stimRectDeg;
  	Rect shieldRect = {-500, -500, 500, 500};
 	NSRect bounds;
+    NSDate *nextRelease;
 	long frame = 0;
 	BOOL cursorHidden = NO;
 
     threadPool = [[NSAutoreleasePool alloc] init];		// create a threadPool for this thread
+	nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
 	stimulusOn = YES;
 	
 	if ([[task stimWindow] fullscreen]) {
@@ -393,9 +396,17 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
         glFinish();
         [monitor recordEvent];
 		frame++;
+//        if ([nextRelease timeIntervalSinceNow] < 0.0) {
+//            [monitor reset];
+//            [threadPool release];
+//            threadPool = [[NSAutoreleasePool alloc] init];
+//            nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
+//        }
     }
 
-// Clear the display and leave the back buffer cleared
+    [monitor reset];
+
+    // Clear the display and leave the back buffer cleared
 
 	[[task stimWindow] lock];
     glClear(GL_COLOR_BUFFER_BIT);

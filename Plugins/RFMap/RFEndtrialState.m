@@ -42,9 +42,12 @@
 // but the trial will be done over.  Other computer checks can be added here.
 
 	trialCertify = 0;
+    [stimuli stopStimulus];
+    while ([stimuli stimulusOn]) {};
 	if (![[stimuli monitor] success]) {
 		trialCertify |= (0x1 << kCertifyVideoBit);
 	}
+    [stimuli startStimulus];
 	switch (eotCode) {
 	case kEOTCorrect:
 		[[task dataController] digitalOutputBitsOff:kRewardBit];

@@ -126,7 +126,7 @@
     [warnGreaterButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnGreaterKey]]];
     [warnLessButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnLessKey]]];
     [warnSequentialButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnSequentialKey]]];
-	
+	[warnSequentialCountField setIntValue:[defaults integerForKey:[self uniqueKey:warnSequentialCountKey]]];
     [warnGreaterCountField setIntValue:[defaults integerForKey:[self uniqueKey:warnGreaterCountKey]]];
     [warnLessCountField setIntValue:[defaults integerForKey:[self uniqueKey:warnLessCountKey]]];
 	[lessStandardField setStringValue:[defaults stringForKey:[self uniqueKey:standardKey]]];
