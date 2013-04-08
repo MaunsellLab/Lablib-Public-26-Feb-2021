@@ -538,6 +538,29 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	return self;
 }
 
+// Return the name of the device currently assigned to data of a given type
+
+- (NSString *)nameOfDeviceForDataOfType:(NSString *)typeName;
+{
+	LLDataAssignment *assign;
+	NSArray *assignments;
+    
+    // Check the data type exists
+	
+	if ((assignments = [assignmentDict objectForKey:typeName]) == nil) {
+		return nil;
+	}
+	
+    // If this assignment is grouped, we don't try to handle this (although we could check whether it's one device).
+    
+	if ([assignments count] > 1) {
+        return nil;
+    };
+    
+    assign = [assignments objectAtIndex:0];
+    return [[dataDevices objectAtIndex:[assign device]] name];
+}
+
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == sampleTable) {	
