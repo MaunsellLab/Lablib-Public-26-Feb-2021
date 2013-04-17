@@ -43,6 +43,7 @@ typedef struct {
 - (id)initWithID:(NSString *)ID description:(NSString *)description;
 - (void)resetCounters;
 - (void)sequenceValues:(ITCMonitorValues)current;
+- (BOOL)success;
 - (NSString *)valueString:(ITCMonitorValues *)pValues;
 - (NSString *)uniqueKey:(NSString *)commonKey;
 

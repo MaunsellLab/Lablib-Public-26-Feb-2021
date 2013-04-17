@@ -82,6 +82,7 @@ samples) have multiple objects in the array, one for each channel.
 - (void)digitalOutputBitsOn:(unsigned long)bits;
 - (void)enableDevicesAndChannels;
 - (long)indexForDeviceName:(NSString *)name;
+- (NSString *)nameOfDeviceForDataOfType:(NSString *)typeName;
 - (void)readDataFromDevices;
 - (BOOL)readDefaults:(LLDataAssignment *)assign pTiming:(float *)pTiming;
 - (void)removeAllAssignments;

@@ -17,7 +17,6 @@ There needs to be a better way to access the configuration of data devices
 that lower sampling rates could not be allowed.
 
 LLGabor need to work on different backgrounds
-
 • Need a way for Erik to simply substitute his eye calibrator --- couldn't we just have a Knot method for this
 		switch?  We could even have a method to return the old one.
 		

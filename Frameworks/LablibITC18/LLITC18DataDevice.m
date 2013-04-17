@@ -710,17 +710,17 @@ static long	ITCCount = 0;
         [deviceLock unlock];
 	}
 	else if (![state boolValue] && dataEnabled) {
-        values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
         [deviceLock lock];
         ITC18_Stop(itc);										// stop the ITC18
 		[deviceLock unlock];
+        values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
        
 // Check whether the number of samples collected is what is predicted based on the elapsed time.
 // This is a check for drift between the computer clock and the ITC-18 clock.  The first step
 // is to drain any complete sample sets from the FIFO.  Then we see how many instructions
 // remain in the FIFO (as an incomplete sample set).
 
-		lastReadDataTimeS = 0;									// allow FIFO read
+		lastReadDataTimeS = 0;									// permit a FIFO read
 		[self readData];										// drain FIFO
         [deviceLock lock];
 		available = [self getAvailable];

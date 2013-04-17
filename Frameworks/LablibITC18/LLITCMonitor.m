@@ -14,26 +14,22 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 
 @implementation LLITCMonitor
 
-- (void)checkWarnings {
-
+- (void)checkWarnings;
+{
     double ITCMS, CPUMS, driftParts;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    if (![defaults boolForKey:[self uniqueKey:doWarnDriftKey]] || previous.sequences < 1) {
-        return;
-    }
-    ITCMS = previous.instructions * previous.instructionPeriodMS;
-    CPUMS = previous.cumulativeTimeMS;
-    driftParts = ((ITCMS + CPUMS) / 2)/(CPUMS - ITCMS);
-    if (fabs(driftParts) < [defaults integerForKey:[self uniqueKey:driftLimitKey]]) {
-		NSLog(@"Warning: ITC clock drift is %d:%.0f relative to computer.", 
-					driftParts >= 0 ? 1 : -1, driftParts);
+    if (![self success]) {
+        ITCMS = previous.instructions * previous.instructionPeriodMS;
+        CPUMS = previous.cumulativeTimeMS;
+        driftParts = ((ITCMS + CPUMS) / 2)/(CPUMS - ITCMS);
+		NSLog(@"Warning: ITC clock drift is %@1 tick per %.0f relative to computer.", 
+					driftParts >= 0 ? @"+" : @"-", fabs(driftParts));
 		NSLog(@"previous.sequences: %ld", previous.sequences);
 		NSLog(@"previous.instructions: %ld", previous.instructions);
 		NSLog(@"previous.instructionPeriodMS: %f", previous.instructionPeriodMS);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
-        [self doAlarm:[NSString stringWithFormat:@"Warning: ITC clock drift is %d:%.0f relative to computer.",
-				driftParts >= 0 ? 1 : -1, driftParts]];
+        [self doAlarm:[NSString stringWithFormat:@"Warning: ITC clock drift is %@1 tick per %.0f relative to computer.",
+				driftParts >= 0 ? @"+" : @"-", fabs(driftParts)]];
 	}
 }
 
@@ -224,6 +220,19 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 	[[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
 }
 
+- (BOOL)success;
+{
+    double ITCMS, CPUMS, driftParts;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![defaults boolForKey:[self uniqueKey:doWarnDriftKey]] || previous.sequences < 1) {
+        return YES;
+    }
+    ITCMS = previous.instructions * previous.instructionPeriodMS;
+    CPUMS = previous.cumulativeTimeMS;
+    driftParts = ((ITCMS + CPUMS) / 2)/(CPUMS - ITCMS);
+    return (fabs(driftParts) >= [defaults integerForKey:[self uniqueKey:driftLimitKey]]);
+}
 // Because there may be many instances of some objects, we save using keys that are made
 // unique by prepending the IDString
 
