@@ -302,7 +302,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	if ([[self window] firstResponder] == sampleTable) {
 		assign = [sampleAssignments objectAtIndex:[theTable selectedRow]];
 	}
-	else if ([[self window] firstResponder] == timestampTable) {
+	else {
 		assign = [timestampAssignments objectAtIndex:[theTable selectedRow]];
 	}
 	[[dataDevices objectAtIndex:[assign device]] configure];

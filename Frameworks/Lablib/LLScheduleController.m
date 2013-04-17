@@ -58,7 +58,7 @@
 		
 - (id)schedule:(SEL)selector toTarget:(id)target {
 
-	[self schedule:(SEL)selector toTarget:(id)target withObject:nil];
+	[self schedule:selector toTarget:(id)target withObject:nil];
 	return nil;
 }
 
