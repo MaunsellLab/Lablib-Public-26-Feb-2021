@@ -46,7 +46,7 @@ typedef struct {
 #define kLLEyeYChannel			1
 
 enum {kEOTCorrect = 0, kEOTWrong, kEOTFailed, kEOTBroke, kEOTIgnored, kEOTQuit, kEOTTypes} EOTType;
-enum {kCertifyVideoBit = 0, kCertifyTypes} CertifyType;
+enum {kCertifyVideoBit = 0, kCertifyDataBit, kCertifyTypes} CertifyType;
 enum {kTaskIdle, kTaskStopping, kTaskRunning, kTaskEnding, kTaskQuitting, kTaskModes} TaskMode;	// defines for state system modes
 #define kLLFileOpen     0
 #define kLLFileOpenBit	4
