@@ -221,7 +221,7 @@ NSLog(@"Start makeNoiseTexture");
 				xr = halfNoisePix - row;
 				yc = halfNoisePix - col;
 				xindex = xr * 2 * kNoisePix + yc * 2;
-				phase = (float)random() / (1<<31-1) * k2PI;
+				phase = (float)random() / ((1<<31)-1) * k2PI;
 				real = cos(phase);
 				imag = sin(phase);
 				freq[xindex] = real;

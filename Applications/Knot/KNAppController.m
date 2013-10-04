@@ -435,8 +435,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 			if ([theClass isSubclassOfClass:[LLDataDevice class]]) {
 				if ([theClass version] != kLLPluginVersion) {
 					NSRunCriticalAlertPanel(@"Knot: error loading plugin", 
-						@"%@ has version %d, but current version is %d.  It will be not be used.", 
-						@"OK", nil, nil, currPath, [theClass version], 
+						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
+						@"OK", nil, nil, currPath, (long)[theClass version], 
 						kLLPluginVersion);
 				}
 				else {

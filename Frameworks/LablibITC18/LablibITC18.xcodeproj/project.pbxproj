@@ -11,12 +11,16 @@
 		690869F214AEBCEC00347B8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6917CF9613B79AD700E4D1D4 /* Cocoa.framework */; };
 		6917B197091EFCC40082A1F4 /* LLITC18DataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6917B195091EFCC40082A1F4 /* LLITC18DataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6917B198091EFCC40082A1F4 /* LLITC18DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */; };
+		6925DB2E17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
+		6925DB2F17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
 		6975F2960B3328C200312509 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6975F2950B3328C200312509 /* Lablib.framework */; };
 		6975F2970B3328C200312509 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6975F2950B3328C200312509 /* Lablib.framework */; };
 		6979D29F09255958003DB437 /* LLITC18DataSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6979D29D09255958003DB437 /* LLITC18DataSettings.nib */; };
 		69941F74097C5E1900FD57B5 /* LablibITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69941F73097C5E1900FD57B5 /* LablibITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69C6362E0B07893A001FA1D0 /* LLITC18DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */; };
 		69D31B5E097C5C98001102CA /* LLITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D31ADC097C5B44001102CA /* LLITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69D7851F17F3C96D00785BA7 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851E17F3C96D00785BA7 /* Lablib.framework */; };
+		69D7852017F3C96D00785BA7 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851E17F3C96D00785BA7 /* Lablib.framework */; };
 		69D82D160B06A1D500E8C369 /* LLITCMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 69080C6904FCF4AF00F95530 /* LLITCMonitor.m */; };
 		69D82D170B06A1D600E8C369 /* LLITCMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 697139600506215500F95523 /* LLITCMonitorSettings.m */; };
 		69D82D190B06A1ED00E8C369 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -31,7 +35,6 @@
 		69F368B9056705B9009AED51 /* LLITCMonitorSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 697139630506216500F95523 /* LLITCMonitorSettings.nib */; };
 		69F368BC056705B9009AED51 /* LLITCMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 69080C6904FCF4AF00F95530 /* LLITCMonitor.m */; };
 		69F368BD056705B9009AED51 /* LLITCMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 697139600506215500F95523 /* LLITCMonitorSettings.m */; };
-		69F368BF056705B9009AED51 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F2BB2504D31F1600F95507 /* ITC.framework */; };
 		69FBCE85097C1CD6008D9A0E /* LLITC18DataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */; };
 /* End PBXBuildFile section */
 
@@ -57,13 +60,13 @@
 		69080C6904FCF4AF00F95530 /* LLITCMonitor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLITCMonitor.m; sourceTree = "<group>"; };
 		690869D914AEA30E00347B8F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		690869E714AEB20900347B8F /* LablibITC18_Plugin.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LablibITC18_Plugin.plist; sourceTree = "<group>"; };
-		690869F014AEBC9500347B8F /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../Lablib/build/Default/Lablib.framework; sourceTree = "<group>"; };
 		6917B195091EFCC40082A1F4 /* LLITC18DataDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18DataDevice.h; sourceTree = "<group>"; };
 		6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLITC18DataDevice.m; sourceTree = "<group>"; };
 		6917CF9613B79AD700E4D1D4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6917CF9B13B79AD700E4D1D4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6917CF9C13B79AD700E4D1D4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6917CF9D13B79AD700E4D1D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6925DB2D17F39D15009C5F31 /* ITC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ITC.framework; path = ../../../../Library/Frameworks/ITC.framework; sourceTree = "<group>"; };
 		693E22FD08227B2D006BD680 /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
 		6971395F0506215500F95523 /* LLITCMonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLITCMonitorSettings.h; sourceTree = "<group>"; };
 		697139600506215500F95523 /* LLITCMonitorSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLITCMonitorSettings.m; sourceTree = "<group>"; };
@@ -74,13 +77,13 @@
 		699DA3CB06714B7400D46DD1 /* LLITC18StimTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLITC18StimTrainDevice.h; sourceTree = "<group>"; usesTabs = 1; };
 		699DA3CC06714B7400D46DD1 /* LLITC18StimTrainDevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLITC18StimTrainDevice.m; sourceTree = "<group>"; };
 		69D31ADC097C5B44001102CA /* LLITC18.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18.h; sourceTree = "<group>"; };
+		69D7851E17F3C96D00785BA7 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../Lablib/build/Development/Lablib.framework; sourceTree = "<group>"; };
 		69D82C9E0B069FF500E8C369 /* LablibITC18.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LablibITC18.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		69EF10BB0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18PulseTrainDevice.h; sourceTree = "<group>"; };
 		69EF10BC0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLITC18PulseTrainDevice.m; sourceTree = "<group>"; };
 		69F2BB1404D31D4400F95507 /* LLITC18IODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLITC18IODevice.h; sourceTree = "<group>"; };
 		69F2BB1504D31D4400F95507 /* LLITC18IODevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLITC18IODevice.m; sourceTree = "<group>"; };
-		69F2BB2504D31F1600F95507 /* ITC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ITC.framework; path = /Library/Frameworks/ITC.framework; sourceTree = "<absolute>"; };
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		69F368C4056705B9009AED51 /* LablibITC18_Framework.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LablibITC18_Framework.plist; sourceTree = "<group>"; };
 		69F369E405670921009AED51 /* LablibITC18.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LablibITC18.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,7 +95,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6925DB2F17F39D15009C5F31 /* ITC.framework in Frameworks */,
 				690869EF14AEBC7F00347B8F /* Cocoa.framework in Frameworks */,
+				69D7852017F3C96D00785BA7 /* Lablib.framework in Frameworks */,
 				6975F2960B3328C200312509 /* Lablib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,9 +106,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6925DB2E17F39D15009C5F31 /* ITC.framework in Frameworks */,
 				690869F214AEBCEC00347B8F /* Cocoa.framework in Frameworks */,
+				69D7851F17F3C96D00785BA7 /* Lablib.framework in Frameworks */,
 				6975F2970B3328C200312509 /* Lablib.framework in Frameworks */,
-				69F368BF056705B9009AED51 /* ITC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,8 +145,8 @@
 			children = (
 				6975F2950B3328C200312509 /* Lablib.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				6925DB2D17F39D15009C5F31 /* ITC.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-				69F2BB2504D31F1600F95507 /* ITC.framework */,
 				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
 			);
 			name = Frameworks;
@@ -188,7 +194,7 @@
 		6917CF9513B79AD700E4D1D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				690869F014AEBC9500347B8F /* Lablib.framework */,
+				69D7851E17F3C96D00785BA7 /* Lablib.framework */,
 				69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */,
 				6917CF9613B79AD700E4D1D4 /* Cocoa.framework */,
 				690869D914AEA30E00347B8F /* CoreFoundation.framework */,
@@ -271,7 +277,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibITC18" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -379,7 +385,11 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Lablib/build/Development";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Lablib/build/Development",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -413,7 +423,11 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Lablib/build/Development";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Lablib/build/Development",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -446,7 +460,11 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Lablib/build/Development";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Lablib/build/Development",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -468,28 +486,31 @@
 		69B8D104088DAB78002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Development;
 		};
 		69B8D105088DAB78002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Deployment;
 		};
 		69B8D106088DAB78002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Default;
 		};
@@ -499,7 +520,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Lablib/build/Development",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -529,7 +554,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Lablib/build/Development",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
@@ -552,7 +581,11 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Lablib/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Lablib/build/Development",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
 				INFOPLIST_FILE = LablibITC18_Plugin.plist;

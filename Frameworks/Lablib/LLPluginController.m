@@ -82,8 +82,8 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 			if ([pluginDesc.class isSubclassOfClass:[LLTaskPlugIn class]]) {
 				if ([pluginDesc.class version] != kLLPluginVersion) {
 					value = NSRunCriticalAlertPanel(@"LLPluginController: error loading plugin", 
-						@"%@ has version %d, but current version is %d.  It will be not be used.", 
-						@"OK", @"Delete", nil, currPath, [pluginDesc.class version], 
+						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
+						@"OK", @"Delete", nil, currPath, (long)[pluginDesc.class version], 
 						kLLPluginVersion);
 					if (value == NSAlertAlternateReturn) {
 						value = NSRunAlertPanel(@"LLPluginController", @"Delete %@.  Are you sure?", @"Delete", 

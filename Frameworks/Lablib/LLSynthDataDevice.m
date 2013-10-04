@@ -375,8 +375,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 {
 	if (channel >= [samplePeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set sample period %ld of %d for device %@",
-				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
+				@"Attempt to set sample period %ld of %lu for device %@",
+				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	[samplePeriodMS removeAllObjects];

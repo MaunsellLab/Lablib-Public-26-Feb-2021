@@ -1113,7 +1113,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = 69CA1DE1088DA53700D7ADEE /* Build configuration list for PBXProject "Lablib" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1622,7 +1622,6 @@
 		69CA1DE2088DA53700D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CONFIGURATION_BUILD_DIR = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -1634,7 +1633,6 @@
 		69CA1DE3088DA53700D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
@@ -1644,7 +1642,6 @@
 		69CA1DE4088DA53700D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";

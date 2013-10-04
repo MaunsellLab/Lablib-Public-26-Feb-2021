@@ -230,8 +230,8 @@ NSString *standardKey = @"LLMonitorTarget";
 			[textString appendString:[NSString stringWithFormat:@"\n    %ld", greaterFailures]];
 		}
 		[textString appendString:[NSString stringWithFormat:
-				@" failed owing to more than %d intervals %.1f ms > ",
-				[defaults integerForKey:[self uniqueKey:successGreaterCountKey]],
+				@" failed owing to more than %ld intervals %.1f ms > ",
+				(long)[defaults integerForKey:[self uniqueKey:successGreaterCountKey]],
 				currentValues.rangeMaxMS]];
 		[textString appendString:(useTarget) ?
 				[NSString stringWithFormat:@"%.1f", targetIntervalMS] : @"mean"];
@@ -242,8 +242,8 @@ NSString *standardKey = @"LLMonitorTarget";
 			[textString appendString:[NSString stringWithFormat:@"\n    %ld", lessFailures]];
 		}
 		[textString appendString:[NSString stringWithFormat:
-				@" failed owing to more than %d intervals %.1f ms < ",
-				[defaults integerForKey:[self uniqueKey:successLessCountKey]],
+				@" failed owing to more than %ld intervals %.1f ms < ",
+				(long)[defaults integerForKey:[self uniqueKey:successLessCountKey]],
 				currentValues.rangeMinMS]];
 		[textString appendString:(useTarget) ?
 				[NSString stringWithFormat:@"%.1f", targetIntervalMS] : @"mean"];
