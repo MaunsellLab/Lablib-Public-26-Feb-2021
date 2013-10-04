@@ -64,8 +64,8 @@ NSString *LLTaskModeChange = @"LLTaskModeChange";
 	
 	if (key != nil) {
 		NSLog(@"LLTaskMode setDefaults using key %@", key);
-		NSLog(@"  current value is %d", 
-				[[NSUserDefaults standardUserDefaults] integerForKey:key]);
+		NSLog(@"  current value is %ld", 
+				(long)[[NSUserDefaults standardUserDefaults] integerForKey:key]);
 		value = ((mode & kLLTaskModeMask) | 
 					((dataFileOpen) ? kLLFileOpenMask : 0));
 		NSLog(@"  setting to %ld", value);

@@ -74,8 +74,8 @@
 {
 	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) { 
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Request to disable non-existent channel for device %@ (only %d channels)",
-				@"OK", nil, nil, [self name], [samplePeriodMS count]);
+				@"Request to disable non-existent channel for device %@ (only %lu channels)",
+				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
 		exit(0);
 	}
 	sampleChannels &= ~[bitPattern unsignedLongValue];
@@ -90,8 +90,8 @@
 {
 	if ([bitPattern unsignedLongValue] >= (0x01 << ([timestampPeriodMS count] + 1))) { 
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Request to disable non-existent channel for device %@ (only %d channels)",
-				@"OK", nil, nil, [self name], [timestampPeriodMS count]);
+				@"Request to disable non-existent channel for device %@ (only %lu channels)",
+				@"OK", nil, nil, [self name], (unsigned long)[timestampPeriodMS count]);
 		exit(0);
 	}
 	timestampChannels &= ~[bitPattern unsignedLongValue];
@@ -106,8 +106,8 @@
 {
 	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) { 
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Request to enable non-existent channel for device %@ (only %d channels)",
-				@"OK", nil, nil, [self name], [samplePeriodMS count]);
+				@"Request to enable non-existent channel for device %@ (only %lu channels)",
+				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
 		exit(0);
 	}
 	sampleChannels |= [bitPattern unsignedLongValue];
@@ -122,8 +122,8 @@
 {
 	if ([bitPattern unsignedLongValue] >= (0x01 << ([timestampPeriodMS count] + 1))) { 
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Request to enable non-existent channel for device %@ (only %d channels)",
-				@"OK", nil, nil, [self name], [timestampPeriodMS count]);
+				@"Request to enable non-existent channel for device %@ (only %lu channels)",
+				@"OK", nil, nil, [self name], (unsigned long)[timestampPeriodMS count]);
 		exit(0);
 	}
 	timestampChannels |= [bitPattern unsignedLongValue];
@@ -152,8 +152,8 @@
 {
 	if (channel >= [samplePeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Requested sample period %ld of %d for device %@",
-				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
+				@"Requested sample period %ld of %lu for device %@",
+				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	return [[samplePeriodMS objectAtIndex:channel] floatValue];
@@ -196,8 +196,8 @@
 {
 	if (channel >= [samplePeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set sample period %ld of %d for device %@",
-				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
+				@"Attempt to set sample period %ld of %lu for device %@",
+				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	[samplePeriodMS replaceObjectAtIndex:channel 
@@ -209,8 +209,8 @@
 {
 	if (channel >= [timestampPeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set timestamp period for channel %ld of %d for device %@",
-				@"OK", nil, nil, channel, [timestampPeriodMS count], [self name]);
+				@"Attempt to set timestamp period for channel %ld of %lu for device %@",
+				@"OK", nil, nil, channel, (unsigned long)[timestampPeriodMS count], [self name]);
 		exit(0);
 	}
 	[timestampPeriodMS replaceObjectAtIndex:channel 
@@ -222,8 +222,8 @@
 {
 	if (channel >= [timestampPeriodMS count]) {
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set timestamp period for channel %ld of %d for device %@",
-				@"OK", nil, nil, channel, [timestampPeriodMS count], [self name]);
+				@"Attempt to set timestamp period for channel %ld of %lu for device %@",
+				@"OK", nil, nil, channel, (unsigned long)[timestampPeriodMS count], [self name]);
 		exit(0);
 	}
 	[timestampPeriodMS replaceObjectAtIndex:channel 
@@ -263,8 +263,8 @@
 			return(1);
 		}
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Requested %d timestamp ticks per ms for channel %ld of device \"%@\"",
-				@"OK", nil, nil, [timestampPeriodMS count], channel, [self name]);
+				@"Requested %lu timestamp ticks per ms for channel %ld of device \"%@\"",
+				@"OK", nil, nil, (unsigned long)[timestampPeriodMS count], channel, [self name]);
 		exit(0);
 	}
 	return [[timestampPeriodMS objectAtIndex:channel] floatValue];
@@ -277,8 +277,8 @@
 			return(1);
 		}
 		NSRunAlertPanel(@"LLDataDevice",  
-				@"Requested %d timestamp ticks per ms for channel %ld of device \"%@\"",
-				@"OK", nil, nil, [timestampPeriodMS count], channel, [self name]);
+				@"Requested %lu timestamp ticks per ms for channel %ld of device \"%@\"",
+				@"OK", nil, nil, (unsigned long)[timestampPeriodMS count], channel, [self name]);
 		exit(0);
 	}
 	return (long)(1.0 / [[timestampPeriodMS objectAtIndex:channel] floatValue]);

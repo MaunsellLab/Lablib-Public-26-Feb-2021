@@ -160,8 +160,8 @@ static PrintView	*printView;
     if ([defaults boolForKey:DCShowTimeOfDayKey]) {
         eventDate = [[dataReader fileDate] dateByAddingYears:0 months:0 days:0 hours:0 minutes:0 
                         seconds:(unsigned long)(pEvent->time / 1000.0)];
-        pBuffer += sprintf(pBuffer, "%02d:%02d:%02d.%03ld ", 
-                    [eventDate hourOfDay], [eventDate minuteOfHour], [eventDate secondOfMinute],
+        pBuffer += sprintf(pBuffer, "%02ld:%02ld:%02ld.%03ld ", 
+                    (long)[eventDate hourOfDay], (long)[eventDate minuteOfHour], (long)[eventDate secondOfMinute],
                     (unsigned long)(pEvent->time % 1000));
     }
     if ([defaults boolForKey:DCShowTimeKey]) {

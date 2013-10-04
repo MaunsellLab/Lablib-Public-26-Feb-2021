@@ -26,7 +26,7 @@ void handler(int signal) {
 	[[NSApplication sharedApplication] terminate:nil];
 }
 
-+ (int)version;
++ (long)version;
 {
 	return kLLPluginVersion;
 }
@@ -123,8 +123,8 @@ void handler(int signal) {
 {
 	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) { 
 		NSRunAlertPanel(@"LLEyeLinkDataDevice",  
-				@"Request to disable non-existent channel for device %@ (only %d channels)",
-				@"OK", nil, nil, [self name], [samplePeriodMS count]);
+				@"Request to disable non-existent channel for device %@ (only %lu channels)",
+				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
 		exit(0);
 	}
 	sampleChannels &= ~[bitPattern unsignedLongValue];
@@ -134,8 +134,8 @@ void handler(int signal) {
 {
 	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) { 
 		NSRunAlertPanel(@"LLEyeLinkDataDevice",  
-				@"Request to enable non-existent channel for device %@ (only %d channels)",
-				@"OK", nil, nil, [self name], [samplePeriodMS count]);
+				@"Request to enable non-existent channel for device %@ (only %lu channels)",
+				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
 		exit(0);
 	}
 	sampleChannels |= [bitPattern unsignedLongValue];
@@ -149,8 +149,8 @@ void handler(int signal) {
 - (float)samplePeriodMSForChannel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Requested sample period %ld of %d for device %@",
-				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
+		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Requested sample period %ld of %lu for device %@",
+				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	return [[samplePeriodMS objectAtIndex:channel] floatValue];
@@ -183,7 +183,7 @@ void handler(int signal) {
                 if (!firstTrialSample) {
                     ELTrialStartTimeMS = eyelink_tracker_msec();
                     NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
-                    NSLog(@"EyeLink Sample Time stamp: %li", newSample.time);
+                    NSLog(@"EyeLink Sample Time stamp: %u", newSample.time);
                     NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
                     NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
                     firstTrialSample = YES;
@@ -329,8 +329,8 @@ void handler(int signal) {
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Attempt to set sample period %ld of %d for device %@",
-				@"OK", nil, nil, channel, [samplePeriodMS count], [self name]);
+		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Attempt to set sample period %ld of %lu for device %@",
+				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	[samplePeriodMS replaceObjectAtIndex:channel 
