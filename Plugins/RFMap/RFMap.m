@@ -68,7 +68,7 @@ LLTaskPlugIn	*task = nil;
 
 @implementation RFMap
 
-+ (long)version;
++ (NSInteger)version;
 {
 	return kLLPluginVersion;
 }

@@ -42,6 +42,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "69D82C9D0B069FF500E8C369"
+               BuildableName = "LablibITC18.plugin"
+               BlueprintName = "LablibITC18 Plugin"
+               ReferencedContainer = "container:../LablibITC18/LablibITC18.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
                BuildableName = "FixateTask.plugin"
                BlueprintName = "Fixate"
@@ -88,20 +102,6 @@
                BuildableName = "LablibEyeLink.bundle"
                BlueprintName = "LablibEyeLink Plugin"
                ReferencedContainer = "container:../../Plugins/LablibEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69D82C9D0B069FF500E8C369"
-               BuildableName = "LablibITC18.plugin"
-               BlueprintName = "LablibITC18 Plugin"
-               ReferencedContainer = "container:../LablibITC18/LablibITC18.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
