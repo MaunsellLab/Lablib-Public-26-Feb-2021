@@ -12,7 +12,7 @@
 
 @implementation LLMouseDataDevicePIugin
 
-+ (long)version;
++ (NSInteger)version;
 {
 	return kLLPluginVersion;
 }

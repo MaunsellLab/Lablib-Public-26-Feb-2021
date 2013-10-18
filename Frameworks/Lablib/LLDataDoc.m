@@ -120,7 +120,8 @@
 	dataFileHandle = nil;
 }
 
-// Write the header that goes into every data file
+// Write the header that goes into every data file.  The headerString provides information about whether the binary
+// data file was created in 32- or 64-bit mode.
 
 - (NSData *)dataFileHeaderData;
 {
@@ -132,7 +133,15 @@
 	NSCalendarDate *today;
 	
 	headerData = [[[NSMutableData alloc] init] autorelease];
+#ifdef __LP64__
+    if (!dataDefinitions) {
+        NSRunAlertPanel(@"LLDataDoc",  @"Data definitions are required in 64-bit mode", @"OK", nil, nil, nil);
+        exit(0);
+    }
+	headerString = [NSString stringWithFormat:@"\007\005006.3"];
+#else
 	headerString = [NSString stringWithFormat:@"\007\005006.%1d", (dataDefinitions) ? 2 : 0];
+#endif
 	[headerData appendBytes:[headerString cStringUsingEncoding:NSUTF8StringEncoding] length:strlen([headerString cStringUsingEncoding:NSUTF8StringEncoding])];	// format specifier
 	events = [eventsByCode count];
 	[headerData appendBytes:&events length:sizeof(events)];						// number of events defined

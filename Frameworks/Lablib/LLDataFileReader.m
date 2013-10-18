@@ -877,7 +877,8 @@ them.
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError;
 {
-	NSFileWrapper *fileWrap;
+	BOOL result;
+    NSFileWrapper *fileWrap;
 	
 	if (![absoluteURL isFileURL]) {
 //		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
@@ -888,9 +889,10 @@ them.
 		return NO;
 	}
     fileWrap = [[[NSFileWrapper alloc] initWithPath:[absoluteURL path]] autorelease];
-	[self setFileData:[fileWrap regularFileContents]];
-	fileName = [[[absoluteURL path] lastPathComponent] retain];
-	return YES;
+	if ((result = [self setFileData:[fileWrap regularFileContents]])) {
+        fileName = [[[absoluteURL path] lastPathComponent] retain];
+    }
+	return result;
 }
 
 - (void)rewind {
@@ -964,6 +966,19 @@ them.
         return NO;
     }
 	dataDefinitions = (dataFormat > 6.0);		// data definitions started with format 6.1
+#ifdef __LP64__
+    if (dataFormat < 6.3) {
+        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 32-bit mode to read this data file",
+                        @"OK", nil, nil, nil);
+        return NO;
+    }
+#else
+    if (dataFormat > 6.2) {
+        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 64-bit mode to read this data file",
+                        @"OK", nil, nil, nil);
+        return NO;
+    }
+#endif
 
 // After the code at the start of the file, the next thing is a count of the number of data
 // events defined for the file, followed by the definitions of those events.  Definitions consist

@@ -26,7 +26,7 @@ void handler(int signal) {
 	[[NSApplication sharedApplication] terminate:nil];
 }
 
-+ (long)version;
++ (NSInteger)version;
 {
 	return kLLPluginVersion;
 }

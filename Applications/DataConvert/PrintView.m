@@ -95,7 +95,7 @@ static long			printWidthPix;
     return YES;
 }
 
-- (NSRect)rectForPage:(long)pageNum
+- (NSRect)rectForPage:(NSInteger)pageNum
 {
     NSRect theRect;
     

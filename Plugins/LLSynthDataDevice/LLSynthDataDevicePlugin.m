@@ -12,7 +12,7 @@
 
 @implementation LLSynthDataDevicePlugin
 
-+ (long)version;
++ (NSInteger)version;
 {
 	return kLLPluginVersion;
 }

@@ -43,7 +43,7 @@ LLTaskPlugIn	*task = nil;
 
 @implementation Fixate
 
-+ (long)version;
++ (NSInteger)version;
 {
 	return kLLPluginVersion;
 }
