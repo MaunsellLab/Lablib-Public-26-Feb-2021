@@ -25,6 +25,10 @@ NSString *LLFixShapeKey = @"shape";
 
 @implementation LLFixTarget
 
+- (void)dealloc;
+{
+    [super dealloc];
+}
 // The draw function assumes than an OpenGL context has already been properly set up.
 
 - (void)draw;
@@ -140,7 +144,8 @@ NSString *LLFixShapeKey = @"shape";
 - (void)runSettingsDialog;
 {
 	if (dialogWindow == nil) {
-		[NSBundle loadNibNamed:@"LLFixTarget" owner:self];
+		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLFixTarget" owner:self topLevelObjects:&topLevelObjects];
+        [topLevelObjects retain];
 		if (taskPrefix != nil) {
 			[dialogWindow setTitle:[NSString stringWithFormat:@"%@ Fix Target", taskPrefix]];
 		}

@@ -20,6 +20,8 @@
     NSWindowController 		*summaryController;
     NSWindowController 		*xtController;
 	LLTaskStatus			*taskStatus;
+    NSArray                 *topLevelObjects;
+    
     IBOutlet NSMenu			*settingsMenu;
     IBOutlet NSMenu			*actionsMenu;
 	IBOutlet NSMenuItem		*runStopMenuItem;

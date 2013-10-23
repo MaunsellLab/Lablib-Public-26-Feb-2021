@@ -21,6 +21,7 @@
 	NSMenuItem				*settingsMenuItem;
     RFSummaryController		*summaryController;
 	LLTaskStatus			*taskStatus;
+    NSArray                 *topLevelObjects;
     NSWindowController 		*xtController;
 
     IBOutlet NSMenu			*settingsMenu;

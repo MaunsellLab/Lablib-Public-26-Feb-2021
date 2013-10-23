@@ -75,7 +75,8 @@ NSString *LLBarWidthDegKey = @"widthDeg";
 - (void)runSettingsDialog;
 {
 	if (dialogWindow == nil) {
-		[NSBundle loadNibNamed:@"LLBar" owner:self];
+		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLBar" owner:self topLevelObjects:&topLevelObjects];
+        [topLevelObjects retain];
 		if (taskPrefix != nil) {
 			[dialogWindow setTitle:[NSString stringWithFormat:@"%@ Bar", taskPrefix]];
 		}

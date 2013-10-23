@@ -57,6 +57,7 @@ extern NSString *LLRadiusDegKey;
 	NSString		*taskPrefix;
 	BOOL			setUnderway;
 	BOOL			state;
+    NSArray         *topLevelObjects;
 	
 	IBOutlet NSWindow *dialogWindow;
 }
