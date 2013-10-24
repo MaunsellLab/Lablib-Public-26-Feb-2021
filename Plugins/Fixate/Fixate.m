@@ -210,6 +210,7 @@ LLTaskPlugIn	*task = nil;
 	[scheduler release];
 	[stimuli release];
 	[controlPanel release];
+    [topLevelObjects release];
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self]; 
 
@@ -290,7 +291,6 @@ LLTaskPlugIn	*task = nil;
 {
 	NSString *userDefaultsValuesPath;
     NSDictionary *userDefaultsValuesDict;
-	NSBundle *ourBundle;
 	
 	task = self;
 	
@@ -311,7 +311,8 @@ LLTaskPlugIn	*task = nil;
 
 // Load the items in the nib
 
-	[NSBundle loadNibNamed:@"Fixate" owner:self];
+    [[NSBundle bundleForClass:[self class]] loadNibNamed:@"Fixate" owner:self topLevelObjects:&topLevelObjects];
+    [topLevelObjects retain];
 	
 // Initialize other task objects
 

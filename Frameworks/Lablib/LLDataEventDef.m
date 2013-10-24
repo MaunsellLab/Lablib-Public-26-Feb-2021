@@ -261,7 +261,7 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 	dataType = [self simpleTypeIndex:&def];					// get index for type of item
 	if (dataType != kStructDataType) {						// is this a simple type?
 		if (def.elements == 1) {							// single, simple entry
-			theString = [NSString stringWithFormat:@"%@%@%@ =%@", prefix, def.dataName,
+			theString = [NSMutableString stringWithFormat:@"%@%@%@ =%@", prefix, def.dataName,
 						suffix,	[self stringForType:dataType 
 						buffer:(dataPtr + def.offsetBytes) index:0]];
 		}

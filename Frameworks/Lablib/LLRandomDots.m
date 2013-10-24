@@ -587,7 +587,8 @@ float stencilRadiusDeg = FLT_MAX;
 - (void)runSettingsDialog;
 {
 	if (dialogWindow == nil) {
-		[NSBundle loadNibNamed:@"LLRandomDots" owner:self];
+		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLRandomDots" owner:self topLevelObjects:&topLevelObjects];
+        [topLevelObjects retain];
 		if (taskPrefix != nil) {
 			[dialogWindow setTitle:[NSString stringWithFormat:@"%@ Random Dots", taskPrefix]];
 		}

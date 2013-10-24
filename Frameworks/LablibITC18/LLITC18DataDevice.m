@@ -178,6 +178,7 @@ static long	ITCCount = 0;
 	[timestampLock release];
 	[monitor release];
 	[deviceLock release];
+    [topLevelObjects release];
 	[super dealloc];
 }
 
@@ -312,7 +313,9 @@ static long	ITCCount = 0;
 		[self loadInstructions];
 		[self digitalOutputBits:0xffff];
 	}
-	[NSBundle loadNibNamed:@"LLITC18DataSettings" owner:self];
+    [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLITC18DataSettings" owner:self
+                                         topLevelObjects:&topLevelObjects];
+    [topLevelObjects retain];
 }
 
 - (void)enableSampleChannels:(NSNumber *)bitPattern;

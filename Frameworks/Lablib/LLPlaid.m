@@ -732,7 +732,8 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 - (void)runSettingsDialog;
 {
 	if (dialogWindow == nil) {
-		[NSBundle loadNibNamed:@"LLPlaid" owner:self];
+		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLPlaid" owner:self topLevelObjects:&topLevelObjects];
+        [topLevelObjects retain];
 		if (taskPrefix != nil) {
 			[dialogWindow setTitle:[NSString stringWithFormat:@"%@ Plaid", taskPrefix]];
 		}

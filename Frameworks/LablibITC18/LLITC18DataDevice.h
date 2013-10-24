@@ -37,6 +37,7 @@
 	NSLock				*timestampLock;
 	NSData				*timestampResults[kLLITC18DigitalBits];
 	double				timestampTickS[kLLITC18DigitalBits];
+    NSArray             *topLevelObjects;
 	BOOL				USB18;
     ITCMonitorValues	values;
 

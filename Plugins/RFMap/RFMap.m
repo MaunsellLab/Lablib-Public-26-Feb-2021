@@ -229,6 +229,7 @@ LLTaskPlugIn	*task = nil;
 	[stimuli release];
 	[controlPanel release];
 	[taskStatus release];
+    [topLevelObjects release];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self]; 
 
@@ -417,7 +418,8 @@ LLTaskPlugIn	*task = nil;
 
 // Load the items in the nib
 
-	[NSBundle loadNibNamed:@"RFMap" owner:self];
+    [[NSBundle bundleForClass:[self class]] loadNibNamed:@"RFMap" owner:self topLevelObjects:&topLevelObjects];
+    [topLevelObjects retain];
 		
 // Initialize other task objects
 
