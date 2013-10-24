@@ -81,11 +81,10 @@ NSString *LLFixShapeKey = @"shape";
 		break;
 	case kLLCircle:
 	default:
-        [self drawCircle];
-//		quadric = gluNewQuadric();
-//		gluQuadricDrawStyle(quadric, GLU_FILL);
-//		gluDisk(quadric, innerRadiusDeg, radiusDeg, kSlices, kRings);
-//		gluDeleteQuadric(quadric);
+        [self drawCircleWithRadius:radiusDeg];
+        glColor4f([backColor redComponent], [backColor greenComponent], [backColor blueComponent],
+                                            [backColor alphaComponent]);
+        [self drawCircleWithRadius:innerRadiusDeg];
 		break;
 	}
 	if (transparent) {
@@ -94,15 +93,19 @@ NSString *LLFixShapeKey = @"shape";
 	glPopMatrix();
 }
 
-- (void)drawCircle;
+- (void)drawCircleWithRadius:(float)radDeg;
 {
     long index;
     float angle;
-    
+ 
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(0.0, 0.0);
     for (index = 0; index < kSlices; index++) {
         angle = index * (2.0 * kPI / kSlices);
-        glVertex2f(cosf(angle) * radiusDeg, sinf(angle) * radiusDeg);
+        glVertex2f(cosf(angle) * radDeg, sinf(angle) * radDeg);
     }
+    glVertex2f(radDeg, 0);
+    glEnd();
 }
 
 - (void)drawRectWithWidthDeg:(float)widthDeg lengthDeg:(float)lengthDeg;

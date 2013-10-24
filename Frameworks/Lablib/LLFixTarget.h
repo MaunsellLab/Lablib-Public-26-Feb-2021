@@ -28,7 +28,7 @@ extern NSString *LLFixShapeKey;
 	long		shape;
 }
 
-- (void)drawCircle;
+- (void)drawCircleWithRadius:(float)radiusDeg;
 - (void)drawRectWithWidthDeg:(float)widthDeg lengthDeg:(float)lengthDeg;
 - (NSColor *)fixTargetColor;
 - (float)innerRadiusDeg;
