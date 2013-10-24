@@ -19,7 +19,7 @@
 
 - (void) dealloc;
 {
-    [displays releaseDisplay:displayIndex];
+//    [displays releaseDisplay:displayIndex];
 	[displays release];
 	[openGLLock release];
     [super dealloc];

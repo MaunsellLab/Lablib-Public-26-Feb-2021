@@ -100,7 +100,6 @@
     [mouseGainField setFloatValue:[defaults integerForKey:LLMouseGainKey]];
 
 	[NSApp runModalForWindow:[self window]];
-	
     [[self window] orderOut:self];
 }
 

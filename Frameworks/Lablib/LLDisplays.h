@@ -7,7 +7,7 @@
 
 #import "LLDisplayPhysical.h"
 #import "LLDisplayUtilities.h"
-#import "LLDisplayEDID.h"
+//#import "LLDisplayEDID.h"
 
 #define kPI          		(atan(1) * 4)
 #define k2PI         		(atan(1) * 4 * 2)
@@ -46,7 +46,7 @@ typedef struct {
 	LLDisplayPhysical		*displayPhysical;
 	DisplayParam			displayParam[kMaxDisplay];
 	CGDirectDisplayID 		displayIDs[kMaxDisplay];
-	LLDisplayEDID			*EDID[kMaxDisplay];
+//	LLDisplayEDID			*EDID[kMaxDisplay];
 	kdlTransform			kdlConstants[kMaxDisplay];
 	CGDisplayCount 			numDisplays;
 }
@@ -56,7 +56,7 @@ typedef struct {
 
 - (size_t)bitsPerPixelForMode:(CGDisplayModeRef)mode;
 - (CGDisplayModeRef)bestMatchForMode:(DisplayParam *)pDP forDisplayID:(CGDirectDisplayID)displayID;
-- (BOOL)captureDisplay:(long)displayIndex;
+//- (BOOL)captureDisplay:(long)displayIndex;
 - (NSRect)displayBounds:(long)mainDisplayIndex;
 - (NSRect)displayBoundsLLOrigin:(long)displayIndex;
 - (DisplayParam)displayParameters:(long)displayIndex;
@@ -78,7 +78,7 @@ typedef struct {
 - (RGBDouble)luminanceToRGB:(long)displayIndex;
 - (short)numDisplays;
 - (long)pixelBits:(long)displayIndex;
-- (BOOL)releaseDisplay:(CGDisplayCount)displayIndex;
+//- (BOOL)releaseDisplay:(CGDisplayCount)displayIndex;
 - (RGBDouble)RGB:(long)displayIndex kdlTheta:(double)kdlTheta kdlPhi:(double)kdlPhi;
 - (BOOL)setDisplayMode:(long)displayIndex size:(CGSize)size bitDepth:(size_t)pixelDepthBits 
                 frameRate:(CGRefreshRate)hz;

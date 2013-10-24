@@ -33,8 +33,6 @@ NSString *LLFixShapeKey = @"shape";
 
 - (void)draw;
 {	
-	GLUquadricObj *quadric;
-    
 	BOOL transparent;
     NSColor *tempColor;
 	
@@ -83,16 +81,28 @@ NSString *LLFixShapeKey = @"shape";
 		break;
 	case kLLCircle:
 	default:
-		quadric = gluNewQuadric();
-		gluQuadricDrawStyle(quadric, GLU_FILL);
-		gluDisk(quadric, innerRadiusDeg, radiusDeg, kSlices, kRings);
-		gluDeleteQuadric(quadric);
+        [self drawCircle];
+//		quadric = gluNewQuadric();
+//		gluQuadricDrawStyle(quadric, GLU_FILL);
+//		gluDisk(quadric, innerRadiusDeg, radiusDeg, kSlices, kRings);
+//		gluDeleteQuadric(quadric);
 		break;
 	}
 	if (transparent) {
 		glPopAttrib();										// restore blend mode
 	}
 	glPopMatrix();
+}
+
+- (void)drawCircle;
+{
+    long index;
+    float angle;
+    
+    for (index = 0; index < kSlices; index++) {
+        angle = index * (2.0 * kPI / kSlices);
+        glVertex2f(cosf(angle) * radiusDeg, sinf(angle) * radiusDeg);
+    }
 }
 
 - (void)drawRectWithWidthDeg:(float)widthDeg lengthDeg:(float)lengthDeg;

@@ -134,16 +134,16 @@ values on this machine.  Your values will last only while this program runs.", @
 	
 	[[self window] setTitle:[LLDisplays displayNameUsingIndex:displayIndex]];
 	[NSApp runModalForWindow:[self window]];
+    [[self window] orderOut:self];
 
 	displayParam[displayIndex] = currentParam;
-    [[self window] orderOut:self];
 	
 	[self writeParameters:displayIndex];		// Try to write the new values
 }
 
 - (id)init {
 
-    if ((self =  [super initWithWindowNibName:@"LLDisplaySettings"])) {
+    if ((self = [super initWithWindowNibName:@"LLDisplaySettings"])) {
         [self setWindowFrameAutosaveName:@"LLDisplaySettings"];
 		[self window];					// Force window to load
 	}   

@@ -15,25 +15,26 @@ NSString *LLWidthPixKey = @"LL Width Pix";
 NSString *LLHeightPixKey = @"LL Height Pix";
 NSString *LLFrameRateKey = @"LL Frame Rate Hz";
 
-void readEDID(CGDirectDisplayID displayID);
+//void readEDID(CGDirectDisplayID displayID);
 
 @implementation LLDisplays
 
 + (NSString *)displayNameUsingID:(CGDirectDisplayID)displayID;
 {
-	NSDictionary *displayDictionary, *productNamesDictionary;
-	io_service_t service;
-	NSString *displayName = nil;
-
-	service = CGDisplayIOServicePort(displayID);
-	displayDictionary = (NSDictionary *)IODisplayCreateInfoDictionary(service, kIODisplayOnlyPreferredName);
-	if (displayDictionary != nil) {
-		productNamesDictionary = [displayDictionary valueForKey:@kDisplayProductName];
-		if (productNamesDictionary != nil) {
-			displayName = [[productNamesDictionary allValues] objectAtIndex:0];
-		}
-	}
-	return (displayName != nil) ? displayName : @"Unknown Display";
+//	NSDictionary *displayDictionary, *productNamesDictionary;
+//	io_service_t service;
+//	NSString *displayName = nil;
+//
+//	service = CGDisplayIOServicePort(displayID);
+//	displayDictionary = (NSDictionary *)IODisplayCreateInfoDictionary(service, kIODisplayOnlyPreferredName);
+//	if (displayDictionary != nil) {
+//		productNamesDictionary = [displayDictionary valueForKey:@kDisplayProductName];
+//		if (productNamesDictionary != nil) {
+//			displayName = [[productNamesDictionary allValues] objectAtIndex:0];
+//		}
+//	}
+//	return (displayName != nil) ? displayName : @"Unknown Display";
+    return @"Unknown Display Name";
 }
 
 + (NSString *)displayNameUsingIndex:(long)displayIndex;
@@ -44,6 +45,7 @@ void readEDID(CGDirectDisplayID displayID);
 	CGGetActiveDisplayList(kMaxDisplay, IDs, &displayCount);
 	return [LLDisplays displayNameUsingID:IDs[displayIndex]];
 }
+
 struct screenMode {
     size_t width;
     size_t height;
@@ -114,17 +116,17 @@ struct screenMode {
 	return depth;
 }
 
-- (BOOL)captureDisplay:(long)displayIndex {
-
-    if (displayIndex >= numDisplays) {
-		return NO;
-	}
-	if (CGDisplayIsCaptured(displayIDs[displayIndex])) {
-        return YES;
-    }
-	return (CGDisplayCapture(displayIDs[displayIndex]) == CGDisplayNoErr);
-}
-
+//- (BOOL)captureDisplay:(long)displayIndex {
+//
+//    if (displayIndex >= numDisplays) {
+//		return NO;
+//	}
+//	if (CGDisplayIsCaptured(displayIDs[displayIndex])) {
+//        return YES;
+//    }
+//	return (CGDisplayCapture(displayIDs[displayIndex]) == CGDisplayNoErr);
+//}
+//
 - (void)computeKdlConstants:(long)displayIndex {
 
 	ColorPatches calibratedColor;
@@ -277,7 +279,7 @@ struct screenMode {
 		displayPhysical = [[LLDisplayPhysical alloc] init];
 		CGGetActiveDisplayList(kMaxDisplay, displayIDs, &numDisplays);
 		for (index = 0; index < numDisplays; index++) {
-			EDID[index] = [[LLDisplayEDID alloc] initWithDisplayID:displayIDs[index]];
+//			EDID[index] = [[LLDisplayEDID alloc] initWithDisplayID:displayIDs[index]];
 			[self loadDisplayParameters:index];
 		}
 	}
@@ -349,14 +351,14 @@ struct screenMode {
     return CGDisplayIDToOpenGLDisplayMask(displayIDs[displayIndex]);
 }
 
-- (BOOL)releaseDisplay:(CGDisplayCount)displayIndex {
-
-    if (displayIndex >= numDisplays || !CGDisplayIsCaptured(displayIDs[displayIndex])) {
-        return NO;
-    }	
-	CGDisplayShowCursor(displayIDs[displayIndex]);
-    return (CGDisplayRelease(displayIDs[displayIndex]) == CGDisplayNoErr);
-}
+//- (BOOL)releaseDisplay:(CGDisplayCount)displayIndex {
+//
+//    if (displayIndex >= numDisplays || !CGDisplayIsCaptured(displayIDs[displayIndex])) {
+//        return NO;
+//    }	
+//	CGDisplayShowCursor(displayIDs[displayIndex]);
+//    return (CGDisplayRelease(displayIDs[displayIndex]) == CGDisplayNoErr);
+//}
 
 // Return RGB for a kdlTheta and kdlPhi
 

@@ -193,7 +193,6 @@
         NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
         };
     NSOpenGLPixelFormat *fmt;
-//    NSOpenGLPixelFormat *fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
 	
 	openGLLock = [[NSLock alloc] init];
 	displays = [[LLDisplays alloc] init];
@@ -234,7 +233,6 @@
 	case 1:                                                 // more than one screen, use the second one
 	default:                                                //   regardless of the number of screens
 		fullscreen = YES;                                   // flag fullscreen mode
-//		[displays captureDisplay:displayIndex];             // capture the display for us alone
 		if ([displays setDisplayMode:displayIndex size:CGSizeMake(display.widthPix, display.heightPix) 
 					bitDepth:display.pixelBits frameRate:display.frameRateHz]) {
 			[displays dumpCurrentDisplayMode:displayIndex];
