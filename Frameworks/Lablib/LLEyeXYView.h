@@ -50,7 +50,7 @@ enum {kLeftEye, kRightEye};
 - (void)centerDisplay;
 - (void)clearSamples;
 - (float)dotSizeDeg;
-- (void)drawPointsForEye:(long)eyeIndex;
+- (void)drawPointsInRect:(NSRect)rect forEye:(long)eyeIndex;
 - (NSColor *)eyeColor;
 - (NSColor *)eyeLColor;
 - (NSColor *)eyeRColor;
