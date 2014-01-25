@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>27178765-5BEF-4FF1-A8AF-255CD854F65B</string>
+	<string>523D9F7A-FBF1-48F2-87ED-B5F3AF55539B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Lablib</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>C8758666-80C9-492B-AD02-211580719831</key>
-		<string>https://github.com/MaunsellLab/Lablib</string>
+		<key>131F52FE-F001-4EEE-96A3-05912B9DBC23</key>
+		<string>https://github.com/MaunsellLab/Lablib.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Lablib.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>C8758666-80C9-492B-AD02-211580719831</key>
+		<key>131F52FE-F001-4EEE-96A3-05912B9DBC23</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/MaunsellLab/Lablib</string>
+	<string>https://github.com/MaunsellLab/Lablib.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>C8758666-80C9-492B-AD02-211580719831</string>
+	<string>131F52FE-F001-4EEE-96A3-05912B9DBC23</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>C8758666-80C9-492B-AD02-211580719831</string>
+			<string>131F52FE-F001-4EEE-96A3-05912B9DBC23</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Lablib</string>
 		</dict>
