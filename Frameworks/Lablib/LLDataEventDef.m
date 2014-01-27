@@ -11,18 +11,12 @@
 #define		kStructDataType		-1
 
 enum {kNoDataType, kCharType, kUnsignedCharType, kBooleanType, kShortType, kUnsignedShortType,
-			kLongType, kUnsignedLongType, kFloatType, kDoubleType, kStringType};
+			kLongType, kUnsignedLongType, kFloatType, kDoubleType, kStringType, kCGFloatType};
 			
 static NSString *LLDataTypeStrings[] = {@"no data", @"char", @"unsigned char", @"boolean", 
 							@"short", @"unsigned short", @"long", @"unsigned long", 
-							@"float", @"double", @"string"};
+							@"float", @"double", @"string", @"CGFloat"};
 							
-// The number of bytes devoted to a data type can differ depending on whether it is standing
-// alone, or embedded in a structure, where there is padding applied.  This seems to affect
-// only the Boolean type, which is a single byte by itself, but two bytes in a structure
-
-static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1};
-
 @implementation LLDataEventDef
 
 - (long)code;
@@ -115,6 +109,15 @@ static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1};
 - (long)entryBytes:(LLDataDef *)pDef;
 {
 	long index;
+    // The number of bytes devoted to a data type can differ depending on whether it is standing
+    // alone, or embedded in a structure, where there is padding applied.  This seems to affect
+    // only the Boolean type, which is a single byte by itself, but two bytes in a structure
+    
+#if defined(__LP64__) && __LP64__
+    static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1, 8};
+#else
+    static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1, 4};
+#endif
 
 // An index of -1 is a structure, for which we return -1
 
@@ -632,6 +635,13 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 	case kStringType:
 		theString = [NSString stringWithFormat:@" '%s'", &((char *)dPtr)[index]];
 		break;
+    case kCGFloatType:
+#if defined(__LP64__) && __LP64__
+        theString = [NSString stringWithFormat:@" %f", ((double *)dPtr)[index]];
+#else
+        theString = [NSString stringWithFormat:@" %f", ((float *)dPtr)[index]];
+#endif
+        break;
 	default:
 		theString = nil;
 		break;

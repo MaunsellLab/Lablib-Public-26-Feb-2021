@@ -14,24 +14,24 @@
 // Definitation for the contents of Cocoa structures that might appear in data events
 
 LLDataDef NSAffineTransformStructDataDef[] = {
-	{@"float", @"m11", 1, offsetof(NSAffineTransformStruct, m11)},
-	{@"float", @"m12", 1, offsetof(NSAffineTransformStruct, m12)},
-	{@"float", @"m21", 1, offsetof(NSAffineTransformStruct, m21)},
-	{@"float", @"m22", 1, offsetof(NSAffineTransformStruct, m22)},
-	{@"float", @"tX", 1, offsetof(NSAffineTransformStruct, tX)},
-	{@"float", @"tY", 1, offsetof(NSAffineTransformStruct, tY)},
+	{@"CGFloat", @"m11", 1, offsetof(NSAffineTransformStruct, m11)},
+	{@"CGFloat", @"m12", 1, offsetof(NSAffineTransformStruct, m12)},
+	{@"CGFloat", @"m21", 1, offsetof(NSAffineTransformStruct, m21)},
+	{@"CGFloat", @"m22", 1, offsetof(NSAffineTransformStruct, m22)},
+	{@"CGFloat", @"tX", 1, offsetof(NSAffineTransformStruct, tX)},
+	{@"CGFloat", @"tY", 1, offsetof(NSAffineTransformStruct, tY)},
 	{nil},
 };
 
 LLDataDef NSPointDataDef[] = {
-	{@"float", @"x", 1, offsetof(NSPoint, x)},
-	{@"float", @"y", 1, offsetof(NSPoint, y)},
+	{@"CGFloat", @"x", 1, offsetof(NSPoint, x)},
+	{@"CGFloat", @"y", 1, offsetof(NSPoint, y)},
 	{nil},
 };
 
 LLDataDef NSSizeDataDef[] = {
-	{@"float", @"width", 1, offsetof(NSSize, width)},
-	{@"float", @"height", 1, offsetof(NSSize, height)},
+	{@"CGFloat", @"width", 1, offsetof(NSSize, width)},
+	{@"CGFloat", @"height", 1, offsetof(NSSize, height)},
 	{nil},
 };
 
@@ -51,48 +51,48 @@ LLDataDef RGBDoubleDef[] = {
 };
 
 LLDataDef ADDataDef[] = {
-		{@"short",	@"channel", 1, offsetof(ADData, channel)},
-		{@"short",	@"data", 1, offsetof(ADData, data)},
-		{nil}};
+    {@"short",	@"channel", 1, offsetof(ADData, channel)},
+    {@"short",	@"data", 1, offsetof(ADData, data)},
+    {nil}};
 
 LLDataDef dataParamDef[] = {
-		{@"char",	@"dataName", sizeof(Str31), offsetof(DataParam, dataName)},
-		{@"char",	@"deviceName", sizeof(Str31), offsetof(DataParam, deviceName)},
-		{@"long",	@"channel", 1, offsetof(DataParam, channel)},
-		{@"float",	@"timing", 1, offsetof(DataParam, timing)},
-		{@"long",	@"type", 1, offsetof(DataParam, type)},
-		{nil}};
+    {@"char",	@"dataName", sizeof(Str31), offsetof(DataParam, dataName)},
+    {@"char",	@"deviceName", sizeof(Str31), offsetof(DataParam, deviceName)},
+    {@"long",	@"channel", 1, offsetof(DataParam, channel)},
+    {@"float",	@"timing", 1, offsetof(DataParam, timing)},
+    {@"long",	@"type", 1, offsetof(DataParam, type)},
+    {nil}};
 
 LLDataDef displayParamDataDef[] = {
-		{@"double",	@"frameRateHz", 1, offsetof(DisplayParam, frameRateHz)},
-		{@"long",	@"pixelBits", 1, offsetof(DisplayParam, pixelBits)},
-		{@"long",	@"widthPix", 1, offsetof(DisplayParam, widthPix)},
-		{@"long",	@"heightPix", 1, offsetof(DisplayParam, heightPix)},
-		{@"struct", @"CIEx", 1, offsetof(DisplayParam, CIEx), sizeof(RGBDouble), RGBDoubleDef},
-		{@"struct", @"CIEy", 1, offsetof(DisplayParam, CIEy), sizeof(RGBDouble), RGBDoubleDef},
-		{@"double",	@"distanceMM", 1, offsetof(DisplayParam, distanceMM)},
-		{@"double",	@"widthMM", 1, offsetof(DisplayParam, widthMM)},
-		{@"double",	@"heightMM", 1, offsetof(DisplayParam, heightMM)},
-		{nil}};
+    {@"double",	@"frameRateHz", 1, offsetof(DisplayParam, frameRateHz)},
+    {@"long",	@"pixelBits", 1, offsetof(DisplayParam, pixelBits)},
+    {@"long",	@"widthPix", 1, offsetof(DisplayParam, widthPix)},
+    {@"long",	@"heightPix", 1, offsetof(DisplayParam, heightPix)},
+    {@"struct", @"CIEx", 1, offsetof(DisplayParam, CIEx), sizeof(RGBDouble), RGBDoubleDef},
+    {@"struct", @"CIEy", 1, offsetof(DisplayParam, CIEy), sizeof(RGBDouble), RGBDoubleDef},
+    {@"double",	@"distanceMM", 1, offsetof(DisplayParam, distanceMM)},
+    {@"double",	@"widthMM", 1, offsetof(DisplayParam, widthMM)},
+    {@"double",	@"heightMM", 1, offsetof(DisplayParam, heightMM)},
+    {nil}};
 
 LLDataDef eyeCalibrationDataDef[] = {
-		{@"float",	@"offsetSizeDeg", 1, offsetof(LLEyeCalibrationData, offsetSizeDeg)},
-		{@"struct", @"currentOffsetDeg", 1, offsetof(LLEyeCalibrationData, currentOffsetDeg), sizeof(NSPoint), NSPointDataDef},
-		{@"struct", @"targetDeg", kLLEyeCalibratorOffsets, offsetof(LLEyeCalibrationData, targetDeg), sizeof(NSPoint), NSPointDataDef},
-		{@"struct", @"actualUnits", kLLEyeCalibratorOffsets, offsetof(LLEyeCalibrationData, actualUnits), sizeof(NSPoint), NSPointDataDef},
-		{@"struct", @"cal", 1, offsetof(LLEyeCalibrationData, calibration), sizeof(NSAffineTransformStruct), NSAffineTransformStructDataDef},
-		{nil}};
+    {@"float",	@"offsetSizeDeg", 1, offsetof(LLEyeCalibrationData, offsetSizeDeg)},
+    {@"struct", @"currentOffsetDeg", 1, offsetof(LLEyeCalibrationData, currentOffsetDeg), sizeof(NSPoint), NSPointDataDef},
+    {@"struct", @"targetDeg", kLLEyeCalibratorOffsets, offsetof(LLEyeCalibrationData, targetDeg), sizeof(NSPoint), NSPointDataDef},
+    {@"struct", @"actualUnits", kLLEyeCalibratorOffsets, offsetof(LLEyeCalibrationData, actualUnits), sizeof(NSPoint), NSPointDataDef},
+    {@"struct", @"cal", 1, offsetof(LLEyeCalibrationData, calibration), sizeof(NSAffineTransformStruct), NSAffineTransformStructDataDef},
+    {nil}};
 
 LLDataDef fixWindowDataDef[] = {
-		{@"long",	@"index", 1, offsetof(FixWindowData, index)},
-		{@"struct", @"windowDeg", 1, offsetof(FixWindowData, windowDeg), sizeof(NSRect), NSRectDataDef},
-		{@"struct", @"windowUnits", 1, offsetof(FixWindowData, windowUnits), sizeof(NSRect), NSRectDataDef},
-		{nil}};
+    {@"long",	@"index", 1, offsetof(FixWindowData, index)},
+    {@"struct", @"windowDeg", 1, offsetof(FixWindowData, windowDeg), sizeof(NSRect), NSRectDataDef},
+    {@"struct", @"windowUnits", 1, offsetof(FixWindowData, windowUnits), sizeof(NSRect), NSRectDataDef},
+    {nil}};
 		
 LLDataDef timestampDef[] = {
-		{@"short",	@"channel", 1, offsetof(TimestampData, channel)},
-		{@"long",	@"time", 1, offsetof(TimestampData, time)},
-		{nil}};
+    {@"short",	@"channel", 1, offsetof(TimestampData, channel)},
+    {@"long",	@"time", 1, offsetof(TimestampData, time)},
+    {nil}};
 
 //	event name				bytes in one data element		definition of data
 //

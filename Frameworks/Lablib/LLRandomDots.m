@@ -153,7 +153,7 @@ float stencilRadiusDeg = FLT_MAX;
 	glColor4fv(oldColors);							// restore color
 	glPopMatrix();
 	if ((errCode = glGetError()) != GL_NO_ERROR) {
-        NSLog(@"LLRandomDots: OpenGL Error draw: \"%s\"", gluErrorString(errCode));
+        NSLog(@"LLRandomDots: OpenGL Error (code %d", errCode);
     }
 }
 /*

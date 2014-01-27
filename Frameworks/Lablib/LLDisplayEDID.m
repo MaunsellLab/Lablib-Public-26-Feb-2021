@@ -167,7 +167,7 @@
 		return self;
 	}
 	CFDataGetBytes(EDIDValue, allrange, EDID);
-	for(index = checksum = 0; index < kEDIDLength; index++) {
+	for (index = checksum = 0; index < kEDIDLength; index++) {
 		checksum += EDID[index];
 	}
 	if (checksum != 0) {
@@ -178,7 +178,6 @@
 		NSLog(@"LLDisplayEDID: EDID does not match Version 1 header");
 		return self;
 	}
-	
 	[self readHeaderInfo:EDID];				// Get the monitor name
 	[self readMonitorName:EDID];			// Get the monitor name
 	[self readMonitorLimits:EDID];			// Get the monitor limits

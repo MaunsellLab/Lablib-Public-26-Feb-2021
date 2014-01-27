@@ -138,8 +138,6 @@
 		69CEA76706711F74009CEDDA /* LLStimulusTrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEA76506711F74009CEDDA /* LLStimulusTrain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69CEA76806711F74009CEDDA /* LLStimulusTrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEA76606711F74009CEDDA /* LLStimulusTrain.m */; };
 		69CEA79F06711F88009CEDDA /* LLStimulusTrain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69CEA79D06711F88009CEDDA /* LLStimulusTrain.nib */; };
-		69CEB34B079ACFD600BC7352 /* LLDisplayEDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEB349079ACFD600BC7352 /* LLDisplayEDID.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69CEB34C079ACFD600BC7352 /* LLDisplayEDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEB34A079ACFD600BC7352 /* LLDisplayEDID.m */; };
 		69DCC8DB0737CE3800FE4CE8 /* LLEOTHistoryView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCC8D90737CE3800FE4CE8 /* LLEOTHistoryView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69DCC8DC0737CE3800FE4CE8 /* LLEOTHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCC8DA0737CE3800FE4CE8 /* LLEOTHistoryView.m */; };
 		69DCCC06073AE8C600FE4CE8 /* LLBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCCC04073AE8C600FE4CE8 /* LLBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -451,8 +449,6 @@
 		69CEA76506711F74009CEDDA /* LLStimulusTrain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLStimulusTrain.h; sourceTree = "<group>"; };
 		69CEA76606711F74009CEDDA /* LLStimulusTrain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLStimulusTrain.m; sourceTree = "<group>"; };
 		69CEA79E06711F88009CEDDA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLStimulusTrain.xib; sourceTree = "<group>"; };
-		69CEB349079ACFD600BC7352 /* LLDisplayEDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDisplayEDID.h; sourceTree = "<group>"; };
-		69CEB34A079ACFD600BC7352 /* LLDisplayEDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDisplayEDID.m; sourceTree = "<group>"; };
 		69CFF80B0476A34600F95509 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLDataDoc.xib; sourceTree = "<group>"; };
 		69CFF80E0476A35F00F95509 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLMonitorView.xib; sourceTree = "<group>"; };
 		69CFF8270477D3B900F95509 /* LLEyeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLEyeWindow.h; sourceTree = "<group>"; };
@@ -865,8 +861,6 @@
 		69A86C930780C1DE009A47EC /* Displays */ = {
 			isa = PBXGroup;
 			children = (
-				69CEB349079ACFD600BC7352 /* LLDisplayEDID.h */,
-				69CEB34A079ACFD600BC7352 /* LLDisplayEDID.m */,
 				69E9F6F6043D254F00F95509 /* LLDisplays.h */,
 				69E9F6F7043D254F00F95509 /* LLDisplays.m */,
 				69E2E87804C4C32E00F95507 /* LLDisplayPhysical.h */,
@@ -1051,7 +1045,6 @@
 				69A86C8F0780C130009A47EC /* LLControlPanel.h in Headers */,
 				69858370078218D500F50DD2 /* LLTaskModeTransformer.h in Headers */,
 				69FB5517078B84AA00AC42FA /* LLUserDefaults.h in Headers */,
-				69CEB34B079ACFD600BC7352 /* LLDisplayEDID.h in Headers */,
 				6961C4B207AC429F005F0666 /* LLTaskStatus.h in Headers */,
 				6961C53007AC465F005F0666 /* LLTaskStatusTransformer.h in Headers */,
 				69EBE5DC07E1988D00037090 /* LLDataEventDef.h in Headers */,
@@ -1241,7 +1234,6 @@
 				69858371078218D500F50DD2 /* LLTaskModeTransformer.m in Sources */,
 				69FB5518078B84AA00AC42FA /* LLUserDefaults.m in Sources */,
 				69C5686D0797798D001CD54C /* LLStimWindow.m in Sources */,
-				69CEB34C079ACFD600BC7352 /* LLDisplayEDID.m in Sources */,
 				6961C4B307AC429F005F0666 /* LLTaskStatus.m in Sources */,
 				6961C53107AC465F005F0666 /* LLTaskStatusTransformer.m in Sources */,
 				69EBE5DD07E1988D00037090 /* LLDataEventDef.m in Sources */,

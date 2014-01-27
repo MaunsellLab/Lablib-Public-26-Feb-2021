@@ -12,8 +12,6 @@
 #import "KNAppController.h"
 #import "KNSummaryController.h"
 #import <LablibITC18/LLITC18DataDevice.h>
-//#import <LablibITC18/LLITC18DataDevice0.h>
-//#import <LablibITC18/LLITC18DataDevice1.h>
 #import <Foundation/NSDebug.h>
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -407,11 +405,6 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	[transformer setTransformerType:kLLTaskStatusNoFile];
 	[NSValueTransformer setValueTransformer:transformer forName:@"TaskStatusNoFileTransformer"];
 
-// Load the settings and the plugings
-
-    //	pluginController = [[LLPluginController alloc] initWithDefaults:defaults];
-    //	settingsController = [[LLSettingsController alloc] init];
-		
 	return self;
 }
 

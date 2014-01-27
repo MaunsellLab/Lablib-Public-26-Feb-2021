@@ -24,6 +24,9 @@
 	[drawables addObject:drawable];
 }
 
+// We aren't allowed to call setNeedsDisplay or setNeedsDisplayInRect except from the main thread.  It is ignored
+// if we do.  We have made our own methods that can be run from the main thread using performSelectorOnMainThread.
+
 - (void)addSample:(NSPoint)samplePointDeg forEye:(long)eyeIndex;
 {
 	NSRect rectDeg;
@@ -33,16 +36,23 @@
 	[sampleLock lock];
     [sampleRectsDeg[eyeIndex] addObject:[NSValue valueWithRect:rectDeg]];	
 	[sampleLock unlock];
-	
-	dirtyRectPix = NSUnionRect(dirtyRectPix, [self pixRectFromDegRect:rectDeg]);
-	
 	if (!((sampleCount[eyeIndex]++) % oneInN)) {
 		if (drawOnlyDirtyRect) {
-			dirtyRectPix = NSInsetRect(dirtyRectPix, -1.0, -1.0);			// allow for rounding error
-			[self setNeedsDisplayInRect:dirtyRectPix];
+            if ([NSThread isMainThread]) {
+                [self setNeedsDisplayInRect:[self pixRectFromDegRect:rectDeg]];
+            }
+            else {
+                dirtyRectPix = [self pixRectFromDegRect:rectDeg];
+                [self performSelectorOnMainThread:@selector(setNeedsDisplayInRect) withObject:nil waitUntilDone:NO];
+            }
 		}
 		else {
-			[self setNeedsDisplay:YES];
+            if ([NSThread isMainThread]) {
+                [self setNeedsDisplay:YES];
+            }
+            else {
+                [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+            }
 		}
 	}
 }
@@ -66,7 +76,6 @@
 	[sampleLock lock];
 	[sampleRectsDeg[kLeftEye] removeAllObjects];
 	[sampleRectsDeg[kRightEye] removeAllObjects];
-	dirtyRectPix = NSMakeRect(0, 0, 0, 0);
 	[sampleLock unlock];
 }
 
@@ -95,20 +104,19 @@
 - (void)drawRect:(NSRect)rect;
 {
     long index, ticks, grids;
-    NSRect b;
+    NSPoint pixPoint;
+    NSRect b, pixRect;
 	NSAffineTransform *transform;
-	
+    
 // Clear
 
-	[NSBezierPath strokeRect:rect];
-
-	b = [self bounds];
     [[NSColor whiteColor] set];
-    [NSBezierPath fillRect:b];
+    [NSBezierPath fillRect:rect];
 
 // Concatenate a transform to convert from degrees to coordinates in the view
 
 	transform = [NSAffineTransform transform];
+	b = [self bounds];
 	[transform translateXBy:b.size.width / 2.0 yBy:b.size.height / 2.0];
 	[transform scaleXBy:b.size.width / kMaxDeg yBy:b.size.height / kMaxDeg];
 	[transform concat];
@@ -120,18 +128,29 @@
 	grids = (doGrid && gridDeg > 0) ? (long)(kMaxDeg / gridDeg) : 1;
 	index = (doGrid && gridDeg > 0) ? -grids : 0;
 	for ( ; index < grids; index++) {
-		[NSBezierPath strokeLineFromPoint:NSMakePoint(-kMaxDeg, index * gridDeg) 
-						toPoint:NSMakePoint(kMaxDeg, index * gridDeg)];
-		[NSBezierPath strokeLineFromPoint:NSMakePoint(index * gridDeg, -kMaxDeg) 
+        pixPoint = [self pixPointFromDegPoint:NSMakePoint(index * gridDeg, index * gridDeg)];
+        if (NSPointInRect(NSMakePoint(rect.origin.x, pixPoint.y), rect)) {
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(-kMaxDeg, index * gridDeg)
+                                      toPoint:NSMakePoint(kMaxDeg, index * gridDeg)];
+        }
+        if (NSPointInRect(NSMakePoint(pixPoint.x, rect.origin.y), rect)) {
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(index * gridDeg, -kMaxDeg)
 						toPoint:NSMakePoint(index * gridDeg, kMaxDeg)];
+        }
 	}
 	if (doTicks && tickDeg > 0) {
 		ticks = (long)(kMaxDeg / tickDeg);
 		for (index = -ticks; index < ticks; index++) {
-			[NSBezierPath strokeLineFromPoint:NSMakePoint(index * tickDeg, -kTickHeightDeg) 
+            pixRect = [self pixRectFromDegRect:NSMakeRect(index * tickDeg, -kTickHeightDeg, 1, 2 * kTickHeightDeg)];
+            if (NSIntersectsRect(pixRect, rect)) {
+                [NSBezierPath strokeLineFromPoint:NSMakePoint(index * tickDeg, -kTickHeightDeg)
 					toPoint:NSMakePoint(index * tickDeg, kTickHeightDeg)];
-			[NSBezierPath strokeLineFromPoint:NSMakePoint(-kTickHeightDeg, index * tickDeg) 
+            }
+            pixRect = [self pixRectFromDegRect:NSMakeRect(-kTickHeightDeg, index * tickDeg, 2 * kTickHeightDeg, 1)];
+            if (NSIntersectsRect(pixRect, rect)) {
+                [NSBezierPath strokeLineFromPoint:NSMakePoint(-kTickHeightDeg, index * tickDeg)
 					toPoint:NSMakePoint(kTickHeightDeg, index * tickDeg)];
+            }
 		}
 	}
 	
@@ -145,18 +164,18 @@
 // may change size (larger or smaller) while we are in the loop.  That might make us go beyond the
 // end of the plotColors array.
     
-    [self drawPointsForEye:kLeftEye];
-    [self drawPointsForEye:kRightEye];
+    [self drawPointsInRect:rect forEye:kLeftEye];
+    [self drawPointsInRect:rect forEye:kRightEye];
 
     [NSBezierPath setDefaultLineWidth:1.0];
 	[[NSColor blackColor] set];
 }
 
-- (void)drawPointsForEye:(long)eyeIndex;
+- (void)drawPointsInRect:(NSRect)rect forEye:(long)eyeIndex;
 {
-    long p, numPoints, numToDelete, numRects, rectCount;
-// 	NSSize dotPointSizeDeg;
-    NSRect cumRectDeg, pointRectsDeg[kMaxSamplesDisplay];
+    long p, numPoints, numToDelete, numRects, rectCount, colorIndex;
+    NSRect theRectDeg, pointRectsDeg[kMaxSamplesDisplay];
+	NSColor *theColors[kMaxSamplesDisplay];
    
 	numPoints = [sampleRectsDeg[eyeIndex] count];
 	if (numPoints > 0 && [sampleLock tryLock]) {
@@ -166,23 +185,26 @@
 			numPoints -= numToDelete;
 		}
 		numRects = MIN(samplesToSave / oneInN, kMaxSamplesDisplay);
-//		dotPointSizeDeg = NSMakeSize(dotSizeDeg, dotSizeDeg);
-		cumRectDeg = NSMakeRect(0, 0, 0, 0);
-		for (rectCount = 0, p = 0; p < numPoints && rectCount < numRects; p += oneInN, rectCount++) {
-			pointRectsDeg[rectCount] = [[sampleRectsDeg[eyeIndex] objectAtIndex:p] rectValue];
-//            NSLog(@"Draw eye Index %ld %.0f %.0f", eyeIndex, pointRectsDeg[rectCount].origin.x, pointRectsDeg[rectCount].origin.y);
-
-			cumRectDeg = NSUnionRect(cumRectDeg, pointRectsDeg[rectCount]);
-		}
-		dirtyRectPix = [self pixRectFromDegRect:cumRectDeg];
+        rectCount = colorIndex = 0;
+		for (p = 0; p < numPoints && rectCount < numRects; p += oneInN) {
+            theRectDeg = [[sampleRectsDeg[eyeIndex] objectAtIndex:p] rectValue];
+            if (NSIntersectsRect(rect, [self pixRectFromDegRect:theRectDeg])) {
+                pointRectsDeg[rectCount] = theRectDeg;
+                theColors[rectCount] = pointColors[eyeIndex][colorIndex];
+                rectCount++;
+            }
+            colorIndex++;
+        }
 		[sampleLock unlock];
-		if (doDotFade) {
-			NSRectFillListWithColors(pointRectsDeg, pointColors[eyeIndex], rectCount);
-		}
-		else {
-			[eyeColor[eyeIndex] set];
-			NSRectFillList(pointRectsDeg, rectCount);
-		}
+        if (rectCount > 0) {
+            if (doDotFade) {
+                NSRectFillListWithColors(pointRectsDeg, theColors, rectCount);
+            }
+            else {
+                [eyeColor[eyeIndex] set];
+                NSRectFillList(pointRectsDeg, rectCount);
+            }
+        }
 	}
 }
 
@@ -216,7 +238,6 @@
 		sampleLock = [[NSLock alloc] init];
 		sampleRectsDeg[kLeftEye] = [[NSMutableArray alloc] init];
 		sampleRectsDeg[kRightEye] = [[NSMutableArray alloc] init];
-		dirtyRectPix = NSMakeRect(0, 0, 0, 0);
     }
     return self;
 }
@@ -250,8 +271,7 @@
 - (NSRect)pixRectFromDegRect:(NSRect)eyeRectDeg;
 {
 	NSRect b = [self bounds];
-	
-	return NSMakeRect(eyeRectDeg.origin.x * (b.size.width / kMaxDeg) + b.size.width / 2.0, 
+	return NSMakeRect(eyeRectDeg.origin.x * (b.size.width / kMaxDeg) + b.size.width / 2.0,
 						eyeRectDeg.origin.y * (b.size.height / kMaxDeg) + b.size.height / 2.0,
 						eyeRectDeg.size.width * (b.size.width / kMaxDeg), 
 						eyeRectDeg.size.height * (b.size.height / kMaxDeg));
@@ -316,6 +336,16 @@
 - (void)setGrid:(BOOL)state;
 {
 	doGrid = state;
+}
+
+- (void)setNeedsDisplay;
+{
+    [self setNeedsDisplay:YES];
+}
+
+- (void)setNeedsDisplayInRect;
+{
+    [self setNeedsDisplayInRect:dirtyRectPix];
 }
 
 - (void) setOneInN:(double)n;

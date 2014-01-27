@@ -35,7 +35,7 @@
 #import <Lablib/LLDataFileReader.h>
 #import <Lablib/LLDataUtil.h>
 #import <Lablib/LLDefaultAboutBox.h>
-#import <Lablib/LLDisplayEDID.h>
+//#import <Lablib/LLDisplayEDID.h>
 #import <Lablib/LLDisplays.h>
 #import <Lablib/LLDisplayPhysical.h>
 #import <Lablib/LLDisplayUtilities.h>
