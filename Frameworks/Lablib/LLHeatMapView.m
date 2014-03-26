@@ -41,6 +41,12 @@
     NSRect b, cellRect;
     NSArray *elevationValues;
     LLNormDist *dist;
+    
+    // If we're uninitialized, don't do anything
+    
+    if (plotXPoints == 0 && plotYPoints == 0) {
+        return;
+    }
 
 	// Clear and highlight the bounds
 

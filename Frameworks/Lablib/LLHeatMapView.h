@@ -41,8 +41,6 @@ typedef struct {
     LLViewScale			*scale;						// Leave the scaling accessible
     NSString			*title;
     float				textLineHeightPix;
-//    BOOL				useXDisplayValues;
-//    BOOL				useYDisplayValues;
     NSString			*xAxisLabel;
     HMAxisHighlight 	xHighlight;
     float				xMaxValue;                  // Values written on the axes

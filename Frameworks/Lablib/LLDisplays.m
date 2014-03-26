@@ -90,9 +90,9 @@ struct screenMode {
 		}
 	}
     if (displayMode == NULL) {
-        NSRunAlertPanel(@"LLDisplays", 
-                [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
-                pDP->pixelBits, pDP->widthPix, pDP->heightPix], @"OK", nil, nil);
+        [NSAlert alertWithMessageText:@"LLDisplays" defaultButton:@"OK" alternateButton:nil otherButton:nil
+            informativeTextWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
+                pDP->pixelBits, pDP->widthPix, pDP->heightPix];
 		exit(0);
     }
     return displayMode;

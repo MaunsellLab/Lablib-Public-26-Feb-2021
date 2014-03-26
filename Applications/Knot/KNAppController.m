@@ -85,9 +85,9 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
 {
 	long choice;
-	NSString *theString = @"";
 	BOOL writingDataFile = [defaults boolForKey:KNWritingDataFileKey];
-	
+    NSAlert *theAlert;
+		
 // Nothing to worry about before quitting
 	
 	if (([currentTask mode] == kTaskIdle) && !writingDataFile) {
@@ -95,20 +95,22 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		return NSTerminateNow;
 	}
 
-    NSLog(@"Knot applicationShouldTerminate: sender %@; mode %ld", sender, [currentTask mode]);
-    
 // Task running and/or data file open.  Ask for permission to terminate
 
 	if (!([currentTask mode] == kTaskIdle) && writingDataFile) {
-        theString = @"Task is running and data file is open.  Stop, close and quit?";
+        theAlert = [NSAlert alertWithMessageText:@"Knot" defaultButton:@"OK" alternateButton:@"Cancel" otherButton:@""
+                       informativeTextWithFormat:@"Task is running and data file is open.  Stop, close and quit?"];
 	}
 	else if (writingDataFile) {
-        theString = @"Data file is open.  Close and quit?";
+        theAlert = [NSAlert alertWithMessageText:@"Knot" defaultButton:@"OK" alternateButton:@"Cancel" otherButton:@""
+                       informativeTextWithFormat:@"Data file is open.  Close and quit?"];
 	}
-	else if (!([currentTask mode] == kTaskIdle)) {
-        theString = @"Task is running.  Stop and quit?";
+    //	else if (!([currentTask mode] == kTaskIdle)) {
+    else {
+        theAlert = [NSAlert alertWithMessageText:@"Knot" defaultButton:@"OK" alternateButton:@"Cancel" otherButton:@""
+                       informativeTextWithFormat:@"Task is running.  Stop and quit?"];
 	}
-	choice = NSRunAlertPanel(@"Knot", theString, @"OK", @"Cancel", nil);
+	choice = [theAlert runModal];
 	if (choice == NSAlertDefaultReturn) {
 		[currentTask setMode:kTaskEnding];
 		return NSTerminateNow;

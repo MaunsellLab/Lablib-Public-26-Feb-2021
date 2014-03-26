@@ -30,7 +30,8 @@
 - (void)addSample:(NSPoint)samplePointDeg forEye:(long)eyeIndex;
 {
 	NSRect rectDeg;
-	
+//    static long counter;
+    
 	rectDeg = NSMakeRect(samplePointDeg.x - dotSizeDeg / 2.0, samplePointDeg.y - dotSizeDeg / 2.0,
 		dotSizeDeg, dotSizeDeg);
 	[sampleLock lock];
@@ -39,10 +40,18 @@
 	if (!((sampleCount[eyeIndex]++) % oneInN)) {
 		if (drawOnlyDirtyRect) {
             if ([NSThread isMainThread]) {
-                [self setNeedsDisplayInRect:[self pixRectFromDegRect:rectDeg]];
+//                if (!(++counter % 1000)) {
+//                    rect = [self pixRectFromDegRect:rectDeg];
+//                    NSLog(@"LLEyeXYView addSample: %f %f %f %f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+//                }
+               [self setNeedsDisplayInRect:[self pixRectFromDegRect:rectDeg]];
             }
             else {
                 dirtyRectPix = [self pixRectFromDegRect:rectDeg];
+//                if (!(++counter % 1000)) {
+//                    rect = [self pixRectFromDegRect:rectDeg];
+//                    NSLog(@"LLEyeXYView addSample: %f %f %f %f", dirtyRectPix.origin.x, dirtyRectPix.origin.y, dirtyRectPix.size.width, dirtyRectPix.size.height);
+//                }
                 [self performSelectorOnMainThread:@selector(setNeedsDisplayInRect) withObject:nil waitUntilDone:NO];
             }
 		}
@@ -61,7 +70,6 @@
 {
     [self addSample:samplePointDeg forEye:kLeftEye];
 }
-
 
 - (void)centerDisplay;
 {
@@ -96,7 +104,7 @@
 	return doDotFade;
 }
 
-- (float)dotSizeDeg;
+- (CGFloat)dotSizeDeg;
 {
     return dotSizeDeg;
 }
@@ -109,7 +117,11 @@
 	NSAffineTransform *transform;
     
 // Clear
-
+    
+    if (![NSThread isMainThread]) {
+        NSLog(@"LLEYEXYVIEW IS DRAWING OUTSIDE MAIN THREAD!");
+    }
+//    NSLog(@"DRAWRECT: %.0f %.0f %.0f %.0f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
     [[NSColor whiteColor] set];
     [NSBezierPath fillRect:rect];
 
@@ -302,7 +314,7 @@
     doDotFade = state;
 }
 
-- (void)setDotSizeDeg:(double)sizeDeg;
+- (void)setDotSizeDeg:(CGFloat)sizeDeg;
 {
     dotSizeDeg = sizeDeg;
 }
@@ -328,7 +340,7 @@
 	[self updatePointColors];
 }
 
-- (void)setGridDeg:(float)spacingDeg;
+- (void)setGridDeg:(CGFloat)spacingDeg;
 {
 	gridDeg = spacingDeg;
 }
@@ -345,10 +357,28 @@
 
 - (void)setNeedsDisplayInRect;
 {
+    static long counter = 0;
+    NSRect vRect;
+    
+    if ((++counter % 500) == 0) {
+        vRect = [self visibleRect];
+        NSLog(@"IN: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
+        NSLog(@"LLEyeXYView visible:    %.0f %.0f %.0f %.0f", vRect.origin.x, vRect.origin.y, vRect.size.width, vRect.size.height);
+        NSLog(@" LLEyeXYView dirtyRect: %.0f %.0f %.0f %.0f", dirtyRectPix.origin.x, dirtyRectPix.origin.y, dirtyRectPix.size.width, dirtyRectPix.size.height);
+        if (NSPointInRect(dirtyRectPix.origin, vRect)) {
+            NSLog(@" dirtyRect Visible");
+        }
+        else {
+            NSLog(@" dirtyRect NOT Visible");
+        }
+    }
     [self setNeedsDisplayInRect:dirtyRectPix];
+    if ((counter % 500) == 0) {
+        NSLog(@" OUT: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
+    }
 }
 
-- (void) setOneInN:(double)n;
+- (void)setOneInN:(CGFloat)n;
 {
     oneInN = n;
 }
@@ -369,7 +399,7 @@
 	[self updatePointColors];
 }
 
-- (void)setTickDeg:(float)spacingDeg; 
+- (void)setTickDeg:(CGFloat)spacingDeg;
 {
 	tickDeg = spacingDeg;
 }
@@ -387,7 +417,7 @@
     for (eye = kLeftEye; eye < kEyes; eye++) {
         for (a = 0; a < limit; a++) {
             [pointColors[eye][a] release];
-            pointColors[eye][a] = [[eyeColor[eye] blendedColorWithFraction:(1.0 - (float)a / limit) 
+            pointColors[eye][a] = [[eyeColor[eye] blendedColorWithFraction:(1.0 - (CGFloat)a / limit)
                                                           ofColor:[NSColor whiteColor]] retain];
         }
     }
