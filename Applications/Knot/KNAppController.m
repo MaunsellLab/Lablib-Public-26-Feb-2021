@@ -85,9 +85,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
 {
 	long choice;
-	NSString *theString = @"";
 	BOOL writingDataFile = [defaults boolForKey:KNWritingDataFileKey];
-	
+    NSAlert *theAlert;
+    NSString *message;
+		
 // Nothing to worry about before quitting
 	
 	if (([currentTask mode] == kTaskIdle) && !writingDataFile) {
@@ -95,21 +96,26 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		return NSTerminateNow;
 	}
 
-    NSLog(@"Knot applicationShouldTerminate: sender %@; mode %ld", sender, [currentTask mode]);
-    
 // Task running and/or data file open.  Ask for permission to terminate
 
-	if (!([currentTask mode] == kTaskIdle) && writingDataFile) {
-        theString = @"Task is running and data file is open.  Stop, close and quit?";
+    if (!([currentTask mode] == kTaskIdle) && writingDataFile) {
+        message = @"Task is running and data file is open.  Stop, close and quit?";
 	}
 	else if (writingDataFile) {
-        theString = @"Data file is open.  Close and quit?";
+        message = @"Data file is open.  Close and quit?";
 	}
-	else if (!([currentTask mode] == kTaskIdle)) {
-        theString = @"Task is running.  Stop and quit?";
+    //	else if (!([currentTask mode] == kTaskIdle)) {
+    else {
+        message = @"Task is running.  Stop and quit?";
 	}
-	choice = NSRunAlertPanel(@"Knot", theString, @"OK", @"Cancel", nil);
-	if (choice == NSAlertDefaultReturn) {
+    theAlert = [[NSAlert alloc] init];
+    [theAlert setMessageText:@"Knot"];
+    [theAlert addButtonWithTitle:@"OK"];
+    [theAlert addButtonWithTitle:@"Cancel"];
+    [theAlert setInformativeText:message];
+	choice = [theAlert runModal];
+    [theAlert release];
+	if (choice == NSAlertFirstButtonReturn) {
 		[currentTask setMode:kTaskEnding];
 		return NSTerminateNow;
 	}
@@ -118,14 +124,16 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	}
 }
 
-// This is the place to put the clean up code for the application. 
-// As a delegate for the NSApplication, we are automatically registered
-// for this notification.
+// This is the place to put the clean up code for the application. As a delegate for the NSApplication, we are
+// automatically registered for this notification.
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 {
+    while ([currentTask mode] != kTaskIdle) {};				// wait for state system to stop, then release it
+    sleep(0.25);
+    [self deactivateCurrentTask];
+    
     [dataDeviceController setDataEnabled:[NSNumber numberWithBool:NO]];
-    [currentTask deactivate:self];
 	[settingsController synchronize];		// Wait until after task deactivates, in case it saves settings
 
 // We've already check it was ok to close open file in -applicationShouldTerminate
@@ -140,8 +148,6 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     
     [[summaryController window] performClose:self];
     [summaryController release];
-
-    while ([currentTask mode] != kTaskIdle) {};				// wait for state system to stop, then release it
 
 // Release the plugins before releasing the objects they might use as they clean up
 

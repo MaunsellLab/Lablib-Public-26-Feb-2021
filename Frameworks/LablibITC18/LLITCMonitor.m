@@ -46,27 +46,32 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 	[super dealloc];
 }
 
-- (void)doAlarm:(NSString *)message {
-
+- (void)doAlarm:(NSString *)message;
+{
 	long choice;
-	
+    NSAlert *theAlert = [[NSAlert alloc] init];
+    
 	alarmActive = YES;
-	choice = NSRunAlertPanel( [NSString stringWithFormat:@"LLITCMonitor (%@)", [self IDString]],
-		message, @"OK", @"Disarm Alarm", @"Change Settings");
+    [theAlert setMessageText:[NSString stringWithFormat:@"LLITCMonitor (%@)", [self IDString]]];
+    [theAlert addButtonWithTitle:@"OK"];
+    [theAlert addButtonWithTitle:@"Disarm Alarm"];
+    [theAlert addButtonWithTitle:@"Change Settings"];
+    [theAlert setInformativeText:message];
+	choice = [theAlert runModal];
 	switch (choice) {
-	case NSAlertAlternateReturn:						// disarm alarms
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
-		break;
-	case NSAlertOtherReturn:
-		[self configure];								// configure alarms
-		break;
-	case NSAlertDefaultReturn:							// OK button, do nothing
-	default:
-		break;
+        case NSAlertSecondButtonReturn:						// disarm alarms
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
+            break;
+        case NSAlertThirdButtonReturn:
+            [self configure];								// configure alarms
+            break;
+        case NSAlertFirstButtonReturn:						// OK button, do nothing
+        default:
+            break;
 	}
 	alarmActive = NO;
+    [theAlert release];
 }
-
 
 - (NSString *)IDString {
 

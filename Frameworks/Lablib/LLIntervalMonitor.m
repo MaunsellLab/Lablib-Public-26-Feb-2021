@@ -84,10 +84,13 @@ NSString *standardKey = @"LLMonitorTarget";
 - (void)doAlarm:(NSString *)message;
 {
 	long choice;
+    NSAlert *theAlert;
 	
 	alarmActive = YES;
-	choice = NSRunAlertPanel( [NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]],
-		message, @"OK", @"Disarm Alarms", @"Change Settings");
+    theAlert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]]
+                            defaultButton:@"OK" alternateButton:@"Disarm Alarms" otherButton:@"Change Settings"
+                            informativeTextWithFormat:@""];
+	choice = [theAlert runModal];
 	switch (choice) {
 	case NSAlertAlternateReturn:						// disarm alarms
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDisarmKey]];
