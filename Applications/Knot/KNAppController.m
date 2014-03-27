@@ -284,9 +284,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void)deactivateCurrentTask;
 {
-	long index;
+	long index, numWindows;
 	NSWindow *window;
 	NSArray *windows;
+    NSString *className;
 
 	if (currentTask != nil) {
 		[[taskMenu itemWithTitle:[currentTask name]] setState:NSOffState];
@@ -299,12 +300,21 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		[stimWindow unlock];
 
 		windows = [NSApp windows];							// close any left over windows
-		for (index = 0; index < [windows count]; index++) {
+        numWindows = [windows count];
+		for (index = 0; index < numWindows; index++) {
 			window = [windows objectAtIndex:index];
-			if ([window isVisible])
+			if ([window isVisible]) {
 				if ((window != stimWindow) && (window != [summaryController window]) &&
-					(window != [monitorController window]) && (window != [eyeCalibration window])) {
+                                (window != [monitorController window]) && (window != [eyeCalibration window])) {
+                    
+                    // Seems the system sometimes throws up an _NSOrderOutAnimationProxyWindow during transitions,
+                    // and these don't like being told to close
+                    
+                    className = NSStringFromClass([window class]);
+                    if (![className isEqualToString:@"_NSOrderOutAnimationProxyWindow"]) {
 						[window performClose:self];
+                    }
+                }
 			}
 		}
 		currentTask = nil;
