@@ -57,6 +57,7 @@ struct screenMode {
     long index;
     CGDisplayModeRef mode = NULL;
     float bestDifference = FLT_MAX;
+    NSAlert *theAlert;
     
 // Get a copy of the current display mode
     
@@ -90,9 +91,16 @@ struct screenMode {
 		}
 	}
     if (displayMode == NULL) {
-        [NSAlert alertWithMessageText:@"LLDisplays" defaultButton:@"OK" alternateButton:nil otherButton:nil
-            informativeTextWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
-                pDP->pixelBits, pDP->widthPix, pDP->heightPix];
+        theAlert = [[NSAlert alloc] init];
+        [theAlert setMessageText:@"LLDisplays"];
+        [theAlert setInformativeText:[NSString stringWithFormat:
+            @"Could not match requested display mode: %ld bpp (%ld x %ld).",
+            pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
+        [theAlert runModal];
+//        [NSAlert alertWithMessageText:@"LLDisplays" defaultButton:@"OK" alternateButton:nil otherButton:nil
+//            informativeTextWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
+//                pDP->pixelBits, pDP->widthPix, pDP->heightPix];
+        [theAlert release];
 		exit(0);
     }
     return displayMode;

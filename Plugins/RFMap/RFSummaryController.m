@@ -67,6 +67,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
     NSRect maxScrollRect;
 	double timeNow, timeStored;
+    NSScroller *hScroller, *vScroller;
     
     if ((self = [super initWithWindowNibName:@"RFSummaryController"]) != nil) {
  		[self setShouldCascadeWindows:NO];
@@ -92,11 +93,19 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
         maxScrollRect = [NSWindow contentRectForFrameRect:
             NSMakeRect(0, 0, [[self window] maxSize].width, [[self window] maxSize].height)
             styleMask:[[self window] styleMask]];
-        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size 
-                hasHorizontalScroller:YES hasVerticalScroller:YES
-                borderType:[scrollView borderType]];
-				
-		lastEOTCode = -1;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+        hScroller = [scrollView horizontalScroller];
+        vScroller = [scrollView verticalScroller];
+        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+                        horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                        borderType:[scrollView borderType]
+                        controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+                        hasHorizontalScroller:YES hasVerticalScroller:YES
+                        borderType:[scrollView borderType]];
+#endif
+        lastEOTCode = -1;
 		
 		timeStored = [[task defaults] floatForKey:RFSummaryWindowDateKey];
 		timeNow = [NSDate timeIntervalSinceReferenceDate];
@@ -239,6 +248,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 {
     NSSize maxContentSize;
     NSRect scrollFrameRect, windowFrameRect;
+    NSScroller *hScroller, *vScroller;
     double delta;
     static double scaleFactor = 1.0;
   
@@ -254,9 +264,18 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
         maxContentSize.width = baseMaxContentSize.width * factor;
         maxContentSize.height = baseMaxContentSize.height * factor;
         scrollFrameRect.origin = NSMakePoint(0, 0);
-        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
-            hasHorizontalScroller:YES hasVerticalScroller:YES 
-            borderType:[scrollView borderType]];
+
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+        hScroller = [scrollView horizontalScroller];
+        vScroller = [scrollView verticalScroller];
+        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                        horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                        borderType:[scrollView borderType]
+                        controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                            hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
+#endif	
         windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect
                 styleMask:[[self window] styleMask]];
         [[self window] setMaxSize:windowFrameRect.size];
@@ -429,17 +448,17 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) blockLimit:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&blockLimit];
+	[eventData getBytes:&blockLimit length:sizeof(long)];
 }
 
 - (void) blocksDone:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&blocksDone];
+	[eventData getBytes:&blocksDone length:sizeof(long)];
 }
 
 - (void) blockTrialsDone:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&trialsDoneThisBlock];
+	[eventData getBytes:&trialsDoneThisBlock length:sizeof(long)];
 }
 
 - (void)reset:(NSData *)eventData eventTime:(NSNumber *)eventTime {
@@ -465,7 +484,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 */
 - (void) taskMode:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&taskMode];
+	[eventData getBytes:&taskMode length:sizeof(long)];
     switch (taskMode) {
         case kTaskRunning:
             lastStartTimeS = [LLSystemUtil getTimeS];
@@ -482,7 +501,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 	long certifyCode; 
 	
-	[eventData getBytes:&certifyCode];
+	[eventData getBytes:&certifyCode length:sizeof(long)];
     if (certifyCode != 0L) { // -1 because computer errors stored separately
         recentComputer++;  
         dayComputer++;  
@@ -491,7 +510,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) trialEnd:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&eotCode];
+	[eventData getBytes:&eotCode length:sizeof(long)];
     if (eotCode <= kLastEOTTypeDisplayed) {
         recentEOTs[eotCode]++;
         recentEOTTotal++;  
@@ -508,7 +527,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) trial:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&trial];
+    [eventData getBytes:&trial length:sizeof(TrialDesc)];
     newTrial = YES;
 	[trialTable reloadData];
     [percentTable reloadData];

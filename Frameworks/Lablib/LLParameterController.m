@@ -7,6 +7,7 @@
 //
 
 #import "LLParameterController.h"
+#import "LLSystemUtil.h"
 
 @implementation LLParameterController
 
@@ -36,9 +37,11 @@
 
 	while (paramList != NULL) {
 		if ([parameters objectForKey:paramList->name] != nil) {
-			NSRunAlertPanel(@"LLParameters", 
-						@"Attempt to register parameter named %@ more than once",
-						@"OK", nil, nil, paramList->name);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                        @"Attempt to register parameter named %@ more than once", paramList->name]];
+//			NSRunAlertPanel(@"LLParameters",
+//						@"Attempt to register parameter named %@ more than once",
+//						@"OK", nil, nil, paramList->name);
 			exit(1);
 		}
 		value = nil;

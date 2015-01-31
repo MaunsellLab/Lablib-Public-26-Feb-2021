@@ -7,6 +7,7 @@
 //
 
 #import "LLLaserCalibrator.h"
+#import "LLSystemUtil.h"
 
 NSString *LLLaserCalibratorArrayKey = @"LLLaserCalibratorArray";
 NSString *LLLaserCalibratorAttenuationKey = @"LLLaserCalibratorAttenuation";
@@ -23,14 +24,18 @@ NSString *mWKey = @"mW";
 	
 	mW = [self maximumMW];
 	if (mW < inputMW) {
-		NSRunAlertPanel(@"LLLaserCalibrator",  @"Requested value (%f) beyond calibrated range (%f).", @"OK", 
-						nil, nil, inputMW, mW);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                      @"Requested value (%f) beyond calibrated range (%f).", inputMW, mW]];
+//        NSRunAlertPanel(@"LLLaserCalibrator",  @"Requested value (%f) beyond calibrated range (%f).", @"OK",
+//                        nil, nil, inputMW, mW);
 		return -FLT_MAX;
 	}
 	[self getValuesForCalibrationIndex:0 voltagePtr:&lastVoltage mWPtr:&lastMW];
 	if (lastMW > inputMW) {
-		NSRunAlertPanel(@"LLLaserCalibrator",  @"Requested value (%f) below calibrated range (%f).", @"OK", 
-						nil, nil, inputMW, lastMW);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                       @"Requested value (%f) below calibrated range (%f).", inputMW, lastMW]];
+//		NSRunAlertPanel(@"LLLaserCalibrator",  @"Requested value (%f) below calibrated range (%f).", @"OK",
+//						nil, nil, inputMW, lastMW);
 		return -FLT_MAX;
 	}
 	calibrationArray = [NSMutableArray arrayWithArray:[taskDefaults arrayForKey:LLLaserCalibratorArrayKey]];
@@ -174,7 +179,9 @@ NSString *mWKey = @"mW";
 		number = [entry valueForKey:mWKey];
 		value = [number floatValue];
 		if (value < lastValue) {
-			NSRunAlertPanel(@"LLLaserCalibrator",  @"Calibration must be a monotonic function.", @"OK", nil, nil);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                                       informativeText:@"Calibration must be a monotonic function."];
+//			NSRunAlertPanel(@"LLLaserCalibrator",  @"Calibration must be a monotonic function.", @"OK", nil, nil);
 			return NO;
 		}
 		lastValue = value;

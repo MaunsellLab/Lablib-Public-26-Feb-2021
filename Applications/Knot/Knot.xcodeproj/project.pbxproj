@@ -26,7 +26,7 @@
 		69F11F550B1E70410068A6CF /* Correct.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F540B1E70410068A6CF /* Correct.aiff */; };
 		69F11F570B1E704A0068A6CF /* NotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F560B1E704A0068A6CF /* NotCorrect.aiff */; };
 		69F11F5D0B1E70700068A6CF /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F11F5C0B1E70700068A6CF /* Lablib.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		69F120460B1E72F00068A6CF /* Lablib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69F11F5C0B1E70700068A6CF /* Lablib.framework */; };
+		69F120460B1E72F00068A6CF /* Lablib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69F11F5C0B1E70700068A6CF /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		69F36A7605670A9A009AED51 /* KNAppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69822BCA044760BB00A80164 /* KNAppController.h */; };
 		69F36A7E05670A9A009AED51 /* KNSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B9AE720482FBDD00F95509 /* KNSummaryController.h */; };
 		69F36A9205670A9A009AED51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -249,7 +249,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = 69CA1DF1088DA56D00D7ADEE /* Build configuration list for PBXProject "Knot" */;
 			compatibilityVersion = "Xcode 3.2";

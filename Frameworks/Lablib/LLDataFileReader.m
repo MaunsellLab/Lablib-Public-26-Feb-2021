@@ -10,6 +10,7 @@
 
 #import "LLDataFileReader.h"
 #import "LLProgressIndicator.h"
+#import "LLSystemUtil.h"
 
 enum {kSingleDevice = 1, kMultiDevice};
 
@@ -234,9 +235,11 @@ enum {kSingleDevice = 1, kMultiDevice};
 
 - (void)dataDeviceMixError;
 {
-	NSRunAlertPanel(@"LLDataFileReader",  
-			@"Cannot process file with mix of single an multi-device data", 
-			@"OK", nil, nil);
+    [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
+            @"Cannot process file with mix of single an multi-device data"];
+//	NSRunAlertPanel(@"LLDataFileReader",
+//			@"Cannot process file with mix of single an multi-device data", 
+//			@"OK", nil, nil);
 }
 
 - (NSString *)dataString {
@@ -366,9 +369,11 @@ them.
 // We can't do anything if the trial start codes are not defined
 
 	if (trialStartEventCode < 0) {
-		NSRunAlertPanel(@"LLDataFileReader",  
-			@"Cannot convert %@ to Matlab format because it does not contain \"trialStart\" events.", 
-			@"OK", nil, nil, fileName);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+            @"Cannot convert %@ to Matlab format because it does not contain \"trialStart\" events.", fileName]];
+//		NSRunAlertPanel(@"LLDataFileReader",
+////			@"Cannot convert %@ to Matlab format because it does not contain \"trialStart\" events.",
+//			@"OK", nil, nil, fileName);
 	}
 	
 // Make a dictionary for all the events that are to be bundled as samples or timestamps.  We use the event
@@ -482,8 +487,10 @@ them.
 				}
 				else {
 					if (!warned) {
-						NSRunAlertPanel(@"LLDataFileReader", @"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.",
-							@"OK", nil, nil, pEvent->name);
+                        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
+                            [NSString stringWithFormat:@"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.", pEvent->name]];
+//						NSRunAlertPanel(@"LLDataFileReader", @"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.",
+//							@"OK", nil, nil, pEvent->name);
 						warned = YES;
 					}
 				}
@@ -523,8 +530,7 @@ them.
 
 		if ([progress needsUpdate]) {
 			[progress setDoubleValue:dataIndex];				// set progress bar
-			if (([NSApp runModalSession:session] != NSRunContinuesResponse) ||
-									[progress cancelled]) {
+			if (([NSApp runModalSession:session] != NSModalResponseContinue) || [progress cancelled]) {
 				aborted = YES;
 				break;
 			}
@@ -562,7 +568,7 @@ them.
 	return fileData;
 }
 
-- (NSCalendarDate *)fileDate;
+- (NSDate *)fileDate;
 {
 	return fileDate;
 }
@@ -852,9 +858,12 @@ them.
 	}
 	
 	if (eventCode >= numEvents) {
-		NSRunAlertPanel(@"LLDataFileReader",  @"Read event code %ld at 0x%lx but only %ld event defined", 
-			@"OK", nil, nil, eventCode, currentEventIndex, numEvents);
-		exit(0); 
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
+            [NSString stringWithFormat:@"Read event code %ld at 0x%lx but only %ld event defined",
+             eventCode, currentEventIndex, numEvents]];
+//		NSRunAlertPanel(@"LLDataFileReader",  @"Read event code %ld at 0x%lx but only %ld event defined",
+//			@"OK", nil, nil, eventCode, currentEventIndex, numEvents);
+		exit(0);
 	}
 	
 // We've now got the code that we want, but we need to advance the dataIndex
@@ -888,7 +897,8 @@ them.
 //		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
 		return NO;
 	}
-    fileWrap = [[[NSFileWrapper alloc] initWithPath:[absoluteURL path]] autorelease];
+    fileWrap = [[[NSFileWrapper alloc] initWithURL:absoluteURL options:NULL error:NULL] autorelease];
+//    fileWrap = [[[NSFileWrapper alloc] initWithPath:[absoluteURL path]] autorelease];
 	if ((result = [self setFileData:[fileWrap regularFileContents]])) {
         fileName = [[[absoluteURL path] lastPathComponent] retain];
     }
@@ -932,7 +942,8 @@ them.
     char buffer[1024];
     short length;
     long index, dataBytes;
-	NSString *eventName;
+	NSString *eventName, *dateTimeString;
+    NSDateFormatter *dateFormatter;
 	LLDataEventDef *dataEventDef;
 
 	fileData = [data copyWithZone:[self zone]];
@@ -945,14 +956,18 @@ them.
     dataIndex = 0;
     [self dataBytes:buffer length:2];
     if (buffer[0] != 7 || buffer[1] < 2 || buffer[1] > 6) {
-		NSRunAlertPanel(@"LLDataFileReader", 
-			@"Cannot parse format specifier in file", @"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                                   informativeText:@"Cannot parse format specifier in file"];
+//		NSRunAlertPanel(@"LLDataFileReader",
+//			@"Cannot parse format specifier in file", @"OK", nil, nil);
         return NO;
     }
     length = buffer[1];
     [self dataBytes:buffer length:length];
     if (buffer[0] != '0' || buffer[1] != '0') {
-		NSRunAlertPanel(@"LLDataFileReader",  @"File's format specifier has bad format", @"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                                   informativeText:@"File's format specifier has bad format"];
+//		NSRunAlertPanel(@"LLDataFileReader",  @"File's format specifier has bad format", @"OK", nil, nil);
         return NO;
     }
 
@@ -961,21 +976,27 @@ them.
 	buffer[length] = '\0';						// null terminate version string
 	sscanf(buffer, "%f", &dataFormat);			// get the data format
     if (dataFormat < 6) {
-		NSRunAlertPanel(@"LLDataFileReader",  @"File has wrong data format (%f instead of >= 6)",
-								@"OK", nil, nil, dataFormat);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+               @"File has wrong data format (%f instead of >= 6)", dataFormat]];
+//		NSRunAlertPanel(@"LLDataFileReader",  @"File has wrong data format (%f instead of >= 6)",
+//								@"OK", nil, nil, dataFormat);
         return NO;
     }
 	dataDefinitions = (dataFormat > 6.0);		// data definitions started with format 6.1
 #ifdef __LP64__
     if (dataFormat < 6.3) {
-        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 32-bit mode to read this data file",
-                        @"OK", nil, nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                                   informativeText:@"You must run DataConvert in 32-bit mode to read this data file"];
+//        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 32-bit mode to read this data file",
+//                        @"OK", nil, nil, nil);
         return NO;
     }
 #else
     if (dataFormat > 6.2) {
-        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 64-bit mode to read this data file",
-                        @"OK", nil, nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                                   informativeText:@"You must run DataConvert in 64-bit mode to read this data file"];
+//        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 64-bit mode to read this data file",
+//                        @"OK", nil, nil, nil);
         return NO;
     }
 #endif
@@ -1004,15 +1025,23 @@ them.
 // Read and format the creation data and time
 
 	[fileCreateDate release];
+    [fileDate release];
+    [fileCreateTime release];
 	fileCreateDate = [self dataString];
 	[fileCreateDate retain];
-	[fileCreateTime release];
 	fileCreateTime = [self dataString];
 	[fileCreateTime retain];
-	[fileDate release];
-    fileDate = [[NSCalendarDate alloc]  
-        initWithString:[fileCreateDate stringByAppendingString:fileCreateTime]
-        calendarFormat:@"%B %d, %Y %H:%M:%S"];
+    dateTimeString = [NSString stringWithFormat:@"%@ %@", fileCreateDate, fileCreateTime];
+    dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    [dateFormatter setLocale:[NSLocale currentLocale]];
+    [dateFormatter setDateFormat:@"MMMM dd, yyyy HH:mm:ss"];
+    [dateFormatter setFormatterBehavior:NSDateFormatterBehaviorDefault];
+    fileDate = [dateFormatter dateFromString:dateTimeString];
+//    fileDate = [[NSDate alloc] initWithString:[fileCreateDate stringByAppendingString:fileCreateTime]
+//                               calendarFormat:@"%B %d, %Y %H:%M:%S"];
+    [fileDate retain];
+    [dateFormatter release];
     firstDataEventIndex = dataIndex;
 	[self countEvents];
 	[self rewind];

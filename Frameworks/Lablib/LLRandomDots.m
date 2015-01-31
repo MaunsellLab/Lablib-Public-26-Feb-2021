@@ -7,6 +7,7 @@
 
 #import "LLRandomDots.h"
 #import "LLMultiplierTransformer.h"
+#import "LLSystemUtil.h"
 
 #define	kCircleSections		40
 
@@ -116,8 +117,10 @@ float stencilRadiusDeg = FLT_MAX;
 	}
 	if (displays == nil) {
 		if (!warned) {
-			NSRunAlertPanel(@"LLRandomDots",  @"Can't draw movie until \"displays\" is initialized", @"OK", 
-							nil, nil);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                                       informativeText:@"Can't draw movie until \"displays\" is initialized"];
+//			NSRunAlertPanel(@"LLRandomDots",  @"Can't draw movie until \"displays\" is initialized", @"OK",
+//							nil, nil);
 			warned = YES;
 		}
 		return;

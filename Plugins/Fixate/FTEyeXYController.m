@@ -206,7 +206,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 {
 	LLEyeCalibrationData cal;
     
-	[eventData getBytes:&cal];
+    [eventData getBytes:&cal length:sizeof(LLEyeCalibrationData)];
     
 	[unitsToDeg[eyeIndex] setTransformStruct:cal.calibration];
 	[degToUnits[eyeIndex] setTransformStruct:cal.calibration];
@@ -313,7 +313,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 {
 	FixWindowData fixWindowData;
     
-	[eventData getBytes:&fixWindowData];
+	[eventData getBytes:&fixWindowData length:sizeof(FixWindowData)];
 	eyeWindowRectDeg = fixWindowData.windowDeg;
     [eyePlot setNeedsDisplay:YES];
 }

@@ -27,6 +27,7 @@ NSUserDefaults (e.g., dialogs) should be loaded fresh each time they appear
 */
 
 #import "LLSettingsController.h"
+#import "LLSystemUtil.h"
 
 NSString *LLSettingsChanged = @"LLSettings Changed";
 
@@ -67,39 +68,66 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (IBAction)deleteSettings:(id)sender;
 {
+    NSAlert *theAlert = [[NSAlert alloc] init];
+    
+    [theAlert setMessageText:[self className]];
 	if ([settingsNameArray count] == 1) {
-		NSBeginAlertSheet(@"LLSettingsController", 
-			@"OK", nil, nil, [self window], self, nil,
-			@selector(deleteSheetDidEnd:returnCode:contextInfo:), nil,
-			@"There must always be least one configuration"); 
+        [theAlert setInformativeText:@"There must always be least one configuration"];
+        [theAlert beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
+            if (result == NSModalResponseOK) {
+            }
+        }];
+//        NSBeginAlertSheet(@"LLSettingsController",
+//			@"OK", nil, nil, [self window], self, nil,
+//			@selector(deleteSheetDidEnd:returnCode:contextInfo:), nil,
+//			@"There must always be least one configuration"); 
 	}
 	else {
-		NSBeginAlertSheet(@"LLSettingsController", 
-			@"Delete", @"Cancel", nil, [self window], self, nil,
-			@selector(deleteSheetDidEnd:returnCode:contextInfo:), nil,
-                          @"Really delete configuration? This operation cannot be undone.");
+        [theAlert setInformativeText:@"Really delete configuration? This operation cannot be undone."];
+        [theAlert addButtonWithTitle:@"Delete"];
+        [theAlert addButtonWithTitle:@"Cancel"];
+        [theAlert beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
+            long row;
+            switch (result) {
+                case NSAlertFirstButtonReturn:					// DELETE the settings
+                    row = [settingsTable selectedRow];			// row to delete
+                    [[NSFileManager defaultManager] removeItemAtPath:
+                            [self pathToFile:[settingsNameArray objectAtIndex:row]] error:NULL];
+                    [settingsNameArray removeObjectAtIndex:row];//  and their name
+                    [settingsTable reloadData];					// update table display
+                    break;
+                case NSAlertSecondButtonReturn:                 // CANCEL the deletion
+                default:
+                    break;
+            }
+        }];
+//        NSBeginAlertSheet(@"LLSettingsController",
+//            @"Delete", @"Cancel", nil, [self window], self, nil,
+//			@selector(deleteSheetDidEnd:returnCode:contextInfo:), nil,
+//                          @"Really delete configuration? This operation cannot be undone.");
 	}
+    [theAlert release];
 }
 
-- (void)deleteSheetDidEnd:(id)sheet returnCode:(long)code contextInfo:(id)contextInfo;
-{
-	long row;
-	
-	if ([settingsNameArray count] > 1) {				// never delete when there is only one
-		switch (code) {
-		case NSAlertDefaultReturn:						// OK to delete the settings
-			row = [settingsTable selectedRow];			// row to delete
-			[[NSFileManager defaultManager] removeItemAtPath:[self pathToFile:[settingsNameArray objectAtIndex:row]]
-							error:NULL];
-			[settingsNameArray removeObjectAtIndex:row];//  and their name
-			[settingsTable reloadData];					// update table display
-			break;
-		case NSAlertAlternateReturn:
-		default:
-			break;
-		}
-	}
-}
+//- (void)deleteSheetDidEnd:(id)sheet returnCode:(long)code contextInfo:(id)contextInfo;
+//{
+//	long row;
+//	
+//	if ([settingsNameArray count] > 1) {				// never delete when there is only one
+//		switch (code) {
+//		case NSAlertDefaultReturn:						// OK to delete the settings
+//			row = [settingsTable selectedRow];			// row to delete
+//			[[NSFileManager defaultManager] removeItemAtPath:[self pathToFile:[settingsNameArray objectAtIndex:row]]
+//							error:NULL];
+//			[settingsNameArray removeObjectAtIndex:row];//  and their name
+//			[settingsTable reloadData];					// update table display
+//			break;
+//		case NSAlertAlternateReturn:
+//		default:
+//			break;
+//		}
+//	}
+//}
 
 - (NSString *)domainNameWithName:(NSString *)name;
 {
@@ -344,14 +372,19 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 		return;
 	}
 	if ([newName length] == 0) {												// blank name, not allowed
-		NSRunAlertPanel(@"LLSettingsController", @"Please use a name that is not blank.",
-					@"OK", nil, nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                    informativeText:@"Please use a name that is not blank."];
+//		NSRunAlertPanel(@"LLSettingsController", @"Please use a name that is not blank.",
+//					@"OK", nil, nil, nil);
 		disallowNextSelectionChange = YES;
 		return;
 	}
 	if ([settingsNameArray containsObject:newName]) {						// Name already taken
-		NSRunAlertPanel(@"LLSettingsController", @"The name \"%@\" is already in use, please select another.",
-					@"OK", nil, nil, newName);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                informativeText:[NSString stringWithFormat:@"The name \"%@\" is already in use, please select another.",
+                newName]];
+//		NSRunAlertPanel(@"LLSettingsController", @"The name \"%@\" is already in use, please select another.",
+//					@"OK", nil, nil, newName);
 		disallowNextSelectionChange = YES;
 		return;
 	}

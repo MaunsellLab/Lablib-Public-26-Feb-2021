@@ -154,9 +154,12 @@ static	LLMouseDataSettings	*mouseSettings;
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-		NSRunAlertPanel(@"LLDataDevice",  
-				@"Attempt to set sample period %ld of %lu for device %@",
-				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                @"Attempt to set sample period %ld of %lu for device %@",
+                channel, (unsigned long)[samplePeriodMS count], [self name]]];
+//		NSRunAlertPanel(@"LLDataDevice",
+//				@"Attempt to set sample period %ld of %lu for device %@",
+//				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	[samplePeriodMS removeAllObjects];
@@ -190,7 +193,7 @@ static	LLMouseDataSettings	*mouseSettings;
 	for (channel = 0; channel < kLLMouseDigitalBits; channel++) {
 		if (mouseButtonBits & (0x01 << channel)) {
 			timeTicks = timeMS * (1.0 / [[timestampPeriodMS objectAtIndex:channel] floatValue]);
-			timestampData[channel] = [NSData dataWithBytes:&timeTicks length:sizeof(long)];
+			timestampData[channel] = [NSMutableData dataWithBytes:&timeTicks length:sizeof(long)];
 		}
 		else {
 			timestampData[channel] = nil;

@@ -94,10 +94,10 @@ NSString *windowZoomKey = @"WindowZoom";
 	maxContentSize.width = baseMaxContentSize.width * scaleFactor;
 	maxContentSize.height = baseMaxContentSize.height * scaleFactor;
 	scrollFrameRect.origin = NSMakePoint(0, 0);
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
     hScroller = [scrollView horizontalScroller];
     vScroller = [scrollView verticalScroller];
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
+    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
                     horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class] 
                     borderType:[scrollView borderType]
                     controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
@@ -122,15 +122,25 @@ NSString *windowZoomKey = @"WindowZoom";
 {
 	long index, defaultZoom;
 	NSRect maxScrollRect;
+    NSScroller *hScroller, *vScroller;
 	
 	[self setWindowFrameAutosaveName:viewName];
 	[[self window] setDelegate:self];
 	maxScrollRect = [NSWindow contentRectForFrameRect:
 		NSMakeRect(0, 0, [[self window] maxSize].width, [[self window] maxSize].height)
 		styleMask:[[self window] styleMask]];
-	baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size 
-			hasHorizontalScroller:YES hasVerticalScroller:YES
-			borderType:[scrollView borderType]];
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+    hScroller = [scrollView horizontalScroller];
+    vScroller = [scrollView verticalScroller];
+    baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+                                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                                borderType:[scrollView borderType]
+                                controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+    baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+                                         hasHorizontalScroller:YES hasVerticalScroller:YES
+                                                    borderType:[scrollView borderType]];
+#endif
     [[zoomButton cell] setBordered:NO];
     [[zoomButton cell] setBezeled:YES];
     [[zoomButton cell] setFont:[NSFont labelFontOfSize:10.0]];

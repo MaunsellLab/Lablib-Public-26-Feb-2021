@@ -7,6 +7,7 @@
 //
 
 #import "LLStandardFileNames.h"
+#import "LLSystemUtil.h"
 
 #define kLLDefaultDataDir	@"/Users/Shared/Data"
 
@@ -109,16 +110,20 @@ NSString	*LLDataFileExtention = @"dat";
 	
 	if (![manager fileExistsAtPath:path isDirectory:&isDirectory]) {
 		if (![manager createDirectoryAtPath:kLLDefaultDataDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
-			NSRunAlertPanel(@"LLStandardFileNames",  
-						@"Unable to create directory \"%@\".", @"OK", 
-						nil, nil, path);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                    informativeText:[NSString stringWithFormat:@"Unable to create directory \"%@\".", path]];
+//			NSRunAlertPanel(@"LLStandardFileNames",
+//						@"Unable to create directory \"%@\".", @"OK", 
+//						nil, nil, path);
 			return NO;
 		}
 	}
 	else if (!isDirectory) {
-		NSRunAlertPanel(@"LLStandardFileNames",  
-			@"Cannot create data directory  \"%@\" because file exist with that name.", 
-			@"OK", nil, nil, path);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+             @"Cannot create data directory  \"%@\" because file exist with that name.", path]];
+//		NSRunAlertPanel(@"LLStandardFileNames",
+//			@"Cannot create data directory  \"%@\" because file exist with that name.", 
+//			@"OK", nil, nil, path);
 		return NO;
 	}
 	return YES;

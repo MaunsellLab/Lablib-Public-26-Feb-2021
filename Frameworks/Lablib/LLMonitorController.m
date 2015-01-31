@@ -7,6 +7,7 @@
 //
 
 #import "LLMonitorController.h"
+#import "LLSystemUtil.h"
 
 NSString *LLMonitorUpdated = @"LL Report Updated";
 
@@ -18,8 +19,11 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 		[monitorMenu removeAllItems];
 	}
 	if ([monitorMenu indexOfItemWithTitle:[monitor IDString]] != -1) {
-		NSRunAlertPanel(@"LLMonitorController",  @"Attempting to add monitor \"%@|' a second time. (You are probably failling to remove it when the plugin is deallocated.)", 
-				@"OK", nil, nil, [monitor IDString]);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                @"Attempting to add monitor \"%@|' a second time. (You are probably failling to remove it when the plugin is deallocated.)",
+                [monitor IDString]]];
+//        NSRunAlertPanel(@"LLMonitorController",  @"Attempting to add monitor \"%@|' a second time. (You are probably failling to remove it when the plugin is deallocated.)",
+//				@"OK", nil, nil, [monitor IDString]);
 		exit(0);
 	}
 	[monitorMenu insertItemWithTitle:[monitor IDString] atIndex:[monitors count]];
@@ -79,8 +83,9 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 	else {
 		[configureButton setEnabled:NO];
 	}
-	datestr = [[NSCalendarDate calendarDate] 								// Update the header field
-				descriptionWithCalendarFormat:@"Updated %H:%M:%S %d %b %Y"];
+    datestr = [LLSystemUtil formattedDateString:[NSDate date] format:@"Updated %H:%M:%S %d %b %Y"]; 								// Update the header field
+//	datestr = [[NSCalendarDate calendarDate] 								// Update the header field
+//				descriptionWithCalendarFormat:@"Updated %H:%M:%S %d %b %Y"];
 	[headerField setStringValue:datestr];
 	if ([monitors count] == 0) {											// No monitors yet
         textString = [[NSAttributedString alloc] initWithString:@"\n\n(No monitors have been assigned)"];

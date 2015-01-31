@@ -143,14 +143,16 @@ static PrintView	*printView;
     char *pBuffer  = textBuffer;
 	long eventIndex;
     DataEvent *pEvent;
-    NSCalendarDate *eventDate;
+    NSDate *eventDate;
+    NSDateFormatter *dateFormatter;
+    
+//    NSCalendarDate *eventDate;
     NSMutableAttributedString *string;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	dataFormat = [defaults integerForKey:DCDataFormatKey];
     if ((pEvent = [dataReader findEventByLine:line index:&eventIndex]) == nil) {
-        NSRunAlertPanel(@"DataConvert", @"eventString: nil event returned.",
-            @"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:@"DataConvert" informativeText:@"eventString: nil event returned."];
 		exit(0);
 	}
 	index = [pEvent->data length];		// test for valid NSData object
@@ -158,11 +160,17 @@ static PrintView	*printView;
     	pBuffer += sprintf(pBuffer, "0x%0*lx ", hexAddressTextCols, eventIndex);
     }
     if ([defaults boolForKey:DCShowTimeOfDayKey]) {
-        eventDate = [[dataReader fileDate] dateByAddingYears:0 months:0 days:0 hours:0 minutes:0 
-                        seconds:(unsigned long)(pEvent->time / 1000.0)];
-        pBuffer += sprintf(pBuffer, "%02ld:%02ld:%02ld.%03ld ", 
-                    (long)[eventDate hourOfDay], (long)[eventDate minuteOfHour], (long)[eventDate secondOfMinute],
-                    (unsigned long)(pEvent->time % 1000));
+        eventDate = [[dataReader fileDate] dateByAddingTimeInterval:(unsigned long)(pEvent->time / 1000.0)];
+//        eventDate = [[dataReader fileDate] dateByAddingYears:0 months:0 days:0 hours:0 minutes:0
+//                                                     seconds:(unsigned long)(pEvent->time / 1000.0)];
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"HH:mm:ss"];
+        pBuffer += sprintf(pBuffer, "%s", [[dateFormatter stringFromDate:eventDate] UTF8String]);
+        pBuffer += sprintf(pBuffer, ".%03ld", (unsigned long)(pEvent->time % 1000));
+//        pBuffer += sprintf(pBuffer, "%02ld:%02ld:%02ld.%03ld ",
+//                    (long)[eventDate hourOfDay], (long)[eventDate minuteOfHour], (long)[eventDate secondOfMinute],
+//                    (unsigned long)(pEvent->time % 1000));
+        [dateFormatter release];
     }
     if ([defaults boolForKey:DCShowTimeKey]) {
 		pBuffer += sprintf(pBuffer, "%*ld ", kEventTimeTextCols, pEvent->trialTime);
@@ -175,8 +183,11 @@ static PrintView	*printView;
         sprintf(pBuffer, "\r");
     }
     else {
+//        if ([pEvent->name isEqualToString:@"text"]) {
+//            pBuffer += sprintf(pBuffer, "\"%s\"", (char *)[pEvent->data bytes]);
+//        }
         if ([pEvent->name isEqualToString:@"text"]) {
-            pBuffer += sprintf(pBuffer, "\"%s\"", (char *)[pEvent->data bytes]);
+            pBuffer += sprintf(pBuffer, "\"%.*s\"", (int)[pEvent->data length], (char *)[pEvent->data bytes]);
         }
         else if ([pEvent->name isEqualToString:@"sample01"]) {
             pBuffer += sprintf(pBuffer, "%*d %*d ", formatChars[kShortFormat], ((short *)[pEvent->data bytes])[0], 
@@ -584,8 +595,10 @@ static PrintView	*printView;
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError;
 {
-	NSData *eventData;
+    BOOL result;
+    NSData *eventData;
 	NSFileWrapper *matlabFileWrapper;
+
 	
 	if ([typeName isEqualTo:LLDataType]) {				// do nothing if asked to save data - we don't edit
         if (outError != NULL) {
@@ -608,15 +621,18 @@ static PrintView	*printView;
 	}
 	eventData = [dataReader eventsAsMatlabStrings]; 
     matlabFileWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:eventData];
-	if ([matlabFileWrapper writeToFile:[absoluteURL path] atomically:YES updateFilenames:YES]) {
-        if (outError != NULL) {
-            *outError = nil;
-        }
-	}
-	else {
-	}
+    result = [matlabFileWrapper writeToURL:absoluteURL
+            options:NSFileWrapperWritingAtomic | NSFileWrapperWritingWithNameUpdating
+            originalContentsURL:nil error:outError];
+//  if ([matlabFileWrapper writeToFile:[absoluteURL path] atomically:YES updateFilenames:YES]) {
+//        if (outError != NULL) {
+//            *outError = nil;
+//        }
+//	}
+//	else {
+//	}
 	[matlabFileWrapper release];
-	return YES;
+	return result;
 }
 
 @end

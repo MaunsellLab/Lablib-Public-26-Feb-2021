@@ -84,7 +84,8 @@ TrialDesc				trial;
     long stimType;
 	static long lastStimType = -1;
 	
-	[eventData getBytes:&stimType];
+    [eventData getBytes:&stimType length:sizeof(long)];
+//    [eventData getBytes:&stimType];
     if (stimType != lastStimType) {
         lastStimType = stimType;
 	}

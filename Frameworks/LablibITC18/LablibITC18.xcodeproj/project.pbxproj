@@ -25,7 +25,7 @@
 		69D82D1A0B06A1EE00E8C369 /* LLITCMonitorSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 697139630506216500F95523 /* LLITCMonitorSettings.nib */; };
 		69D82D1B0B06A1EE00E8C369 /* LLITC18DataSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6979D29D09255958003DB437 /* LLITC18DataSettings.nib */; };
 		69D82D1D0B06A1FB00E8C369 /* LLITC18DataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */; };
-		69DC82D815CF0BCC009F80C5 /* LablibITC18.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */; };
+		69DC82D815CF0BCC009F80C5 /* LablibITC18.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		69F368B2056705B9009AED51 /* LLITC18_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* LLITC18_Prefix.h */; };
 		69F368B5056705B9009AED51 /* LLITCMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 69080C6804FCF4AF00F95530 /* LLITCMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F368B6056705B9009AED51 /* LLITCMonitorSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6971395F0506215500F95523 /* LLITCMonitorSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -273,7 +273,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibITC18" */;
 			compatibilityVersion = "Xcode 3.2";
