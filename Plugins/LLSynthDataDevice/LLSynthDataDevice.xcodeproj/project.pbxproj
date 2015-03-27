@@ -19,7 +19,6 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* LLSynthDataDevice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthDataDevice_Prefix.pch; sourceTree = "<group>"; };
-		69B6C4071A758B10002956B8 /* File */ = {isa = PBXFileReference; lastKnownFileType = text; name = File; path = ../../../../Users/maunsell/Desktop/File; sourceTree = "<group>"; };
 		69E8CA930B0A4A8000DBD2A2 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
 		69E8CA9B0B0A4A9900DBD2A2 /* LLSynthDataDevicePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthDataDevicePlugin.h; sourceTree = "<group>"; };
 		69E8CA9C0B0A4A9900DBD2A2 /* LLSynthDataDevicePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSynthDataDevicePlugin.m; sourceTree = "<group>"; };
@@ -44,7 +43,6 @@
 		089C166AFE841209C02AAC07 /* LLSynthDataDevice */ = {
 			isa = PBXGroup;
 			children = (
-				69B6C4071A758B10002956B8 /* File */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -143,7 +141,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "LLSynthDataDevice" */;
 			compatibilityVersion = "Xcode 3.2";
