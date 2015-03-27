@@ -357,25 +357,25 @@
 
 - (void)setNeedsDisplayInRect;
 {
-    static long counter = 0;
-    NSRect vRect;
+//    static long counter = 0;
+//    NSRect vRect;
     
-    if ((++counter % 500) == 0) {
-        vRect = [self visibleRect];
-        NSLog(@"IN: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
-        NSLog(@"LLEyeXYView visible:    %.0f %.0f %.0f %.0f", vRect.origin.x, vRect.origin.y, vRect.size.width, vRect.size.height);
-        NSLog(@" LLEyeXYView dirtyRect: %.0f %.0f %.0f %.0f", dirtyRectPix.origin.x, dirtyRectPix.origin.y, dirtyRectPix.size.width, dirtyRectPix.size.height);
-        if (NSPointInRect(dirtyRectPix.origin, vRect)) {
-            NSLog(@" dirtyRect Visible");
-        }
-        else {
-            NSLog(@" dirtyRect NOT Visible");
-        }
-    }
+//    if ((++counter % 500) == 0) {
+//        vRect = [self visibleRect];
+//        NSLog(@"IN: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
+//        NSLog(@"LLEyeXYView visible:    %.0f %.0f %.0f %.0f", vRect.origin.x, vRect.origin.y, vRect.size.width, vRect.size.height);
+//        NSLog(@" LLEyeXYView dirtyRect: %.0f %.0f %.0f %.0f", dirtyRectPix.origin.x, dirtyRectPix.origin.y, dirtyRectPix.size.width, dirtyRectPix.size.height);
+//        if (NSPointInRect(dirtyRectPix.origin, vRect)) {
+//            NSLog(@" dirtyRect Visible");
+//        }
+//        else {
+//            NSLog(@" dirtyRect NOT Visible");
+//        }
+//    }
     [self setNeedsDisplayInRect:dirtyRectPix];
-    if ((counter % 500) == 0) {
-        NSLog(@" OUT: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
-    }
+//    if ((counter % 500) == 0) {
+//        NSLog(@" OUT: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
+//    }
 }
 
 - (void)setOneInN:(CGFloat)n;
