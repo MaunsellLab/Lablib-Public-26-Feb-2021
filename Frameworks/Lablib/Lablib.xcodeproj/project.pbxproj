@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6904B09B08EF34FB00437691 /* LLSynthDataSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6904B09908EF34FB00437691 /* LLSynthDataSettings.nib */; };
 		6904B0A408EF39C700437691 /* LLDataDeviceController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6904B0A208EF39C700437691 /* LLDataDeviceController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6904B0A508EF39C700437691 /* LLDataDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0A308EF39C700437691 /* LLDataDeviceController.m */; };
-		6904B2BE08EF58D800437691 /* LLDataDeviceController.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6904B2BC08EF58D800437691 /* LLDataDeviceController.nib */; };
 		6905D24C0966EDB2009C96F6 /* LLPluginController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6905D24A0966EDB2009C96F6 /* LLPluginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6905D24D0966EDB2009C96F6 /* LLPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6905D24B0966EDB2009C96F6 /* LLPluginController.m */; };
 		6910CE361595F86500E0A375 /* LLBinocCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6910CE351595F86500E0A375 /* LLBinocCalibrator.plist */; };
@@ -22,7 +20,6 @@
 		6912F8A80919029C009B1CD1 /* LLMouseDataSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6912F8A60919029C009B1CD1 /* LLMouseDataSettings.m */; };
 		691C42300B25E87500DA5103 /* LLStateSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 691C40590B25E87400DA5103 /* LLStateSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691C42310B25E87500DA5103 /* LLStateSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 691C405A0B25E87400DA5103 /* LLStateSystem.m */; };
-		69217A2A0EB7A34500F74DEC /* LLPulseTrain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6984E5B80E672A3200A9E7CB /* LLPulseTrain.nib */; };
 		69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */; };
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69366665139E66B9000508B6 /* ResetButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69366664139E66B9000508B6 /* ResetButton.tif */; };
@@ -31,28 +28,46 @@
 		693D9EBB160529A700113D5D /* LLHeatMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 693D9EBA160529A700113D5D /* LLHeatMapView.m */; };
 		693F0A970F4CF3D600C5E111 /* LLPlaid.h in Headers */ = {isa = PBXBuildFile; fileRef = 693F0A950F4CF3D600C5E111 /* LLPlaid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		693F0A980F4CF3D600C5E111 /* LLPlaid.m in Sources */ = {isa = PBXBuildFile; fileRef = 693F0A960F4CF3D600C5E111 /* LLPlaid.m */; };
-		693F0A9D0F4CF3F400C5E111 /* LLPlaid.nib in Resources */ = {isa = PBXBuildFile; fileRef = 693F0A9B0F4CF3F400C5E111 /* LLPlaid.nib */; };
 		694761B6092A782600841167 /* LLLaserCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 694761B5092A782600841167 /* LLLaserCalibrator.plist */; };
-		694764B5092AA8A400841167 /* LLMouseDataSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 694764B3092AA8A400841167 /* LLMouseDataSettings.nib */; };
 		69476829092BE72B00841167 /* PlayButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476826092BE72B00841167 /* PlayButton.tif */; };
 		6947682A092BE72B00841167 /* StopButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476827092BE72B00841167 /* StopButton.tif */; };
 		6947682B092BE72B00841167 /* StoppingButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476828092BE72B00841167 /* StoppingButton.tif */; };
-		6947B50809B4AEF500769EE4 /* LLBar.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6947B50609B4AEF500769EE4 /* LLBar.nib */; };
-		6947B62909B4DA5A00769EE4 /* LLGabor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6947B62709B4DA5A00769EE4 /* LLGabor.nib */; };
 		694D0C66077B61710025BAA4 /* LLTaskPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 694D0C64077B61710025BAA4 /* LLTaskPlugIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		694D0C67077B61710025BAA4 /* LLTaskPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 694D0C65077B61710025BAA4 /* LLTaskPlugIn.m */; };
 		6953194A09B6227E00EC15C7 /* LLOldGabor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6953182E09B6227E00EC15C7 /* LLOldGabor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6953194B09B6227E00EC15C7 /* LLOldGabor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6953182F09B6227E00EC15C7 /* LLOldGabor.m */; };
-		6953196309B6233100EC15C7 /* LLRandomDots.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6953196109B6233000EC15C7 /* LLRandomDots.nib */; };
 		6955FA45091A540F0009EFDB /* LLPulseTrain.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6955FA44091A540F0009EFDB /* LLPulseTrain.plist */; };
 		695BC60805DC1C6300D98433 /* LLFixTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 695BC60405DC1C6300D98433 /* LLFixTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695BC60905DC1C6300D98433 /* LLFixTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 695BC60505DC1C6300D98433 /* LLFixTarget.m */; };
 		695C06D5064BDEA600809DAA /* LLDefaultAboutBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 695C06D3064BDEA600809DAA /* LLDefaultAboutBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695C06D6064BDEA600809DAA /* LLDefaultAboutBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 695C06D4064BDEA600809DAA /* LLDefaultAboutBox.m */; };
-		695C06DB064BDEBB00809DAA /* LLDefaultAboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 695C06D9064BDEBB00809DAA /* LLDefaultAboutPanel.nib */; };
-		695C12CD09B103DC0021A27D /* LLFixTarget.nib in Resources */ = {isa = PBXBuildFile; fileRef = 695C12CB09B103DC0021A27D /* LLFixTarget.nib */; };
 		695C167709B15D090021A27D /* LLVisualStimulus.m in Sources */ = {isa = PBXBuildFile; fileRef = 695C167609B15D090021A27D /* LLVisualStimulus.m */; };
-		695C1AE209B3AC560021A27D /* LLVisualStimulus.nib in Resources */ = {isa = PBXBuildFile; fileRef = 695C1AE009B3AC560021A27D /* LLVisualStimulus.nib */; };
+		695EFEA61AC6219100D9D458 /* English.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEA51AC6219100D9D458 /* English.lproj */; };
+		695EFEA81AC6221B00D9D458 /* LLBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEA71AC6221B00D9D458 /* LLBar.xib */; };
+		695EFEC21AC6225B00D9D458 /* LLControlPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEA91AC6225B00D9D458 /* LLControlPanel.xib */; };
+		695EFEC31AC6225B00D9D458 /* LLDataDeviceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEAA1AC6225B00D9D458 /* LLDataDeviceController.xib */; };
+		695EFEC41AC6225B00D9D458 /* LLDataDoc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEAB1AC6225B00D9D458 /* LLDataDoc.xib */; };
+		695EFEC51AC6225B00D9D458 /* LLDefaultAboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEAC1AC6225B00D9D458 /* LLDefaultAboutPanel.xib */; };
+		695EFEC61AC6225B00D9D458 /* LLDisplaySettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEAD1AC6225B00D9D458 /* LLDisplaySettings.xib */; };
+		695EFEC71AC6225B00D9D458 /* LLEyeCalibrator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEAE1AC6225B00D9D458 /* LLEyeCalibrator.xib */; };
+		695EFEC81AC6225B00D9D458 /* LLFixTarget.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEAF1AC6225B00D9D458 /* LLFixTarget.xib */; };
+		695EFEC91AC6225B00D9D458 /* LLGabor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB01AC6225B00D9D458 /* LLGabor.xib */; };
+		695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB11AC6225B00D9D458 /* LLIntervalMonitorSettings.xib */; };
+		695EFECB1AC6225B00D9D458 /* LLIODeviceSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB21AC6225B00D9D458 /* LLIODeviceSettings.xib */; };
+		695EFECC1AC6225B00D9D458 /* LLLaserCalibrator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB31AC6225B00D9D458 /* LLLaserCalibrator.xib */; };
+		695EFECD1AC6225B00D9D458 /* LLMonitorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB41AC6225B00D9D458 /* LLMonitorController.xib */; };
+		695EFECE1AC6225B00D9D458 /* LLMonitorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB51AC6225B00D9D458 /* LLMonitorView.xib */; };
+		695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB61AC6225B00D9D458 /* LLMouseDataSettings.xib */; };
+		695EFED01AC6225B00D9D458 /* LLMouseIOSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB71AC6225B00D9D458 /* LLMouseIOSettings.xib */; };
+		695EFED11AC6225B00D9D458 /* LLPlaid.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB81AC6225B00D9D458 /* LLPlaid.xib */; };
+		695EFED21AC6225B00D9D458 /* LLPluginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEB91AC6225B00D9D458 /* LLPluginController.xib */; };
+		695EFED31AC6225B00D9D458 /* LLProgressIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEBA1AC6225B00D9D458 /* LLProgressIndicator.xib */; };
+		695EFED41AC6225B00D9D458 /* LLPulseTrain.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEBB1AC6225B00D9D458 /* LLPulseTrain.xib */; };
+		695EFED51AC6225B00D9D458 /* LLRandomDots.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEBC1AC6225B00D9D458 /* LLRandomDots.xib */; };
+		695EFED61AC6225B00D9D458 /* LLSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEBD1AC6225B00D9D458 /* LLSettingsController.xib */; };
+		695EFED71AC6225B00D9D458 /* LLStimulusTrain.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEBE1AC6225B00D9D458 /* LLStimulusTrain.xib */; };
+		695EFED81AC6225B00D9D458 /* LLSynthDataSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEBF1AC6225B00D9D458 /* LLSynthDataSettings.xib */; };
+		695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEC11AC6225B00D9D458 /* LLVisualStimulus.xib */; };
 		6961C4B207AC429F005F0666 /* LLTaskStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 6961C4B007AC429F005F0666 /* LLTaskStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6961C4B307AC429F005F0666 /* LLTaskStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 6961C4B107AC429F005F0666 /* LLTaskStatus.m */; };
 		6961C53007AC465F005F0666 /* LLTaskStatusTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6961C52E07AC465F005F0666 /* LLTaskStatusTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,7 +85,6 @@
 		696D383C059E39440018E5D5 /* LLTrialBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 696D383A059E39440018E5D5 /* LLTrialBlock.m */; };
 		696DF6540EB8E53A0004FC8E /* LLLaserCalibrator.h in Headers */ = {isa = PBXBuildFile; fileRef = 696DF6520EB8E53A0004FC8E /* LLLaserCalibrator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		696DF6550EB8E53A0004FC8E /* LLLaserCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */; };
-		696DF6DB0EB8F0240004FC8E /* LLLaserCalibrator.nib in Resources */ = {isa = PBXBuildFile; fileRef = 696DF6D90EB8F0240004FC8E /* LLLaserCalibrator.nib */; };
 		696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 696FEDD10B7B854A002D6D54 /* LLMathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		696FEDD80B7B86E5002D6D54 /* LLMathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */; };
 		6971365007E252D50083188B /* LLSynthSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D01640479219700A80164 /* LLSynthSaccade.m */; };
@@ -116,10 +130,8 @@
 		69A86C4E0780BA01009A47EC /* LLTaskStatusImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A86C4C0780BA01009A47EC /* LLTaskStatusImageTransformer.m */; };
 		69A86C8F0780C130009A47EC /* LLControlPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 69A86C8D0780C130009A47EC /* LLControlPanel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69A86C900780C130009A47EC /* LLControlPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A86C8E0780C130009A47EC /* LLControlPanel.m */; };
-		69A86CB90780C27A009A47EC /* LLControlPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69A86CB70780C27A009A47EC /* LLControlPanel.nib */; };
 		69AE712F077515DF0025DAE4 /* LLMultiplierTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 69AE712D077515DF0025DAE4 /* LLMultiplierTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69AE7130077515DF0025DAE4 /* LLMultiplierTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE712E077515DF0025DAE4 /* LLMultiplierTransformer.m */; };
-		69AFFA27096DE4E700A05337 /* LLPluginController.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69AFFA25096DE4E700A05337 /* LLPluginController.nib */; };
 		69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B252E6095F63FE005B4E29 /* LLDataEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B5444A05AC606000FB9394 /* LLDisplayUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 69B5444605AC606000FB9394 /* LLDisplayUtilities.c */; };
 		69B5444B05AC606000FB9394 /* LLDisplayUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B5444705AC606000FB9394 /* LLDisplayUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -137,7 +149,6 @@
 		69CCB7EF0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CCB7ED0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m */; };
 		69CEA76706711F74009CEDDA /* LLStimulusTrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEA76506711F74009CEDDA /* LLStimulusTrain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69CEA76806711F74009CEDDA /* LLStimulusTrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEA76606711F74009CEDDA /* LLStimulusTrain.m */; };
-		69CEA79F06711F88009CEDDA /* LLStimulusTrain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69CEA79D06711F88009CEDDA /* LLStimulusTrain.nib */; };
 		69DCC8DB0737CE3800FE4CE8 /* LLEOTHistoryView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCC8D90737CE3800FE4CE8 /* LLEOTHistoryView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69DCC8DC0737CE3800FE4CE8 /* LLEOTHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCC8DA0737CE3800FE4CE8 /* LLEOTHistoryView.m */; };
 		69DCCC06073AE8C600FE4CE8 /* LLBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCCC04073AE8C600FE4CE8 /* LLBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -189,13 +200,6 @@
 		69F36CD70567EA5D009AED51 /* LLXTStimPlot.h in Headers */ = {isa = PBXBuildFile; fileRef = 692A86CE0480FA4200F95509 /* LLXTStimPlot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CD80567EA5D009AED51 /* LLXTView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C82A4D047C1DFA00A80164 /* LLXTView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CD90567EA76009AED51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		69F36CDA0567EA76009AED51 /* LLDataDoc.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69CFF80A0476A34500F95509 /* LLDataDoc.nib */; };
-		69F36CDB0567EA76009AED51 /* LLDisplaySettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69E2E87C04C4C44A00F95507 /* LLDisplaySettings.nib */; };
-		69F36CDC0567EA76009AED51 /* LLEyeCalibrator.nib in Resources */ = {isa = PBXBuildFile; fileRef = 693BA7D804AA6C8500995423 /* LLEyeCalibrator.nib */; };
-		69F36CDD0567EA76009AED51 /* LLIntervalMonitorSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69A5C64404D9C50400F95507 /* LLIntervalMonitorSettings.nib */; };
-		69F36CDF0567EA76009AED51 /* LLMonitorController.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69F2CF2204D490F400F95507 /* LLMonitorController.nib */; };
-		69F36CE00567EA76009AED51 /* LLMonitorView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69CFF80D0476A35F00F95509 /* LLMonitorView.nib */; };
-		69F36CE20567EA76009AED51 /* LLSettingsController.nib in Resources */ = {isa = PBXBuildFile; fileRef = 698506ED049CD28300A80164 /* LLSettingsController.nib */; };
 		69F36CE40567EA8C009AED51 /* LLDataDoc.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CC79770447490000A80164 /* LLDataDoc.m */; };
 		69F36CE50567EA8C009AED51 /* LLDisplays.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E9F6F7043D254F00F95509 /* LLDisplays.m */; };
 		69F36CE60567EA8C009AED51 /* LLDisplayPhysical.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E2E87904C4C32E00F95507 /* LLDisplayPhysical.m */; };
@@ -237,7 +241,6 @@
 		69F36D120567EA9E009AED51 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E9F6FF043D260E00F95509 /* OpenGL.framework */; };
 		69F8D4A709D9B76300DF2F63 /* LLProgressIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 69F8D4A509D9B76200DF2F63 /* LLProgressIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F8D4A809D9B76300DF2F63 /* LLProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F8D4A609D9B76300DF2F63 /* LLProgressIndicator.m */; };
-		69F8D4C109D9B8B100DF2F63 /* LLProgressIndicator.nib in Resources */ = {isa = PBXBuildFile; fileRef = 69F8D4BF09D9B8B100DF2F63 /* LLProgressIndicator.nib */; };
 		69FB5517078B84AA00AC42FA /* LLUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5515078B84AA00AC42FA /* LLUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FB5518078B84AA00AC42FA /* LLUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FB5516078B84AA00AC42FA /* LLUserDefaults.m */; };
 		69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5570095DA531006F86F9 /* LLNullDataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -250,10 +253,8 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		6900911004B276E2007FF661 /* LLDrawable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLDrawable.h; sourceTree = "<group>"; };
-		6904B09A08EF34FB00437691 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLSynthDataSettings.xib; sourceTree = "<group>"; };
 		6904B0A208EF39C700437691 /* LLDataDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDataDeviceController.h; sourceTree = "<group>"; };
 		6904B0A308EF39C700437691 /* LLDataDeviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDataDeviceController.m; sourceTree = "<group>"; };
-		6904B2BD08EF58D800437691 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLDataDeviceController.xib; sourceTree = "<group>"; };
 		6905D24A0966EDB2009C96F6 /* LLPluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPluginController.h; sourceTree = "<group>"; };
 		6905D24B0966EDB2009C96F6 /* LLPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPluginController.m; sourceTree = "<group>"; };
 		6910CE351595F86500E0A375 /* LLBinocCalibrator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLBinocCalibrator.plist; sourceTree = "<group>"; };
@@ -281,42 +282,58 @@
 		6934D9E8049BAF2200A80164 /* LLMonitorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMonitorController.h; sourceTree = "<group>"; };
 		6934D9E9049BAF2200A80164 /* LLMonitorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMonitorController.m; sourceTree = "<group>"; };
 		69366664139E66B9000508B6 /* ResetButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ResetButton.tif; path = ../../Resources/Images/ResetButton.tif; sourceTree = SOURCE_ROOT; };
-		693BA7D904AA6C8500995423 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLEyeCalibrator.xib; sourceTree = "<group>"; };
 		693BAB410906F01B008574BF /* LLSynthDataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLSynthDataDevice.plist; sourceTree = "<group>"; };
 		693D9EB81605299B00113D5D /* LLHeatMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHeatMapView.h; sourceTree = "<group>"; };
 		693D9EBA160529A700113D5D /* LLHeatMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLHeatMapView.m; sourceTree = "<group>"; };
 		693F0A950F4CF3D600C5E111 /* LLPlaid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPlaid.h; sourceTree = "<group>"; };
 		693F0A960F4CF3D600C5E111 /* LLPlaid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPlaid.m; sourceTree = "<group>"; };
-		693F0A9C0F4CF3F400C5E111 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLPlaid.xib; sourceTree = "<group>"; };
 		693FC6C804898EB700FE06D7 /* LLStandardDataEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLStandardDataEvents.h; sourceTree = "<group>"; };
 		693FC6C904898EB700FE06D7 /* LLStandardDataEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLStandardDataEvents.m; sourceTree = "<group>"; };
 		69405EF70461C83E00A80164 /* LLHistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHistView.h; sourceTree = "<group>"; };
 		69405EF80461C83E00A80164 /* LLHistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLHistView.m; sourceTree = "<group>"; };
 		69473E2E0B095B21005DE552 /* LLMouseDataDevice-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LLMouseDataDevice-Info.plist"; sourceTree = "<group>"; };
 		694761B5092A782600841167 /* LLLaserCalibrator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLLaserCalibrator.plist; sourceTree = "<group>"; };
-		694764B4092AA8A400841167 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLMouseDataSettings.xib; sourceTree = "<group>"; };
 		69476826092BE72B00841167 /* PlayButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PlayButton.tif; path = ../../Resources/Images/PlayButton.tif; sourceTree = SOURCE_ROOT; };
 		69476827092BE72B00841167 /* StopButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StopButton.tif; path = ../../Resources/Images/StopButton.tif; sourceTree = SOURCE_ROOT; };
 		69476828092BE72B00841167 /* StoppingButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StoppingButton.tif; path = ../../Resources/Images/StoppingButton.tif; sourceTree = SOURCE_ROOT; };
-		6947B50709B4AEF500769EE4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLBar.xib; sourceTree = "<group>"; };
-		6947B62809B4DA5A00769EE4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLGabor.xib; sourceTree = "<group>"; };
 		694D0C64077B61710025BAA4 /* LLTaskPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTaskPlugIn.h; sourceTree = "<group>"; };
 		694D0C65077B61710025BAA4 /* LLTaskPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTaskPlugIn.m; sourceTree = "<group>"; };
 		6953182E09B6227E00EC15C7 /* LLOldGabor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLOldGabor.h; sourceTree = "<group>"; };
 		6953182F09B6227E00EC15C7 /* LLOldGabor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLOldGabor.m; sourceTree = "<group>"; };
-		6953196209B6233000EC15C7 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLRandomDots.xib; sourceTree = "<group>"; };
 		6955FA44091A540F0009EFDB /* LLPulseTrain.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLPulseTrain.plist; sourceTree = "<group>"; };
 		695BC60405DC1C6300D98433 /* LLFixTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFixTarget.h; sourceTree = "<group>"; };
 		695BC60505DC1C6300D98433 /* LLFixTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFixTarget.m; sourceTree = "<group>"; };
 		695C06D3064BDEA600809DAA /* LLDefaultAboutBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLDefaultAboutBox.h; sourceTree = "<group>"; };
 		695C06D4064BDEA600809DAA /* LLDefaultAboutBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLDefaultAboutBox.m; sourceTree = "<group>"; };
-		695C06DA064BDEBB00809DAA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLDefaultAboutPanel.xib; sourceTree = "<group>"; };
-		695C12CC09B103DC0021A27D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLFixTarget.xib; sourceTree = "<group>"; };
 		695C167609B15D090021A27D /* LLVisualStimulus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLVisualStimulus.m; sourceTree = "<group>"; };
-		695C1AE109B3AC560021A27D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLVisualStimulus.xib; sourceTree = "<group>"; };
+		695EFEA51AC6219100D9D458 /* English.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = English.lproj; sourceTree = "<group>"; };
+		695EFEA71AC6221B00D9D458 /* LLBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLBar.xib; sourceTree = "<group>"; };
+		695EFEA91AC6225B00D9D458 /* LLControlPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLControlPanel.xib; sourceTree = "<group>"; };
+		695EFEAA1AC6225B00D9D458 /* LLDataDeviceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLDataDeviceController.xib; sourceTree = "<group>"; };
+		695EFEAB1AC6225B00D9D458 /* LLDataDoc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLDataDoc.xib; sourceTree = "<group>"; };
+		695EFEAC1AC6225B00D9D458 /* LLDefaultAboutPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLDefaultAboutPanel.xib; sourceTree = "<group>"; };
+		695EFEAD1AC6225B00D9D458 /* LLDisplaySettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLDisplaySettings.xib; sourceTree = "<group>"; };
+		695EFEAE1AC6225B00D9D458 /* LLEyeCalibrator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLEyeCalibrator.xib; sourceTree = "<group>"; };
+		695EFEAF1AC6225B00D9D458 /* LLFixTarget.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLFixTarget.xib; sourceTree = "<group>"; };
+		695EFEB01AC6225B00D9D458 /* LLGabor.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLGabor.xib; sourceTree = "<group>"; };
+		695EFEB11AC6225B00D9D458 /* LLIntervalMonitorSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLIntervalMonitorSettings.xib; sourceTree = "<group>"; };
+		695EFEB21AC6225B00D9D458 /* LLIODeviceSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLIODeviceSettings.xib; sourceTree = "<group>"; };
+		695EFEB31AC6225B00D9D458 /* LLLaserCalibrator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLLaserCalibrator.xib; sourceTree = "<group>"; };
+		695EFEB41AC6225B00D9D458 /* LLMonitorController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLMonitorController.xib; sourceTree = "<group>"; };
+		695EFEB51AC6225B00D9D458 /* LLMonitorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLMonitorView.xib; sourceTree = "<group>"; };
+		695EFEB61AC6225B00D9D458 /* LLMouseDataSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLMouseDataSettings.xib; sourceTree = "<group>"; };
+		695EFEB71AC6225B00D9D458 /* LLMouseIOSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLMouseIOSettings.xib; sourceTree = "<group>"; };
+		695EFEB81AC6225B00D9D458 /* LLPlaid.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLPlaid.xib; sourceTree = "<group>"; };
+		695EFEB91AC6225B00D9D458 /* LLPluginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLPluginController.xib; sourceTree = "<group>"; };
+		695EFEBA1AC6225B00D9D458 /* LLProgressIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLProgressIndicator.xib; sourceTree = "<group>"; };
+		695EFEBB1AC6225B00D9D458 /* LLPulseTrain.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLPulseTrain.xib; sourceTree = "<group>"; };
+		695EFEBC1AC6225B00D9D458 /* LLRandomDots.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLRandomDots.xib; sourceTree = "<group>"; };
+		695EFEBD1AC6225B00D9D458 /* LLSettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLSettingsController.xib; sourceTree = "<group>"; };
+		695EFEBE1AC6225B00D9D458 /* LLStimulusTrain.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLStimulusTrain.xib; sourceTree = "<group>"; };
+		695EFEBF1AC6225B00D9D458 /* LLSynthDataSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLSynthDataSettings.xib; sourceTree = "<group>"; };
+		695EFEC11AC6225B00D9D458 /* LLVisualStimulus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLVisualStimulus.xib; sourceTree = "<group>"; };
 		695F6194048ED37C00F95509 /* LLIODeviceSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLIODeviceSettings.h; sourceTree = "<group>"; };
 		695F6195048ED37C00F95509 /* LLIODeviceSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLIODeviceSettings.m; sourceTree = "<group>"; };
-		695F6199048ED66700F95509 /* LLIODeviceSettings.nib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LLIODeviceSettings.nib; path = LLIODeviceSettings.xib; sourceTree = "<group>"; };
 		6961C4B007AC429F005F0666 /* LLTaskStatus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLTaskStatus.h; sourceTree = "<group>"; };
 		6961C4B107AC429F005F0666 /* LLTaskStatus.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLTaskStatus.m; sourceTree = "<group>"; };
 		6961C52E07AC465F005F0666 /* LLTaskStatusTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLTaskStatusTransformer.h; sourceTree = "<group>"; };
@@ -337,7 +354,6 @@
 		696D3920059E46030018E5D5 /* Info-Lablib.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Lablib.plist"; sourceTree = "<group>"; };
 		696DF6520EB8E53A0004FC8E /* LLLaserCalibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLLaserCalibrator.h; sourceTree = "<group>"; };
 		696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLLaserCalibrator.m; sourceTree = "<group>"; };
-		696DF6DA0EB8F0240004FC8E /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLLaserCalibrator.xib; sourceTree = "<group>"; };
 		696E8ABF046334C800A80164 /* LLViewScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLViewScale.h; sourceTree = "<group>"; };
 		696E8AC0046334C800A80164 /* LLViewScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewScale.m; sourceTree = "<group>"; };
 		696FEDD10B7B854A002D6D54 /* LLMathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMathUtil.h; sourceTree = "<group>"; };
@@ -370,11 +386,9 @@
 		69819B440704F9AD0075BDF4 /* LLStatValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLStatValues.m; sourceTree = "<group>"; };
 		698325390486B8AC00FE06D7 /* LLState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLState.h; sourceTree = "<group>"; };
 		6983253A0486B8AC00FE06D7 /* LLState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLState.m; sourceTree = "<group>"; };
-		6984E5B90E672A3200A9E7CB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLPulseTrain.xib; sourceTree = "<group>"; };
 		6984E5CD0E672AA600A9E7CB /* LLPulseTrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPulseTrain.h; sourceTree = "<group>"; };
 		6984E5CE0E672AA600A9E7CB /* LLPulseTrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPulseTrain.m; sourceTree = "<group>"; };
 		6984E5D10E672B2600A9E7CB /* LLPulseTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPulseTrainDevice.h; sourceTree = "<group>"; };
-		698506EE049CD28300A80164 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLSettingsController.xib; sourceTree = "<group>"; };
 		6985836E078218D500F50DD2 /* LLTaskModeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTaskModeTransformer.h; sourceTree = "<group>"; };
 		6985836F078218D500F50DD2 /* LLTaskModeTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTaskModeTransformer.m; sourceTree = "<group>"; };
 		69880F75046B136300A80164 /* LLIODeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLIODeviceController.h; sourceTree = "<group>"; };
@@ -401,7 +415,6 @@
 		699E17C404D4BCBE00F95507 /* LLMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMonitor.h; sourceTree = "<group>"; };
 		69A5C64004D996EE00F95507 /* LLIntervalMonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLIntervalMonitorSettings.h; sourceTree = "<group>"; };
 		69A5C64104D996EE00F95507 /* LLIntervalMonitorSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLIntervalMonitorSettings.m; sourceTree = "<group>"; };
-		69A5C64504D9C50400F95507 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLIntervalMonitorSettings.xib; sourceTree = "<group>"; };
 		69A7E88B0E674D250036E42A /* LLMouseDataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLMouseDataDevice.plist; sourceTree = "<group>"; };
 		69A86B420780B23F009A47EC /* LLTaskStatusTitleTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTaskStatusTitleTransformer.h; sourceTree = "<group>"; };
 		69A86B430780B23F009A47EC /* LLTaskStatusTitleTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTaskStatusTitleTransformer.m; sourceTree = "<group>"; };
@@ -409,10 +422,8 @@
 		69A86C4C0780BA01009A47EC /* LLTaskStatusImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTaskStatusImageTransformer.m; sourceTree = "<group>"; };
 		69A86C8D0780C130009A47EC /* LLControlPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLControlPanel.h; sourceTree = "<group>"; };
 		69A86C8E0780C130009A47EC /* LLControlPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLControlPanel.m; sourceTree = "<group>"; };
-		69A86CB80780C27A009A47EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLControlPanel.xib; sourceTree = "<group>"; };
 		69AE712D077515DF0025DAE4 /* LLMultiplierTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMultiplierTransformer.h; sourceTree = "<group>"; };
 		69AE712E077515DF0025DAE4 /* LLMultiplierTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMultiplierTransformer.m; sourceTree = "<group>"; };
-		69AFFA26096DE4E700A05337 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLPluginController.xib; sourceTree = "<group>"; };
 		69B252E6095F63FE005B4E29 /* LLDataEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDataEvents.h; sourceTree = "<group>"; };
 		69B5444605AC606000FB9394 /* LLDisplayUtilities.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = LLDisplayUtilities.c; sourceTree = "<group>"; };
 		69B5444705AC606000FB9394 /* LLDisplayUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLDisplayUtilities.h; sourceTree = "<group>"; };
@@ -448,9 +459,6 @@
 		69CCB7ED0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLFactorToOctaveStepTransformer.m; sourceTree = "<group>"; };
 		69CEA76506711F74009CEDDA /* LLStimulusTrain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLStimulusTrain.h; sourceTree = "<group>"; };
 		69CEA76606711F74009CEDDA /* LLStimulusTrain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLStimulusTrain.m; sourceTree = "<group>"; };
-		69CEA79E06711F88009CEDDA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLStimulusTrain.xib; sourceTree = "<group>"; };
-		69CFF80B0476A34600F95509 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLDataDoc.xib; sourceTree = "<group>"; };
-		69CFF80E0476A35F00F95509 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLMonitorView.xib; sourceTree = "<group>"; };
 		69CFF8270477D3B900F95509 /* LLEyeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLEyeWindow.h; sourceTree = "<group>"; };
 		69CFF8280477D3B900F95509 /* LLEyeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEyeWindow.m; sourceTree = "<group>"; };
 		69CFF82B0477F8E000F95509 /* LLEyeCalibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLEyeCalibrator.h; sourceTree = "<group>"; };
@@ -467,7 +475,6 @@
 		69E278000791A88A0082057D /* LLStimView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLStimView.m; sourceTree = "<group>"; };
 		69E2E87804C4C32E00F95507 /* LLDisplayPhysical.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDisplayPhysical.h; sourceTree = "<group>"; };
 		69E2E87904C4C32E00F95507 /* LLDisplayPhysical.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDisplayPhysical.m; sourceTree = "<group>"; };
-		69E2E87D04C4C44A00F95507 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLDisplaySettings.xib; sourceTree = "<group>"; };
 		69E5E043095B505E00F6FE99 /* LLDataAssignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDataAssignment.h; sourceTree = "<group>"; };
 		69E5E044095B505E00F6FE99 /* LLDataAssignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDataAssignment.m; sourceTree = "<group>"; };
 		69E96F910472CCA400F95509 /* LLEyeXYView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLEyeXYView.h; sourceTree = "<group>"; };
@@ -488,15 +495,12 @@
 		69EE45D9047D18D400A80164 /* LLXTPlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTPlot.h; sourceTree = "<group>"; };
 		69EE539D0864BF0A0096D396 /* LLVisualStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLVisualStimulus.h; sourceTree = "<group>"; };
 		69F2BB3204D3203700F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		69F2CF2304D490F400F95507 /* LLMonitorController.nib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LLMonitorController.nib; path = LLMonitorController.xib; sourceTree = "<group>"; };
 		69F2CF2504D4914800F95507 /* LLSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSettingsController.h; sourceTree = "<group>"; };
 		69F2CF2604D4914800F95507 /* LLSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLSettingsController.m; sourceTree = "<group>"; };
-		69F3DDD504913C0100F95509 /* LLMouseIOSettings.nib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LLMouseIOSettings.nib; path = LLMouseIOSettings.xib; sourceTree = "<group>"; };
 		69F3DE1404913CAB00F95509 /* LLMouseIOSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLMouseIOSettings.h; sourceTree = "<group>"; };
 		69F3DE1504913CAB00F95509 /* LLMouseIOSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLMouseIOSettings.m; sourceTree = "<group>"; };
 		69F8D4A509D9B76200DF2F63 /* LLProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLProgressIndicator.h; sourceTree = "<group>"; };
 		69F8D4A609D9B76300DF2F63 /* LLProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLProgressIndicator.m; sourceTree = "<group>"; };
-		69F8D4C009D9B8B100DF2F63 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLProgressIndicator.xib; sourceTree = "<group>"; };
 		69FB5515078B84AA00AC42FA /* LLUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLUserDefaults.h; sourceTree = "<group>"; };
 		69FB5516078B84AA00AC42FA /* LLUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLUserDefaults.m; sourceTree = "<group>"; };
 		69FB5570095DA531006F86F9 /* LLNullDataDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNullDataDevice.h; sourceTree = "<group>"; };
@@ -557,37 +561,38 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				695EFEA51AC6219100D9D458 /* English.lproj */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				69476826092BE72B00841167 /* PlayButton.tif */,
 				69366664139E66B9000508B6 /* ResetButton.tif */,
 				69476827092BE72B00841167 /* StopButton.tif */,
 				69476828092BE72B00841167 /* StoppingButton.tif */,
-				6947B50609B4AEF500769EE4 /* LLBar.nib */,
+				695EFEA71AC6221B00D9D458 /* LLBar.xib */,
 				697A296F159526F700095DB3 /* LLBinocCalibrator.xib */,
-				69A86CB70780C27A009A47EC /* LLControlPanel.nib */,
-				69CFF80A0476A34500F95509 /* LLDataDoc.nib */,
-				6904B2BC08EF58D800437691 /* LLDataDeviceController.nib */,
-				695C06D9064BDEBB00809DAA /* LLDefaultAboutPanel.nib */,
-				69E2E87C04C4C44A00F95507 /* LLDisplaySettings.nib */,
-				693BA7D804AA6C8500995423 /* LLEyeCalibrator.nib */,
-				695C12CB09B103DC0021A27D /* LLFixTarget.nib */,
-				6947B62709B4DA5A00769EE4 /* LLGabor.nib */,
-				69A5C64404D9C50400F95507 /* LLIntervalMonitorSettings.nib */,
-				695F6198048ED66700F95509 /* LLIODeviceSettings.nib */,
-				696DF6D90EB8F0240004FC8E /* LLLaserCalibrator.nib */,
-				69CFF80D0476A35F00F95509 /* LLMonitorView.nib */,
-				6984E5B80E672A3200A9E7CB /* LLPulseTrain.nib */,
-				694764B3092AA8A400841167 /* LLMouseDataSettings.nib */,
-				69F3DDD404913C0100F95509 /* LLMouseIOSettings.nib */,
-				69F2CF2204D490F400F95507 /* LLMonitorController.nib */,
-				693F0A9B0F4CF3F400C5E111 /* LLPlaid.nib */,
-				69AFFA25096DE4E700A05337 /* LLPluginController.nib */,
-				69F8D4BF09D9B8B100DF2F63 /* LLProgressIndicator.nib */,
-				6953196109B6233000EC15C7 /* LLRandomDots.nib */,
-				698506ED049CD28300A80164 /* LLSettingsController.nib */,
-				69CEA79D06711F88009CEDDA /* LLStimulusTrain.nib */,
-				6904B09908EF34FB00437691 /* LLSynthDataSettings.nib */,
-				695C1AE009B3AC560021A27D /* LLVisualStimulus.nib */,
+				695EFEA91AC6225B00D9D458 /* LLControlPanel.xib */,
+				695EFEAA1AC6225B00D9D458 /* LLDataDeviceController.xib */,
+				695EFEAB1AC6225B00D9D458 /* LLDataDoc.xib */,
+				695EFEAC1AC6225B00D9D458 /* LLDefaultAboutPanel.xib */,
+				695EFEAD1AC6225B00D9D458 /* LLDisplaySettings.xib */,
+				695EFEAE1AC6225B00D9D458 /* LLEyeCalibrator.xib */,
+				695EFEAF1AC6225B00D9D458 /* LLFixTarget.xib */,
+				695EFEB01AC6225B00D9D458 /* LLGabor.xib */,
+				695EFEB11AC6225B00D9D458 /* LLIntervalMonitorSettings.xib */,
+				695EFEB21AC6225B00D9D458 /* LLIODeviceSettings.xib */,
+				695EFEB31AC6225B00D9D458 /* LLLaserCalibrator.xib */,
+				695EFEB41AC6225B00D9D458 /* LLMonitorController.xib */,
+				695EFEB51AC6225B00D9D458 /* LLMonitorView.xib */,
+				695EFEB61AC6225B00D9D458 /* LLMouseDataSettings.xib */,
+				695EFEB71AC6225B00D9D458 /* LLMouseIOSettings.xib */,
+				695EFEB81AC6225B00D9D458 /* LLPlaid.xib */,
+				695EFEB91AC6225B00D9D458 /* LLPluginController.xib */,
+				695EFEBA1AC6225B00D9D458 /* LLProgressIndicator.xib */,
+				695EFEBB1AC6225B00D9D458 /* LLPulseTrain.xib */,
+				695EFEBC1AC6225B00D9D458 /* LLRandomDots.xib */,
+				695EFEBD1AC6225B00D9D458 /* LLSettingsController.xib */,
+				695EFEBE1AC6225B00D9D458 /* LLStimulusTrain.xib */,
+				695EFEBF1AC6225B00D9D458 /* LLSynthDataSettings.xib */,
+				695EFEC11AC6225B00D9D458 /* LLVisualStimulus.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1133,38 +1138,41 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				695EFED31AC6225B00D9D458 /* LLProgressIndicator.xib in Resources */,
+				695EFEC51AC6225B00D9D458 /* LLDefaultAboutPanel.xib in Resources */,
+				695EFEC61AC6225B00D9D458 /* LLDisplaySettings.xib in Resources */,
 				69F36CD90567EA76009AED51 /* InfoPlist.strings in Resources */,
-				69F36CDA0567EA76009AED51 /* LLDataDoc.nib in Resources */,
-				69F36CDB0567EA76009AED51 /* LLDisplaySettings.nib in Resources */,
-				69F36CDC0567EA76009AED51 /* LLEyeCalibrator.nib in Resources */,
-				69F36CDD0567EA76009AED51 /* LLIntervalMonitorSettings.nib in Resources */,
-				69F36CDF0567EA76009AED51 /* LLMonitorController.nib in Resources */,
-				69F36CE00567EA76009AED51 /* LLMonitorView.nib in Resources */,
-				69F36CE20567EA76009AED51 /* LLSettingsController.nib in Resources */,
-				695C06DB064BDEBB00809DAA /* LLDefaultAboutPanel.nib in Resources */,
-				69CEA79F06711F88009CEDDA /* LLStimulusTrain.nib in Resources */,
-				69A86CB90780C27A009A47EC /* LLControlPanel.nib in Resources */,
-				6904B09B08EF34FB00437691 /* LLSynthDataSettings.nib in Resources */,
-				6904B2BE08EF58D800437691 /* LLDataDeviceController.nib in Resources */,
+				695EFED21AC6225B00D9D458 /* LLPluginController.xib in Resources */,
+				695EFEC31AC6225B00D9D458 /* LLDataDeviceController.xib in Resources */,
+				695EFED61AC6225B00D9D458 /* LLSettingsController.xib in Resources */,
+				695EFECE1AC6225B00D9D458 /* LLMonitorView.xib in Resources */,
+				695EFED71AC6225B00D9D458 /* LLStimulusTrain.xib in Resources */,
+				695EFEC91AC6225B00D9D458 /* LLGabor.xib in Resources */,
+				695EFEA61AC6219100D9D458 /* English.lproj in Resources */,
+				695EFED51AC6225B00D9D458 /* LLRandomDots.xib in Resources */,
+				695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */,
+				695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */,
+				695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */,
+				695EFED41AC6225B00D9D458 /* LLPulseTrain.xib in Resources */,
+				695EFEC71AC6225B00D9D458 /* LLEyeCalibrator.xib in Resources */,
+				695EFED11AC6225B00D9D458 /* LLPlaid.xib in Resources */,
 				693BAB420906F01B008574BF /* LLSynthDataDevice.plist in Resources */,
+				695EFED81AC6225B00D9D458 /* LLSynthDataSettings.xib in Resources */,
 				6955FA45091A540F0009EFDB /* LLPulseTrain.plist in Resources */,
 				694761B6092A782600841167 /* LLLaserCalibrator.plist in Resources */,
-				694764B5092AA8A400841167 /* LLMouseDataSettings.nib in Resources */,
 				69476829092BE72B00841167 /* PlayButton.tif in Resources */,
 				6947682A092BE72B00841167 /* StopButton.tif in Resources */,
+				695EFECB1AC6225B00D9D458 /* LLIODeviceSettings.xib in Resources */,
+				695EFEA81AC6221B00D9D458 /* LLBar.xib in Resources */,
+				695EFED01AC6225B00D9D458 /* LLMouseIOSettings.xib in Resources */,
 				6947682B092BE72B00841167 /* StoppingButton.tif in Resources */,
-				69AFFA27096DE4E700A05337 /* LLPluginController.nib in Resources */,
-				695C12CD09B103DC0021A27D /* LLFixTarget.nib in Resources */,
-				695C1AE209B3AC560021A27D /* LLVisualStimulus.nib in Resources */,
-				6947B50809B4AEF500769EE4 /* LLBar.nib in Resources */,
-				6947B62909B4DA5A00769EE4 /* LLGabor.nib in Resources */,
-				6953196309B6233100EC15C7 /* LLRandomDots.nib in Resources */,
-				69F8D4C109D9B8B100DF2F63 /* LLProgressIndicator.nib in Resources */,
+				695EFEC81AC6225B00D9D458 /* LLFixTarget.xib in Resources */,
+				695EFECC1AC6225B00D9D458 /* LLLaserCalibrator.xib in Resources */,
 				69A7E88C0E674D250036E42A /* LLMouseDataDevice.plist in Resources */,
-				69217A2A0EB7A34500F74DEC /* LLPulseTrain.nib in Resources */,
-				696DF6DB0EB8F0240004FC8E /* LLLaserCalibrator.nib in Resources */,
-				693F0A9D0F4CF3F400C5E111 /* LLPlaid.nib in Resources */,
+				695EFEC21AC6225B00D9D458 /* LLControlPanel.xib in Resources */,
+				695EFEC41AC6225B00D9D458 /* LLDataDoc.xib in Resources */,
 				69366665139E66B9000508B6 /* ResetButton.tif in Resources */,
+				695EFECD1AC6225B00D9D458 /* LLMonitorController.xib in Resources */,
 				69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */,
 				697A2970159526F700095DB3 /* LLBinocCalibrator.xib in Resources */,
 				6910CE361595F86500E0A375 /* LLBinocCalibrator.plist in Resources */,
@@ -1282,206 +1290,6 @@
 				089C1667FE841158C02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6904B09908EF34FB00437691 /* LLSynthDataSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6904B09A08EF34FB00437691 /* English */,
-			);
-			name = LLSynthDataSettings.nib;
-			sourceTree = "<group>";
-		};
-		6904B2BC08EF58D800437691 /* LLDataDeviceController.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6904B2BD08EF58D800437691 /* English */,
-			);
-			name = LLDataDeviceController.nib;
-			sourceTree = "<group>";
-		};
-		693BA7D804AA6C8500995423 /* LLEyeCalibrator.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				693BA7D904AA6C8500995423 /* English */,
-			);
-			name = LLEyeCalibrator.nib;
-			sourceTree = "<group>";
-		};
-		693F0A9B0F4CF3F400C5E111 /* LLPlaid.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				693F0A9C0F4CF3F400C5E111 /* English */,
-			);
-			name = LLPlaid.nib;
-			sourceTree = "<group>";
-		};
-		694764B3092AA8A400841167 /* LLMouseDataSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				694764B4092AA8A400841167 /* English */,
-			);
-			name = LLMouseDataSettings.nib;
-			sourceTree = "<group>";
-		};
-		6947B50609B4AEF500769EE4 /* LLBar.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6947B50709B4AEF500769EE4 /* English */,
-			);
-			name = LLBar.nib;
-			sourceTree = "<group>";
-		};
-		6947B62709B4DA5A00769EE4 /* LLGabor.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6947B62809B4DA5A00769EE4 /* English */,
-			);
-			name = LLGabor.nib;
-			sourceTree = "<group>";
-		};
-		6953196109B6233000EC15C7 /* LLRandomDots.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6953196209B6233000EC15C7 /* English */,
-			);
-			name = LLRandomDots.nib;
-			sourceTree = "<group>";
-		};
-		695C06D9064BDEBB00809DAA /* LLDefaultAboutPanel.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				695C06DA064BDEBB00809DAA /* English */,
-			);
-			name = LLDefaultAboutPanel.nib;
-			sourceTree = "<group>";
-		};
-		695C12CB09B103DC0021A27D /* LLFixTarget.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				695C12CC09B103DC0021A27D /* English */,
-			);
-			name = LLFixTarget.nib;
-			sourceTree = "<group>";
-		};
-		695C1AE009B3AC560021A27D /* LLVisualStimulus.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				695C1AE109B3AC560021A27D /* English */,
-			);
-			name = LLVisualStimulus.nib;
-			sourceTree = "<group>";
-		};
-		695F6198048ED66700F95509 /* LLIODeviceSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				695F6199048ED66700F95509 /* LLIODeviceSettings.nib */,
-			);
-			name = LLIODeviceSettings.nib;
-			sourceTree = "<group>";
-		};
-		696DF6D90EB8F0240004FC8E /* LLLaserCalibrator.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				696DF6DA0EB8F0240004FC8E /* English */,
-			);
-			name = LLLaserCalibrator.nib;
-			sourceTree = "<group>";
-		};
-		6984E5B80E672A3200A9E7CB /* LLPulseTrain.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6984E5B90E672A3200A9E7CB /* English */,
-			);
-			name = LLPulseTrain.nib;
-			sourceTree = "<group>";
-		};
-		698506ED049CD28300A80164 /* LLSettingsController.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				698506EE049CD28300A80164 /* English */,
-			);
-			name = LLSettingsController.nib;
-			sourceTree = "<group>";
-		};
-		69A5C64404D9C50400F95507 /* LLIntervalMonitorSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69A5C64504D9C50400F95507 /* English */,
-			);
-			name = LLIntervalMonitorSettings.nib;
-			sourceTree = "<group>";
-		};
-		69A86CB70780C27A009A47EC /* LLControlPanel.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69A86CB80780C27A009A47EC /* English */,
-			);
-			name = LLControlPanel.nib;
-			sourceTree = "<group>";
-		};
-		69AFFA25096DE4E700A05337 /* LLPluginController.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69AFFA26096DE4E700A05337 /* English */,
-			);
-			name = LLPluginController.nib;
-			sourceTree = "<group>";
-		};
-		69CEA79D06711F88009CEDDA /* LLStimulusTrain.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69CEA79E06711F88009CEDDA /* English */,
-			);
-			name = LLStimulusTrain.nib;
-			sourceTree = "<group>";
-		};
-		69CFF80A0476A34500F95509 /* LLDataDoc.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69CFF80B0476A34600F95509 /* English */,
-			);
-			name = LLDataDoc.nib;
-			sourceTree = "<group>";
-		};
-		69CFF80D0476A35F00F95509 /* LLMonitorView.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69CFF80E0476A35F00F95509 /* English */,
-			);
-			name = LLMonitorView.nib;
-			sourceTree = "<group>";
-		};
-		69E2E87C04C4C44A00F95507 /* LLDisplaySettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69E2E87D04C4C44A00F95507 /* English */,
-			);
-			name = LLDisplaySettings.nib;
-			sourceTree = "<group>";
-		};
-		69F2CF2204D490F400F95507 /* LLMonitorController.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69F2CF2304D490F400F95507 /* LLMonitorController.nib */,
-			);
-			name = LLMonitorController.nib;
-			sourceTree = "<group>";
-		};
-		69F3DDD404913C0100F95509 /* LLMouseIOSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69F3DDD504913C0100F95509 /* LLMouseIOSettings.nib */,
-			);
-			name = LLMouseIOSettings.nib;
-			sourceTree = "<group>";
-		};
-		69F8D4BF09D9B8B100DF2F63 /* LLProgressIndicator.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				69F8D4C009D9B8B100DF2F63 /* English */,
-			);
-			name = LLProgressIndicator.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
