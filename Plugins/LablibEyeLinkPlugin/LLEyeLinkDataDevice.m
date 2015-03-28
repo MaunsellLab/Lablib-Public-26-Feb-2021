@@ -214,7 +214,7 @@ void handler(int signal) {
 				oldSample = newSample;
 			}
 		}
-		usleep(1000);										// sleep 1 ms			
+		usleep(20000);										// sleep 20 ms
 	}
 }
 
