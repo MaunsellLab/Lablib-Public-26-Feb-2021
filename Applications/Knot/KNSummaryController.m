@@ -205,11 +205,13 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
     scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
     NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
     [[scrollView horizontalScroller] setFrame:scrollerRect];
-    [[scrollView horizontalScroller] setNeedsDisplay:YES];
     buttonRect.origin.y += buttonRect.size.height;				// Offset because the clipRect is flipped
     buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
     [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
-    [zoomButton setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[scrollView horizontalScroller] setNeedsDisplay:YES];
+        [zoomButton setNeedsDisplay:YES];
+    });
 }
 	
 - (void) setScaleFactor:(double)factor {
@@ -323,7 +325,9 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
         [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     }
     [self positionZoomButton];							// position zoom must be after visible
-    [percentTable reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [percentTable reloadData];
+    });
     [super windowDidLoad];
 }
 
@@ -378,8 +382,10 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
     }
 	lastEOTCode = eotCode;
 	[eotHistory addEOT:eotCode];
-    [percentTable reloadData];
-	[dayPlot setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [percentTable reloadData];
+        [dayPlot setNeedsDisplay:YES];
+    });
 }
 
 @end

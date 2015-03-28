@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		693B5DC50B8232C50063939F /* Lablib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6975F4160B332F1000312509 /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */; };
+		695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE01AC6234100D9D458 /* MainMenu.xib */; };
 		69712D2207E244E10083188B /* DataConvert_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2107E244E10083188B /* DataConvert_Prefix.h */; };
 		69712D2B07E244F50083188B /* DataConvert.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2A07E244F50083188B /* DataConvert.h */; };
 		6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6973FCEC0A43267E00A68677 /* Release Notes.txt */; };
 		6975F4170B332F1000312509 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6975F4160B332F1000312509 /* Lablib.framework */; };
-		698E347208A3CB0500649857 /* ConverterDoc.nib in Resources */ = {isa = PBXBuildFile; fileRef = 698E347008A3CB0500649857 /* ConverterDoc.nib */; };
-		698E347508A3CB1C00649857 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 698E347308A3CB1C00649857 /* MainMenu.nib */; };
 		69A9E3D70588E51700F6A0DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		69A9E3E50588E51800F6A0DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCA7BA043CF6E000F95509 /* main.m */; };
 		69A9E3E70588E51800F6A0DD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -52,12 +52,12 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConverterDoc.xib; sourceTree = "<group>"; };
+		695EFEE01AC6234100D9D458 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		69712D2107E244E10083188B /* DataConvert_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataConvert_Prefix.h; sourceTree = "<group>"; };
 		69712D2A07E244F50083188B /* DataConvert.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataConvert.h; sourceTree = "<group>"; };
 		6973FCEC0A43267E00A68677 /* Release Notes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "Release Notes.txt"; path = "../../Documentation/Release Notes.txt"; sourceTree = SOURCE_ROOT; };
 		6975F4160B332F1000312509 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
-		698E347108A3CB0500649857 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ConverterDoc.xib; sourceTree = "<group>"; };
-		698E347408A3CB1C00649857 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
 		69A9E3E90588E51800F6A0DD /* Info-DataConvert.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-DataConvert.plist"; sourceTree = "<group>"; };
 		69A9E3EA0588E51800F6A0DD /* DataConvert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataConvert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69AA8A8D083F7DFD00DAB812 /* PrintView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintView.h; sourceTree = "<group>"; };
@@ -152,8 +152,8 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				698E347308A3CB1C00649857 /* MainMenu.nib */,
-				698E347008A3CB0500649857 /* ConverterDoc.nib */,
+				695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */,
+				695EFEE01AC6234100D9D458 /* MainMenu.xib */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -243,9 +243,9 @@
 			files = (
 				69A9E3D70588E51700F6A0DD /* InfoPlist.strings in Resources */,
 				69AA8FC50841282F00DAB812 /* UserDefaults.plist in Resources */,
-				698E347208A3CB0500649857 /* ConverterDoc.nib in Resources */,
-				698E347508A3CB1C00649857 /* MainMenu.nib in Resources */,
 				6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */,
+				695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */,
+				695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,22 +276,6 @@
 				089C1660FE840EACC02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		698E347008A3CB0500649857 /* ConverterDoc.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				698E347108A3CB0500649857 /* English */,
-			);
-			name = ConverterDoc.nib;
-			sourceTree = "<group>";
-		};
-		698E347308A3CB1C00649857 /* MainMenu.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				698E347408A3CB1C00649857 /* English */,
-			);
-			name = MainMenu.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
