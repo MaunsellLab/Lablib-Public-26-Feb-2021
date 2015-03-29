@@ -90,6 +90,7 @@ void handler(int signal) {
 		
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * EyeLinkSamplePeriodS;
 				
+        NSLog(@"LLEyeLinkDataDevice: Since 10.10, the EyeLink API is generating this thread_policy_set error");
 		if ((index = open_eyelink_connection(0))) {
 			deviceEnabled = devicePresent = NO;
 		}

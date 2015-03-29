@@ -153,7 +153,6 @@ extern void CGSDeferredUpdates(int);
 	
 	result = thread_policy_set(mach_thread_self(), THREAD_TIME_CONSTRAINT_POLICY, 
 		(int *)&TTCPolicy,  THREAD_TIME_CONSTRAINT_POLICY_COUNT);
-
 	return (result == KERN_SUCCESS); 
 }
 
