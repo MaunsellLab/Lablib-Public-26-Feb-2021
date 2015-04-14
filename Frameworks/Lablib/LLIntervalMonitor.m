@@ -87,22 +87,28 @@ NSString *standardKey = @"LLMonitorTarget";
     NSAlert *theAlert;
 	
 	alarmActive = YES;
-    theAlert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]]
-                            defaultButton:@"OK" alternateButton:@"Disarm Alarms" otherButton:@"Change Settings"
-                            informativeTextWithFormat:@""];
+    theAlert = [[NSAlert alloc] init];
+    [theAlert setMessageText:[NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]]];
+    [theAlert addButtonWithTitle:@"OK"];
+    [theAlert addButtonWithTitle:@"Disarm Alarms"];
+    [theAlert addButtonWithTitle:@"Change Settings"];
+//    theAlert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]]
+//                            defaultButton:@"OK" alternateButton:@"Disarm Alarms" otherButton:@"Change Settings"
+//                            informativeTextWithFormat:@""];
 	choice = [theAlert runModal];
 	switch (choice) {
-	case NSAlertAlternateReturn:						// disarm alarms
+	case NSAlertSecondButtonReturn:						// disarm alarms
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDisarmKey]];
 		break;
-	case NSAlertOtherReturn:
+	case NSAlertThirdButtonReturn:
 		[self configure];								// configure alarms
 		break;
-	case NSAlertDefaultReturn:							// OK button, do nothing
+	case NSAlertFirstButtonReturn:						// OK button, do nothing
 	default:
 		break;
 	}
 	alarmActive = NO;
+    [theAlert release];
 }
 
 - (NSString *)IDString;

@@ -118,28 +118,35 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 		pAssign->type = dataType;							// load the data type
 		if (index == 0) {
 			if (pAssign->name == nil) {						// must have a name
-				NSRunAlertPanel(@"LLDataDeviceController",  
-							@"Attempt to define data type with no name", 
-							@"OK", nil, nil);
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController"
+                                informativeText:@"Attempt to define data type with no name"];
+//				NSRunAlertPanel(@"LLDataDeviceController",  
+//							@"Attempt to define data type with no name", 
+//							@"OK", nil, nil);
 				exit(0);
 			}
 			if ([assignmentDict objectForKey:pAssign->name] != nil) {	// unique name
-				NSRunAlertPanel(@"LLDataDeviceController",  
-							@"Attempt to define two types of sample data as \"%@\".", 
-							@"OK", nil, nil, pAssign->name);
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Attempt to define two types of sample data as \"%@\".", pAssign->name]];
+//				NSRunAlertPanel(@"LLDataDeviceController",
+//							@"Attempt to define two types of sample data as \"%@\".", 
+//							@"OK", nil, nil, pAssign->name);
 				exit(0);
 			}
 		}
 		else {												// same name for whole group
 			if (pAssign->name != nil && ![pAssign->name isEqualToString:assignments[0].name]) {
-				NSRunAlertPanel(@"LLDataDeviceController",  
-						@"Member of grouped data given different name (\"%@\" instead of \"%@\")", 
-						@"OK", nil, nil, pAssign->name, assignments[0].name);
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Member of grouped data given different name (\"%@\" instead of \"%@\")",
+                            pAssign->name, assignments[0].name]];
+//				NSRunAlertPanel(@"LLDataDeviceController",
+//						@"Member of grouped data given different name (\"%@\" instead of \"%@\")", 
+//						@"OK", nil, nil, pAssign->name, assignments[0].name);
 				exit(0);
 			}
 			if (dataType != kLLSampleData) {				// only sample data can be grouped
-				NSRunAlertPanel(@"LLDataDeviceController",  
-						@"Attempt to group timestamp data", @"OK", nil, nil);
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController"
+                                           informativeText:@"Attempt to group timestamp data"];
+//				NSRunAlertPanel(@"LLDataDeviceController",
+//						@"Attempt to group timestamp data", @"OK", nil, nil);
 				exit(0);
 			}
 		}
@@ -151,9 +158,10 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 
 		pAssign->device = [self indexForDeviceName:pAssign->deviceName];
 		if (pAssign->device >= kMaxDevices) {							// beyond device limit?
-			NSRunAlertPanel(@"LLDataDeviceController",  
-						@"Too many data devices in use. Only %d are supported.", 
-						@"OK", nil, nil, kMaxDevices);
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Too many data devices in use. Only %d are supported.", kMaxDevices]];
+//			NSRunAlertPanel(@"LLDataDeviceController",
+//						@"Too many data devices in use. Only %d are supported.", 
+//						@"OK", nil, nil, kMaxDevices);
 			exit(0);
 		}
 	}
@@ -372,12 +380,12 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 		assign = [assignments objectAtIndex:0];
 		switch ([assign type]) {
 		case kLLSampleData:
-			data = [NSData dataWithData:sampleData[[assign device]][[assign channel]]];
+			data = [NSMutableData dataWithData:sampleData[[assign device]][[assign channel]]];
 			[sampleData[[assign device]][[assign channel]] setLength:0];
 			break;
 		case kLLTimestampData:
         default:
-			data = [NSData dataWithData:timestampData[[assign device]][[assign channel]]];
+			data = [NSMutableData dataWithData:timestampData[[assign device]][[assign channel]]];
 			[timestampData[[assign device]][[assign channel]] setLength:0];
 			break;
 		}

@@ -165,7 +165,9 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
           NSPointInRect(currentEyeDeg[kRightEye], eyeWindowRectDeg))) ||
         (inWindow && (!NSPointInRect(currentEyeDeg[kLeftEye], eyeWindowRectDeg) &&
                       !NSPointInRect(currentEyeDeg[kRightEye], eyeWindowRectDeg)))) {
-		[eyePlot setNeedsDisplayInRect:[eyePlot pixRectFromDegRect:eyeWindowRectDeg]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [eyePlot setNeedsDisplayInRect:[eyePlot pixRectFromDegRect:eyeWindowRectDeg]];
+        });
 		inWindow = !inWindow;
 	}
 }
@@ -206,7 +208,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 {
 	LLEyeCalibrationData cal;
     
-	[eventData getBytes:&cal];
+    [eventData getBytes:&cal length:sizeof(LLEyeCalibrationData)];
     
 	[unitsToDeg[eyeIndex] setTransformStruct:cal.calibration];
 	[degToUnits[eyeIndex] setTransformStruct:cal.calibration];
@@ -313,9 +315,11 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 {
 	FixWindowData fixWindowData;
     
-	[eventData getBytes:&fixWindowData];
+	[eventData getBytes:&fixWindowData length:sizeof(FixWindowData)];
 	eyeWindowRectDeg = fixWindowData.windowDeg;
-    [eyePlot setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [eyePlot setNeedsDisplay:YES];
+    });
 }
 
 

@@ -27,9 +27,11 @@ typedef enum {
 + (NSMutableArray *)allBundlesWithExtension:(NSString *)extention appSubPath:(NSString *)appSubpath;
 + (long)busSpeedHz;							// Return the speed of the system bus in Hz
 + (void)setBeamSynchronization:(long)mode;	// set beam synchronization (for 10.4)
++ (NSString *)formattedDateString:(NSDate *)date format:(NSString *)format;
 + (double)getTimeS;							// Return the system time in seconds as a double
 + (void)preventSleep;							// Stop the computer from sleeping
 + (void)registerDefaultsFromFilePath:(NSString *)filePath defaults:(NSUserDefaults *)defaults;
++ (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText;
 + (BOOL)setThreadPriorityPeriodMS:(float)periodMS computationFraction:(float)computationFraction
 							constraintFraction:(float)constraintFraction;
 + (NSTimeInterval)timeFromNow:(long)timeMS;

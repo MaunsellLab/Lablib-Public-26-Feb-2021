@@ -10,6 +10,7 @@
 #import "LLPlaid.h"
 #import "LLTextUtil.h"
 #import "LLMultiplierTransformer.h"
+#import "LLSystemUtil.h"
 
 #define glMultiTexCoord2f	glMultiTexCoord2fARB
 #define glMultiTexCoord2fv	glMultiTexCoord2fvARB
@@ -465,8 +466,10 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 			glGetIntegerv(GL_MAX_TEXTURE_UNITS, &plaidNumTextureUnits);
 		}
 		if (plaidNumTextureUnits < 3) {
-			NSRunAlertPanel(@"LLPlaid",  @"Need 3 texture units, only %d on this machine.  LLPlaid will not draw", @"OK", 
-							nil, nil, plaidNumTextureUnits);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                   @"Need 3 texture units, only %d on this machine.  LLPlaid will not draw", plaidNumTextureUnits]];
+//			NSRunAlertPanel(@"LLPlaid",  @"Need 3 texture units, only %d on this machine.  LLPlaid will not draw", @"OK",
+//							nil, nil, plaidNumTextureUnits);
 			[self release];
 			return nil;
 		}

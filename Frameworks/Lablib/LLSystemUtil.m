@@ -76,6 +76,14 @@ extern void CGSDeferredUpdates(int);
 	CGSDeferredUpdates(mode);
 }
 
++ (NSString *)formattedDateString:(NSDate *)date format:(NSString *)format;
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    [formatter setDateFormat:format];
+    return [formatter stringFromDate:date];
+}
+
 + (double)getTimeS {
 
     struct timeval tod;
@@ -101,11 +109,25 @@ extern void CGSDeferredUpdates(int);
 	
 	userDefaultsValuesDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
 	if (userDefaultsValuesDict == nil) {
-		NSRunAlertPanel(@"LLSystemUtil", @"registerDefaultsFromFileName: Failed to parse file \"%@\"", 
-						@"OK", nil, nil, filePath);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                        @"registerDefaultsFromFileName: Failed to parse file \"%@\"", filePath]];
+//		NSRunAlertPanel(@"LLSystemUtil", @"registerDefaultsFromFileName: Failed to parse file \"%@\"",
+//						@"OK", nil, nil, filePath);
 		exit(0);
 	}
 	[defaults registerDefaults:userDefaultsValuesDict];
+}
+
+// Create and run an alert panel
+
++ (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText
+{
+    NSAlert *theAlert = [[NSAlert alloc] init];
+    
+    [theAlert setMessageText:messageText];
+    [theAlert setInformativeText:infoText];
+    [theAlert runModal];
+    [theAlert release];
 }
 
 // Set the current (calling) thread's priority for real time performance.  The periodMS argument
@@ -131,7 +153,6 @@ extern void CGSDeferredUpdates(int);
 	
 	result = thread_policy_set(mach_thread_self(), THREAD_TIME_CONSTRAINT_POLICY, 
 		(int *)&TTCPolicy,  THREAD_TIME_CONSTRAINT_POLICY_COUNT);
-
 	return (result == KERN_SUCCESS); 
 }
 

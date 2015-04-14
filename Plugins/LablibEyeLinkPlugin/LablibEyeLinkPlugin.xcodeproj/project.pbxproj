@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		696DF5AA0EB8A8F80004FC8E /* LLEyeLinkDataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0ED4650CA064BC00BE2453 /* LLEyeLinkDataDevice.m */; };
 		69D7851D17F3C8E800785BA7 /* eyelink_core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851C17F3C8E800785BA7 /* eyelink_core.framework */; };
+		E97BF1EB1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97BF1EA1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib */; };
 		FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		FC0ED5220CA067EA00BE2453 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		FC0ED5230CA067EA00BE2453 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6975F2950B3328C200312509 /* Lablib.framework */; };
@@ -17,7 +18,6 @@
 		FC40598E0CD666E300F2E428 /* LLEyeLinkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = FC40598D0CD666E300F2E428 /* LLEyeLinkMonitor.m */; };
 		FC4059990CD6682F00F2E428 /* LLEyeLinkMonitorSettings.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC4059980CD6682F00F2E428 /* LLEyeLinkMonitorSettings.h */; };
 		FC4059A00CD6687000F2E428 /* LLEyeLinkMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = FC40599F0CD6687000F2E428 /* LLEyeLinkMonitorSettings.m */; };
-		FC4059FB0CD66A8100F2E428 /* LLEyeLinkMonitorSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = FC4059F90CD66A8100F2E428 /* LLEyeLinkMonitorSettings.nib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,13 +46,13 @@
 		69D31ADC097C5B44001102CA /* LablibEyeLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LablibEyeLink.h; sourceTree = "<group>"; };
 		69D7851C17F3C8E800785BA7 /* eyelink_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = eyelink_core.framework; path = ../../../../Library/Frameworks/eyelink_core.framework; sourceTree = "<group>"; };
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		E97BF1EA1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLEyeLinkMonitorSettings.xib; sourceTree = "<group>"; };
 		FC0ED4640CA064BC00BE2453 /* LLEyeLinkDataDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLEyeLinkDataDevice.h; sourceTree = "<group>"; };
 		FC0ED4650CA064BC00BE2453 /* LLEyeLinkDataDevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLEyeLinkDataDevice.m; sourceTree = "<group>"; };
 		FC4059800CD6669100F2E428 /* LLEyeLinkMonitor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLEyeLinkMonitor.h; sourceTree = "<group>"; };
 		FC40598D0CD666E300F2E428 /* LLEyeLinkMonitor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLEyeLinkMonitor.m; sourceTree = "<group>"; };
 		FC4059980CD6682F00F2E428 /* LLEyeLinkMonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLEyeLinkMonitorSettings.h; sourceTree = "<group>"; };
 		FC40599F0CD6687000F2E428 /* LLEyeLinkMonitorSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLEyeLinkMonitorSettings.m; sourceTree = "<group>"; };
-		FC4059FA0CD66A8100F2E428 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = LLEyeLinkMonitorSettings.xib; sourceTree = "<group>"; };
 		FCDA921E0CC017D4001C4E70 /* LablibEyeLink.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LablibEyeLink.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -103,8 +103,8 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E97BF1EA1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
-				FC4059F90CD66A8100F2E428 /* LLEyeLinkMonitorSettings.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -186,7 +186,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0620;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibEyeLinkPlugin" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -194,6 +194,7 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				English,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* LablibITC18 */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -211,7 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */,
-				FC4059FB0CD66A8100F2E428 /* LLEyeLinkMonitorSettings.nib in Resources */,
+				E97BF1EB1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,14 +238,6 @@
 				089C1667FE841158C02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		FC4059F90CD66A8100F2E428 /* LLEyeLinkMonitorSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FC4059FA0CD66A8100F2E428 /* English */,
-			);
-			name = LLEyeLinkMonitorSettings.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

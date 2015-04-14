@@ -57,7 +57,7 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 
 - (void)loadPluginsForApplication:(NSString *)appName;
 {
-	int value;
+//	int value;
 	BOOL success;
     NSMutableArray *bundlePaths;
     NSEnumerator *enumerator;
@@ -65,6 +65,8 @@ NSString *pluginDisableKey = @"LLPluginDisable";
     NSBundle *currBundle;
 	PluginDesc pluginDesc;
 	NSMutableArray *tArray;
+    NSAlert *theAlert;
+    NSModalResponse theResponse;
 
     bundlePaths = [NSMutableArray array];
 	tArray = [NSMutableArray array];			// LLTaskPlugins
@@ -81,19 +83,40 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 
 			if ([pluginDesc.class isSubclassOfClass:[LLTaskPlugIn class]]) {
 				if ([pluginDesc.class version] != kLLPluginVersion) {
-					value = NSRunCriticalAlertPanel(@"LLPluginController: error loading plugin", 
-						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
-						@"OK", @"Delete", nil, currPath, (long)[pluginDesc.class version], 
-						kLLPluginVersion);
-					if (value == NSAlertAlternateReturn) {
-						value = NSRunAlertPanel(@"LLPluginController", @"Delete %@.  Are you sure?", @"Delete", 
-													@"Cancel", nil, currPath);
-						if (value == NSAlertDefaultReturn) {
+                    theAlert = [[NSAlert alloc] init];
+                    [theAlert setMessageText:@"LLPluginController: error loading plugin"];
+                    [theAlert setInformativeText:[NSString stringWithFormat:
+                                @"%@ has version %ld, but current version is %d.  It will be not be used.",
+                                currPath, (long)[pluginDesc.class version], kLLPluginVersion]];
+                    [theAlert setAlertStyle:NSCriticalAlertStyle];
+                    [theAlert addButtonWithTitle:@"OK"];
+                    [theAlert addButtonWithTitle:@"Delete"];
+                    theResponse = [theAlert runModal];
+                    [theAlert release];
+//					value = NSRunCriticalAlertPanel(@"LLPluginController: error loading plugin",
+//						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
+//						@"OK", @"Delete", nil, currPath, (long)[pluginDesc.class version], 
+//						kLLPluginVersion);
+                    if (theResponse == NSAlertSecondButtonReturn) {     // user wants to delete it
+                        theAlert = [[NSAlert alloc] init];
+                       [theAlert setMessageText:@"LLPluginController"];
+                        [theAlert setInformativeText:[NSString stringWithFormat:
+                                                      @"Delete %@.  Are you sure?", currPath]];
+                        [theAlert setAlertStyle:NSWarningAlertStyle];
+                        [theAlert addButtonWithTitle:@"Delete"];
+                        [theAlert addButtonWithTitle:@"Cancel"];
+                        theResponse = [theAlert runModal];
+                        [theAlert release];
+//						value = NSRunAlertPanel(@"LLPluginController", @"Delete %@.  Are you sure?", @"Delete",
+//													@"Cancel", nil, currPath);
+                        if (theResponse == NSAlertFirstButtonReturn) {   // user confirmed delete
 							NSLog(@"Deleting");
 							success = [[NSFileManager defaultManager] removeItemAtPath:currPath error:NULL];
 							if (!success) {
-								NSRunAlertPanel(@"LLPluginController", @"Failed to delete %@.", @"OK", @"nil",
-                                                nil, currPath);
+                                [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                                        informativeText:[NSString stringWithFormat:@"Failed to delete %@.", currPath]];
+//								NSRunAlertPanel(@"LLPluginController", @"Failed to delete %@.", @"OK", @"nil",
+//                                                nil, currPath);
 							}
 						}
 					}

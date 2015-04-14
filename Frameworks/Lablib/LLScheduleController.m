@@ -149,15 +149,22 @@
 	[scheduleArrayLock unlock];
 }
 
-- (BOOL)selectorOK:(SEL)selector toTarget:(id)target {
-
+- (BOOL)selectorOK:(SEL)selector toTarget:(id)target
+{
 	BOOL result;
+    NSAlert *theAlert;
 	
 	result = [target respondsToSelector:selector];
 	if (!result) {
-		NSRunAlertPanel(@"LLSchedule: Scheduling error", 
-				@"Target does not respond to method \"%@\"", @"OK", nil, nil,
-				NSStringFromSelector(selector));
+        theAlert = [[NSAlert alloc] init];
+        [theAlert setMessageText:@"LLSchedule: Scheduling error"];
+        [theAlert setInformativeText:[NSString stringWithFormat:@"Target does not respond to method \"%@\"",
+                                      NSStringFromSelector(selector)]];
+        [theAlert runModal];
+        [theAlert release];
+//		NSRunAlertPanel(@"LLSchedule: Scheduling error",
+//				@"Target does not respond to method \"%@\"", @"OK", nil, nil,
+//				NSStringFromSelector(selector));
 	}
 	return result;
 }

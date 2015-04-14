@@ -66,6 +66,7 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
 
     NSRect maxScrollRect;
 	double timeNow, timeStored;
+    NSScroller *hScroller, *vScroller;
     
     if ((self = [super initWithWindowNibName:@"FTSummaryController"]) != Nil) {
         [self setWindowFrameAutosaveName:FTSummaryAutosaveKey];
@@ -90,10 +91,22 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
         maxScrollRect = [NSWindow contentRectForFrameRect:
             NSMakeRect(0, 0, [[self window] maxSize].width, [[self window] maxSize].height)
             styleMask:[[self window] styleMask]];
-        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size 
-                hasHorizontalScroller:YES hasVerticalScroller:YES
-                borderType:[scrollView borderType]];
-				
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+        hScroller = [scrollView horizontalScroller];
+        vScroller = [scrollView verticalScroller];
+        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                borderType:[scrollView borderType]
+                controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+                                             hasHorizontalScroller:YES hasVerticalScroller:YES
+                                                        borderType:[scrollView borderType]];
+#endif
+//        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+//                hasHorizontalScroller:YES hasVerticalScroller:YES
+//                borderType:[scrollView borderType]];
+//				
 		lastEOTCode = -1;
 		
 		timeStored = [[NSUserDefaults standardUserDefaults] floatForKey:FTSummaryWindowDateKey];
@@ -211,6 +224,7 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
 
     NSSize maxContentSize;
     NSRect scrollFrameRect, windowFrameRect;
+    NSScroller *hScroller, *vScroller;
     double delta;
     static double scaleFactor = 1.0;
   
@@ -226,9 +240,20 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
         maxContentSize.width = baseMaxContentSize.width * factor;
         maxContentSize.height = baseMaxContentSize.height * factor;
         scrollFrameRect.origin = NSMakePoint(0, 0);
-        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
-            hasHorizontalScroller:YES hasVerticalScroller:YES 
-            borderType:[scrollView borderType]];
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+        hScroller = [scrollView horizontalScroller];
+        vScroller = [scrollView verticalScroller];
+        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                borderType:[scrollView borderType]
+                controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
+#endif	
+//        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+//            hasHorizontalScroller:YES hasVerticalScroller:YES 
+//            borderType:[scrollView borderType]];
         windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect
                 styleMask:[[self window] styleMask]];
         [[self window] setMaxSize:windowFrameRect.size];
@@ -420,7 +445,7 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
 
 	long certifyCode; 
 	
-	[eventData getBytes:&certifyCode];
+    [eventData getBytes:&certifyCode length:sizeof(long)];
     if (certifyCode != 0) { // -1 because computer errors stored separately
         recentComputer++;  
     }
@@ -428,7 +453,7 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
 
 - (void)trialEnd:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
-	[eventData getBytes:&eotCode];
+    [eventData getBytes:&eotCode length:sizeof(long)];
     if (eotCode <= kLastEOTTypeDisplayed) {
         recentEOTs[eotCode]++;
         recentEOTTotal++;  

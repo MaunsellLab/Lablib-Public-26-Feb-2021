@@ -28,7 +28,8 @@
 	NSString			*fileCreateDate;
 	NSString			*fileCreateTime;
 	NSData				*fileData;
-	NSCalendarDate		*fileDate;
+    NSDate              *fileDate;
+//    NSCalendarDate		*fileDate;
 	NSString			*fileName;
 	long				fileStartTime;
 	long				firstDataEventIndex;
@@ -75,7 +76,8 @@
 - (NSString *)fileCreateDate;
 - (NSString *)fileCreateTime;
 - (NSData *)fileData;
-- (NSCalendarDate *)fileDate;
+//- (NSCalendarDate *)fileDate;
+- (NSDate *)fileDate;
 - (DataEvent *)findEventByIndex:(unsigned long)index line:(long *)pLine;
 - (DataEvent *)findEventByLine:(unsigned long)line index:(long *)pIndex;
 - (unsigned long)firstDataEventIndex;

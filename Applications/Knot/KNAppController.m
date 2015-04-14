@@ -236,14 +236,18 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	currentTask = nil;
 	if ([taskPlugIns count] == 0) {
 		if ([pluginController numberOfValidPlugins] == 0) {
-			NSRunAlertPanel(@"Knot: No suitable plugins found.", 
-				@"The active \"Library/Application Support/Knot\" folders contain no task plugins. You should install at least one.", 
-				@"OK", nil, nil);
+            [LLSystemUtil runAlertPanelWithMessageText:@"Knot: No suitable plugins found." informativeText:
+             @"The active \"Library/Application Support/Knot\" folders contain no task plugins. You should install at least one."];
+//			NSRunAlertPanel(@"Knot: No suitable plugins found.",
+//				@"The active \"Library/Application Support/Knot\" folders contain no task plugins. You should install at least one.", 
+//				@"OK", nil, nil);
 		}
 		else {
-			NSRunAlertPanel(@"Knot: No enabled plugins", 
-				@"You can enable plugins using the Plugin Manager in the File menu.", 
-				@"OK", nil, nil);
+            [LLSystemUtil runAlertPanelWithMessageText:@"Knot: No enabled plugins" informativeText:
+                        @"You can enable plugins using the Plugin Manager in the File menu."];
+//			NSRunAlertPanel(@"Knot: No enabled plugins",
+//				@"You can enable plugins using the Plugin Manager in the File menu.", 
+//				@"OK", nil, nil);
 		}
 	}
 	else {
@@ -284,9 +288,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void)deactivateCurrentTask;
 {
-	long index;
+	long index, numWindows;
 	NSWindow *window;
 	NSArray *windows;
+    NSString *className;
 
 	if (currentTask != nil) {
 		[[taskMenu itemWithTitle:[currentTask name]] setState:NSOffState];
@@ -299,12 +304,21 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		[stimWindow unlock];
 
 		windows = [NSApp windows];							// close any left over windows
-		for (index = 0; index < [windows count]; index++) {
+        numWindows = [windows count];
+		for (index = 0; index < numWindows; index++) {
 			window = [windows objectAtIndex:index];
-			if ([window isVisible])
+			if ([window isVisible]) {
 				if ((window != stimWindow) && (window != [summaryController window]) &&
-					(window != [monitorController window]) && (window != [eyeCalibration window])) {
+                                (window != [monitorController window]) && (window != [eyeCalibration window])) {
+                    
+                    // Seems the system sometimes throws up an _NSOrderOutAnimationProxyWindow during transitions,
+                    // and these don't like being told to close
+                    
+                    className = NSStringFromClass([window class]);
+                    if (![className isEqualToString:@"_NSOrderOutAnimationProxyWindow"]) {
 						[window performClose:self];
+                    }
+                }
 			}
 		}
 		currentTask = nil;
@@ -433,10 +447,14 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
             theClass = [currBundle principalClass];
 			if ([theClass isSubclassOfClass:[LLDataDevice class]]) {
 				if ([theClass version] != kLLPluginVersion) {
-					NSRunCriticalAlertPanel(@"Knot: error loading plugin", 
-						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
-						@"OK", nil, nil, currPath, (long)[theClass version], 
-						kLLPluginVersion);
+                    [LLSystemUtil runAlertPanelWithMessageText:[self className]
+                        informativeText:[NSString stringWithFormat:
+                        @"%@ has version %ld, but current version is %d.  It will be not be used.",
+                        currPath, (long)[theClass version], kLLPluginVersion]];
+//					NSRunCriticalAlertPanel(@"Knot: error loading plugin", 
+//						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
+//						@"OK", nil, nil, currPath, (long)[theClass version], 
+//						kLLPluginVersion);
 				}
 				else {
                     do {

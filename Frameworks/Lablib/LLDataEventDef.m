@@ -7,6 +7,7 @@
 //
 
 #import "LLDataEventDef.h"
+#import "LLSystemUtil.h"
 
 #define		kStructDataType		-1
 
@@ -127,8 +128,10 @@ static NSString *LLDataTypeStrings[] = {@"no data", @"char", @"unsigned char", @
 	}
 	else {
 		if (pDef->elementBytes == 0) {
-			NSRunAlertPanel(@"LLDataEventDef", @"Struct %@ in event definition for %@ did not declare number of bytes",
-				@"OK", nil, nil, name, pDef->typeName);
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDataEventDef" informativeText:[NSString stringWithFormat:
+                        @"Struct %@ in event definition for %@ did not declare number of bytes",name, pDef->typeName]];
+//             NSRunAlertPanel(@"LLDataEventDef", @"Struct %@ in event definition for %@ did not declare number of bytes",
+//                             @"OK", nil, nil, name, pDef->typeName);
 			exit(0);
 		}
 		return pDef->elementBytes;
@@ -342,9 +345,11 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 			dataDefinition:(LLDataDef *)pDataDef;
 {
 	if (pDataDef == nil) {
-		NSRunAlertPanel([self className],  
-					@"Attempting to define event \"%@\" without defining its contents", 
-					@"OK", nil, nil, name);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataEventDef" informativeText:[NSString stringWithFormat:
+                      @"Attempting to define event \"%@\" without defining its contents", name]];
+//		NSRunAlertPanel([self className],
+//					@"Attempting to define event \"%@\" without defining its contents", 
+//					@"OK", nil, nil, name);
 		exit(0);
 	}
 	if ((self = [super init]) != nil) {
@@ -416,9 +421,11 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 	long bytes, tempOffsetBytes;
 
 	if (pDef->typeName == nil) {
-		NSRunAlertPanel([self className],  
-				@"Error with description of data event %@: Entry with no type name", 
-				@"OK", nil, nil, name);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                      @"Error with description of data event %@: Entry with no type name", name]];
+//		NSRunAlertPanel([self className],
+//				@"Error with description of data event %@: Entry with no type name", 
+//				@"OK", nil, nil, name);
 		exit(0);
 	}
 	[pDef->typeName retain];
@@ -437,9 +444,11 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 
 	if (pDef->elements == -1) {
 		if (nestLevel > 0 && (pDef->offsetBytes != arrayOffsetBytes)) {
-			NSRunAlertPanel([self className],  
-					@"Data event %@: Invalid data defined as having -1 elements", 
-					@"OK", nil, nil, name);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                           @"Data event %@: Invalid data defined as having -1 elements", name]];
+//			NSRunAlertPanel([self className],
+//					@"Data event %@: Invalid data defined as having -1 elements", 
+//					@"OK", nil, nil, name);
 			exit(0);
 		}
 	}
@@ -452,9 +461,11 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 
 	if (pDef->dataName == nil) {
 		if (nestLevel > 0) {
-			NSRunAlertPanel([self className],  
-					@"Error in description of data event %@: Unnamed data of type %@", 
-					@"OK", nil, nil, name, pDef->typeName);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                    @"Error in description of data event %@: Unnamed data of type %@", name, pDef->typeName]];
+//			NSRunAlertPanel([self className],
+//					@"Error in description of data event %@: Unnamed data of type %@", 
+//					@"OK", nil, nil, name, pDef->typeName);
 			exit(0);
 		}
 		pDef->dataName = name;							// give data the name of event
@@ -467,9 +478,11 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 
 	if (nestLevel == 0 && pDef->offsetBytes > 0) {
 		if (![pDef->typeName isEqualToString:@"struct"]) {
-			NSRunAlertPanel([self className],  
-				@"Error in description of data event %@: offsetBytes != 0 for entry \"%@\"", 
-				@"OK", nil, nil, name, pDef->typeName);
+            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                 @"Error in description of data event %@: offsetBytes != 0 for entry \"%@\"", name, pDef->typeName]];
+//			NSRunAlertPanel([self className],
+//				@"Error in description of data event %@: offsetBytes != 0 for entry \"%@\"", 
+//				@"OK", nil, nil, name, pDef->typeName);
 			exit(0);
 		}
 		else {
@@ -480,9 +493,12 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 // If the offsetBytes given are less than the number of bytes so far, something is wrong
 
 	if (pDef->offsetBytes < offsetBytes) {
-		NSRunAlertPanel([self className],  
-				@"Error in description of data event %@: offsetBytes (%ld) looks too small for entry \"%@\"", 
-				@"OK", nil, nil, name, pDef->offsetBytes, pDef->dataName);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+               @"Error in description of data event %@: offsetBytes (%ld) looks too small for entry \"%@\"",
+               name, pDef->offsetBytes, pDef->dataName]];
+//		NSRunAlertPanel([self className],
+//				@"Error in description of data event %@: offsetBytes (%ld) looks too small for entry \"%@\"", 
+//				@"OK", nil, nil, name, pDef->offsetBytes, pDef->dataName);
 		exit(0);
 	}
 
@@ -506,15 +522,20 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 // It's not a simple type it's a struct and it must contain a definition
 
 	if (![pDef->typeName isEqualToString:@"struct"]) {
-		NSRunAlertPanel([self className],  
-				@"Error with description of data event %@: Unrecognized data type \"%@\"", 
-				@"OK", nil, nil, name, pDef->typeName);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                @"Error with description of data event %@: Unrecognized data type \"%@\"", name, pDef->typeName]];
+//		NSRunAlertPanel([self className],
+//				@"Error with description of data event %@: Unrecognized data type \"%@\"", 
+//				@"OK", nil, nil, name, pDef->typeName);
 		exit(0);
 	}
 	if (pDef->contents == nil) {
-		NSRunAlertPanel([self className],  
-				@"Error with description of data event %@: struct \"%@\" has no contents definition", 
-				@"OK", nil, nil, pDef->typeName, pDef->dataName);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+               @"Error with description of data event %@: struct \"%@\" has no contents definition",
+               pDef->typeName, pDef->dataName]];
+//		NSRunAlertPanel([self className],
+//				@"Error with description of data event %@: struct \"%@\" has no contents definition", 
+//				@"OK", nil, nil, pDef->typeName, pDef->dataName);
 		exit(0);
 	}
 
@@ -586,8 +607,10 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 		}
 	}
 	if (![pDef->typeName isEqualToString:@"struct"]) {
-		NSRunAlertPanel(@"LLDataEventDef",  @"Unrecognized type in data definition: \"%@\"", 
-				@"OK", nil, nil, pDef->typeName);
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+               @"Unrecognized type in data definition: \"%@\"",pDef->typeName]];
+//		NSRunAlertPanel(@"LLDataEventDef",  @"Unrecognized type in data definition: \"%@\"",
+//				@"OK", nil, nil, pDef->typeName);
 		exit(0);
 	}
 	return -1;				// not a simple data type (e.g., a struct)

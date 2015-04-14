@@ -58,6 +58,7 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
 {
     NSRect maxScrollRect;
 	double timeNow, timeStored;
+    NSScroller *hScroller, *vScroller;
     
     if ((self = [super initWithWindowNibName:@"KNSummaryController"]) != nil) {
 		defaults = userDefaults;
@@ -85,10 +86,18 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
         maxScrollRect = [NSWindow contentRectForFrameRect:
             NSMakeRect(0, 0, [[self window] maxSize].width, [[self window] maxSize].height)
             styleMask:[[self window] styleMask]];
-        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size 
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+        hScroller = [scrollView horizontalScroller];
+        vScroller = [scrollView verticalScroller];
+        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
+                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                borderType:[scrollView borderType]
+                controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+        baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
                 hasHorizontalScroller:YES hasVerticalScroller:YES
                 borderType:[scrollView borderType]];
-				
+#endif
 		lastEOTCode = -1;
 		
 		timeStored = [defaults floatForKey:KNSummaryWindowDateKey];
@@ -196,17 +205,20 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
     scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
     NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
     [[scrollView horizontalScroller] setFrame:scrollerRect];
-    [[scrollView horizontalScroller] setNeedsDisplay:YES];
     buttonRect.origin.y += buttonRect.size.height;				// Offset because the clipRect is flipped
     buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
     [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
-    [zoomButton setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[scrollView horizontalScroller] setNeedsDisplay:YES];
+        [zoomButton setNeedsDisplay:YES];
+    });
 }
 	
 - (void) setScaleFactor:(double)factor {
 
     NSSize maxContentSize;
     NSRect scrollFrameRect, windowFrameRect;
+    NSScroller *hScroller, *vScroller;
     double delta;
     static double scaleFactor = 1.0;
   
@@ -222,9 +234,19 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
         maxContentSize.width = baseMaxContentSize.width * factor;
         maxContentSize.height = baseMaxContentSize.height * factor;
         scrollFrameRect.origin = NSMakePoint(0, 0);
-        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
-            hasHorizontalScroller:YES hasVerticalScroller:YES 
-            borderType:[scrollView borderType]];
+
+        
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+        hScroller = [scrollView horizontalScroller];
+        vScroller = [scrollView verticalScroller];
+        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                borderType:[scrollView borderType]
+                 controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+#else
+        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
+#endif	
         windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect
                 styleMask:[[self window] styleMask]];
         [[self window] setMaxSize:windowFrameRect.size];
@@ -303,7 +325,9 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
         [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     }
     [self positionZoomButton];							// position zoom must be after visible
-    [percentTable reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [percentTable reloadData];
+    });
     [super windowDidLoad];
 }
 
@@ -343,7 +367,7 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
 
 	long certifyCode; 
 	
-	[eventData getBytes:&certifyCode];
+    [eventData getBytes:&certifyCode length:sizeof(long)];
     if (certifyCode != 0) { // -1 because computer errors stored separately
         dayComputer++;  
     }
@@ -351,15 +375,17 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
 
 - (void)trialEnd:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
-	[eventData getBytes:&eotCode];
+    [eventData getBytes:&eotCode length:sizeof(long)];
     if (eotCode <= kLastEOTTypeDisplayed) {
         dayEOTs[eotCode]++;
         dayEOTTotal++;  
     }
 	lastEOTCode = eotCode;
 	[eotHistory addEOT:eotCode];
-    [percentTable reloadData];
-	[dayPlot setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [percentTable reloadData];
+        [dayPlot setNeedsDisplay:YES];
+    });
 }
 
 @end

@@ -1,821 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
-	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1306</string>
-		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSView</string>
-			<string>NSMenu</string>
-			<string>NSScrollView</string>
-			<string>NSWindowTemplate</string>
-			<string>NSMenuItem</string>
-			<string>NSPopUpButton</string>
-			<string>NSCustomView</string>
-			<string>NSPopUpButtonCell</string>
-			<string>NSScroller</string>
-			<string>NSCustomObject</string>
-		</array>
-		<array key="IBDocument.PluginDependencies">
-			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="405974176">
-			<object class="NSCustomObject" id="347121966">
-				<string key="NSClassName">BehaviorController</string>
-			</object>
-			<object class="NSCustomObject" id="381493646">
-				<string key="NSClassName">FirstResponder</string>
-			</object>
-			<object class="NSCustomObject" id="928142102">
-				<string key="NSClassName">NSApplication</string>
-			</object>
-			<object class="NSWindowTemplate" id="901753340">
-				<int key="NSWindowStyleMask">15</int>
-				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{120, 95}, {807, 607}}</string>
-				<int key="NSWTFlags">1886912512</int>
-				<string key="NSWindowTitle">Behavior</string>
-				<string key="NSWindowClass">NSWindow</string>
-				<object class="NSMutableString" key="NSViewClass">
-					<characters key="NS.bytes">View</characters>
-				</object>
-				<string key="NSWindowContentMaxSize">{807, 607}</string>
-				<string key="NSWindowContentMinSize">{137, 130}</string>
-				<object class="NSView" key="NSWindowView" id="85266318">
-					<reference key="NSNextResponder"/>
-					<int key="NSvFlags">256</int>
-					<array class="NSMutableArray" key="NSSubviews">
-						<object class="NSScrollView" id="679451226">
-							<reference key="NSNextResponder" ref="85266318"/>
-							<int key="NSvFlags">274</int>
-							<array class="NSMutableArray" key="NSSubviews">
-								<object class="NSClipView" id="41995163">
-									<reference key="NSNextResponder" ref="679451226"/>
-									<int key="NSvFlags">2304</int>
-									<array class="NSMutableArray" key="NSSubviews">
-										<object class="NSView" id="1015517363">
-											<reference key="NSNextResponder" ref="41995163"/>
-											<int key="NSvFlags">256</int>
-											<array class="NSMutableArray" key="NSSubviews">
-												<object class="NSCustomView" id="918613267">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrameSize">{790, 590}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">NSView</string>
-													<string key="NSExtension">NSResponder</string>
-												</object>
-												<object class="NSCustomView" id="984035673">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{10, 172}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="885422653">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{205, 172}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="922019038">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{400, 172}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="763745101">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{595, 172}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="1070279557">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{595, 14}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="963953350">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{400, 14}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="341821816">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{10, 14}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="994567469">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{205, 14}, {185, 150}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLHistView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="450674809">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{11, 330}, {250, 250}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLPlotView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="614208759">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{269, 330}, {250, 250}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLPlotView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-												<object class="NSCustomView" id="447089401">
-													<reference key="NSNextResponder" ref="1015517363"/>
-													<int key="NSvFlags">256</int>
-													<string key="NSFrame">{{527, 330}, {250, 250}}</string>
-													<reference key="NSSuperview" ref="1015517363"/>
-													<reference key="NSWindow"/>
-													<string key="NSClassName">LLPlotView</string>
-													<string key="NSExtension">NSView</string>
-												</object>
-											</array>
-											<string key="NSFrameSize">{790, 590}</string>
-											<reference key="NSSuperview" ref="41995163"/>
-											<reference key="NSWindow"/>
-										</object>
-									</array>
-									<string key="NSFrame">{{1, 1}, {790, 590}}</string>
-									<reference key="NSSuperview" ref="679451226"/>
-									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="1015517363"/>
-									<reference key="NSDocView" ref="1015517363"/>
-									<object class="NSColor" key="NSBGColor">
-										<int key="NSColorSpace">1</int>
-										<bytes key="NSRGB">MSAxIDEAA</bytes>
-									</object>
-									<int key="NScvFlags">4</int>
-								</object>
-								<object class="NSScroller" id="527672528">
-									<reference key="NSNextResponder" ref="679451226"/>
-									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{791, 1}, {15, 590}}</string>
-									<reference key="NSSuperview" ref="679451226"/>
-									<reference key="NSWindow"/>
-									<reference key="NSTarget" ref="679451226"/>
-									<string key="NSAction">_doScroller:</string>
-									<double key="NSCurValue">1</double>
-								</object>
-								<object class="NSScroller" id="519612595">
-									<reference key="NSNextResponder" ref="679451226"/>
-									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{1, 591}, {790, 15}}</string>
-									<reference key="NSSuperview" ref="679451226"/>
-									<reference key="NSWindow"/>
-									<int key="NSsFlags">1</int>
-									<reference key="NSTarget" ref="679451226"/>
-									<string key="NSAction">_doScroller:</string>
-								</object>
-							</array>
-							<string key="NSFrameSize">{807, 607}</string>
-							<reference key="NSSuperview" ref="85266318"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="41995163"/>
-							<int key="NSsFlags">50</int>
-							<reference key="NSVScroller" ref="527672528"/>
-							<reference key="NSHScroller" ref="519612595"/>
-							<reference key="NSContentView" ref="41995163"/>
-						</object>
-						<object class="NSPopUpButton" id="305032208">
-							<reference key="NSNextResponder" ref="85266318"/>
-							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{694, -4}, {98, 22}}</string>
-							<reference key="NSSuperview" ref="85266318"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSPopUpButtonCell" key="NSCell" id="938568212">
-								<int key="NSCellFlags">-2076049856</int>
-								<int key="NSCellFlags2">132096</int>
-								<object class="NSFont" key="NSSupport" id="420825820">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">11</double>
-									<int key="NSfFlags">16</int>
-								</object>
-								<reference key="NSControlView" ref="305032208"/>
-								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">1</int>
-								<reference key="NSAlternateImage" ref="420825820"/>
-								<string key="NSAlternateContents"/>
-								<object class="NSMutableString" key="NSKeyEquivalent">
-									<characters key="NS.bytes"/>
-								</object>
-								<int key="NSPeriodicDelay">400</int>
-								<int key="NSPeriodicInterval">75</int>
-								<object class="NSMenuItem" key="NSMenuItem" id="224026073">
-									<reference key="NSMenu" ref="1023643478"/>
-									<string key="NSTitle">100%</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<int key="NSState">1</int>
-									<object class="NSCustomResource" key="NSOnImage" id="274573296">
-										<string key="NSClassName">NSImage</string>
-										<string key="NSResourceName">NSMenuCheckmark</string>
-									</object>
-									<object class="NSCustomResource" key="NSMixedImage" id="613232495">
-										<string key="NSClassName">NSImage</string>
-										<string key="NSResourceName">NSMenuMixedState</string>
-									</object>
-									<string key="NSAction">_popUpItemAction:</string>
-									<int key="NSTag">100</int>
-									<reference key="NSTarget" ref="938568212"/>
-								</object>
-								<bool key="NSMenuItemRespectAlignment">YES</bool>
-								<object class="NSMenu" key="NSMenu" id="1023643478">
-									<object class="NSMutableString" key="NSTitle">
-										<characters key="NS.bytes">OtherViews</characters>
-									</object>
-									<array class="NSMutableArray" key="NSMenuItems">
-										<object class="NSMenuItem" id="408530507">
-											<reference key="NSMenu" ref="1023643478"/>
-											<string key="NSTitle">25%</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="274573296"/>
-											<reference key="NSMixedImage" ref="613232495"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<int key="NSTag">25</int>
-											<reference key="NSTarget" ref="938568212"/>
-										</object>
-										<object class="NSMenuItem" id="26419463">
-											<reference key="NSMenu" ref="1023643478"/>
-											<string key="NSTitle">50%</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="274573296"/>
-											<reference key="NSMixedImage" ref="613232495"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<int key="NSTag">50</int>
-											<reference key="NSTarget" ref="938568212"/>
-										</object>
-										<object class="NSMenuItem" id="766120665">
-											<reference key="NSMenu" ref="1023643478"/>
-											<string key="NSTitle">75%</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="274573296"/>
-											<reference key="NSMixedImage" ref="613232495"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<int key="NSTag">75</int>
-											<reference key="NSTarget" ref="938568212"/>
-										</object>
-										<reference ref="224026073"/>
-										<object class="NSMenuItem" id="238449137">
-											<reference key="NSMenu" ref="1023643478"/>
-											<string key="NSTitle">125%</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="274573296"/>
-											<reference key="NSMixedImage" ref="613232495"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<int key="NSTag">125</int>
-											<reference key="NSTarget" ref="938568212"/>
-										</object>
-										<object class="NSMenuItem" id="466756967">
-											<reference key="NSMenu" ref="1023643478"/>
-											<string key="NSTitle">150%</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="274573296"/>
-											<reference key="NSMixedImage" ref="613232495"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<int key="NSTag">150</int>
-											<reference key="NSTarget" ref="938568212"/>
-										</object>
-										<object class="NSMenuItem" id="196454974">
-											<reference key="NSMenu" ref="1023643478"/>
-											<string key="NSTitle">200%</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="274573296"/>
-											<reference key="NSMixedImage" ref="613232495"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<int key="NSTag">200</int>
-											<reference key="NSTarget" ref="938568212"/>
-										</object>
-										<object class="NSMenuItem" id="524322668">
-											<reference key="NSMenu" ref="1023643478"/>
-											<string key="NSTitle">400%</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="274573296"/>
-											<reference key="NSMixedImage" ref="613232495"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<int key="NSTag">400</int>
-											<reference key="NSTarget" ref="938568212"/>
-										</object>
-									</array>
-								</object>
-								<int key="NSSelectedIndex">3</int>
-								<int key="NSPreferredEdge">3</int>
-								<bool key="NSUsesItemFromMenu">YES</bool>
-								<bool key="NSAltersState">YES</bool>
-								<int key="NSArrowPosition">1</int>
-							</object>
-						</object>
-					</array>
-					<string key="NSFrame">{{7, 11}, {807, 607}}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
-				</object>
-				<string key="NSScreenRect">{{0, 0}, {1152, 848}}</string>
-				<string key="NSMinSize">{137, 152}</string>
-				<string key="NSMaxSize">{807, 629}</string>
-				<string key="NSFrameAutosaveName">BehaviorWindow</string>
-			</object>
-		</array>
-		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">zoomButton</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="305032208"/>
-					</object>
-					<int key="connectionID">135</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView0</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="984035673"/>
-					</object>
-					<int key="connectionID">150</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView1</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="885422653"/>
-					</object>
-					<int key="connectionID">151</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView2</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="922019038"/>
-					</object>
-					<int key="connectionID">152</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView3</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="763745101"/>
-					</object>
-					<int key="connectionID">153</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView4</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="341821816"/>
-					</object>
-					<int key="connectionID">154</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView5</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="994567469"/>
-					</object>
-					<int key="connectionID">155</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView6</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="963953350"/>
-					</object>
-					<int key="connectionID">156</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">histView7</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="1070279557"/>
-					</object>
-					<int key="connectionID">157</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changeZoom:</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="305032208"/>
-					</object>
-					<int key="connectionID">166</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">window</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="901753340"/>
-					</object>
-					<int key="connectionID">167</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="901753340"/>
-						<reference key="destination" ref="347121966"/>
-					</object>
-					<int key="connectionID">168</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">perfPlot</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="614208759"/>
-					</object>
-					<int key="connectionID">183</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">reactPlot</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="450674809"/>
-					</object>
-					<int key="connectionID">184</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">scrollView</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="679451226"/>
-					</object>
-					<int key="connectionID">192</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">intervalCorrectPlot</string>
-						<reference key="source" ref="347121966"/>
-						<reference key="destination" ref="447089401"/>
-					</object>
-					<int key="connectionID">193</int>
-				</object>
-			</array>
-			<object class="IBMutableOrderedSet" key="objectRecords">
-				<array key="orderedObjects">
-					<object class="IBObjectRecord">
-						<int key="objectID">0</int>
-						<array key="object" id="0"/>
-						<reference key="children" ref="405974176"/>
-						<nil key="parent"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-2</int>
-						<reference key="object" ref="347121966"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">File's Owner</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-1</int>
-						<reference key="object" ref="381493646"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">First Responder</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">76</int>
-						<reference key="object" ref="901753340"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="85266318"/>
-						</array>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Window</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">77</int>
-						<reference key="object" ref="85266318"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="305032208"/>
-							<reference ref="679451226"/>
-						</array>
-						<reference key="parent" ref="901753340"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">101</int>
-						<reference key="object" ref="305032208"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="938568212"/>
-						</array>
-						<reference key="parent" ref="85266318"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">190</int>
-						<reference key="object" ref="679451226"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1015517363"/>
-							<reference ref="527672528"/>
-							<reference ref="519612595"/>
-						</array>
-						<reference key="parent" ref="85266318"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">191</int>
-						<reference key="object" ref="1015517363"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="984035673"/>
-							<reference ref="885422653"/>
-							<reference ref="922019038"/>
-							<reference ref="763745101"/>
-							<reference ref="1070279557"/>
-							<reference ref="963953350"/>
-							<reference ref="341821816"/>
-							<reference ref="994567469"/>
-							<reference ref="450674809"/>
-							<reference ref="918613267"/>
-							<reference ref="614208759"/>
-							<reference ref="447089401"/>
-						</array>
-						<reference key="parent" ref="679451226"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">137</int>
-						<reference key="object" ref="984035673"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">138</int>
-						<reference key="object" ref="885422653"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">139</int>
-						<reference key="object" ref="922019038"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">140</int>
-						<reference key="object" ref="763745101"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">141</int>
-						<reference key="object" ref="1070279557"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">142</int>
-						<reference key="object" ref="963953350"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">143</int>
-						<reference key="object" ref="341821816"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">144</int>
-						<reference key="object" ref="994567469"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">145</int>
-						<reference key="object" ref="450674809"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">175</int>
-						<reference key="object" ref="918613267"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">179</int>
-						<reference key="object" ref="614208759"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">185</int>
-						<reference key="object" ref="447089401"/>
-						<reference key="parent" ref="1015517363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">195</int>
-						<reference key="object" ref="938568212"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1023643478"/>
-						</array>
-						<reference key="parent" ref="305032208"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">104</int>
-						<reference key="object" ref="1023643478"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="196454974"/>
-							<reference ref="466756967"/>
-							<reference ref="524322668"/>
-							<reference ref="224026073"/>
-							<reference ref="238449137"/>
-							<reference ref="408530507"/>
-							<reference ref="26419463"/>
-							<reference ref="766120665"/>
-						</array>
-						<reference key="parent" ref="938568212"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">109</int>
-						<reference key="object" ref="196454974"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">108</int>
-						<reference key="object" ref="466756967"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">107</int>
-						<reference key="object" ref="524322668"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">106</int>
-						<reference key="object" ref="224026073"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">105</int>
-						<reference key="object" ref="238449137"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">103</int>
-						<reference key="object" ref="408530507"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">102</int>
-						<reference key="object" ref="26419463"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">100</int>
-						<reference key="object" ref="766120665"/>
-						<reference key="parent" ref="1023643478"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">196</int>
-						<reference key="object" ref="527672528"/>
-						<reference key="parent" ref="679451226"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">197</int>
-						<reference key="object" ref="519612595"/>
-						<reference key="parent" ref="679451226"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-3</int>
-						<reference key="object" ref="928142102"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Application</string>
-					</object>
-				</array>
-			</object>
-			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="100.ImportedFromIB2"/>
-				<string key="101.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="101.ImportedFromIB2"/>
-				<string key="102.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="102.ImportedFromIB2"/>
-				<string key="103.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="103.ImportedFromIB2"/>
-				<string key="104.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="104.ImportedFromIB2"/>
-				<string key="105.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="105.ImportedFromIB2"/>
-				<string key="106.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="106.ImportedFromIB2"/>
-				<string key="107.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="107.ImportedFromIB2"/>
-				<string key="108.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="108.ImportedFromIB2"/>
-				<string key="109.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="109.ImportedFromIB2"/>
-				<string key="137.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="137.ImportedFromIB2"/>
-				<string key="138.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="138.ImportedFromIB2"/>
-				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="139.ImportedFromIB2"/>
-				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="140.ImportedFromIB2"/>
-				<string key="141.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="141.ImportedFromIB2"/>
-				<string key="142.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="142.ImportedFromIB2"/>
-				<string key="143.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="143.ImportedFromIB2"/>
-				<string key="144.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="144.ImportedFromIB2"/>
-				<string key="145.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="145.ImportedFromIB2"/>
-				<string key="175.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="175.ImportedFromIB2"/>
-				<string key="179.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="179.ImportedFromIB2"/>
-				<string key="185.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="185.ImportedFromIB2"/>
-				<string key="190.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="190.ImportedFromIB2"/>
-				<string key="191.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="191.ImportedFromIB2"/>
-				<boolean value="YES" key="196.IBShouldRemoveOnLegacySave"/>
-				<boolean value="YES" key="197.IBShouldRemoveOnLegacySave"/>
-				<string key="76.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="76.ImportedFromIB2"/>
-				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="77.ImportedFromIB2"/>
-			</dictionary>
-			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
-			<nil key="activeLocalization"/>
-			<dictionary class="NSMutableDictionary" key="localizations"/>
-			<nil key="sourceID"/>
-			<int key="maxID">197</int>
-		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">LLHistView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/LLHistView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">LLPlotView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/LLPlotView.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
-		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1060" key="NS.object.0"/>
-		</object>
-		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{9, 8}</string>
-			<string key="NSMenuMixedState">{7, 2}</string>
-		</dictionary>
-	</data>
-</archive>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BehaviorController">
+            <connections>
+                <outlet property="histView0" destination="137" id="150"/>
+                <outlet property="histView1" destination="138" id="151"/>
+                <outlet property="histView2" destination="139" id="152"/>
+                <outlet property="histView3" destination="140" id="153"/>
+                <outlet property="histView4" destination="143" id="154"/>
+                <outlet property="histView5" destination="144" id="155"/>
+                <outlet property="histView6" destination="142" id="156"/>
+                <outlet property="histView7" destination="141" id="157"/>
+                <outlet property="intervalCorrectPlot" destination="185" id="193"/>
+                <outlet property="perfPlot" destination="179" id="183"/>
+                <outlet property="reactPlot" destination="145" id="184"/>
+                <outlet property="scrollView" destination="190" id="192"/>
+                <outlet property="window" destination="76" id="167"/>
+                <outlet property="zoomButton" destination="101" id="135"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Behavior" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="BehaviorWindow" animationBehavior="default" id="76" userLabel="Window">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="120" y="95" width="807" height="607"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1152" height="848"/>
+            <value key="minSize" type="size" width="137" height="130"/>
+            <value key="maxSize" type="size" width="807" height="607"/>
+            <view key="contentView" id="77">
+                <rect key="frame" x="7" y="11" width="807" height="607"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="190">
+                        <rect key="frame" x="0.0" y="0.0" width="807" height="607"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <clipView key="contentView" id="4gP-CP-IeK">
+                            <rect key="frame" x="1" y="1" width="790" height="590"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <view id="191">
+                                    <rect key="frame" x="0.0" y="0.0" width="790" height="590"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <customView id="175">
+                                            <rect key="frame" x="0.0" y="0.0" width="790" height="590"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="137" customClass="LLHistView">
+                                            <rect key="frame" x="10" y="172" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="138" customClass="LLHistView">
+                                            <rect key="frame" x="205" y="172" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="139" customClass="LLHistView">
+                                            <rect key="frame" x="400" y="172" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="140" customClass="LLHistView">
+                                            <rect key="frame" x="595" y="172" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="141" customClass="LLHistView">
+                                            <rect key="frame" x="595" y="14" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="142" customClass="LLHistView">
+                                            <rect key="frame" x="400" y="14" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="143" customClass="LLHistView">
+                                            <rect key="frame" x="10" y="14" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="144" customClass="LLHistView">
+                                            <rect key="frame" x="205" y="14" width="185" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="145" customClass="LLPlotView">
+                                            <rect key="frame" x="11" y="330" width="250" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="179" customClass="LLPlotView">
+                                            <rect key="frame" x="269" y="330" width="250" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                        <customView id="185" customClass="LLPlotView">
+                                            <rect key="frame" x="527" y="330" width="250" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </customView>
+                                    </subviews>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="197">
+                            <rect key="frame" x="1" y="591" width="790" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="196">
+                            <rect key="frame" x="791" y="1" width="15" height="590"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <popUpButton verticalHuggingPriority="750" id="101">
+                        <rect key="frame" x="694" y="-4" width="98" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="100%" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="100" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="106" id="195">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="104">
+                                <items>
+                                    <menuItem title="25%" tag="25" id="103"/>
+                                    <menuItem title="50%" tag="50" id="102"/>
+                                    <menuItem title="75%" tag="75" id="100"/>
+                                    <menuItem title="100%" state="on" tag="100" id="106"/>
+                                    <menuItem title="125%" tag="125" id="105"/>
+                                    <menuItem title="150%" tag="150" id="108"/>
+                                    <menuItem title="200%" tag="200" id="109"/>
+                                    <menuItem title="400%" tag="400" id="107"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="changeZoom:" target="-2" id="166"/>
+                        </connections>
+                    </popUpButton>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="168"/>
+            </connections>
+        </window>
+    </objects>
+</document>

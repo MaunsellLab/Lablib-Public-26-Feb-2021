@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1060" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DataFile">
@@ -19,15 +18,15 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
-        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="57" y="596" width="636" height="476"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1578"/>
             <value key="minSize" type="size" width="300" height="150"/>
             <view key="contentView" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="636" height="476"/>
+                <rect key="frame" x="7" y="11" width="636" height="476"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <splitView vertical="YES" id="35">
@@ -37,11 +36,12 @@
                             <scrollView wantsLayer="YES" horizontalLineScroll="12" horizontalPageScroll="12" verticalLineScroll="12" verticalPageScroll="12" usesPredominantAxisScrolling="NO" id="23">
                                 <rect key="frame" x="0.0" y="0.0" width="127" height="411"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <clipView key="contentView" id="oxD-tn-aXv">
+                                <clipView key="contentView" id="V7A-Rg-5kk">
                                     <rect key="frame" x="1" y="1" width="110" height="394"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView id="21" customClass="DefView">
+                                            <rect key="frame" x="0.0" y="0.0" width="215" height="515"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <connections>
                                                 <outlet property="disableButton" destination="45" id="69"/>
@@ -52,11 +52,11 @@
                                         </customView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" id="151">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="151">
                                     <rect key="frame" x="1" y="395" width="110" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="150">
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="150">
                                     <rect key="frame" x="111" y="1" width="15" height="394"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -64,12 +64,12 @@
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="34">
                                 <rect key="frame" x="136" y="0.0" width="317" height="411"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <clipView key="contentView" id="fjk-qr-dLK">
+                                <clipView key="contentView" id="PIw-vW-WWx">
                                     <rect key="frame" x="1" y="1" width="300" height="394"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView id="31" customClass="EventView">
-                                            <rect key="frame" x="0.0" y="0.0" width="430" height="500"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="445" height="515"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <connections>
                                                 <outlet property="document" destination="-2" id="50"/>
@@ -79,11 +79,11 @@
                                         </customView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" id="155">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="155">
                                     <rect key="frame" x="1" y="395" width="300" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="154">
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="154">
                                     <rect key="frame" x="301" y="1" width="15" height="394"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -91,12 +91,12 @@
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="33">
                                 <rect key="frame" x="462" y="0.0" width="134" height="411"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <clipView key="contentView" id="Xfl-yd-GJ7">
+                                <clipView key="contentView" id="wfY-8Y-TKg">
                                     <rect key="frame" x="1" y="1" width="117" height="394"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView id="32" customClass="HexView">
-                                            <rect key="frame" x="0.0" y="0.0" width="938" height="500"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="953" height="515"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <connections>
                                                 <outlet property="document" destination="-2" id="65"/>
@@ -105,11 +105,11 @@
                                         </customView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" id="153">
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="153">
                                     <rect key="frame" x="1" y="395" width="117" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="152">
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="152">
                                     <rect key="frame" x="118" y="1" width="15" height="394"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -180,14 +180,14 @@
             </connections>
         </customView>
         <customView id="138" userLabel="PrintPanel">
-            <rect key="frame" x="0.0" y="0.0" width="186" height="74"/>
+            <rect key="frame" x="0.0" y="-2" width="204" height="104"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" id="139">
-                    <rect key="frame" x="18" y="18" width="150" height="38"/>
+                    <rect key="frame" x="18" y="5" width="150" height="84"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    <size key="cellSize" width="150" height="18"/>
+                    <size key="cellSize" width="150" height="41"/>
                     <size key="intercellSpacing" width="4" height="2"/>
                     <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="149">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -210,6 +210,7 @@
                     </connections>
                 </matrix>
             </subviews>
+            <point key="canvasLocation" x="577" y="516"/>
         </customView>
     </objects>
 </document>
