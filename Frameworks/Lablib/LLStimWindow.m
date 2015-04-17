@@ -190,6 +190,7 @@
         NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
         NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
         NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
+        0                       // must be null terminated
 //        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
         };
     NSOpenGLPixelFormat *fmt;

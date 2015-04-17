@@ -17,7 +17,7 @@
         <window title="Trial" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="TrialController" animationBehavior="default" id="76" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="250" y="351" width="271" height="297"/>
+            <rect key="contentRect" x="100" y="100" width="271" height="297"/>
             <rect key="screenRect" x="1152" y="-154" width="1280" height="854"/>
             <view key="contentView" id="77">
                 <rect key="frame" x="1" y="9" width="271" height="297"/>
