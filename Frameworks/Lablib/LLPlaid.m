@@ -68,6 +68,7 @@ NSString *LLPlaid1TemporalFreqHzKey = @"temporalFreqHz1";
 NSString *LLPlaid1TemporalModulationParamKey = @"temporalModulationParam1";
 NSString *LLPlaid1TemporalModulationKey = @"temporalModulation1";
 NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
+
 @implementation LLPlaid
 
 - (float)contrast0;
@@ -84,6 +85,8 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 {
 	[self removeObserver:self forKeyPath:@"temporalModulation0"];
 	[self removeObserver:self forKeyPath:@"temporalModulation1"];
+    [self restore:0];
+    [self restore:1];
 	if (displayListNum > 0) {
         glDeleteLists(displayListNum, kLLPlaidDrawCircle + 1);
 	}
@@ -511,9 +514,11 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 		
 // Observe whether our temporalModulation type changes
 		
-		[self addObserver:self forKeyPath:@"temporalModulation0" 
-				  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-		[self addObserver:self forKeyPath:@"temporalModulation1" options:0 context:nil];
+        [self addObserver:self forKeyPath:@"temporalModulation0"
+                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        [self addObserver:self forKeyPath:@"temporalModulation1"
+                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+//		[self addObserver:self forKeyPath:@"temporalModulation1" options:0 context:nil];
 	}
     return self; 
 }
@@ -522,7 +527,6 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 
 - (void)loadPlaid:(Plaid *)pPlaid;
 {
-	
 	pPlaid->azimuthDeg = azimuthDeg;								// Center of plaid 
 	pPlaid->elevationDeg = elevationDeg;							// Center of plaid 
 	pPlaid->radiusDeg = radiusDeg;									// Radius of drawing
@@ -617,7 +621,7 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 - (void)makeDisplayLists;
 {
 	[self loadPlaid:&displayListPlaid];
-	[self store];
+    [self store];
     
 // if no display lists then generate, otherwise overwrite
 
@@ -679,18 +683,18 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 {
-	long tempModulation;
-	
+//	long tempModulation;
+//	
 	if ([keyPath isEqualTo:@"temporalModulation0"]) {
 		switch ([[change valueForKey:@"old"] intValue]) {
 			case kLLPlaidCounterPhase:
 				if ([[change valueForKey:@"new"] intValue] != kLLPlaidCounterPhase) {
 					[self removeObserver:self forKeyPath:@"temporalModulation0"];	// don't observe during restore
-					tempModulation = temporalModulation1;							// don't restore other modulation
-					[self restore];
-					temporalModulation1 = tempModulation;							// don't restore other modulation
+//					tempModulation = temporalModulation1;							// don't restore other modulation
+                    [self restore:0];
+//					temporalModulation1 = tempModulation;							// don't restore other modulation
 					temporalModulation0 = [[change valueForKey:@"new"] intValue];	// don't restore over new value
-					[self addObserver:self forKeyPath:@"temporalModulation0" 
+					[self addObserver:self forKeyPath:@"temporalModulation0"
 							  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 				}
 				break;
@@ -698,7 +702,7 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 			case kLLPlaidRandom:
 			default:
 				if ([[change valueForKey:@"new"] intValue] == kLLPlaidCounterPhase) {
-					[self store];
+                    [self store:0];
 				}
 				break;
 		}
@@ -708,9 +712,9 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 			case kLLPlaidCounterPhase:
 				if ([[change valueForKey:@"new"] intValue] != kLLPlaidCounterPhase) {
 					[self removeObserver:self forKeyPath:@"temporalModulation1"];	// don't observe during restore
-					tempModulation = temporalModulation0;							// don't restore other modulation
-					[self restore];
-					temporalModulation0 = tempModulation;							// don't restore other modulation
+//					tempModulation = temporalModulation0;							// don't restore other modulation
+                    [self restore:1];
+//					temporalModulation0 = tempModulation;							// don't restore other modulation
 					temporalModulation1 = [[change valueForKey:@"new"] intValue];	// don't restore over new value
 					[self addObserver:self forKeyPath:@"temporalModulation1" 
 							  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
@@ -720,7 +724,7 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 			case kLLPlaidRandom:
 			default:
 				if ([[change valueForKey:@"new"] intValue] == kLLPlaidCounterPhase) {
-					[self store];
+                    [self store:1];
 				}
 				break;
 		}
@@ -730,6 +734,44 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 - (void)restore;
 {
 	[self setPlaidData:basePlaid];
+}
+
+- (void)restore:(long)gratingNum;
+{
+    Plaid *pPlaid = &basePlaid;
+
+    [self setAzimuthDeg:pPlaid->azimuthDeg];								// Center of plaid
+    [self setElevationDeg:pPlaid->elevationDeg];							// Center of plaid
+    [self setRadiusDeg:pPlaid->radiusDeg];                                  // Radius of drawing
+    [self setSigmaDeg:pPlaid->sigmaDeg];									// Plaid	standard deviation
+    switch (gratingNum) {
+        case 0:
+            [self setContrast0:pPlaid->contrast0];								// Contrast [0:1]
+            [self setDirectionDeg0:pPlaid->directionDeg0];
+            kdlThetaDeg0 = pPlaid->kdlThetaDeg0;
+            kdlPhiDeg0 = pPlaid->kdlPhiDeg0;
+            spatialFreqCPD0 = pPlaid->spatialFreqCPD0;
+            [self setSpatialModulation0:pPlaid->spatialModulation0];
+            [self setSpatialPhaseDeg0:pPlaid->spatialPhaseDeg0];					// Spatial Phase
+            [self setTemporalFreqHz0:pPlaid->temporalFreqHz0];					// Temporal frequency
+            [self setTemporalModulationParam0:pPlaid->temporalModulationParam0];	// Parameter modulated in time
+            [self setTemporalModulation0:pPlaid->temporalModulation0];			// Temporal Modulation: COUNTERPHASE, DRIFTING
+            [self setTemporalPhaseDeg0:pPlaid->temporalPhaseDeg0];				// Temporal Phase
+            break;
+        case 1:
+            [self setContrast1:pPlaid->contrast1];								// Contrast [0:1]
+            [self setDirectionDeg1:pPlaid->directionDeg1];
+            kdlThetaDeg1 = pPlaid->kdlThetaDeg1;
+            kdlPhiDeg1 = pPlaid->kdlPhiDeg1;
+            spatialFreqCPD1 = pPlaid->spatialFreqCPD1;
+            [self setSpatialModulation1:pPlaid->spatialModulation1];
+            [self setSpatialPhaseDeg1:pPlaid->spatialPhaseDeg1];					// Spatial Phase
+            [self setTemporalFreqHz1:pPlaid->temporalFreqHz1];					// Temporal frequency
+            [self setTemporalModulationParam1:pPlaid->temporalModulationParam1];	// Parameter modulated in time
+            [self setTemporalModulation1:pPlaid->temporalModulation1];			// Temporal Modulation: COUNTERPHASE, DRIFTING
+            [self setTemporalPhaseDeg1:pPlaid->temporalPhaseDeg1];				// Temporal Phase
+            break;
+    }
 }
 
 - (void)runSettingsDialog;
@@ -1039,7 +1081,45 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 
 - (void)store;
 {
-	[self loadPlaid:&basePlaid];
+    [self loadPlaid:&basePlaid];
+}
+
+- (void)store:(long)gratingNum;
+{
+    Plaid *pPlaid = &basePlaid;
+    
+    pPlaid->azimuthDeg = azimuthDeg;								// Center of plaid
+    pPlaid->elevationDeg = elevationDeg;							// Center of plaid
+    pPlaid->radiusDeg = radiusDeg;									// Radius of drawing
+    pPlaid->sigmaDeg = sigmaDeg;									// Plaid standard deviation
+    switch (gratingNum) {
+        case 0:
+            pPlaid->contrast0 = contrast0;									// Contrast [0:1]
+            pPlaid->directionDeg0 = directionDeg0;							// Direction
+            pPlaid->kdlThetaDeg0 = kdlThetaDeg0;							// kdl space (deg)
+            pPlaid->kdlPhiDeg0 = kdlPhiDeg0;								// kdl space (deg)
+            pPlaid->spatialFreqCPD0 = spatialFreqCPD0;						// Spatial frequency
+            pPlaid->spatialModulation0 = spatialModulation0;				// Spatial Modulation:component. SINE, SQUARE, TRIANGLE
+            pPlaid->spatialPhaseDeg0 = spatialPhaseDeg0;					// Spatial Phase
+            pPlaid->temporalFreqHz0 = temporalFreqHz0;						// Temporal frequency
+            pPlaid->temporalModulationParam0 = temporalModulationParam0;	// Parameter modulated in time
+            pPlaid->temporalModulation0 = temporalModulation0;				// Temporal Modulation:basePlaid. COUNTERPHASE, DRIFTING
+            pPlaid->temporalPhaseDeg0 = temporalPhaseDeg0;					// Temporal Phase
+            break;
+        case 1:
+            pPlaid->contrast1 = contrast1;									// Contrast [0:1]
+            pPlaid->directionDeg1 = directionDeg1;							// Direction
+            pPlaid->kdlThetaDeg1 = kdlThetaDeg1;							// kdl space (deg)
+            pPlaid->kdlPhiDeg1 = kdlPhiDeg1;								// kdl space (deg)
+            pPlaid->spatialFreqCPD1 = spatialFreqCPD1;						// Spatial frequency
+            pPlaid->spatialModulation1 = spatialModulation1;				// Spatial Modulation:component. SINE, SQUARE, TRIANGLE
+            pPlaid->spatialPhaseDeg1 = spatialPhaseDeg1;					// Spatial Phase
+            pPlaid->temporalFreqHz1 = temporalFreqHz1;						// Temporal frequency
+            pPlaid->temporalModulationParam1 = temporalModulationParam1;	// Parameter modulated in time
+            pPlaid->temporalModulation1 = temporalModulation1;				// Temporal Modulation:basePlaid. COUNTERPHASE, DRIFTING
+            pPlaid->temporalPhaseDeg1 = temporalPhaseDeg1;					// Temporal Phase
+           break;
+    }
 }
 
 // Prepare the cycle textures for drawing.  If there has been no significant change from the last time we drew,

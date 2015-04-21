@@ -94,6 +94,7 @@
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[NSWindow setFrame:display:]"
+                  usesParentBreakpointCondition = "Yes"
                   offsetFromSymbolStart = "0">
                </Location>
             </Locations>
