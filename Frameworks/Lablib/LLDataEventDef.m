@@ -546,7 +546,7 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 // largest element (up to 8).
 
 	pDef->tags = [self countStructTags:pDef];
-//	NSLog(@"   Parsing  \"struct\" named \"%@\" in event \"%@\" (offset %d, %d tags, %d bytes)", 
+//	NSLog(@"   Parsing  \"struct\" named \"%@\" in event \"%@\" (offset %lu, %lu tags, %lu bytes)",
 //				pDef->dataName, name, pDef->offsetBytes, pDef->tags, pDef->elementBytes);
 	[dataDefs addObject:[NSValue valueWithBytes:pDef objCType:@encode(LLDataDef)]];
 	tempOffsetBytes = pDef->offsetBytes + pDef->elementBytes * pDef->elements;
