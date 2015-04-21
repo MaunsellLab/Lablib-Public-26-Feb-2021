@@ -522,8 +522,8 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 {
 	NSSize unitSize = [degToUnits transformSize:sizeDeg];
 	
-	unitSize.width = fabsf(unitSize.width);
-	unitSize.height = fabsf(unitSize.height);
+	unitSize.width = fabs(unitSize.width);
+	unitSize.height = fabs(unitSize.height);
 	return unitSize;
 }
 

@@ -298,17 +298,17 @@ This variant accepts only events definitions that include data definitions.
 //					@"OK", nil, nil, pDef->name);
 		}
 		else {
-			if (&pDef->definition == nil) {
-                theAlert = [[NSAlert alloc] init];
-                [theAlert setMessageText:@"LLDataDoc"];
-                [theAlert setInformativeText:[NSString stringWithFormat:
-                                              @"Attempt to define event \"%@\" with no data description.", pDef->name]];
-                [theAlert runModal];
-                [theAlert release];
-//				NSRunAlertPanel(@"LLDataDoc",  @"Attempt to define event \"%@\" with no data description",
-//					@"OK", nil, nil, pDef->name);
-				exit(0);
-			}
+//			if (&pDef->definition == 0) {
+//                theAlert = [[NSAlert alloc] init];
+//                [theAlert setMessageText:@"LLDataDoc"];
+//                [theAlert setInformativeText:[NSString stringWithFormat:
+//                                              @"Attempt to define event \"%@\" with no data description.", pDef->name]];
+//                [theAlert runModal];
+//                [theAlert release];
+////				NSRunAlertPanel(@"LLDataDoc",  @"Attempt to define event \"%@\" with no data description",
+////					@"OK", nil, nil, pDef->name);
+//				exit(0);
+//			}
 			dataEventDef = [[[LLDataEventDef alloc] initWithCode:[eventsByCode count]
 					name:pDef->name elementBytes:pDef->elementBytes
 					dataDefinition:&pDef->definition] autorelease];

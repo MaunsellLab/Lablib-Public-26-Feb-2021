@@ -79,7 +79,7 @@
         [NSBezierPath fillRect:NSMakeRect([scale scaledX:MAX(mark.xMin, xAxisMin)], 
             yOriginPix, 
             [scale scaledXInc:MIN((mark.xMax - mark.xMin), xAxisMax)],
-            abs(mark.yPix))];
+            labs(mark.yPix))];
     }
 
 // Draw the histogram

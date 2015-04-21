@@ -43,7 +43,7 @@
 	}
 	else {
 		[LLPlotAxes getTickLimits:&ticks spacing:tickInt fromValue:startX toValue:stopX];
-		labelSpacing = fabs(labelInt);
+		labelSpacing = labs(labelInt);
 	}	
 	for (x = ticks.low; x <= ticks.high; x += ticks.inc) {
         [NSBezierPath strokeLineFromPoint:[scale scaledPoint:NSMakePoint(x, y)]
@@ -100,7 +100,7 @@
 	}
 	else {
 		[LLPlotAxes getTickLimits:&ticks spacing:tickInt fromValue:startY toValue:stopY];
-		labelSpacing = fabs(labelInt);
+		labelSpacing = labs(labelInt);
 	}	
 	for (y = ticks.low; y <= ticks.high; y += ticks.inc) {
 		[NSBezierPath strokeLineFromPoint:[scale scaledPoint:NSMakePoint(x, y)]

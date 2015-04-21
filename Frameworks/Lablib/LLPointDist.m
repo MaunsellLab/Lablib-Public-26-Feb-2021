@@ -43,7 +43,7 @@
 
 - (double)se;
 {
-	return abs(upperError + lowerError) / 2.0;
+	return fabs(upperError + lowerError) / 2.0;
 }
 	
 - (void)setErrorType:(long)errorType;

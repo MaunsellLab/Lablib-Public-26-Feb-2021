@@ -337,9 +337,9 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 								lineLength * sin(gridDeg * kRadiansPerDeg));
 					glEnd();
 				}
-				stopGridDeg = MAX(abs(NSMaxY(stimRectDeg)), abs(NSMinY(stimRectDeg)));
-				stopGridDeg = MAX(stopGridDeg, abs(NSMinX(stimRectDeg)));
-				stopGridDeg = MAX(stopGridDeg, abs(NSMaxX(stimRectDeg))) * 1.5;
+				stopGridDeg = MAX(fabs(NSMaxY(stimRectDeg)), fabs(NSMinY(stimRectDeg)));
+				stopGridDeg = MAX(stopGridDeg, fabs(NSMinX(stimRectDeg)));
+				stopGridDeg = MAX(stopGridDeg, fabs(NSMaxX(stimRectDeg))) * 1.5;
 				stopGridDeg = (long)(stopGridDeg / gridSpacingDeg) * gridSpacingDeg;
 				for (gridDeg = gridSpacingDeg; gridDeg <= stopGridDeg; gridDeg += gridSpacingDeg) {
 					glBegin(GL_LINE_LOOP);

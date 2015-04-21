@@ -249,7 +249,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 			};
 			buildConfigurationList = 69CA1DF1088DA56D00D7ADEE /* Build configuration list for PBXProject "Knot" */;
 			compatibilityVersion = "Xcode 3.2";
