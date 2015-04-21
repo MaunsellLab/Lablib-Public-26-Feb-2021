@@ -249,7 +249,12 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0620;
+				TargetAttributes = {
+					69F36A7205670A9A009AED51 = {
+						DevelopmentTeam = E54G4AFC7H;
+					};
+				};
 			};
 			buildConfigurationList = 69CA1DF1088DA56D00D7ADEE /* Build configuration list for PBXProject "Knot" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -328,6 +333,7 @@
 		69CA1DEA088DA56D00D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -368,6 +374,7 @@
 		69CA1DEB088DA56D00D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -393,6 +400,7 @@
 		69CA1DEC088DA56D00D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -422,7 +430,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = "";
 			};
 			name = Development;
@@ -435,6 +443,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = "";
 			};
 			name = Deployment;
@@ -446,6 +455,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = "";
 			};
 			name = Default;
