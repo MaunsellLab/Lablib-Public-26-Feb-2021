@@ -38,39 +38,53 @@
 {nil}}
 
 typedef struct {
-	float	azimuthDeg;					// Center of plaid 
-	float	elevationDeg;				// Center of plaid 
-	float	radiusDeg;					// Radius of drawing
-	float	sigmaDeg;					// standard deviation
-	float	contrast0;					// Contrast [0:1]
-	float	contrast1;					// Contrast [0:1]
-	float	directionDeg0;				// Direction
-	float	directionDeg1;				// Direction
-	float	kdlThetaDeg0;				// kdl space (deg)
-	float	kdlThetaDeg1;				// kdl space (deg)
-	float	kdlPhiDeg0;					// kdl space (deg)
-	float	kdlPhiDeg1;					// kdl space (deg)
-	float	radiusLimitSigma;			// max radius in sigmas
-	float	spatialFreqCPD0;			// Spatial frequency
-	float	spatialFreqCPD1;			// Spatial frequency
-	long	spatialModulation0;			// Spatial Modulation: SINE, SQUARE, TRIANGLE
-	long	spatialModulation1;			// Spatial Modulation: SINE, SQUARE, TRIANGLE
-	float	spatialPhaseDeg0;			// Spatial Phase
-	float	spatialPhaseDeg1;			// Spatial Phase
-	float	temporalFreqHz0;			// Temporal frequency
-	float	temporalFreqHz1;			// Temporal frequency
-	long	temporalModulation0;		// Temporal Modulation: COUNTERPHASE, DRIFTING
-	long	temporalModulation1;		// Temporal Modulation: COUNTERPHASE, DRIFTING
-	long	temporalModulationParam0;	// Parameter modulated in time
-	long	temporalModulationParam1;	// Parameter modulated in time
-	float	temporalPhaseDeg0;			// Temporal Phase
-	float	temporalPhaseDeg1;			// Temporal Phase
+    float	contrast;					// Contrast [0:1]
+    float	directionDeg;				// Direction
+    float	kdlThetaDeg;				// kdl space (deg)
+    float	kdlPhiDeg;					// kdl space (deg)
+    float	spatialFreqCPD;             // Spatial frequency
+    long	spatialModulation;			// Spatial Modulation: SINE, SQUARE, TRIANGLE
+    float	spatialPhaseDeg;			// Spatial Phase
+    float	temporalFreqHz;             // Temporal frequency
+    long	temporalModulation;         // Temporal Modulation: COUNTERPHASE, DRIFTING
+    long	temporalModulationParam;	// Parameter modulated in time
+    float	temporalPhaseDeg;			// Temporal Phase
+} Grating;
+
+typedef struct {
+    float	azimuthDeg;					// Center of plaid
+    float	elevationDeg;				// Center of plaid
+    float	radiusDeg;					// Radius of drawing
+    float	sigmaDeg;					// standard deviation
+    float	contrast0;					// Contrast [0:1]
+    float	contrast1;					// Contrast [0:1]
+    float	directionDeg0;				// Direction
+    float	directionDeg1;				// Direction
+    float	kdlThetaDeg0;				// kdl space (deg)
+    float	kdlThetaDeg1;				// kdl space (deg)
+    float	kdlPhiDeg0;					// kdl space (deg)
+    float	kdlPhiDeg1;					// kdl space (deg)
+    float	radiusLimitSigma;			// max radius in sigmas
+    float	spatialFreqCPD0;			// Spatial frequency
+    float	spatialFreqCPD1;			// Spatial frequency
+    long	spatialModulation0;			// Spatial Modulation: SINE, SQUARE, TRIANGLE
+    long	spatialModulation1;			// Spatial Modulation: SINE, SQUARE, TRIANGLE
+    float	spatialPhaseDeg0;			// Spatial Phase
+    float	spatialPhaseDeg1;			// Spatial Phase
+    float	temporalFreqHz0;			// Temporal frequency
+    float	temporalFreqHz1;			// Temporal frequency
+    long	temporalModulation0;		// Temporal Modulation: COUNTERPHASE, DRIFTING
+    long	temporalModulation1;		// Temporal Modulation: COUNTERPHASE, DRIFTING
+    long	temporalModulationParam0;	// Parameter modulated in time
+    long	temporalModulationParam1;	// Parameter modulated in time
+    float	temporalPhaseDeg0;			// Temporal Phase
+    float	temporalPhaseDeg1;			// Temporal Phase
 } Plaid;
 
 enum  {kLLPlaidSineModulation = 0, kLLPlaidSquareModulation, kLLPlaidTriangleModulation} SpatialModulation0;	// spatial modulation
 enum {kLLPlaidCounterPhase = 0, kLLPlaidDrifting, kLLPlaidRandom} TemporalModulation0;							// temporal modulation
-enum {kLLPlaidSPhase = 0, kLLPlaidDirection, kLLPlaidKdlTheta, kLLPlaidKdlPhi} TemporalModulationParam0;							// temporal modulation param
-enum {kLLPlaidDrawColor, kLLPlaidDrawTextures, kLLPlaidDrawCircle, kLLPlaidDrawTypes} DisplayList0;									// display lists
+enum {kLLPlaidSPhase = 0, kLLPlaidDirection, kLLPlaidKdlTheta, kLLPlaidKdlPhi} TemporalModulationParam0;		// temporal modulation param
+enum {kLLPlaidDrawColor, kLLPlaidDrawTextures, kLLPlaidDrawCircle, kLLPlaidDrawTypes} DisplayList0;				// display lists
 
 #define kComponents			2
 
@@ -123,6 +137,7 @@ extern NSString *LLPlaid1TemporalPhaseDegKey;
 	float		kdlThetaDeg1;
 	float		kdlPhiDeg0;
 	float		kdlPhiDeg1;
+    NSLock      *modLock;
 	Plaid		plaid;
 	float		radiusLimitSigma;
 	float		sigmaDeg;							// Plaid standard deviation
@@ -172,6 +187,7 @@ extern NSString *LLPlaid1TemporalPhaseDegKey;
 - (void)makeDisplayLists;
 - (void)makeGaussianTexture;
 - (void)restore;
+- (void)restore:(long)gratingNum;
 - (void)setAchromatic:(BOOL)newState;
 - (void)setContrast0:(float)newContrast;
 - (void)setContrast1:(float)newContrast;
@@ -199,10 +215,7 @@ extern NSString *LLPlaid1TemporalPhaseDegKey;
 - (float)spatialFreqCPD0;
 - (float)spatialFreqCPD1;
 - (void)store;
-//- (float)temporalFreqHz;
-//- (long)temporalModulation;
-//- (long)temporalModulationParam;
-//- (float)temporalPhaseDeg;
+- (void)store:(long)gratingNum;
 - (void)updateCycleTextures;
 - (void)updateCycleTexturesGL;
 

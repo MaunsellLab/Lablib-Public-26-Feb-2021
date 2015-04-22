@@ -8,18 +8,6 @@
 
 #import "LLDrawable.h"
 
-#define kLLEyeWindowEventDesc\
-		{{@"long",	@"index", 1, offsetof(FixWindowData, index)},\
-		{@"float",	@"windowDeg.origin.x", 1, offsetof(FixWindowData, windowDeg.origin.x)},\
-		{@"float",	@"windowDeg.origin.y", 1, offsetof(FixWindowData, windowDeg.origin.y)},\
-		{@"float",	@"windowDeg.size.width", 1, offsetof(FixWindowData, windowDeg.size.width)},\
-		{@"float",	@"windowDeg.size.height", 1, offsetof(FixWindowData, windowDeg.size.height)},\
-		{@"float",	@"windowUnits.origin.x", 1, offsetof(FixWindowData, windowUnits.origin.x)},\
-		{@"float",	@"windowUnits.origin.y", 1, offsetof(FixWindowData, windowUnits.origin.y)},\
-		{@"float",	@"windowUnits.size.width", 1, offsetof(FixWindowData, windowUnits.size.width)},\
-		{@"float",	@"windowUnits.size.height", 1, offsetof(FixWindowData, windowUnits.size.height)},\
-		{nil}}
-
 @interface LLEyeWindow:NSObject {
 
     float 	azimuthDeg;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
     </dependencies>
@@ -17,17 +17,17 @@
         <window title="Trial" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="TrialController" animationBehavior="default" id="76" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="101" y="101" width="271" height="297"/>
+            <rect key="contentRect" x="100" y="402" width="271" height="298"/>
             <rect key="screenRect" x="1152" y="-154" width="1280" height="854"/>
             <view key="contentView" id="77">
-                <rect key="frame" x="0.0" y="0.0" width="271" height="297"/>
+                <rect key="frame" x="0.0" y="5" width="271" height="298"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="204">
-                        <rect key="frame" x="20" y="60" width="231" height="217"/>
+                        <rect key="frame" x="20" y="61" width="231" height="217"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="58T-NS-riQ">
-                            <rect key="frame" x="1" y="1" width="214" height="200"/>
+                            <rect key="frame" x="1" y="1" width="229" height="215"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <customView id="185" customClass="LLXTView">
@@ -46,17 +46,17 @@
                         </scroller>
                     </scrollView>
                     <popUpButton verticalHuggingPriority="750" id="101">
-                        <rect key="frame" x="141" y="56" width="98" height="22"/>
+                        <rect key="frame" x="141" y="57" width="98" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <popUpButtonCell key="cell" type="push" title="100%" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="100" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="106" id="211">
+                        <popUpButtonCell key="cell" type="push" title="50%" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="50" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="102" id="211">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                             <menu key="menu" title="OtherViews" id="104">
                                 <items>
                                     <menuItem title="25%" tag="25" id="103"/>
-                                    <menuItem title="50%" tag="50" id="102"/>
+                                    <menuItem title="50%" state="on" tag="50" id="102"/>
                                     <menuItem title="75%" tag="75" id="100"/>
-                                    <menuItem title="100%" state="on" tag="100" id="106"/>
+                                    <menuItem title="100%" tag="100" id="106"/>
                                     <menuItem title="125%" tag="125" id="105"/>
                                     <menuItem title="150%" tag="150" id="108"/>
                                     <menuItem title="200%" tag="200" id="109"/>
@@ -69,7 +69,7 @@
                         </connections>
                     </popUpButton>
                     <button verticalHuggingPriority="750" id="208">
-                        <rect key="frame" x="14" y="12" width="84" height="32"/>
+                        <rect key="frame" x="14" y="13" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="push" title="Freeze" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="212">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -84,7 +84,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="168"/>
             </connections>
-            <point key="canvasLocation" x="304.5" y="346.5"/>
+            <point key="canvasLocation" x="304.5" y="347"/>
         </window>
     </objects>
 </document>

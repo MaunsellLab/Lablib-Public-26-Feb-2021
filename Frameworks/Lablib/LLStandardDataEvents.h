@@ -8,7 +8,19 @@
 
 #import "LLDataDoc.h" 
 
-typedef struct {	
+#define kLLEyeWindowEventDesc \
+{{@"long",	@"index", 1, offsetof(FixWindowData, index)},\
+{@"CGFloat",	@"windowDeg.origin.x", 1, offsetof(FixWindowData, windowDeg.origin.x)},\
+{@"CGFloat",	@"windowDeg.origin.y", 1, offsetof(FixWindowData, windowDeg.origin.y)},\
+{@"CGFloat",	@"windowDeg.size.width", 1, offsetof(FixWindowData, windowDeg.size.width)},\
+{@"CGFloat",	@"windowDeg.size.height", 1, offsetof(FixWindowData, windowDeg.size.height)},\
+{@"CGFloat",	@"windowUnits.origin.x", 1, offsetof(FixWindowData, windowUnits.origin.x)},\
+{@"CGFloat",	@"windowUnits.origin.y", 1, offsetof(FixWindowData, windowUnits.origin.y)},\
+{@"CGFloat",	@"windowUnits.size.width", 1, offsetof(FixWindowData, windowUnits.size.width)},\
+{@"CGFloat",	@"windowUnits.size.height", 1, offsetof(FixWindowData, windowUnits.size.height)},\
+{nil}}
+
+typedef struct {
 	short channel;								// spike channel
     long time;									// spike time
 } TimestampData;
@@ -65,5 +77,4 @@ enum {kTaskIdle, kTaskStopping, kTaskRunning, kTaskEnding, kTaskQuitting, kTaskM
 + (EventDef *)events;
 + (EventDefinition *)eventsWithDataDefs;
 + (NSString *)trialEndName:(short)eotCode;
-
 @end
