@@ -333,7 +333,8 @@
 		69CA1DEA088DA56D00D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -360,6 +361,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Knot;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -374,7 +376,8 @@
 		69CA1DEB088DA56D00D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -390,6 +393,7 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = Knot;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wmost";
@@ -400,7 +404,8 @@
 		69CA1DEC088DA56D00D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -416,6 +421,7 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = Knot;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wmost";
