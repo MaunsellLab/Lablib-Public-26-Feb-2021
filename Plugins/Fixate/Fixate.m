@@ -14,6 +14,7 @@
 NSString *FTAcquireMSKey = @"FTAcquireMS";
 NSString *FTDoFixateKey = @"FTDoFixate";
 NSString *FTDoSoundsKey = @"FTDoSounds";
+NSString *FTFixateJitterPCKey = @"FTFixateJitterPC";
 NSString *FTFixateMSKey = @"FTFixateMS";
 NSString *FTFixForeColorKey = @"FTFixForeColor";
 NSString *FTFixBackColorKey = @"FTFixBackColor";

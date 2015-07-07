@@ -14,6 +14,7 @@
 - (void)stateAction {
 
 	long fixateMS = [[NSUserDefaults standardUserDefaults] integerForKey:FTFixateMSKey];
+    long fixateJitterPC = [[NSUserDefaults standardUserDefaults] integerForKey:FTFixateJitterPCKey];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey]) {				// fixation required && fixated
 		[[task dataDoc] putEvent:@"fixate"];
@@ -24,6 +25,9 @@
 		}
 	}
 	[[task dataDoc] putEvent:@"fixate"];
+    if (fixateJitterPC > 0) {
+        fixateMS *= 1 + fixateJitterPC/100;
+    }
 	expireTime = [LLSystemUtil timeFromNow:fixateMS];
 }
 

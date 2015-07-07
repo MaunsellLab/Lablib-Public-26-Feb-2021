@@ -39,7 +39,6 @@
 		695EFEE41AC623AA00D9D458 /* Fixate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE31AC623AA00D9D458 /* Fixate.xib */; };
 		695EFEE61AC623D400D9D458 /* FTEyeXYController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE51AC623D400D9D458 /* FTEyeXYController.xib */; };
 		695EFEE81AC623E600D9D458 /* FTSummaryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE71AC623E600D9D458 /* FTSummaryController.xib */; };
-		695EFEEA1AC623F900D9D458 /* FTXTController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE91AC623F900D9D458 /* FTXTController.xib */; };
 		697CC50F077DD6F10025E7D2 /* FT.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC50E077DD6F10025E7D2 /* FT.h */; };
 		697CC99D077E01CA0025E7D2 /* FTStimuli.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC99C077E01CA0025E7D2 /* FTStimuli.h */; };
 		697CC9A1077E01E00025E7D2 /* FTStimuli.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CC9A0077E01E00025E7D2 /* FTStimuli.m */; };
@@ -89,7 +88,6 @@
 		695EFEE31AC623AA00D9D458 /* Fixate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Fixate.xib; sourceTree = "<group>"; };
 		695EFEE51AC623D400D9D458 /* FTEyeXYController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTEyeXYController.xib; sourceTree = "<group>"; };
 		695EFEE71AC623E600D9D458 /* FTSummaryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTSummaryController.xib; sourceTree = "<group>"; };
-		695EFEE91AC623F900D9D458 /* FTXTController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTXTController.xib; sourceTree = "<group>"; };
 		697CC50E077DD6F10025E7D2 /* FT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FT.h; sourceTree = "<group>"; };
 		697CC99C077E01CA0025E7D2 /* FTStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FTStimuli.h; sourceTree = "<group>"; };
 		697CC9A0077E01E00025E7D2 /* FTStimuli.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FTStimuli.m; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 				695EFEE31AC623AA00D9D458 /* Fixate.xib */,
 				695EFEE51AC623D400D9D458 /* FTEyeXYController.xib */,
 				695EFEE71AC623E600D9D458 /* FTSummaryController.xib */,
-				695EFEE91AC623F900D9D458 /* FTXTController.xib */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -296,7 +293,6 @@
 			files = (
 				695EFEE41AC623AA00D9D458 /* Fixate.xib in Resources */,
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
-				695EFEEA1AC623F900D9D458 /* FTXTController.xib in Resources */,
 				694D0C82077B65400025BAA4 /* Fixate.h in Resources */,
 				694D127D077B8EC50025BAA4 /* FTBlockedState.h in Resources */,
 				694D127F077B8EC50025BAA4 /* FTEndtrialState.h in Resources */,
