@@ -20,7 +20,8 @@
 volatile int shouldKillThread = 0;
 BOOL firstTrialSample;
 long ELTrialStartTimeMS,ELTrialStopTimeMS;
-long firstSampleTime, lastSampleTime;
+long firstSampleTime;
+long lastSampleTime = -1;
 //FSAMPLE oldSample, newSample;
 
 void handler(int signal) {
@@ -209,7 +210,7 @@ void handler(int signal) {
                 }
                 lastSampleTime = newSample.time;
                 // At trial end, if pollSamples: does not return fast enough, occasionaly an extra sample beyond ELTrialStopTimeMS is fetched. This prevents this.
-                if(ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue]){
+                if (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue]){
                     sample = (short)(newSample.px[RIGHT_EYE]);
                     [rXData appendBytes:&sample length:sizeof(sample)];
                     sample = (short)(-newSample.py[RIGHT_EYE]);
@@ -318,7 +319,10 @@ void handler(int signal) {
         ELTrialStopTimeMS = eyelink_tracker_msec();
         values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
         //NSLog(@"Buffer content before for clearing EL buffer: %i",eyelink_data_count(1,0));
-        while (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue]) {} // Generally, the EyeLink queue fills slowly, so we wait until all samples are collected
+        if (lastSampleTime != -1) {                                 // if the EyeLink exists, wait for it
+            while (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue])
+                {} // Generally, the EyeLink queue fills slowly, so we wait until all samples are collected
+        }
         dataEnabled = NO;
         [monitor sequenceValues:values];
         NSLog(@"Number of samples counted = %li",values.samples);

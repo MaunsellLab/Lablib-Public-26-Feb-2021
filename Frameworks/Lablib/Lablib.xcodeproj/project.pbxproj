@@ -1111,7 +1111,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0640;
 			};
 			buildConfigurationList = 69CA1DE1088DA53700D7ADEE /* Build configuration list for PBXProject "Lablib" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1426,7 +1426,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				MACOSX_DEPLOYMENT_TARGET = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
 			};
 			name = Development;
 		};
@@ -1435,7 +1435,7 @@
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
@@ -1444,7 +1444,7 @@
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
 			};
 			name = Default;
 		};
