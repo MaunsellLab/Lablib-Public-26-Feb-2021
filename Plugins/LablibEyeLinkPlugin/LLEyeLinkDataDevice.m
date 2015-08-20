@@ -12,6 +12,7 @@
 #import <Lablib/LLSystemUtil.h>
 #import "LLEyeLinkDataDevice.h"
 
+#define kVerbose    NO
 #define maxELTime 0xffffffff
 //#define kUseLLDataDevices        // needed for versioning
 
@@ -20,7 +21,8 @@
 volatile int shouldKillThread = 0;
 BOOL firstTrialSample;
 long ELTrialStartTimeMS,ELTrialStopTimeMS;
-long firstSampleTime, lastSampleTime;
+long firstSampleTime;
+long lastSampleTime = -1;
 //FSAMPLE oldSample, newSample;
 
 void handler(int signal) {
@@ -197,7 +199,7 @@ void handler(int signal) {
             index= eyelink_get_float_data(&newSample);
             if (index==SAMPLE_TYPE && newSample.time >= ELTrialStartTimeMS) {
                 [dataLock lock];
-                if (firstTrialSample) {
+                if (firstTrialSample && kVerbose) {
                     NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
                     NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
                     NSLog(@"Difference between Tracker start time and tracker time at first sample = %li ms", eyelink_tracker_msec()-ELTrialStartTimeMS);
@@ -209,7 +211,7 @@ void handler(int signal) {
                 }
                 lastSampleTime = newSample.time;
                 // At trial end, if pollSamples: does not return fast enough, occasionaly an extra sample beyond ELTrialStopTimeMS is fetched. This prevents this.
-                if(ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue]){
+                if (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue]){
                     sample = (short)(newSample.px[RIGHT_EYE]);
                     [rXData appendBytes:&sample length:sizeof(sample)];
                     sample = (short)(-newSample.py[RIGHT_EYE]);
@@ -291,7 +293,9 @@ void handler(int signal) {
 //        [deviceLock lock];
 		if (maxSamplingRateHz != 0) {
             // no channels enabled
-            NSLog(@"Buffer content before setting ELTrialStartTimeMS: %i",eyelink_data_count(1,0));
+            if (kVerbose) {
+                NSLog(@"Buffer content before setting ELTrialStartTimeMS: %i",eyelink_data_count(1,0));
+            }
             ELTrialStartTimeMS = eyelink_tracker_msec();
             ELTrialStopTimeMS = maxELTime;
             //NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
@@ -318,14 +322,19 @@ void handler(int signal) {
         ELTrialStopTimeMS = eyelink_tracker_msec();
         values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
         //NSLog(@"Buffer content before for clearing EL buffer: %i",eyelink_data_count(1,0));
-        while (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue]) {} // Generally, the EyeLink queue fills slowly, so we wait until all samples are collected
+        if (lastSampleTime != -1) {                                 // if the EyeLink exists, wait for it
+            while (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue])
+                {} // Generally, the EyeLink queue fills slowly, so we wait until all samples are collected
+        }
         dataEnabled = NO;
         [monitor sequenceValues:values];
-        NSLog(@"Number of samples counted = %li",values.samples);
-        NSLog(@"Last sample time = %li",lastSampleTime);
-        NSLog(@"EyeLink stop time = %li",ELTrialStopTimeMS); 
-        NSLog(@"Time difference between first and last sample = %li",lastSampleTime - firstSampleTime);       
-        NSLog(@"Time difference EyeLink trial start and stop = %li",ELTrialStopTimeMS - ELTrialStartTimeMS);
+        if (kVerbose) {
+            NSLog(@"Number of samples counted = %li",values.samples);
+            NSLog(@"Last sample time = %li",lastSampleTime);
+            NSLog(@"EyeLink stop time = %li",ELTrialStopTimeMS); 
+            NSLog(@"Time difference between first and last sample = %li",lastSampleTime - firstSampleTime);       
+            NSLog(@"Time difference EyeLink trial start and stop = %li",ELTrialStopTimeMS - ELTrialStartTimeMS);
+        }
 	}
 }
 
