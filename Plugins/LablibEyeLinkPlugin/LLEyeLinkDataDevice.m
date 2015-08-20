@@ -12,6 +12,7 @@
 #import <Lablib/LLSystemUtil.h>
 #import "LLEyeLinkDataDevice.h"
 
+#define kVerbose    NO
 #define maxELTime 0xffffffff
 //#define kUseLLDataDevices        // needed for versioning
 
@@ -198,7 +199,7 @@ void handler(int signal) {
             index= eyelink_get_float_data(&newSample);
             if (index==SAMPLE_TYPE && newSample.time >= ELTrialStartTimeMS) {
                 [dataLock lock];
-                if (firstTrialSample) {
+                if (firstTrialSample && kVerbose) {
                     NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
                     NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
                     NSLog(@"Difference between Tracker start time and tracker time at first sample = %li ms", eyelink_tracker_msec()-ELTrialStartTimeMS);
@@ -292,7 +293,9 @@ void handler(int signal) {
 //        [deviceLock lock];
 		if (maxSamplingRateHz != 0) {
             // no channels enabled
-            NSLog(@"Buffer content before setting ELTrialStartTimeMS: %i",eyelink_data_count(1,0));
+            if (kVerbose) {
+                NSLog(@"Buffer content before setting ELTrialStartTimeMS: %i",eyelink_data_count(1,0));
+            }
             ELTrialStartTimeMS = eyelink_tracker_msec();
             ELTrialStopTimeMS = maxELTime;
             //NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
@@ -325,11 +328,13 @@ void handler(int signal) {
         }
         dataEnabled = NO;
         [monitor sequenceValues:values];
-        NSLog(@"Number of samples counted = %li",values.samples);
-        NSLog(@"Last sample time = %li",lastSampleTime);
-        NSLog(@"EyeLink stop time = %li",ELTrialStopTimeMS); 
-        NSLog(@"Time difference between first and last sample = %li",lastSampleTime - firstSampleTime);       
-        NSLog(@"Time difference EyeLink trial start and stop = %li",ELTrialStopTimeMS - ELTrialStartTimeMS);
+        if (kVerbose) {
+            NSLog(@"Number of samples counted = %li",values.samples);
+            NSLog(@"Last sample time = %li",lastSampleTime);
+            NSLog(@"EyeLink stop time = %li",ELTrialStopTimeMS); 
+            NSLog(@"Time difference between first and last sample = %li",lastSampleTime - firstSampleTime);       
+            NSLog(@"Time difference EyeLink trial start and stop = %li",ELTrialStopTimeMS - ELTrialStartTimeMS);
+        }
 	}
 }
 
