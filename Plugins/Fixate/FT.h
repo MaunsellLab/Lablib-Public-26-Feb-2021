@@ -25,6 +25,7 @@ enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
 NSString *FTAcquireMSKey;
 NSString *FTDoFixateKey;
 NSString *FTDoSoundsKey;
+NSString *FTFixateJitterPCKey;
 NSString *FTFixateMSKey;
 NSString *FTFixWindowWidthDegKey;
 NSString *FTIntertrialMSKey;

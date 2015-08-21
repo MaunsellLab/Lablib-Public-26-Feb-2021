@@ -2,9 +2,10 @@
 //  LLEyeLinkDataDevice.m
 //  Lablib
 //
-//  Created by Jon Hendry on 9/18/07 and Bram Verhoef 2012.
+//  Created by Jon Hendry on 9/18/07.
 //  Copyright 2007. All rights reserved.
 //
+// August 21, 2015, Working version for Rig 1
 
 #import <eyelink_core/eyelink.h>
 #import <eyelink_core/core_expt.h>
@@ -12,18 +13,13 @@
 #import <Lablib/LLSystemUtil.h>
 #import "LLEyeLinkDataDevice.h"
 
-#define kVerbose    NO
-#define maxELTime 0xffffffff
 //#define kUseLLDataDevices        // needed for versioning
 
 @implementation LLEyeLinkDataDevice
 
 volatile int shouldKillThread = 0;
 BOOL firstTrialSample;
-long ELTrialStartTimeMS,ELTrialStopTimeMS;
-long firstSampleTime;
-long lastSampleTime = -1;
-//FSAMPLE oldSample, newSample;
+long ELTrialStartTimeMS;
 
 void handler(int signal) {
 	stop_recording();
@@ -38,7 +34,6 @@ void handler(int signal) {
 
 - (void)dealloc;
 {
-    short index;
 	if (eyelink_is_connected()) {
 		set_offline_mode();					// place EyeLink tracker in off-line (idle) mode
 		eyecmd_printf("close_data_file");    // close data file
@@ -53,9 +48,6 @@ void handler(int signal) {
 	[rYData release];
 	[rPData release];
 	[dataLock unlock];
-    for (index = 0; index < kEyeLinkChannels; index++) {
-        [sampleData[index] release];
-    }
 	[dataLock release];
 	[deviceLock release];
 	[monitor release];
@@ -99,6 +91,7 @@ void handler(int signal) {
 		
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * EyeLinkSamplePeriodS;
 				
+        NSLog(@"LLEyeLinkDataDevice: Since 10.10, the EyeLink API is generating this thread_policy_set error");
 		if ((index = open_eyelink_connection(0))) {
 			deviceEnabled = devicePresent = NO;
 		}
@@ -130,11 +123,11 @@ void handler(int signal) {
 
 - (void)disableSampleChannels:(NSNumber *)bitPattern;
 {
-	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) { 
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:
-            [NSString stringWithFormat:@"Request to disable non-existent channel for device %@ (only %lu channels)",
-             [self name], (unsigned long)[samplePeriodMS count]]];
-//		NSRunAlertPanel(@"LLEyeLinkDataDevice",
+	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) {
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
+                @"Request to disable non-existent channel for device %@ (only %lu channels)",
+                [self name], (unsigned long)[samplePeriodMS count]]];
+//		NSRunAlertPanel(@"LLEyeLinkDataDevice",  
 //				@"Request to disable non-existent channel for device %@ (only %lu channels)",
 //				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
 		exit(0);
@@ -145,9 +138,9 @@ void handler(int signal) {
 - (void)enableSampleChannels:(NSNumber *)bitPattern;
 {
 	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) { 
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:
-            [NSString stringWithFormat:@"Request to enable non-existent channel for device %@ (only %lu channels)",
-            [self name], (unsigned long)[samplePeriodMS count]]];
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
+               @"Request to enable non-existent channel for device %@ (only %lu channels)",
+               [self name], (unsigned long)[samplePeriodMS count]]];
 //		NSRunAlertPanel(@"LLEyeLinkDataDevice",
 //				@"Request to enable non-existent channel for device %@ (only %lu channels)",
 //				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
@@ -164,9 +157,9 @@ void handler(int signal) {
 - (float)samplePeriodMSForChannel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:
-            [NSString stringWithFormat:@"Requested sample period %ld of %lu for device %@",
-            channel, (unsigned long)[samplePeriodMS count], [self name]]];
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
+               @"Requested sample period %ld of %lu for device %@",
+               channel, (unsigned long)[samplePeriodMS count], [self name]]];
 //		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Requested sample period %ld of %lu for device %@",
 //				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
@@ -183,10 +176,10 @@ void handler(int signal) {
 {
 	int index = 0;
 	short sample = 0;
-	FSAMPLE oldSample, newSample;
-    //ALLF_DATA oldSample, newSample;
+	ISAMPLE oldSample, newSample;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
+
+	oldSample.time = 0;
 	pollThread = [NSThread currentThread];
 	
 	while (YES) {
@@ -195,49 +188,37 @@ void handler(int signal) {
 			pollThread = nil;
 			[NSThread exit];
 		}
-		while (dataEnabled && 0 != eyelink_get_next_data(NULL)) {
-            index= eyelink_get_float_data(&newSample);
-            if (index==SAMPLE_TYPE && newSample.time >= ELTrialStartTimeMS) {
-                [dataLock lock];
-                if (firstTrialSample && kVerbose) {
+		while ((index = eyelink_get_sample(&newSample))) {
+			if (index && (newSample.time != oldSample.time)) {
+				[dataLock lock];
+                if (!firstTrialSample) {
+                    ELTrialStartTimeMS = eyelink_tracker_msec();
+                    NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
+                    NSLog(@"EyeLink Sample Time stamp: %u", newSample.time);
                     NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
                     NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
-                    NSLog(@"Difference between Tracker start time and tracker time at first sample = %li ms", eyelink_tracker_msec()-ELTrialStartTimeMS);
-                    firstSampleTime = newSample.time;
-                    firstTrialSample = NO;
+                    firstTrialSample = YES;
                 }
-                else if (newSample.time - oldSample.time != [[samplePeriodMS objectAtIndex:0] floatValue]){
-                    NSLog(@"Warning: Unexpected time interval between EyeLink samples, measured interval= %u ms",newSample.time - oldSample.time);
-                }
-                lastSampleTime = newSample.time;
-                // At trial end, if pollSamples: does not return fast enough, occasionaly an extra sample beyond ELTrialStopTimeMS is fetched. This prevents this.
-                if (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue]){
-                    sample = (short)(newSample.px[RIGHT_EYE]);
-                    [rXData appendBytes:&sample length:sizeof(sample)];
-                    sample = (short)(-newSample.py[RIGHT_EYE]);
-                    [rYData appendBytes:&sample length:sizeof(sample)];
-                    sample = (short)(newSample.pa[RIGHT_EYE]);
-                    [rPData appendBytes:&sample length:sizeof(sample)];
-                    sample = (short)(newSample.px[LEFT_EYE]);
-                    [lXData appendBytes:&sample length:sizeof(sample)];
-                    sample = (short)(-newSample.py[LEFT_EYE]);
-                    [lYData appendBytes:&sample length:sizeof(sample)];
-                    sample = (short)(newSample.pa[LEFT_EYE]);
-                    [lPData appendBytes:&sample length:sizeof(sample)];
-                    values.samples++;
-                    [dataLock unlock];
-                    oldSample = newSample;
-                }
-            }
-        }
-        if (!dataEnabled) {
-            [pool release];
-            pool = [[NSAutoreleasePool alloc] init];
-        }
-        usleep(1000);// sleep 1 ms
-    }    
+				sample = (short)(newSample.gx[RIGHT_EYE]);
+				[rXData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(-newSample.gy[RIGHT_EYE]);
+				[rYData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(newSample.pa[RIGHT_EYE]);
+				[rPData appendBytes:&sample length:sizeof(sample)];				
+                sample = (short)(newSample.gx[LEFT_EYE]);
+				[lXData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(-newSample.gy[LEFT_EYE]);
+				[lYData appendBytes:&sample length:sizeof(sample)];
+				sample = (short)(newSample.pa[LEFT_EYE]);
+				[lPData appendBytes:&sample length:sizeof(sample)];
+				values.samples++;
+				[dataLock unlock];
+				oldSample = newSample;
+			}
+		}
+		usleep(20000);										// sleep 20 ms
+	}
 }
-
 
 - (NSData **)sampleData;
 {
@@ -290,51 +271,31 @@ void handler(int signal) {
 	long maxSamplingRateHz = 1000;
 	
 	if ([state boolValue] && !dataEnabled) {						// toggle from OFF to ON
-//        [deviceLock lock];
-		if (maxSamplingRateHz != 0) {
-            // no channels enabled
-            if (kVerbose) {
-                NSLog(@"Buffer content before setting ELTrialStartTimeMS: %i",eyelink_data_count(1,0));
-            }
-            ELTrialStartTimeMS = eyelink_tracker_msec();
-            ELTrialStopTimeMS = maxELTime;
-            //NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
-			monitorStartTimeS = [LLSystemUtil getTimeS];
-            firstTrialSample = YES;
+        [deviceLock lock];
+		if (maxSamplingRateHz != 0) {							    // no channels enabled
 			sampleTimeS = EyeLinkSamplePeriodS;						// one period complete on first sample
 			justStartedEyeLink = YES;
 			//[deviceLock lock];
-			//start_recording(0,0,1,0);                               // tell device to start recording
+			start_recording(0,0,1,0);                               // tell device to start recording
 			//[deviceLock unlock];
 			[monitor initValues:&values];
 			values.samplePeriodMS = EyeLinkSamplePeriodS * 1000.0;
-            lastReadDataTimeS = 0;
+			monitorStartTimeS = [LLSystemUtil getTimeS];
+			lastReadDataTimeS = 0;
 			dataEnabled = YES;
+            firstTrialSample = NO;
 		}
-//        [deviceLock unlock];
+        [deviceLock unlock];
 	} 
 	else if (![state boolValue] && dataEnabled) {					// toggle from ON to OFF
+		values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
 		lastReadDataTimeS = 0;
-		//[deviceLock lock];
-		//stop_recording();
-		//[deviceLock unlock];
+		[deviceLock lock];
+		stop_recording();
+		[deviceLock unlock];
         values.sequences = 1;
-        ELTrialStopTimeMS = eyelink_tracker_msec();
-        values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
-        //NSLog(@"Buffer content before for clearing EL buffer: %i",eyelink_data_count(1,0));
-        if (lastSampleTime != -1) {                                 // if the EyeLink exists, wait for it
-            while (ELTrialStopTimeMS - lastSampleTime >= [[samplePeriodMS objectAtIndex:0] floatValue])
-                {} // Generally, the EyeLink queue fills slowly, so we wait until all samples are collected
-        }
-        dataEnabled = NO;
-        [monitor sequenceValues:values];
-        if (kVerbose) {
-            NSLog(@"Number of samples counted = %li",values.samples);
-            NSLog(@"Last sample time = %li",lastSampleTime);
-            NSLog(@"EyeLink stop time = %li",ELTrialStopTimeMS); 
-            NSLog(@"Time difference between first and last sample = %li",lastSampleTime - firstSampleTime);       
-            NSLog(@"Time difference EyeLink trial start and stop = %li",ELTrialStopTimeMS - ELTrialStartTimeMS);
-        }
+		[monitor sequenceValues:values];
+		dataEnabled = NO;
 	}
 }
 
@@ -344,7 +305,6 @@ void handler(int signal) {
     
 	if (![state boolValue] && deviceEnabled) {						// Disable the device
 		[self setDataEnabled:NO];
-        stop_recording();
         deviceEnabled = NO;
 		shouldKillThread = YES;
 		while (pollThread != nil) {
@@ -372,7 +332,7 @@ void handler(int signal) {
 		if (pollThread == nil) {
 			shouldKillThread = NO;
 			[NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
-			//error = start_recording(0, 0, 1, 0);                    // Eyelink: link, not file, samples, no events
+			error = start_recording(0, 0, 1, 0);                    // Eyelink: link, not file, samples, no events
 		}
 	}
 }
@@ -380,9 +340,9 @@ void handler(int signal) {
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
 	if (channel >= [samplePeriodMS count]) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:
-            [NSString stringWithFormat:@"Attempt to set sample period %ld of %lu for device %@",
-            channel, (unsigned long)[samplePeriodMS count], [self name]]];
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
+                   @"Attempt to set sample period %ld of %lu for device %@",
+                   channel, (unsigned long)[samplePeriodMS count], [self name]]];
 //		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Attempt to set sample period %ld of %lu for device %@",
 //				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
@@ -391,27 +351,5 @@ void handler(int signal) {
 					withObject:[NSNumber numberWithFloat:newPeriodMS]];
 	return YES;
 }
-
-- (void)startDevice;
-{
-    
-    if (check_recording() != 0) {
-        NSLog(@"*************EyeLink startDevice");
-        [deviceLock lock];
-        start_recording(0,0,1,0);                               // tell device to start recording
-        [deviceLock unlock];
-    }
-}
-
-- (void)stopDevice;
-{
-    if (check_recording() == 0) {
-        NSLog(@"*************EyeLink stopDevice");
-        [deviceLock lock];
-        stop_recording();
-        [deviceLock unlock];
-    }
-}
-
 
 @end

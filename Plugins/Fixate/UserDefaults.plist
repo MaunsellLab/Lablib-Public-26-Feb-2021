@@ -41,7 +41,7 @@
 	<key>FTFixWindowWidthDeg</key>
 	<real>1</real>
 	<key>FTFixateJitterPC</key>
-	<integer>25</integer>
+	<integer>0</integer>
 	<key>FTFixateMS</key>
 	<integer>1000</integer>
 	<key>FTInnerRadiusDeg</key>
