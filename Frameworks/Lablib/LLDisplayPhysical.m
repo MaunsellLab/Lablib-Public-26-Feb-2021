@@ -117,7 +117,7 @@ NSString *LLWidthMMKey = @"LL Width MM";
 - (void)doSettingsPanel:(long)displayIndex {
 
     NSAlert *theAlert;
-	NSString *domainName = [NSString stringWithFormat:@"%@ %ld", kLLScreenDomainName, displayIndex];
+	NSString *domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, displayIndex];
 
 	currentParam = displayParam[displayIndex];
 	if (!initialized[displayIndex]) {
@@ -200,7 +200,7 @@ NSString *LLWidthMMKey = @"LL Width MM";
 - (BOOL)readDomain:(NSString *)domainName key:(NSString *)keyName doublePtr:(double *)pValue {
 	
 	CFNumberRef sysDictRef = CFPreferencesCopyValue((CFStringRef)keyName, (CFStringRef)domainName, 
-									kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+									kCFPreferencesCurrentUser, kCFPreferencesCurrentApplication);
 	if (sysDictRef == nil) {
 		return NO;
 	}
@@ -209,14 +209,23 @@ NSString *LLWidthMMKey = @"LL Width MM";
 	return YES;
 }
 
-// Read the physical parameters from a system wide property list.  Reports success.
+/*
+ 
+ Read the physical parameters from a system wide property list. In earlier versions we used to save these values in
+ /Library/Preferences by specifying kCFPreferenceAnyUser.  At some point Apple stopped allowing preferences that serve
+ all users.  The functionality went away, but the description in the documentation did not.  They simply added a 
+ statement that preferences were either for the current app or all (of the current user's) apps.  This meant that our
+ values simply stopped working.  In the current version, the screen parameters are saved in each user's preferences. 
+ We could set them for all applicaitions on the current host, but that just makes them harder to find (they are in
+ ~/Library/Preferences/ByHost).
+*/
 
 - (BOOL)readParameters:(long)index {
 
 	NSString *domainName;
 	DisplayPhysicalParam *pDP = &displayParam[index];
 		
-	domainName = [NSString stringWithFormat:@"%@ %ld", kLLScreenDomainName, index];
+	domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, index];
 	
 	if (![self readDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM]) {
 		return NO;
@@ -232,8 +241,8 @@ NSString *LLWidthMMKey = @"LL Width MM";
 	return YES;
 }
 
-- (void)showColors {
-
+- (void)showColors;
+{
 	ColorPatches	colorWells;
 	
 	colorWells = computeKdlColors(currentParam.CIEx, currentParam.CIEy);
@@ -248,16 +257,16 @@ NSString *LLWidthMMKey = @"LL Width MM";
 		green:colorWells.equalEnergy.green blue:colorWells.equalEnergy.blue alpha:1.0]];
 }
 
-- (void)writeDomain:(NSString *)domainName key:(NSString *)keyName doublePtr:(double *)pValue {
-	
+- (void)writeDomain:(NSString *)domainName key:(NSString *)keyName doublePtr:(double *)pValue;
+{
 	CFPreferencesSetValue((CFStringRef)keyName, CFNumberCreate(NULL, kCFNumberDoubleType, pValue),
-		(CFStringRef)domainName, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+		(CFStringRef)domainName, kCFPreferencesCurrentUser, kCFPreferencesCurrentApplication);
 }
 
 - (void)writeParameters:(long)index {
 
 	DisplayPhysicalParam *pDP = &displayParam[index];
-	NSString *domainName = [NSString stringWithFormat:@"%@ %ld", kLLScreenDomainName, index];
+	NSString *domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, index];
 
 	[self writeDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM];
 	[self writeDomain:domainName key:LLHeightMMKey doublePtr:&pDP->heightMM];
