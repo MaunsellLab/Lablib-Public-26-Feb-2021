@@ -218,7 +218,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 69B8D160088DAC45002FCFD4 /* Build configuration list for PBXProject "DataConvert" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -300,6 +300,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.dataconvert;
 				PRODUCT_NAME = DataConvert;
 				SDKROOT = "";
 				SECTORDER_FLAGS = "";
@@ -325,6 +326,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.dataconvert;
 				PRODUCT_NAME = DataConvert;
 				SDKROOT = "";
 				SECTORDER_FLAGS = "";
@@ -349,6 +351,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.dataconvert;
 				PRODUCT_NAME = DataConvert;
 				SDKROOT = "";
 				SECTORDER_FLAGS = "";
@@ -363,9 +366,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CONFIGURATION_BUILD_DIR = /Applications;
+				ENABLE_TESTABILITY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = YES;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
 				SYMROOT = build;

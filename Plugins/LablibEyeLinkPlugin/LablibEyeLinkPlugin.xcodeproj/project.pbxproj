@@ -186,7 +186,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibEyeLinkPlugin" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -246,8 +246,10 @@
 		69B8D104088DAB78002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = "";
 			};
 			name = Development;
@@ -298,6 +300,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibEyeLink;
 				PRODUCT_NAME = LablibEyeLink;
 				SYMROOT = build;
 				WRAPPER_EXTENSION = plugin;
@@ -331,6 +334,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibEyeLink;
 				PRODUCT_NAME = LablibEyeLink;
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = NO;
@@ -361,6 +365,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibEyeLink;
 				PRODUCT_NAME = LablibEyeLink;
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = YES;

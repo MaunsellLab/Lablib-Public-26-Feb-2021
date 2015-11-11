@@ -273,7 +273,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibITC18" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -386,6 +386,7 @@
 					"-seg1addr",
 					0xd1000000,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
@@ -424,6 +425,7 @@
 					"-seg1addr",
 					0xd1000000,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
@@ -456,6 +458,7 @@
 				INFOPLIST_FILE = LablibITC18_Framework.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = "";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
@@ -466,8 +469,10 @@
 		69B8D104088DAB78002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
 				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = "";
 				VALID_ARCHS = "i386 x86_64";
 			};
@@ -519,6 +524,7 @@
 					"-weak_framework",
 					ITC,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				SYMROOT = build;
 				WRAPPER_EXTENSION = plugin;
@@ -548,6 +554,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				WRAPPER_EXTENSION = plugin;
 			};
@@ -574,6 +581,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				WRAPPER_EXTENSION = plugin;
 			};

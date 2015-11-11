@@ -72,8 +72,6 @@ struct screenMode {
     CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
     for (index = 0; index < CFArrayGetCount(allModes); index++)	{
 		mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
-//        NSLog(@"Mode %ld; Depth %lu; Width %lu; Height %lu, Rate %f", index, [self bitsPerPixelForMode:mode],
-//              CGDisplayModeGetWidth(mode), CGDisplayModeGetHeight(mode), CGDisplayModeGetRefreshRate(mode));
 		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
 			continue;
         }
@@ -108,20 +106,25 @@ struct screenMode {
 
 - (size_t)bitsPerPixelForMode:(CGDisplayModeRef)mode;
 {    
-	size_t depth = 0;
+//	size_t depth = 0;
     
-	CFStringRef pixEnc = CGDisplayModeCopyPixelEncoding(mode);
     
-	if (CFStringCompare(pixEnc, CFSTR(IO32BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
-		depth = 32;
-    }
-	else if(CFStringCompare(pixEnc, CFSTR(IO16BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
-		depth = 16;
-    }
-	else if(CFStringCompare(pixEnc, CFSTR(IO8BitIndexedPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
-		depth = 8;
-    }
-	return depth;
+    
+    return 32;          // ????? temporary
+    
+    
+//	CFStringRef pixEnc = CGDisplayModeCopyPixelEncoding(mode);
+    
+//	if (CFStringCompare(pixEnc, CFSTR(IO32BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+//		depth = 32;
+//    }
+//	else if(CFStringCompare(pixEnc, CFSTR(IO16BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+//		depth = 16;
+//    }
+//	else if(CFStringCompare(pixEnc, CFSTR(IO8BitIndexedPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+//		depth = 8;
+//    }
+//	return depth;
 }
 
 //- (BOOL)captureDisplay:(long)displayIndex {

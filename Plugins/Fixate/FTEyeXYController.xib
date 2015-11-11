@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FTEyeXYController">
@@ -20,7 +21,7 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="418" y="306" width="475" height="382"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
-            <value key="minSize" type="size" width="475" height="400"/>
+            <value key="minSize" type="size" width="475" height="382"/>
             <value key="maxSize" type="size" width="1024" height="1024"/>
             <view key="contentView" id="77">
                 <rect key="frame" x="0.0" y="0.0" width="475" height="382"/>
@@ -30,7 +31,7 @@
                         <rect key="frame" x="20" y="89" width="435" height="273"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="mai-E6-qNL">
-                            <rect key="frame" x="1" y="1" width="418" height="256"/>
+                            <rect key="frame" x="1" y="1" width="433" height="271"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <customView id="179" customClass="LLEyeXYView">
@@ -40,11 +41,11 @@
                             </subviews>
                         </clipView>
                         <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="290">
-                            <rect key="frame" x="1" y="257" width="418" height="15"/>
+                            <rect key="frame" x="1" y="256" width="433" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="291">
-                            <rect key="frame" x="419" y="1" width="15" height="256"/>
+                            <rect key="frame" x="418" y="1" width="16" height="271"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -100,7 +101,7 @@
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" id="359">
-                        <rect key="frame" x="115" y="28" width="143" height="17"/>
+                        <rect key="frame" x="115" y="28" width="144" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Base Performance On:" id="360">
                             <font key="font" metaFont="system"/>

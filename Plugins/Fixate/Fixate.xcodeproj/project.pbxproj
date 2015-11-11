@@ -268,7 +268,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 69B8D113088DABA8002FCFD4 /* Build configuration list for PBXProject "Fixate" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -372,6 +372,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
 				PRODUCT_NAME = Fixate;
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
@@ -391,6 +392,7 @@
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
 				PRODUCT_NAME = FixateTask;
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
@@ -408,6 +410,7 @@
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
 				PRODUCT_NAME = FixateTask;
 				WRAPPER_EXTENSION = plugin;
 			};
@@ -419,8 +422,10 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				ENABLE_TESTABILITY = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = "";
 				SYMROOT = build;
 			};
