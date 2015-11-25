@@ -1332,7 +1332,6 @@
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xd4000000,
-					"-mmacosx-version-min=10.4",
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib;
