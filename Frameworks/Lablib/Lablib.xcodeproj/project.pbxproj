@@ -1111,7 +1111,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 69CA1DE1088DA53700D7ADEE /* Build configuration list for PBXProject "Lablib" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1327,15 +1327,16 @@
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xd4000000,
-					"-mmacosx-version-min=10.4",
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib;
 				PRODUCT_NAME = Lablib;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = "";
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
@@ -1369,14 +1370,16 @@
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xd2000000,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib;
 				PRODUCT_NAME = Lablib;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = "";
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
@@ -1409,10 +1412,12 @@
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = "";
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib;
 				PRODUCT_NAME = Lablib;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = "";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
@@ -1423,8 +1428,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				MACOSX_DEPLOYMENT_TARGET = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = NO;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = macosx;
 			};
@@ -1433,7 +1440,9 @@
 		69CA1DE3088DA53700D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = NO;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = macosx;
 			};
@@ -1442,7 +1451,9 @@
 		69CA1DE4088DA53700D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = "";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = NO;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = macosx;
 			};

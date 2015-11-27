@@ -78,7 +78,8 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 - (IBAction)doOptions:(id)sender;
 {	
-    [NSApp beginSheet:optionsSheet modalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
+//    [NSApp beginSheet:optionsSheet modalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
+    [[self window] beginSheet:optionsSheet completionHandler:nil];
 }
 
 // Because we have added ourself as an LLDrawable to the eyePlot, this draw method

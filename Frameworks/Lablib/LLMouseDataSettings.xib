@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LLMouseDataSettings">
@@ -22,12 +23,13 @@
             <rect key="screenRect" x="0.0" y="0.0" width="1024" height="746"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="6">
-                <rect key="frame" x="7" y="11" width="354" height="396"/>
+                <rect key="frame" x="0.0" y="0.0" width="354" height="396"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" id="142">
                         <rect key="frame" x="252" y="12" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="637">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -42,6 +44,7 @@ DQ
                     <textField toolTip="Which A/D channels are loaded with the mouse X position." verticalHuggingPriority="750" id="535">
                         <rect key="frame" x="149" y="342" width="93" height="34"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="638">
                             <font key="font" metaFont="system"/>
                             <string key="title">Channels Fed
@@ -53,6 +56,7 @@ Mouse X</string>
                     <textField toolTip="Which A/D channels are loaded with the mouse Y position." verticalHuggingPriority="750" id="538">
                         <rect key="frame" x="244" y="342" width="93" height="34"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="639">
                             <font key="font" metaFont="system"/>
                             <string key="title">Channels Fed
@@ -64,6 +68,7 @@ Mouse Y</string>
                     <textField toolTip="Multiplication factor applied to mouse values before they are stored." verticalHuggingPriority="750" id="552">
                         <rect key="frame" x="161" y="138" width="86" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Mouse Gain:" id="640">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -73,6 +78,7 @@ Mouse Y</string>
                     <matrix verticalHuggingPriority="750" mode="list" autosizesCells="NO" id="563">
                         <rect key="frame" x="58" y="18" width="39" height="318"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         <size key="cellSize" width="39" height="18"/>
                         <size key="intercellSpacing" width="4" height="2"/>
@@ -155,6 +161,7 @@ Mouse Y</string>
                     <matrix verticalHuggingPriority="750" mode="list" autosizesCells="NO" id="574">
                         <rect key="frame" x="271" y="178" width="39" height="158"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         <size key="cellSize" width="39" height="18"/>
                         <size key="intercellSpacing" width="4" height="2"/>
@@ -205,6 +212,7 @@ Mouse Y</string>
                     <textField toolTip="Which bits are set to 1 when the mouse button is down." verticalHuggingPriority="750" id="585">
                         <rect key="frame" x="17" y="342" width="121" height="34"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="641">
                             <font key="font" metaFont="system"/>
                             <string key="title">Bits Controlled by
@@ -216,6 +224,7 @@ Mouse Button</string>
                     <textField verticalHuggingPriority="750" id="591">
                         <rect key="frame" x="252" y="136" width="78" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="642">
                             <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0.00" negativeFormat="-0.00" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="551">
                                 <attributedString key="attributedStringForZero">
@@ -233,10 +242,11 @@ Mouse Button</string>
                         </connections>
                     </textField>
                     <matrix verticalHuggingPriority="750" mode="list" autosizesCells="NO" id="560">
-                        <rect key="frame" x="176" y="178" width="39" height="158"/>
+                        <rect key="frame" x="176" y="178" width="41" height="159"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        <size key="cellSize" width="39" height="18"/>
+                        <size key="cellSize" width="41" height="18"/>
                         <size key="intercellSpacing" width="4" height="2"/>
                         <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="643">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -283,10 +293,12 @@ Mouse Button</string>
                         </connections>
                     </matrix>
                 </subviews>
+                <animations/>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="145"/>
             </connections>
+            <point key="canvasLocation" x="118" y="-140"/>
         </window>
     </objects>
 </document>
