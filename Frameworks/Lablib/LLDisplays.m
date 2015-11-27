@@ -95,26 +95,32 @@ struct screenMode {
             @"Could not match requested display mode: %ld bpp (%ld x %ld).",
             pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
         [theAlert runModal];
-//        [NSAlert alertWithMessageText:@"LLDisplays" defaultButton:@"OK" alternateButton:nil otherButton:nil
-//            informativeTextWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
-//                pDP->pixelBits, pDP->widthPix, pDP->heightPix];
         [theAlert release];
 		exit(0);
     }
     return displayMode;
 }
 
+// CGDisplayModeCopyPixelEncoding was deprecated in 10.11,with not alternative listed for finding the pixel depth
+// for displays.  I found the following methods to pull up a dictionary that contains display parameters.  This
+// is currently undocumented by Apple.  JHRM 151125
+
 - (size_t)bitsPerPixelForMode:(CGDisplayModeRef)mode;
 {    
-//	size_t depth = 0;
+    return [self getValue:(CFDictionaryRef)*((int64_t *)mode + 2) forKey:kCGDisplayBitsPerPixel];
     
-    
-    
-    return 32;          // ????? temporary
-    
+//    CFNumberRef num;
+//    int bpp = -1;
+//    CFDictionaryRef dict = (CFDictionaryRef)*((int64_t *)mode + 2);
+//    
+//    if (CFGetTypeID(dict) == CFDictionaryGetTypeID()
+//        && CFDictionaryGetValueIfPresent(dict, kCGDisplayBitsPerPixel, (const void**)&num)) {
+//        CFNumberGetValue(num, kCFNumberSInt32Type, (void*)&bpp);
+//    }
+//    CFRelease(mode);
+//    return bpp;
     
 //	CFStringRef pixEnc = CGDisplayModeCopyPixelEncoding(mode);
-    
 //	if (CFStringCompare(pixEnc, CFSTR(IO32BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
 //		depth = 32;
 //    }
@@ -127,17 +133,6 @@ struct screenMode {
 //	return depth;
 }
 
-//- (BOOL)captureDisplay:(long)displayIndex {
-//
-//    if (displayIndex >= numDisplays) {
-//		return NO;
-//	}
-//	if (CGDisplayIsCaptured(displayIDs[displayIndex])) {
-//        return YES;
-//    }
-//	return (CGDisplayCapture(displayIDs[displayIndex]) == CGDisplayNoErr);
-//}
-//
 - (void)computeKdlConstants:(long)displayIndex {
 
 	ColorPatches calibratedColor;
@@ -248,18 +243,27 @@ struct screenMode {
 	return displayParam[displayIndex].frameRateHz;
 }
 
-- (long)getValue:(CFDictionaryRef)values forKey:(CFStringRef)key {
+- (long)getValue:(CFDictionaryRef)dictionary forKey:(CFStringRef)key {
 
-    long value;
-    CFNumberRef number_value = (CFNumberRef)CFDictionaryGetValue(values, key);
+    int value = -1;
+    CFNumberRef num;
 
-    if (!number_value) {
-        return -1;
-    }
-    if (!CFNumberGetValue(number_value, kCFNumberLongType, &value)) {
-        return -1;
+    if (CFGetTypeID(dictionary) == CFDictionaryGetTypeID()
+                        && CFDictionaryGetValueIfPresent(dictionary, key, (const void**)&num)) {
+        CFNumberGetValue(num, kCFNumberSInt32Type, (void*)&value);
     }
     return value;
+    
+//    long value;
+//    CFNumberRef number_value = (CFNumberRef)CFDictionaryGetValue(dictionary, key);
+//
+//    if (!number_value) {
+//        return -1;
+//    }
+//    if (!CFNumberGetValue(number_value, kCFNumberLongType, &value)) {
+//        return -1;
+//    }
+//    return value;
 }
 
 - (double)heightMM:(long)displayIndex {
@@ -312,7 +316,7 @@ struct screenMode {
 // Some display parameters are values that the controller determines, such
 // as frame rate and pixel width.  These are read from the hardware.
 
-    //	displayModeDict = CGDisplayCurrentMode(displayID);
+//    displayModeDict = CGDisplayCurrentMode(displayID);
     displayMode = CGDisplayCopyDisplayMode(displayID);
     pDP->widthPix = CGDisplayModeGetWidth(displayMode);
     pDP->heightPix = CGDisplayModeGetHeight(displayMode);
@@ -323,9 +327,9 @@ struct screenMode {
 		NSLog(@"Device for displayIndex %ld not reporting frame rate. Assuming 60 Hz", displayIndex);
 	}
 	NSLog(@"Device %ld frameRate %f", displayIndex, pDP->frameRateHz);
-	
-/*	    
-     pDP->pixelBits = [self getValue:displayModeDict forKey:kCGDisplayBitsPerPixel];
+    [self dumpDisplayModes:displayIndex];
+    
+/*     pDP->pixelBits = [self getValue:displayModeDict forKey:kCGDisplayBitsPerPixel];
      pDP->frameRateHz = [self getValue:displayModeDict forKey:kCGDisplayRefreshRate];
      displayPort = CGDisplayIOServicePort(displayID);
 	if (displayPort != MACH_PORT_NULL) {
@@ -336,6 +340,8 @@ struct screenMode {
 			CFRelease(displayDict);
 		}
 	} */
+    
+    
 	[self updatePhysicalParam:[displayPhysical displayParameters:displayIndex] displayIndex:displayIndex];
 }
 
@@ -361,15 +367,6 @@ struct screenMode {
     }
     return CGDisplayIDToOpenGLDisplayMask(displayIDs[displayIndex]);
 }
-
-//- (BOOL)releaseDisplay:(CGDisplayCount)displayIndex {
-//
-//    if (displayIndex >= numDisplays || !CGDisplayIsCaptured(displayIDs[displayIndex])) {
-//        return NO;
-//    }	
-//	CGDisplayShowCursor(displayIDs[displayIndex]);
-//    return (CGDisplayRelease(displayIDs[displayIndex]) == CGDisplayNoErr);
-//}
 
 // Return RGB for a kdlTheta and kdlPhi
 

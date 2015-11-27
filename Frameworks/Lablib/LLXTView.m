@@ -14,8 +14,6 @@
 #import "LLPlotAxes.h"
 #import "LLViewUtilities.h"
 
-#import "LLSystemUtil.h" //?????
-
 #define kBaseWidthPix			(kEyePlotsOriginPix + kEyeColWidthPix + kGapPix)
 #define kDefaultDurS			5.0
 #define kDefaultFactor			0.25
