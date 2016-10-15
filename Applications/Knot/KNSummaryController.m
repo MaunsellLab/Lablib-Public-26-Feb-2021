@@ -19,8 +19,8 @@
 #define kTableRows				(kLastEOTTypeDisplayed + 6) // extra for blank rows, total, etc.
 #define	kXTickSpacing			100
 
-enum {kBlankRow0 = kLastEOTTypeDisplayed + 1, kComputerRow, kBlankRow1, kRewardsRow, kTotalRow};
-enum {kColorColumn = 0, kEOTColumn, kDayColumn, kRecentColumn};
+typedef enum {kBlankRow0 = kLastEOTTypeDisplayed + 1, kComputerRow, kBlankRow1, kRewardsRow, kTotalRow} KNRowType;
+typedef enum {kColorColumn = 0, kEOTColumn, kDayColumn, kRecentColumn} KNColumnType;
 
 NSString *KNSummaryAutosaveKey = @"KNSummaryAutosave";
 NSString *KNSummaryWindowBrokeKey = @"KNSummaryWindowBroke";
@@ -42,7 +42,7 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
     
     zoomValue = [[sender selectedCell] tag];
     [self setScaleFactor:zoomValue / 100.0];
-    [defaults setObject:[NSNumber numberWithInt:zoomValue] forKey:KNSummaryWindowZoomKey];
+    [defaults setObject:[NSNumber numberWithInt:(int)zoomValue] forKey:KNSummaryWindowZoomKey];
 }
 
 - (void)dealloc;
@@ -69,13 +69,13 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
         [self window];							// Force the window to load now
 
         fontAttr = [self makeAttributesForFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]
-                alignment:NSRightTextAlignment tailIndex:-12];
+                alignment:NSTextAlignmentRight tailIndex:-12];
         [fontAttr retain];
         labelFontAttr = [self makeAttributesForFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]
-                alignment:NSRightTextAlignment tailIndex:0];
+                alignment:NSTextAlignmentRight tailIndex:0];
         [labelFontAttr retain];
         leftFontAttr = [self makeAttributesForFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]
-                alignment:NSLeftTextAlignment tailIndex:0];
+                alignment:NSTextAlignmentLeft tailIndex:0];
         [leftFontAttr retain];
         
         [dayPlot setData:dayEOTs];

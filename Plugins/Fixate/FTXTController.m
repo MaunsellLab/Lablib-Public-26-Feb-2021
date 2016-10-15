@@ -34,7 +34,7 @@ NSString *FTTrialWindowZoomKey = @"FTTrialWindowZoom";
     
     zoomValue = [[sender selectedCell] tag];
     [self setScaleFactor:zoomValue / 100.0];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:zoomValue] 
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:(int)zoomValue]
                 forKey:FTTrialWindowZoomKey];
 }
 

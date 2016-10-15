@@ -11,7 +11,7 @@
 
 //#define kITC18DAVoltageRangeV  10.24
 
-enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
+typedef enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel} KnotChannel;
 
 #define		kSpikeChannels			2						// One channels spikes, one channel stim pulses
 #define		kSamplePeriodMS			5

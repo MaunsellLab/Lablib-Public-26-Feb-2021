@@ -8,7 +8,7 @@
 
 #define kLLFilterMax	200
 
-enum {kLLBoxCar, kLLGaussian, kLLExponential, kLLBin};
+typedef enum {kLLBoxCar, kLLGaussian, kLLExponential, kLLBin} LLHistSmoothing;
 
 @interface LLSmoothHist : NSObject {
 

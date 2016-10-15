@@ -12,7 +12,7 @@
 #import "LLProgressIndicator.h"
 #import "LLSystemUtil.h"
 
-enum {kSingleDevice = 1, kMultiDevice};
+typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 
 #define kNoEventCode		-1
 #define kMaxDevices			8

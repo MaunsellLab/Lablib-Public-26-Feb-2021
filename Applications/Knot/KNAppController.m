@@ -541,10 +541,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 // Monitor the state of the mouse button
 
-	if ([theEvent type] == NSLeftMouseDown) {
+	if ([theEvent type] == NSEventTypeLeftMouseDown) {
 		[mouseDataDevice setMouseState:kLLLeftMouseDown];
 	}
-	else if ([theEvent type] == NSLeftMouseUp) {				 // NB: Button clicks absorb mouseUp events
+	else if ([theEvent type] == NSEventTypeLeftMouseUp) {				 // NB: Button clicks absorb mouseUp events
 		[mouseDataDevice setMouseState:FALSE];
 	}
 

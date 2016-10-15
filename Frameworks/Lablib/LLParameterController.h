@@ -6,8 +6,8 @@
 //  Copyright (c) 2004. All rights reserved.
 //
 
-enum {kBoolean, kChar, kSignedChar, kUnsignedChar, kShort, kUnsignedShort, kInt, kUnsignedInt,
-		kLong, kUnsignedLong, kFloat, kDouble, kLongDouble, kLongLong, kUnsignedLongLong, kPtr};
+typedef enum {kBoolean, kChar, kSignedChar, kUnsignedChar, kShort, kUnsignedShort, kInt, kUnsignedInt,
+		kLong, kUnsignedLong, kFloat, kDouble, kLongDouble, kLongLong, kUnsignedLongLong, kPtr} LLVariableType;
 
 // #pragma warning off /??? Need to figure out how to turn off warning about long double size
 

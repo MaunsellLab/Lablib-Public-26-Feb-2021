@@ -7,9 +7,9 @@
 //
 
 
-NSString *LLDataType;
-NSString *LLMatlabType;
-NSString *LLMatlabText;
+extern NSString *LLDataType;
+extern NSString *LLMatlabType;
+extern NSString *LLMatlabText;
 
 @interface DataFile : NSDocument {
 

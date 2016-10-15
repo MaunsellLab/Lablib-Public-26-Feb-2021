@@ -222,8 +222,7 @@ void handler(int signal) {
 
 - (NSData **)sampleData;
 {
-	short sample, index;
-    NSMutableData  *lXDataCopy, *lYDataCopy, *lPDataCopy, *rXDataCopy, *rYDataCopy, *rPDataCopy;
+	short index;
     NSMutableData *samples;
 	NSArray *sampleArray;
     
@@ -265,9 +264,6 @@ void handler(int signal) {
 
 - (void)setDataEnabled:(NSNumber *)state;
 {
-    int available, error;
-	long channel;
-	double channelPeriodMS;
 	long maxSamplingRateHz = 1000;
 	
 	if ([state boolValue] && !dataEnabled) {						// toggle from OFF to ON

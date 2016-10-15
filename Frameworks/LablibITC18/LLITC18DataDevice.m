@@ -92,7 +92,7 @@ extern size_t malloc_size(void *ptr);
 NSString *LLITC18InvertBit00Key = @"LLITC18InvertBit00";
 NSString *LLITC18InvertBit15Key = @"LLITC18InvertBit15";
 
-enum {kSampleTable = 0, kTimestampTable};
+typedef enum {kSampleTable = 0, kTimestampTable} LLTableType;
 
 static long	ITCCount = 0;
 
@@ -199,7 +199,7 @@ static long	ITCCount = 0;
 			digitalOutputWord ^=  0x8000;
 		}
 		[deviceLock lock];
-		ITC18_WriteAuxiliaryDigitalOutput(itc, digitalOutputWord);
+		ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
 		[deviceLock unlock];
 	}
 }
@@ -219,7 +219,7 @@ static long	ITCCount = 0;
 			digitalOutputWord ^= 0x8000;
 		}
 		[deviceLock lock];
-		ITC18_WriteAuxiliaryDigitalOutput(itc, digitalOutputWord);
+		ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
 		[deviceLock unlock];
 	}
 }
@@ -239,7 +239,7 @@ static long	ITCCount = 0;
 			digitalOutputWord ^= 0x8000;
 		}
 		[deviceLock lock];
-		ITC18_WriteAuxiliaryDigitalOutput(itc, digitalOutputWord);
+		ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
 		[deviceLock unlock];
 	}
 }
@@ -397,7 +397,7 @@ static long	ITCCount = 0;
 		}
 		numInstructions = kLLITC18ADChannels;
 		if (itc != nil) {
-			ITC18_SetSequence(itc, numInstructions, instructions);
+			ITC18_SetSequence(itc, (int)numInstructions, instructions);
 		}
 		return;
 	}
@@ -469,7 +469,7 @@ static long	ITCCount = 0;
 		}
 	}
 	if (itc != nil) {
-		ITC18_SetSequence(itc, numInstructions, instructions);
+		ITC18_SetSequence(itc, (int)numInstructions, instructions);
 	}
 	ITCTicksPerInstruction = chunksAtOneTickPerInstructHz / MAX(maxDigitalRateHz, maxADRateHz);
 	ITCSamplePeriodS = (numInstructions * ITCTicksPerInstruction) / (kLLITC18TicksPerMS * 1000.0);
@@ -543,8 +543,8 @@ static long	ITCCount = 0;
 
 	for (code = 0, devicePresent = NO; code < sizeof(interfaceCodes) / sizeof(long); code++) {
 		NSLog(@"LLITC18DataDevice: attempting to initialize device %ld using code %ld",
-					devNum, devNum | interfaceCodes[code]);
-		if (ITC18_Open(itc, devNum | interfaceCodes[code]) != noErr) {
+					devNum, devNum | (int)interfaceCodes[code]);
+		if (ITC18_Open(itc, (int)(devNum | interfaceCodes[code])) != noErr) {
 			continue;									// failed, try another code
 		}
 
@@ -619,7 +619,7 @@ static long	ITCCount = 0;
 		if (numInstructions * sets * sizeof(short) > malloc_size(samples)) {
 			[self allocateSampleBuffer:&samples size:numInstructions * sets];
 		}
-		ITC18_ReadFIFO(itc, numInstructions * sets, samples);			// read all available sets
+		ITC18_ReadFIFO(itc, (int)(numInstructions * sets), samples);			// read all available sets
 		for (set = 0; set < sets; set++) {								// process each set
 			pSamples = &samples[numInstructions * set];					// point to start of set
 			for (index = sampleChannel = 0; index < numInstructions; index++) {	// for every instruction
@@ -710,7 +710,7 @@ static long	ITCCount = 0;
 			[monitor initValues:&values];
 			values.samplePeriodMS = ITCSamplePeriodS * 1000.0;
 			values.instructionPeriodMS = ITCSamplePeriodS / numInstructions * 1000.0;
-			ITC18_SetSamplingInterval(itc, ITCTicksPerInstruction, false);
+			ITC18_SetSamplingInterval(itc, (int)ITCTicksPerInstruction, false);
 			ITC18_StopAndInitialize(itc, YES, YES);
 			monitorStartTimeS = [LLSystemUtil getTimeS];
 			ITC18_Start(itc, NO, NO, NO, NO);		// no trigger, no output, no stopOnOverflow, (reserved)

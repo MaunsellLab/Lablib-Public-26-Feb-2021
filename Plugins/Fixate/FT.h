@@ -10,7 +10,7 @@
 #import "FTStimuli.h"
 
 #define	kRewardBit				0x0001
-enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
+typedef enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel} FTChannel;
 
 // ??? These should be removed
 
@@ -22,18 +22,18 @@ enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
 #define		kTimestampTickMS		1
 #define		kMaxHists				8
 
-NSString *FTAcquireMSKey;
-NSString *FTDoFixateKey;
-NSString *FTDoSoundsKey;
-NSString *FTFixateJitterPCKey;
-NSString *FTFixateMSKey;
-NSString *FTFixWindowWidthDegKey;
-NSString *FTIntertrialMSKey;
-NSString *FTRewardMSKey;
-NSString *FTFixBackColorKey;
-NSString *FTFixForeColorKey;
-NSString *FTTaskModeKey;
+extern NSString *FTAcquireMSKey;
+extern NSString *FTDoFixateKey;
+extern NSString *FTDoSoundsKey;
+extern NSString *FTFixateJitterPCKey;
+extern NSString *FTFixateMSKey;
+extern NSString *FTFixWindowWidthDegKey;
+extern NSString *FTIntertrialMSKey;
+extern NSString *FTRewardMSKey;
+extern NSString *FTFixBackColorKey;
+extern NSString *FTFixForeColorKey;
+extern NSString *FTTaskModeKey;
 
-LLTaskPlugIn				*task;
-LLScheduleController		*scheduler;
-FTStimuli					*stimuli;
+extern LLTaskPlugIn				*task;
+extern LLScheduleController		*scheduler;
+extern FTStimuli				*stimuli;

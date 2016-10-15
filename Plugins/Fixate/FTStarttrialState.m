@@ -13,7 +13,7 @@
 
 - (void)stateAction {
 
-	long longValue, interval;
+	long longValue;
 	FixWindowData fixWindowData;
 
 // Prepare structures describing the fixation and response windows;

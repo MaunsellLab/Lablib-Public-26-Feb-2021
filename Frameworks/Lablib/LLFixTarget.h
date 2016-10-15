@@ -8,7 +8,7 @@
 
 #import "LLVisualStimulus.h"
 
-enum {kLLCircle, kLLSquare, kLLDiamond, kLLCross, kLLShapes};
+typedef enum {kLLCircle, kLLSquare, kLLDiamond, kLLCross, kLLShapes} LLTargetShape;
 
 extern NSString *LLFixAzimuthDegKey;
 extern NSString *LLFixBackColorKey;

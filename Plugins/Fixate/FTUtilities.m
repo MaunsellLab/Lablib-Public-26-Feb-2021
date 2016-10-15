@@ -11,7 +11,7 @@
 
 NSString *VCANEyeToUseKey = @"FTEyeToUse";
 
-enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular};
+typedef enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular} FTEyeToUse;
 
 @implementation FTUtilities
 

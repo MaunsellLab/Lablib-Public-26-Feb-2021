@@ -10,7 +10,7 @@
 #import "LLNullDataDevice.h" 
 #import "LLSystemUtil.h"
 
-enum {kLLDeviceName, kLLChannelIndex, kLLRateIndex};
+typedef enum {kLLDeviceName, kLLChannelIndex, kLLRateIndex} LLDeviceIndex;
 
 NSString *LLDataAssignmentKey = @"LLDataAssignment";
 NSString *LLDataDeviceDigitalInKey = @"LLDataDeviceDigitalIn";

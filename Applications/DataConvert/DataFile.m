@@ -19,8 +19,8 @@
 #define kHexAddressPadCols	3
 #define kTextBufferLength	256
 
-enum {kPrintEvents = 0, kPrintHex};
-enum {kCharFormat = 0, kShortFormat, kLongFormat, kFloatFormat, kDoubleFormat};
+typedef enum {kPrintEvents = 0, kPrintHex} DFPrintType;
+typedef enum {kCharFormat = 0, kShortFormat, kLongFormat, kFloatFormat, kDoubleFormat} DFFormatType;
 
 @implementation DataFile
 
@@ -531,7 +531,7 @@ static PrintView	*printView;
 // Get the formatting values that are based on the file contents
 
     eventIndexTextCols = log((double)[dataReader numEvents]) / log(10.0) + 1;
-	maxEventNameLength = [dataReader maxEventNameLength];
+	maxEventNameLength = (int)[dataReader maxEventNameLength];
 	eventCountTextCols = log([dataReader maxEventCount]) / log(10.0) + 1;
     eventDataTextCols = MAX(2, log((double)[dataReader maxEventDataBytes]) / log(10.0) + 1);
     fileLength = [dataReader fileBytes];

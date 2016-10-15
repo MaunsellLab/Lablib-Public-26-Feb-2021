@@ -18,7 +18,7 @@ typedef struct {
 	long   seed;
 } Noise;
 
-enum {kWhiteNoise, kOneOverFNoise, kGaussianNoise} NoiseType;
+typedef enum {kWhiteNoise, kOneOverFNoise, kGaussianNoise} NoiseType;
 
 #define	kNoisePix (1 << 9)
 #define kNoisePos (kKdlPhi + 1)

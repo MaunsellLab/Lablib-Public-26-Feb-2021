@@ -11,8 +11,8 @@
 
 #define		kStructDataType		-1
 
-enum {kNoDataType, kCharType, kUnsignedCharType, kBooleanType, kShortType, kUnsignedShortType,
-			kLongType, kUnsignedLongType, kFloatType, kDoubleType, kStringType, kCGFloatType};
+typedef enum {kNoDataType, kCharType, kUnsignedCharType, kBooleanType, kShortType, kUnsignedShortType,
+			kLongType, kUnsignedLongType, kFloatType, kDoubleType, kStringType, kCGFloatType} LLVariableFormatLLDataTypeType;
 			
 static NSString *LLDataTypeStrings[] = {@"no data", @"char", @"unsigned char", @"boolean", 
 							@"short", @"unsigned short", @"long", @"unsigned long", 

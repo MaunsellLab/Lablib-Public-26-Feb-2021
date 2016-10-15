@@ -6,7 +6,7 @@
 //  Copyright 2005. All rights reserved.
 //
 
-typedef enum {kLLSampleData, kLLTimestampData, kLLAssignmentTypes} LLDataType;
+typedef enum {kLLSampleData, kLLTimestampData, kLLAssignmentTypes} LLDataAssignmentType;
 
 @interface LLDataAssignment : NSObject {
 

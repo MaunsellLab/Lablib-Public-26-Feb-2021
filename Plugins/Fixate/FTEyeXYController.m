@@ -86,9 +86,8 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 // will be called every time eyePlot redraws.  This allows us to put in any specific
 // windows, etc that we want to display.
 
-- (void)draw {
-
-	long interval;
+- (void)draw;
+{
 	float defaultLineWidth = [NSBezierPath defaultLineWidth];
 
 // Draw the fixation window
@@ -120,9 +119,6 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 - (id) init;
 {
-	NSString *key;
-	NSEnumerator *enumerator;
-		
     if ((self = [super initWithWindowNibName:@"FTEyeXYController"]) != Nil) {
  		[self setShouldCascadeWindows:NO];
         [self setWindowFrameAutosaveName:FTEyeXYAutosaveKey];
@@ -144,7 +140,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 - (void)processEyeSamplePairs;
 {
-	long index, eyeIndex;
+	long eyeIndex;
 	NSEnumerator *enumerator;
 	NSArray *pairs;
 	NSValue *value;
