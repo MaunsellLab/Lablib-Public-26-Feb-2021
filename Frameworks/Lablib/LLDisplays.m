@@ -327,7 +327,6 @@ struct screenMode {
 		NSLog(@"Device for displayIndex %ld not reporting frame rate. Assuming 60 Hz", displayIndex);
 	}
 	NSLog(@"Device %ld frameRate %f", displayIndex, pDP->frameRateHz);
-    [self dumpDisplayModes:displayIndex];
     
 /*     pDP->pixelBits = [self getValue:displayModeDict forKey:kCGDisplayBitsPerPixel];
      pDP->frameRateHz = [self getValue:displayModeDict forKey:kCGDisplayRefreshRate];
