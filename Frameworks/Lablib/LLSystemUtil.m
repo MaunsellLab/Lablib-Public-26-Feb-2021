@@ -73,7 +73,7 @@ extern void CGSDeferredUpdates(int);
 + (void)setBeamSynchronization:(long)mode;	// set beam synchronization (for 10.4)
 {	
 	CGSSetDebugOptions(mode ? 0 : 0x08000000);
-	CGSDeferredUpdates(mode);
+	CGSDeferredUpdates((int)mode);
 }
 
 + (NSString *)formattedDateString:(NSDate *)date format:(NSString *)format;

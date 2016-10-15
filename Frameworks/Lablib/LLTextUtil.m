@@ -23,13 +23,13 @@
 	long log10Rounded;
 	
 	if (value == 0) {
-		return digits - 1;
+		return (int)digits - 1;
 	}
 	log10Rounded = log10(fabs(value));
 	if (abs(value < 1.0)) {
 		log10Rounded--;
 	}
-	return MAX(0, digits - log10Rounded - 1);
+	return (int)MAX(0, digits - log10Rounded - 1);
 }
 
 + (NSString *)stripPrefixAndDecapitalize:(NSString *)string prefix:(NSString *)prefix;

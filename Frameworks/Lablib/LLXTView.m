@@ -48,30 +48,30 @@
 
 - (void)checkScroll:(NSTimer *)timer {
 
-    float scrollDist, scrollOrigin;
-    NSRect drawRect, scrollRect;
+//    float scrollDist, scrollOrigin;
+//    NSRect drawRect, scrollRect;
 
     [self displayIfNeeded];
     return;
     
-    if (lastEventTimeMS > lastScrollTimeMS) {
-        drawRect = scrollRect = [self visibleRect];
-        scrollDist = MIN(scrollRect.size.height, 
-                        [scale scaledYInc:lastEventTimeMS - lastScrollTimeMS]);
-        if (scrollDist < scrollRect.size.height) {
-            scrollOrigin = MAX(0, [scale scaledYInc:lastScrollTimeMS - lastTimePlottedMS]);
-            scrollRect.origin.y = scrollOrigin;
-            scrollRect.size.height -= scrollOrigin;
-            [[NSGraphicsContext currentContext] saveGraphicsState];
-            [[NSBezierPath bezierPathWithRect:[self visibleRect]] setClip];
-            [self scrollRect:scrollRect by:NSMakeSize(0, -scrollDist)];
-            [[NSGraphicsContext currentContext] restoreGraphicsState]; // restore clipRect
-            drawRect.origin.y = drawRect.size.height - scrollDist;
-            drawRect.size.height = scrollOrigin;
-        }
-        lastScrollTimeMS = lastEventTimeMS;
-        [self setNeedsDisplayInRect:drawRect];
-    }
+//    if (lastEventTimeMS > lastScrollTimeMS) {
+//        drawRect = scrollRect = [self visibleRect];
+//        scrollDist = MIN(scrollRect.size.height, 
+//                        [scale scaledYInc:lastEventTimeMS - lastScrollTimeMS]);
+//        if (scrollDist < scrollRect.size.height) {
+//            scrollOrigin = MAX(0, [scale scaledYInc:lastScrollTimeMS - lastTimePlottedMS]);
+//            scrollRect.origin.y = scrollOrigin;
+//            scrollRect.size.height -= scrollOrigin;
+//            [[NSGraphicsContext currentContext] saveGraphicsState];
+//            [[NSBezierPath bezierPathWithRect:[self visibleRect]] setClip];
+//            [self scrollRect:scrollRect by:NSMakeSize(0, -scrollDist)];
+//            [[NSGraphicsContext currentContext] restoreGraphicsState]; // restore clipRect
+//            drawRect.origin.y = drawRect.size.height - scrollDist;
+//            drawRect.size.height = scrollOrigin;
+//        }
+//        lastScrollTimeMS = lastEventTimeMS;
+//        [self setNeedsDisplayInRect:drawRect];
+//    }
 }
 
 - (void)dealloc;

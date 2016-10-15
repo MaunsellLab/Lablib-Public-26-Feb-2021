@@ -57,7 +57,7 @@
 		case kUnsignedInt:
 		case kLong:
 		case kUnsignedLong:
-			value = [NSNumber numberWithInt:(paramList->defaultValue).longParam];
+			value = [NSNumber numberWithInt:(int)(paramList->defaultValue).longParam];
 			break;
 		case kFloat:
 			value = [NSNumber numberWithFloat:(paramList->defaultValue).floatParam];

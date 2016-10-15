@@ -11,6 +11,8 @@
 #import <math.h>
 #import <stdio.h>
 
+enum {RED, GRN, BLU} ColorNames;
+
 ColorPatches computeKdlColors(RGBDouble CIEx, RGBDouble CIEy) {
 
 	ColorPatches calibratedColor;

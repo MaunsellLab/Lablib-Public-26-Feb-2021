@@ -105,7 +105,7 @@
 	int value;
 	
 	[defaultsLock lock];
-	value = [[NSUserDefaults standardUserDefaults] integerForKey:defaultName];
+	value = (int)[[NSUserDefaults standardUserDefaults] integerForKey:defaultName];
 	[defaultsLock unlock];
 	return value;
 }

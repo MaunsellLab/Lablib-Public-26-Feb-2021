@@ -50,12 +50,12 @@ void sort(unsigned long n, float arr[])
 			jstack += 2;
 			if (jstack > NSTACK) nrerror("NSTACK too small in sort.");
 			if (ir-i+1 >= j-l) {
-				istack[jstack]=ir;
-				istack[jstack-1]=i;
+				istack[jstack]=(int)ir;
+				istack[jstack-1]=(int)i;
 				ir=j-1;
 			} else {
-				istack[jstack]=j-1;
-				istack[jstack-1]=l;
+				istack[jstack]=(int)j-1;
+				istack[jstack-1]=(int)l;
 				l=i;
 			}
 		}
@@ -109,12 +109,12 @@ void lsort(unsigned long n, long arr[])
 			jstack += 2;
 			if (jstack > NSTACK) nrerror("NSTACK too small in sort.");
 			if (ir-i+1 >= j-l) {
-				istack[jstack]=ir;
-				istack[jstack-1]=i;
+				istack[jstack]=(int)ir;
+				istack[jstack-1]=(int)i;
 				ir=j-1;
 			} else {
-				istack[jstack]=j-1;
-				istack[jstack-1]=l;
+				istack[jstack]=(int)j-1;
+				istack[jstack-1]=(int)l;
 				l=i;
 			}
 		}

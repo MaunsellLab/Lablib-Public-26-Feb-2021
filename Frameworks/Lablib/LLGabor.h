@@ -45,10 +45,10 @@ typedef struct {
 
 #define kRadiusLimitSigma   3.0						// maximum radius relative to sigma
 
-enum {kSineModulation = 0, kSquareModulation, kTriangleModulation} SpatialModulation;		// spatial modulation
-enum {kCounterPhase = 0, kDrifting, kRandom} TemporalModulation;				// temporal modulation
-enum {kSPhase = 0, kDirection, kKdlTheta, kKdlPhi} TemporalModulationParam;						// temporal modulation param
-enum {kDrawColor, kDrawTextures, kDrawCircle, kDrawTypes} DisplayLists;				// display lists
+typedef enum {kSineModulation = 0, kSquareModulation, kTriangleModulation} SpatialModulation;   // spatial modulation
+typedef enum {kCounterPhase = 0, kDrifting, kRandom} TemporalModulation;                        // temporal modulation
+typedef enum {kSPhase = 0, kDirection, kKdlTheta, kKdlPhi} TemporalModulationParam;             // temporal mod param
+typedef enum {kDrawColor, kDrawTextures, kDrawCircle, kDrawTypes} DisplayLists;                 // display lists
 
 extern NSString *LLGaborAzimuthDegKey;
 extern NSString *LLGaborBackColorKey;
@@ -119,7 +119,6 @@ extern NSString *LLGaborTemporalPhaseDegKey;
 - (void)setSpatialModulation:(long)newSMod;
 - (void)setSpatialPhaseDeg:(float)newSPhase;
 - (void)setTemporalFreqHz:(float)newTF;
-- (void)setTemporalPhaseDeg:(float)newTF;
 - (void)setTemporalModulation:(long)newTMod;
 - (void)setTemporalModulationParam:(long)newTParam;
 - (void)setTemporalPhaseDeg:(float)newTPhase;

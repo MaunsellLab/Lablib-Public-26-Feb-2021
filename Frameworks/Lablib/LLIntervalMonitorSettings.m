@@ -114,21 +114,21 @@
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [successGreaterButton setIntValue:[defaults integerForKey:[self uniqueKey:doSuccessGreaterKey]]];
-    [successGreaterCountField setIntValue:[defaults integerForKey:[self uniqueKey:successGreaterCountKey]]];
+    [successGreaterButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doSuccessGreaterKey]]];
+    [successGreaterCountField setIntValue:(int)[defaults integerForKey:[self uniqueKey:successGreaterCountKey]]];
     [successGreaterMSField setFloatValue:[defaults floatForKey:[self uniqueKey:successGreaterMSKey]]];
 
-    [successLessButton setIntValue:[defaults integerForKey:[self uniqueKey:doSuccessLessKey]]];
-    [successLessCountField setIntValue:[defaults integerForKey:[self uniqueKey:successLessCountKey]]];
+    [successLessButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doSuccessLessKey]]];
+    [successLessCountField setIntValue:(int)[defaults integerForKey:[self uniqueKey:successLessCountKey]]];
     [successLessMSField setFloatValue:[defaults floatForKey:[self uniqueKey:successLessMSKey]]];
 
-    [warnDisarmButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnDisarmKey]]];
-    [warnGreaterButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnGreaterKey]]];
-    [warnLessButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnLessKey]]];
-    [warnSequentialButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnSequentialKey]]];
-	[warnSequentialCountField setIntValue:[defaults integerForKey:[self uniqueKey:warnSequentialCountKey]]];
-    [warnGreaterCountField setIntValue:[defaults integerForKey:[self uniqueKey:warnGreaterCountKey]]];
-    [warnLessCountField setIntValue:[defaults integerForKey:[self uniqueKey:warnLessCountKey]]];
+    [warnDisarmButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doWarnDisarmKey]]];
+    [warnGreaterButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doWarnGreaterKey]]];
+    [warnLessButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doWarnLessKey]]];
+    [warnSequentialButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doWarnSequentialKey]]];
+	[warnSequentialCountField setIntValue:(int)[defaults integerForKey:[self uniqueKey:warnSequentialCountKey]]];
+    [warnGreaterCountField setIntValue:(int)[defaults integerForKey:[self uniqueKey:warnGreaterCountKey]]];
+    [warnLessCountField setIntValue:(int)[defaults integerForKey:[self uniqueKey:warnLessCountKey]]];
 	[lessStandardField setStringValue:[defaults stringForKey:[self uniqueKey:standardKey]]];
 	[greaterStandardField setStringValue:[defaults stringForKey:[self uniqueKey:standardKey]]];
 

@@ -236,7 +236,7 @@
 		fullscreen = YES;                                   // flag fullscreen mode
 		if ([displays setDisplayMode:displayIndex size:CGSizeMake(display.widthPix, display.heightPix) 
 					bitDepth:display.pixelBits frameRate:display.frameRateHz]) {
-			[displays dumpCurrentDisplayMode:displayIndex];
+			[displays dumpCurrentDisplayMode:(int)displayIndex];
 		}
 		self = [super initWithContentRect:[displays displayBoundsLLOrigin:displayIndex] styleMask:NSBorderlessWindowMask 
                         backing:NSBackingStoreBuffered defer:NO];
@@ -380,12 +380,12 @@
 		[openGLLock lock];
 		[displays setDisplayMode:displayIndex size:CGSizeMake(newMode.widthPix, newMode.heightPix) 
 				   bitDepth:newMode.pixelBits frameRate:newMode.frameRateHz];
-		[displays dumpCurrentDisplayMode:displayIndex];
+		[displays dumpCurrentDisplayMode:(int)displayIndex];
 		display = [displays displayParameters:displayIndex];		// get new display parameters
 		[monitor setTargetIntervalMS:1000.0 / display.frameRateHz];	// assign monitor new framerate
         [self setFrame:[displays displayBoundsLLOrigin:displayIndex] display:NO];
         [stimOpenGLContext makeCurrentContext];
-        glViewport(0, 0, (long)display.widthPix, (long)display.heightPix);
+        glViewport(0, 0, (int)display.widthPix, (int)display.heightPix);
 		[openGLLock unlock];
 	}
 	[self grayScreen];
@@ -429,7 +429,7 @@
     display.widthPix = frameSize.width;
     display.heightPix = frameSize.height;
     [stimOpenGLContext makeCurrentContext];
-    glViewport(0, 0, (long)display.widthPix, (long)display.heightPix);
+    glViewport(0, 0, (GLint)display.widthPix, (GLint)display.heightPix);
     return frameSize;
 }
 

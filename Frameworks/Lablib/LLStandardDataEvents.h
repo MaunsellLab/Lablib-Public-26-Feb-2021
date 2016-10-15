@@ -57,9 +57,10 @@ typedef struct {
 #define kLLEyeXChannel			0
 #define kLLEyeYChannel			1
 
-enum {kEOTCorrect = 0, kEOTWrong, kEOTFailed, kEOTBroke, kEOTIgnored, kEOTQuit, kEOTTypes} EOTType;
-enum {kCertifyVideoBit = 0, kCertifyDataBit, kCertifyTypes} CertifyType;
-enum {kTaskIdle, kTaskStopping, kTaskRunning, kTaskEnding, kTaskQuitting, kTaskModes} TaskMode;	// defines for state system modes
+typedef enum {kEOTCorrect = 0, kEOTWrong, kEOTFailed, kEOTBroke, kEOTIgnored, kEOTQuit, kEOTTypes} EOTType;
+typedef enum {kCertifyVideoBit = 0, kCertifyDataBit, kCertifyTypes} CertifyType;
+typedef enum {kTaskIdle, kTaskStopping, kTaskRunning, kTaskEnding, kTaskQuitting, kTaskModes} TaskMode;
+
 #define kLLFileOpen     0
 #define kLLFileOpenBit	4
 #define kLLFileOpenMask	(0x00000001 << kLLFileOpenBit)
@@ -70,7 +71,6 @@ enum {kTaskIdle, kTaskStopping, kTaskRunning, kTaskEnding, kTaskQuitting, kTaskM
 @interface LLStandardDataEvents : NSObject {
 
 }
-
 + (long)count;
 + (long)countOfEventsWithDataDefs;
 + (NSColor *)eotColor:(long)index;
