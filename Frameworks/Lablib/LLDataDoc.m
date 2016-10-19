@@ -138,8 +138,10 @@
 	NSString *headerString, *dateString;
 	NSMutableData *headerData;
 //	NSCalendarDate *today;
+#ifdef __LP64__
     NSAlert *theAlert;
-	
+#endif
+    
 	headerData = [[[NSMutableData alloc] init] autorelease];
 #ifdef __LP64__
     if (!dataDefinitions) {
