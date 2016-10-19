@@ -124,14 +124,14 @@ NSString *LLSTUAPerVKey = @"Stim Train uA Per V";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     [amplitudeField setFloatValue:[defaults floatForKey:LLSTAmplitudeKey]];
-    [DAChannelField setIntValue:[defaults integerForKey:LLSTDAChannelKey]];
-    [durationField setIntValue:[defaults integerForKey:LLSTDurationKey]];
+    [DAChannelField setIntValue:(int)[defaults integerForKey:LLSTDAChannelKey]];
+    [durationField setIntValue:(int)[defaults integerForKey:LLSTDurationKey]];
     [frequencyField setFloatValue:[defaults floatForKey:LLSTFrequencyKey]];
-    [gateCheckBox setIntValue:[defaults integerForKey:LLSTGateKey]];
-    [gateBitField setIntValue:[defaults integerForKey:LLSTGateBitKey]];
-    [markerBitField setIntValue:[defaults integerForKey:LLSTMarkPulseBitKey]];
-    [pulsesCheckBox setIntValue:[defaults integerForKey:LLSTMarkerPulsesKey]];
-    [pulseWidthField setIntValue:[defaults integerForKey:LLSTPulseWidthKey]];
+    [gateCheckBox setIntValue:(int)[defaults integerForKey:LLSTGateKey]];
+    [gateBitField setIntValue:(int)[defaults integerForKey:LLSTGateBitKey]];
+    [markerBitField setIntValue:(int)[defaults integerForKey:LLSTMarkPulseBitKey]];
+    [pulsesCheckBox setIntValue:(int)[defaults integerForKey:LLSTMarkerPulsesKey]];
+    [pulseWidthField setIntValue:(int)[defaults integerForKey:LLSTPulseWidthKey]];
     [uAPerVField setFloatValue:[defaults floatForKey:LLSTUAPerVKey]];
 }
 

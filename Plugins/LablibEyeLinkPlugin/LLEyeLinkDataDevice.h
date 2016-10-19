@@ -8,7 +8,7 @@
 #import <Lablib/LLDataDevice.h>
 #import "LLEyeLinkMonitor.h"
 
-enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel, kEyeLinkChannels};
+typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel, kEyeLinkChannels} EyeLinkChannel;
 
 @interface LLEyeLinkDataDevice : LLDataDevice {
 

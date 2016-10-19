@@ -182,7 +182,7 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-	return [validTaskPlugins count];
+	return (int)[validTaskPlugins count];
 }
 
 - (void)runDialog;

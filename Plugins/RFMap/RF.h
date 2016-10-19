@@ -10,10 +10,10 @@
 #import "RFMapStimuli.h"
 #import "RFStateSystem.h"
 
-enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
-enum {kBarStimulus = 0, kGaborStimulus, kDotsStimulus, kPlaidStimulus, kStimTypes};
-enum {kBehaviorAlways = 0, kBehaviorRunning, kBehaviorFixating};
-enum {kAzimuthElevation = 0, kEccentricityAngle};
+typedef enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel} RFChannel;
+typedef enum {kBarStimulus = 0, kGaborStimulus, kDotsStimulus, kPlaidStimulus, kStimTypes} RFStimulus;
+typedef enum {kBehaviorAlways = 0, kBehaviorRunning, kBehaviorFixating} RFBehavior;
+typedef enum {kAzimuthElevation = 0, kEccentricityAngle} RFCoordinate;
 
 #define 	kLeverBit				(0x0001 << kLeverChannel)
 #define		kRewardBit				0x0001
@@ -35,14 +35,14 @@ typedef struct {
 	float   elevationDeg;
 } StimCenter;
 
-LLTaskPlugIn			*task;
+extern LLTaskPlugIn			*task;
 
 #ifndef	NoGlobals
 
-long					behaviorMode;
-BOOL					resetFlag;
-LLScheduleController	*scheduler;
-RFMapStimuli			*stimuli;
+extern RFBehavior			behaviorMode;
+extern BOOL					resetFlag;
+extern LLScheduleController	*scheduler;
+extern RFMapStimuli			*stimuli;
 
 // Preferences keys
 

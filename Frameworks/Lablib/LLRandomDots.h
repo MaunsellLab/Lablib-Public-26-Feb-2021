@@ -126,7 +126,6 @@ extern NSString *LLRandomDotsSpeedDPSKey;
 - (void)setDotContrast:(float)newDotContrast;
 - (void)setDotData:(RandomDots)d;
 - (void)setDotColorRed:(float)red green:(float)green blue:(float)blue;
-- (void)setDotContrast:(float)newContrast; 
 - (void)setDotDiameterDeg:(float)newDotDiameter;
 - (void)setLifeFrames:(long)newLife;
 - (void)setRandomSeed:(long)newSeed;

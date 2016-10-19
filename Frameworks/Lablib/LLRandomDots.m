@@ -144,7 +144,7 @@ float stencilRadiusDeg = FLT_MAX;
  	glEnable(GL_STENCIL_TEST);
 	glStencilFunc(GL_EQUAL, 0x1, 0x1);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-	glDrawArrays(GL_POINTS, 0, [frameData length] / sizeof(NSPoint));
+	glDrawArrays(GL_POINTS, 0, (int)[frameData length] / sizeof(NSPoint));
 	glDisable(GL_STENCIL_TEST);
 	
 	// Clean up

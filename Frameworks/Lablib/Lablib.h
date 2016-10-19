@@ -8,7 +8,7 @@
  */
 /*!
   @header Lablib
-  Lablib provide a collection of Objective C classes supporting real-time 
+  Lablib provides a collection of Objective C classes supporting real-time 
   data collection and display under OS X.
 */
 

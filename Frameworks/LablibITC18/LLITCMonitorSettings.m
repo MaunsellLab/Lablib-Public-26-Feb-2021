@@ -50,8 +50,8 @@
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [warnDriftButton setIntValue:[defaults integerForKey:[self uniqueKey:doWarnDriftKey]]];
-    [driftLimitField setIntValue:[defaults integerForKey:[self uniqueKey:driftLimitKey]]];
+    [warnDriftButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doWarnDriftKey]]];
+    [driftLimitField setIntValue:(int)[defaults integerForKey:[self uniqueKey:driftLimitKey]]];
 	[super showWindow:sender];
 }
 

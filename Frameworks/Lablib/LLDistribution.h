@@ -9,7 +9,7 @@
  *
  */
 
-enum {kStandardError, kConfidence95};
+typedef enum {kStandardError, kConfidence95} LLErrorBarType;
 
 #define kConfidence68		kStandardError
 #define k68ErrorCriterion	((1.0 - 0.6826) / 2.0)

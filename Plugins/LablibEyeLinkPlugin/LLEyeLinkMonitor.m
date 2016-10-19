@@ -113,17 +113,10 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
     return self;
 }
 
-- (void)initValues:(EyeLinkMonitorValues *)pValues {
-
-	long index;
-	
+- (void)initValues:(EyeLinkMonitorValues *)pValues;
+{
  	pValues->samples = pValues->sequences = 0;
     pValues->cumulativeTimeMS = 0.0;
-
-//	for (index = 0; index < 3; index++) {
-//		pValues->ADMaxValues[index] = SHRT_MIN;
-//		pValues->ADMinValues[index] = SHRT_MAX;
-//	}
 }
 
 - (BOOL)isConfigurable {
@@ -165,7 +158,6 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 
 - (NSString *)valueString:(EyeLinkMonitorValues *)pValues {
 
-    long index;
     double eyelinkSampleTimeMS, CPUMS;
     NSMutableString *string = [[[NSMutableString alloc] init] autorelease];
     
@@ -191,10 +183,8 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 // Record the occurrence of an event.  This is the method that should be called 
 // when the event being monitored occurs.
 
-- (void)sequenceValues:(EyeLinkMonitorValues)current {
-
-    long index;
-    
+- (void)sequenceValues:(EyeLinkMonitorValues)current;
+{
 	previous = current;									// Save for the report
     cumulative.samplePeriodMS = current.samplePeriodMS;
      

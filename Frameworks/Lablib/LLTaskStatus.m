@@ -1,6 +1,5 @@
 //
-//  TaskMode.m
-//  Experiment
+//  LLTaskStatus.m
 //
 //  Created by John Maunsell on Tue Sep 16 2003.
 //  Copyright (c) 2003. All rights reserved.

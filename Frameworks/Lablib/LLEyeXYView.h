@@ -14,7 +14,7 @@
 #define kMaxSamplesDisplay	1000
 
 #ifndef kEyes
-enum {kLeftEye, kRightEye};
+typedef enum {kLeftEye, kRightEye} LLWhichEye;
 #define kEyes   (kRightEye + 1)
 #endif
 

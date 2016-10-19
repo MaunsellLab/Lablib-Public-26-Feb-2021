@@ -130,7 +130,6 @@ LLTaskPlugIn	*task = nil;
 - (void)dataCollect:(NSTimer *)timer;
 {
 	NSData *data;
-	short *pEyeData;
 	
 	if ((data = [dataController dataOfType:@"eyeLXData"]) != nil) {
 		[dataDoc putEvent:@"eyeLXData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
@@ -290,9 +289,6 @@ LLTaskPlugIn	*task = nil;
 
 - (void)initializationDidFinish;
 {
-	NSString *userDefaultsValuesPath;
-    NSDictionary *userDefaultsValuesDict;
-	
 	task = self;
 	
 // Register our default settings. This should be done first thing, before the

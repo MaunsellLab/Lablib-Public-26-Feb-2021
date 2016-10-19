@@ -43,9 +43,6 @@ December 26, 2004 John Maunsell
 
 - (id)init;
 {
-	NSEnumerator *enumerator;
-	NSString *key, *fixTargetKey;
-
 	if ((self = [super init]) != nil) {
 		fixSpot = [[LLFixTarget alloc] init];
 		[fixSpot setState:YES];

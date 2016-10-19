@@ -40,7 +40,7 @@ NSString *RFOrientationStepDegKey = @"RFOrientationStepDeg";
 NSString *RFSizeFactorKey = @"RFSizeFactor";
 NSString *RFWidthFactorKey = @"RFWidthFactor";
 
-long					behaviorMode = kBehaviorRunning;
+RFBehavior				behaviorMode = kBehaviorRunning;
 BOOL					resetFlag = NO;
 LLScheduleController	*scheduler = nil;
 RFMapStimuli			*stimuli = nil;
@@ -329,7 +329,7 @@ LLTaskPlugIn	*task = nil;
 {
 	BOOL handled = NO;
 	
-	if ([theEvent type] == NSKeyDown) {
+	if ([theEvent type] == NSEventTypeKeyDown) {
 		switch ([theEvent keyCode]) {
 		case kKeyPad7KeyCode:						// make stimulus smaller
 			[stimuli changeSize:1.0 / [[task defaults] floatForKey:RFSizeFactorKey]];
@@ -373,10 +373,10 @@ LLTaskPlugIn	*task = nil;
 			break;
 		}
 	}
-	else if ([theEvent type] == NSLeftMouseDown) {
+	else if ([theEvent type] == NSEventTypeLeftMouseDown) {
 		handled = [stimuli mouseDown];
 	}
-	else if ([theEvent type] == NSLeftMouseUp) {
+	else if ([theEvent type] == NSEventTypeLeftMouseUp) {
 		handled = [stimuli mouseUp];
 	}
 	return handled;

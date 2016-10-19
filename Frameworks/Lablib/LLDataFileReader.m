@@ -12,7 +12,7 @@
 #import "LLProgressIndicator.h"
 #import "LLSystemUtil.h"
 
-enum {kSingleDevice = 1, kMultiDevice};
+typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 
 #define kNoEventCode		-1
 #define kMaxDevices			8
@@ -897,7 +897,7 @@ them.
 //		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
 		return NO;
 	}
-    fileWrap = [[[NSFileWrapper alloc] initWithURL:absoluteURL options:NULL error:NULL] autorelease];
+    fileWrap = [[[NSFileWrapper alloc] initWithURL:absoluteURL options:(NSFileWrapperReadingOptions)NULL error:NULL] autorelease];
 //    fileWrap = [[[NSFileWrapper alloc] initWithPath:[absoluteURL path]] autorelease];
 	if ((result = [self setFileData:[fileWrap regularFileContents]])) {
         fileName = [[[absoluteURL path] lastPathComponent] retain];

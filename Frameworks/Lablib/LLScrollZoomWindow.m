@@ -19,7 +19,7 @@ NSString *windowZoomKey = @"WindowZoom";
     
     zoomValue = [[sender selectedCell] tag];
     [self setScaleFactor:zoomValue / 100.0];
-    [defaults setObject:[NSNumber numberWithInt:zoomValue] 
+    [defaults setObject:[NSNumber numberWithInt:(int)zoomValue]
                 forKey:[NSString stringWithFormat:@"%@%@", viewName, windowZoomKey]];
 }
 

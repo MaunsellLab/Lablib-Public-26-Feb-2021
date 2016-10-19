@@ -215,7 +215,7 @@ NSLog(@"Start makeNoiseTexture");
 // fill with random phases to produce real numbers equal pos and neg freq, zero DC freq
 
 	if (drawNoise.seed != lastNoise.seed) {
-		srandom(drawNoise.seed);
+		srandom((int)drawNoise.seed);
 		for (row = 0; row < halfNoisePix; row++) {
 			for (col = 0; col < halfNoisePix; col++) {
 				xr = halfNoisePix - row;

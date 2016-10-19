@@ -10,7 +10,7 @@
  */
 
 #define kMaxChannels		16
-enum {kVoltagePulses = 0, kCurrentPulses, kPulseTypes};
+typedef enum {kVoltagePulses = 0, kCurrentPulses, kPulseTypes} PulseTypes;
 
 typedef struct {
 	long	pulseType;

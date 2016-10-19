@@ -245,7 +245,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {
 
-    return [settingsNameArray count];
+    return (int)[settingsNameArray count];
 }
 
 - (IBAction)ok:(id)sender;

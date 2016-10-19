@@ -7,7 +7,7 @@
 //
 
 #ifndef kEyes
-enum {kLeftEye, kRightEye};
+typedef enum {kLeftEye, kRightEye} WhichEye;
 #define kEyes   (kRightEye + 1)
 #endif
 

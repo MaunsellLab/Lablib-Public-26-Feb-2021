@@ -11,10 +11,9 @@
 
 #define kLLEyeCalibratorOffsets 		4
 
-NSString *LLFixCalAzimuthDegKey;
-NSString *LLFixCalElevationDegKey;
-NSString *LLFixCalOffsetDegKey;
-NSString *LLFixCorrectFactorKey;
+extern NSString *LLFixCalAzimuthDegKey;
+extern NSString *LLFixCalElevationDegKey;
+extern NSString *LLFixCalOffsetDegKey;
 
 typedef struct {
 	float					offsetSizeDeg;							// size of the total fixation point offset

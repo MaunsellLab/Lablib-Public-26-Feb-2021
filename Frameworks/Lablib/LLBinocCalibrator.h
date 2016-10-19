@@ -9,7 +9,7 @@
 #import "LLEyeCalibrator.h"
 
 #ifndef kEyes
-enum {kLeftEye, kRightEye};
+typedef enum {kLeftEye, kRightEye} kWhichEye;
 #define kEyes   (kRightEye + 1)
 #endif
 

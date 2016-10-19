@@ -10,7 +10,7 @@
 #import "LLNullDataDevice.h" 
 #import "LLSystemUtil.h"
 
-enum {kLLDeviceName, kLLChannelIndex, kLLRateIndex};
+typedef enum {kLLDeviceName, kLLChannelIndex, kLLRateIndex} LLDeviceIndex;
 
 NSString *LLDataAssignmentKey = @"LLDataAssignment";
 NSString *LLDataDeviceDigitalInKey = @"LLDataDeviceDigitalIn";
@@ -572,10 +572,10 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == sampleTable) {	
-		return [sampleAssignments count];
+		return (int)[sampleAssignments count];
     }
 	else if (tableView == timestampTable) {
-		return [timestampAssignments count];
+		return (int)[timestampAssignments count];
 	}
 	else {
         return 0;
@@ -701,10 +701,10 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 		return ([assign groupIndex] == 0) ? [assign name] :  @"\"";
 	}
 	if ([[tableColumn identifier] isEqual:@"device"]) {
-		return [NSNumber numberWithInt:[assign device]];
+		return [NSNumber numberWithInt:(int)[assign device]];
 	}
 	if ([[tableColumn identifier] isEqual:@"channel"]) {
-		return [NSNumber numberWithInt:[assign channel]];
+		return [NSNumber numberWithInt:(int)[assign channel]];
 	}
 	if ([[tableColumn identifier] isEqual:@"period"]) {
 		return [NSNumber numberWithFloat:[[dataDevices objectAtIndex:[assign device]]

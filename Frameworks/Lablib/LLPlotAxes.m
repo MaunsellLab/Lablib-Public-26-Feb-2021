@@ -229,7 +229,7 @@
 // Return the number of digits of precision that the tick labels should 
 // be displayed with.
 
-+ (int) precisionForMin:(float)axisMinValue andMax:(float)axisMaxValue {
++ (int)precisionForMin:(float)axisMinValue andMax:(float)axisMaxValue {
 
     long precision;
     float value;
@@ -245,7 +245,7 @@
             value *= 10.0;
         }
     }
-    return precision;
+    return (int)precision;
 }
 
 + (long) tickHeightPix {

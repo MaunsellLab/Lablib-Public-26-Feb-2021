@@ -18,7 +18,7 @@ typedef struct {
 	long   seed;
 } Noise;
 
-enum {kWhiteNoise, kOneOverFNoise, kGaussianNoise} NoiseType;
+typedef enum {kWhiteNoise, kOneOverFNoise, kGaussianNoise} NoiseType;
 
 #define	kNoisePix (1 << 9)
 #define kNoisePos (kKdlPhi + 1)
@@ -35,20 +35,19 @@ enum {kWhiteNoise, kOneOverFNoise, kGaussianNoise} NoiseType;
 - (void) draw;
 - (void) drawTextures;
 - (void) drawTexturesGL;
-- (Noise *)noiseData;
 - (void)makeDisplayLists;
 - (void)makeNoiseTexture;
+- (Noise *)noiseData;
 - (void)restore;
 - (void)setFrame:(NSNumber *)frameObject;
-- (void)setNoiseData:(Noise)newNoise;
+- (void)setMotionDir:(double)motionDir;
+- (void)setMotionSpeed:(double)motionSpeed;
 - (void)setNoiseAzimuth:(double)az elevation:(double)el;
-- (void)setSpatialFreqBandOct:(double)sfBand;
-- (void)setOrientationBandDeg:(double)orBand;
 - (void)setNoiseData:(Noise)newNoise;
 - (void)setNoiseType:(long)newType;
-- (void)setMotionSpeed:(double)motionSpeed;
-- (void)setMotionDir:(double)motionDir;
+- (void)setOrientationBandDeg:(double)orBand;
 - (void)setSeed:(long)seed;
+- (void)setSpatialFreqBandOct:(double)sfBand;
 - (void)store;
 - (void)updateNoiseTexture;
 - (void)updateNoiseTextureGL;
