@@ -1,9 +1,7 @@
-//
 //  LabJackU6Monitor.m
 //  Lablib
 //
-//  Created by John Maunsell on Wed Jan 29 2003.
-//  Copyright (c) 2003. All rights reserved.
+//  Copyright (c) 2016. All rights reserved.
 //
 
 #import "LabJackU6Monitor.h"
@@ -39,8 +37,8 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 	}
 }
 
-- (void)configure {
-
+- (void)configure;
+{
 	[settings showWindow:self];
 }
 
@@ -54,29 +52,30 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 
 - (void)doAlarm:(NSString *)message;
 {
-	long choice;
-    NSAlert *theAlert = [[NSAlert alloc] init];
-    
-    [theAlert setMessageText:[NSString stringWithFormat:@"LabJackU6Monitor (%@)", [self IDString]]];
-    [theAlert addButtonWithTitle:@"OK"];
-    [theAlert addButtonWithTitle:@"Disarm Alarm"];
-    [theAlert addButtonWithTitle:@"Change Settings"];
-    [theAlert setInformativeText:message];
-	alarmActive = YES;
-	choice = [theAlert runModal];
-	switch (choice) {
-	case NSAlertSecondButtonReturn:						// disarm alarms
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
-		break;
-	case NSAlertThirdButtonReturn:
-		[self configure];								// configure alarms
-		break;
-	case NSAlertFirstButtonReturn:						// OK button, do nothing
-	default:
-		break;
-	}
-	alarmActive = NO;
-    [theAlert release];
+//	long choice;
+//    NSAlert *theAlert = [[NSAlert alloc] init];
+   
+    [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6Monitor" informativeText:[self IDString]];
+//    [theAlert setMessageText:[NSString stringWithFormat:@"LabJackU6Monitor (%@)", [self IDString]]];
+//    [theAlert addButtonWithTitle:@"OK"];
+//    [theAlert addButtonWithTitle:@"Disarm Alarm"];
+//    [theAlert addButtonWithTitle:@"Change Settings"];
+//    [theAlert setInformativeText:message];
+//	alarmActive = YES;
+//	choice = [theAlert runModal];
+//	switch (choice) {
+//	case NSAlertSecondButtonReturn:						// disarm alarms
+//		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
+//		break;
+//	case NSAlertThirdButtonReturn:
+//		[self configure];								// configure alarms
+//		break;
+//	case NSAlertFirstButtonReturn:						// OK button, do nothing
+//	default:
+//		break;
+//	}
+//	alarmActive = NO;
+//    [theAlert release];
 }
 
 - (NSString *)IDString {

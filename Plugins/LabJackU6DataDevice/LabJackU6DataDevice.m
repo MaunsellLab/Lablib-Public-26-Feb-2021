@@ -2,16 +2,15 @@
 //  LabJackU6DataDevice.m
 //  Lablib
 //
-//  Created by Jon Hendry on 9/18/07.
-//  Copyright 2007. All rights reserved.
+//  Copyright 2016. All rights reserved.
 //
-// August 21, 2015, Working version for Rig 1
 
 #import <eyelink_core/eyelink.h>
 #import <eyelink_core/core_expt.h>
 #import <Lablib/LLPluginController.h>
 #import <Lablib/LLSystemUtil.h>
 #import "LabJackU6DataDevice.h"
+#import "LabJackU6Settings.h"
 
 //#define kUseLLDataDevices        // needed for versioning
 
@@ -30,6 +29,16 @@ void handler(int signal) {
 + (NSInteger)version;
 {
 	return kLLPluginVersion;
+}
+
+- (void)configure;
+{
+    LabJackU6Settings *settings;
+    
+    if ((settings = [[LabJackU6Settings alloc] init]) != nil) {
+        [settings runPanel];
+        [settings release];
+     }
 }
 
 - (void)dealloc;
@@ -87,11 +96,11 @@ void handler(int signal) {
         for (index = 0; index < kLabJackU6Channels; index++) {
             [samplePeriodMS addObject:[NSNumber numberWithFloat:2.0F]];
 		}
-		monitor = [[LabJackU6Monitor alloc] initWithID:@"LabJackU6" description:@"LabJackU6 Eye Monitor"];
+		monitor = [[LabJackU6Monitor alloc] initWithID:@"LabJackU6" description:@"LabJackU6 Monitor"];
 		
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * LabJackU6SamplePeriodS;
 				
-        NSLog(@"LabJackU6DataDevice: Since 10.10, the LabJackU6 API is generating this thread_policy_set error");
+        NSLog(@"LabJackU6DataDevice: Since 10.10, the EyeLink API is generating a thread_policy_set error");
 		if ((index = open_eyelink_connection(0))) {
 			deviceEnabled = devicePresent = NO;
 		}

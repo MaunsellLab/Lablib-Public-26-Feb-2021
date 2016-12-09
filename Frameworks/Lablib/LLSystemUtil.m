@@ -122,11 +122,14 @@ extern void CGSDeferredUpdates(int);
 
 + (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText
 {
+    SEL selector = NSSelectorFromString(@"runModal");
+
     NSAlert *theAlert = [[NSAlert alloc] init];
     
     [theAlert setMessageText:messageText];
     [theAlert setInformativeText:infoText];
-    [theAlert runModal];
+    [theAlert performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
+//    [theAlert runModal];
     [theAlert release];
 }
 

@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
-            BuildableName = "LabJackU6.plugin"
+            BuildableName = "LabJackU6DataDevice.plugin"
             BlueprintName = "LabJackU6 Plugin"
             ReferencedContainer = "container:LabJackU6DataDevice.xcodeproj">
          </BuildableReference>

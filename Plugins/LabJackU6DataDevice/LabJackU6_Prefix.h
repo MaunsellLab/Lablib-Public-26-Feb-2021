@@ -1,5 +1,5 @@
 //
-// Prefix header.
+// Prefix header for LabJackU6DataDevice.
 //
 
 #ifdef __OBJC__

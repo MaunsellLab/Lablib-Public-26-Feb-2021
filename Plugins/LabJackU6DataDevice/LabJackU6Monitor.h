@@ -2,8 +2,7 @@
 //  LabJackU6Monitor.h
 //  Lablib
 //
-//  Created by John Maunsell on Wed Jan 29 2003.
-//  Copyright (c) 2003 . All rights reserved.
+//  Copyright (c) 2016. All rights reserved.
 //
 
 #import "LabJackU6MonitorSettings.h"

@@ -2,8 +2,7 @@
 //  LabJackU6DataDevice.h 
 //  Lablib
 //
-//  Created by Jon Hendry on 9/18/07.
-//  Copyright 2005-2011 All rights reserved.
+//  Copyright 2016 All rights reserved.
 //
 #import <Lablib/LLDataDevice.h>
 #import "LabJackU6Monitor.h"

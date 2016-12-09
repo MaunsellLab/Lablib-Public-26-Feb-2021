@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		696DF5AA0EB8A8F80004FC8E /* LabJackU6DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0ED4650CA064BC00BE2453 /* LabJackU6DataDevice.m */; };
+		69AF8ADA1DFB6E9F00488DF2 /* LabJackU6Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AF8AD81DFB6E9F00488DF2 /* LabJackU6Settings.m */; };
+		69AF8ADB1DFB6E9F00488DF2 /* LabJackU6Settings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69AF8AD91DFB6E9F00488DF2 /* LabJackU6Settings.xib */; };
 		69D7851D17F3C8E800785BA7 /* eyelink_core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851C17F3C8E800785BA7 /* eyelink_core.framework */; };
 		E97BF1EB1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97BF1EA1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib */; };
 		FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -43,6 +45,9 @@
 		32DBCF5E0370ADEE00C91783 /* LabJackU6_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabJackU6_Prefix.h; sourceTree = "<group>"; };
 		6975F2950B3328C200312509 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../../../../../Documents/Lablib/Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		697BD6710988415500D9176F /* LabJackU6DataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = LabJackU6DataDevice.plist; sourceTree = "<group>"; };
+		69AF8AD71DFB6E9F00488DF2 /* LabJackU6Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabJackU6Settings.h; sourceTree = "<group>"; };
+		69AF8AD81DFB6E9F00488DF2 /* LabJackU6Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabJackU6Settings.m; sourceTree = "<group>"; };
+		69AF8AD91DFB6E9F00488DF2 /* LabJackU6Settings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabJackU6Settings.xib; sourceTree = "<group>"; };
 		69D31ADC097C5B44001102CA /* LabJackU6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabJackU6.h; sourceTree = "<group>"; };
 		69D7851C17F3C8E800785BA7 /* eyelink_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = eyelink_core.framework; path = ../../../../Library/Frameworks/eyelink_core.framework; sourceTree = "<group>"; };
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -104,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				E97BF1EA1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib */,
+				69AF8AD91DFB6E9F00488DF2 /* LabJackU6Settings.xib */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -118,6 +124,8 @@
 				FC40599F0CD6687000F2E428 /* LabJackU6MonitorSettings.m */,
 				FC4059800CD6669100F2E428 /* LabJackU6Monitor.h */,
 				FC40598D0CD666E300F2E428 /* LabJackU6Monitor.m */,
+				69AF8AD71DFB6E9F00488DF2 /* LabJackU6Settings.h */,
+				69AF8AD81DFB6E9F00488DF2 /* LabJackU6Settings.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -212,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */,
+				69AF8ADB1DFB6E9F00488DF2 /* LabJackU6Settings.xib in Resources */,
 				E97BF1EB1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,6 +234,7 @@
 			files = (
 				FC40598E0CD666E300F2E428 /* LabJackU6Monitor.m in Sources */,
 				FC4059A00CD6687000F2E428 /* LabJackU6MonitorSettings.m in Sources */,
+				69AF8ADA1DFB6E9F00488DF2 /* LabJackU6Settings.m in Sources */,
 				696DF5AA0EB8A8F80004FC8E /* LabJackU6DataDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

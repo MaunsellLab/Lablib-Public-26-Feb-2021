@@ -2,8 +2,7 @@
 //  LabJackU6MonitorSettings.h
 //  Lablib
 //
-//  Created by John Maunsell on Thu Jul 31 2003.
-//  Copyright (c) 2003. All rights reserved.
+//  Copyright (c) 2016. All rights reserved.
 //
 
 @interface LabJackU6MonitorSettings : NSWindowController {
