@@ -56,34 +56,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6933B3A80784BBE2006963FA"
-               BuildableName = "RFMap.bundle"
-               BlueprintName = "RFMap"
-               ReferencedContainer = "container:Plugins/RFMap/RFMap.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "FixateTask.plugin"
-               BlueprintName = "Fixate"
-               ReferencedContainer = "container:Plugins/Fixate/Fixate.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
                BuildableName = "LLMouseDataDevice.bundle"
                BlueprintName = "LLMouseDataDevice"
@@ -116,6 +88,48 @@
                BuildableName = "LablibEyeLink.bundle"
                BlueprintName = "LablibEyeLink Plugin"
                ReferencedContainer = "container:Plugins/LablibEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
+               BuildableName = "LabJackU6DataDevice.plugin"
+               BlueprintName = "LabJackU6 Plugin"
+               ReferencedContainer = "container:Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6933B3A80784BBE2006963FA"
+               BuildableName = "RFMap.bundle"
+               BlueprintName = "RFMap"
+               ReferencedContainer = "container:Plugins/RFMap/RFMap.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
+               BuildableName = "FixateTask.plugin"
+               BlueprintName = "Fixate"
+               ReferencedContainer = "container:Plugins/Fixate/Fixate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

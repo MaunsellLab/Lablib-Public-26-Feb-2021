@@ -15,6 +15,9 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 
 - (void)addMonitor:(id <LLMonitor>)monitor;
 {
+    if (monitor == nil) {                       // do nothing if the monitor isn't valid
+        return;
+    }
 	if ([monitors count] == 0) {
 		[monitorMenu removeAllItems];
 	}

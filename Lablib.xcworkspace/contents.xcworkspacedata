@@ -20,7 +20,10 @@
       location = "group:Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Plugins/LablibEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
+      location = "group:/Documents/Lablib/Plugins/LablibEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Plugins/Fixate/Fixate.xcodeproj">
