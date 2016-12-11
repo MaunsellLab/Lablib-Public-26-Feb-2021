@@ -164,8 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				32DBCF5E0370ADEE00C91783 /* LabJackU6_Prefix.h */,
-				69AF8AFC1DFB895400488DF2 /* u6.c */,
 				69AF8AFD1DFB895400488DF2 /* u6.h */,
+				69AF8AFC1DFB895400488DF2 /* u6.c */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";

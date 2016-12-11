@@ -5,8 +5,26 @@
 //  Copyright 2016. All rights reserved.
 //
 
-#import <eyelink_core/eyelink.h>
-#import <eyelink_core/core_expt.h>
+/* The starting place for this code was porting over the plugin from MWorks, which was converted to 
+ Obj-C and Lablib format.  The first pass for a working LLDataDevice will be to have a task plugin
+ that communicates directly with the LLDataDevice, as with the SDRDigitalOut.h digital output device
+ in SignalDetection3.  This will closely follow the model used in the MWorks plugin regarding commands
+ and data. Even in this version, setDataDevice: method calls will be made and serviced, but that will
+ do little more than reset variables and ensure the device is ready.
+ 
+ Once that version is up and running, it should be possible to extend the behavior of the device to allow
+ for it to service the conventional data stream -- setting sampling intervals, number of active channels,
+ etc.  Initially that will only need to be for DIO, but AIO should be a relatively simple extension in the
+ future.
+ 
+ One the DIO is working OK, it should be relatively straightforward to have setDataEnabled: to start 
+ periodic sampling (or streaming) of digital values, and converting those samples into timestamps. Certainly
+ that could be done with periodic sampling at whatever frequency the USB can support (200-1k Hz?), eventually
+ it might be possible to stream, although I don't know how the streaming will interact with asynchronous 
+ digital output that will be needed. */
+
+//#import <eyelink_core/eyelink.h>
+//#import <eyelink_core/core_expt.h>
 #import <Lablib/LLPluginController.h>
 #import <Lablib/LLSystemUtil.h>
 #import "LabJackU6DataDevice.h"
@@ -14,6 +32,12 @@
 #import "u6.h"
 
 // From libusb.h
+
+#define kBufferLength       2048
+#define kDebounceS          0.005
+#define kMaxAllowedTimeS    0.005
+#define kUpdatePeriodUS     15000
+
 typedef struct libusb_device_handle libusb_device_handle;
 extern int libusb_reset_device(libusb_device_handle *dev);
 
@@ -33,15 +57,8 @@ static const char ljPortDir[3] = {                          // 0 input, 1 output
 
 @implementation LabJackU6DataDevice
 
-volatile int shouldKillThread = 0;
 BOOL firstTrialSample;
 long ELTrialStartTimeMS;
-
-void handler(int signal) {
-	stop_recording();
-	printf("received signal: %d\n",signal);
-	[[NSApplication sharedApplication] terminate:nil];
-}
 
 + (NSInteger)version;
 {
@@ -97,10 +114,28 @@ void handler(int signal) {
 	[super dealloc];
 }
 
+- (void)debounceState:(BOOL *)thisState lastState:(BOOL *)lastState lastTimeS:(double *)lastTransitionTimeS;
+{
+    double timeNowS;
+    
+    if (*lastTransitionTimeS == 0) {                    // first call, count current state as valid
+        *lastState = *thisState;
+        *lastTransitionTimeS = [LLSystemUtil getTimeS];
+    }
+    else if (*thisState != *lastState) {
+        timeNowS = [LLSystemUtil getTimeS];
+        if (timeNowS - *lastTransitionTimeS < kDebounceS) {
+            *thisState = *lastState;                    // discard changes during deadtime
+        }
+        else {
+            *lastState = *thisState;                    // record and report the transition
+            *lastTransitionTimeS = timeNowS;
+        }
+    }
+}
+
 - (id)init;
 {
-	int index;
-
 	if ((self = [super init]) != nil) {
 		
 
@@ -114,7 +149,7 @@ void handler(int signal) {
 		pollThread = nil;
 		deviceEnabled = NO;
 		dataEnabled = NO;
-		devicePresent = YES;
+		devicePresent = NO;
 		LabJackU6SamplePeriodS = 0.002;
 			
 		dataLock = [[NSLock alloc] init];
@@ -126,8 +161,10 @@ void handler(int signal) {
             return self;
         }
         NSLog(@"LabJackU6 Data Device initialized");
-        [self setupU6PortsAndRestartIfDead];
+        devicePresent = YES;
         monitor = [[LabJackU6Monitor alloc] initWithID:@"LabJackU6" description:@"LabJackU6 Monitor"];
+
+        [self setupU6PortsAndRestartIfDead];
         lever1Solenoid = lever2Solenoid = 0;
         if (![self ljU6WriteDO:LJU6_LEVER1SOLENOID_FIO state:lever1Solenoid]) {
             return self;
@@ -147,16 +184,46 @@ void handler(int signal) {
         }
 		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * LabJackU6SamplePeriodS;
 				
-        NSLog(@"LabJackU6DataDevice: Since 10.10, the EyeLink API is generating a thread_policy_set error");
-		if ((index = open_eyelink_connection(0))) {
-			deviceEnabled = devicePresent = NO;
-		}
-		else {
-			deviceEnabled = devicePresent = YES;
-			stop_recording();                           // make sure we're stopped
-		}
+//        NSLog(@"LabJackU6DataDevice: Since 10.10, the EyeLink API is generating a thread_policy_set error");
+//		if ((index = open_eyelink_connection(0))) {
+//			deviceEnabled = devicePresent = NO;
+//		}
+//		else {
+//			deviceEnabled = devicePresent = YES;
+//			stop_recording();                           // make sure we're stopped
+//		}
 	}
 	return self;
+}
+
+- (void)laserDO:(BOOL)state;
+{
+    [deviceLock lock];
+    if ([self ljU6WriteDO:LJU6_LASERTRIGGER_FIO state:state] != YES) {
+        NSLog(@"%@", [NSString stringWithFormat:
+                      @"writing lever 1 solenoid state; device likely to be broken (state %d)", state]);
+    }
+    [deviceLock unlock];
+}
+
+- (void)leverSolenoidDO:(BOOL)state channel:(long)channel;
+{
+    [deviceLock lock];
+    if ([self ljU6WriteDO:channel state:state] != YES) {
+        NSLog(@"%@", [NSString stringWithFormat:
+                      @"writing lever 1 solenoid state; device likely to be broken (state %d)", state]);
+    }
+    [deviceLock unlock];
+}
+
+- (void)strobedDigitalWordDO:(unsigned int)digWord;
+{
+    [deviceLock lock];
+    if ([self ljU6WriteStrobedWord:digWord] != YES) {
+        NSLog(@"%@", [NSString stringWithFormat:
+                @"writing lever 1 solenoid state; device likely to be broken (digWord %d)", digWord]);
+    }
+    [deviceLock unlock];
 }
 
 // Configure LabJack ports.  Callers must lock
@@ -201,6 +268,41 @@ void handler(int signal) {
     return YES;
 }
 
+- (long)ljU6ReadPorts:(unsigned int *)fioState EIOState:(unsigned int *)eioState CIOState:(unsigned int *)cioState;
+{
+    uint8 sendDataBuff[3], recDataBuff[7];
+    uint8 errorCode, errorFrame;
+    
+    sendDataBuff[0] = 26;       //IOType is PortStateRead
+    sendDataBuff[1] = 55;       //IOType is Counter1
+    sendDataBuff[2] = 0;        //  - Don't reset counter
+    
+    if (ehFeedback(ljHandle, sendDataBuff, 3, &errorCode, &errorFrame, recDataBuff, 7) < 0)
+        return -1L;
+    if (errorCode)
+        return (long)errorCode;
+    
+    *fioState = recDataBuff[0];
+    *eioState = recDataBuff[1];
+    *cioState = recDataBuff[2];
+    
+    // Unpack counter value
+    uint32 counterValue;
+    for (size_t i = 0; i < 4; i++) {
+        ((uint8 *)(&counterValue))[i] = recDataBuff[3 + i];
+    }
+    counterValue = CFSwapInt32LittleToHost(counterValue);  // Convert to host byte order
+    
+    // Update counter variable (only if counter value has changed)
+//    if (counter->getValue().getInteger() != counterValue) {
+//        counter->setValue(long(counterValue));
+//    }
+    
+    return 0L;
+    
+}
+
+
 - (BOOL)ljU6WriteDO:(long)channel state:(long)state;
 {
     uint8 sendDataBuff[2], errorCode, errorFrame;
@@ -218,6 +320,69 @@ void handler(int signal) {
         NSLog(@"%@", [NSString stringWithFormat:@"ljU6WriteDO: error with command, errorcode was %d", errorCode]);
         return NO;
     }
+    return YES;
+}
+
+- (BOOL)ljU6WriteStrobedWord:(unsigned int)inWord;
+{
+    uint8 outEioBits = inWord & 0xff;
+    uint8 outCioBits = (inWord & 0xf00) >> 8;
+    uint8 sendDataBuff[29];
+    uint8 errorCode, errorFrame;
+    
+    if (inWord > 0xfff) {
+        NSLog(@"error writing strobed word; value is larger than 12 bits (ignored)");
+        return NO;
+    }
+    sendDataBuff[0] = 27;           // PortStateWrite, 7 bytes total
+    sendDataBuff[1] = 0x00;         // FIO: don't update
+    sendDataBuff[2] = 0xff;         // EIO: update
+    sendDataBuff[3] = 0x0f;         // CIO: update
+    sendDataBuff[4] = 0x00;         // FIO: data
+    sendDataBuff[5] = outEioBits;   // EIO: data
+    sendDataBuff[6] = outCioBits;   // CIO: data
+    
+    sendDataBuff[7] = 5;            // WaitShort
+    sendDataBuff[8] = 1;            // Time(*128us)
+    
+    sendDataBuff[9]  = 11;          // BitStateWrite
+    sendDataBuff[10] = 7 | 0x80;    // first 4 bits: port # (FIO7); last bit, state
+    
+    sendDataBuff[11] = 5;           // WaitShort
+    sendDataBuff[12] = 1;           // Time(*128us)
+    
+    sendDataBuff[13] = 27;          // PortStateWrite, 7 bytes total
+    sendDataBuff[14] = 0x80;        //0x80  // FIO: update pin 7
+    sendDataBuff[15] = 0xff;        // EIO: update
+    sendDataBuff[16] = 0x0f;        // CIO: update
+    sendDataBuff[17] = 0x00;        // FIO: data
+    sendDataBuff[18] = 0x00;        // EIO: data
+    sendDataBuff[19] = 0x00;        // CIO: data
+    
+    // Note: fixed the ljPortDir mask for CIO.  This may remove the need for the following code.
+    // But needs testing before removal, and only slows us down by 128us
+
+    sendDataBuff[20] = 29;          // PortDirWrite - for some reason the above seems to reset the FIO input/output state
+    sendDataBuff[21] = 0xff;        //  FIO: update
+    sendDataBuff[22] = 0xff;        //  EIO: update
+    sendDataBuff[23] = 0xff;        //  CIO: update
+    sendDataBuff[24] = ljPortDir[0];//  FIO hardcoded above
+    sendDataBuff[25] = ljPortDir[1];//  EIO hardcoded above
+    sendDataBuff[26] = ljPortDir[2];//  CIO hardcoded above
+    
+    sendDataBuff[27] = 5;           // WaitShort   // 130424: w/o this 2 near-simul enc may result in 1st strobe still hi
+    sendDataBuff[28] = 1;           // Time(*128us)
+    
+    
+    if (ehFeedback(ljHandle, sendDataBuff, sizeof(sendDataBuff), &errorCode, &errorFrame, NULL, 0) < 0) {
+        NSLog(@"ehFeedback error, see stdout");     // note we will get a more informative error on stdout
+        return NO;
+    }
+    if (errorCode) {
+        NSLog(@"%@", [NSString stringWithFormat:@"ehFeedback: error with command, errorcode was %d", errorCode]);
+        return NO;
+    }
+    
     return YES;
 }
 
@@ -259,6 +424,50 @@ void handler(int signal) {
 	return @"LabJackU6";
 }
 
+- (BOOL)readLeverDI:(BOOL *)outLever1 lever2:(BOOL *)outLever2;
+{
+    BOOL lever1State, lever2State;
+    unsigned int fioState = 0L;
+    unsigned int eioState = 0L;
+    unsigned int cioState = 0L;
+    
+    static BOOL lastLever1State = NO;
+    static BOOL lastLever2State = NO;
+    static long unsigned slowCount = 0;
+    static long unsigned allCount = 0;
+    static double lastLever1TransitionTimeS = 0;
+    static double lastLever2TransitionTimeS = 0;
+    
+    double elapsedTimeS, startTimeS, slowPercent;
+    
+    [deviceLock lock];
+    startTimeS = [LLSystemUtil getTimeS];
+    if ([self ljU6ReadPorts:&fioState EIOState:&eioState CIOState:&cioState] < 0) {
+        [deviceLock unlock];
+        NSLog(@"LabJackDataDevice readLeverDI: error reading DI, stopping IO ");
+        [self setDataEnabled:NO];  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
+        return NO;
+    }
+    elapsedTimeS = [LLSystemUtil getTimeS] - startTimeS;
+    allCount++;
+    if (elapsedTimeS > kMaxAllowedTimeS) {
+        slowCount++;
+        if ((slowCount < 20) || (slowCount % 10 == 0)) {
+            slowPercent = 100.0 * ((double)slowCount + 1) / ((double)allCount);
+            NSLog(@"read port elapsed: this %.3fms, >%.0f ms %ld/%ld times (%4.3f%%)",
+                     elapsedTimeS / 1000.0, kMaxAllowedTimeS / 1000.0, slowCount, allCount, slowPercent);
+        }
+    }
+    lever1State = (fioState >> LJU6_LEVER1_FIO) & 0x01;
+    lever2State = (fioState >> LJU6_LEVER2_FIO) & 0x01;
+    [self debounceState:&lever1State lastState:&lastLever1State lastTimeS:&lastLever1TransitionTimeS];
+    [self debounceState:&lever2State lastState:&lastLever2State lastTimeS:&lastLever2TransitionTimeS];
+    *outLever1 = lever1State;
+    *outLever2 = lever2State;
+    [deviceLock unlock];
+    return(YES);
+}
+
 - (float)samplePeriodMSForChannel:(long)channel;
 {
     if (ljHandle == NULL) {
@@ -281,54 +490,52 @@ void handler(int signal) {
 	return [samplePeriodMS count];
 }
 
-- (void)pollSamples
+- (void)pollSamples;
 {
-	int index = 0;
-	short sample = 0;
-	ISAMPLE oldSample, newSample;
+//	int index = 0;
+//	short sample = 0;
+
+//	ISAMPLE oldSample, newSample;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    if (ljHandle == NULL) {
-        return;
-    }
-	oldSample.time = 0;
+//	oldSample.time = 0;
 	pollThread = [NSThread currentThread];
-	
 	while (YES) {
-		if (shouldKillThread) {
+		if (shouldKillPolling) {
 			[pool release];
 			pollThread = nil;
 			[NSThread exit];
 		}
-		while ((index = eyelink_get_sample(&newSample))) {
-			if (index && (newSample.time != oldSample.time)) {
-				[dataLock lock];
-                if (!firstTrialSample) {
-                    ELTrialStartTimeMS = eyelink_tracker_msec();
-                    NSLog(@"Current LabJackU6 time: %li",ELTrialStartTimeMS);
-                    NSLog(@"LabJackU6 Sample Time stamp: %u", newSample.time);
-                    NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
-                    NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
-                    firstTrialSample = YES;
-                }
-				sample = (short)(newSample.gx[RIGHT_EYE]);
-				[rXData appendBytes:&sample length:sizeof(sample)];
-				sample = (short)(-newSample.gy[RIGHT_EYE]);
-				[rYData appendBytes:&sample length:sizeof(sample)];
-				sample = (short)(newSample.pa[RIGHT_EYE]);
-				[rPData appendBytes:&sample length:sizeof(sample)];				
-                sample = (short)(newSample.gx[LEFT_EYE]);
-				[lXData appendBytes:&sample length:sizeof(sample)];
-				sample = (short)(-newSample.gy[LEFT_EYE]);
-				[lYData appendBytes:&sample length:sizeof(sample)];
-				sample = (short)(newSample.pa[LEFT_EYE]);
-				[lPData appendBytes:&sample length:sizeof(sample)];
+//		while ((index = eyelink_get_sample(&newSample))) {
+//			if (index && (newSample.time != oldSample.time)) {
+        [dataLock lock];
+        [self readLeverDI:&lever1 lever2:&lever2];
+//                if (!firstTrialSample) {
+//                    ELTrialStartTimeMS = eyelink_tracker_msec();
+//                    NSLog(@"Current LabJackU6 time: %li",ELTrialStartTimeMS);
+//                    NSLog(@"LabJackU6 Sample Time stamp: %u", newSample.time);
+//                    NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
+//                    NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
+//                    firstTrialSample = YES;
+//                }
+//				sample = (short)(newSample.gx[RIGHT_EYE]);
+//				[rXData appendBytes:&sample length:sizeof(sample)];
+//				sample = (short)(-newSample.gy[RIGHT_EYE]);
+//				[rYData appendBytes:&sample length:sizeof(sample)];
+//				sample = (short)(newSample.pa[RIGHT_EYE]);
+//				[rPData appendBytes:&sample length:sizeof(sample)];				
+//                sample = (short)(newSample.gx[LEFT_EYE]);
+//				[lXData appendBytes:&sample length:sizeof(sample)];
+//				sample = (short)(-newSample.gy[LEFT_EYE]);
+//				[lYData appendBytes:&sample length:sizeof(sample)];
+//				sample = (short)(newSample.pa[LEFT_EYE]);
+//				[lPData appendBytes:&sample length:sizeof(sample)];
 				values.samples++;
 				[dataLock unlock];
-				oldSample = newSample;
-			}
-		}
-		usleep(20000);										// sleep 20 ms
+//				oldSample = newSample;
+//			}
+//		}
+		usleep(kUpdatePeriodUS);										// sleep 15 ms
 	}
 }
 
@@ -377,81 +584,48 @@ void handler(int signal) {
 	return sampleData;
 }
 
+// This is the method is typically called at the start and end of every trial to toggle data collection.
+
 - (void)setDataEnabled:(NSNumber *)state;
 {
-	long maxSamplingRateHz = 1000;
+//	long maxSamplingRateHz = 1000;
 	
     if (ljHandle == NULL) {
         return;
     }
 	if ([state boolValue] && !dataEnabled) {						// toggle from OFF to ON
         [deviceLock lock];
-		if (maxSamplingRateHz != 0) {							    // no channels enabled
-			sampleTimeS = LabJackU6SamplePeriodS;						// one period complete on first sample
-			justStartedLabJackU6 = YES;
-			//[deviceLock lock];
-			start_recording(0,0,1,0);                               // tell device to start recording
-			//[deviceLock unlock];
-			[monitor initValues:&values];
-			values.samplePeriodMS = LabJackU6SamplePeriodS * 1000.0;
-			monitorStartTimeS = [LLSystemUtil getTimeS];
-			lastReadDataTimeS = 0;
-			dataEnabled = YES;
-            firstTrialSample = NO;
-		}
+        [self setupU6PortsAndRestartIfDead];                        // check on hardware, restart if needed.
+        if (pollThread == nil) {
+            shouldKillPolling = NO;
+            [NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
+        }
+
+//        if (maxSamplingRateHz != 0) {							    // no channels enabled
+//			sampleTimeS = LabJackU6SamplePeriodS;					// one period complete on first sample
+//			justStartedLabJackU6 = YES;
+//			[monitor initValues:&values];
+//			values.samplePeriodMS = LabJackU6SamplePeriodS * 1000.0;
+//			monitorStartTimeS = [LLSystemUtil getTimeS];
+//			lastReadDataTimeS = 0;
+//            firstTrialSample = NO;
+//		}
+		dataEnabled = YES;
         [deviceLock unlock];
 	} 
 	else if (![state boolValue] && dataEnabled) {					// toggle from ON to OFF
+        [deviceLock lock];
+       shouldKillPolling = YES;
+        while (pollThread != nil) {
+            usleep(100);
+        }
+        [deviceLock unlock];
 		values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
 		lastReadDataTimeS = 0;
-		[deviceLock lock];
-		stop_recording();
-		[deviceLock unlock];
         values.sequences = 1;
 		[monitor sequenceValues:values];
 		dataEnabled = NO;
-	}
-}
-
-- (void)setDeviceEnabled:(NSNumber *)state;
-{
-    int error;
-    
-    if (ljHandle == NULL) {
-        return;
     }
-	if (![state boolValue] && deviceEnabled) {						// Disable the device
-		[self setDataEnabled:NO];
-        deviceEnabled = NO;
-		shouldKillThread = YES;
-		while (pollThread != nil) {
-			usleep(100);
-		}
-		//stop_recording();
-//		signal(SIGKILL, SIG_DFL);
-//		//signal(SIGINT, SIG_DFL);
-//		signal(SIGQUIT, SIG_DFL);
-//		signal(SIGILL, SIG_DFL);
-//		signal(SIGABRT, SIG_DFL);
-//		signal(SIGSEGV, SIG_DFL);
-//		signal(SIGTERM, SIG_DFL);
-	}
-	
-	if ([state boolValue] && !deviceEnabled) {						// Enable the device
-		deviceEnabled = YES;
-		signal(SIGKILL, handler);
-		//signal(SIGINT, handler);
-		signal(SIGQUIT, handler);
-		signal(SIGILL, handler);
-		signal(SIGABRT, handler);
-		signal(SIGSEGV, handler);
-		signal(SIGTERM, handler);
-		if (pollThread == nil) {
-			shouldKillThread = NO;
-			[NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
-			error = start_recording(0, 0, 1, 0);                    // LabJackU6: link, not file, samples, no events
-		}
-	}
 }
 
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
@@ -501,45 +675,10 @@ void handler(int signal) {
 @end
 
 
-/* 
-  *  -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
- 
- *  LabJack U6 Plugin for MWorks
- *
- *  100421: Mark Histed created
- *    (based on Nidaq plugin code; Hendry, Maunsell)
- *  120708 histed - revised for two levers
- *
- *
-
-
-#include <boost/bind.hpp>
-#include "u6.h"
-#include "LabJackU6Device.h"
-#include <stdio.h>
-#include <syslog.h>
-
-#define kBufferLength   2048
-#define kDIDeadtimeUS   5000
-#define kDIReportTimeUS 5000
-
+/*
 
 
 #define LJU6_EMPIRICAL_DO_LATENCY_MS 1   // average when plugged into a highspeed hub.  About 8ms otherwise
-
-static const char ljPortDir[3] = {  // 0 input, 1 output
-    (char)( (0x01 << LJU6_REWARD_FIO)
-           | (0x01 << LJU6_LEVER1SOLENOID_FIO)
-           | (0x01 << LJU6_LEVER2SOLENOID_FIO)
-           | (0x01 << LJU6_LASERTRIGGER_FIO)
-           | (0x00 << LJU6_LEVER1_FIO)
-           | (0x00 << LJU6_LEVER2_FIO)
-           | (0x01 << LJU6_STROBE_FIO) ),
-    (char)0xff,     // EIO
-    0x0f };   // CIO
-
-
-
 
 BEGIN_NAMESPACE_MW
 
@@ -695,363 +834,4 @@ void LabJackU6Device::pulseDOHigh(int pulseLengthUS) {
     }
     
 }
-
-
-void LabJackU6Device::leverSolenoidDO(bool state, long channel) {
-    // Takes and releases driver lock
-    
-    boost::mutex::scoped_lock lock(ljU6DriverLock);
-    
-    if (ljU6WriteDO(ljHandle, channel, state) != true) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "bug: writing lever 1 solenoid state; device likely to be broken (state %d)", state);
-    }
-}
-
-void LabJackU6Device::laserDO(bool state) {
-    // Takes and releases driver lock
-    
-    boost::mutex::scoped_lock lock(ljU6DriverLock);
-    
-    if (ljU6WriteDO(ljHandle, LJU6_LASERTRIGGER_FIO, state) != true) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "bug: writing laser trigger state; device likely to be broken (state %d)", state);
-    }
-    
-}
-
-void LabJackU6Device::strobedDigitalWordDO(unsigned int digWord) {
-    // Takes and releases driver lock
-    
-    boost::mutex::scoped_lock lock(ljU6DriverLock);
-    
-    LabJackU6Device::ljU6WriteStrobedWord(ljHandle, digWord); // error checking done inside here; will call merror
-    
-}
-
-
-bool LabJackU6Device::readLeverDI(bool *outLever1, bool *outLever2)
-// Takes the driver lock and releases it
-{
-    boost::shared_ptr <Clock> clock = Clock::instance();
-    
-    unsigned int lever1State = 0L;
-    unsigned int lever2State = 0L;
-    
-    unsigned int fioState = 0L;
-    unsigned int eioState = 0L;
-    unsigned int cioState = 0L;
-    
-    static unsigned int lastLever1State = 0xff;
-    static unsigned int lastLever2State = 0xff;
-    static long unsigned slowCount = 0;
-    static long unsigned allCount = 0;
-    
-    double pct;
-    
-    boost::mutex::scoped_lock lock(ljU6DriverLock);
-    
-    if (ljHandle == NULL || !this->getActive()) {
-        return false;
-    }
-    
-    
-    MWTime st = clock->getCurrentTimeUS();
-    if (ljU6ReadPorts(ljHandle, &fioState, &eioState, &cioState) < 0 ) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "Error reading DI, stopping IO and returning FALSE");
-        stopDeviceIO();  // We are seeing USB errors causing this, and the U6 doesn't work anyway, so might as well stop the threads
-        return false;
-    }
-    MWTime elT = clock->getCurrentTimeUS()-st;
-    allCount = allCount+1;
-    
-    
-    if (elT > kDIReportTimeUS) {
-        ++slowCount;
-        if ((slowCount < 20) || (slowCount % 10 == 0)) {
-            pct = 100.0*((double)slowCount+1)/((double)allCount);
-            mwarning(M_IODEVICE_MESSAGE_DOMAIN, "read port elapsed: this %.3fms, >%.0f ms %ld/%ld times (%4.3f%%)",
-                     elT / 1000.0,
-                     kDIReportTimeUS / 1000.0,
-                     slowCount,
-                     allCount,
-                     pct);
-        }
-    }
-    
-    lever1State = (fioState >> LJU6_LEVER1_FIO) & 0x01;
-    lever2State = (fioState >> LJU6_LEVER2_FIO) & 0x01;
-    
-    // software debouncing
-    debounce_bit(&lever1State, &lastLever1State, &lastLever1TransitionTimeUS, clock);
-    debounce_bit(&lever2State, &lastLever2State, &lastLever2TransitionTimeUS, clock);
-    
-    *outLever1 = lever1State;
-    *outLever2 = lever2State;
-    
-    return(1);
-}
-
- *******************************************************************
-
-void debounce_bit(unsigned int *thisState, unsigned int *lastState, MWTime *lastTransitionTimeUS, boost::shared_ptr <Clock> clock) {
-    // software debouncing
-    if (*thisState != *lastState) {
-        if (clock->getCurrentTimeUS() - *lastTransitionTimeUS < kDIDeadtimeUS) {
-            *thisState = *lastState;                // discard changes during deadtime
-            mwarning(M_IODEVICE_MESSAGE_DOMAIN,
-                     "LabJackU6Device: readLeverDI, debounce rejecting new read (last %lld now %lld, diff %lld)",
-                     *lastTransitionTimeUS,
-                     clock->getCurrentTimeUS(),
-                     clock->getCurrentTimeUS() - *lastTransitionTimeUS);
-        }
-        *lastState = *thisState;                    // record and report the transition
-        *lastTransitionTimeUS = clock->getCurrentTimeUS();
-    }
-}
-
-
-// External function for scheduling
-
-void *update_lever(const boost::weak_ptr<LabJackU6Device> &gp){
-    boost::shared_ptr <Clock> clock = Clock::instance();
-    boost::shared_ptr <LabJackU6Device> sp = gp.lock();
-    sp->pollAllDI();
-    sp.reset();
-    return NULL;
-}
-
-bool LabJackU6Device::pollAllDI() {
-    
-    bool lever1Value;
-    bool lever2Value;
-    bool res;
-    
-    res = readLeverDI(&lever1Value, &lever2Value);
-    //mprintf(M_IODEVICE_MESSAGE_DOMAIN, "levers: %d %d", lever1Value, lever2Value);
-    
-    if (!res) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "LJU6: error in readLeverDI()");
-    }
-    
-    // Change MW variable value only if switch state is unchanged, or this is the first time through
-    if ( (lastLever1Value == -1) // -1 means first time through
-        || (lever1Value != lastLever1Value) ) {
-        
-        lever1->setValue(Datum(lever1Value));
-        lastLever1Value = lever1Value;
-    }
-    if ( (lastLever2Value == -1) // -1 means first time through
-        || (lever2Value != lastLever2Value) ) {
-        
-        lever2->setValue(Datum(lever2Value));
-        lastLever2Value = lever2Value;
-    }
-    
-    return true;
-}
-
-
-
- // IODevice virtual calls (made by MWorks) ***********************
-
-
-bool LabJackU6Device::startup() {
-    // Do nothing right now
-    if (VERBOSE_IO_DEVICE >= 2) {
-        mprintf("LabJackU6Device: startup");
-    }
-    return true;
-}
-
-
-bool LabJackU6Device::shutdown(){
-    // Do nothing right now
-    if (VERBOSE_IO_DEVICE >= 2) {
-        mprintf("LabJackU6Device: shutdown");
-    }
-    return true;
-}
-
-
-bool LabJackU6Device::startDeviceIO(){
-    // Start the scheduled IO on the LabJackU6.  This starts a thread that reads the input ports
-    
-    if (VERBOSE_IO_DEVICE >= 1) {
-        mprintf("LabJackU6Device: startDeviceIO");
-    }
-    if (deviceIOrunning) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN,
-               "LabJackU6Device startDeviceIO:  startDeviceIO request was made without first stopping IO, aborting");
-        return false;
-    }
-    
-    // check hardware and restart if necessary
-    setupU6PortsAndRestartIfDead();
-    
-    //  schedule_nodes_lock.lock();         // Seems to be no longer supported in MWorks
-    
-    setActive(true);
-    deviceIOrunning = true;
-    
-    boost::shared_ptr<LabJackU6Device> this_one = shared_from_this();
-    pollScheduleNode = scheduler->scheduleUS(std::string(FILELINE ": ") + getTag(),
-                                             (MWTime)0,
-                                             LJU6_DITASK_UPDATE_PERIOD_US,
-                                             M_REPEAT_INDEFINITELY,
-                                             boost::bind(update_lever, boost::weak_ptr<LabJackU6Device>(this_one)),
-                                             M_DEFAULT_IODEVICE_PRIORITY,
-                                             LJU6_DITASK_WARN_SLOP_US,
-                                             LJU6_DITASK_FAIL_SLOP_US,
-                                             M_MISSED_EXECUTION_DROP);
-    
-    //schedule_nodes.push_back(pollScheduleNode);
-    //  schedule_nodes_lock.unlock();       // Seems to be no longer supported in MWorks
-    
-    return true;
-}
-
-bool LabJackU6Device::stopDeviceIO(){
-    
-    // Stop the LabJackU6 collecting data.  This is typically called at the end of each trial.
-    
-    if (VERBOSE_IO_DEVICE >= 1) {
-        mprintf("LabJackU6Device: stopDeviceIO");
-    }
-    if (!deviceIOrunning) {
-        mwarning(M_IODEVICE_MESSAGE_DOMAIN, "stopDeviceIO: already stopped on entry; using this chance to turn off lever solenoids");
-        
-        // force off solenoid
-        this->lever1Solenoid->setValue(false);
-        this->lever2Solenoid->setValue(false);
-        leverSolenoidDO(false, LJU6_LEVER1SOLENOID_FIO);
-        leverSolenoidDO(false, LJU6_LEVER2SOLENOID_FIO);
-        
-        return false;
-    }
-    
-    // stop all the scheduled DI checking (i.e. stop calls to "updateChannel")
-    //stopAllScheduleNodes();                               // IO device base class method -- this is thread safe
-    if (pollScheduleNode != NULL) {
-        //merror(M_IODEVICE_MESSAGE_DOMAIN, "Error: pulseDOL
-        boost::mutex::scoped_lock lock(pollScheduleNodeLock);
-        pollScheduleNode->cancel();
-        pollScheduleNode.reset();  // drop shared_ptr and clean this up
-                                   //pollScheduleNode->kill();  // MH This is not allowed!  This can make both the USB bus unhappy and also leave the lock
-                                   //    in a locked state.
-                                   //    If you insist on killing a thread that may be talking to the LabJack you should reset the USB bus.
-    }
-    
-    //setActive(false);   // MH - by leaving active == true, we can use the Reward window to schedule pulses when trials are not running
-    deviceIOrunning = false;
-    return true;
-}
-
- // Hardware functions *********************************
-
-
-bool LabJackU6Device::ljU6ReadPorts(HANDLE Handle,
-                                    unsigned int *fioState, unsigned int *eioState, unsigned int *cioState)
-{
-    uint8 sendDataBuff[3], recDataBuff[7];
-    uint8 Errorcode, ErrorFrame;
-    
-    sendDataBuff[0] = 26;       //IOType is PortStateRead
-    sendDataBuff[1] = 55;       //IOType is Counter1
-    sendDataBuff[2] = 0;        //  - Don't reset counter
-    
-    if(ehFeedback(Handle, sendDataBuff, 3, &Errorcode, &ErrorFrame, recDataBuff, 7) < 0)
-        return -1;
-    if(Errorcode)
-        return (long)Errorcode;
-    
-    *fioState = recDataBuff[0];
-    *eioState = recDataBuff[1];
-    *cioState = recDataBuff[2];
-    
-    // debug
-    //mprintf("FIO 0x%x EIO 0x%x CIO 0x%x", *fioState, *eioState, *cioState);
-    
-    // Unpack counter value
-    uint32 counterValue;
-    for (size_t i = 0; i < 4; i++) {
-        ((uint8 *)(&counterValue))[i] = recDataBuff[3 + i];
-    }
-    counterValue = CFSwapInt32LittleToHost(counterValue);  // Convert to host byte order
-    
-    // Update counter variable (only if counter value has changed)
-    if (counter->getValue().getInteger() != counterValue) {
-        counter->setValue(long(counterValue));
-    }
-    
-    return 0;
-    
-}
-
-bool LabJackU6Device::ljU6WriteStrobedWord(HANDLE Handle, unsigned int inWord) {
-    
-    uint8 outEioBits = inWord & 0xff;
-    uint8 outCioBits = (inWord & 0xf00) >> 8;
-    
-    uint8 sendDataBuff[29];
-    uint8 Errorcode, ErrorFrame;
-    
-    if (inWord > 0xfff) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "error writing strobed word; value is larger than 12 bits (nothing written)");
-        return false;
-    }
-    
-    
-    
-    sendDataBuff[0] = 27;           // PortStateWrite, 7 bytes total
-    sendDataBuff[1] = 0x00;         // FIO: don't update
-    sendDataBuff[2] = 0xff;         // EIO: update
-    sendDataBuff[3] = 0x0f;         // CIO: update
-    sendDataBuff[4] = 0x00;         // FIO: data
-    sendDataBuff[5] = outEioBits;   // EIO: data
-    sendDataBuff[6] = outCioBits;   // CIO: data
-    
-    sendDataBuff[7] = 5;            // WaitShort
-    sendDataBuff[8] = 1;            // Time(*128us)
-    
-    sendDataBuff[9]  = 11;          // BitStateWrite
-    sendDataBuff[10] = 7 | 0x80;    // first 4 bits: port # (FIO7); last bit, state
-    
-    sendDataBuff[11] = 5;           // WaitShort
-    sendDataBuff[12] = 1;           // Time(*128us)
-    
-    sendDataBuff[13] = 27;          // PortStateWrite, 7 bytes total
-    sendDataBuff[14] = 0x80;    //0x80  // FIO: update pin 7
-    sendDataBuff[15] = 0xff;        // EIO: update
-    sendDataBuff[16] = 0x0f;        // CIO: update
-    sendDataBuff[17] = 0x00;        // FIO: data
-    sendDataBuff[18] = 0x00;        // EIO: data
-    sendDataBuff[19] = 0x00;        // CIO: data
-    
-    // Note: fixed the ljPortDir mask for CIO.  This may remove the need for the following code.
-    // But needs testing before removal, and only slows us down by 128us
-    sendDataBuff[20] = 29;          // PortDirWrite - for some reason the above seems to reset the FIO input/output state
-    sendDataBuff[21] = 0xff;        //  FIO: update
-    sendDataBuff[22] = 0xff;        //  EIO: update
-    sendDataBuff[23] = 0xff;        //  CIO: update
-    sendDataBuff[24] = ljPortDir[0];//  FIO hardcoded above
-    sendDataBuff[25] = ljPortDir[1];//  EIO hardcoded above
-    sendDataBuff[26] = ljPortDir[2];//  CIO hardcoded above
-    
-    sendDataBuff[27] = 5;           // WaitShort   // 130424: w/o this 2 near-simul enc may result in 1st strobe still hi
-    sendDataBuff[28] = 1;           // Time(*128us)
-    
-    
-    if(ehFeedback(Handle, sendDataBuff, sizeof(sendDataBuff), &Errorcode, &ErrorFrame, NULL, 0) < 0) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "bug: ehFeedback error, see stdout");  // note we will get a more informative error on stdout
-        return false;
-    }
-    if(Errorcode) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "ehFeedback: error with command, errorcode was %d", Errorcode);
-        return false;
-    }
-    
-    return true;
-}
-
-
-END_NAMESPACE_MW
 */

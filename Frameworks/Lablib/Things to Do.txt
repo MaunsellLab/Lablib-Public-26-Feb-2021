@@ -1,5 +1,7 @@
-111230 Knot crashing on quit.  Something deep in the DisplayAPI? (message) or _createDocMenu? (message).
-
+161211
+    • LLDataDevices should behave gracefully if their hardware is absent
+    • After Knot loads LLDataDevices, the data assignments should be checked and the user warned if any of the
+        assignments involve missing hardware.
 ______________________________________
 
 When Knot doesn't load a plugin it should give the user the option of deleting it (and all others).

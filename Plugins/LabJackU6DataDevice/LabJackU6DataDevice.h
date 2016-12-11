@@ -19,9 +19,9 @@
 #define LJU6_COUNTER_FIO        6
 #define LJU6_STROBE_FIO         7
 
-#define LJU6_DITASK_UPDATE_PERIOD_US 15000
-#define LJU6_DITASK_WARN_SLOP_US     50000
-#define LJU6_DITASK_FAIL_SLOP_US     50000
+//#define LJU6_DITASK_UPDATE_PERIOD_US 15000
+//#define LJU6_DITASK_WARN_SLOP_US     50000
+//#define LJU6_DITASK_FAIL_SLOP_US     50000
 
 typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel, kLabJackU6Channels} LabJackU6Channel;
 
@@ -36,12 +36,15 @@ typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kL
 	double					monitorStartTimeS;
 	double					lastReadDataTimeS;
     long                    laserTrigger;
+    BOOL                    lever1;
+    BOOL                    lever2;
     long                    lever1Solenoid;
     long                    lever2Solenoid;
 	BOOL					justStartedLabJackU6;
     long                    pulseOn;
     long                    pulseDuration;
 	NSMutableData			*sampleData[kLabJackU6Channels];
+    BOOL                    shouldKillPolling;
     long                    strobedDigitalWord;
 	NSMutableData			*lXData, *lYData, *lPData;
 	NSMutableData			*rXData, *rYData, *rPData;
@@ -59,40 +62,11 @@ typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kL
 - (NSData **)sampleData;
 - (float)samplePeriodMSForChannel:(long)channel;
 - (void)setDataEnabled:(NSNumber *)state;
-- (void)setDeviceEnabled:(NSNumber *)state;
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 
 @end
 
 /*
- *
- *  LabJack U6 Plugin for MWorks
- *
- *  Created by Mark Histed on 4/21/2010
- *    (based on Nidaq plugin code by Jon Hendry and John Maunsell)
- *
- *
-
-#ifndef _LJU6_DEVICE_H_
-#define _LJU6_DEVICE_H_
-
-#include <boost/noncopyable.hpp>
-#include "labjackusb.h"
-#include <boost/shared_ptr.hpp>
-
-#undef VERBOSE_IO_DEVICE
-#define VERBOSE_IO_DEVICE 0  // verbosity level is 0-2, 2 is maximum
-
-#define LJU6_DITASK_UPDATE_PERIOD_US 15000
-#define LJU6_DITASK_WARN_SLOP_US     50000
-#define LJU6_DITASK_FAIL_SLOP_US     50000
-
-
-
-BEGIN_NAMESPACE_MW
-
-
-class LabJackU6DeviceOutputNotification;
 
 class LabJackU6Device : public IODevice, boost::noncopyable {
     
@@ -220,98 +194,7 @@ public:
         }
     }
     
-    virtual void setActive(bool _active){
-        boost::mutex::scoped_lock active_lock(active_mutex);
-        active = _active;
-    }
-    
-    virtual bool getActive(){
-        boost::mutex::scoped_lock active_lock(active_mutex);
-        bool is_active = active;
-        return is_active;
-    }
-    
-    boost::shared_ptr<LabJackU6Device> shared_from_this() { return boost::static_pointer_cast<LabJackU6Device>(IODevice::shared_from_this()); }
-    
 };
-
-
- class LabJackU6DeviceOutputNotification : public VariableNotification { // reward variable
-
-protected:
-    boost::weak_ptr<LabJackU6Device> daq;
-    
-public:
-    LabJackU6DeviceOutputNotification(boost::weak_ptr<LabJackU6Device> _daq){
-        daq = _daq;
-    }
-    
-    virtual void notify(const Datum& data, MWTime timeUS){
-        boost::shared_ptr<LabJackU6Device> shared_daq(daq);
-        shared_daq->dispense(data);
-    }
-};
-
-class LabJackU6DeviceL1SNotification : public VariableNotification {
-    
-protected:
-    boost::weak_ptr<LabJackU6Device> daq;
-public:
-    LabJackU6DeviceL1SNotification(boost::weak_ptr<LabJackU6Device> _daq){
-        daq = _daq;
-    }
-    virtual void notify(const Datum& data, MWTime timeUS){
-        boost::shared_ptr<LabJackU6Device> shared_daq(daq);
-        shared_daq->setLever1Solenoid(data);
-    }
-};
-
-class LabJackU6DeviceL2SNotification : public VariableNotification {
-    
-protected:
-    boost::weak_ptr<LabJackU6Device> daq;
-public:
-    LabJackU6DeviceL2SNotification(boost::weak_ptr<LabJackU6Device> _daq){
-        daq = _daq;
-    }
-    virtual void notify(const Datum& data, MWTime timeUS){
-        boost::shared_ptr<LabJackU6Device> shared_daq(daq);
-        shared_daq->setLever2Solenoid(data);
-    }
-};
-
-
-
-class LabJackU6DeviceLTNotification : public VariableNotification {
-    
-protected:
-    boost::weak_ptr<LabJackU6Device> daq;
-public:
-    LabJackU6DeviceLTNotification(boost::weak_ptr<LabJackU6Device> _daq){
-        daq = _daq;
-    }
-    virtual void notify(const Datum& data, MWTime timeUS){
-        boost::shared_ptr<LabJackU6Device> shared_daq(daq);
-        shared_daq->setLaserTrigger(data);
-    }
-};
-
-class LabJackU6DeviceSDWNotification : public VariableNotification {
-    
-protected:
-    boost::weak_ptr<LabJackU6Device> daq;
-public:
-    LabJackU6DeviceSDWNotification(boost::weak_ptr<LabJackU6Device> _daq){
-        daq = _daq;
-    }
-    virtual void notify(const Datum& data, MWTime timeUS){
-        boost::shared_ptr<LabJackU6Device> shared_daq(daq);
-        shared_daq->setStrobedDigitalWord(data);
-    }
-};
-
-
-END_NAMESPACE_MW
 
 
 #endif
