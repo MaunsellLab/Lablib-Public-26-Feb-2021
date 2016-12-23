@@ -148,8 +148,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 	return digitalInputBits;
 }
 
-- (void)doLeverDown {
-
+- (void)doLeverDown;
+{
 	float leverLatencyS, randomLatencyS;
 	
     if ((rand() % 1000) > [defaults integerForKey:LLSynthLeverIgnoreKey] * 1000.0) {
@@ -161,8 +161,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
     }
 }
 
-- (void)doLeverUp {
-
+- (void)doLeverUp;
+{
 	float leverLatencyS, randomLatencyS;
 	
     if ((rand() % 1000) > [defaults integerForKey:LLSynthLeverIgnoreKey] * 1000.0) {

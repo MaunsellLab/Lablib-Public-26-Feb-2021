@@ -32,6 +32,7 @@
 	id						host;
 	BOOL					initialized;
     NSDate                  *lastDataCollectionDate;
+    BOOL                    leverDown;
 	long					mode;
 	LLMonitorController		*monitorController;
 	DisplayModeParam		displayMode;
@@ -60,6 +61,7 @@
 - (BOOL)initialized;
 - (void)initializationDidFinish;
 - (NSDate *)lastDataCollectionDate;
+- (BOOL)leverDown;
 - (long)mode;
 - (LLMonitorController *)monitorController;
 - (NSString *)name;

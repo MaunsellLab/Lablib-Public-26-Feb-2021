@@ -71,7 +71,7 @@ samples) have multiple objects in the array, one for each channel.
 - (void)assignTimestampData:(DataAssignment)assignment;
 - (void)assignToNullDevice:(LLDataAssignment *)assign;
 - (void)changeDataAssignment:(NSMutableData **)oldDeviceData oldChannel:(long)oldChannel 
-				newDeviceData:(NSMutableData **)newDeviceData newChannel:(long)newChannel;
+                                            newDeviceData:(NSMutableData **)newDeviceData newChannel:(long)newChannel;
 - (void)configureDeviceWithIndex:(long)index;
 - (void)contingentReadDataFromDevices:(BOOL)onlyIfEnabled;
 - (NSData *)dataOfType:(NSString *)typeName;

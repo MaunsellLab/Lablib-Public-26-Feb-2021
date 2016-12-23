@@ -134,6 +134,30 @@ long ELTrialStartTimeMS;
     }
 }
 
+- (void)digitalOutputBits:(unsigned long)bits;
+{
+    if (ljHandle != NULL) {
+        [deviceLock lock];
+        if ([self ljU6WriteStrobedWord:bits]) {
+            digitalOutputBits = bits;
+        }
+        else {
+            NSLog(@"LabJackU6DataDevice digitalOutputBits: error writing digital word");
+        }
+        [deviceLock unlock];
+    }
+}
+
+- (void)digitalOutputBitsOff:(unsigned long)bits;
+{
+    [self digitalOutputBits:(digitalOutputBits & ~bits)];
+}
+
+- (void)digitalOutputBitsOn:(unsigned long)bits;
+{
+    [self digitalOutputBits:(digitalOutputBits | bits)];
+}
+
 - (id)init;
 {
 	if ((self = [super init]) != nil) {
@@ -146,7 +170,8 @@ long ELTrialStartTimeMS;
 		rYData = [[NSMutableData alloc] init];
 		rPData = [[NSMutableData alloc] init];
 */
-		pollThread = nil;
+        digitalOutputBits = 0;
+        pollThread = nil;
 		deviceEnabled = NO;
 		dataEnabled = NO;
 		devicePresent = NO;
@@ -157,7 +182,7 @@ long ELTrialStartTimeMS;
 
         ljHandle = (void *)openUSBConnection(-1);                           // Open first available U6 on USB
         if (ljHandle == NULL) {
-            NSLog(@"LabJackU6DataDevice init: Failed to open LabJackU6. Is it conncected to USB?");
+            NSLog(@"LabJackU6DataDevice init: Failed to find LabJackU6 hardware. Connected to USB?");
             return self;
         }
         NSLog(@"LabJackU6 Data Device initialized");
@@ -218,12 +243,7 @@ long ELTrialStartTimeMS;
 
 - (void)strobedDigitalWordDO:(unsigned int)digWord;
 {
-    [deviceLock lock];
-    if ([self ljU6WriteStrobedWord:digWord] != YES) {
-        NSLog(@"%@", [NSString stringWithFormat:
-                @"writing lever 1 solenoid state; device likely to be broken (digWord %d)", digWord]);
-    }
-    [deviceLock unlock];
+    [self digitalOutputBits:digWord];
 }
 
 // Configure LabJack ports.  Callers must lock
@@ -236,7 +256,6 @@ long ELTrialStartTimeMS;
     long aEnableCounters[] = { 0, 1 };                  // Uuse Counter1
     long aTimerModes[] = { 0, 0, 0, 0 };
     double aTimerValues[] = { 0.0, 0.0, 0.0, 0.0 };
-    
     
     if (ljHandle == NULL) {
         return NO;
@@ -297,9 +316,7 @@ long ELTrialStartTimeMS;
 //    if (counter->getValue().getInteger() != counterValue) {
 //        counter->setValue(long(counterValue));
 //    }
-    
     return 0L;
-    
 }
 
 
@@ -323,7 +340,7 @@ long ELTrialStartTimeMS;
     return YES;
 }
 
-- (BOOL)ljU6WriteStrobedWord:(unsigned int)inWord;
+- (BOOL)ljU6WriteStrobedWord:(unsigned long)inWord;
 {
     uint8 outEioBits = inWord & 0xff;
     uint8 outCioBits = (inWord & 0xf00) >> 8;
@@ -382,7 +399,6 @@ long ELTrialStartTimeMS;
         NSLog(@"%@", [NSString stringWithFormat:@"ehFeedback: error with command, errorcode was %d", errorCode]);
         return NO;
     }
-    
     return YES;
 }
 

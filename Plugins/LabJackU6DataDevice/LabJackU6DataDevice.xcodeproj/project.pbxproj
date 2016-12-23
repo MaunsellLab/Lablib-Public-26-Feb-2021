@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		696DF5AA0EB8A8F80004FC8E /* LabJackU6DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0ED4650CA064BC00BE2453 /* LabJackU6DataDevice.m */; };
+		698FC00C1DFF6C6C00DF41D3 /* Things to Do.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 698FC00B1DFF6C6B00DF41D3 /* Things to Do.rtf */; };
 		69AF8ADA1DFB6E9F00488DF2 /* LabJackU6Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AF8AD81DFB6E9F00488DF2 /* LabJackU6Settings.m */; };
 		69AF8ADB1DFB6E9F00488DF2 /* LabJackU6Settings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69AF8AD91DFB6E9F00488DF2 /* LabJackU6Settings.xib */; };
 		69AF8AFE1DFB895400488DF2 /* u6.c in Sources */ = {isa = PBXBuildFile; fileRef = 69AF8AFC1DFB895400488DF2 /* u6.c */; };
@@ -48,6 +49,7 @@
 		32DBCF5E0370ADEE00C91783 /* LabJackU6_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabJackU6_Prefix.h; sourceTree = "<group>"; };
 		6975F2950B3328C200312509 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../../../../../Documents/Lablib/Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		697BD6710988415500D9176F /* LabJackU6DataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = LabJackU6DataDevice.plist; sourceTree = "<group>"; };
+		698FC00B1DFF6C6B00DF41D3 /* Things to Do.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Things to Do.rtf"; sourceTree = "<group>"; };
 		69AF8AD71DFB6E9F00488DF2 /* LabJackU6Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabJackU6Settings.h; sourceTree = "<group>"; };
 		69AF8AD81DFB6E9F00488DF2 /* LabJackU6Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabJackU6Settings.m; sourceTree = "<group>"; };
 		69AF8AD91DFB6E9F00488DF2 /* LabJackU6Settings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabJackU6Settings.xib; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 		0867D691FE84028FC02AAC07 /* LablibITC18 */ = {
 			isa = PBXGroup;
 			children = (
+				698FC00B1DFF6C6B00DF41D3 /* Things to Do.rtf */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -231,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */,
+				698FC00C1DFF6C6C00DF41D3 /* Things to Do.rtf in Resources */,
 				69AF8ADB1DFB6E9F00488DF2 /* LabJackU6Settings.xib in Resources */,
 				E97BF1EB1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib in Resources */,
 			);

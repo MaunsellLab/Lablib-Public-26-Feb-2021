@@ -236,16 +236,10 @@ are its code (event codes are integers that increase from 0), and the number of 
     [eventLock lock];
     for (index = 0; index < numEvents; index++) {
 		pDef = &eventDefs[index];
-		if ([eventDict objectForKey:pDef->name] != nil) {
-            theAlert = [[NSAlert alloc] init];
-            [theAlert setMessageText:@"LLDataDoc"];
-            [theAlert setInformativeText:[NSString stringWithFormat:
+        if ([eventDict objectForKey:pDef->name] != nil) {
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:[NSString stringWithFormat:
                 @"Attempt to define event \"%@\" more than once (ignored).", pDef->name]];
-            [theAlert runModal];
-            [theAlert release];
-//			NSRunAlertPanel(@"LLDataDoc",  @"Attempt to define event \"%@\" more than once (ignored).",
-//					@"OK", nil, nil, pDef->name);
-		}
+        }
 		else {
 			dataEventDef = [[[LLDataEventDef alloc] initWithCode:[eventsByCode count]
 				name:pDef->name dataBytes:pDef->dataBytes] autorelease];
@@ -270,19 +264,13 @@ This variant accepts only events definitions that include data definitions.
     short index;
 	EventDefinition *pDef;
 	LLDataEventDef *dataEventDef;
-    NSAlert *theAlert;
    
 	if (numEvents < 1) {
 		return YES;
 	}
 	if ([eventsByCode count] > 0 && !eventsHaveDataDefs) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDataDoc"];
-        [theAlert setInformativeText:@"Attempting to mix events with and without data definitions."];
-        [theAlert runModal];
-        [theAlert release];
-//		NSRunAlertPanel(@"LLDataDoc",  @"Attempting to mix events with and without data definitions.",
-//					@"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+                        @"Attempting to mix events with and without data definitions."];
 		exit(0);
 	}
 	eventsHaveDataDefs = YES;
@@ -290,33 +278,21 @@ This variant accepts only events definitions that include data definitions.
     for (index = 0; index < numEvents; index++) {
 		pDef = &eventDefs[index];
 		if ([eventDict objectForKey:pDef->name] != nil) {
-            theAlert = [[NSAlert alloc] init];
-            [theAlert setMessageText:@"LLDataDoc"];
-            [theAlert setInformativeText:[NSString stringWithFormat:
-                                          @"Attempt to define event \"%@\" more than once (ignored).", pDef->name]];
-            [theAlert runModal];
-            [theAlert release];
-//			NSRunAlertPanel(@"LLDataDoc",  @"Attempt to define event \"%@\" more than once (ignored).",
-//					@"OK", nil, nil, pDef->name);
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:[NSString stringWithFormat:
+                @"Attempt to define event \"%@\" more than once (ignored).", pDef->name]];
+            continue;
 		}
-		else {
-//			if (&pDef->definition == 0) {
-//                theAlert = [[NSAlert alloc] init];
-//                [theAlert setMessageText:@"LLDataDoc"];
-//                [theAlert setInformativeText:[NSString stringWithFormat:
-//                                              @"Attempt to define event \"%@\" with no data description.", pDef->name]];
-//                [theAlert runModal];
-//                [theAlert release];
-////				NSRunAlertPanel(@"LLDataDoc",  @"Attempt to define event \"%@\" with no data description",
-////					@"OK", nil, nil, pDef->name);
-//				exit(0);
-//			}
-			dataEventDef = [[[LLDataEventDef alloc] initWithCode:[eventsByCode count]
-					name:pDef->name elementBytes:pDef->elementBytes
-					dataDefinition:&pDef->definition] autorelease];
-			[eventsByCode addObject:dataEventDef];
-			[eventDict setObject:dataEventDef forKey:pDef->name];
-		}
+        if ([pDef->definition.typeName isEqualToString:@"struct"] && (pDef->definition.contents->typeName == nil)) {
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc"
+                    informativeText:[NSString stringWithFormat:
+                    @"Attempt to define event \"%@\" with \"struct\" data that is nil (ignored)", pDef->name]];
+            continue;
+        }
+        dataEventDef = [[[LLDataEventDef alloc] initWithCode:[eventsByCode count]
+                name:pDef->name elementBytes:pDef->elementBytes
+                dataDefinition:&pDef->definition] autorelease];
+        [eventsByCode addObject:dataEventDef];
+        [eventDict setObject:dataEventDef forKey:pDef->name];
     }
 	dataDefinitions = YES;
     [eventLock unlock];

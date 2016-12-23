@@ -116,6 +116,11 @@
     return lastDataCollectionDate;
 }
 
+- (BOOL)leverDown;
+{
+    return leverDown;
+}
+
 - (long)mode;
 {
 	return mode;

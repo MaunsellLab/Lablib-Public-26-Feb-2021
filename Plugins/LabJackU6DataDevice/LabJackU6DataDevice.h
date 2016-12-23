@@ -27,6 +27,7 @@ typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kL
 
 @interface LabJackU6DataDevice : LLDataDevice {
 
+    unsigned long           digitalOutputBits;
     BOOL                    doingDealloc;
     int						eye_used;
 	double					nextSampleTimeS;
