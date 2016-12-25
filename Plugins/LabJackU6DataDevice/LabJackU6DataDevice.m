@@ -5,7 +5,11 @@
 //  Copyright 2016. All rights reserved.
 //
 
-/* The starting place for this code was porting over the plugin from MWorks, which was converted to 
+/* Detailed information about the low-level LabJack calls used here can be found at:
+ 
+ https://labjack.com/support/datasheets/u3/low-level-function-reference/feedback
+ 
+ The starting place for this code was porting over the plugin from MWorks, which was converted to
  Obj-C and Lablib format.  The first pass for a working LLDataDevice will be to have a task plugin
  that communicates directly with the LLDataDevice, as with the SDRDigitalOut.h digital output device
  in SignalDetection3.  This will closely follow the model used in the MWorks plugin regarding commands
@@ -17,7 +21,7 @@
  etc.  Initially that will only need to be for DIO, but AIO should be a relatively simple extension in the
  future.
  
- One the DIO is working OK, it should be relatively straightforward to have setDataEnabled: to start 
+ Once the DIO is working OK, it should be relatively straightforward to have setDataEnabled: to start
  periodic sampling (or streaming) of digital values, and converting those samples into timestamps. Certainly
  that could be done with periodic sampling at whatever frequency the USB can support (200-1k Hz?), eventually
  it might be possible to stream, although I don't know how the streaming will interact with asynchronous 
@@ -38,7 +42,20 @@
 #define kMaxAllowedTimeS    0.005
 #define kUpdatePeriodUS     15000
 
+// Digital output: Use a 12-bit word; EIO0-7, CIO0-2, convenience coding as follows:
+
+#define LJU6_REWARD_FIO         0
+#define LJU6_LEVER1_FIO         1
+#define LJU6_LEVER1SOLENOID_FIO 2
+#define LJU6_LASERTRIGGER_FIO   3
+#define LJU6_LEVER2_FIO         4
+#define LJU6_LEVER2SOLENOID_FIO 5
+#define LJU6_COUNTER_FIO        6
+#define LJU6_STROBE_FIO         7           // Strobe bit for digital output on EIO and CIO
+
+
 typedef struct libusb_device_handle libusb_device_handle;
+
 extern int libusb_reset_device(libusb_device_handle *dev);
 
 static const char ljPortDir[3] = {                          // 0 input, 1 output
@@ -107,7 +124,7 @@ long ELTrialStartTimeMS;
     usleep(10000);                              // wait 10 ms for it to go down
     ljHandle = NULL;
     [deviceLock unlock];
-	[dataLock unlock];
+//	[dataLock unlock];
 	[dataLock release];
 	[deviceLock release];
 	[monitor release];
@@ -180,9 +197,11 @@ long ELTrialStartTimeMS;
 		dataLock = [[NSLock alloc] init];
 		deviceLock = [[NSLock alloc] init];
 
+        deviceEnabled = NO;
         ljHandle = (void *)openUSBConnection(-1);                           // Open first available U6 on USB
         if (ljHandle == NULL) {
             NSLog(@"LabJackU6DataDevice init: Failed to find LabJackU6 hardware. Connected to USB?");
+            devicePresent = NO;
             return self;
         }
         NSLog(@"LabJackU6 Data Device initialized");
@@ -207,18 +226,9 @@ long ELTrialStartTimeMS;
         if (![self ljU6WriteDO:LJU6_STROBE_FIO state:strobedDigitalWord]) {
             return self;
         }
-		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * LabJackU6SamplePeriodS;
-				
-//        NSLog(@"LabJackU6DataDevice: Since 10.10, the EyeLink API is generating a thread_policy_set error");
-//		if ((index = open_eyelink_connection(0))) {
-//			deviceEnabled = devicePresent = NO;
-//		}
-//		else {
-//			deviceEnabled = devicePresent = YES;
-//			stop_recording();                           // make sure we're stopped
-//		}
-	}
-	return self;
+//		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * LabJackU6SamplePeriodS;
+    }
+    return self;
 }
 
 - (void)laserDO:(BOOL)state;
@@ -252,11 +262,11 @@ long ELTrialStartTimeMS;
 {
     uint8 sendDataBuff[7], errorCode, errorFrame;
     long error;
-    long aEnableTimers[] = { 0, 0, 0, 0 };              // configure counter
-    long aEnableCounters[] = { 0, 1 };                  // Uuse Counter1
-    long aTimerModes[] = { 0, 0, 0, 0 };
-    double aTimerValues[] = { 0.0, 0.0, 0.0, 0.0 };
-    
+    long aEnableTimers[] = {0, 0, 0, 0};                // configure timers (none)
+    long aTimerModes[] = {0, 0, 0, 0};
+    double aTimerValues[] = {0.0, 0.0, 0.0, 0.0};
+    long aEnableCounters[] = {0, 1};                    // use Counter1
+   
     if (ljHandle == NULL) {
         return NO;
     }
@@ -298,9 +308,9 @@ long ELTrialStartTimeMS;
     
     if (ehFeedback(ljHandle, sendDataBuff, 3, &errorCode, &errorFrame, recDataBuff, 7) < 0)
         return -1L;
-    if (errorCode)
+    if (errorCode) {
         return (long)errorCode;
-    
+    }
     *fioState = recDataBuff[0];
     *eioState = recDataBuff[1];
     *cioState = recDataBuff[2];
@@ -311,25 +321,23 @@ long ELTrialStartTimeMS;
         ((uint8 *)(&counterValue))[i] = recDataBuff[3 + i];
     }
     counterValue = CFSwapInt32LittleToHost(counterValue);  // Convert to host byte order
-    
-    // Update counter variable (only if counter value has changed)
-//    if (counter->getValue().getInteger() != counterValue) {
-//        counter->setValue(long(counterValue));
-//    }
     return 0L;
 }
-
 
 - (BOOL)ljU6WriteDO:(long)channel state:(long)state;
 {
     uint8 sendDataBuff[2], errorCode, errorFrame;
+    BOOL result;
     
     if (ljHandle == NULL) {
         return NO;
     }
     sendDataBuff[0] = 11;                                     // IOType is BitStateWrite
     sendDataBuff[1] = channel + 128 * ((state > 0) ? 1 : 0);  // IONumber(bits 0-4) + State (bit 7)
-    if (ehFeedback(ljHandle, sendDataBuff, 2, &errorCode, &errorFrame, NULL, 0) < 0) {
+    [deviceLock lock];
+    result = ehFeedback(ljHandle, sendDataBuff, 2, &errorCode, &errorFrame, NULL, 0);
+    [deviceLock unlock];
+    if (result < 0) {
         NSLog(@"ljU6WriteDO: ehFeedback error, see stdout");
         return NO;
     }
@@ -351,7 +359,7 @@ long ELTrialStartTimeMS;
         NSLog(@"error writing strobed word; value is larger than 12 bits (ignored)");
         return NO;
     }
-    sendDataBuff[0] = 27;           // PortStateWrite, 7 bytes total
+    sendDataBuff[0] = 27;           // PortStateWrite, 7 bytes for this command -- load the word
     sendDataBuff[1] = 0x00;         // FIO: don't update
     sendDataBuff[2] = 0xff;         // EIO: update
     sendDataBuff[3] = 0x0f;         // CIO: update
@@ -359,17 +367,17 @@ long ELTrialStartTimeMS;
     sendDataBuff[5] = outEioBits;   // EIO: data
     sendDataBuff[6] = outCioBits;   // CIO: data
     
-    sendDataBuff[7] = 5;            // WaitShort
-    sendDataBuff[8] = 1;            // Time(*128us)
+    sendDataBuff[7] = 5;            // WaitShort, 2 bytes for this command
+    sendDataBuff[8] = 1;            // Time (128 us steps)
     
-    sendDataBuff[9]  = 11;          // BitStateWrite
+    sendDataBuff[9]  = 11;          // BitStateWrite, 2 bytes for this command -- stobe data ready
     sendDataBuff[10] = 7 | 0x80;    // first 4 bits: port # (FIO7); last bit, state
     
-    sendDataBuff[11] = 5;           // WaitShort
-    sendDataBuff[12] = 1;           // Time(*128us)
+    sendDataBuff[11] = 5;           // WaitShort, 2 bytes for this command
+    sendDataBuff[12] = 1;           // Time (128 us steps)
     
-    sendDataBuff[13] = 27;          // PortStateWrite, 7 bytes total
-    sendDataBuff[14] = 0x80;        //0x80  // FIO: update pin 7
+    sendDataBuff[13] = 27;          // PortStateWrite, 7 bytes for this command -- clear word and strobe
+    sendDataBuff[14] = 0x80;        // FIO: update pin 7: 0x80
     sendDataBuff[15] = 0xff;        // EIO: update
     sendDataBuff[16] = 0x0f;        // CIO: update
     sendDataBuff[17] = 0x00;        // FIO: data
@@ -388,7 +396,7 @@ long ELTrialStartTimeMS;
     sendDataBuff[26] = ljPortDir[2];//  CIO hardcoded above
     
     sendDataBuff[27] = 5;           // WaitShort   // 130424: w/o this 2 near-simul enc may result in 1st strobe still hi
-    sendDataBuff[28] = 1;           // Time(*128us)
+    sendDataBuff[28] = 1;           // Time (128 us steps)
     
     
     if (ehFeedback(ljHandle, sendDataBuff, sizeof(sendDataBuff), &errorCode, &errorFrame, NULL, 0) < 0) {
@@ -465,6 +473,7 @@ long ELTrialStartTimeMS;
         return NO;
     }
     elapsedTimeS = [LLSystemUtil getTimeS] - startTimeS;
+    [deviceLock unlock];
     allCount++;
     if (elapsedTimeS > kMaxAllowedTimeS) {
         slowCount++;
@@ -480,7 +489,7 @@ long ELTrialStartTimeMS;
     [self debounceState:&lever2State lastState:&lastLever2State lastTimeS:&lastLever2TransitionTimeS];
     *outLever1 = lever1State;
     *outLever2 = lever2State;
-    [deviceLock unlock];
+//    [deviceLock unlock];
     return(YES);
 }
 
@@ -557,46 +566,47 @@ long ELTrialStartTimeMS;
 
 - (NSData **)sampleData;
 {
-	short index;
-    NSMutableData *samples;
-	NSArray *sampleArray;
+//	short index;
+//    NSMutableData *samples;
+//	NSArray *sampleArray;
     
     // Lock, then copy pointers to the sample data
 	
     if (ljHandle == NULL) {
         return nil;
     }
-	[dataLock lock];
-    sampleArray = [NSArray arrayWithObjects:lXData, lYData, lPData, rXData, rYData, rPData, nil];
-	
-	//Now alloc/init new data instances and swap those in
-	//(For performance reasons, it might be worthwhile to preallocate two sets of these, and swap them in and out)
-
-	lXData = [[NSMutableData alloc] init];
-	lYData = [[NSMutableData alloc] init];
-	lPData = [[NSMutableData alloc] init];
-	rXData = [[NSMutableData alloc] init];
-	rYData = [[NSMutableData alloc] init];
-	rPData = [[NSMutableData alloc] init];
-	
-    [dataLock unlock];
-	
-// Bundle the data pointers into an array.  If the channel is disabled, nil is returned.  If the 
-// data length is zero, nil is returned.
-
-	for (index = 0; index < kLabJackU6Channels; index++) {
-        samples = [sampleArray objectAtIndex:index];
-		if (!(sampleChannels & (0x1 << index))) {                   // disabled channel
-			sampleData[index] = nil;                                // not enabled or no samples
-        }
-        else if ([samples length] == 0) {                           // no data samples
-			sampleData[index] = nil;                                // not enabled or no samples
-		}
-        else {
-            sampleData[index] = samples;
-        }
-        [samples autorelease];
-	}
+    
+//	[dataLock lock];
+//    sampleArray = [NSArray arrayWithObjects:lXData, lYData, lPData, rXData, rYData, rPData, nil];
+//	
+//	//Now alloc/init new data instances and swap those in
+//	//(For performance reasons, it might be worthwhile to preallocate two sets of these, and swap them in and out)
+//
+//	lXData = [[NSMutableData alloc] init];
+//	lYData = [[NSMutableData alloc] init];
+//	lPData = [[NSMutableData alloc] init];
+//	rXData = [[NSMutableData alloc] init];
+//	rYData = [[NSMutableData alloc] init];
+//	rPData = [[NSMutableData alloc] init];
+//	
+//    [dataLock unlock];
+//	
+//// Bundle the data pointers into an array.  If the channel is disabled, nil is returned.  If the 
+//// data length is zero, nil is returned.
+//
+//	for (index = 0; index < kLabJackU6Channels; index++) {
+//        samples = [sampleArray objectAtIndex:index];
+//		if (!(sampleChannels & (0x1 << index))) {                   // disabled channel
+//			sampleData[index] = nil;                                // not enabled or no samples
+//        }
+//        else if ([samples length] == 0) {                           // no data samples
+//			sampleData[index] = nil;                                // not enabled or no samples
+//		}
+//        else {
+//            sampleData[index] = samples;
+//        }
+//        [samples autorelease];
+//	}
 	return sampleData;
 }
 
@@ -610,8 +620,8 @@ long ELTrialStartTimeMS;
         return;
     }
 	if ([state boolValue] && !dataEnabled) {						// toggle from OFF to ON
-        [deviceLock lock];
         [self setupU6PortsAndRestartIfDead];                        // check on hardware, restart if needed.
+        [deviceLock lock];
         if (pollThread == nil) {
             shouldKillPolling = NO;
             [NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
@@ -630,12 +640,12 @@ long ELTrialStartTimeMS;
         [deviceLock unlock];
 	} 
 	else if (![state boolValue] && dataEnabled) {					// toggle from ON to OFF
-        [deviceLock lock];
-       shouldKillPolling = YES;
+                                                                    //        [deviceLock lock]; // shouldn't need to lock -- just setting flag.
+        shouldKillPolling = YES;
         while (pollThread != nil) {
             usleep(100);
         }
-        [deviceLock unlock];
+//        [deviceLock unlock];
 		values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
 		lastReadDataTimeS = 0;
         values.sequences = 1;
@@ -664,6 +674,8 @@ long ELTrialStartTimeMS;
 
 - (BOOL)setupU6PortsAndRestartIfDead;
 {
+    BOOL result = YES;
+    
     if (ljHandle == NULL) {
         return NO;
     }
@@ -677,15 +689,15 @@ long ELTrialStartTimeMS;
         NSLog(@"Sleeping for 5.0 s after restarting LJU6");
         if ( (ljHandle = openUSBConnection(-1)) == NULL) {
             NSLog(@"Error: could not reopen USB U6 device after reset; U6 will not work now.");
-            return NO;
+            result = NO;
         }
         if (![self ljU6ConfigPorts]) {
             NSLog(@"Error configuring U6 after restart, U6 will not work now.  Check for patched version of libusb with reenumerate call.\n");
-            return NO;  // no cleanup needed
+            result = NO;  // no cleanup needed
         }
     }
     [deviceLock unlock];
-    return YES;
+    return result;
 }
 
 @end
@@ -850,4 +862,119 @@ void LabJackU6Device::pulseDOHigh(int pulseLengthUS) {
     }
     
 }
+
+ 
+ long ehFeedback(HANDLE hDevice, uint8 *inIOTypesDataBuff, long inIOTypesDataSize, uint8 *outErrorcode, uint8 *outErrorFrame, uint8 *outDataBuff, long outDataSize)
+ {
+ uint8 *sendBuff, *recBuff;
+ uint16 checksumTotal;
+ int sendChars, recChars, i, sendDWSize, recDWSize, commandBytes, ret;
+ 
+ ret = 0;
+ commandBytes = 6;
+ 
+ if (((sendDWSize = inIOTypesDataSize + 1) % 2) != 0)
+    sendDWSize++;
+ if(((recDWSize = outDataSize + 3) % 2) != 0)
+    recDWSize++;
+ 
+ sendBuff = malloc(sizeof(uint8)*(commandBytes + sendDWSize));
+ recBuff = malloc(sizeof(uint8)*(commandBytes + recDWSize));
+ 
+ if(sendBuff == NULL || recBuff == NULL) {
+    ret = -1;
+    goto cleanmem;
+ }
+ 
+ sendBuff[sendDWSize + commandBytes - 1] = 0;
+ 
+ // Setting up Feedback command
+ 
+sendBuff[1] = (uint8)(0xF8);  //Command byte
+sendBuff[2] = sendDWSize / 2;   //Number of data words (.5 word for echo, 1.5
+                              //words for IOTypes)
+sendBuff[3] = (uint8)(0x00);  //Extended command number
+sendBuff[6] = 0;    //Echo
+
+for(i = 0; i < inIOTypesDataSize; i++)
+    sendBuff[i+commandBytes+1] = inIOTypesDataBuff[i];
+
+extendedChecksum(sendBuff, (sendDWSize+commandBytes));
+
+//Sending command to U6
+if( (sendChars = LJUSB_BulkWrite(hDevice, U6_PIPE_EP1_OUT, sendBuff, (sendDWSize+commandBytes))) < sendDWSize+commandBytes)
+{
+    if(sendChars == 0)
+        printf("ehFeedback error : write failed\n");
+        else
+            printf("ehFeedback error : did not write all of the buffer\n");
+            ret = -1;
+            goto cleanmem;
+}
+
+//Reading response from U6
+if( (recChars = LJUSB_BulkRead(hDevice, U6_PIPE_EP2_IN, recBuff, (commandBytes+recDWSize))) < commandBytes+recDWSize)
+{
+    if(recChars == -1)
+    {
+        printf("ehFeedback error : read failed\n");
+        ret = -1;
+        goto cleanmem;
+    }
+    else if(recChars < 8)
+    {
+        printf("ehFeedback error : response buffer is too small\n");
+        for(i = 0; i < recChars; i++)
+            printf("%d ", recBuff[i]);
+        ret = -1;
+        goto cleanmem;
+    }
+    else
+        printf("ehFeedback error : did not read all of the expected buffer (received %d, expected %d )\n", recChars, commandBytes+recDWSize);
+        }
+
+checksumTotal = extendedChecksum16(recBuff, recChars);
+if( (uint8)((checksumTotal / 256 ) & 0xff) != recBuff[5])
+{
+    printf("ehFeedback error : read buffer has bad checksum16(MSB)\n");
+    ret = -1;
+    goto cleanmem;
+}
+
+if( (uint8)(checksumTotal & 0xff) != recBuff[4])
+{
+    printf("ehFeedback error : read buffer has bad checksum16(LBS)\n");
+    ret = -1;
+    goto cleanmem;
+}
+
+if( extendedChecksum8(recBuff) != recBuff[0])
+{
+    printf("ehFeedback error : read buffer has bad checksum8\n");
+    ret = -1;
+    goto cleanmem;
+}
+
+if( recBuff[1] != (uint8)(0xF8) || recBuff[3] != (uint8)(0x00) )
+{
+    printf("ehFeedback error : read buffer has wrong command bytes \n");
+    ret = -1;
+    goto cleanmem;
+}
+
+*outErrorcode = recBuff[6];
+*outErrorFrame = recBuff[7];
+
+for(i = 0; i+commandBytes+3 < recChars && i < outDataSize; i++)
+outDataBuff[i] = recBuff[i+commandBytes+3];
+
+cleanmem:
+free(sendBuff);
+free(recBuff);
+sendBuff = NULL;
+recBuff = NULL;
+
+return ret;
+}
+
 */

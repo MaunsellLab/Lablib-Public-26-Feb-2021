@@ -558,31 +558,18 @@ This variant accepts only events definitions that include data definitions.
 - (void) putEvent:(NSString *)eventKey;
 {
 	LLDataEventDef *eventDef;
-    NSAlert *theAlert;
 	
 // Extract the event from the event dictionary
 
     if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDataDoc"];
-        [theAlert setInformativeText:[NSString stringWithFormat:
-                                      @"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
-                                      eventKey]];
-        [theAlert runModal];
-        [theAlert release];
-//        NSRunAlertPanel(@"LLDataDoc", @"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
-//            @"OK", nil, nil, eventKey);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+            [NSString stringWithFormat:@"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
+             eventKey]];
         return;
     }
     if ([eventDef dataBytes] != 0) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDataDoc"];
-        [theAlert setInformativeText:[NSString stringWithFormat:
-                                      @"putEvent: Event \"%@\" is defined to have data.", eventKey]];
-        [theAlert runModal];
-        [theAlert release];
-//        NSRunAlertPanel(@"LLDataDoc", @"putEvent: Event \"%@\" is defined to have data.",
-//            @"OK", nil, nil, eventKey);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+            [NSString stringWithFormat:@"putEvent: Event \"%@\" is defined to have data.", eventKey]];
         return;
     }
     [self eventToBuffer:[eventDef code] dataPtr:(char *)NULL bytes:0 writeLength:NO];
@@ -592,32 +579,19 @@ This variant accepts only events definitions that include data definitions.
 
 	LLDataEventDef *eventDef;
 	long dataBytes;
-    NSAlert *theAlert;
 	
 // Extract the event from the event dictionary
 
     if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDataDoc"];
-        [theAlert setInformativeText:[NSString stringWithFormat:
-                                      @"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
-                                      eventKey]];
-        [theAlert runModal];
-        [theAlert release];
-//        NSRunAlertPanel(@"LLDataDoc", @"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
-//            @"OK", nil, nil, eventKey);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+            [NSString stringWithFormat:@"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
+            eventKey]];
         return;
     }
 	dataBytes = [eventDef dataBytes];
     if (dataBytes <= 0) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDataDoc"];
-        [theAlert setInformativeText:[NSString stringWithFormat:
-                                      @"putEvent: Event \"%@\" is defined to have data of fixed length.", eventKey]];
-        [theAlert runModal];
-        [theAlert release];
-//        NSRunAlertPanel(@"LLDataDoc", @"putEvent: Event \"%@\" is not defined to have data of fixed length.",
-//            @"OK", nil, nil, eventKey);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+            [NSString stringWithFormat:@"putEvent: Event \"%@\" is defined to have data of fixed length.", eventKey]];
         return;
     }
     [self eventToBuffer:[eventDef code] dataPtr:(char *)pData bytes:dataBytes writeLength:NO];

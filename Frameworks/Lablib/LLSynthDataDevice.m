@@ -154,8 +154,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 	
     if ((rand() % 1000) > [defaults integerForKey:LLSynthLeverIgnoreKey] * 1000.0) {
 		leverLatencyS = [defaults integerForKey:LLSynthLeverLatencyKey] / 1000.0;
-		randomLatencyS = (leverLatencyS + 
-					((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
+		randomLatencyS = (leverLatencyS + ((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
         leverDownTimeS = [LLSystemUtil getTimeS] + randomLatencyS;
         leverUpTimeS = 0;
     }
@@ -167,9 +166,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 	
     if ((rand() % 1000) > [defaults integerForKey:LLSynthLeverIgnoreKey] * 1000.0) {
  		leverLatencyS = [defaults integerForKey:LLSynthLeverLatencyKey] / 1000.0;
-		randomLatencyS = (leverLatencyS + 
-					((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
-       leverUpTimeS = [LLSystemUtil getTimeS] + randomLatencyS;
+		randomLatencyS = (leverLatencyS + ((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
+        leverUpTimeS = [LLSystemUtil getTimeS] + randomLatencyS;
         leverDownTimeS = 0;
     }
 }
@@ -199,6 +197,11 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 		devicePresent = YES;
     }
     return self;
+}
+
+- (long)leverLatencyMS;
+{
+    return [defaults integerForKey:LLSynthLeverLatencyKey];
 }
 
 // Load the NSAffineTransform with its transform.  The values are stored as unitsToDeg, for compatibility with
@@ -354,6 +357,11 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         eyeTargetDeg = target;
         eyeTargetPresent = YES;
     }
+}
+
+- (void)setLeverLatencyMS:(long)leverLatencyMS;
+{
+    [defaults setInteger:leverLatencyMS forKey:LLSynthLeverLatencyKey];
 }
 
 - (void)setNextSaccadeTimeS:(double)nextTimeS;

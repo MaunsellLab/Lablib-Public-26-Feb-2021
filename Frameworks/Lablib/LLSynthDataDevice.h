@@ -83,9 +83,11 @@ extern NSString *LLSynthVBLRateKey;
 
 - (void)doLeverDown;
 - (void)doLeverUp;
+- (long)leverLatencyMS;
 - (void)loadAffineTransforms;
 - (void)setEyeTargetOff;
 - (void)setEyeTargetOn:(NSPoint)target;
+- (void)setLeverLatencyMS:(long)leverLatencyMS;
 - (void)setNextSaccadeTimeS:(double)nextTimeS;
 - (void)setOffsetDeg:(NSPoint)newOffset;
 - (void)setSpikePeriodic;

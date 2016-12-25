@@ -8,17 +8,6 @@
 #import "labjackusb.h"
 #import "LabJackU6Monitor.h"
 
-// Digital output: Use a 12-bit word; EIO0-7, CIO0-2, all encoded below
-
-#define LJU6_REWARD_FIO         0
-#define LJU6_LEVER1_FIO         1
-#define LJU6_LEVER1SOLENOID_FIO 2
-#define LJU6_LASERTRIGGER_FIO   3
-#define LJU6_LEVER2_FIO         4
-#define LJU6_LEVER2SOLENOID_FIO 5
-#define LJU6_COUNTER_FIO        6
-#define LJU6_STROBE_FIO         7
-
 //#define LJU6_DITASK_UPDATE_PERIOD_US 15000
 //#define LJU6_DITASK_WARN_SLOP_US     50000
 //#define LJU6_DITASK_FAIL_SLOP_US     50000
@@ -55,6 +44,9 @@ typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kL
 	LabJackU6Monitor		*monitor;
 	LabJackU6MonitorValues	values;
 }
+
+- (BOOL)readLeverDI:(BOOL *)outLever1 lever2:(BOOL *)outLever2;
+- (BOOL)ljU6WriteDO:(long)channel state:(long)state;
 
 - (void)disableSampleChannels:(NSNumber *)bitPattern;
 - (void)enableSampleChannels:(NSNumber *)bitPattern;

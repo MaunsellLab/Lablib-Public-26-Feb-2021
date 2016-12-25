@@ -129,7 +129,6 @@ extern void CGSDeferredUpdates(int);
     [theAlert setMessageText:messageText];
     [theAlert setInformativeText:infoText];
     [theAlert performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
-//    [theAlert runModal];
     [theAlert release];
 }
 
