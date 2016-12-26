@@ -8,14 +8,8 @@
 Things to do to get mouse experiments running under Lablib\
 \
 \'95 Get the new plugin to use the LabJackU6DataDevice\
-	Put in bypass hooks and bypass the LLDataDeviceManager (like secondary ITC-18)\
-		These will ask for info by name, and expect default ports to be used. \
 	Test the latency and precision of the LabJack IO (doesn't need to be good for reward, but lever?\
-	Decide whether the LabJack need to be converted into a proper data device\
  \
-\'95 Decide whether the PC/NIDAQ arrangement is needed.  It might make sense, if only because the ITC is being deprecated. But it will come at a cost of getting a Python bridge (or some other bridge) going in Lablib. Support with MacOS might be a problem owing to the USB latency.  Also, using the PC/NIDAC arrangement and LabJack would make it relatively simple to support both MWorks and Lablib at the same time.  And it would give additional flexibility.  Just another major programming chore\
+\'95 Decide whether the PC/NIDAQ arrangement is needed.  It might make sense, if only because the ITC is being deprecated. But it will come at a cost of getting a Python bridge (or some other bridge) going in Lablib. Also, using the PC/NIDAC arrangement and LabJack would make it relatively simple to support both MWorks and Lablib at the same time.  And it would give additional flexibility.  Just another major programming chore\
 \
-\'95 Confirm that it makes sense to drop the Matlab bridge.  There's a lot of complex coding that would need to go into that.  Plus it's a considerable expense for the licenses.  If we don't use Matlab, we should automate the translation of Lablib data to Matlab data, but that should be easy.\
-\
-\'95 Need to make a Python bridge if we are going to keep using the  PC and NIDAQ.\
-}
+\'95 Confirm that it makes sense to drop the Matlab bridge.  There's a lot of complex coding that would need to go into that.  Plus it's a considerable expense for the licenses.  If we don't use Matlab, we should automate the translation of Lablib data to Matlab data, but that should be easy.}

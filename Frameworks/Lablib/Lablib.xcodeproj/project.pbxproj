@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -87,6 +87,9 @@
 		696DF6550EB8E53A0004FC8E /* LLLaserCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */; };
 		696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 696FEDD10B7B854A002D6D54 /* LLMathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		696FEDD80B7B86E5002D6D54 /* LLMathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */; };
+		697098C51E118DC800DCEF31 /* LLPythonBridgeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697098C41E118DC800DCEF31 /* LLPythonBridgeController.xib */; };
+		697098C81E118DE600DCEF31 /* LLPythonBridgeController.h in Headers */ = {isa = PBXBuildFile; fileRef = 697098C61E118DE600DCEF31 /* LLPythonBridgeController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		697098C91E118DE600DCEF31 /* LLPythonBridgeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 697098C71E118DE600DCEF31 /* LLPythonBridgeController.m */; };
 		6971365007E252D50083188B /* LLSynthSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D01640479219700A80164 /* LLSynthSaccade.m */; };
 		6974579E0A83A5BF00D6783B /* LLSVDSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 6974579C0A83A5BF00D6783B /* LLSVDSolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6974579F0A83A5BF00D6783B /* LLSVDSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6974579D0A83A5BF00D6783B /* LLSVDSolver.m */; };
@@ -358,6 +361,9 @@
 		696E8AC0046334C800A80164 /* LLViewScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewScale.m; sourceTree = "<group>"; };
 		696FEDD10B7B854A002D6D54 /* LLMathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMathUtil.h; sourceTree = "<group>"; };
 		696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMathUtil.m; sourceTree = "<group>"; };
+		697098C41E118DC800DCEF31 /* LLPythonBridgeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLPythonBridgeController.xib; sourceTree = "<group>"; };
+		697098C61E118DE600DCEF31 /* LLPythonBridgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPythonBridgeController.h; sourceTree = "<group>"; };
+		697098C71E118DE600DCEF31 /* LLPythonBridgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPythonBridgeController.m; sourceTree = "<group>"; };
 		69724AAD04AF30AA0023341D /* LLSmoothHist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSmoothHist.h; sourceTree = "<group>"; };
 		69724AAE04AF30AA0023341D /* LLSmoothHist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSmoothHist.m; sourceTree = "<group>"; };
 		6974579C0A83A5BF00D6783B /* LLSVDSolver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSVDSolver.h; sourceTree = "<group>"; };
@@ -588,6 +594,7 @@
 				695EFEB91AC6225B00D9D458 /* LLPluginController.xib */,
 				695EFEBA1AC6225B00D9D458 /* LLProgressIndicator.xib */,
 				695EFEBB1AC6225B00D9D458 /* LLPulseTrain.xib */,
+				697098C41E118DC800DCEF31 /* LLPythonBridgeController.xib */,
 				695EFEBC1AC6225B00D9D458 /* LLRandomDots.xib */,
 				695EFEBD1AC6225B00D9D458 /* LLSettingsController.xib */,
 				695EFEBE1AC6225B00D9D458 /* LLStimulusTrain.xib */,
@@ -799,6 +806,8 @@
 				69A5C64104D996EE00F95507 /* LLIntervalMonitorSettings.m */,
 				6934D9E8049BAF2200A80164 /* LLMonitorController.h */,
 				6934D9E9049BAF2200A80164 /* LLMonitorController.m */,
+				697098C61E118DE600DCEF31 /* LLPythonBridgeController.h */,
+				697098C71E118DE600DCEF31 /* LLPythonBridgeController.m */,
 				69C8883A03E8196600A80164 /* LLSchedule.h */,
 				69C8883B03E8196600A80164 /* LLSchedule.m */,
 				69C8883C03E8196600A80164 /* LLScheduleController.h */,
@@ -1060,6 +1069,7 @@
 				6904B0A408EF39C700437691 /* LLDataDeviceController.h in Headers */,
 				6912F8320918FD8B009B1CD1 /* LLMouseDataDevice.h in Headers */,
 				6912F8A70919029C009B1CD1 /* LLMouseDataSettings.h in Headers */,
+				697098C81E118DE600DCEF31 /* LLPythonBridgeController.h in Headers */,
 				69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */,
 				69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */,
 				6905D24C0966EDB2009C96F6 /* LLPluginController.h in Headers */,
@@ -1114,7 +1124,7 @@
 				LastUpgradeCheck = 0800;
 			};
 			buildConfigurationList = 69CA1DE1088DA53700D7ADEE /* Build configuration list for PBXProject "Lablib" */;
-			compatibilityVersion = "Xcode 6.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1142,6 +1152,7 @@
 				695EFEC51AC6225B00D9D458 /* LLDefaultAboutPanel.xib in Resources */,
 				695EFEC61AC6225B00D9D458 /* LLDisplaySettings.xib in Resources */,
 				69F36CD90567EA76009AED51 /* InfoPlist.strings in Resources */,
+				697098C51E118DC800DCEF31 /* LLPythonBridgeController.xib in Resources */,
 				695EFED21AC6225B00D9D458 /* LLPluginController.xib in Resources */,
 				695EFEC31AC6225B00D9D458 /* LLDataDeviceController.xib in Resources */,
 				695EFED61AC6225B00D9D458 /* LLSettingsController.xib in Resources */,
@@ -1205,6 +1216,7 @@
 				69F36CF80567EA8C009AED51 /* LLScheduleController.m in Sources */,
 				69F36CF90567EA8C009AED51 /* LLSettingsController.m in Sources */,
 				69F36CFA0567EA8C009AED51 /* LLSmoothHist.m in Sources */,
+				697098C91E118DE600DCEF31 /* LLPythonBridgeController.m in Sources */,
 				69F36CFB0567EA8C009AED51 /* LLSounds.m in Sources */,
 				69F36CFC0567EA8C009AED51 /* LLStandardDataEvents.m in Sources */,
 				69F36CFD0567EA8C009AED51 /* LLStandardFileNames.m in Sources */,

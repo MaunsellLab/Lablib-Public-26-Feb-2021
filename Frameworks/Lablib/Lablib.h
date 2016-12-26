@@ -75,6 +75,7 @@
 #import <Lablib/LLProgressIndicator.h>
 #import <Lablib/LLPulseTrain.h>
 #import <Lablib/LLPulseTrainDevice.h>
+#import <Lablib/LLPythonBridgeController.h>
 #import <Lablib/LLRandomDots.h>
 #import <Lablib/LLScheduleController.h>
 #import <Lablib/LLScrollZoomWindow.h>
