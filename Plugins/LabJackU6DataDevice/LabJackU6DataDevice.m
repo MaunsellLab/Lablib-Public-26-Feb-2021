@@ -151,18 +151,73 @@ long ELTrialStartTimeMS;
     }
 }
 
+- (unsigned short)digitalInputBits;
+{
+    uint8 sendDataBuff[1], recDataBuff[3], errorCode, errorFrame;
+    long result;
+    
+    if (ljHandle == NULL) {
+        return 0;
+    }
+    sendDataBuff[0] = 26;           //  PortStateRead command
+    
+    [deviceLock lock];
+    result = ehFeedback(ljHandle, sendDataBuff, sizeof(sendDataBuff), &errorCode, &errorFrame, recDataBuff,
+                        sizeof(recDataBuff));
+    [deviceLock unlock];
+    if (result < 0) {
+        NSLog(@"ehFeedback error, see stdout");     // note we will get a more informative error on stdout
+        return 0;
+    }
+    if (errorCode) {
+        NSLog(@"%@", [NSString stringWithFormat:@"ehFeedback: error with command, errorcode was %d", errorCode]);
+        return 0;
+    }
+    return recDataBuff[0] | (recDataBuff[1] << 8);
+}
+
 - (void)digitalOutputBits:(unsigned long)bits;
 {
-    if (ljHandle != NULL) {
-        [deviceLock lock];
-        if ([self ljU6WriteStrobedWord:bits]) {
-            digitalOutputBits = bits;
-        }
-        else {
-            NSLog(@"LabJackU6DataDevice digitalOutputBits: error writing digital word");
-        }
-        [deviceLock unlock];
+    uint8 errorCode, errorFrame, sendDataBuff[18];
+    BOOL result;
+    
+    if (ljHandle == NULL) {
+        return;
     }
+    sendDataBuff[0] = 27;           // PortStateWrite, 7 bytes for this command -- load the word
+    sendDataBuff[1] = 0xff;         // FIO: update
+    sendDataBuff[2] = 0xff;         // EIO: update
+    sendDataBuff[3] = 0x00;         // CIO: do not update
+    sendDataBuff[4] = bits & 0x00ff;            // FIO: data
+    sendDataBuff[5] = (bits & 0xff00) >> 8;     // EIO: data
+    sendDataBuff[6] = 00;                       // CIO: data
+    
+    sendDataBuff[7] = 5;            // WaitShort, 2 bytes for this command
+    sendDataBuff[8] = 1;            // Time (128 us steps)
+
+    sendDataBuff[9] = 29;           // PortDirWrite - for some reason the above seems to reset the FIO input/output state
+    sendDataBuff[10] = 0xff;        //  FIO: update
+    sendDataBuff[11] = 0xff;        //  EIO: update
+    sendDataBuff[12] = 0xff;        //  CIO: update
+    sendDataBuff[13] = ljPortDir[0];//  FIO hardcoded above
+    sendDataBuff[14] = ljPortDir[1];//  EIO hardcoded above
+    sendDataBuff[15] = ljPortDir[2];//  CIO hardcoded above
+    
+    sendDataBuff[16] = 5;           // WaitShort   // 130424: w/o this 2 near-simul enc may result in 1st strobe still hi
+    sendDataBuff[17] = 1;           // Time (128 us steps)
+
+    [deviceLock lock];
+    result = ehFeedback(ljHandle, sendDataBuff, sizeof(sendDataBuff), &errorCode, &errorFrame, NULL, 0);
+    [deviceLock unlock];
+    if (result < 0) {
+        NSLog(@"ehFeedback error, see stdout");     // note we will get a more informative error on stdout
+        return;
+    }
+    if (errorCode) {
+        NSLog(@"%@", [NSString stringWithFormat:@"ehFeedback: error with command, errorcode was %d", errorCode]);
+        return;
+    }
+    digitalOutputBits = bits;
 }
 
 - (void)digitalOutputBitsOff:(unsigned long)bits;
@@ -178,20 +233,9 @@ long ELTrialStartTimeMS;
 - (id)init;
 {
 	if ((self = [super init]) != nil) {
-		
-
-/*		lXData = [[NSMutableData alloc] init];
-		lYData = [[NSMutableData alloc] init];
-		lPData = [[NSMutableData alloc] init];
-		rXData = [[NSMutableData alloc] init];
-		rYData = [[NSMutableData alloc] init];
-		rPData = [[NSMutableData alloc] init];
-*/
         digitalOutputBits = 0;
         pollThread = nil;
-		deviceEnabled = NO;
-		dataEnabled = NO;
-		devicePresent = NO;
+		deviceEnabled =  dataEnabled =  devicePresent = NO;
 		LabJackU6SamplePeriodS = 0.002;
 			
 		dataLock = [[NSLock alloc] init];
@@ -350,9 +394,9 @@ long ELTrialStartTimeMS;
 
 - (BOOL)ljU6WriteStrobedWord:(unsigned long)inWord;
 {
+    uint8 sendDataBuff[29];
     uint8 outEioBits = inWord & 0xff;
     uint8 outCioBits = (inWord & 0xf00) >> 8;
-    uint8 sendDataBuff[29];
     uint8 errorCode, errorFrame;
     
     if (inWord > 0xfff) {
