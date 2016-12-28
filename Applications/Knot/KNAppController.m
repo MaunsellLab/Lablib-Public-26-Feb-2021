@@ -148,6 +148,9 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     
     [[summaryController window] performClose:self];
     [summaryController release];
+    
+    [socket close];
+    [socket release];
 
 // Release the plugins before releasing the objects they might use as they clean up
 
@@ -179,6 +182,9 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     
 	pluginController = [[LLPluginController alloc] initWithDefaults:defaults];
 	settingsController = [[LLSettingsController alloc] init];
+    
+    socket = [[LLSockets alloc] init];
+    [socket setupAndOpen];
 
 // Set up a report controller.  This must be done before things that attach reportables (e.g., stimulus Window)
 
@@ -262,6 +268,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 				[task setDataDocument:dataDoc];
 				[task setEyeCalibrator:eyeCalibration];
 				[task setMonitorController:monitorController];
+                [task setSocket:socket];
 				[task setStimWindow:stimWindow];
 				[task initializationDidFinish];
 				[task setInitialized:YES];
@@ -579,6 +586,11 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 - (IBAction)showReportPanel:(id)sender {
 
     [monitorController showWindow:self];
+}
+
+- (IBAction)showSocketsWindow:(id)sender;
+{
+    [socket showWindow:self];
 }
 
 // Disable certain menu items according to task state

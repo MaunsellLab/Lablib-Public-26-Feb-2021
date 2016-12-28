@@ -6,8 +6,8 @@
 #import "LLPythonBridgeController.h"
 
 #define CONDUIT_RESOURCE_NAME  "python_bridge_plugin_conduit"
-#define LOAD_BUTTON_TITLE   @"choose..."
-#define TERMINATE_BUTTON_TITLE  @"terminate"
+#define LOAD_BUTTON_TITLE   @"Launch"
+#define TERMINATE_BUTTON_TITLE  @"Terminate"
 #define STATUS_LOADING  @"Loading..."
 #define STATUS_NONE_LOADED @"None loaded"
 #define STATUS_ACTIVE   @"Active"
@@ -15,6 +15,7 @@
 
 #define DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY @"autoScrollPythonOutput"
 #define kPythonVersion      2.7
+#define kLLRecentPythonScriptsKey   @"LLRecentPythonScripts"
 
 #ifdef __x86_64__
 #  define PYTHON_ARCH @"x86_64"
@@ -69,7 +70,7 @@
                 return;
             }
             path = file_name;
-//            [self launchScriptAtPath:path];
+            [self launchScriptAtPath:path];
             [self closeScriptChooserSheet:self];
         }
     }
@@ -134,30 +135,26 @@
 //    conduit->initialize();
 }
 
--(void)launchScriptAtPath:(NSString *)script_path{
-//    if (!conduit) {
+-(void)launchScriptAtPath:(NSString *)script_path;
+{
+    NSArray *arguments = [NSArray arrayWithObjects:@"-arch", PYTHON_ARCH, @"/usr/bin/python", kPythonVersion,
+                script_path, [NSString stringWithCString:CONDUIT_RESOURCE_NAME encoding:NSASCIIStringEncoding], nil];
+
+    //    if (!conduit) {
 //        [self initConduit];
 //    }
     
     [self setPath:script_path];
-    
     python_task = [[NSTask alloc] init];
     [python_task setLaunchPath: @"/usr/bin/arch"];
-    
-    NSArray *arguments;
-    arguments = [NSArray arrayWithObjects:@"-arch", PYTHON_ARCH, @"/usr/bin/python", kPythonVersion, script_path,
-                 [NSString stringWithCString:CONDUIT_RESOURCE_NAME encoding:NSASCIIStringEncoding],
-                 nil];
     [python_task setArguments: arguments];
     
     stdout_pipe = [NSPipe pipe];
     stderr_pipe = [NSPipe pipe];
-    [python_task setStandardOutput: stdout_pipe];
-    [python_task setStandardError: stderr_pipe];
-    
+    [python_task setStandardOutput:stdout_pipe];
+    [python_task setStandardError:stderr_pipe];
     python_task_stdout = [stdout_pipe fileHandleForReading];
     python_task_stderr = [stderr_pipe fileHandleForReading];
-    
     
     [self updateRecentScripts];
     [python_task launch];
@@ -168,10 +165,12 @@
     [self setStatus:STATUS_LOADING];
     
     // Register notifications so that we can get stdout and stderr
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postDataFromStdout:) name:NSFileHandleReadCompletionNotification object:python_task_stdout];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postDataFromStdout:)
+                                                 name:NSFileHandleReadCompletionNotification object:python_task_stdout];
     [python_task_stdout readInBackgroundAndNotify];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postDataFromStderr:) name:NSFileHandleReadCompletionNotification object:python_task_stderr];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postDataFromStderr:)
+                                                 name:NSFileHandleReadCompletionNotification object:python_task_stderr];
     [python_task_stderr readInBackgroundAndNotify];
     
     
@@ -312,23 +311,27 @@
 }
 
 
-- (void) updateRecentScripts {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+- (void) updateRecentScripts;
+{
+    NSArray *recentScripts;
+	NSUserDefaults *defaults;
+    NSMutableArray *recentScriptsMutable;
     
-    if([self path] != nil){
-        [defaults setObject:[self path] forKey:@"lastPythonScript"];
-        [defaults synchronize];
+    if ([self path] == nil) {
+        return;
     }
-    NSArray *recentScripts = [defaults arrayForKey:@"recentPythonScripts"];
-    if([self path] != nil){
-        NSMutableArray *recentScriptsMutable = [NSMutableArray arrayWithArray:recentScripts];
-        [recentScriptsMutable removeObject:[self path]];  // In case it's already in the list
-        [recentScriptsMutable insertObject:[self path] atIndex:0];
-        [defaults setObject:recentScriptsMutable forKey:@"recentPythonScripts"];
-        [defaults synchronize];
-    }
+    
+    defaults = [NSUserDefaults standardUserDefaults];
+//    [defaults setObject:[self path] forKey:@"lastPythonScript"];
+//    [defaults synchronize];
+ 
+    recentScripts = [defaults arrayForKey:kLLRecentPythonScriptsKey];
+    recentScriptsMutable = [NSMutableArray arrayWithArray:recentScripts];
+    [recentScriptsMutable removeObject:[self path]];  // In case it's already in the list
+    [recentScriptsMutable insertObject:[self path] atIndex:0];
+    [defaults setObject:recentScriptsMutable forKey:kLLRecentPythonScriptsKey];
+    [defaults synchronize];
 }
-
 
 - (NSDictionary *)workspaceState {
     NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];

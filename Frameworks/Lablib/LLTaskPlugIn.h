@@ -12,6 +12,7 @@
 #import "LLIODevice.h"
 #import "LLDataDeviceController.h"
 #import "LLMonitorController.h"
+#import "LLSockets.h"
 #import "LLStateSystem.h"
 #import "LLStimWindow.h"
 #import "LLSynthDataDevice.h"
@@ -36,6 +37,7 @@
 	long					mode;
 	LLMonitorController		*monitorController;
 	DisplayModeParam		displayMode;
+    LLSockets                *socket;
 	LLStateSystem			*stateSystem;
 	LLStimWindow			*stimWindow;
 	LLSynthDataDevice		*synthDataDevice;
@@ -77,9 +79,11 @@
 - (void)setMode:(long)mode;
 - (void)setMonitorController:(LLMonitorController *)controller;
 - (void)setWritingDataFile:(BOOL)state;
+- (void)setSocket:(LLSockets *)newSocket;
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 - (void)setSynthDataDevice:(LLSynthDataDevice *)device;
 - (void)setSynthDataSource:(LLSynthIODevice *)source;
+- (LLSockets *)socket;
 - (LLStateSystem *)stateSystem;
 - (LLStimWindow *)stimWindow;
 - (LLSynthDataDevice *)synthDataDevice;

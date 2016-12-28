@@ -37,6 +37,7 @@
 		6953194A09B6227E00EC15C7 /* LLOldGabor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6953182E09B6227E00EC15C7 /* LLOldGabor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6953194B09B6227E00EC15C7 /* LLOldGabor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6953182F09B6227E00EC15C7 /* LLOldGabor.m */; };
 		6955FA45091A540F0009EFDB /* LLPulseTrain.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6955FA44091A540F0009EFDB /* LLPulseTrain.plist */; };
+		6957BF851E1301980059716F /* LLSockets.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6957BF841E1301980059716F /* LLSockets.xib */; };
 		695BC60805DC1C6300D98433 /* LLFixTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 695BC60405DC1C6300D98433 /* LLFixTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695BC60905DC1C6300D98433 /* LLFixTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 695BC60505DC1C6300D98433 /* LLFixTarget.m */; };
 		695C06D5064BDEA600809DAA /* LLDefaultAboutBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 695C06D3064BDEA600809DAA /* LLDefaultAboutBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -152,6 +153,8 @@
 		69CCB7EF0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CCB7ED0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m */; };
 		69CEA76706711F74009CEDDA /* LLStimulusTrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEA76506711F74009CEDDA /* LLStimulusTrain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69CEA76806711F74009CEDDA /* LLStimulusTrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEA76606711F74009CEDDA /* LLStimulusTrain.m */; };
+		69D69E8C1E11EB55005317AA /* LLSockets.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D69E8A1E11EB55005317AA /* LLSockets.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69D69E8D1E11EB55005317AA /* LLSockets.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D69E8B1E11EB55005317AA /* LLSockets.m */; };
 		69DCC8DB0737CE3800FE4CE8 /* LLEOTHistoryView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCC8D90737CE3800FE4CE8 /* LLEOTHistoryView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69DCC8DC0737CE3800FE4CE8 /* LLEOTHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCC8DA0737CE3800FE4CE8 /* LLEOTHistoryView.m */; };
 		69DCCC06073AE8C600FE4CE8 /* LLBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCCC04073AE8C600FE4CE8 /* LLBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -304,6 +307,7 @@
 		6953182E09B6227E00EC15C7 /* LLOldGabor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLOldGabor.h; sourceTree = "<group>"; };
 		6953182F09B6227E00EC15C7 /* LLOldGabor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLOldGabor.m; sourceTree = "<group>"; };
 		6955FA44091A540F0009EFDB /* LLPulseTrain.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLPulseTrain.plist; sourceTree = "<group>"; };
+		6957BF841E1301980059716F /* LLSockets.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLSockets.xib; sourceTree = "<group>"; };
 		695BC60405DC1C6300D98433 /* LLFixTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFixTarget.h; sourceTree = "<group>"; };
 		695BC60505DC1C6300D98433 /* LLFixTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFixTarget.m; sourceTree = "<group>"; };
 		695C06D3064BDEA600809DAA /* LLDefaultAboutBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLDefaultAboutBox.h; sourceTree = "<group>"; };
@@ -471,6 +475,8 @@
 		69CFF82C0477F8E000F95509 /* LLEyeCalibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEyeCalibrator.m; sourceTree = "<group>"; };
 		69D29126048E871C00F95509 /* LLStandardFileNames.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLStandardFileNames.h; sourceTree = "<group>"; };
 		69D29127048E871C00F95509 /* LLStandardFileNames.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLStandardFileNames.m; sourceTree = "<group>"; };
+		69D69E8A1E11EB55005317AA /* LLSockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSockets.h; sourceTree = "<group>"; };
+		69D69E8B1E11EB55005317AA /* LLSockets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSockets.m; sourceTree = "<group>"; };
 		69DCC8D90737CE3800FE4CE8 /* LLEOTHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLEOTHistoryView.h; sourceTree = "<group>"; };
 		69DCC8DA0737CE3800FE4CE8 /* LLEOTHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLEOTHistoryView.m; sourceTree = "<group>"; };
 		69DCCC04073AE8C600FE4CE8 /* LLBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLBar.h; sourceTree = "<group>"; };
@@ -597,6 +603,7 @@
 				697098C41E118DC800DCEF31 /* LLPythonBridgeController.xib */,
 				695EFEBC1AC6225B00D9D458 /* LLRandomDots.xib */,
 				695EFEBD1AC6225B00D9D458 /* LLSettingsController.xib */,
+				6957BF841E1301980059716F /* LLSockets.xib */,
 				695EFEBE1AC6225B00D9D458 /* LLStimulusTrain.xib */,
 				695EFEBF1AC6225B00D9D458 /* LLSynthDataSettings.xib */,
 				695EFEC11AC6225B00D9D458 /* LLVisualStimulus.xib */,
@@ -808,6 +815,8 @@
 				6934D9E9049BAF2200A80164 /* LLMonitorController.m */,
 				697098C61E118DE600DCEF31 /* LLPythonBridgeController.h */,
 				697098C71E118DE600DCEF31 /* LLPythonBridgeController.m */,
+				69D69E8A1E11EB55005317AA /* LLSockets.h */,
+				69D69E8B1E11EB55005317AA /* LLSockets.m */,
 				69C8883A03E8196600A80164 /* LLSchedule.h */,
 				69C8883B03E8196600A80164 /* LLSchedule.m */,
 				69C8883C03E8196600A80164 /* LLScheduleController.h */,
@@ -1073,6 +1082,7 @@
 				69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */,
 				69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */,
 				6905D24C0966EDB2009C96F6 /* LLPluginController.h in Headers */,
+				69D69E8C1E11EB55005317AA /* LLSockets.h in Headers */,
 				69BDCF09098C09B500578E91 /* LLScrollZoomWindow.h in Headers */,
 				69897B6C099BA633001EE2DA /* LLDataUtil.h in Headers */,
 				6953194A09B6227E00EC15C7 /* LLOldGabor.h in Headers */,
@@ -1164,6 +1174,7 @@
 				695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */,
 				695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */,
 				695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */,
+				6957BF851E1301980059716F /* LLSockets.xib in Resources */,
 				695EFED41AC6225B00D9D458 /* LLPulseTrain.xib in Resources */,
 				695EFEC71AC6225B00D9D458 /* LLEyeCalibrator.xib in Resources */,
 				695EFED11AC6225B00D9D458 /* LLPlaid.xib in Resources */,
@@ -1205,26 +1216,29 @@
 				69F36CE90567EA8C009AED51 /* LLEyeWindow.m in Sources */,
 				69F36CEA0567EA8C009AED51 /* LLEyeXYView.m in Sources */,
 				69F36CEB0567EA8C009AED51 /* LLGabor.m in Sources */,
+				693D9EBB160529A700113D5D /* LLHeatMapView.m in Sources */,
 				69F36CEC0567EA8C009AED51 /* LLHistView.m in Sources */,
 				69F36CED0567EA8C009AED51 /* LLIntervalMonitor.m in Sources */,
 				69F36CEE0567EA8C009AED51 /* LLIntervalMonitorSettings.m in Sources */,
 				69F36CF10567EA8C009AED51 /* LLMonitorController.m in Sources */,
+				69F36D000567EA8C009AED51 /* LLNormDist.m in Sources */,
 				69F36CF40567EA8C009AED51 /* LLPlotAxes.m in Sources */,
 				69F36CF50567EA8C009AED51 /* LLPlotColors.m in Sources */,
 				69F36CF60567EA8C009AED51 /* LLPlotView.m in Sources */,
+				697098C91E118DE600DCEF31 /* LLPythonBridgeController.m in Sources */,
 				69F36CF70567EA8C009AED51 /* LLSchedule.m in Sources */,
 				69F36CF80567EA8C009AED51 /* LLScheduleController.m in Sources */,
 				69F36CF90567EA8C009AED51 /* LLSettingsController.m in Sources */,
 				69F36CFA0567EA8C009AED51 /* LLSmoothHist.m in Sources */,
-				697098C91E118DE600DCEF31 /* LLPythonBridgeController.m in Sources */,
+				69D69E8D1E11EB55005317AA /* LLSockets.m in Sources */,
 				69F36CFB0567EA8C009AED51 /* LLSounds.m in Sources */,
 				69F36CFC0567EA8C009AED51 /* LLStandardDataEvents.m in Sources */,
 				69F36CFD0567EA8C009AED51 /* LLStandardFileNames.m in Sources */,
 				69F36CFE0567EA8C009AED51 /* LLState.m in Sources */,
 				69F36CFF0567EA8C009AED51 /* LLStateSystemController.m in Sources */,
-				69F36D000567EA8C009AED51 /* LLNormDist.m in Sources */,
 				69F36D040567EA8C009AED51 /* LLSystemUtil.m in Sources */,
 				69F36D050567EA8C009AED51 /* LLTaskMode.m in Sources */,
+				696D383C059E39440018E5D5 /* LLTrialBlock.m in Sources */,
 				69F36D070567EA8C009AED51 /* LLViewScale.m in Sources */,
 				69F36D080567EA8C009AED51 /* LLViewUtilities.m in Sources */,
 				69F36D090567EA8C009AED51 /* LLXTEventPlot.m in Sources */,
@@ -1232,7 +1246,6 @@
 				69F36D0B0567EA8C009AED51 /* LLXTSpikePlot.m in Sources */,
 				69F36D0C0567EA8C009AED51 /* LLXTStimPlot.m in Sources */,
 				69F36D0D0567EA8C009AED51 /* LLXTView.m in Sources */,
-				696D383C059E39440018E5D5 /* LLTrialBlock.m in Sources */,
 				69B5444A05AC606000FB9394 /* LLDisplayUtilities.c in Sources */,
 				695BC60905DC1C6300D98433 /* LLFixTarget.m in Sources */,
 				695C06D6064BDEA600809DAA /* LLDefaultAboutBox.m in Sources */,
@@ -1289,7 +1302,6 @@
 				696944AE1502A7E100D39C41 /* LLIODeviceSettings.m in Sources */,
 				698F5967159000EC00366393 /* LLSynthBinocSaccade.m in Sources */,
 				697A296E159526EC00095DB3 /* LLBinocCalibrator.m in Sources */,
-				693D9EBB160529A700113D5D /* LLHeatMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

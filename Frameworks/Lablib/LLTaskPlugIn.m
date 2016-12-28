@@ -207,6 +207,13 @@
 	monitorController = controller;
 }
 
+- (void)setSocket:(LLSockets *)newSocket;
+{
+    [socket release];
+    socket = newSocket;
+    [socket retain];
+}
+
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 {
 	[stimWindow release];
@@ -231,6 +238,11 @@
 - (void)setWritingDataFile:(BOOL)state;
 {
 	writingDataFile = state;
+}
+
+- (LLSockets *)socket;
+{
+    return socket;
 }
 
 - (LLStateSystem *)stateSystem;

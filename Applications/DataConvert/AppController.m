@@ -27,9 +27,8 @@ NSString *DCShowTimeOfDayKey = @"DCShowTimeOfDay";
 	
 // Load the default values for the user defaults.  These are the values that are used the first time
 // the program is run.  Subsequent changes to values are preserved and used.  The default values are
-// kept in UserDefaults.plist, which is in the application folder.  It is easier to edit this file with the 
-// XML Editor rather than the XCode editor (although that is possible for quick changes.
-
+// kept in UserDefaults.plist, which is in the application folder.
+    
 	userDefaultsValuesPath = [[NSBundle mainBundle] pathForResource:@"UserDefaults" ofType:@"plist"];
     userDefaultsValuesDict = [NSDictionary dictionaryWithContentsOfFile:userDefaultsValuesPath];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsValuesDict];

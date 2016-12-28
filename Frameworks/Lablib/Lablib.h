@@ -80,6 +80,7 @@
 #import <Lablib/LLScheduleController.h>
 #import <Lablib/LLScrollZoomWindow.h>
 #import <Lablib/LLSettingsController.h>
+#import <Lablib/LLSockets.h>
 #import <Lablib/LLSounds.h>
 #import <Lablib/LLStandardDataEvents.h>
 #import <Lablib/LLStateSystem.h>

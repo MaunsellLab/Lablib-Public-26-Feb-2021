@@ -23,6 +23,7 @@
 	LLMonitorController		*monitorController;
 	LLPluginController		*pluginController;
 	LLSettingsController	*settingsController;
+    LLSockets               *socket;
 	LLStimWindow			*stimWindow;
     KNSummaryController		*summaryController;
 	LLSynthDataDevice		*synthDataDevice;
@@ -46,5 +47,6 @@
 - (IBAction)showDisplayCalibratorPanel:(id)sender;
 - (IBAction)showEyeCalibratorPanel:(id)sender;
 - (IBAction)showReportPanel:(id)sender;
+- (IBAction)showSocketsWindow:(id)sender;
 
 @end
