@@ -4,7 +4,8 @@
 //
 //  Created by John Maunsell on 12/26/16.
 //
-//
+
+#include <LLSystemUtil.h>
 
 /* Constants for stream status:
  
@@ -31,40 +32,52 @@
  } NSStreamEvent;
  */
 
-#define kLLSocketsHostKey   @"LLSocketsHost"
-#define kLLSocketsPort      @"LLSocketsPort"
-#define kLLSocketsScroll    @"LLSocketsScroll"
+#define kLLSocketsHostKey           @"LLSocketsHost"
+#define kLLSocketsPortKey           @"LLSocketsPort"
+#define kLLSocketsVerboseKey         @"LLSocketsVerbose"
+#define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
+#define kLLSocketNumStatusStrings   9
 
 enum {kReceiveJSON = 1, kStop};
 
 #import "LLSockets.h"
 
+NSString *statusStrings[kLLSocketNumStatusStrings] = {
+    @"NSStreamStatusNotOpen",
+    @"NSStreamStatusOpening",
+    @"NSStreamStatusOpen",
+    @"NSStreamStatusReading",
+    @"NSStreamStatusWriting",
+    @"NSStreamStatusAtEnd",
+    @"NSStreamStatusClosed",
+    @"NSStreamStatusError",
+    @"Unknown status code"
+};
+
 CFReadStreamRef readStream;
 CFWriteStreamRef writeStream;
-
 NSInputStream *inputStream;
 NSOutputStream *outputStream;
 
 @implementation LLSockets
 
--(void)awakeFromNib;
+- (void)closeStreams;
 {
-//    [self setLoadButtonTitle:LOAD_BUTTON_TITLE];
-//    [self setPath:Nil];
-//    [self setStatus:STATUS_NONE_LOADED];
-//    in_grouped_window = NO;
-//    self.scrollToBottomOnOutput = [[NSUserDefaults standardUserDefaults]
-//                                   boolForKey:DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY];
-//    
-//    // Automatically terminate script at application shutdown
-//    [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationWillTerminateNotification object:nil
-//                                                       queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-//                                                           [self terminateScript]; }];
+    [streamsLock lock];
+    [inputStream close];
+    [outputStream close];
+    [inputStream release];
+    [outputStream release];
+    inputStream = nil;
+    outputStream = nil;
+    [streamsLock unlock];
 }
 
 - (void)dealloc;
 {
-    [self close];
+    [self closeStreams];
+    [streamsLock release];
+    [[NSUserDefaults standardUserDefaults] setBool:[[self window] isVisible] forKey:kLLSocketsWindowVisibleKey];
     [topLevelObjects release];
     [super dealloc];
 }
@@ -72,172 +85,165 @@ NSOutputStream *outputStream;
 - (id)init;
 {
     NSMutableDictionary *defaultSettings;
+//    NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsHostKey]];
+//    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPortKey];
     
     if ((self = [super init]) == nil) {
         return nil;
     }
     defaultSettings = [[NSMutableDictionary alloc] init];
     [defaultSettings setObject:@"http://127.0.0.1" forKey:kLLSocketsHostKey];
-    [defaultSettings setObject:[NSNumber numberWithInt:9990] forKey:kLLSocketsPort];
-    [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLSocketsScroll];
-    
+    [defaultSettings setObject:[NSNumber numberWithInt:9990] forKey:kLLSocketsPortKey];
+    [defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLSocketsVerboseKey];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
-    return self;
-}
-
-- (IBAction)loadButtonPress:(id)sender;
-{
-}
-
-- (void)setupAndOpen;
-{
-    NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsHostKey]];
-    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPort];
     
+    streamsLock = [[NSLock alloc] init];
+
     if ([self window] == nil) {
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLSockets" owner:self topLevelObjects:&topLevelObjects];
         [topLevelObjects retain];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsWindowVisibleKey] || YES) {
+            [[self window] makeKeyAndOrderFront:self];
+        }
     }
-    
-    NSLog(@"LLSockets: Setting up connection to %@:%i", [url absoluteString], port);
-    
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)[url host], port, &readStream, &writeStream);
-    if (!CFWriteStreamOpen(writeStream)) {
-        NSLog(@"LLSockets: Error, writeStream not open");
-        return;
-    }
-    [self open];
+    [self postToConsole:@"LLSockets initialized\n" textColor:[NSColor blackColor]];
+    return self;
 }
 
-- (void)open;
+- (BOOL)openStreams;
 {
-    NSLog(@"LLSockets: opening streams");
+    long status;
+    
+    NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsHostKey]];
+    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPortKey];
+    
+    [streamsLock lock];
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)[url host], port, &readStream, &writeStream);
     inputStream = (NSInputStream *)readStream;
     outputStream = (NSOutputStream *)writeStream;
     [inputStream retain];
     [outputStream retain];
-    [inputStream setDelegate:self];
-    [outputStream setDelegate:self];
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
     [outputStream open];
-}
-
-- (void)postToConsole:(NSAttributedString *)attstr;
-{
-    [[consoleView textStorage] appendAttributedString:attstr];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsScroll]) {
-        [consoleView scrollRangeToVisible:NSMakeRange([[consoleView textStorage] length], 0)];
-    }
-}
-
-- (void)close;
-{
-    NSLog(@"LLSockets: Closing streams");
-    [inputStream close];
-    [outputStream close];
-    [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [inputStream setDelegate:nil];
-    [outputStream setDelegate:nil];
-    [inputStream release];
-    [outputStream release];
-    inputStream = nil;
-    outputStream = nil;
-}
-
-- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)event;
-{
-    switch (event) {
-        case NSStreamEventOpenCompleted:
-            NSLog(@"%@", [NSString stringWithFormat:@"LLSockets: %@putStream opened",
-                          (stream == outputStream) ? @"out" : @"in"]);
-            break;
-        case NSStreamEventHasSpaceAvailable: {
-            if (stream == outputStream) {
-                NSLog(@"LLSockets: outputStream has space available");
+    while ((status = [inputStream streamStatus]) == NSStreamStatusOpening) {};
+    status = [inputStream streamStatus];
+    switch (status) {
+        case NSStreamStatusError:
+            [streamsLock unlock];
+            [self postToConsole:@"openStreams: error opening input stream\n" textColor:[NSColor redColor]];
+            [self closeStreams];
+            if (![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
             }
+            return NO;
             break;
-        }
-        case NSStreamEventHasBytesAvailable: {
-            if (stream == inputStream) {
-                NSLog(@"LLSockets: NSStreamEventHasBytesAvailable");
-                if (![inputStream hasBytesAvailable]) {
-                    NSLog(@"LLSockets: inputStream says no bytes available");
-                    break;
-                }
-                uint8_t buf[1024];
-                unsigned int len = 0;
-                
-                len = (unsigned int)[inputStream read:buf maxLength:1024];
-                if (len > 0) {
-                    NSMutableData* data=[[NSMutableData alloc] initWithLength:0];
-                    [data appendBytes: (const void *)buf length:len];
-                    NSString *s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-                    [self readIn:s];
-                    [data release];
-                }
-            } 
+        case NSStreamStatusOpen:
+        default:
             break;
-        }
-        case NSStreamEventErrorOccurred:
-            NSLog(@"%@", [NSString stringWithFormat:@"LLSockets: %@putStream error",
-                          (stream == outputStream) ? @"out" : @"in"]);
+    };
+    while ((status = [inputStream streamStatus]) != NSStreamStatusOpen) {};
+    
+    while ((status = [outputStream streamStatus]) == NSStreamStatusOpening) {};
+    status = [outputStream streamStatus];
+    switch (status) {
+        case NSStreamStatusError:
+            [self postToConsole:@"openStreams: error opening output stream\n" textColor:[NSColor redColor]];
+            [inputStream close];
+            [streamsLock unlock];
+            if (![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
+            }
+            return NO;
             break;
-        case NSStreamEventEndEncountered:
-            NSLog(@"%@", [NSString stringWithFormat:@"LLSockets: %@putStream end encountered",
-                          (stream == outputStream) ? @"out" : @"in"]);
+        case NSStreamStatusOpen:
+        default:
             break;
-        default: {
-            NSLog(@"Stream is sending an Event: %lu", (unsigned long)event);
-            break;
-        }
-    }
+    };
+    while ((status = [outputStream streamStatus]) != NSStreamStatusOpen) {};
+    [streamsLock unlock];
+    return YES;
 }
 
-- (void)readIn:(NSString *)s;
+- (void)post:(NSAttributedString *)attrStr;
 {
-    NSLog(@"LLSockets: Read in the following:");
-    NSLog(@"LLSockets: %@", s);
+    [[consoleView textStorage] appendAttributedString:attrStr];
+    [consoleView scrollRangeToVisible:NSMakeRange([[consoleView textStorage] length], 0)];
 }
+
+- (void)postToConsole:(NSString *)str textColor:(NSColor *)theColor;
+{
+    NSAttributedString *attrStr;
+    NSDictionary *attr = [NSDictionary dictionaryWithObject:theColor forKey:NSForegroundColorAttributeName];
+    
+    attrStr = [[NSAttributedString alloc] initWithString:str attributes:attr];
+    [self performSelectorOnMainThread:@selector(post:) withObject:attrStr waitUntilDone:NO];
+    [attrStr release];
+}
+
+/*
+ writeDictionary is the main function for communicating with the server.  I tried to set things up with the
+ client and server maintaining a connection across multiple transmissions, but it always got in trouble.  The
+ current approach opens and closes a connection for each dictionary transfer.
+ */
+
+#define kBufferLength   1024
 
 - (void)writeDictionary:(NSDictionary *)dict;
 {
     NSData *JSONData;
     NSError *error;
-    uint32_t length;
-//    id JSONObject;
+    uint32_t JSONLength, bufferLength;
+    NSInteger readLength;
+    uint8_t pBuffer[kBufferLength];
+    long result;
+    double startTime, endTime;
 
-    if ([outputStream streamStatus] != NSStreamStatusOpen) {
+    startTime = [LLSystemUtil getTimeS];
+    if (![self openStreams]) {
         return;
     }
-    while ([outputStream streamStatus] == NSStreamStatusWriting) {};
+    
     JSONData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    NSLog(@"LLSockets: Writing JSON data with length %lu", (unsigned long)[JSONData length]);
-//    JSONObject = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-//    if (JSONObject != nil) {
-//        [NSJSONSerialization writeJSONObject:JSONObject toStream:outputStream options:0 error:&error];
-//    }
-    length = (uint32_t)[JSONData length];
-    [outputStream write:(uint8_t *)&length maxLength:sizeof(uint32_t)];
-    [outputStream write:(uint8_t *)[JSONData bytes] maxLength:length];
-}
+    JSONLength = (uint32_t)[JSONData length];
+    bufferLength = JSONLength + sizeof(uint32_t);
+    *(uint32_t *)pBuffer = JSONLength;
+    [JSONData getBytes:&pBuffer[sizeof(uint32_t)] length:JSONLength];
+    
+    result = [outputStream write:pBuffer maxLength:bufferLength];
 
-- (void)writeOut:(NSString *)s;
-{
-    uint8_t buf[1024];                              // buffer to transmit
-    uint32_t *pLength = (uint32_t *)&buf;           // 4 bytes to specify length
-    char *pChars = (char *)&buf[sizeof(uint32_t)];  // char * after the length specifier
+    if (result != bufferLength) {
+        error = [outputStream streamError];
+        [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
+                             error.code, error.localizedDescription] textColor:[NSColor redColor]];
+        if (![[self window] isVisible]) {
+            [[self window] makeKeyAndOrderFront:self];
+        }
+    }
     
-    *pLength  = (uint32_t)strlen([s UTF8String]);   // load the length of the payload
-    strcpy(pChars, (char *)[s UTF8String]);         // load the payload
-    
-    [outputStream write:(uint8_t *)&buf maxLength:sizeof(unsigned long) + strlen(pChars)];
-    
-    NSLog(@"LLSockets: Writing out the following:");
-    NSLog(@"LLSockets: %@", s);
+    while (![inputStream hasBytesAvailable]) {};
+    readLength = [inputStream read:pBuffer maxLength:kBufferLength];
+    pBuffer[readLength] = 0;
+    [self closeStreams];
+    endTime = [LLSystemUtil getTimeS];
+    if (readLength == JSONLength) {
+        [self postToConsole:[NSString stringWithFormat:@"Successfully sent dictionary of %d bytes\n", JSONLength]
+            textColor:[NSColor blackColor]];
+    }
+    else {
+        [self postToConsole:[NSString stringWithFormat:@"Communication error: Sent %d bytes, but server echoed %ld\n",
+                             JSONLength, (long)readLength] textColor:[NSColor blackColor]];
+        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer]
+            textColor:[NSColor redColor]];
+        if (![[self window] isVisible]) {
+            [[self window] makeKeyAndOrderFront:self];
+        }
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
+        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer] textColor:[NSColor blackColor]];
+        [self postToConsole:[NSString stringWithFormat:@"Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
+              textColor:[NSColor blackColor]];
+    }
 }
 
 @end

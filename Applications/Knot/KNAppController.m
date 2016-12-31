@@ -184,7 +184,6 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	settingsController = [[LLSettingsController alloc] init];
     
     socket = [[LLSockets alloc] init];
-    [socket setupAndOpen];
 
 // Set up a report controller.  This must be done before things that attach reportables (e.g., stimulus Window)
 
