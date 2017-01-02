@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="LLSockets">
             <connections>
                 <outlet property="consoleView" destination="SBd-Xt-JKA" id="FDq-c1-RnB"/>
+                <outlet property="rigIDTextField" destination="3I2-dn-lCv" id="O7I-8b-Ikm"/>
                 <outlet property="window" destination="veL-e5-xF3" id="0bV-7f-wZK"/>
             </connections>
         </customObject>
@@ -107,6 +108,27 @@
                             <binding destination="139" name="value" keyPath="values.LLSocketsVerbose" id="qBe-32-kxA"/>
                         </connections>
                     </button>
+                    <textField verticalHuggingPriority="750" misplaced="YES" id="GbM-cP-W7r">
+                        <rect key="frame" x="176" y="230" width="51" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Rig ID:" id="Aum-xz-yX2">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" misplaced="YES" id="3I2-dn-lCv">
+                        <rect key="frame" x="233" y="227" width="96" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" drawsBackground="YES" id="ZAA-of-dVk">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="139" name="value" keyPath="values.LLSocketsRigID" id="w2V-VG-6bO"/>
+                        </connections>
+                    </textField>
                 </subviews>
             </view>
             <point key="canvasLocation" x="709" y="-1844"/>

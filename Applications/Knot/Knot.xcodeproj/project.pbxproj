@@ -109,7 +109,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				696D3833059E19DE0018E5D5 /* Controllers */,
+				69822BCA044760BB00A80164 /* KNAppController.h */,
+				69822BCB044760BB00A80164 /* KNAppController.m */,
+				69B9AE720482FBDD00F95509 /* KNSummaryController.h */,
+				69B9AE730482FBDD00F95509 /* KNSummaryController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -193,17 +196,6 @@
 			);
 			name = Plists;
 			path = Sounds;
-			sourceTree = "<group>";
-		};
-		696D3833059E19DE0018E5D5 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				69822BCA044760BB00A80164 /* KNAppController.h */,
-				69822BCB044760BB00A80164 /* KNAppController.m */,
-				69B9AE720482FBDD00F95509 /* KNSummaryController.h */,
-				69B9AE730482FBDD00F95509 /* KNSummaryController.m */,
-			);
-			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

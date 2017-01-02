@@ -129,6 +129,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 {
+    NSMutableDictionary *argDict;
+
     while ([currentTask mode] != kTaskIdle) {};				// wait for state system to stop, then release it
     sleep(0.25);
     [self deactivateCurrentTask];
@@ -149,6 +151,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     [[summaryController window] performClose:self];
     [summaryController release];
     
+    if ([defaults boolForKey:@"KNTerminateSocket"]) {
+        argDict = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:YES], @"exitFlag", nil];
+        [socket writeDictionary:argDict];
+    }
     [socket close];
     [socket release];
 

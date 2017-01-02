@@ -290,7 +290,18 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="498" name="value" keyPath="values.doDataDirectory" id="811"/>
+                            <binding destination="498" name="value" keyPath="values.KNDoDataDirectory" id="8tU-mC-uh7"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Create Data Files in /Data and its Subdirectories" misplaced="YES" id="kPb-lX-008">
+                        <rect key="frame" x="18" y="51" width="190" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Terminate Socket on Exit" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Cpd-Xr-VFL">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="498" name="value" keyPath="values.KNTerminateSocket" id="8HD-Em-ua5"/>
                         </connections>
                     </button>
                 </subviews>

@@ -34,6 +34,7 @@
 
 #define kLLSocketsHostKey           @"LLSocketsHost"
 #define kLLSocketsPortKey           @"LLSocketsPort"
+#define kLLSocketsRigIDKey           @"LLSocketsRigID"
 #define kLLSocketsVerboseKey         @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 #define kLLSocketNumStatusStrings   9
@@ -93,6 +94,7 @@ NSOutputStream *outputStream;
     }
     defaultSettings = [[NSMutableDictionary alloc] init];
     [defaultSettings setObject:@"http://127.0.0.1" forKey:kLLSocketsHostKey];
+    [defaultSettings setObject:@"Rig0" forKey:kLLSocketsRigIDKey];
     [defaultSettings setObject:[NSNumber numberWithInt:9990] forKey:kLLSocketsPortKey];
     [defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLSocketsVerboseKey];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
@@ -189,7 +191,7 @@ NSOutputStream *outputStream;
 
 #define kBufferLength   1024
 
-- (void)writeDictionary:(NSDictionary *)dict;
+- (void)writeDictionary:(NSMutableDictionary *)dict;
 {
     NSData *JSONData;
     NSError *error;
@@ -204,6 +206,7 @@ NSOutputStream *outputStream;
         return;
     }
     
+    [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey] forKey:@"rigID"];
     JSONData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     JSONLength = (uint32_t)[JSONData length];
     bufferLength = JSONLength + sizeof(uint32_t);
@@ -211,7 +214,7 @@ NSOutputStream *outputStream;
     [JSONData getBytes:&pBuffer[sizeof(uint32_t)] length:JSONLength];
     
     result = [outputStream write:pBuffer maxLength:bufferLength];
-
+    
     if (result != bufferLength) {
         error = [outputStream streamError];
         [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
@@ -225,6 +228,7 @@ NSOutputStream *outputStream;
     readLength = [inputStream read:pBuffer maxLength:kBufferLength];
     pBuffer[readLength] = 0;
     [self closeStreams];
+    
     endTime = [LLSystemUtil getTimeS];
     if (readLength == JSONLength) {
         [self postToConsole:[NSString stringWithFormat:@"Successfully sent dictionary of %d bytes\n", JSONLength]
@@ -244,6 +248,7 @@ NSOutputStream *outputStream;
         [self postToConsole:[NSString stringWithFormat:@"Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
               textColor:[NSColor blackColor]];
     }
+
 }
 
 @end
