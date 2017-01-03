@@ -80,6 +80,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	[pluginController loadPlugins];
 	[self configurePlugins];
 	[self activateCurrentTask];
+
+    matlabEngine = [[LLMatlabEngine alloc] init];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
@@ -157,6 +159,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     }
     [socket close];
     [socket release];
+    [matlabEngine close];
+    [matlabEngine release];
 
 // Release the plugins before releasing the objects they might use as they clean up
 

@@ -22,6 +22,10 @@
 		691C42310B25E87500DA5103 /* LLStateSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 691C405A0B25E87400DA5103 /* LLStateSystem.m */; };
 		69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */; };
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		693634C01E1B09F200A2DE4B /* libeng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634BF1E1B09F200A2DE4B /* libeng.dylib */; };
+		693634C21E1B0A2200A2DE4B /* libmx.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634C11E1B0A2200A2DE4B /* libmx.dylib */; };
+		693634C41E1B135A00A2DE4B /* libmat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634C31E1B135A00A2DE4B /* libmat.dylib */; };
+		693634C61E1B136D00A2DE4B /* libut.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634C51E1B136D00A2DE4B /* libut.dylib */; };
 		69366665139E66B9000508B6 /* ResetButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69366664139E66B9000508B6 /* ResetButton.tif */; };
 		693BAB420906F01B008574BF /* LLSynthDataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 693BAB410906F01B008574BF /* LLSynthDataDevice.plist */; };
 		693D9EB91605299B00113D5D /* LLHeatMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = 693D9EB81605299B00113D5D /* LLHeatMapView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,9 +92,6 @@
 		696DF6550EB8E53A0004FC8E /* LLLaserCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */; };
 		696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 696FEDD10B7B854A002D6D54 /* LLMathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		696FEDD80B7B86E5002D6D54 /* LLMathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */; };
-		697098C51E118DC800DCEF31 /* LLPythonBridgeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697098C41E118DC800DCEF31 /* LLPythonBridgeController.xib */; };
-		697098C81E118DE600DCEF31 /* LLPythonBridgeController.h in Headers */ = {isa = PBXBuildFile; fileRef = 697098C61E118DE600DCEF31 /* LLPythonBridgeController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		697098C91E118DE600DCEF31 /* LLPythonBridgeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 697098C71E118DE600DCEF31 /* LLPythonBridgeController.m */; };
 		6971365007E252D50083188B /* LLSynthSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D01640479219700A80164 /* LLSynthSaccade.m */; };
 		6974579E0A83A5BF00D6783B /* LLSVDSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 6974579C0A83A5BF00D6783B /* LLSVDSolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6974579F0A83A5BF00D6783B /* LLSVDSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6974579D0A83A5BF00D6783B /* LLSVDSolver.m */; };
@@ -146,6 +147,8 @@
 		69BDCF09098C09B500578E91 /* LLScrollZoomWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BDCF07098C09B500578E91 /* LLScrollZoomWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69BDCF0A098C09B500578E91 /* LLScrollZoomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BDCF08098C09B500578E91 /* LLScrollZoomWindow.m */; };
 		69BE4BEA05829644001C9624 /* Lablib_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BE4BE805829644001C9624 /* Lablib_Prefix.h */; };
+		69BE5A4D1E1AFD2D002B2981 /* LLMatlabEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69BE5A4E1E1AFD2D002B2981 /* LLMatlabEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */; };
 		69C094520BDA3B8A00DB7DE8 /* LLPointDist.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C094500BDA3B8A00DB7DE8 /* LLPointDist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69C094530BDA3B8A00DB7DE8 /* LLPointDist.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C094510BDA3B8A00DB7DE8 /* LLPointDist.m */; };
 		69C5686D0797798D001CD54C /* LLStimWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CC9D4077F12FC0025E7D2 /* LLStimWindow.m */; };
@@ -287,6 +290,10 @@
 		6934455504856D8300FE06D7 /* LLEOTView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEOTView.m; sourceTree = "<group>"; };
 		6934D9E8049BAF2200A80164 /* LLMonitorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMonitorController.h; sourceTree = "<group>"; };
 		6934D9E9049BAF2200A80164 /* LLMonitorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMonitorController.m; sourceTree = "<group>"; };
+		693634BF1E1B09F200A2DE4B /* libeng.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libeng.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libeng.dylib; sourceTree = "<group>"; };
+		693634C11E1B0A2200A2DE4B /* libmx.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmx.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libmx.dylib; sourceTree = "<group>"; };
+		693634C31E1B135A00A2DE4B /* libmat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmat.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libmat.dylib; sourceTree = "<group>"; };
+		693634C51E1B136D00A2DE4B /* libut.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libut.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libut.dylib; sourceTree = "<group>"; };
 		69366664139E66B9000508B6 /* ResetButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ResetButton.tif; path = ../../Resources/Images/ResetButton.tif; sourceTree = SOURCE_ROOT; };
 		693BAB410906F01B008574BF /* LLSynthDataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLSynthDataDevice.plist; sourceTree = "<group>"; };
 		693D9EB81605299B00113D5D /* LLHeatMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHeatMapView.h; sourceTree = "<group>"; };
@@ -365,9 +372,6 @@
 		696E8AC0046334C800A80164 /* LLViewScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewScale.m; sourceTree = "<group>"; };
 		696FEDD10B7B854A002D6D54 /* LLMathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMathUtil.h; sourceTree = "<group>"; };
 		696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMathUtil.m; sourceTree = "<group>"; };
-		697098C41E118DC800DCEF31 /* LLPythonBridgeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLPythonBridgeController.xib; sourceTree = "<group>"; };
-		697098C61E118DE600DCEF31 /* LLPythonBridgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPythonBridgeController.h; sourceTree = "<group>"; };
-		697098C71E118DE600DCEF31 /* LLPythonBridgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPythonBridgeController.m; sourceTree = "<group>"; };
 		69724AAD04AF30AA0023341D /* LLSmoothHist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSmoothHist.h; sourceTree = "<group>"; };
 		69724AAE04AF30AA0023341D /* LLSmoothHist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSmoothHist.m; sourceTree = "<group>"; };
 		6974579C0A83A5BF00D6783B /* LLSVDSolver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSVDSolver.h; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 		69BDCF07098C09B500578E91 /* LLScrollZoomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLScrollZoomWindow.h; sourceTree = "<group>"; };
 		69BDCF08098C09B500578E91 /* LLScrollZoomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLScrollZoomWindow.m; sourceTree = "<group>"; };
 		69BE4BE805829644001C9624 /* Lablib_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Lablib_Prefix.h; sourceTree = "<group>"; };
+		69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMatlabEngine.h; sourceTree = "<group>"; };
+		69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMatlabEngine.m; sourceTree = "<group>"; };
 		69C094500BDA3B8A00DB7DE8 /* LLPointDist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPointDist.h; sourceTree = "<group>"; };
 		69C094510BDA3B8A00DB7DE8 /* LLPointDist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPointDist.m; sourceTree = "<group>"; };
 		69C7FF83047ECBF500F95509 /* LLXTEventPlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTEventPlot.h; sourceTree = "<group>"; };
@@ -527,8 +533,12 @@
 				69F36D0E0567EA9E009AED51 /* AppKit.framework in Frameworks */,
 				69F36D0F0567EA9E009AED51 /* Carbon.framework in Frameworks */,
 				69F36D100567EA9E009AED51 /* Foundation.framework in Frameworks */,
+				693634C01E1B09F200A2DE4B /* libeng.dylib in Frameworks */,
+				693634C21E1B0A2200A2DE4B /* libmx.dylib in Frameworks */,
 				69F36D110567EA9E009AED51 /* IOKit.framework in Frameworks */,
+				693634C61E1B136D00A2DE4B /* libut.dylib in Frameworks */,
 				69F36D120567EA9E009AED51 /* OpenGL.framework in Frameworks */,
+				693634C41E1B135A00A2DE4B /* libmat.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,8 +574,16 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
-				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				698E35CF048F958700F95509 /* Carbon.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				69F2BB3204D3203700F95507 /* IOKit.framework */,
+				69E9F6FF043D260E00F95509 /* OpenGL.framework */,
+				693634BF1E1B09F200A2DE4B /* libeng.dylib */,
+				693634C31E1B135A00A2DE4B /* libmat.dylib */,
+				693634C11E1B0A2200A2DE4B /* libmx.dylib */,
+				693634C51E1B136D00A2DE4B /* libut.dylib */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -600,7 +618,6 @@
 				695EFEB91AC6225B00D9D458 /* LLPluginController.xib */,
 				695EFEBA1AC6225B00D9D458 /* LLProgressIndicator.xib */,
 				695EFEBB1AC6225B00D9D458 /* LLPulseTrain.xib */,
-				697098C41E118DC800DCEF31 /* LLPythonBridgeController.xib */,
 				695EFEBC1AC6225B00D9D458 /* LLRandomDots.xib */,
 				695EFEBD1AC6225B00D9D458 /* LLSettingsController.xib */,
 				6957BF841E1301980059716F /* LLSockets.xib */,
@@ -623,26 +640,6 @@
 				69DCCC0A073AEAD800FE4CE8 /* Visual Stimuli */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				698E35CF048F958700F95509 /* Carbon.framework */,
-				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				69F2BB3204D3203700F95507 /* IOKit.framework */,
-				69E9F6FF043D260E00F95509 /* OpenGL.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		32C88DFF0371C24200C91783 /* Headers */ = {
@@ -811,10 +808,10 @@
 				69C8967003E8301F00A80164 /* LLIntervalMonitor.m */,
 				69A5C64004D996EE00F95507 /* LLIntervalMonitorSettings.h */,
 				69A5C64104D996EE00F95507 /* LLIntervalMonitorSettings.m */,
+				69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */,
+				69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */,
 				6934D9E8049BAF2200A80164 /* LLMonitorController.h */,
 				6934D9E9049BAF2200A80164 /* LLMonitorController.m */,
-				697098C61E118DE600DCEF31 /* LLPythonBridgeController.h */,
-				697098C71E118DE600DCEF31 /* LLPythonBridgeController.m */,
 				69D69E8A1E11EB55005317AA /* LLSockets.h */,
 				69D69E8B1E11EB55005317AA /* LLSockets.m */,
 				69C8883A03E8196600A80164 /* LLSchedule.h */,
@@ -1071,6 +1068,7 @@
 				6961C4B207AC429F005F0666 /* LLTaskStatus.h in Headers */,
 				6961C53007AC465F005F0666 /* LLTaskStatusTransformer.h in Headers */,
 				69EBE5DC07E1988D00037090 /* LLDataEventDef.h in Headers */,
+				69BE5A4D1E1AFD2D002B2981 /* LLMatlabEngine.h in Headers */,
 				697CD33A083AD95800AB7932 /* LLDataReader.h in Headers */,
 				69EE539F0864BF0A0096D396 /* LLVisualStimulus.h in Headers */,
 				69A14B6208913B4C005A4F0D /* LLStimWindow.h in Headers */,
@@ -1078,7 +1076,6 @@
 				6904B0A408EF39C700437691 /* LLDataDeviceController.h in Headers */,
 				6912F8320918FD8B009B1CD1 /* LLMouseDataDevice.h in Headers */,
 				6912F8A70919029C009B1CD1 /* LLMouseDataSettings.h in Headers */,
-				697098C81E118DE600DCEF31 /* LLPythonBridgeController.h in Headers */,
 				69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */,
 				69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */,
 				6905D24C0966EDB2009C96F6 /* LLPluginController.h in Headers */,
@@ -1162,7 +1159,6 @@
 				695EFEC51AC6225B00D9D458 /* LLDefaultAboutPanel.xib in Resources */,
 				695EFEC61AC6225B00D9D458 /* LLDisplaySettings.xib in Resources */,
 				69F36CD90567EA76009AED51 /* InfoPlist.strings in Resources */,
-				697098C51E118DC800DCEF31 /* LLPythonBridgeController.xib in Resources */,
 				695EFED21AC6225B00D9D458 /* LLPluginController.xib in Resources */,
 				695EFEC31AC6225B00D9D458 /* LLDataDeviceController.xib in Resources */,
 				695EFED61AC6225B00D9D458 /* LLSettingsController.xib in Resources */,
@@ -1225,7 +1221,6 @@
 				69F36CF40567EA8C009AED51 /* LLPlotAxes.m in Sources */,
 				69F36CF50567EA8C009AED51 /* LLPlotColors.m in Sources */,
 				69F36CF60567EA8C009AED51 /* LLPlotView.m in Sources */,
-				697098C91E118DE600DCEF31 /* LLPythonBridgeController.m in Sources */,
 				69F36CF70567EA8C009AED51 /* LLSchedule.m in Sources */,
 				69F36CF80567EA8C009AED51 /* LLScheduleController.m in Sources */,
 				69F36CF90567EA8C009AED51 /* LLSettingsController.m in Sources */,
@@ -1253,6 +1248,7 @@
 				69B7F50F06790CFA003728FD /* LLRandomDots.m in Sources */,
 				69914CCA06863C46001800F9 /* LLTextUtil.m in Sources */,
 				69BCEECA06B2D32B0046C824 /* LLDataFileReader.m in Sources */,
+				69BE5A4E1E1AFD2D002B2981 /* LLMatlabEngine.m in Sources */,
 				69113E8306BDDF63008A141B /* LLParameterController.m in Sources */,
 				6981962A070483590075BDF4 /* LLBinomDist.m in Sources */,
 				69819B460704F9AD0075BDF4 /* LLStatValues.m in Sources */,
@@ -1347,10 +1343,15 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Applications/MATLAB_R2013a.app/extern/include;
 				INFOPLIST_FILE = "Info-Lablib.plist";
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = "/Applications/MATLAB_R2013a.app/bin/maci64 /Applications/MATLAB_R2013a.app/sys/os/maci64";
+				LIBRARY_SEARCH_PATHS = (
+					/Applications/MATLAB_R2013a.app/bin/maci64,
+					/Applications/MATLAB_R2013a.app/sys/os/maci64,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1365,6 +1366,7 @@
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
 				UNSTRIPPED_PRODUCT = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wmost";
 				ZERO_LINK = NO;
 			};
@@ -1390,10 +1392,15 @@
 				GCC_VERSION = "";
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = /Applications/MATLAB_R2013a.app/extern/include;
 				INFOPLIST_FILE = "Info-Lablib.plist";
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = "/Applications/MATLAB_R2013a.app/bin/maci64 /Applications/MATLAB_R2013a.app/sys/os/maci64";
+				LIBRARY_SEARCH_PATHS = (
+					/Applications/MATLAB_R2013a.app/bin/maci64,
+					/Applications/MATLAB_R2013a.app/sys/os/maci64,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1408,6 +1415,7 @@
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
 				UNSTRIPPED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wmost";
 				ZERO_LINK = NO;
 			};
@@ -1432,10 +1440,15 @@
 				GCC_VERSION = "";
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = /Applications/MATLAB_R2013a.app/extern/include;
 				INFOPLIST_FILE = "Info-Lablib.plist";
 				INSTALLHDRS_COPY_PHASE = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = "/Applications/MATLAB_R2013a.app/bin/maci64 /Applications/MATLAB_R2013a.app/sys/os/maci64";
+				LIBRARY_SEARCH_PATHS = (
+					/Applications/MATLAB_R2013a.app/bin/maci64,
+					/Applications/MATLAB_R2013a.app/sys/os/maci64,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -1444,6 +1457,7 @@
 				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = "";
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Default;
@@ -1472,6 +1486,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include;
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				RUN_CLANG_STATIC_ANALYZER = NO;
@@ -1501,6 +1517,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include;
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
 				RUN_CLANG_STATIC_ANALYZER = NO;
@@ -1530,6 +1548,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include;
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
 				RUN_CLANG_STATIC_ANALYZER = NO;
