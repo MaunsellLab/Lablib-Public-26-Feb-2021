@@ -164,6 +164,7 @@
 		69DCCC07073AE8C600FE4CE8 /* LLBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCCC05073AE8C600FE4CE8 /* LLBar.m */; };
 		69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E5E043095B505E00F6FE99 /* LLDataAssignment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69E5E046095B505E00F6FE99 /* LLDataAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E5E044095B505E00F6FE99 /* LLDataAssignment.m */; };
+		69EB7AF21E21D15800B3CF7C /* LLMatlabEngine.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69EB7AF11E21D15800B3CF7C /* LLMatlabEngine.xib */; };
 		69EBE5DC07E1988D00037090 /* LLDataEventDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EBE5DA07E1988D00037090 /* LLDataEventDef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69EBE5DD07E1988D00037090 /* LLDataEventDef.m in Sources */ = {isa = PBXBuildFile; fileRef = 69EBE5DB07E1988D00037090 /* LLDataEventDef.m */; };
 		69EDA65D0EAE93E100B3D1D5 /* LLFilterExp.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EDA65B0EAE93E100B3D1D5 /* LLFilterExp.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -504,6 +505,7 @@
 		69E9F6FF043D260E00F95509 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		69EAD8B704366F6D00F95509 /* LLStateSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLStateSystemController.h; sourceTree = "<group>"; };
 		69EAD8B804366F6D00F95509 /* LLStateSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLStateSystemController.m; sourceTree = "<group>"; };
+		69EB7AF11E21D15800B3CF7C /* LLMatlabEngine.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLMatlabEngine.xib; sourceTree = "<group>"; };
 		69EBE5DA07E1988D00037090 /* LLDataEventDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDataEventDef.h; sourceTree = "<group>"; };
 		69EBE5DB07E1988D00037090 /* LLDataEventDef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDataEventDef.m; sourceTree = "<group>"; };
 		69EDA65B0EAE93E100B3D1D5 /* LLFilterExp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFilterExp.h; sourceTree = "<group>"; };
@@ -610,6 +612,7 @@
 				695EFEB11AC6225B00D9D458 /* LLIntervalMonitorSettings.xib */,
 				695EFEB21AC6225B00D9D458 /* LLIODeviceSettings.xib */,
 				695EFEB31AC6225B00D9D458 /* LLLaserCalibrator.xib */,
+				69EB7AF11E21D15800B3CF7C /* LLMatlabEngine.xib */,
 				695EFEB41AC6225B00D9D458 /* LLMonitorController.xib */,
 				695EFEB51AC6225B00D9D458 /* LLMonitorView.xib */,
 				695EFEB61AC6225B00D9D458 /* LLMouseDataSettings.xib */,
@@ -703,6 +706,8 @@
 				69EDA65C0EAE93E100B3D1D5 /* LLFilterExp.m */,
 				696DF6520EB8E53A0004FC8E /* LLLaserCalibrator.h */,
 				696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */,
+				69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */,
+				69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */,
 				693FC6C804898EB700FE06D7 /* LLStandardDataEvents.h */,
 				693FC6C904898EB700FE06D7 /* LLStandardDataEvents.m */,
 				69D29126048E871C00F95509 /* LLStandardFileNames.h */,
@@ -808,8 +813,6 @@
 				69C8967003E8301F00A80164 /* LLIntervalMonitor.m */,
 				69A5C64004D996EE00F95507 /* LLIntervalMonitorSettings.h */,
 				69A5C64104D996EE00F95507 /* LLIntervalMonitorSettings.m */,
-				69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */,
-				69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */,
 				6934D9E8049BAF2200A80164 /* LLMonitorController.h */,
 				6934D9E9049BAF2200A80164 /* LLMonitorController.m */,
 				69D69E8A1E11EB55005317AA /* LLSockets.h */,
@@ -1167,6 +1170,7 @@
 				695EFEC91AC6225B00D9D458 /* LLGabor.xib in Resources */,
 				695EFEA61AC6219100D9D458 /* English.lproj in Resources */,
 				695EFED51AC6225B00D9D458 /* LLRandomDots.xib in Resources */,
+				69EB7AF21E21D15800B3CF7C /* LLMatlabEngine.xib in Resources */,
 				695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */,
 				695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */,
 				695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */,

@@ -167,8 +167,7 @@ typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 // how to do timed events
 
 		dataDef = [eventsByCode objectAtIndex:index];
-		if ([[dataDef name] isEqualToString:@"intervalOne"] ||
-								[[dataDef name] isEqualToString:@"intervalTwo"]) {
+		if ([[dataDef name] isEqualToString:@"intervalOne"] || [[dataDef name] isEqualToString:@"intervalTwo"]) {
 			timedEvents[index] = YES;
 			NSLog(@"setting %@ to a timed event", [dataDef name]);
 		}
@@ -295,8 +294,7 @@ typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 - (NSArray *)eventDataAsStrings:(DataEvent *)pEvent prefix:(NSString *)prefix
 			suffix:(NSString *)suffix;
 {
-	return [[eventsByCode objectAtIndex:pEvent->code] 
-				eventDataAsStrings:pEvent prefix:prefix suffix:suffix];
+	return [[eventsByCode objectAtIndex:pEvent->code] eventDataAsStrings:pEvent prefix:prefix suffix:suffix];
 }
 
 // Return a string describing the time of one event
@@ -306,8 +304,7 @@ typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 {
 	prefix = (prefix == nil) ? @"" : prefix;				// need a valid NSString for prefix
 	suffix = (suffix == nil) ? @"" : suffix;				// need a valid NSString for suffix
-	return [NSString stringWithFormat:@"%@%@_TrialTime%@ = %ld;\n",
-							prefix, pEvent->name, suffix, pEvent->trialTime];
+	return [NSString stringWithFormat:@"%@%@_TrialTime%@ = %ld;\n", prefix, pEvent->name, suffix, pEvent->trialTime];
 }
 
 /*
@@ -411,8 +408,7 @@ them.
 	headerString = [NSString stringWithFormat:
 				@"file.fileName = '%@';\nfile.createDate = '%@';\nfile.createTime = '%@'\n",
 				fileName, fileCreateDate, fileCreateTime];
-	[data appendBytes:[headerString UTF8String] 
-			length:[headerString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+	[data appendBytes:[headerString UTF8String] length:[headerString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
 	[self rewind];
 	while ((pEvent = [self readEvent]) != nil) {
 		eventTrialCounts[pEvent->code]++;
@@ -431,7 +427,7 @@ them.
 	trial = 0;
 	prefix = [[NSString alloc] initWithString:@"file."];			// prefix must no autorelease
 	
-// Making the Matlab strings is a long, slow process that involves the generation of many object.
+// Making the Matlab strings for a large file is a long, slow process that involves the generation of many objects.
 // We set up a progress bar, so the user can abort if necessary.  We also set up our own 
 // NSAutoreleasePool and release it periodically, so that the objects we create do not hang
 // around until the entire file is parsed.
@@ -468,8 +464,7 @@ them.
 			}
 			[prefix release];
 			prefix = [[NSString alloc] initWithFormat:@"trials(%ld).", ++trial];
-			eventString = [NSString stringWithFormat:@"%@trialStartTime = %ld;\n",
-				prefix, pEvent->time];
+			eventString = [NSString stringWithFormat:@"%@trialStartTime = %ld;\n", prefix, pEvent->time];
 			[self appendMatlabString:eventString toData:data];
 			pMultiEvents = multiTrialEvents;					// at first trialStart, start using multi trial
 			continue;
@@ -488,9 +483,8 @@ them.
 				else {
 					if (!warned) {
                         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
-                            [NSString stringWithFormat:@"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.", pEvent->name]];
-//						NSRunAlertPanel(@"LLDataFileReader", @"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.",
-//							@"OK", nil, nil, pEvent->name);
+                            [NSString stringWithFormat:
+                            @"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.", pEvent->name]];
 						warned = YES;
 					}
 				}
@@ -513,16 +507,14 @@ them.
 		}
 		eventStrings = [eventDef eventDataAsStrings:pEvent prefix:nil suffix:suffix];
 		for (string = 0; string < [eventStrings count]; string++) {
-			eventString = [NSString stringWithFormat:@"%@%@;\n", prefix, 
-								[eventStrings objectAtIndex:string]];
+			eventString = [NSString stringWithFormat:@"%@%@;\n", prefix, [eventStrings objectAtIndex:string]];
 			[self appendMatlabString:eventString toData:data];
 		}
 
 // If this is a timed event, write the time (in addition to the event with the data)
 
 		if (timedEvents[pEvent->code]) {
-			[self appendMatlabString:
-						[self eventTimeAsString:pEvent prefix:prefix suffix:suffix] toData:data];
+			[self appendMatlabString:[self eventTimeAsString:pEvent prefix:prefix suffix:suffix] toData:data];
 		}
 		eventTrialCounts[pEvent->code]++;
 	

@@ -3,7 +3,7 @@
 //  Lablib
 //
 //  Created by John Maunsell on Fri Apr 11 2003.
-//  Copyright (c) 2003-2006. All rights reserved.
+//  Copyright (c) 2016. All rights reserved.
 //
 
 #import "LLDataDoc.h"
@@ -157,7 +157,8 @@
 #else
 	headerString = [NSString stringWithFormat:@"\007\005006.%1d", (dataDefinitions) ? 2 : 0];
 #endif
-	[headerData appendBytes:[headerString cStringUsingEncoding:NSUTF8StringEncoding] length:strlen([headerString cStringUsingEncoding:NSUTF8StringEncoding])];	// format specifier
+	[headerData appendBytes:[headerString cStringUsingEncoding:NSUTF8StringEncoding]
+                    length:strlen([headerString cStringUsingEncoding:NSUTF8StringEncoding])];	// format specifier
 	events = [eventsByCode count];
 	[headerData appendBytes:&events length:sizeof(events)];						// number of events defined
 
@@ -212,8 +213,8 @@ are its code (event codes are integers that increase from 0), and the number of 
 (a value of -1 specifies an event with varying numbers of data bytes from instance to instance.
 */
 
-- (BOOL)defineEvents:(EventDef *)eventDefs number:(unsigned long)numEvents {
-
+- (BOOL)defineEvents:(EventDef *)eventDefs number:(unsigned long)numEvents;
+{
     short index;
 	EventDef *pDef;
 	LLDataEventDef *dataEventDef;

@@ -51,6 +51,7 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
 - (IBAction)showAboutPanel:(id)sender;
 - (IBAction)showDisplayCalibratorPanel:(id)sender;
 - (IBAction)showEyeCalibratorPanel:(id)sender;
+- (IBAction)showMatlabWindow:(id)sender;
 - (IBAction)showReportPanel:(id)sender;
 - (IBAction)showSocketsWindow:(id)sender;
 

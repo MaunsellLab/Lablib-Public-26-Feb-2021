@@ -32,10 +32,12 @@
  } NSStreamEvent;
  */
 
+#define kBufferLength   1024
+
 #define kLLSocketsHostKey           @"LLSocketsHost"
 #define kLLSocketsPortKey           @"LLSocketsPort"
-#define kLLSocketsRigIDKey           @"LLSocketsRigID"
-#define kLLSocketsVerboseKey         @"LLSocketsVerbose"
+#define kLLSocketsRigIDKey          @"LLSocketsRigID"
+#define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 #define kLLSocketNumStatusStrings   9
 
@@ -188,8 +190,6 @@ NSOutputStream *outputStream;
  client and server maintaining a connection across multiple transmissions, but it always got in trouble.  The
  current approach opens and closes a connection for each dictionary transfer.
  */
-
-#define kBufferLength   1024
 
 - (void)writeDictionary:(NSMutableDictionary *)dict;
 {

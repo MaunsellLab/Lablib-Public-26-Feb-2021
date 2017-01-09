@@ -32,8 +32,7 @@ static void preventSleepCallback(CFRunLoopTimerRef timer, void *info);
         NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
     searchPathEnum = [librarySearchPaths objectEnumerator];
     while (currPath = [searchPathEnum nextObject]) {
-        [bundleSearchPaths addObject:
-            [currPath stringByAppendingPathComponent:appSubpath]];
+        [bundleSearchPaths addObject:[currPath stringByAppendingPathComponent:appSubpath]];
     }
     [bundleSearchPaths addObject:[[NSBundle mainBundle] builtInPlugInsPath]];
 
@@ -43,8 +42,7 @@ static void preventSleepCallback(CFRunLoopTimerRef timer, void *info);
         if (bundleEnum) {
             while (currBundlePath = [bundleEnum nextObject]) {
                 if ([[currBundlePath pathExtension] isEqualToString:extention]) {
-					[allBundles addObject:[currPath
-                           stringByAppendingPathComponent:currBundlePath]];
+					[allBundles addObject:[currPath stringByAppendingPathComponent:currBundlePath]];
                 }
             }
         }

@@ -81,7 +81,6 @@ NSString *DCShowTimeOfDayKey = @"DCShowTimeOfDay";
 			continue;
 		}
 		fileURL = [NSURL fileURLWithPath:path];
-        //		NSLog(@"Path %@ absoluteString %@", [fileURL path], [fileURL absoluteString]);
 		[document writeToURL:[fileURL absoluteURL] ofType:LLMatlabText error:&outError];
 	}
 	[outError release];

@@ -76,12 +76,12 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     
     summaryController = [[KNSummaryController alloc] initWithDefaults:defaults];
     [dataDoc addObserver:summaryController];	
-    
+    matlabEngine = [[LLMatlabEngine alloc] init];               // allocate before configurePlugins
+
 	[pluginController loadPlugins];
 	[self configurePlugins];
 	[self activateCurrentTask];
 
-    matlabEngine = [[LLMatlabEngine alloc] init];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
@@ -253,16 +253,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		if ([pluginController numberOfValidPlugins] == 0) {
             [LLSystemUtil runAlertPanelWithMessageText:@"Knot: No suitable plugins found." informativeText:
              @"The active \"Library/Application Support/Knot\" folders contain no task plugins. You should install at least one."];
-//			NSRunAlertPanel(@"Knot: No suitable plugins found.",
-//				@"The active \"Library/Application Support/Knot\" folders contain no task plugins. You should install at least one.", 
-//				@"OK", nil, nil);
 		}
 		else {
             [LLSystemUtil runAlertPanelWithMessageText:@"Knot: No enabled plugins" informativeText:
                         @"You can enable plugins using the Plugin Manager in the File menu."];
-//			NSRunAlertPanel(@"Knot: No enabled plugins",
-//				@"You can enable plugins using the Plugin Manager in the File menu.", 
-//				@"OK", nil, nil);
 		}
 	}
 	else {
@@ -276,6 +270,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 				[task setSynthDataDevice:synthDataDevice];
 				[task setDataDocument:dataDoc];
 				[task setEyeCalibrator:eyeCalibration];
+                [task setMatlabEngine:matlabEngine];
 				[task setMonitorController:monitorController];
                 [task setSocket:socket];
 				[task setStimWindow:stimWindow];
@@ -590,6 +585,11 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 - (IBAction)showEyeCalibratorPanel:(id)sender {
 
     [eyeCalibration showWindow:self];
+}
+
+- (IBAction)showMatlabWindow:(id)sender;
+{
+    [socket showWindow:self];
 }
 
 - (IBAction)showReportPanel:(id)sender {

@@ -14,7 +14,6 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="94" customClass="LLPythonBridgeController"/>
         <userDefaultsController representsSharedInstance="YES" id="139"/>
         <window title="Connection to NIDAQ Computer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="LLSocket" animationBehavior="default" id="veL-e5-xF3">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>

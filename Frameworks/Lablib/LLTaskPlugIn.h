@@ -11,6 +11,7 @@
 #import "LLBinocCalibrator.h"
 #import "LLIODevice.h"
 #import "LLDataDeviceController.h"
+#import "LLMatlabEngine.h"
 #import "LLMonitorController.h"
 #import "LLSockets.h"
 #import "LLStateSystem.h"
@@ -34,10 +35,11 @@
 	BOOL					initialized;
     NSDate                  *lastDataCollectionDate;
     BOOL                    leverDown;
+    LLMatlabEngine          *matlabEngine;
 	long					mode;
 	LLMonitorController		*monitorController;
 	DisplayModeParam		displayMode;
-    LLSockets                *socket;
+    LLSockets               *socket;
 	LLStateSystem			*stateSystem;
 	LLStimWindow			*stimWindow;
 	LLSynthDataDevice		*synthDataDevice;
@@ -64,6 +66,7 @@
 - (void)initializationDidFinish;
 - (NSDate *)lastDataCollectionDate;
 - (BOOL)leverDown;
+- (LLMatlabEngine *)matlabEngine;
 - (long)mode;
 - (LLMonitorController *)monitorController;
 - (NSString *)name;
@@ -76,6 +79,7 @@
 - (void)setHost:(id)newHost;
 - (void)setInitialized:(BOOL)state;
 - (void)setLastDataCollectionDate:(NSDate *)newDate;
+- (void)setMatlabEngine:(LLMatlabEngine *)newEngine;
 - (void)setMode:(long)mode;
 - (void)setMonitorController:(LLMonitorController *)controller;
 - (void)setWritingDataFile:(BOOL)state;

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface LLSockets : NSWindowController<NSStreamDelegate> {
-//@public
+
     IBOutlet NSTextView     *consoleView;
     IBOutlet NSTextField    *hostTextField;
     IBOutlet NSTextField    *portTextField;

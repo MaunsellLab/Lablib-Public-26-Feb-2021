@@ -116,13 +116,19 @@
                                     <action selector="showSocketsWindow:" target="-2" id="XoM-PN-a0v"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Configuration…" keyEquivalent="6" id="828">
+                            <menuItem title="Matlab Controller…" keyEquivalent="6" id="FsE-QR-CST">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="showMatlabWindow:" target="-2" id="xv9-eO-jez"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Configuration…" keyEquivalent="7" id="828">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="changeSettings:" target="-2" id="863"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Plugin Manager…" keyEquivalent="7" id="867">
+                            <menuItem title="Plugin Manager…" keyEquivalent="8" id="867">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="doPluginController:" target="-2" id="868"/>

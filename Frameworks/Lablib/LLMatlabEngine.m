@@ -13,7 +13,7 @@
 
 // We also need "engine.h", which is a location Matlab identifies when queried with
 // "fullfile(matlabroot,'extern','include')".  It will be something like
-// "/Applications/MATLAB_R2013a.app/extern/include".  This should be added to the "Headar Search Paths" in the
+// "/Applications/MATLAB_R2013a.app/extern/include".  This should be added to the "Header Search Paths" in the
 // project settings.
 
 // The demonstration programs show starting Matlab with a null argument, but that didn't work, even when Matlab
@@ -22,19 +22,46 @@
 //cd /usr/local/bin/
 //sudo ln -s /usr/local/MATLAB/R2012a/bin/matlab matlab
 
+#import "LLSystemUtil.h"
+#import "LLMatlabEngine.h"
 typedef uint16_t char16_t;                  // Matlab engine uses a type that isn't defined by CLANG
 #include <engine.h>
-#import "LLMatlabEngine.h"
 
-#define kBufferSize 256
+#define kLLMatlabDoCommandsKey      @"LLMatlabDoCommands"
+#define kLLMatlabDoResponsesKey     @"LLMatlabDoResponses"
+#define kLLMatlabDoErrorsKey        @"LLMatlabDoErrors"
+#define kLLMatlabWindowVisibleKey   @"kLLMatlabWindowVisible"
 
 // We make pEngine a class variable because there should only be one engine running at a time.  Additionally,
 // this mean that everyone who uses "Lablib" won't have to include the path to the folde containing the Matlab
-// header engine.h.
+// header engine.h.  For the same reason, we cast pEngine as (void *) to pass it around, so that everyone that uses
+// Matlab won't have to have Matlab in their search paths.
 
 Engine  *pEngine;
 
-@implementation LLMatlabEngine : NSObject
+@implementation LLMatlabEngine : NSWindowController
+
+- (void)addMatlabPathForPlugin:(NSString *)pluginName;
+{
+    NSEnumerator *enumerator;
+    NSString *matlabPath;
+    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
+    NSMutableArray *bundlePaths = [NSMutableArray arrayWithArray:[LLSystemUtil allBundlesWithExtension:@"plugin"
+                            appSubPath:[NSString stringWithFormat:@"Application Support/%@/Plugins", appName]]];
+
+    enumerator = [bundlePaths objectEnumerator];
+    while ((matlabPath = [enumerator nextObject])) {
+        if ([matlabPath containsString:pluginName]) {
+            matlabPath = [matlabPath stringByAppendingString:@"/Contents/Resources/Matlab/"];
+            engEvalString(pEngine, [[NSString stringWithFormat:@"addpath('%@')", matlabPath] UTF8String]);
+            break;
+        }
+    }
+    if (matlabPath == nil) {
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLMatlabEngine:"
+                informativeText:[NSString stringWithFormat:@"Failed to find Matlab resources for %@", pluginName]];
+    }
+}
 
 - (void)close;
 {
@@ -44,137 +71,130 @@ Engine  *pEngine;
     pEngine = nil;
 }
 
+- (void)dealloc;
+{
+    [engineLock release];
+    [attrBlack release];
+    [attrBlue release];
+    [attrRed release];
+    [[NSUserDefaults standardUserDefaults] setBool:[[self window] isVisible] forKey:kLLMatlabWindowVisibleKey];
+    [topLevelObjects release];
+    [super dealloc];
+}
+
 - (id)init;
 {
+    NSMutableDictionary *defaultSettings;
+
     if ((self = [super init]) == nil) {
         return nil;
     }
     if (pEngine == nil) {
-        //       if (!(pEngine = engOpen("/bin/csh -c /usr/local/bin/matlab"))) {
-            if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB_R2013a.app/bin/matlab"))) {
+        NSLog(@"LLMatlabEngine: Launching Matlab");
+        if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB_R2013a.app/bin/matlab"))) {
             NSLog(@"LLMatlabEngine: Can't start Matlab engine");
             return self;
         }
+        NSLog(@"LLMatlabEngine: Matlab launched");
+        outputBuffer[kBufferLength - 1] = '\0';                     // Matlab won't null terminate C strings
+        engOutputBuffer(pEngine, (char *)outputBuffer, kBufferLength);
     }
+    defaultSettings = [[NSMutableDictionary alloc] init];
+    [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoCommandsKey];
+    [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoResponsesKey];
+    [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoErrorsKey];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
+    [defaultSettings release];
+
+    attrBlack = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+    [attrBlack retain];
+    attrBlue = [NSDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+    [attrBlue retain];
+    attrRed = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+    [attrRed retain];
+
+    engineLock = [[NSLock alloc] init];
+
+    [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLMatlabEngine" owner:self topLevelObjects:&topLevelObjects];
+    [topLevelObjects retain];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLMatlabWindowVisibleKey] || YES) {
+        [[self window] makeKeyAndOrderFront:self];
+    }
+    [self evalString:@"version"];
+
     return self;
 }
 
-- (BOOL)runDemo;
+- (void *)engine;
 {
-    mxArray *T = NULL, *result = NULL;
-    char buffer[kBufferSize+1];
-    double time[10] = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
+    return (void *)pEngine;
+}
 
-    /*
-     * PART I
-     *
-     * For the first half of this demonstration, send data
-     * to MATLAB, analyze the data, and plot the result.
-     */
+// Ask Matlab to evaluate a string.  We bundle every string in a "try/catch" block, so that if there is an error the
+// text will return to us, rather than going to stderr.  We include a diagnostic "disp()" command, which lets us
+// distinguish Matlab errors from other other Matlab responses.
 
-    /*
-     * Create a variable for the data
-     */
+- (void)evalString:(NSString *)string;
+{
+    NSUInteger errorStringIndex;
+    NSString *commandStr, *outputStr;
 
-    T = mxCreateDoubleMatrix(1, 10, mxREAL);
-    memcpy((void *)mxGetPr(T), (void *)time, sizeof(time));
-    /*
-     * Place the variable T into the MATLAB workspace
-     */
-
-    engPutVariable(pEngine, "T", T);
-
-    /*
-     * Evaluate a function of time, distance = (1/2)g.*t.^2
-     * (g is the acceleration due to gravity)
-     */
-
-    engEvalString(pEngine, "D = .5.*(-9.8).*T.^2;");
-
-    /*
-     * Plot the result
-     */
-
-    engEvalString(pEngine, "plot(T,D);");
-    engEvalString(pEngine, "title('Position vs. Time for a falling object');");
-    engEvalString(pEngine, "xlabel('Time (seconds)');");
-    engEvalString(pEngine, "ylabel('Position (meters)');");
-
-    /*
-     * use fgetc() to pause long enough to be
-     * able to see the plot
-     */
-
-//    printf("Hit return to continue\n\n");
-//    fgetc(stdin);
-
-    /*
-     * clean up for Part I! Free memory, close MATLAB figure.
-     */
-
-    printf("Done for Part I.\n");
-    mxDestroyArray(T);
-    engEvalString(pEngine, "close;");
-
-
-    /*
-     * PART II
-     *
-     * For the second half of this demonstration, we will request
-     * a MATLAB string, which should define a variable X.  MATLAB
-     * will evaluate the string and create the variable.  We
-     * will then recover the variable, and determine its type.
-     */
-
-    /*
-     * Use engOutputBuffer to capture MATLAB output, so we can
-     * echo it back.  Ensure first that the buffer is always NULL
-     * terminated.
-     */
-
-    buffer[kBufferSize] = '\0';
-    engOutputBuffer(pEngine, buffer, kBufferSize);
-    while (result == NULL) {
-        char str[kBufferSize+1];
-        /*
-         * Get a string input from the user
-         */
-        printf("Enter a MATLAB command to evaluate.  This command should\n");
-        printf("create a variable X.  This program will then determine\n");
-        printf("what kind of variable you created.\n");
-        printf("For example: X = 1:5\n");
-        printf(">> ");
-
-        fgets(str, kBufferSize, stdin);
-
-        /*
-         * Evaluate input with engEvalString
-         */
-        engEvalString(pEngine, str);
-
-        /*
-         * Echo the output from the command.
-         */
-        printf("%s", buffer);
-
-        /*
-         * Get result of computation
-         */
-        printf("\nRetrieving X...\n");
-        if ((result = engGetVariable(pEngine,"X")) == NULL)
-        printf("Oops! You didn't create a variable X.\n\n");
+    if (pEngine == nil) {
+        return;
+    }
+    [engineLock lock];
+//    commandStr = [NSString stringWithFormat:@"try,%@,catch ex", string];
+//    commandStr = [commandStr stringByAppendingString:@",sprintf('jhrmERRORError in %s() at line "
+//                  "%d: %s', ex.stack(1).name, ex.stack(1).line, ex.message),end"];
+    commandStr = [NSString stringWithFormat:@"try,%@,catch ex,display('jhrmERROR'),display(ex.message),end", string];
+    engEvalString(pEngine, [commandStr UTF8String]);
+    [self preparePosting:[string stringByAppendingString:@"\n"] enabledKey:kLLMatlabDoCommandsKey];
+    if (strlen(outputBuffer) > 0) {
+        outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
+                        stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        outputStr = [outputStr stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+        errorStringIndex = [outputStr rangeOfString:@">> jhrmERROR"].length;
+        if (errorStringIndex == 12) {                           // error string (stderr equivalent)
+            outputStr = [outputStr substringFromIndex:errorStringIndex];    // strip error code
+            [self preparePosting:[NSString stringWithFormat:@"  %@\n", outputStr] enabledKey:kLLMatlabDoErrorsKey];
+        }
         else {
-            printf("X is class %s\t\n", mxGetClassName(result));
+            [self preparePosting:[NSString stringWithFormat:@"  %@\n", outputStr] enabledKey:kLLMatlabDoResponsesKey];
         }
     }
-    
-    /*
-     * We're done! Free memory, close MATLAB engine and exit.
-     */
-    printf("Done!\n");
-    mxDestroyArray(result);
-
-    return YES;
+    [engineLock unlock];
 }
+
+- (void)post:(NSAttributedString *)attrStr;
+{
+    [[consoleView textStorage] appendAttributedString:attrStr];
+    [consoleView scrollRangeToVisible:NSMakeRange([[consoleView textStorage] length], 0)];
+}
+
+- (void)preparePosting:(NSString *)string enabledKey:(NSString *)key
+{
+    NSAttributedString *attrStr;
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:key]) {
+        return;
+    }
+    if ([key isEqualToString:kLLMatlabDoErrorsKey]) {
+        attrStr = [[NSAttributedString alloc] initWithString:string attributes:attrRed];
+    }
+    else if ([key isEqualToString:kLLMatlabDoResponsesKey]) {
+        attrStr = [[NSAttributedString alloc] initWithString:string attributes:attrBlue];
+    }
+    else  {
+        attrStr = [[NSAttributedString alloc] initWithString:string attributes:attrBlack];
+    }
+    [self performSelectorOnMainThread:@selector(post:) withObject:attrStr waitUntilDone:NO];
+    [attrStr release];
+}
+
+- (IBAction)windowFront:(id)sender;
+{
+    [self evalString:@"shg"];
+}
+
 
 @end 

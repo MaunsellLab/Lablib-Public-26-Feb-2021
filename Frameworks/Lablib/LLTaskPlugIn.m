@@ -121,6 +121,11 @@
     return leverDown;
 }
 
+- (LLMatlabEngine *)matlabEngine;
+{
+    return matlabEngine;
+}
+
 - (long)mode;
 {
 	return mode;
@@ -138,10 +143,10 @@
 
 - (DisplayModeParam)requestedDisplayMode;
 {
-	displayMode.widthPix = 0;								// don't care 
-	displayMode.heightPix = 0;								// don't care 
-	displayMode.pixelBits = 0;								// don't care 
-	displayMode.frameRateHz = 0;							// don't care 
+	displayMode.widthPix = 0;								// 0 signifies, don't care: video is left unchanged
+	displayMode.heightPix = 0;
+	displayMode.pixelBits = 0;
+	displayMode.frameRateHz = 0;
 	return displayMode;
 }
 
@@ -195,6 +200,13 @@
     theDate = lastDataCollectionDate;
     lastDataCollectionDate = [newDate retain];
     [theDate release];
+}
+
+- (void)setMatlabEngine:(LLMatlabEngine *)newEngine;
+{
+    [matlabEngine release];
+    matlabEngine = newEngine;
+    [matlabEngine retain];
 }
 
 - (void)setMode:(long)newMode;
