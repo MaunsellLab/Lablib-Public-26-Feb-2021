@@ -148,8 +148,7 @@ static NSString *LLDataTypeStrings[] = {@"no data", @"char", @"unsigned char", @
 // distinguish multiple occurences of one type of event within a given trial,
 // as in "trial(3).event(4) = ..."
 
-- (NSArray *)eventDataAsStrings:(DataEvent *)pEvent prefix:(NSString *)prefix
-								suffix:(NSString *)suffix;
+- (NSArray *)eventDataAsStrings:(DataEvent *)pEvent prefix:(NSString *)prefix suffix:(NSString *)suffix;
 {
 	char nullChar = 0;
 	NSMutableData *cStringData;

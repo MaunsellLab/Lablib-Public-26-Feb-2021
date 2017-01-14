@@ -300,6 +300,13 @@ This variant accepts only events definitions that include data definitions.
     return YES;
 }
 
+// Return event definition associated with a given code
+
+- (LLDataEventDef *)eventDefForCode:(long)eventCode;
+{
+    return [eventsByCode objectAtIndex:eventCode];
+}
+
 // Return event with a given name
 
 - (LLDataEventDef *)eventNamed:(NSString *)eventName;
@@ -554,6 +561,11 @@ This variant accepts only events definitions that include data definitions.
         [NSThread detachNewThreadSelector:@selector(dispatchEvents) toTarget:self withObject:nil];
     }
     return self;
+}
+
+- (long)numEvents;
+{
+    return [eventDict count];
 }
 
 - (void) putEvent:(NSString *)eventKey;

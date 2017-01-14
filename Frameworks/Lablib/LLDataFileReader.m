@@ -368,9 +368,6 @@ them.
 	if (trialStartEventCode < 0) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
             @"Cannot convert %@ to Matlab format because it does not contain \"trialStart\" events.", fileName]];
-//		NSRunAlertPanel(@"LLDataFileReader",
-////			@"Cannot convert %@ to Matlab format because it does not contain \"trialStart\" events.",
-//			@"OK", nil, nil, fileName);
 	}
 	
 // Make a dictionary for all the events that are to be bundled as samples or timestamps.  We use the event
@@ -401,7 +398,7 @@ them.
 // in the Matlab file. We have to count the occurences of each event before the first trialStart so we know whether
 // we have to assign subscripts to the events
 
-	eventTrialCounts = calloc(numEvents, sizeof(long));	// count of each event in current trial
+	eventTrialCounts = calloc(numEvents, sizeof(long));             // count of each event in current trial
 	multiTrialEvents = calloc(numEvents, sizeof(BOOL));				// events with subscript in "file"
 	multiFileEvents = calloc(numEvents, sizeof(BOOL));				// events with subscript in "trial"
 	data = [[NSMutableData alloc] init];
@@ -409,7 +406,8 @@ them.
 				@"file.fileName = '%@';\nfile.createDate = '%@';\nfile.createTime = '%@'\n",
 				fileName, fileCreateDate, fileCreateTime];
 	[data appendBytes:[headerString UTF8String] length:[headerString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
-	[self rewind];
+
+    [self rewind];                                                  // find start of first trial
 	while ((pEvent = [self readEvent]) != nil) {
 		eventTrialCounts[pEvent->code]++;
 		if (pEvent->code == trialStartEventCode) {
@@ -425,7 +423,7 @@ them.
 	pMultiEvents = multiFileEvents;									// start checking multi file, until first trialStart
 	[self rewind];
 	trial = 0;
-	prefix = [[NSString alloc] initWithString:@"file."];			// prefix must no autorelease
+	prefix = [[NSString alloc] initWithString:@"file."];			// prefix must not autorelease
 	
 // Making the Matlab strings for a large file is a long, slow process that involves the generation of many objects.
 // We set up a progress bar, so the user can abort if necessary.  We also set up our own 
@@ -950,8 +948,6 @@ them.
     if (buffer[0] != 7 || buffer[1] < 2 || buffer[1] > 6) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
                                    informativeText:@"Cannot parse format specifier in file"];
-//		NSRunAlertPanel(@"LLDataFileReader",
-//			@"Cannot parse format specifier in file", @"OK", nil, nil);
         return NO;
     }
     length = buffer[1];
@@ -970,8 +966,6 @@ them.
     if (dataFormat < 6) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
                @"File has wrong data format (%f instead of >= 6)", dataFormat]];
-//		NSRunAlertPanel(@"LLDataFileReader",  @"File has wrong data format (%f instead of >= 6)",
-//								@"OK", nil, nil, dataFormat);
         return NO;
     }
 	dataDefinitions = (dataFormat > 6.0);		// data definitions started with format 6.1
@@ -979,16 +973,12 @@ them.
     if (dataFormat < 6.3) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
                                    informativeText:@"You must run DataConvert in 32-bit mode to read this data file"];
-//        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 32-bit mode to read this data file",
-//                        @"OK", nil, nil, nil);
         return NO;
     }
 #else
     if (dataFormat > 6.2) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
                                    informativeText:@"You must run DataConvert in 64-bit mode to read this data file"];
-//        NSRunAlertPanel(@"LLDataFileReader",  @"You must run DataConvert in 64-bit mode to read this data file",
-//                        @"OK", nil, nil, nil);
         return NO;
     }
 #endif

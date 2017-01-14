@@ -30,14 +30,12 @@
 - (NSData *)dataDefinition;
 - (long)entryBytes:(LLDataDef *)pDef;
 - (long)elementBytes;
-- (NSArray *)eventDataAsStrings:(DataEvent *)pEvent prefix:(NSString *)prefix 
-						suffix:(NSString *)suffix;
+- (NSArray *)eventDataAsStrings:(DataEvent *)pEvent prefix:(NSString *)prefix suffix:(NSString *)suffix;
 - (NSString *)eventDataElementsAsString:(DataEvent *)pEvent;
-- (NSArray *)eventEntryAsStrings:(Ptr)dataPtr length:(long)length prefix:(NSString *)prefix 
-						suffix:(NSString *)suffix;
+- (NSArray *)eventEntryAsStrings:(Ptr)dataPtr length:(long)length prefix:(NSString *)prefix suffix:(NSString *)suffix;
 - (id)initWithCode:(long)initCode name:(NSString *)initName dataBytes:(long)initBytes;
 - (id)initWithCode:(long)initCode name:(NSString *)initName elementBytes:(long)eleBytes
-		dataDefinition:(LLDataDef *)pDataDef;
+                                    dataDefinition:(LLDataDef *)pDataDef;
 - (BOOL)isStringData;
 - (NSString *)name;
 - (unsigned long)padBytes:(unsigned long)sizeBytes offset:(unsigned long)offsetBytes;

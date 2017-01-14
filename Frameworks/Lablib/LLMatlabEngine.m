@@ -143,9 +143,6 @@ Engine  *pEngine;
         return;
     }
     [engineLock lock];
-//    commandStr = [NSString stringWithFormat:@"try,%@,catch ex", string];
-//    commandStr = [commandStr stringByAppendingString:@",sprintf('jhrmERRORError in %s() at line "
-//                  "%d: %s', ex.stack(1).name, ex.stack(1).line, ex.message),end"];
     commandStr = [NSString stringWithFormat:@"try,%@,catch ex,display('jhrmERROR'),display(ex.message),end", string];
     engEvalString(pEngine, [commandStr UTF8String]);
     [self preparePosting:[string stringByAppendingString:@"\n"] enabledKey:kLLMatlabDoCommandsKey];

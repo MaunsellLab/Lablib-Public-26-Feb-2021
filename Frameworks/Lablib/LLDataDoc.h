@@ -43,12 +43,14 @@
 - (BOOL)defineEvents:(EventDefinition *)eventDefs count:(unsigned long)numEvents;
 - (void)dispatchEvents;
 - (LLDataEventDef *)eventNamed:(NSString *)eventName;
+- (LLDataEventDef *)eventDefForCode:(long)eventCode;
 - (void)eventToBuffer:(unsigned long)code dataPtr:(void *)pData bytes:(unsigned long)lengthBytes
 					writeLength:(BOOL)writeLength;
-- (NSString *)fileName; 
+- (NSString *)fileName;
 - (NSString *)filePath;
 - (NSArray *)findViews:(NSView *)view respondingToSelector:(SEL)selector;
 - (void)getEventBytes:(void *)pData length:(unsigned long)numBytes;
+- (long)numEvents;
 - (void)putEvent:(NSString *)eventKey;
 - (void)putEvent:(NSString *)eventKey withData:(void *)pDdata;
 - (void)putEvent:(NSString *)eventKey withData:(char *)pData lengthBytes:(long)length;
