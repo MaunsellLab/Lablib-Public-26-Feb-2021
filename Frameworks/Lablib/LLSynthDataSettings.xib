@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LLSynthDataSettings">
@@ -308,12 +309,9 @@ DQ
                             <binding destination="743" name="value" keyPath="values.LLSynthEyeInterval" id="749"/>
                         </connections>
                     </textField>
-                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="595">
+                    <box verticalHuggingPriority="750" boxType="separator" id="595">
                         <rect key="frame" x="285" y="316" width="247" height="5"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
                     <textField verticalHuggingPriority="750" id="600">
                         <rect key="frame" x="454" y="368" width="78" height="22"/>
@@ -413,12 +411,9 @@ Channels</string>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="700">
+                    <box horizontalHuggingPriority="750" boxType="separator" id="700">
                         <rect key="frame" x="560" y="71" width="5" height="416"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
                     <textField verticalHuggingPriority="750" id="710">
                         <rect key="frame" x="287" y="185" width="141" height="17"/>
@@ -907,6 +902,7 @@ Channels</string>
                 <outlet property="delegate" destination="-2" id="145"/>
                 <outlet property="initialFirstResponder" destination="587" id="770"/>
             </connections>
+            <point key="canvasLocation" x="-81" y="162"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="743" userLabel="Shared Defaults"/>
         <view id="557">

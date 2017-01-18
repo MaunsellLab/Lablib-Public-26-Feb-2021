@@ -136,27 +136,45 @@ Engine  *pEngine;
 
 - (void)evalString:(NSString *)string;
 {
-    NSUInteger errorStringIndex;
-    NSString *commandStr, *outputStr;
+    NSRange errorCodeRange;
+    NSString *commandStr, *outputStr, *subStr, *formatting;
 
     if (pEngine == nil) {
         return;
     }
     [engineLock lock];
-    commandStr = [NSString stringWithFormat:@"try,%@,catch ex,display('jhrmERROR'),display(ex.message),end", string];
+    formatting = @"'File: %s, Function: %s, Line: %djhrmNEWLINE'";
+    commandStr = [NSString stringWithFormat:
+                  @"try,%@,"
+                  "catch ex,"
+                  "[~,name,~]=fileparts(ex.stack(1).file);,"
+                  "display('jhrmERROR'),"
+                  "display(sprintf(%@, name, ex.stack(1).name, ex.stack(1).line)),"
+                  "display(ex.message),"
+                  "end",
+                  string, formatting];
+//    "display(sprintf(%@, ex.file, ex.message)),end", string, formatting];
+//    "display(sprintf(%@, ex.file, ex.message)),end", string, formatting];
     engEvalString(pEngine, [commandStr UTF8String]);
     [self preparePosting:[string stringByAppendingString:@"\n"] enabledKey:kLLMatlabDoCommandsKey];
     if (strlen(outputBuffer) > 0) {
         outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
                         stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
         outputStr = [outputStr stringByReplacingOccurrencesOfString:@"  " withString:@" "];
-        errorStringIndex = [outputStr rangeOfString:@">> jhrmERROR"].length;
-        if (errorStringIndex == 12) {                           // error string (stderr equivalent)
-            outputStr = [outputStr substringFromIndex:errorStringIndex];    // strip error code
-            [self preparePosting:[NSString stringWithFormat:@"  %@\n", outputStr] enabledKey:kLLMatlabDoErrorsKey];
-        }
-        else {
+        outputStr = [outputStr stringByReplacingOccurrencesOfString:@"jhrmNEWLINE" withString:@"\n\t"];
+        errorCodeRange = [outputStr rangeOfString:@" jhrmERROR"];
+        if (errorCodeRange.length == 0) {
             [self preparePosting:[NSString stringWithFormat:@"  %@\n", outputStr] enabledKey:kLLMatlabDoResponsesKey];
+        }
+        else if (errorCodeRange.location == 2) {                // whole message is an error message
+            subStr = [outputStr substringFromIndex:(errorCodeRange.length + 3)];    // strip error code
+            [self preparePosting:[NSString stringWithFormat:@"  >>%@\n", subStr] enabledKey:kLLMatlabDoErrorsKey];
+        }
+        else {                                                  // normal message precedes error message
+            subStr = [outputStr substringToIndex:errorCodeRange.location];    // strip error code
+            [self preparePosting:[NSString stringWithFormat:@"  %@\n", subStr] enabledKey:kLLMatlabDoResponsesKey];
+            subStr = [outputStr substringFromIndex:(errorCodeRange.location + errorCodeRange.length + 1)]; // strip other
+            [self preparePosting:[NSString stringWithFormat:@"  >>%@\n", subStr] enabledKey:kLLMatlabDoErrorsKey];
         }
     }
     [engineLock unlock];
@@ -192,6 +210,5 @@ Engine  *pEngine;
 {
     [self evalString:@"shg"];
 }
-
 
 @end 

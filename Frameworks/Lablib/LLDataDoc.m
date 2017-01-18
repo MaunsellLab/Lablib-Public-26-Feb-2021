@@ -604,7 +604,8 @@ This variant accepts only events definitions that include data definitions.
 	dataBytes = [eventDef dataBytes];
     if (dataBytes <= 0) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
-            [NSString stringWithFormat:@"putEvent: Event \"%@\" is defined to have data of fixed length.", eventKey]];
+            [NSString stringWithFormat:
+             @"putEvent: Event \"%@\" is defined as variable length and needs a length argument.", eventKey]];
         return;
     }
     [self eventToBuffer:[eventDef code] dataPtr:(char *)pData bytes:dataBytes writeLength:NO];
@@ -625,8 +626,8 @@ This variant accepts only events definitions that include data definitions.
     }
     if ([eventDef dataBytes] > 0) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
-              informativeText:[NSString stringWithFormat:
-              @"putEvent: Event \"%@\" is defined to have data of variable length.", eventKey]];
+            informativeText:[NSString stringWithFormat:
+            @"putEvent: Event \"%@\" is defined to have data of fixed length and takes no count argument.", eventKey]];
         return;
     }
     [self eventToBuffer:[eventDef code] dataPtr:(char *)pData 
@@ -651,8 +652,8 @@ This variant accepts only events definitions that include data definitions.
     }
     if ([eventDef dataBytes] > 0) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
-                    informativeText:[NSString stringWithFormat:
-                    @"putEvent: Event \"%@\" is defined to have data of variable length.", eventKey]];
+            informativeText:[NSString stringWithFormat:
+            @"putEvent: Event \"%@\" is defined to have data of fixed length and takes no length argument.", eventKey]];
         return;
     }
     [self eventToBuffer:[eventDef code] dataPtr:(char *)pData bytes:length writeLength:YES];

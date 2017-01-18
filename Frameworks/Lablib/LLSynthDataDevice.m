@@ -114,8 +114,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         digitalInputBits &= ~leverBit;
         lastLeverUpTimeS = leverUpTimeS;
         leverUpTimeS = lastSpontDownCheckTimeS = 0;
-    }
-    
+   }
+
 // Spontaneous lever up?
 
     if (digitalInputBits & leverBit) {
@@ -123,11 +123,11 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         if (spontLeverUpPerS > 0 && lastSpontUpCheckTimeS > 0) {
             deltaS = timeNow - lastSpontUpCheckTimeS;
             noChangeProb = exp(deltaS * log(1.0 - spontLeverUpPerS)); 
-            if (rand() % 1000 > noChangeProb * 1000.0) {
+            if ((rand() % 1000) > noChangeProb * 1000.0) {
                 digitalInputBits &= ~leverBit;
                 lastLeverUpTimeS = lastSpontDownCheckTimeS = timeNow;
            }
-       }
+        }
         lastSpontUpCheckTimeS = timeNow;
     }
     
@@ -138,7 +138,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         if (spontLeverDownPerS > 0 && lastSpontDownCheckTimeS > 0) {
             deltaS = timeNow - lastSpontDownCheckTimeS;
             noChangeProb = exp(deltaS * log(1.0 - spontLeverDownPerS)); 
-            if (rand() % 1000 > noChangeProb * 1000.0) {
+            if ((rand() % 1000) > noChangeProb * 1000.0) {
                 digitalInputBits |= leverBit;
                 lastLeverDownTimeS = lastSpontUpCheckTimeS = timeNow;
             }
@@ -169,7 +169,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 		randomLatencyS = (leverLatencyS + ((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
         leverUpTimeS = [LLSystemUtil getTimeS] + randomLatencyS;
         leverDownTimeS = 0;
-    }
+   }
 }
 
 - (id)init;
