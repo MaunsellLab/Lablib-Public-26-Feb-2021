@@ -134,6 +134,10 @@ Engine  *pEngine;
 // text will return to us, rather than going to stderr.  We include a diagnostic "disp()" command, which lets us
 // distinguish Matlab errors from other other Matlab responses.
 
+// Note: For some reason, some of the exceptions coming back from Matlab seems to have no "stack" entry.  In that
+// case, the command to ask for the information at ex.stack(1) causes Matlab to give up and send a message about
+// 'index exceeds matrix limit' to stderr.  So I've put in a check on the length of the stack.
+
 - (void)evalString:(NSString *)string;
 {
     NSRange errorCodeRange;
@@ -147,15 +151,24 @@ Engine  *pEngine;
     commandStr = [NSString stringWithFormat:
                   @"try,%@,"
                   "catch ex,"
-                  "[~,name,~]=fileparts(ex.stack(1).file);,"
                   "display('jhrmERROR'),"
-                  "display(sprintf(%@, name, ex.stack(1).name, ex.stack(1).line)),"
+                  "if length(ex.stack) > 0,"
+                    "[~,name,~]=fileparts(ex.stack(1).file);,"
+                    "display(sprintf(%@, name, ex.stack(1).name, ex.stack(1).line)),"
+                  "end,"
                   "display(ex.message),"
                   "end",
                   string, formatting];
-//    "display(sprintf(%@, ex.file, ex.message)),end", string, formatting];
-//    "display(sprintf(%@, ex.file, ex.message)),end", string, formatting];
+
+    if ([commandStr containsString:@"OPMatlab"]) {
+        NSLog(@"Ready: %@", commandStr);
+    }
     engEvalString(pEngine, [commandStr UTF8String]);
+    if ([commandStr containsString:@"OPMatlab"]) {
+        NSLog(@"Done");
+    }
+
+
     [self preparePosting:[string stringByAppendingString:@"\n"] enabledKey:kLLMatlabDoCommandsKey];
     if (strlen(outputBuffer) > 0) {
         outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
