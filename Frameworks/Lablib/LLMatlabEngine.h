@@ -6,7 +6,7 @@
 //
 //
 
-#define kBufferLength   32768
+#define kBufferLength   4096
 
 @interface LLMatlabEngine : NSWindowController {
 

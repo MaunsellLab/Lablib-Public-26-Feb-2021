@@ -19,7 +19,7 @@ are yoked to a single sampling rate
 
 typedef enum {kXChannel = 0, kYChannel, kRXChannel, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel} LLChannel;
 
-#define kLeverJitter 0.25
+#define kLeverJitter 0.50
 #define kUnitsPerDeg 500.0
 
 NSString *LLSynthActiveSpikeChannelsKey = @"LLSynthActiveSpikeChannels";

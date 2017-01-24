@@ -90,12 +90,12 @@ extern void CGSDeferredUpdates(int);
     return tod.tv_sec + tod.tv_usec * 1.0E-6;
 }
 
-+ (void)preventSleep {
-	
++ (void)preventSleep;
+{
 	CFRunLoopTimerRef timer;
 	CFRunLoopTimerContext context = {0, NULL, NULL, NULL, NULL};
 		
-	timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 30, 0, 0, preventSleepCallback, &context);
+	timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 60, 0, 0, preventSleepCallback, &context);
 	if (timer != NULL) {
 		CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
 	}
@@ -109,8 +109,6 @@ extern void CGSDeferredUpdates(int);
 	if (userDefaultsValuesDict == nil) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
                         @"registerDefaultsFromFileName: Failed to parse file \"%@\"", filePath]];
-//		NSRunAlertPanel(@"LLSystemUtil", @"registerDefaultsFromFileName: Failed to parse file \"%@\"",
-//						@"OK", nil, nil, filePath);
 		exit(0);
 	}
 	[defaults registerDefaults:userDefaultsValuesDict];
@@ -166,7 +164,6 @@ extern void CGSDeferredUpdates(int);
 	return ([NSDate timeIntervalSinceReferenceDate]  >= time);
 }
 
-
 static void preventSleepCallback(CFRunLoopTimerRef timer, void *info) {
  
     IOPMAssertionID assertionID;
@@ -174,7 +171,6 @@ static void preventSleepCallback(CFRunLoopTimerRef timer, void *info) {
     
     IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep, kIOPMAssertionLevelOn,
                                                reasonForActivity, &assertionID);
-//    UpdateSystemActivity(OverallAct);
 }
 
 

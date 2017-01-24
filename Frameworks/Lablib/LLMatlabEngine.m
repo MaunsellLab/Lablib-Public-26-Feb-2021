@@ -22,6 +22,13 @@
 //cd /usr/local/bin/
 //sudo ln -s /usr/local/MATLAB/R2012a/bin/matlab matlab
 
+// Finally, the code in this file isn't specific for a particular version of Matlab, but it requires that you
+// create an alias to the Matlab application (bundle) that is called "MATLAB" and is in the Application folder
+// (where Matlab should reside).  This MUST be a symbolic link -- NOT an alias.  The link can be created using
+// the terminal: cd /Applications; ln -s MATLAB_R2013a.app MATLAB
+// Of course, you should change "2013a" as needed to match the version of Matlab that you have.
+
+
 #import "LLSystemUtil.h"
 #import "LLMatlabEngine.h"
 typedef uint16_t char16_t;                  // Matlab engine uses a type that isn't defined by CLANG
@@ -85,43 +92,56 @@ Engine  *pEngine;
 - (id)init;
 {
     NSMutableDictionary *defaultSettings;
+    NSString *outputStr;
 
     if ((self = [super init]) == nil) {
         return nil;
     }
     if (pEngine == nil) {
+        defaultSettings = [[NSMutableDictionary alloc] init];
+        [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoCommandsKey];
+        [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoResponsesKey];
+        [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoErrorsKey];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
+        [defaultSettings release];
+
+        attrBlack = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+        [attrBlack retain];
+        attrBlue = [NSDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+        [attrBlue retain];
+        attrRed = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+        [attrRed retain];
+
+        engineLock = [[NSLock alloc] init];
+
+        [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLMatlabEngine" owner:self topLevelObjects:&topLevelObjects];
+        [topLevelObjects retain];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLMatlabWindowVisibleKey] || YES) {
+            [[self window] makeKeyAndOrderFront:self];
+        }
+
         NSLog(@"LLMatlabEngine: Launching Matlab");
-        if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB_R2013a.app/bin/matlab"))) {
+        if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB/bin/matlab"))) {
+//        if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB_R2013a.app/bin/matlab"))) {
             NSLog(@"LLMatlabEngine: Can't start Matlab engine");
             return self;
         }
         NSLog(@"LLMatlabEngine: Matlab launched");
         outputBuffer[kBufferLength - 1] = '\0';                     // Matlab won't null terminate C strings
         engOutputBuffer(pEngine, (char *)outputBuffer, kBufferLength);
+
+        // Display the Matlab version that's running
+        
+        engEvalString(pEngine, "builtin('version')");
+        if (strlen(outputBuffer) > 0) {
+            outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
+                         stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            outputStr = [outputStr stringByReplacingOccurrencesOfString:@">> ans =" withString:@""];
+            [self preparePosting:[NSString stringWithFormat:@"Matlab Version %@\n", outputStr]
+                                    enabledKey:kLLMatlabDoResponsesKey];
+        }
+//       [self evalString:@"display(sprintf('Matlab Version %s', builtin('version')))"];
     }
-    defaultSettings = [[NSMutableDictionary alloc] init];
-    [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoCommandsKey];
-    [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoResponsesKey];
-    [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoErrorsKey];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
-    [defaultSettings release];
-
-    attrBlack = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
-    [attrBlack retain];
-    attrBlue = [NSDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
-    [attrBlue retain];
-    attrRed = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
-    [attrRed retain];
-
-    engineLock = [[NSLock alloc] init];
-
-    [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLMatlabEngine" owner:self topLevelObjects:&topLevelObjects];
-    [topLevelObjects retain];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLMatlabWindowVisibleKey] || YES) {
-        [[self window] makeKeyAndOrderFront:self];
-    }
-    [self evalString:@"version"];
-
     return self;
 }
 
@@ -159,16 +179,7 @@ Engine  *pEngine;
                   "display(ex.message),"
                   "end",
                   string, formatting];
-
-    if ([commandStr containsString:@"OPMatlab"]) {
-        NSLog(@"Ready: %@", commandStr);
-    }
     engEvalString(pEngine, [commandStr UTF8String]);
-    if ([commandStr containsString:@"OPMatlab"]) {
-        NSLog(@"Done");
-    }
-
-
     [self preparePosting:[string stringByAppendingString:@"\n"] enabledKey:kLLMatlabDoCommandsKey];
     if (strlen(outputBuffer) > 0) {
         outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
