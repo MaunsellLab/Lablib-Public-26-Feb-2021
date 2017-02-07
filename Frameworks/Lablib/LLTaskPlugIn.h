@@ -13,6 +13,7 @@
 #import "LLDataDeviceController.h"
 #import "LLMatlabEngine.h"
 #import "LLMonitorController.h"
+#import "LLNE500Pump.h"
 #import "LLSockets.h"
 #import "LLStateSystem.h"
 #import "LLStimWindow.h"
@@ -30,6 +31,7 @@
 	id<LLIODevice>          dataSource;
 	LLDataDeviceController	*dataController;
 	LLUserDefaults			*defaults;
+	DisplayModeParam		displayMode;
 	LLBinocCalibrator		*eyeCalibrator;
 	id						host;
 	BOOL					initialized;
@@ -38,7 +40,7 @@
     LLMatlabEngine          *matlabEngine;
 	long					mode;
 	LLMonitorController		*monitorController;
-	DisplayModeParam		displayMode;
+    LLNE500Pump             *rewardPump;
     LLSockets               *socket;
 	LLStateSystem			*stateSystem;
 	LLStimWindow			*stimWindow;
@@ -82,11 +84,12 @@
 - (void)setMatlabEngine:(LLMatlabEngine *)newEngine;
 - (void)setMode:(long)mode;
 - (void)setMonitorController:(LLMonitorController *)controller;
-- (void)setWritingDataFile:(BOOL)state;
+- (void)setRewardPump:(LLNE500Pump *)newRewardPump;
 - (void)setSocket:(LLSockets *)newSocket;
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 - (void)setSynthDataDevice:(LLSynthDataDevice *)device;
 - (void)setSynthDataSource:(LLSynthIODevice *)source;
+- (void)setWritingDataFile:(BOOL)state;
 - (LLSockets *)socket;
 - (LLStateSystem *)stateSystem;
 - (LLStimWindow *)stimWindow;

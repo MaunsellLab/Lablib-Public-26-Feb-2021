@@ -219,6 +219,13 @@
 	monitorController = controller;
 }
 
+- (void)setRewardPump:(LLNE500Pump *)newRewardPump;
+{
+    [rewardPump release];
+    rewardPump = newRewardPump;
+    [rewardPump retain];
+}
+
 - (void)setSocket:(LLSockets *)newSocket;
 {
     [socket release];

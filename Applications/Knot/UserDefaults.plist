@@ -10,5 +10,11 @@
 	<false/>
 	<key>KNTerminateSocket</key>
 	<false/>
+	<key>KNUseMatlab</key>
+	<false/>
+	<key>KNUseNE500Pump</key>
+	<false/>
+	<key>KNUseSocket</key>
+	<false/>
 </dict>
 </plist>

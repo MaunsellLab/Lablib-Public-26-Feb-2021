@@ -44,13 +44,12 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	NSMutableArray *paramArray = [NSMutableArray arrayWithCapacity:0];
 	
 	enumerator = [keys objectEnumerator];
-	while (key = [enumerator nextObject]) {
-		assignArray = [assignmentDict objectForKey:key];
+    while (key = [enumerator nextObject]) {                 // for each active data assignment
+        assignArray = [assignmentDict objectForKey:key];    // get the assignment array
 		arrayEnum = [assignArray objectEnumerator];
-		while (assign = [arrayEnum nextObject]) {
+        while (assign = [arrayEnum nextObject]) {           // for each entry in the assignment
 			theDevice = [dataDevices objectAtIndex:[assign device]];
-			[key getCString:(char *)&param.dataName 
-						maxLength:(sizeof(Str31) - 1) encoding:NSUTF8StringEncoding];
+			[key getCString:(char *)&param.dataName maxLength:(sizeof(Str31) - 1) encoding:NSUTF8StringEncoding];
 			[[theDevice name] getCString:(char *)&param.deviceName 
 						maxLength:(sizeof(Str31) - 1) encoding:NSUTF8StringEncoding];
 			param.channel = [assign channel];
@@ -835,6 +834,29 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	}
 	[self writeDefaults:assign];
 	[aTableView reloadData];
+}
+
+- (BOOL)usingSyntheticDevice;
+{
+    NSEnumerator *enumerator;
+    NSValue *paramValue;
+    DataParam dataParam;
+    NSArray *assignmentArray;
+    BOOL result = NO;
+
+    assignmentArray = [self allDataParam];
+    if (assignmentArray == nil) {                                // no assignments?
+        return result;
+    }
+    enumerator = [assignmentArray objectEnumerator];
+    while ((paramValue = [enumerator nextObject])) {
+        [paramValue getValue:&dataParam];
+        if (strcmp((char *)dataParam.deviceName, "Synthetic") == 0) {
+            result = YES;
+            break;
+        }
+    }
+    return result;
 }
 
 - (void)writeDefaults:(LLDataAssignment *)assign;

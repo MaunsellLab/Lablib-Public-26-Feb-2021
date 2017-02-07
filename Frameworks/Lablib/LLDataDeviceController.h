@@ -91,6 +91,7 @@ samples) have multiple objects in the array, one for each channel.
 - (void)setMinCollectionIntervalS:(long)newIntervalS;
 - (void)startDevice;
 - (void)stopDevice;
+- (BOOL)usingSyntheticDevice;
 - (void)writeDefaults:(LLDataAssignment *)assign;
 
 - (IBAction)changeDigitalInput:(id)sender;

@@ -60,6 +60,7 @@
 #import <Lablib/LLMonitorController.h>
 #import <Lablib/LLMouseDataDevice.h>
 #import <Lablib/LLMultiplierTransformer.h>
+#import <Lablib/LLNE500Pump.h>
 #import <Lablib/LLNoise.h>
 #import <Lablib/LLNormDist.h>
 #import <Lablib/LLNumberMatchTransformer.h>

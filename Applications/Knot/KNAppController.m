@@ -17,12 +17,17 @@
 
 char *idString = "Knot Version 2.2";
 
+#define kUseMatlabKey       @"KNUseMatlab"
+#define kUseNE500PumpKey    @"KNUseNE500Pump"
+#define kUseSocketKey       @"KNUseSocket"
+
 // Preferences dialog
 
 NSString *KNActiveTaskNameKey = @"KNActiveTaskName";
 NSString *KNDoDataDirectoryKey = @"KNDoDataDirectory";
 NSString *KNPreviousTaskNameKey = @"KNPreviousTaskName";
 NSString *KNWritingDataFileKey = @"KNWritingDataFile";
+
 
 @implementation KNAppController
 
@@ -75,8 +80,11 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	dataDoc = [[LLDataDoc alloc] init];
     
     summaryController = [[KNSummaryController alloc] initWithDefaults:defaults];
-    [dataDoc addObserver:summaryController];	
-    matlabEngine = [[LLMatlabEngine alloc] init];               // allocate before configurePlugins
+    [dataDoc addObserver:summaryController];
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseMatlabKey]) {
+        matlabEngine = [[LLMatlabEngine alloc] init];               // allocate before configurePlugins
+    }
 
 	[pluginController loadPlugins];
 	[self configurePlugins];
@@ -159,6 +167,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     }
     [socket close];
     [socket release];
+    [rewardPump close];
+    [rewardPump release];
     [matlabEngine close];
     [matlabEngine release];
 
@@ -192,8 +202,13 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     
 	pluginController = [[LLPluginController alloc] initWithDefaults:defaults];
 	settingsController = [[LLSettingsController alloc] init];
-    
-    socket = [[LLSockets alloc] init];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseSocketKey]) {
+        socket = [[LLSockets alloc] init];
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseNE500PumpKey]) {
+        rewardPump = [[LLNE500Pump alloc] init];
+//    [rewardPump writeMessage:@"BP 1\n"];
+    }
 
 // Set up a report controller.  This must be done before things that attach reportables (e.g., stimulus Window)
 
@@ -273,6 +288,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
                 [task setMatlabEngine:matlabEngine];
 				[task setMonitorController:monitorController];
                 [task setSocket:socket];
+                [task setRewardPump:rewardPump];
 				[task setStimWindow:stimWindow];
 				[task initializationDidFinish];
 				[task setInitialized:YES];
@@ -589,7 +605,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (IBAction)showMatlabWindow:(id)sender;
 {
-    [socket showWindow:self];
+    [matlabEngine showWindow:self];
 }
 
 - (IBAction)showReportPanel:(id)sender {

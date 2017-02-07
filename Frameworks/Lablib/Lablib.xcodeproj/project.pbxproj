@@ -32,6 +32,9 @@
 		693D9EBB160529A700113D5D /* LLHeatMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 693D9EBA160529A700113D5D /* LLHeatMapView.m */; };
 		693F0A970F4CF3D600C5E111 /* LLPlaid.h in Headers */ = {isa = PBXBuildFile; fileRef = 693F0A950F4CF3D600C5E111 /* LLPlaid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		693F0A980F4CF3D600C5E111 /* LLPlaid.m in Sources */ = {isa = PBXBuildFile; fileRef = 693F0A960F4CF3D600C5E111 /* LLPlaid.m */; };
+		694519371E465429005B75A3 /* LLNE500Pump.m in Sources */ = {isa = PBXBuildFile; fileRef = 694519361E465429005B75A3 /* LLNE500Pump.m */; };
+		694519391E465439005B75A3 /* LLNE500Pump.h in Headers */ = {isa = PBXBuildFile; fileRef = 694519381E465439005B75A3 /* LLNE500Pump.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6945193B1E465727005B75A3 /* LLNE500Pump.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6945193A1E465727005B75A3 /* LLNE500Pump.xib */; };
 		694761B6092A782600841167 /* LLLaserCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 694761B5092A782600841167 /* LLLaserCalibrator.plist */; };
 		69476829092BE72B00841167 /* PlayButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476826092BE72B00841167 /* PlayButton.tif */; };
 		6947682A092BE72B00841167 /* StopButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476827092BE72B00841167 /* StopButton.tif */; };
@@ -305,6 +308,9 @@
 		693FC6C904898EB700FE06D7 /* LLStandardDataEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLStandardDataEvents.m; sourceTree = "<group>"; };
 		69405EF70461C83E00A80164 /* LLHistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHistView.h; sourceTree = "<group>"; };
 		69405EF80461C83E00A80164 /* LLHistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLHistView.m; sourceTree = "<group>"; };
+		694519361E465429005B75A3 /* LLNE500Pump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNE500Pump.m; sourceTree = "<group>"; };
+		694519381E465439005B75A3 /* LLNE500Pump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNE500Pump.h; sourceTree = "<group>"; };
+		6945193A1E465727005B75A3 /* LLNE500Pump.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLNE500Pump.xib; sourceTree = "<group>"; };
 		69473E2E0B095B21005DE552 /* LLMouseDataDevice-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LLMouseDataDevice-Info.plist"; sourceTree = "<group>"; };
 		694761B5092A782600841167 /* LLLaserCalibrator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLLaserCalibrator.plist; sourceTree = "<group>"; };
 		69476826092BE72B00841167 /* PlayButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PlayButton.tif; path = ../../Resources/Images/PlayButton.tif; sourceTree = SOURCE_ROOT; };
@@ -624,6 +630,7 @@
 				695EFEBC1AC6225B00D9D458 /* LLRandomDots.xib */,
 				695EFEBD1AC6225B00D9D458 /* LLSettingsController.xib */,
 				6957BF841E1301980059716F /* LLSockets.xib */,
+				6945193A1E465727005B75A3 /* LLNE500Pump.xib */,
 				695EFEBE1AC6225B00D9D458 /* LLStimulusTrain.xib */,
 				695EFEBF1AC6225B00D9D458 /* LLSynthDataSettings.xib */,
 				695EFEC11AC6225B00D9D458 /* LLVisualStimulus.xib */,
@@ -671,6 +678,8 @@
 				6912F8310918FD8B009B1CD1 /* LLMouseDataDevice.m */,
 				6912F8A50919029C009B1CD1 /* LLMouseDataSettings.h */,
 				6912F8A60919029C009B1CD1 /* LLMouseDataSettings.m */,
+				694519381E465439005B75A3 /* LLNE500Pump.h */,
+				694519361E465429005B75A3 /* LLNE500Pump.m */,
 				69FB5570095DA531006F86F9 /* LLNullDataDevice.h */,
 				69FB5571095DA531006F86F9 /* LLNullDataDevice.m */,
 				6984E5CD0E672AA600A9E7CB /* LLPulseTrain.h */,
@@ -1058,6 +1067,7 @@
 				69819575070478690075BDF4 /* LLDistribution.h in Headers */,
 				69819629070483590075BDF4 /* LLBinomDist.h in Headers */,
 				69819B450704F9AD0075BDF4 /* LLStatValues.h in Headers */,
+				694519391E465439005B75A3 /* LLNE500Pump.h in Headers */,
 				69DCC8DB0737CE3800FE4CE8 /* LLEOTHistoryView.h in Headers */,
 				69DCCC06073AE8C600FE4CE8 /* LLBar.h in Headers */,
 				69CCB7EE0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.h in Headers */,
@@ -1196,6 +1206,7 @@
 				69366665139E66B9000508B6 /* ResetButton.tif in Resources */,
 				695EFECD1AC6225B00D9D458 /* LLMonitorController.xib in Resources */,
 				69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */,
+				6945193B1E465727005B75A3 /* LLNE500Pump.xib in Resources */,
 				697A2970159526F700095DB3 /* LLBinocCalibrator.xib in Resources */,
 				6910CE361595F86500E0A375 /* LLBinocCalibrator.plist in Resources */,
 			);
@@ -1238,6 +1249,7 @@
 				69F36D040567EA8C009AED51 /* LLSystemUtil.m in Sources */,
 				69F36D050567EA8C009AED51 /* LLTaskMode.m in Sources */,
 				696D383C059E39440018E5D5 /* LLTrialBlock.m in Sources */,
+				694519371E465429005B75A3 /* LLNE500Pump.m in Sources */,
 				69F36D070567EA8C009AED51 /* LLViewScale.m in Sources */,
 				69F36D080567EA8C009AED51 /* LLViewUtilities.m in Sources */,
 				69F36D090567EA8C009AED51 /* LLXTEventPlot.m in Sources */,

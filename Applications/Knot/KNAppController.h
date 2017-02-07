@@ -27,6 +27,7 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
 	LLMouseDataDevice		*mouseDataDevice;
 	LLMonitorController		*monitorController;
 	LLPluginController		*pluginController;
+    LLNE500Pump             *rewardPump;
 	LLSettingsController	*settingsController;
     LLSockets               *socket;
 	LLStimWindow			*stimWindow;
