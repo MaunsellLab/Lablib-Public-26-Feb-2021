@@ -207,7 +207,6 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseNE500PumpKey]) {
         rewardPump = [[LLNE500Pump alloc] init];
-//    [rewardPump writeMessage:@"BP 1\n"];
     }
 
 // Set up a report controller.  This must be done before things that attach reportables (e.g., stimulus Window)
@@ -617,6 +616,12 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 {
     [socket showWindow:self];
 }
+
+- (IBAction)showRewardPumpWindow:(id)sender;
+{
+    [rewardPump showWindow:self];
+}
+
 
 // Disable certain menu items according to task state
 

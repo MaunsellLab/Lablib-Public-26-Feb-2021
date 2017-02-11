@@ -1,4 +1,10 @@
 
+170211 NE500Pump
+
+Conversion MS to UL
+Entries in window to control settings
+Test Port/Host susceptibility
+
 161211
     • LLDataDevices should behave gracefully if their hardware is absent
     • After Knot loads LLDataDevices, the data assignments should be checked and the user warned if any of the

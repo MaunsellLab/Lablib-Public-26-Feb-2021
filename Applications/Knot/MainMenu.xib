@@ -110,25 +110,31 @@
                                     <action selector="changeDataSource:" target="-2" id="862"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Interprocessor Link…" keyEquivalent="5" id="edj-3s-HVM">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="showSocketsWindow:" target="-2" id="XoM-PN-a0v"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Matlab Controller…" keyEquivalent="6" id="FsE-QR-CST">
+                            <menuItem title="Matlab Controller…" keyEquivalent="5" id="FsE-QR-CST">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="showMatlabWindow:" target="-2" id="xv9-eO-jez"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Configuration…" keyEquivalent="7" id="828">
+                            <menuItem title="Reward Pump…" keyEquivalent="6" id="edj-3s-HVM">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="showRewardPumpWindow:" target="-2" id="3q0-kc-3A3"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Interprocessor Link…" keyEquivalent="7" id="auw-jH-4eW">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="showSocketsWindow:" target="-2" id="6xS-HX-hux"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Configuration…" keyEquivalent="8" id="828">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="changeSettings:" target="-2" id="863"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Plugin Manager…" keyEquivalent="8" id="867">
+                            <menuItem title="Plugin Manager…" keyEquivalent="9" id="867">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="doPluginController:" target="-2" id="868"/>

@@ -49,6 +49,8 @@
 	BOOL					writingDataFile;
 }
 
+@property (assign) LLNE500Pump *rewardPump;
+
 - (void)activate;
 - (BOOL)active;
 - (NSTimer *)collectorTimer;
@@ -84,7 +86,6 @@
 - (void)setMatlabEngine:(LLMatlabEngine *)newEngine;
 - (void)setMode:(long)mode;
 - (void)setMonitorController:(LLMonitorController *)controller;
-- (void)setRewardPump:(LLNE500Pump *)newRewardPump;
 - (void)setSocket:(LLSockets *)newSocket;
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 - (void)setSynthDataDevice:(LLSynthDataDevice *)device;

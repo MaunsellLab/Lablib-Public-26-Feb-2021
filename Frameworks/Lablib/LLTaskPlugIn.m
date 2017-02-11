@@ -10,6 +10,8 @@
 
 @implementation LLTaskPlugIn
 
+@synthesize rewardPump;
+
 - (void)activate;
 {
 }
@@ -217,13 +219,6 @@
 - (void)setMonitorController:(LLMonitorController *)controller;
 {
 	monitorController = controller;
-}
-
-- (void)setRewardPump:(LLNE500Pump *)newRewardPump;
-{
-    [rewardPump release];
-    rewardPump = newRewardPump;
-    [rewardPump retain];
 }
 
 - (void)setSocket:(LLSockets *)newSocket;

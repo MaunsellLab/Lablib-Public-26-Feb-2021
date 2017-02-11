@@ -11,17 +11,23 @@
 @interface LLNE500Pump : NSWindowController<NSStreamDelegate> {
 
     IBOutlet NSTextView     *consoleView;
+    BOOL                    exists;
     IBOutlet NSTextField    *hostTextField;
+    BOOL                    initialized;
     IBOutlet NSTextField    *portTextField;
     IBOutlet NSTextField    *rigIDTextField;
     NSArray                 *topLevelObjects;
+    NSDictionary            *statusDict;
     NSLock                  *streamsLock;
 }
 
 - (void)closeStreams;
+- (void)doMicroliters:(float)microliters;
 - (BOOL)openStreams;
-- (void)postToConsole:(NSString *)str textColor:(NSColor *)textColor;
-- (void)writeDictionary:(NSMutableDictionary *)dict;
-- (void)writeMessage:(NSString *)message;
+- (void)postExchange:(NSString *)message reply:(uint8_t *)pBuffer length:(NSInteger)length;
+- (void)postInfo:(NSString *)str textColor:(NSColor *)theColor;
+- (BOOL)writeMessage:(NSString *)message;
+
+@property (readonly) BOOL exists;
 
 @end

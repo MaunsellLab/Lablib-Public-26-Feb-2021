@@ -36,9 +36,10 @@
 
 #define kLLNE500HostKey             @"LLNE500Host"
 #define kLLNE500PortKey             @"LLNE500Port"
-#define kLLNE500VerboseKey       @"LLNE500Verbose"
-#define kLLNE500WindowVisibleKey  @"kLLNE500WindowVisible"
-#define kLLNE500NumStatusStrings   9
+#define kLLNE500TimeOutS            1
+#define kLLNE500VerboseKey          @"LLNE500Verbose"
+#define kLLNE500WindowVisibleKey    @"kLLNE500WindowVisible"
+#define kLLNE500NumStatusStrings    9
 
 enum {kReceiveJSON = 1, kStop};
 
@@ -63,6 +64,8 @@ NSOutputStream *NE500OutputStream;
 
 @implementation LLNE500Pump
 
+@synthesize exists;
+
 - (void)closeStreams;
 {
     [streamsLock lock];
@@ -78,12 +81,18 @@ NSOutputStream *NE500OutputStream;
 - (void)dealloc;
 {
     [self closeStreams];
+    [statusDict release];
     [streamsLock release];
     [[NSUserDefaults standardUserDefaults] setBool:[[self window] isVisible] forKey:kLLNE500WindowVisibleKey];
     [topLevelObjects release];
     [super dealloc];
 }
 
+- (void)doMicroliters:(float)microliters;
+{
+    [self writeMessage:[NSString stringWithFormat:@"VOL %.2f\r", microliters]];
+    [self writeMessage:@"RUN\r"];
+}
 - (id)init;
 {
     NSMutableDictionary *defaultSettings;
@@ -95,13 +104,15 @@ NSOutputStream *NE500OutputStream;
     }
     defaultSettings = [[NSMutableDictionary alloc] init];
     [defaultSettings setObject:@"10.1.1.1" forKey:kLLNE500HostKey];
-//    [defaultSettings setObject:@"Rig0" forKey:kLLSocketsRigIDKey];
     [defaultSettings setObject:[NSNumber numberWithInt:100] forKey:kLLNE500PortKey];
     [defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLNE500VerboseKey];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
     
     streamsLock = [[NSLock alloc] init];
+    statusDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"(withdrawing)\n", @"W", @"(infusing)\n", @"I",
+        @"(stopped)\n", @"S", @"(paused)\n", @"P", @"(phase paused)\n", @"T", @"(waiting for trigger)\n", @"U",
+        @"(purging)\n", @"X", nil];
 
     if ([self window] == nil) {
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLNE500Pump" owner:self topLevelObjects:&topLevelObjects];
@@ -110,32 +121,58 @@ NSOutputStream *NE500OutputStream;
             [[self window] makeKeyAndOrderFront:self];
         }
     }
-    [self postToConsole:@"LLNE500Pump initialized\n" textColor:[NSColor blackColor]];
+    initialized = NO;
+    exists = [self writeMessage:@"VER\r"];
+    if (exists) {
+        [self initPump];
+    }
     return self;
+}
+
+- (BOOL)initPump;
+{
+    if ([self writeMessage:@"BP 0\r"]) {
+        [self writeMessage:@"AL 1\r"];
+        [self writeMessage:@"DIA 10.00\r"];
+        [self writeMessage:@"RAT 60.00 UM\r"];
+        [self writeMessage:@"VOL UL\r"];
+        [self writeMessage:@"DIR INF\r"];
+        initialized = YES;
+    }
+    return initialized;
 }
 
 - (BOOL)openStreams;
 {
     long status;
-    
+    double startTime;
+
 //    NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLNE500HostKey]];
 //    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLNE500PortKey];
 
     [streamsLock lock];
 //    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)[url host], port, &NE500ReadStream, &NE500WriteStream);
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"10.1.1.1", 23, &NE500ReadStream, &NE500WriteStream);
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"10.1.1.1", 100, &NE500ReadStream, &NE500WriteStream);
+    startTime = [LLSystemUtil getTimeS];
     NE500InputStream = (NSInputStream *)NE500ReadStream;
     NE500OutputStream = (NSOutputStream *)NE500WriteStream;
     [NE500InputStream retain];
     [NE500OutputStream retain];
     [NE500InputStream open];
     [NE500OutputStream open];
-    while ((status = [NE500InputStream streamStatus]) == NSStreamStatusOpening) {};
+    while ((status = [NE500InputStream streamStatus]) == NSStreamStatusOpening) {
+        if ([LLSystemUtil getTimeS] - startTime > kLLNE500TimeOutS) {
+            [self postInfo:@"openStreams: Timeout error on input stream opening\n" textColor:[NSColor redColor]];
+            [streamsLock unlock];
+            [self closeStreams];
+            return NO;
+        }
+    };
     status = [NE500InputStream streamStatus];
     switch (status) {
         case NSStreamStatusError:
             [streamsLock unlock];
-            [self postToConsole:@"openStreams: error opening input stream\n" textColor:[NSColor redColor]];
+            [self postInfo:@"openStreams: Error opening input stream\n" textColor:[NSColor redColor]];
             [self closeStreams];
             if (![[self window] isVisible]) {
                 [[self window] makeKeyAndOrderFront:self];
@@ -147,12 +184,12 @@ NSOutputStream *NE500OutputStream;
             break;
     };
     while ((status = [NE500InputStream streamStatus]) != NSStreamStatusOpen) {};
-    
+
     while ((status = [NE500OutputStream streamStatus]) == NSStreamStatusOpening) {};
     status = [NE500OutputStream streamStatus];
     switch (status) {
         case NSStreamStatusError:
-            [self postToConsole:@"openStreams: error opening output stream\n" textColor:[NSColor redColor]];
+            [self postInfo:@"openStreams: error opening output stream\n" textColor:[NSColor redColor]];
             [NE500InputStream close];
             [streamsLock unlock];
             if (![[self window] isVisible]) {
@@ -169,275 +206,118 @@ NSOutputStream *NE500OutputStream;
     return YES;
 }
 
+// Service method for doing the actual posting to console in the main run loop
+
 - (void)post:(NSAttributedString *)attrStr;
 {
     [[consoleView textStorage] appendAttributedString:attrStr];
     [consoleView scrollRangeToVisible:NSMakeRange([[consoleView textStorage] length], 0)];
 }
 
-- (void)postToConsole:(NSString *)str textColor:(NSColor *)theColor;
+// Post a message about the results of an exchange with the pump
+
+- (void)postExchange:(NSString *)message reply:(uint8_t *)pBuffer length:(NSInteger)length;
+{
+    NSString *statusString;
+    NSMutableAttributedString *attrStr;
+    NSDictionary *attr;
+
+    attr = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+
+    attrStr = [[NSMutableAttributedString alloc] initWithString:message attributes:attr];
+    [attrStr replaceCharactersInRange:NSMakeRange([attrStr length] - 1, 1) withString:@": "];
+    if (pBuffer[0] != 2 || pBuffer[length - 1] != 3) {
+        attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+        [attrStr appendAttributedString:[[[NSAttributedString alloc] initWithString:@"Badly formed reply\n"
+                    attributes:attr] autorelease]];
+    }
+    else if (strncmp((char *)&pBuffer[1], "00", 2) != 0) {
+        attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+        [attrStr appendAttributedString:[[[NSAttributedString alloc]
+                    initWithString:[NSString stringWithFormat:@"Wrong pump address: %c%c\n", pBuffer[1], pBuffer[2]]
+                    attributes:attr] autorelease]];
+    }
+    else {
+        pBuffer[length - 1] = '\0';
+        statusString = [statusDict objectForKey:[NSString stringWithFormat:@"%c", pBuffer[3]]];
+        statusString = (statusString == nil) ? @"(unrecognized status code)\n" : statusString;
+        attr = [NSDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+        if (length == 5) {
+            [attrStr appendAttributedString:[[[NSAttributedString alloc] initWithString:statusString
+                                                                             attributes:attr] autorelease]];
+        }
+        else {
+            [attrStr appendAttributedString:[[[NSAttributedString alloc]
+                    initWithString:[NSString stringWithFormat:@"%s %@", &pBuffer[3], statusString]
+                    attributes:attr] autorelease]];
+        }
+    }
+    [self performSelectorOnMainThread:@selector(post:) withObject:attrStr waitUntilDone:NO];
+    [attrStr release];
+}
+
+// Post information about informational and error messages
+
+- (void)postInfo:(NSString *)str textColor:(NSColor *)theColor;
 {
     NSAttributedString *attrStr;
     NSDictionary *attr = [NSDictionary dictionaryWithObject:theColor forKey:NSForegroundColorAttributeName];
-    
+
     attrStr = [[NSAttributedString alloc] initWithString:str attributes:attr];
     [self performSelectorOnMainThread:@selector(post:) withObject:attrStr waitUntilDone:NO];
     [attrStr release];
 }
 
-/*
- writeDictionary is the main function for communicating with the server.  I tried to set things up with the
- client and server maintaining a connection across multiple transmissions, but it always got in trouble.  The
- current approach opens and closes a connection for each dictionary transfer.
- */
-
-- (void)writeDictionary:(NSMutableDictionary *)dict;
+- (BOOL)writeMessage:(NSString *)message;
 {
-    NSData *JSONData;
-    NSError *error;
-    uint32_t JSONLength, bufferLength;
-    NSInteger readLength;
-    uint8_t pBuffer[kBufferLength];
-    long result;
-    double startTime, endTime;
-
-    startTime = [LLSystemUtil getTimeS];
-    if (![self openStreams]) {
-        return;
-    }
-
-    //    [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey] forKey:@"rigID"];
-    JSONData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    JSONLength = (uint32_t)[JSONData length];
-    bufferLength = JSONLength + sizeof(uint32_t);
-    *(uint32_t *)pBuffer = JSONLength;
-    [JSONData getBytes:&pBuffer[sizeof(uint32_t)] length:JSONLength];
-
-    result = [NE500OutputStream write:pBuffer maxLength:bufferLength];
-
-    if (result != bufferLength) {
-        error = [NE500OutputStream streamError];
-        [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
-                             error.code, error.localizedDescription] textColor:[NSColor redColor]];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
-        }
-    }
-
-    while (![NE500InputStream hasBytesAvailable]) {};
-    readLength = [NE500InputStream read:pBuffer maxLength:kBufferLength];
-    pBuffer[readLength] = 0;
-    [self closeStreams];
-
-    endTime = [LLSystemUtil getTimeS];
-    if (readLength == JSONLength) {
-        [self postToConsole:[NSString stringWithFormat:@"Successfully sent dictionary of %d bytes\n", JSONLength]
-                  textColor:[NSColor blackColor]];
-    }
-    else {
-        [self postToConsole:[NSString stringWithFormat:@"Communication error: Sent %d bytes, but server echoed %ld\n",
-                             JSONLength, (long)readLength] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer]
-                  textColor:[NSColor redColor]];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
-        }
-    }
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLNE500VerboseKey]) {
-        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@"Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
-                  textColor:[NSColor blackColor]];
-    }
-}
-
-- (void)writeMessage:(NSString *)message;
-{
+    long i;
     NSError *error;
     uint32_t bufferLength;
     const char *cString;
-//    NSInteger readLength;
-//    uint8_t pBuffer[kBufferLength];
+    NSInteger readLength;
+    uint8_t pBuffer[kBufferLength];
     long result;
     double startTime;
-//    double endTime;
 
-    startTime = [LLSystemUtil getTimeS];
     if (![self openStreams]) {
-        return;
+        initialized = NO;
+        return NO;
+    }
+    if (!initialized) {
+        if (![self initPump]) {
+            return NO;
+        }
     }
     cString = [message cStringUsingEncoding:NSUTF8StringEncoding];
     bufferLength = (uint32_t)strlen(cString);
     result = [NE500OutputStream write:(uint8_t *)cString maxLength:bufferLength];
     if (result != bufferLength) {
         error = [NE500OutputStream streamError];
-        [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
+        [self postInfo:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
                              error.code, error.localizedDescription] textColor:[NSColor redColor]];
         if (![[self window] isVisible]) {
             [[self window] makeKeyAndOrderFront:self];
         }
+        [self closeStreams];
+        initialized = NO;
+        return NO;
     }
-    [self closeStreams];
-/*
-    while (![NE500InputStream hasBytesAvailable]) {};
-    readLength = [NE500InputStream read:pBuffer maxLength:kBufferLength];
-    pBuffer[readLength] = 0;
-    [self closeStreams];
-
-    endTime = [LLSystemUtil getTimeS];
-    if (readLength == JSONLength) {
-        [self postToConsole:[NSString stringWithFormat:@"Successfully sent dictionary of %d bytes\n", JSONLength]
-                  textColor:[NSColor blackColor]];
-    }
-    else {
-        [self postToConsole:[NSString stringWithFormat:@"Communication error: Sent %d bytes, but server echoed %ld\n",
-                             JSONLength, (long)readLength] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer]
-                  textColor:[NSColor redColor]];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
+    startTime = [LLSystemUtil getTimeS];
+    while (![NE500InputStream hasBytesAvailable]) {
+        if ([LLSystemUtil getTimeS] - startTime > kLLNE500TimeOutS) {
+            [self postInfo:@"Timeout error on response\n" textColor:[NSColor redColor]];
+            [self closeStreams];
+            return NO;
         }
+    };
+    usleep(10000);                                          // pump needs 10 ms from the arrival of first character
+    for (i= 0; i < kBufferLength; i++) {
+        pBuffer[i] = 0;
     }
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLNE500VerboseKey]) {
-        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@"Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
-                  textColor:[NSColor blackColor]];
-    }
- */
+    readLength = [NE500InputStream read:pBuffer maxLength:kBufferLength];
+    [self closeStreams];
+    [self postExchange:message reply:pBuffer length:readLength];
+    return YES;
 }
 
 @end
-
-/*
-
- bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string message) {
- if (!connection->isConnected()) {
- merror(M_IODEVICE_MESSAGE_DOMAIN, "No connection to NE500 device");
- return false;
- }
-
- message = pump_id + " " + message + "\r";
- if (!connection->send(message)) {
- return false;
- }
-
- if (logPumpCommands) {
- mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SENT: %s", removeControlChars(message).c_str());
- }
-
- // give it a moment
- shared_ptr<Clock> clock = Clock::instance();
- MWTime tic = clock->getCurrentTimeUS();
-
- bool broken = false;
- string result;
- bool success = true;
- bool is_alarm = false;
-
- while (true) {
- if (!connection->receive(result)) {
- broken = true;
- }
-
- // if the response is complete
- // NE500 responses are of the form: "\t01S"
- if (result.size() > 1 && result.back() == PUMP_SERIAL_DELIMITER_CHAR) {
-
- if(result.size() > 3){
- char status_char = result[3];
-
-
- switch(status_char){
- case 'S':
- case 'W':
- case 'I':
- break;
-
- case 'A':
- is_alarm = true;
- break;
-
- default:
- merror(M_IODEVICE_MESSAGE_DOMAIN,
- "An unknown response was received from the syringe pump: %c", status_char);
- success = false;
- break;
- }
- }
-
- if (result.size() > 4 && !is_alarm) {
-
- char error_char = result[4];
- if(error_char == '?'){
- string error_code = result.substr(5, result.size() - 6);
- string err_str("");
-
- if(error_code == ""){
- err_str = "Unrecognized command";
- } else if(error_code == "OOR"){
- err_str = "Out of Range";
- } else if(error_code == "NA"){
- err_str = "Command currently not applicable";
- } else if(error_code == "IGN"){
- err_str = "Command ignored";
- } else if(error_code == "COM"){
- err_str = "Communications failure";
- } else {
- err_str = "Unspecified error";
- }
-
- merror(M_IODEVICE_MESSAGE_DOMAIN,
- "The syringe pump returned an error: %s (%s)", err_str.c_str(), error_code.c_str());
- success = false;
- }
- }
-
- break;
-
- } else if ((clock->getCurrentTimeUS() - tic) > response_timeout) {
- merror(M_IODEVICE_MESSAGE_DOMAIN, "Did not receive a complete response from the pump");
- success = false;
- break;
- }
- }
-
- if (broken) {
- merror(M_IODEVICE_MESSAGE_DOMAIN,
- "Connection lost, reconnecting..."
- "Command may not have been sent correctly");
- connection->disconnect();
- connection->connect();
- }
-
- if (!result.empty()) {
- if (is_alarm) {
- mwarning(M_IODEVICE_MESSAGE_DOMAIN,
- "Received alarm response from NE500 device: %s",
- removeControlChars(result).c_str());
- } else if (logPumpCommands) {
- mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RETURNED: %s", removeControlChars(result).c_str());
- }
- }
-
- return success;
- }
-
-
- void NE500PumpNetworkDevice::NE500DeviceOutputNotification::notify(const Datum &data, MWTime timeUS) {
- if (auto shared_pump_network = pump_network.lock()) {
- if (auto shared_channel = channel.lock()) {
- scoped_lock active_lock(shared_pump_network->active_mutex);
- auto sendMessage = shared_pump_network->getSendFunction();
-
- if (shared_channel->update(sendMessage) &&
- shared_pump_network->active)
- {
- shared_channel->dispense(sendMessage);
- }
- }
- }
- }
-
-
- END_NAMESPACE_MW
-
-*/
