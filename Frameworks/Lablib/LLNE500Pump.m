@@ -2,8 +2,16 @@
 //  LLNE500Pump.m
 //  Lablib
 //
-//  Created by John Maunsell on 12/26/16.
+//  Created by John Maunsell on 02/11/2017.
 //
+// The NE500 Pump is controlled through a StarTech TCP-RS232 converter.  The code here will work with only two
+// changes to the default settings for the StarTech device.  The first step is to get the pump and StarTech device
+// on the same network as the computer you're using, and to manually set the computer to the same subnet.  The
+// StarTech default address is 10.1.1.1, so the computer might be 10.1.1.2.  Once that is arrange, you need to use
+// a browser to change the StarTech setting.  These changes can be made using a browser and going 10.1.1.1.  The
+// login and password are both "admin" for the StarTech device.  Under UART Control, change the StarTech baudrate
+// 19200, which is all the NE500 pump can handle.  Under TCP mode, change the Port Number to 100, which is what
+// we use by convention (although any other port number should work if you set it appropriately in this code.
 
 #include <LLSystemUtil.h>
 
@@ -34,53 +42,46 @@
 
 #define kBufferLength   1024
 
+#define kLLNE500DiameterMMKey       @"LLNE500DiameterMM"
 #define kLLNE500HostKey             @"LLNE500Host"
 #define kLLNE500PortKey             @"LLNE500Port"
-#define kLLNE500TimeOutS            1
-#define kLLNE500VerboseKey          @"LLNE500Verbose"
-#define kLLNE500WindowVisibleKey    @"kLLNE500WindowVisible"
-#define kLLNE500NumStatusStrings    9
-
-enum {kReceiveJSON = 1, kStop};
+#define kLLNE500TimeOutS            0.250
+#define kLLNE500ULPerMKey           @"LLNE500ULPerM"
+#define kLLNE500WindowVisibleKey    @"LLNE500WindowVisible"
+//#define kLLNE500NumStatusStrings    9
 
 #import "LLNE500Pump.h"
 
-NSString *NE500StatusStrings[kLLNE500NumStatusStrings] = {
-    @"NSStreamStatusNotOpen",
-    @"NSStreamStatusOpening",
-    @"NSStreamStatusOpen",
-    @"NSStreamStatusReading",
-    @"NSStreamStatusWriting",
-    @"NSStreamStatusAtEnd",
-    @"NSStreamStatusClosed",
-    @"NSStreamStatusError",
-    @"Unknown status code"
-};
-
-CFReadStreamRef NE500ReadStream;
-CFWriteStreamRef NE500WriteStream;
-NSInputStream *NE500InputStream;
-NSOutputStream *NE500OutputStream;
+//NSString *NE500StatusStrings[kLLNE500NumStatusStrings] = {
+//    @"NSStreamStatusNotOpen",
+//    @"NSStreamStatusOpening",
+//    @"NSStreamStatusOpen",
+//    @"NSStreamStatusReading",
+//    @"NSStreamStatusWriting",
+//    @"NSStreamStatusAtEnd",
+//    @"NSStreamStatusClosed",
+//    @"NSStreamStatusError",
+//    @"Unknown status code"
+//};
 
 @implementation LLNE500Pump
 
 @synthesize exists;
 
-- (void)closeStreams;
+// Assume we have the lock
+
+- (void)closeStreams:(NSInputStream *)inStream outStream:(NSOutputStream *)outStream;
 {
-    [streamsLock lock];
-    [NE500InputStream close];
-    [NE500OutputStream close];
-    [NE500InputStream release];
-    [NE500OutputStream release];
-    NE500InputStream = nil;
-    NE500OutputStream = nil;
-    [streamsLock unlock];
+    [inStream close];
+    [outStream close];
+    [inStream release];
+    [outStream release];
 }
 
 - (void)dealloc;
 {
-    [self closeStreams];
+    [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forKeyPath:@"values.LLNE500DiameterMM"];
+    [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forKeyPath:@"values.LLNE500ULPerM"];
     [statusDict release];
     [streamsLock release];
     [[NSUserDefaults standardUserDefaults] setBool:[[self window] isVisible] forKey:kLLNE500WindowVisibleKey];
@@ -90,22 +91,25 @@ NSOutputStream *NE500OutputStream;
 
 - (void)doMicroliters:(float)microliters;
 {
-    [self writeMessage:[NSString stringWithFormat:@"VOL %.2f\r", microliters]];
+    if (microliters != previousUL) {
+        [self writeMessage:[NSString stringWithFormat:@"VOL %.2f\r", microliters]];
+        previousUL = microliters;
+    }
     [self writeMessage:@"RUN\r"];
 }
 - (id)init;
 {
     NSMutableDictionary *defaultSettings;
-//    NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsHostKey]];
-//    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPortKey];
-    
+
     if ((self = [super init]) == nil) {
         return nil;
     }
     defaultSettings = [[NSMutableDictionary alloc] init];
+    [defaultSettings setObject:[NSNumber numberWithInt:4.0] forKey:kLLNE500DiameterMMKey];
     [defaultSettings setObject:@"10.1.1.1" forKey:kLLNE500HostKey];
+    [defaultSettings setObject:[NSNumber numberWithInt:600.0] forKey:kLLNE500ULPerMKey];
     [defaultSettings setObject:[NSNumber numberWithInt:100] forKey:kLLNE500PortKey];
-    [defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLNE500VerboseKey];
+    //[defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLNE500VerboseKey];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
     
@@ -121,89 +125,29 @@ NSOutputStream *NE500OutputStream;
             [[self window] makeKeyAndOrderFront:self];
         }
     }
-    initialized = NO;
-    exists = [self writeMessage:@"VER\r"];
-    if (exists) {
-        [self initPump];
-    }
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.LLNE500DiameterMM"
+                                                                 options:NSKeyValueObservingOptionNew context:nil];
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.LLNE500ULPerM"
+                                                                 options:NSKeyValueObservingOptionNew context:nil];
+    previousUL = -1;
+    exists = NO;                                        // flag that we haven't contacted the pump yet.
+    [self writeMessage:@"VER\r"];
     return self;
 }
 
-- (BOOL)initPump;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 {
-    if ([self writeMessage:@"BP 0\r"]) {
-        [self writeMessage:@"AL 1\r"];
-        [self writeMessage:@"DIA 10.00\r"];
-        [self writeMessage:@"RAT 60.00 UM\r"];
-        [self writeMessage:@"VOL UL\r"];
-        [self writeMessage:@"DIR INF\r"];
-        initialized = YES;
+    NSString *key;
+
+    key = [keyPath pathExtension];
+    if ([key isEqualTo:kLLNE500DiameterMMKey]) {
+        [self writeMessage:[NSString stringWithFormat:@"DIA %5.1f\r",
+                            [[NSUserDefaults standardUserDefaults] floatForKey:kLLNE500DiameterMMKey]]];
     }
-    return initialized;
-}
-
-- (BOOL)openStreams;
-{
-    long status;
-    double startTime;
-
-//    NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLNE500HostKey]];
-//    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLNE500PortKey];
-
-    [streamsLock lock];
-//    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)[url host], port, &NE500ReadStream, &NE500WriteStream);
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"10.1.1.1", 100, &NE500ReadStream, &NE500WriteStream);
-    startTime = [LLSystemUtil getTimeS];
-    NE500InputStream = (NSInputStream *)NE500ReadStream;
-    NE500OutputStream = (NSOutputStream *)NE500WriteStream;
-    [NE500InputStream retain];
-    [NE500OutputStream retain];
-    [NE500InputStream open];
-    [NE500OutputStream open];
-    while ((status = [NE500InputStream streamStatus]) == NSStreamStatusOpening) {
-        if ([LLSystemUtil getTimeS] - startTime > kLLNE500TimeOutS) {
-            [self postInfo:@"openStreams: Timeout error on input stream opening\n" textColor:[NSColor redColor]];
-            [streamsLock unlock];
-            [self closeStreams];
-            return NO;
-        }
-    };
-    status = [NE500InputStream streamStatus];
-    switch (status) {
-        case NSStreamStatusError:
-            [streamsLock unlock];
-            [self postInfo:@"openStreams: Error opening input stream\n" textColor:[NSColor redColor]];
-            [self closeStreams];
-            if (![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
-            }
-            return NO;
-            break;
-        case NSStreamStatusOpen:
-        default:
-            break;
-    };
-    while ((status = [NE500InputStream streamStatus]) != NSStreamStatusOpen) {};
-
-    while ((status = [NE500OutputStream streamStatus]) == NSStreamStatusOpening) {};
-    status = [NE500OutputStream streamStatus];
-    switch (status) {
-        case NSStreamStatusError:
-            [self postInfo:@"openStreams: error opening output stream\n" textColor:[NSColor redColor]];
-            [NE500InputStream close];
-            [streamsLock unlock];
-            if (![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
-            }
-            return NO;
-            break;
-        case NSStreamStatusOpen:
-        default:
-            break;
-    };
-    while ((status = [NE500OutputStream streamStatus]) != NSStreamStatusOpen) {};
-    [streamsLock unlock];
-    return YES;
+    else if ([key isEqualTo:kLLNE500ULPerMKey]) {
+        [self writeMessage:[NSString stringWithFormat:@"RAT %5.1f UM\r",
+                            [[NSUserDefaults standardUserDefaults] floatForKey:kLLNE500ULPerMKey]]];
+    }
 }
 
 // Service method for doing the actual posting to console in the main run loop
@@ -228,7 +172,7 @@ NSOutputStream *NE500OutputStream;
     [attrStr replaceCharactersInRange:NSMakeRange([attrStr length] - 1, 1) withString:@": "];
     if (pBuffer[0] != 2 || pBuffer[length - 1] != 3) {
         attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
-        [attrStr appendAttributedString:[[[NSAttributedString alloc] initWithString:@"Badly formed reply\n"
+        [attrStr appendAttributedString:[[[NSAttributedString alloc] initWithString:@"Reply missing <STX> or <ETX>\n"
                     attributes:attr] autorelease]];
     }
     else if (strncmp((char *)&pBuffer[1], "00", 2) != 0) {
@@ -270,24 +214,80 @@ NSOutputStream *NE500OutputStream;
 
 - (BOOL)writeMessage:(NSString *)message;
 {
-    long i;
+    long i, status, result;
     NSError *error;
     uint32_t bufferLength;
     const char *cString;
     NSInteger readLength;
     uint8_t pBuffer[kBufferLength];
-    long result;
     double startTime;
+    CFReadStreamRef NE500ReadStream;
+    CFWriteStreamRef NE500WriteStream;
+    NSInputStream *NE500InputStream;
+    NSOutputStream *NE500OutputStream;
 
-    if (![self openStreams]) {
-        initialized = NO;
-        return NO;
-    }
-    if (!initialized) {
-        if (![self initPump]) {
+    NSString *urlString = [[NSUserDefaults standardUserDefaults] stringForKey:kLLNE500HostKey];
+    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLNE500PortKey];
+
+    [streamsLock lock];
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)urlString, port,
+                                       &NE500ReadStream, &NE500WriteStream);
+    startTime = [LLSystemUtil getTimeS];
+    NE500InputStream = (NSInputStream *)NE500ReadStream;
+    NE500OutputStream = (NSOutputStream *)NE500WriteStream;
+    [NE500InputStream retain];
+    [NE500OutputStream retain];
+    [NE500InputStream open];
+    [NE500OutputStream open];
+    while ((status = [NE500InputStream streamStatus]) == NSStreamStatusOpening) {
+        if ([LLSystemUtil getTimeS] - startTime > kLLNE500TimeOutS) {
+            [self postInfo:@"writeMessage: Timeout error on input stream opening\n" textColor:[NSColor redColor]];
+            [self closeStreams:NE500InputStream outStream:NE500OutputStream];
+            [streamsLock unlock];
             return NO;
         }
-    }
+        usleep(5000);
+    };
+    status = [NE500InputStream streamStatus];
+    switch (status) {
+        case NSStreamStatusError:
+            [self closeStreams:NE500InputStream outStream:NE500OutputStream];
+            [streamsLock unlock];
+            [self postInfo:@"writeMessage: Error opening input stream\n" textColor:[NSColor redColor]];
+            if (![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
+            }
+            previousUL = -1;
+            exists = NO;
+            return exists;
+            break;
+        case NSStreamStatusOpen:
+        default:
+            break;
+    };
+    while ((status = [NE500InputStream streamStatus]) != NSStreamStatusOpen) {};
+
+    while ((status = [NE500OutputStream streamStatus]) == NSStreamStatusOpening) {};
+    status = [NE500OutputStream streamStatus];
+    switch (status) {
+        case NSStreamStatusError:
+            [self postInfo:@"writeMessage: error opening output stream\n" textColor:[NSColor redColor]];
+            [NE500InputStream close];
+            [streamsLock unlock];
+            if (![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
+            }
+            previousUL = -1;
+            exists = NO;
+            return exists;
+            break;
+        case NSStreamStatusOpen:
+        default:
+            break;
+    };
+    while ((status = [NE500OutputStream streamStatus]) != NSStreamStatusOpen) {};
+    [streamsLock unlock];
+
     cString = [message cStringUsingEncoding:NSUTF8StringEncoding];
     bufferLength = (uint32_t)strlen(cString);
     result = [NE500OutputStream write:(uint8_t *)cString maxLength:bufferLength];
@@ -298,26 +298,45 @@ NSOutputStream *NE500OutputStream;
         if (![[self window] isVisible]) {
             [[self window] makeKeyAndOrderFront:self];
         }
-        [self closeStreams];
-        initialized = NO;
-        return NO;
+        [self closeStreams:NE500InputStream outStream:NE500OutputStream];
+        previousUL = -1;
+        exists = NO;
+        return exists;
     }
     startTime = [LLSystemUtil getTimeS];
     while (![NE500InputStream hasBytesAvailable]) {
         if ([LLSystemUtil getTimeS] - startTime > kLLNE500TimeOutS) {
             [self postInfo:@"Timeout error on response\n" textColor:[NSColor redColor]];
-            [self closeStreams];
-            return NO;
+            [self closeStreams:NE500InputStream outStream:NE500OutputStream];
+            previousUL = -1;
+            exists = NO;
+            return exists;
         }
+        usleep(5000);
     };
-    usleep(10000);                                          // pump needs 10 ms from the arrival of first character
+    usleep(15000);                                          // pump needs 15 ms from the arrival of first character
     for (i= 0; i < kBufferLength; i++) {
         pBuffer[i] = 0;
     }
     readLength = [NE500InputStream read:pBuffer maxLength:kBufferLength];
-    [self closeStreams];
+    [self closeStreams:NE500InputStream outStream:NE500OutputStream];
     [self postExchange:message reply:pBuffer length:readLength];
-    return YES;
+
+    // If we've succeeded where previously we've failed (or not been initialized), then we need to reinitialize
+    // the pump.  Setting 'exists' here first avoids infinite recursion.
+
+    if (!exists) {
+        exists = YES;
+        [self writeMessage:@"BP 0\r"];
+        [self writeMessage:@"AL 1\r"];
+        [self writeMessage:[NSString stringWithFormat:@"DIA %5.1f\r",
+                            [[NSUserDefaults standardUserDefaults] floatForKey:kLLNE500DiameterMMKey]]];
+        [self writeMessage:[NSString stringWithFormat:@"RAT %5.1f UM\r",
+                            [[NSUserDefaults standardUserDefaults] floatForKey:kLLNE500ULPerMKey]]];
+        [self writeMessage:@"VOL UL\r"];
+        [self writeMessage:@"DIR INF\r"];
+    }
+    return exists;
 }
 
 @end

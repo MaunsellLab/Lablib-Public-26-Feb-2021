@@ -523,7 +523,7 @@ long ELTrialStartTimeMS;
         slowCount++;
         if ((slowCount < 20) || (slowCount % 10 == 0)) {
             slowPercent = 100.0 * ((double)slowCount + 1) / ((double)allCount);
-            NSLog(@"read port elapsed: this %.3fms, >%.0f ms %ld/%ld times (%4.3f%%)",
+            NSLog(@"LabJackDataDevice read port elapsed: this %.3fms, >%.0f ms %ld/%ld times (%4.3f%%)",
                      elapsedTimeS / 1000.0, kMaxAllowedTimeS / 1000.0, slowCount, allCount, slowPercent);
         }
     }

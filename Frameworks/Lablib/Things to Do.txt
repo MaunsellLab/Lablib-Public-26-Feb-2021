@@ -1,9 +1,7 @@
 
 170211 NE500Pump
 
-Conversion MS to UL
-Entries in window to control settings
-Test Port/Host susceptibility
+Need to interpret errors that start with ?, like ?OOR (out of range)
 
 161211
     • LLDataDevices should behave gracefully if their hardware is absent
