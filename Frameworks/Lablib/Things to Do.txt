@@ -1,7 +1,7 @@
 
 170211 NE500Pump
 
-Need to interpret errors that start with ?, like ?OOR (out of range)
+Need to change OptiPulse to use UL rather than reward time in dialogs
 
 161211
     • LLDataDevices should behave gracefully if their hardware is absent

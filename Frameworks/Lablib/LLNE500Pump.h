@@ -8,9 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+typedef struct {
+    NSInputStream *in;
+    NSOutputStream *out;
+} LLStreams;
+
+
 @interface LLNE500Pump : NSWindowController<NSStreamDelegate> {
 
     IBOutlet NSTextView     *consoleView;
+    NSDictionary            *errorDict;
     BOOL                    exists;
     IBOutlet NSTextField    *hostTextField;
     BOOL                    notCommunicating;
@@ -19,10 +26,11 @@
     IBOutlet NSTextField    *rigIDTextField;
     NSArray                 *topLevelObjects;
     NSDictionary            *statusDict;
+    LLStreams               streams;
     NSLock                  *streamsLock;
 }
 
-- (void)closeStreams:(NSInputStream *)inStream outStream:(NSOutputStream *)outStream;
+- (void)closeStreams;
 - (void)doMicroliters:(float)microliters;
 - (void)postExchange:(NSString *)message reply:(uint8_t *)pBuffer length:(NSInteger)length;
 - (void)postInfo:(NSString *)str textColor:(NSColor *)theColor;
