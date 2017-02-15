@@ -471,8 +471,8 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 // This function gets called at initialization and when the settings folder is changed.
 // Neither of these should happen when the task is running.
 
-- (void)settingsChanged:(NSNotification *)notification {
-
+- (void)settingsChanged:(NSNotification *)notification;
+{
 	[self readDefaults];
 }
 

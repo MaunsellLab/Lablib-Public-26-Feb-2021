@@ -229,8 +229,6 @@ are its code (event codes are integers that increase from 0), and the number of 
         [theAlert setInformativeText:@"Attempting to mix events with and without data definitions."];
         [theAlert runModal];
         [theAlert release];
-//		NSRunAlertPanel(@"LLDataDoc",  @"Attempting to mix events with and without data definitions.",
-//					@"OK", nil, nil);
 		exit(0);
 	}
 	eventsHaveDataDefs = NO;

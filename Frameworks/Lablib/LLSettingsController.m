@@ -3,43 +3,30 @@
 //  Lablib
 //
 //  Created by John Maunsell on Sat Jun 14 2003.
-//  Copyright (c) 2003. All rights reserved.
+//  Copyright (c) 2003-2017. All rights reserved.
 //
 
-/* 
-
-Different sets of settings are stored as NSDictionaries, which are bundled in an NSArray
-that is stored in NSUserDefaults.  Old settings are stored by taking the NSUserDefaults
-(which is an NSDictionary), stripping out the NSArray that contains all the settings
-dictionaries, and then putting the dictionary into the array of settings.  New settings
-are similarly extracted, have the array of settings inserted into them, then made a
-replacement for NSUserDefaults.  Thus, the user is always using NSUserDefaults, and
-we replace its contents. 
-
+/*
 Support is provided for a dialog that allows the creation, deletion, selection and
 renaming of different settings.  Because settings affect all operations, this dialog
-is task-modal, and should only be accessed when the task is not running.  SImilarly,
+is task-modal, and should only be accessed when the task is not running.  Similarly,
 any dialog containing entries from the NSUserDefaults should be closed before calling
 this dialog, because their contents will be stale after any changes.  Because these
 routines can change the contents of NSUserDefaults, anything that displays values from
-NSUserDefaults (e.g., dialogs) should be loaded fresh each time they appear
-
+NSUserDefaults (e.g., dialogs) should be loaded fresh each time they appear.
 */
 
 #import "LLSettingsController.h"
 #import "LLSystemUtil.h"
 
 NSString *LLSettingsChanged = @"LLSettings Changed";
-
 NSString *kDefaultSettingsName = @"Settings 0";
-NSString *LLSettingsArrayKey = @"LL Settings Array";
-NSString *LLSettingsIndexKey = @"LL Settings Index";
 NSString *LLSettingsNameKey = @"LLSettingsName";
 
 @implementation LLSettingsController
 
-- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict {
-
+- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
+{
 	long index;
 
 // Install the new name and update the settings table
@@ -55,8 +42,13 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 				forName:[self domainNameWithName:name]];
 }
 
-- (void)dealloc {
+- (void)dealloc;
+{
+    NSString *settingsName;
 
+    settingsName = [[NSUserDefaults standardUserDefaults] objectForKey:LLSettingsNameKey]; // name of active settings
+    [self saveCurrentDefaultsToFileWithSuffix:settingsName];
+    NSLog(@"LLSettingsController: saved to %@", settingsName);
 	[settingsNameArray release];
 	[super dealloc];
 }
@@ -77,10 +69,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
             if (result == NSModalResponseOK) {
             }
         }];
-//        NSBeginAlertSheet(@"LLSettingsController",
-//			@"OK", nil, nil, [self window], self, nil,
-//			@selector(deleteSheetDidEnd:returnCode:contextInfo:), nil,
-//			@"There must always be least one configuration"); 
 	}
 	else {
         [theAlert setInformativeText:@"Really delete configuration? This operation cannot be undone."];
@@ -101,40 +89,16 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
                     break;
             }
         }];
-//        NSBeginAlertSheet(@"LLSettingsController",
-//            @"Delete", @"Cancel", nil, [self window], self, nil,
-//			@selector(deleteSheetDidEnd:returnCode:contextInfo:), nil,
-//                          @"Really delete configuration? This operation cannot be undone.");
 	}
     [theAlert release];
 }
-
-//- (void)deleteSheetDidEnd:(id)sheet returnCode:(long)code contextInfo:(id)contextInfo;
-//{
-//	long row;
-//	
-//	if ([settingsNameArray count] > 1) {				// never delete when there is only one
-//		switch (code) {
-//		case NSAlertDefaultReturn:						// OK to delete the settings
-//			row = [settingsTable selectedRow];			// row to delete
-//			[[NSFileManager defaultManager] removeItemAtPath:[self pathToFile:[settingsNameArray objectAtIndex:row]]
-//							error:NULL];
-//			[settingsNameArray removeObjectAtIndex:row];//  and their name
-//			[settingsTable reloadData];					// update table display
-//			break;
-//		case NSAlertAlternateReturn:
-//		default:
-//			break;
-//		}
-//	}
-//}
 
 - (NSString *)domainNameWithName:(NSString *)name;
 {
 	return [NSString stringWithFormat:@"%@-%@", [[NSBundle mainBundle] bundleIdentifier], name];
 }
 
-// Respond to the duplicate button.  In this case, we make a new file with the contents of the current
+// Respond to the duplicate button. In this case, we make a new file with the contents of the current
 // settings, and we save the current settings with their current name.
 
 - (IBAction)duplicateSettings:(id)sender;
@@ -186,13 +150,17 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 // we have reloaded by default.  We also create the file, so it's there to be found when the list is made for
 // the table, and there's a file available to rename if the user does that
 
-		settingsName = [defaults objectForKey:LLSettingsNameKey];
-		if (settingsName == nil) {
+        settingsName = [defaults objectForKey:LLSettingsNameKey];       // name of active setting file
+        if (settingsName == nil) {                                      // if none, initialize a defaults file
 			[defaults setObject:kDefaultSettingsName forKey:LLSettingsNameKey];
 			[self saveCurrentDefaultsToFileWithSuffix:kDefaultSettingsName];
 		}
-		else if (![[NSFileManager defaultManager] isReadableFileAtPath:[self pathToFile:settingsName]]) {
-			[self saveCurrentDefaultsToFileWithSuffix:settingsName];
+
+        // If there is a current defaults file, we need to load it
+
+		else if ([[NSFileManager defaultManager] isReadableFileAtPath:[self pathToFile:settingsName]]) {
+//			[self saveCurrentDefaultsToFileWithSuffix:settingsName];
+            [self loadDefaultsFromFileWithSuffix:settingsName];
 		}
 	} 
 	return self;
@@ -209,6 +177,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
+    NSLog(@"LLSettingsController: Loading file from %@", [self pathToFile:suffix]);
 	dict = [NSDictionary dictionaryWithContentsOfFile:[self pathToFile:suffix]];
 	[defaults removePersistentDomainForName:bundleID];
 	[defaults setPersistentDomain:dict forName:bundleID];
@@ -243,8 +212,8 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 	[settingsTable scrollRowToVisible:index];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
-
+- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+{
     return (int)[settingsNameArray count];
 }
 
@@ -348,14 +317,13 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 // Write the current settings into the appropriate domain so it is up to date
 
-- (void)synchronize {
-
+- (void)synchronize;
+{
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn
-												row:(int)row {
-	
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+{
 	return [settingsNameArray objectAtIndex:row];
 }
 
@@ -374,8 +342,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 	if ([newName length] == 0) {												// blank name, not allowed
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
                     informativeText:@"Please use a name that is not blank."];
-//		NSRunAlertPanel(@"LLSettingsController", @"Please use a name that is not blank.",
-//					@"OK", nil, nil, nil);
 		disallowNextSelectionChange = YES;
 		return;
 	}
@@ -383,8 +349,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
                 informativeText:[NSString stringWithFormat:@"The name \"%@\" is already in use, please select another.",
                 newName]];
-//		NSRunAlertPanel(@"LLSettingsController", @"The name \"%@\" is already in use, please select another.",
-//					@"OK", nil, nil, newName);
 		disallowNextSelectionChange = YES;
 		return;
 	}
