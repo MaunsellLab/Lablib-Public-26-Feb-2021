@@ -92,9 +92,6 @@ NSString *standardKey = @"LLMonitorTarget";
     [theAlert addButtonWithTitle:@"OK"];
     [theAlert addButtonWithTitle:@"Disarm Alarms"];
     [theAlert addButtonWithTitle:@"Change Settings"];
-//    theAlert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]]
-//                            defaultButton:@"OK" alternateButton:@"Disarm Alarms" otherButton:@"Change Settings"
-//                            informativeTextWithFormat:@""];
 	choice = [theAlert runModal];
 	switch (choice) {
 	case NSAlertSecondButtonReturn:						// disarm alarms
