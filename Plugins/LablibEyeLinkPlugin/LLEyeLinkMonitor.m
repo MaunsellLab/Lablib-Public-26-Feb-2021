@@ -165,7 +165,8 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 	eyelinkSampleTimeMS = pValues->samples * pValues->samplePeriodMS;
     [string appendString:[NSString stringWithFormat:
                 @" Did %.0f ms of samples in %.0f ms (%.1f ms difference, 1:%.0f; ", 
-                eyelinkSampleTimeMS, CPUMS, CPUMS - eyelinkSampleTimeMS, ((eyelinkSampleTimeMS + CPUMS) / 2)/(CPUMS - eyelinkSampleTimeMS)]];
+                eyelinkSampleTimeMS, CPUMS, CPUMS - eyelinkSampleTimeMS, ((eyelinkSampleTimeMS + CPUMS) / 2) /
+                (CPUMS - eyelinkSampleTimeMS)]];
 	[string appendString:[NSString stringWithFormat:
                 @"%.3f-%.3f ms period)\n\n Channel:", 
                 pValues->cumulativeTimeMS / (pValues->samples + pValues->sequences), 
