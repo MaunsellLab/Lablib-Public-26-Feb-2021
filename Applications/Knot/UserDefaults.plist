@@ -10,6 +10,8 @@
 	<false/>
 	<key>KNTerminateSocket</key>
 	<false/>
+	<key>KNUseEyeLink</key>
+	<false/>
 	<key>KNUseMatlab</key>
 	<false/>
 	<key>KNUseNE500Pump</key>

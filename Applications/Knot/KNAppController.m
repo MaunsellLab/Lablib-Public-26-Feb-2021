@@ -17,6 +17,7 @@
 
 char *idString = "Knot Version 2.2";
 
+#define kUseEyeLinkKey       @"KNUseEyeLink"
 #define kUseMatlabKey       @"KNUseMatlab"
 #define kUseNE500PumpKey    @"KNUseNE500Pump"
 #define kUseSocketKey       @"KNUseSocket"
@@ -470,6 +471,11 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     enumerator = [bundlePaths objectEnumerator];
     while ((currPath = [enumerator nextObject])) {
         if ((currBundle = [NSBundle bundleWithPath:currPath]) != nil) {
+            if ([[currBundle bundleIdentifier] containsString:@"EyeLink"]) {
+                if (![[NSUserDefaults standardUserDefaults] boolForKey:kUseEyeLinkKey]) {
+                    continue;
+                }
+            }
             theClass = [currBundle principalClass];
 			if ([theClass isSubclassOfClass:[LLDataDevice class]]) {
 				if ([theClass version] != kLLPluginVersion) {
@@ -477,10 +483,6 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
                         informativeText:[NSString stringWithFormat:
                         @"%@ has version %ld, but current version is %d.  It will be not be used.",
                         currPath, (long)[theClass version], kLLPluginVersion]];
-//					NSRunCriticalAlertPanel(@"Knot: error loading plugin", 
-//						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
-//						@"OK", nil, nil, currPath, (long)[theClass version], 
-//						kLLPluginVersion);
 				}
 				else {
                     do {
