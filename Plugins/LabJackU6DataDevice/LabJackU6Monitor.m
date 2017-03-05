@@ -12,18 +12,21 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 
 @implementation LabJackU6Monitor
 
-- (void)checkWarnings {
-
+- (void)checkWarnings;
+{
     double labJackU6SampleTimeMS, CPUMS, driftParts;
+    NSString *messageString;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if (![defaults boolForKey:[self uniqueKey:doWarnDriftKey]] || previous.sequences < 1) {
+    SEL selector = NSSelectorFromString(@"doAlarm:");
+
+    if (![defaults boolForKey:[self uniqueKey:doWarnDriftKey]]) {
         return;
     }
-	
+    if (previous.samplePeriodMS == 0|| previous.sequences < 1) {
+        return;
+    }
 	CPUMS = previous.cumulativeTimeMS;
 	labJackU6SampleTimeMS = previous.samples * previous.samplePeriodMS;
-    
 	driftParts = ((labJackU6SampleTimeMS + CPUMS) / 2)/(CPUMS - labJackU6SampleTimeMS);
     if (fabs(driftParts) < [defaults integerForKey:[self uniqueKey:driftLimitKey]]) {
 		NSLog(@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.", 
@@ -32,8 +35,11 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 		NSLog(@"previous.samplePeriodMS: %f", previous.samplePeriodMS);
 		NSLog(@"previous.sequences: %ld", previous.sequences);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
-        [self doAlarm:[NSString stringWithFormat:@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.",
-				driftParts >= 0 ? 1 : -1, driftParts]];
+        if (!alarmActive && ![[settings window] isVisible]) {
+            messageString = [NSString stringWithFormat:@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.",
+                             driftParts >= 0 ? 1 : -1, driftParts];
+            [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
+        }
 	}
 }
 
@@ -52,30 +58,26 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 
 - (void)doAlarm:(NSString *)message;
 {
-//	long choice;
-//    NSAlert *theAlert = [[NSAlert alloc] init];
-   
-    [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6Monitor" informativeText:[self IDString]];
-//    [theAlert setMessageText:[NSString stringWithFormat:@"LabJackU6Monitor (%@)", [self IDString]]];
-//    [theAlert addButtonWithTitle:@"OK"];
-//    [theAlert addButtonWithTitle:@"Disarm Alarm"];
-//    [theAlert addButtonWithTitle:@"Change Settings"];
-//    [theAlert setInformativeText:message];
-//	alarmActive = YES;
-//	choice = [theAlert runModal];
-//	switch (choice) {
-//	case NSAlertSecondButtonReturn:						// disarm alarms
-//		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
-//		break;
-//	case NSAlertThirdButtonReturn:
-//		[self configure];								// configure alarms
-//		break;
-//	case NSAlertFirstButtonReturn:						// OK button, do nothing
-//	default:
-//		break;
-//	}
-//	alarmActive = NO;
-//    [theAlert release];
+    theAlert = [[NSAlert alloc] init];
+    [theAlert setMessageText:[NSString stringWithFormat:@"LabJackU6Monitor (%@)", [self IDString]]];
+    [theAlert addButtonWithTitle:@"OK"];
+    [theAlert addButtonWithTitle:@"Disarm Alarm"];
+    [theAlert addButtonWithTitle:@"Change Settings"];
+    [theAlert setInformativeText:message];
+    alarmActive = YES;
+    switch ([theAlert runModal]) {
+    case NSAlertSecondButtonReturn:						// disarm alarms
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
+        break;
+    case NSAlertThirdButtonReturn:
+        [self configure];								// configure alarms
+        break;
+    case NSAlertFirstButtonReturn:						// OK button, do nothing
+    default:
+        break;
+    }
+    alarmActive = NO;
+    [theAlert release];
 }
 
 - (NSString *)IDString {
@@ -190,13 +192,6 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 	cumulative.sequences += current.sequences;
 	cumulative.cumulativeTimeMS += current.cumulativeTimeMS;
 	cumulative.samples += current.samples;
-    
-
-//	for (index = 0; index < kLLITC18ADChannels; index++) {
-//		cumulative.ADMaxValues[index] = MAX(cumulative.ADMaxValues[index], current.ADMaxValues[index]);
-//		cumulative.ADMinValues[index] = MIN(cumulative.ADMinValues[index], current.ADMinValues[index]);
-//	}
-
 	[self checkWarnings];
 	[[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
 }

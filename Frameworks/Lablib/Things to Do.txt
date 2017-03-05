@@ -1,7 +1,9 @@
 
 170211 NE500Pump
 
-Need to change OptiPulse to use UL rather than reward time in dialogs
+Need to change the Plugin Manager to make it possible to select data devices, as well as tasks.  This might be a problem
+because the task plugins can be changed on the fly, but I'm not sure that the data plugins can.
+
 
 161211
     • LLDataDevices should behave gracefully if their hardware is absent

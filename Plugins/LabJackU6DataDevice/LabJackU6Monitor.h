@@ -22,6 +22,7 @@ typedef struct {
 @interface  LabJackU6Monitor : NSObject <LLMonitor> {
 @private
 	BOOL						alarmActive;
+    NSAlert                     *theAlert;
 	LabJackU6MonitorValues 		cumulative;
 	NSString					*descriptionString;				// First line in report
 	NSString					*IDString;						// Short string for menu entry
