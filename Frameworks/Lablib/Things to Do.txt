@@ -3,6 +3,8 @@
 
 Need to change OptiPulse to use UL rather than reward time in dialogs
 
+Fix the LabJack Monitor to use a dialog with buttons (I did this for another alarm).
+
 161211
     • LLDataDevices should behave gracefully if their hardware is absent
     • After Knot loads LLDataDevices, the data assignments should be checked and the user warned if any of the

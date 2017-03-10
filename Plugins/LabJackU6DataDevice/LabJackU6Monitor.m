@@ -12,8 +12,8 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 
 @implementation LabJackU6Monitor
 
-- (void)checkWarnings {
-
+- (void)checkWarnings;
+{
     double labJackU6SampleTimeMS, CPUMS, driftParts;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -32,8 +32,15 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 		NSLog(@"previous.samplePeriodMS: %f", previous.samplePeriodMS);
 		NSLog(@"previous.sequences: %ld", previous.sequences);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
-        [self doAlarm:[NSString stringWithFormat:@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.",
-				driftParts >= 0 ? 1 : -1, driftParts]];
+//        [self doAlarm:[NSString stringWithFormat:@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.",
+//                       driftParts >= 0 ? 1 : -1, driftParts]];
+        if (!alarmActive) {
+            alarmActive = YES;
+            [self performSelectorOnMainThread:@selector(doAlarm:) withObject:
+                    [NSString stringWithFormat:@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.",
+                    driftParts >= 0 ? 1 : -1, driftParts] waitUntilDone:YES];
+            alarmActive = NO;
+        }
 	}
 }
 
@@ -52,30 +59,28 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 
 - (void)doAlarm:(NSString *)message;
 {
-//	long choice;
-//    NSAlert *theAlert = [[NSAlert alloc] init];
+    long choice;
+    NSAlert *theAlert;
    
-    [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6Monitor" informativeText:[self IDString]];
-//    [theAlert setMessageText:[NSString stringWithFormat:@"LabJackU6Monitor (%@)", [self IDString]]];
-//    [theAlert addButtonWithTitle:@"OK"];
-//    [theAlert addButtonWithTitle:@"Disarm Alarm"];
-//    [theAlert addButtonWithTitle:@"Change Settings"];
-//    [theAlert setInformativeText:message];
-//	alarmActive = YES;
-//	choice = [theAlert runModal];
-//	switch (choice) {
-//	case NSAlertSecondButtonReturn:						// disarm alarms
-//		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
-//		break;
-//	case NSAlertThirdButtonReturn:
-//		[self configure];								// configure alarms
-//		break;
-//	case NSAlertFirstButtonReturn:						// OK button, do nothing
-//	default:
-//		break;
-//	}
-//	alarmActive = NO;
-//    [theAlert release];
+    theAlert = [[NSAlert alloc] init];
+    [theAlert setMessageText:[NSString stringWithFormat:@"LabJackU6Monitor (%@)", [self IDString]]];
+    [theAlert addButtonWithTitle:@"OK"];
+    [theAlert addButtonWithTitle:@"Disarm Alarm"];
+    [theAlert addButtonWithTitle:@"Change Settings"];
+    [theAlert setInformativeText:message];
+    choice = [theAlert runModal];
+    switch (choice) {
+        case NSAlertSecondButtonReturn:						// disarm alarms
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
+            break;
+        case NSAlertThirdButtonReturn:
+            [self configure];								// configure alarms
+            break;
+        case NSAlertFirstButtonReturn:						// OK button, do nothing
+        default:
+            break;
+    }
+    [theAlert release];
 }
 
 - (NSString *)IDString {

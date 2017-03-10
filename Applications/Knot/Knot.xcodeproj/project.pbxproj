@@ -353,7 +353,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB_R2013a.app/extern/include;
+				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
 				INFOPLIST_FILE = "Info-Knot.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -388,7 +388,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB_R2013a.app/extern/include;
+				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
 				INFOPLIST_FILE = "Info-Knot.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -418,7 +418,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB_R2013a.app/extern/include;
+				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
 				INFOPLIST_FILE = "Info-Knot.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;

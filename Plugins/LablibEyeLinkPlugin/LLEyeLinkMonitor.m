@@ -55,14 +55,18 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 - (void)doAlarm:(NSString *)message;
 {
 	long choice;
-    NSAlert *theAlert = [[NSAlert alloc] init];
+    NSAlert *theAlert;
     
+    if (alarmActive) {
+        return;
+    }
+    alarmActive = YES;
+    theAlert = [[NSAlert alloc] init];
     [theAlert setMessageText:[NSString stringWithFormat:@"LLEyeLinkMonitor (%@)", [self IDString]]];
     [theAlert addButtonWithTitle:@"OK"];
     [theAlert addButtonWithTitle:@"Disarm Alarm"];
     [theAlert addButtonWithTitle:@"Change Settings"];
     [theAlert setInformativeText:message];
-	alarmActive = YES;
 	choice = [theAlert runModal];
 	switch (choice) {
 	case NSAlertSecondButtonReturn:						// disarm alarms
