@@ -11,6 +11,8 @@ Need to change the Plugin Manager to make it possible to select data devices, as
 because the task plugins can be changed on the fly, but I'm not sure that the data plugins can.
 
 
+Fix the LabJack Monitor to use a dialog with buttons (I did this for another alarm).
+
 161211
     • LLDataDevices should behave gracefully if their hardware is absent
     • After Knot loads LLDataDevices, the data assignments should be checked and the user warned if any of the
