@@ -1,4 +1,10 @@
 
+170305 Visual Stimuli
+
+It's a pain that new stimuli get all their defaults set to zero when you use bindValues...WithPrefix.  This happens
+because the VisualStimulus object has no idea what parameters are inherited (I think).  But it means every stimulus has
+to be tuned up on every device.
+
 170211 NE500Pump
 
 Need to change the Plugin Manager to make it possible to select data devices, as well as tasks.  This might be a problem
