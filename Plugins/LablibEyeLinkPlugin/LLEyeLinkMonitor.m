@@ -17,7 +17,9 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 - (void)checkWarnings {
 
     double eyelinkSampleTimeMS, CPUMS, driftParts;
+    NSString *messageString;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    SEL selector = NSSelectorFromString(@"doAlarm:");
     
     if (![defaults boolForKey:[self uniqueKey:doWarnDriftKey]] || previous.sequences < 1) {
         return;
@@ -34,8 +36,13 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 		NSLog(@"previous.samplePeriodMS: %f", previous.samplePeriodMS);
 		NSLog(@"previous.sequences: %ld", previous.sequences);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
-        [self doAlarm:[NSString stringWithFormat:@"Warning: EyeLink clock drift is %d:%.0f relative to computer.",
-				driftParts >= 0 ? 1 : -1, driftParts]];
+//        [self doAlarm:[NSString stringWithFormat:@"Warning: EyeLink clock drift is %d:%.0f relative to computer.",
+//				driftParts >= 0 ? 1 : -1, driftParts]];
+        if (!alarmActive && ![[settings window] isVisible]) {
+            messageString = [NSString stringWithFormat:@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.",
+                             driftParts >= 0 ? 1 : -1, driftParts];
+            [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
+        }
 	}
 }
 
@@ -54,12 +61,8 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 
 - (void)doAlarm:(NSString *)message;
 {
-	long choice;
     NSAlert *theAlert;
     
-    if (alarmActive) {
-        return;
-    }
     alarmActive = YES;
     theAlert = [[NSAlert alloc] init];
     [theAlert setMessageText:[NSString stringWithFormat:@"LLEyeLinkMonitor (%@)", [self IDString]]];
@@ -67,8 +70,7 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
     [theAlert addButtonWithTitle:@"Disarm Alarm"];
     [theAlert addButtonWithTitle:@"Change Settings"];
     [theAlert setInformativeText:message];
-	choice = [theAlert runModal];
-	switch (choice) {
+	switch ([theAlert runModal]) {
 	case NSAlertSecondButtonReturn:						// disarm alarms
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
 		break;

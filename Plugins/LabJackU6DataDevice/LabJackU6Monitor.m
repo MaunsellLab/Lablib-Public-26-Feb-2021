@@ -58,13 +58,15 @@ NSString *driftLimitKey = @"LL LabJackU6 Drift Limit";
 
 - (void)doAlarm:(NSString *)message;
 {
+    NSAlert *theAlert;
+
+    alarmActive = YES;
     theAlert = [[NSAlert alloc] init];
     [theAlert setMessageText:[NSString stringWithFormat:@"LabJackU6Monitor (%@)", [self IDString]]];
     [theAlert addButtonWithTitle:@"OK"];
     [theAlert addButtonWithTitle:@"Disarm Alarm"];
     [theAlert addButtonWithTitle:@"Change Settings"];
     [theAlert setInformativeText:message];
-    alarmActive = YES;
     switch ([theAlert runModal]) {
     case NSAlertSecondButtonReturn:						// disarm alarms
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
