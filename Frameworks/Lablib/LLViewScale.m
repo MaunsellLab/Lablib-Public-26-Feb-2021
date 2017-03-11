@@ -151,8 +151,8 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"LLViewScale (%lx): xMin %f xMax %f yMin %f yMax %f", (unsigned long)&self,
-            scaleRect.origin.x, scaleRect.origin.y, scaleRect.size.width, scaleRect.size.height];
+    return [NSString stringWithFormat:@"LLViewScale (%lx): x origin %f y origin %f width %f height %f",
+            (unsigned long)&self, scaleRect.origin.x, scaleRect.origin.y, scaleRect.size.width, scaleRect.size.height];
 }
  
 - (float)height {
@@ -160,8 +160,8 @@
     return scaleRect.size.height;
 }
    
-- (id) init {
-
+- (id) init;
+{
     [super init];
     scaleRect = NSMakeRect(0.0, 0.0, kDefaultUserWidth, kDefaultUserHeight);
     yMaxMinViewArray = [[NSMutableArray alloc] init];

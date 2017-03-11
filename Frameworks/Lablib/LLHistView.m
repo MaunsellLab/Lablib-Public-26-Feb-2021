@@ -52,6 +52,12 @@
     xAxisMax = (useXDisplayValues) ? xMaxDisplayValue : dataLength;
     yAxisMin = (useYDisplayValues) ? yMinDisplayValue : 0;
     yAxisMax = (useYDisplayValues) ? yMaxDisplayValue : [scale yMax];
+    if (xAxisMax == xAxisMin) {
+        xAxisMax = xAxisMin + 0.001;
+    }
+    if (yAxisMax == yAxisMin) {
+        yAxisMax = yAxisMin + 0.001;
+    }
 
 // Clear and highlight the bounds
 
