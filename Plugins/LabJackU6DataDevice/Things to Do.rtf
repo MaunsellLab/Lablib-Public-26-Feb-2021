@@ -1,17 +1,26 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf810
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red46\green13\blue110;\red63\green110\blue116;
+\red170\green13\blue145;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c18100\c5200\c43100;\csgenericrgb\c24700\c43100\c45600;
+\csgenericrgb\c66500\c5200\c56900;}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 LabJackU6DataDevice\
-Things to do to get mouse experiments running under Lablib\
-\
-\'95 Get the new plugin to use the LabJackU6DataDevice\
-	Test the latency and precision of the LabJack IO (doesn't need to be good for reward, but lever?\
+\f0\fs24 \cf0 \'95 Test the latency and precision of the LabJack IO (doesn't need to be good for reward, but lever)?\
  \
-\'95 Decide whether the PC/NIDAQ arrangement is needed.  It might make sense, if only because the ITC is being deprecated. But it will come at a cost of getting a Python bridge (or some other bridge) going in Lablib. Also, using the PC/NIDAC arrangement and LabJack would make it relatively simple to support both MWorks and Lablib at the same time.  And it would give additional flexibility.  Just another major programming chore\
+\'95 Decide how to convert the PC/NIDAQ into a general purpose physiology buffer (like the ITC).  This might consist of making a library of stubs on the Mac that expose the PC NIDAC library to Lablib.\
 \
-\'95 Confirm that it makes sense to drop the Matlab bridge.  There's a lot of complex coding that would need to go into that.  Plus it's a considerable expense for the licenses.  If we don't use Matlab, we should automate the translation of Lablib data to Matlab data, but that should be easy.\
+\'95 Stop letting the Plugin Manager show the Screen plists.\
+\
+\
+CAUTIONS:\
+\
+setNeedsDisplay is only supposed to be run from the main loop \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf2 \CocoaLigature0             \cf3 dispatch_async\cf2 (\cf3 dispatch_get_main_queue\cf2 (), ^\{\
+                [\cf4 hist\cf2 [level] \cf3 setNeedsDisplay\cf2 :\cf5 YES\cf2 ];\
+            \});\
 }

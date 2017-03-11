@@ -23,7 +23,7 @@
 @synthesize yMaxValue;
 @synthesize yMinValue;
 
-- (void) dealloc {
+- (void)dealloc {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[plotColors release];
@@ -42,9 +42,7 @@
     NSArray *elevationValues;
     LLNormDist *dist;
     
-    // If we're uninitialized, don't do anything
-    
-    if (plotXPoints == 0 && plotYPoints == 0) {
+    if (plotXPoints == 0 && plotYPoints == 0) {     // uninitialized, don't do anything
         return;
     }
 
