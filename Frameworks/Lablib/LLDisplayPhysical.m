@@ -9,6 +9,7 @@
 #import "LLDisplayPhysical.h"
 #import "LLDisplayUtilities.h"
 #import "LLDisplays.h"
+#import "LLSystemUtil.h"
 
 #define kMMPerInch		25.40
 
@@ -76,7 +77,6 @@ NSString *LLWidthMMKey = @"LL Width MM";
 - (DisplayPhysicalParam *)displayParameters:(long)displayIndex;
 {
 	NSString *displayDescription;
-    NSAlert *theAlert;
 
 // readParameters will do all the work if there are defaults to be found.  If there are
 // no defaults established, then we need to 1) write default values to the disk, and 2)
@@ -86,18 +86,10 @@ NSString *LLWidthMMKey = @"LL Width MM";
 	if (![self readParameters:displayIndex] && !initialized[displayIndex]) {
 		displayDescription = (displayIndex == 0) ? @"Main Display" :
 				[NSString stringWithFormat:@"Display %ld", displayIndex];
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDisplayPhysical"];
-        [theAlert setInformativeText:[NSString stringWithFormat:
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:[NSString stringWithFormat:
                 @"No display calibration information found for \"%@\" (%@).  \
                 You may provide calibration information in the dialog that will appear next.",
                 [LLDisplays displayNameUsingIndex:displayIndex], displayDescription]];
-        [theAlert runModal];
-//		NSRunAlertPanel(@"LLDisplayPhysical", @"No display calibration information found for \"%@\" (%@).  \
-//You may provide calibration information in the dialog that will appear next.", @"OK", nil, nil, 
-//				[LLDisplays displayNameUsingIndex:displayIndex], displayDescription);
-        [theAlert release];
-
 		displayParam[displayIndex].distanceMM = 500;
 		displayParam[displayIndex].heightMM = 300;
 		displayParam[displayIndex].widthMM = 400;
@@ -114,9 +106,8 @@ NSString *LLWidthMMKey = @"LL Width MM";
 	return &displayParam[displayIndex];
 }
 
-- (void)doSettingsPanel:(long)displayIndex {
-
-    NSAlert *theAlert;
+- (void)doSettingsPanel:(long)displayIndex;
+{
 	NSString *domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, displayIndex];
 
 	currentParam = displayParam[displayIndex];
@@ -126,16 +117,10 @@ NSString *LLWidthMMKey = @"LL Width MM";
 	if (!permissionChecked) {
 		[self writeDomain:domainName key:LLDistanceMMKey doublePtr:&currentParam.distanceMM];
 		if (!CFPreferencesAppSynchronize((CFStringRef)domainName)) {
-            theAlert = [[NSAlert alloc] init];
-            [theAlert setMessageText:@"LLDisplayPhysical"];
-            [theAlert setInformativeText:@"You do not have permission to write calibration \
-                        values on this machine.  Your values will last only while this program runs."];
-            [theAlert runModal];
-            [theAlert release];
-           
-//			NSRunAlertPanel(@"LLDisplayPhysical", @"You do not have permission to write calibration \
-//values on this machine.  Your values will last only while this program runs.", @"OK", nil, nil);
-		}
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
+             @"You do not have permission to write calibration \
+             values on this machine.  Your values will last only while this program runs."];
+        }
 		permissionChecked = YES;
 	}
 	[distanceField setFloatValue:currentParam.distanceMM / kMMPerInch];

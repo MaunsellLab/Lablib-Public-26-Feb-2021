@@ -157,9 +157,6 @@ static	LLMouseDataSettings	*mouseSettings;
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
                 @"Attempt to set sample period %ld of %lu for device %@",
                 channel, (unsigned long)[samplePeriodMS count], [self name]]];
-//		NSRunAlertPanel(@"LLDataDevice",
-//				@"Attempt to set sample period %ld of %lu for device %@",
-//				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	[samplePeriodMS removeAllObjects];

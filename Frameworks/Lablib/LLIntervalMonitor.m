@@ -36,31 +36,36 @@ NSString *standardKey = @"LLMonitorTarget";
 
 - (void)checkWarnings;
 {
+    NSString *messageString;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	if (alarmActive || [defaults boolForKey:[self uniqueKey:doWarnDisarmKey]]) {
+    SEL selector = NSSelectorFromString(@"doAlarm:");
+
+    if (alarmActive || [defaults boolForKey:[self uniqueKey:doWarnDisarmKey]] || [[settings window] isVisible]) {
 		return;
 	}
 	if ([defaults boolForKey:[self uniqueKey:doWarnGreaterKey]]) {
 		if (greaterFailures >= [defaults integerForKey:[self uniqueKey:warnGreaterCountKey]]) {
-			[self doAlarm:[NSString stringWithFormat:@"Warning: %ld intervals %.1f ms greater than average.",
-				greaterFailures, cumulativeValues.rangeMaxMS]];
+            messageString = [NSString stringWithFormat:@"Warning: %ld intervals %.1f ms greater than average.",
+                             greaterFailures, cumulativeValues.rangeMaxMS];
+            [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
 			greaterFailures = 0;
 			return;
 		}
 	}
 	if ([defaults boolForKey:[self uniqueKey:doWarnLessKey]]) {
 		if (lessFailures >= [defaults integerForKey:[self uniqueKey:warnLessCountKey]]) {
-			[self doAlarm:[NSString stringWithFormat:@"Warning: %ld intervals %.1f ms less than average.",
-				lessFailures, cumulativeValues.rangeMinMS]];
+            messageString = [NSString stringWithFormat:@"Warning: %ld intervals %.1f ms less than average.",
+                             lessFailures, cumulativeValues.rangeMinMS];
+            [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
 			lessFailures = 0;
 			return;
 		}
 	}
 	if ([defaults boolForKey:[self uniqueKey:doWarnSequentialKey]]) {
 		if (sequentialFailures >= [defaults integerForKey:[self uniqueKey:warnSequentialCountKey]]) {
-			[self doAlarm:[NSString stringWithFormat:@"Warning: %ld sequences in a row have failed.",
-				sequentialFailures]];
+            messageString = [NSString stringWithFormat:@"Warning: %ld sequences in a row have failed.",
+                             sequentialFailures];
+            [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
 			sequentialFailures = 0;
 			return;
 		}
@@ -83,17 +88,16 @@ NSString *standardKey = @"LLMonitorTarget";
 
 - (void)doAlarm:(NSString *)message;
 {
-	long choice;
     NSAlert *theAlert;
 	
 	alarmActive = YES;
     theAlert = [[NSAlert alloc] init];
     [theAlert setMessageText:[NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]]];
+    [theAlert setInformativeText:message];
     [theAlert addButtonWithTitle:@"OK"];
     [theAlert addButtonWithTitle:@"Disarm Alarms"];
     [theAlert addButtonWithTitle:@"Change Settings"];
-	choice = [theAlert runModal];
-	switch (choice) {
+	switch ([theAlert runModal]) {
 	case NSAlertSecondButtonReturn:						// disarm alarms
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDisarmKey]];
 		break;

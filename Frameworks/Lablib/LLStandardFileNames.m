@@ -112,18 +112,12 @@ NSString	*LLDataFileExtention = @"dat";
 		if (![manager createDirectoryAtPath:kLLDefaultDataDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
             [LLSystemUtil runAlertPanelWithMessageText:[self className]
                     informativeText:[NSString stringWithFormat:@"Unable to create directory \"%@\".", path]];
-//			NSRunAlertPanel(@"LLStandardFileNames",
-//						@"Unable to create directory \"%@\".", @"OK", 
-//						nil, nil, path);
 			return NO;
 		}
 	}
 	else if (!isDirectory) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
              @"Cannot create data directory  \"%@\" because file exist with that name.", path]];
-//		NSRunAlertPanel(@"LLStandardFileNames",
-//			@"Cannot create data directory  \"%@\" because file exist with that name.", 
-//			@"OK", nil, nil, path);
 		return NO;
 	}
 	return YES;

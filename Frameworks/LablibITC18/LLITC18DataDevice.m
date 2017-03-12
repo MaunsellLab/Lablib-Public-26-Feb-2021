@@ -136,10 +136,8 @@ static long	ITCCount = 0;
 		*ppBuffer = reallocf(*ppBuffer, sizeof(short) * sizeInShorts);
 	}
 	if (*ppBuffer == nil) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18IODevice"
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                    informativeText:@"Fatal error: Could not allocate sample memory."];
-//		NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: Could not allocate sample memory.",
-//					@"OK", nil, nil);
 		exit(0);
 	}
 }
@@ -338,9 +336,8 @@ static long	ITCCount = 0;
 	
 	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
 	if (overflow != 0) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18IODevice"
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                    informativeText:@"Fatal error: FIFO overflow"];
-//		NSRunAlertPanel(@"LLITC18DataDevice",  @"Fatal error: FIFO overflow", @"OK", nil, nil);
 		exit(0);
 	}
 	return available;
@@ -528,10 +525,8 @@ static long	ITCCount = 0;
 	if (itc == nil) {						// currently opened?
 		if ((itc = malloc(ITC18_GetStructureSize())) == nil) {
 			[deviceLock unlock];
-            [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18IODevice"
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                        informativeText:@"Failed to allocate pLocal memory."];
-//			NSRunAlertPanel(@"LLITC18IODevice",
-//            @"Failed to allocate pLocal memory.", @"OK", nil, nil);
 			exit(0);
 		}
 	}

@@ -12,7 +12,6 @@
 #import "HexView.h"
 #import "PrintView.h"
 
-#define kADChannels			8
 #define	kBytesPerLine		16
 #define kCharsPerByte		3
 #define	kEventTimeTextCols	4

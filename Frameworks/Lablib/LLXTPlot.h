@@ -1,5 +1,5 @@
 /*
- *  LLIODevice.h
+ *  LLXTPlot.h
  *  Lablib
  *  
  *  Protocol specifying required methods for XT plots

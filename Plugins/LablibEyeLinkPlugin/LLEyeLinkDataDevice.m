@@ -127,9 +127,6 @@ void handler(int signal) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
                 @"Request to disable non-existent channel for device %@ (only %lu channels)",
                 [self name], (unsigned long)[samplePeriodMS count]]];
-//		NSRunAlertPanel(@"LLEyeLinkDataDevice",  
-//				@"Request to disable non-existent channel for device %@ (only %lu channels)",
-//				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
 		exit(0);
 	}
 	sampleChannels &= ~[bitPattern unsignedLongValue];
@@ -141,9 +138,6 @@ void handler(int signal) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
                @"Request to enable non-existent channel for device %@ (only %lu channels)",
                [self name], (unsigned long)[samplePeriodMS count]]];
-//		NSRunAlertPanel(@"LLEyeLinkDataDevice",
-//				@"Request to enable non-existent channel for device %@ (only %lu channels)",
-//				@"OK", nil, nil, [self name], (unsigned long)[samplePeriodMS count]);
 		exit(0);
 	}
 	sampleChannels |= [bitPattern unsignedLongValue];
@@ -160,8 +154,6 @@ void handler(int signal) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
                @"Requested sample period %ld of %lu for device %@",
                channel, (unsigned long)[samplePeriodMS count], [self name]]];
-//		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Requested sample period %ld of %lu for device %@",
-//				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	return [[samplePeriodMS objectAtIndex:channel] floatValue];
@@ -339,8 +331,6 @@ void handler(int signal) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLEyeLinkDataDevice" informativeText:[NSString stringWithFormat:
                    @"Attempt to set sample period %ld of %lu for device %@",
                    channel, (unsigned long)[samplePeriodMS count], [self name]]];
-//		NSRunAlertPanel(@"LLEyeLinkDataDevice", @"Attempt to set sample period %ld of %lu for device %@",
-//				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	[samplePeriodMS replaceObjectAtIndex:channel 

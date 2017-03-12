@@ -109,121 +109,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return self;
 }
 
-// Make the instruction sequence.  The sequence contains 4 * the number of digital
-// inputs needed to match the requested spike resolution.  We need to oversample so
-// that we can see an on level and an off level associated with each spike.  While
-// a factor of 2 might seem adequate, it is not because we use digital latching.
-// We must latch because spikes are generally marked with short pulses, and we would
-// be unlikely to catch these pulses.  To detect a low level when latching is enabled,
-// we must have 2 digital samples while the level is low.  If we allow for a worst 
-// case of a 50% duty cycle on the spike signal, then we need 4 samples per spike
-// period.  
-
-// AD sample instructions are inserted between the digital input commands, at a 
-// density that insures that each channel will be sampled once per sequence.  
-// The AD samples are all packed at the start of the sequence, and Nil commands
-// are used to maintain the spacing of the digital commands after all ADs are samled.  
-
 - (void)loadInstructionSequence {
-/*
-	short channel, adInstruction;
-	int *pInstrBuff;
-	long chunk;
-	long digitalInputsPerCycle, ADsPerDigitalInput;
-	
-	static long instructionBufferLength = 0;
-	static long	ADInstructions[] = {ITC18_INPUT_AD0, ITC18_INPUT_AD1, ITC18_INPUT_AD2, 
-									ITC18_INPUT_AD3, ITC18_INPUT_AD4, ITC18_INPUT_AD5, 
-									ITC18_INPUT_AD6, ITC18_INPUT_AD7}; 
-
-	if (itc == nil) {
-		return;
-	}
-	
-// Check ranges
-
-	if (samplePeriodMS < 1 || samplePeriodMS > 100) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"A sample period of %.1f is not supported", 
-					@"OK", nil, nil, samplePeriodMS);
-		return;
-	}
-	if (timestampTickPerMS < 1 || timestampTickPerMS > 10) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"%.1 timestamp ticks per ms is not supported", 
-					@"OK", nil, nil, timestampTickPerMS);
-		return;
-	}
-
-// Get values
-
-	digitalInputsPerCycle = samplePeriodMS * timestampTickPerMS * kOverSample;
-	for (ADsPerDigitalInput = 1; ADsPerDigitalInput * digitalInputsPerCycle < kLLITC18ADChannels;
-			ADsPerDigitalInput++) {};
-	instrPerDigitalInput = ADsPerDigitalInput + 1;
-	numInstr = instrPerDigitalInput * digitalInputsPerCycle;
-	ITCTicksPerInstruction = samplePeriodMS * kITC18TicksPerMS / numInstr;
-
-// The number of ITC ticks per instruction must be exact, or timing will drift.  If it's not,
-// try making an adjustment to bring it into line.
-
-	if (ITCTicksPerInstruction != ((double)(samplePeriodMS * kITC18TicksPerMS)) / numInstr) {
-		ADsPerDigitalInput++;
-		instrPerDigitalInput = ADsPerDigitalInput + 1;
-		numInstr = instrPerDigitalInput * digitalInputsPerCycle;
-		ITCTicksPerInstruction = samplePeriodMS * kITC18TicksPerMS / numInstr;
- 	}
-	if (ITCTicksPerInstruction != ((double)(samplePeriodMS * kITC18TicksPerMS)) / numInstr) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: Invalid sample or spike resolution.", 
-					@"OK", nil, nil);
-		exit(0);
-	}
-	
-	// Make the instruction sequence, allocating memory first if needed
-
-	if (instructionBufferLength < numInstr) {
-		if (pInstructions != nil) {
-			DisposePtr((char *)pInstructions);
-		}
-		pInstructions = (int *)NewPtr(numInstr * sizeof(int));
-		if (pInstructions == nil) {
-			NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: Could not alloc pInstructions memory.", 
-						@"OK", nil, nil);
-			exit(0);
-		}
-		if (pSamples != nil) {
-			DisposePtr((char *)pSamples);
-		}
-		pSamples = (short *)NewPtr(numInstr * sizeof(short));
-		if (pSamples == nil) {
-			NSRunAlertPanel(@"LLITC18IODevice",  @"Fatal error: Could not alloc pSamples memory.", 
-						@"OK", nil, nil);
-			exit(0);
-		}
-		instructionBufferLength = numInstr;
-	}
-
-// NB: No new values are read into the ITC until a command with the ITC18_INPUT_UPDATE bit
-// set is read.  This applies to the digital input lines as well as the AD lines.  For this
-// reason, every digital input command must have the update bit set.   FURTHERMORE, it is
-// essential that none of the AD read commands does an update.  If it does, it will cause
-// the digital values to be updated, clearing any latched bits.  When the next digital
-// read command goes, its update will cause the a new digital word to be read, so that any
-// previously latched values that were updated by the Analog read command would be lost.
-
-	for (chunk = channel = 0, pInstrBuff = pInstructions; chunk < digitalInputsPerCycle; chunk++) {
-        *pInstrBuff++ = ITC18_INPUT_DIGITAL | ITC18_INPUT_UPDATE | ((chunk == 0 && channel == 0) ? 0x1 : 0x0);
-		for (adInstruction = 0; adInstruction < ADsPerDigitalInput; adInstruction++) {
-			*pInstrBuff++ = (channel < kLLITC18ADChannels) ? ADInstructions[channel] : ITC18_INPUT_SKIP;
-			channel++;
-		}
-	}
-	
-// Load the ITC18 with the correct sequence for the sampling periods that have been
-// requested
-
-	ITC18_SetSequence(itc, numInstr, pInstructions); 
-	instructionsLoaded = YES; 
-	
-	*/
 }
 
 // Open and initialize the ITC18
@@ -236,7 +122,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     [deviceLock lock];
 	if (itc == nil) {						// current opened?
 		if ((itc = NewPtr(ITC18_GetStructureSize())) == nil) {
-			NSRunAlertPanel(@"LLITC18IODevice",  @"Failed to allocate pLocal memory.", @"OK", nil, nil);
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18StimTrainDevice"
+                                     informativeString: @"Failed to allocate pLocal memory."];
 			exit(0);
 		}
 	}
@@ -281,13 +168,6 @@ Get new stimulation parameter and load the instruction sequence in the ITC-18.  
 in which alternate words are DA values and digital output words (to gate the train and mark the pulses).  
 We load the entire stimulus into the buffer, so that no servicing is needed.
 */
-
-/*#define kInputBufferSize        1000
-#define kITCTicksPerInstruction 400
-#define kLLITC18ADChannels             8
-#define kSetLimit               100
-#define kGarbageLength		3               
-#define kDataLength             (kSetLimit * kLLITC18ADChannels) */
 
 - (BOOL)setTrainParameters:(StimTrainData *)pTrain {
 
@@ -379,8 +259,8 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 //	ITC18_InitializeAcquisition(itc);
     ITC18_GetFIFOWriteAvailable(itc, &writeAvailable);
 	if (writeAvailable < DASamples) {
-		NSRunAlertPanel(@"LLITC18StimTrainDevice",  @"An ITC18 Laboratory Interface card was found, but the\
-						write buffer was full.", @"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18StimTrainDevice"
+                    informativeString:@"An ITC18 Laboratory Interface card was found, but the write buffer was full."];
 		[trainValues release];
 		return NO;
 	}

@@ -92,7 +92,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	
 	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
 	if (overflow != 0) {
-		NSRunAlertPanel(@"LLITC18PulseTrainDevice",  @"Fatal error: FIFO overflow", @"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
+                informativeString:@"Fatal error: FIFO overflow"];
 		exit(0);
 	}
 	return available;
@@ -153,7 +154,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     [deviceLock lock];
 	if (itc == nil) {						// current opened?
 		if ((itc = NewPtr(ITC18_GetStructureSize())) == nil) {
-			NSRunAlertPanel(@"LLITC18IODevice",  @"Failed to allocate pLocal memory.", @"OK", nil, nil);
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
+                                     informativeString:@"Failed to allocate pLocal memory"];
 			exit(0);
 		}
 	}
@@ -331,8 +333,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	ITC18_StopAndInitialize(itc, YES, YES);
     ITC18_GetFIFOWriteAvailable(itc, &writeAvailable);
 	if (writeAvailable < DASampleSetsInTrain) {
-		NSRunAlertPanel(@"LLITC18PulseTrainDevice",  @"An ITC18 Laboratory Interface card was found, but the\
-						write buffer was full.", @"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
+                informativeString:@"An ITC18 Laboratory Interface card was found, but the write buffer was full."];
 		[trainValues release];
 		return NO;
 	}
@@ -455,7 +457,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // Check that the entries are within limits, then unload the data
 	
 	if (DAchannels > ITC18_NUMBEROFDACOUTPUTS) {
-		NSRunAlertPanel(@"LLITC18PulseTrainDevice",  @"Too many channels requested.  Ignoring request.", @"OK", nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
+                                 informativeString: @"Too many channels requested.  Ignoring request."];
 		return NO;
 	}
 	for (index = 0; index < DAchannels; index++) {
@@ -480,8 +483,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 			pulseMarkerBit != trainData[index].pulseMarkerBit ||  pulseWidthUS != trainData[index].pulseWidthUS ||
 			frequencyHZ != trainData[index].frequencyHZ || fullRangeV != trainData[index].fullRangeV ||
 				 UAPerV != trainData[index].UAPerV) {
-			NSRunAlertPanel(@"LLITC18PulseTrainDevice",  @"Incompatible values requested on different DA channels.", 
-							@"OK", nil, nil);
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
+                                     informativeString: @"Incompatible values requested on different DA channels."];
 			return NO;
 		}			
 	} 

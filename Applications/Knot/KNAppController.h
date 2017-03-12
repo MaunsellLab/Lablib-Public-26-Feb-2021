@@ -18,7 +18,7 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
     LLTaskPlugIn 			*currentTask;
     
 	LLDataDoc				*dataDoc;						// LLDataDoc for data events
-	id<LLIODevice>			dataSource;
+//	id<LLIODevice>			dataSource;
 	LLUserDefaults			*defaults;
 	LLDataDeviceController	*dataDeviceController;
 	LLBinocCalibrator		*eyeCalibration;

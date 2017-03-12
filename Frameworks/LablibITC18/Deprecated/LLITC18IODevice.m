@@ -254,13 +254,13 @@
 // Check ranges
 
 	if (samplePeriodMS < 1 || samplePeriodMS > 100) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"A sample period of %.1f is not supported", 
-					@"OK", nil, nil, samplePeriodMS);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18IODevice" informativeString:
+                    [NSString stringWithFormat:,  @"A sample period of %.1f is not supported", samplePeriodMS]];
 		return;
 	}
 	if (timestampTickPerMS < 1 || timestampTickPerMS > 10) {
-		NSRunAlertPanel(@"LLITC18IODevice",  @"%f timestamp ticks per ms is not supported",
-					@"OK", nil, nil, timestampTickPerMS);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18IODevice" informativeString:
+            [NSString stringWithFormat:,  @"%f timestamp ticks per ms is not supported", timestampTickPerMS]];
 		return;
 	}
 

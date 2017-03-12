@@ -119,8 +119,6 @@ float stencilRadiusDeg = FLT_MAX;
 		if (!warned) {
             [LLSystemUtil runAlertPanelWithMessageText:[self className]
                                        informativeText:@"Can't draw movie until \"displays\" is initialized"];
-//			NSRunAlertPanel(@"LLRandomDots",  @"Can't draw movie until \"displays\" is initialized", @"OK",
-//							nil, nil);
 			warned = YES;
 		}
 		return;
@@ -159,60 +157,7 @@ float stencilRadiusDeg = FLT_MAX;
         NSLog(@"LLRandomDots: OpenGL Error (code %d", errCode);
     }
 }
-/*
-- (void)draw;
-{	
-	GLenum errCode;
-	GLfloat oldColors[4];
-	NSData *frameData;
-	
-	if (currentFrame >= [frameList count]) {
-		return;
-	}
-	if (displays == nil) {
-		if (!warned) {
-			NSRunAlertPanel(@"LLRandomDots",  @"Can't draw movie until \"displays\" is initialized", @"OK", 
-							nil, nil);
-			warned = YES;
-		}
-		return;
-	}
-	glPushMatrix();
-	glGetFloatv(GL_CURRENT_COLOR, oldColors);
-	[self drawCircularStencil];							// draw the clipping stencil
-	glColor3f([foreColor redComponent] * dotContrast, [foreColor greenComponent] * dotContrast, 
-			  [foreColor blueComponent] * dotContrast);
-	glPointSize(dotDiameterDeg * ([displays widthPix:displayIndex] / [displays widthMM:displayIndex]) * 
-				([displays distanceMM:displayIndex] * kRadiansPerDeg));
-	if (antialias) {
-		glEnable(GL_BLEND);
-		glEnable(GL_POINT_SMOOTH);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glHint(GL_POINT_SMOOTH_HINT, GL_FASTEST);
-	}
-	glTranslatef(azimuthDeg, elevationDeg, 0.0);
-	frameData = [frameList objectAtIndex:currentFrame];
-	glVertexPointer(2, GL_FLOAT, 0, [frameData bytes]);		// set up the vertex array pointer
-	
- 	glEnable(GL_STENCIL_TEST);
-	glStencilFunc(GL_EQUAL, 0x1, 0x1);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-	glDrawArrays(GL_POINTS, 0, [frameData length] / sizeof(NSPoint));
-	glDisable(GL_STENCIL_TEST);
-	
-	// Clean up
-	
-	if (antialias) {
-		glDisable(GL_POINT_SMOOTH);
-		glDisable(GL_BLEND);
-	}
-	glColor4fv(oldColors);							// restore color
-	glPopMatrix();
-	if ((errCode = glGetError()) != GL_NO_ERROR) {
-        NSLog(@"LLRandomDots: OpenGL Error draw: \"%s\"", gluErrorString(errCode));
-    }
-}
-*/
+
 // if the stencil has changed, redraw it
 
 - (void)drawCircularStencil;

@@ -9,7 +9,7 @@
 #import "LLDataDoc.h"
 #import "LLDisplays.h"
 #import "LLBinocCalibrator.h"
-#import "LLIODevice.h"
+//#import "LLIODevice.h"
 #import "LLDataDeviceController.h"
 #import "LLMatlabEngine.h"
 #import "LLMonitorController.h"
@@ -18,7 +18,7 @@
 #import "LLStateSystem.h"
 #import "LLStimWindow.h"
 #import "LLSynthDataDevice.h"
-#import  <Lablib/LLSynthIODevice.h>
+//#import  <Lablib/LLSynthIODevice.h>
 #import "LLUserDefaults.h"
 
 @interface LLTaskPlugIn : NSObject {
@@ -28,7 +28,7 @@
 	NSPoint					currentEyeDeg;
 	NSPoint					currentEyesDeg[kEyes];
 	LLDataDoc				*dataDoc;
-	id<LLIODevice>          dataSource;
+//	id<LLIODevice>          dataSource;
 	LLDataDeviceController	*dataController;
 	LLUserDefaults			*defaults;
 	DisplayModeParam		displayMode;
@@ -45,7 +45,7 @@
 	LLStateSystem			*stateSystem;
 	LLStimWindow			*stimWindow;
 	LLSynthDataDevice		*synthDataDevice;
-	LLSynthIODevice			*synthDataSource;
+//	LLSynthIODevice			*synthDataSource;
 	BOOL					writingDataFile;
 }
 
@@ -58,7 +58,7 @@
 - (NSPoint *)currentEyesDeg;
 - (LLDataDeviceController *)dataController;
 - (LLDataDoc *)dataDoc;
-- (id<LLIODevice>)dataSource;
+//- (id<LLIODevice>)dataSource;
 - (IBAction)deactivate:(id)sender;
 - (LLUserDefaults *)defaults;
 - (LLBinocCalibrator *)eyeCalibrator;
@@ -77,7 +77,7 @@
 - (DisplayModeParam)requestedDisplayMode;
 - (void)setDataDeviceController:(LLDataDeviceController *)controller;
 - (void)setDataDocument:(LLDataDoc *)doc;
-- (void)setDataSource:(id<LLIODevice>)source;
+//- (void)setDataSource:(id<LLIODevice>)source;
 - (void)setDefaults:(LLUserDefaults *)newDefaults;
 - (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
 - (void)setHost:(id)newHost;
@@ -89,13 +89,13 @@
 - (void)setSocket:(LLSockets *)newSocket;
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 - (void)setSynthDataDevice:(LLSynthDataDevice *)device;
-- (void)setSynthDataSource:(LLSynthIODevice *)source;
+//- (void)setSynthDataSource:(LLSynthIODevice *)source;
 - (void)setWritingDataFile:(BOOL)state;
 - (LLSockets *)socket;
 - (LLStateSystem *)stateSystem;
 - (LLStimWindow *)stimWindow;
 - (LLSynthDataDevice *)synthDataDevice;
-- (LLSynthIODevice *)synthDataSource;
+//- (LLSynthIODevice *)synthDataSource;
 - (BOOL)writingDataFile;
 
 @end

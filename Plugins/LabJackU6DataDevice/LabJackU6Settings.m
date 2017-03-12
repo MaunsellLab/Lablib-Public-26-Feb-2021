@@ -6,8 +6,6 @@
 //
 
 #import "LabJackU6Settings.h"
-//#import "LabJackU6DataDevice.h"
-//#import "LLDataDeviceController.h"
 
 @implementation LabJackU6Settings
 

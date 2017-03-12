@@ -1,5 +1,5 @@
 //
-//  LLDataReader.m
+//  LLDataFileReader.m
 //  Lablib
 //
 //  Data file reader for Lablib data format 6 and beyond only.
@@ -11,6 +11,7 @@
 #import "LLDataFileReader.h"
 #import "LLProgressIndicator.h"
 #import "LLSystemUtil.h"
+#import "LLStandardDataEvents.h"
 
 typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 
@@ -236,9 +237,6 @@ typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 {
     [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
             @"Cannot process file with mix of single an multi-device data"];
-//	NSRunAlertPanel(@"LLDataFileReader",
-//			@"Cannot process file with mix of single an multi-device data", 
-//			@"OK", nil, nil);
 }
 
 - (NSString *)dataString {
@@ -851,8 +849,6 @@ them.
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
             [NSString stringWithFormat:@"Read event code %ld at 0x%lx but only %ld event defined",
              eventCode, currentEventIndex, numEvents]];
-//		NSRunAlertPanel(@"LLDataFileReader",  @"Read event code %ld at 0x%lx but only %ld event defined",
-//			@"OK", nil, nil, eventCode, currentEventIndex, numEvents);
 		exit(0);
 	}
 	
@@ -955,7 +951,6 @@ them.
     if (buffer[0] != '0' || buffer[1] != '0') {
         [LLSystemUtil runAlertPanelWithMessageText:[self className]
                                    informativeText:@"File's format specifier has bad format"];
-//		NSRunAlertPanel(@"LLDataFileReader",  @"File's format specifier has bad format", @"OK", nil, nil);
         return NO;
     }
 

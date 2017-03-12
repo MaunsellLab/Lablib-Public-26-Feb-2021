@@ -78,8 +78,6 @@
 		69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		69EF10BB0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18PulseTrainDevice.h; sourceTree = "<group>"; };
 		69EF10BC0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLITC18PulseTrainDevice.m; sourceTree = "<group>"; };
-		69F2BB1404D31D4400F95507 /* LLITC18IODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLITC18IODevice.h; sourceTree = "<group>"; };
-		69F2BB1504D31D4400F95507 /* LLITC18IODevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLITC18IODevice.m; sourceTree = "<group>"; };
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		69F368C4056705B9009AED51 /* LablibITC18_Framework.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LablibITC18_Framework.plist; sourceTree = "<group>"; };
 		69F369E405670921009AED51 /* LablibITC18.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LablibITC18.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,8 +161,6 @@
 			children = (
 				6917B195091EFCC40082A1F4 /* LLITC18DataDevice.h */,
 				6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */,
-				69F2BB1404D31D4400F95507 /* LLITC18IODevice.h */,
-				69F2BB1504D31D4400F95507 /* LLITC18IODevice.m */,
 				69EF10BB0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.h */,
 				699DA3CB06714B7400D46DD1 /* LLITC18StimTrainDevice.h */,
 				69EF10BC0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.m */,

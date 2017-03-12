@@ -7,6 +7,7 @@
 
 #import "LLScheduleController.h"
 #import "LLSchedule.h"
+#import "LLSystemUtil.h"
 
 
 @implementation LLScheduleController
@@ -152,19 +153,11 @@
 - (BOOL)selectorOK:(SEL)selector toTarget:(id)target
 {
 	BOOL result;
-    NSAlert *theAlert;
 	
 	result = [target respondsToSelector:selector];
 	if (!result) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLSchedule: Scheduling error"];
-        [theAlert setInformativeText:[NSString stringWithFormat:@"Target does not respond to method \"%@\"",
-                                      NSStringFromSelector(selector)]];
-        [theAlert runModal];
-        [theAlert release];
-//		NSRunAlertPanel(@"LLSchedule: Scheduling error",
-//				@"Target does not respond to method \"%@\"", @"OK", nil, nil,
-//				NSStringFromSelector(selector));
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLSchedule: Scheduling error" informativeText:
+         [NSString stringWithFormat:@"Target does not respond to method \"%@\"", NSStringFromSelector(selector)]];
 	}
 	return result;
 }

@@ -93,10 +93,6 @@ NSString *pluginDisableKey = @"LLPluginDisable";
                     [theAlert addButtonWithTitle:@"Delete"];
                     theResponse = [theAlert runModal];
                     [theAlert release];
-//					value = NSRunCriticalAlertPanel(@"LLPluginController: error loading plugin",
-//						@"%@ has version %ld, but current version is %d.  It will be not be used.", 
-//						@"OK", @"Delete", nil, currPath, (long)[pluginDesc.class version], 
-//						kLLPluginVersion);
                     if (theResponse == NSAlertSecondButtonReturn) {     // user wants to delete it
                         theAlert = [[NSAlert alloc] init];
                        [theAlert setMessageText:@"LLPluginController"];
@@ -107,16 +103,12 @@ NSString *pluginDisableKey = @"LLPluginDisable";
                         [theAlert addButtonWithTitle:@"Cancel"];
                         theResponse = [theAlert runModal];
                         [theAlert release];
-//						value = NSRunAlertPanel(@"LLPluginController", @"Delete %@.  Are you sure?", @"Delete",
-//													@"Cancel", nil, currPath);
                         if (theResponse == NSAlertFirstButtonReturn) {   // user confirmed delete
 							NSLog(@"Deleting");
 							success = [[NSFileManager defaultManager] removeItemAtPath:currPath error:NULL];
 							if (!success) {
                                 [LLSystemUtil runAlertPanelWithMessageText:[self className]
                                         informativeText:[NSString stringWithFormat:@"Failed to delete %@.", currPath]];
-//								NSRunAlertPanel(@"LLPluginController", @"Failed to delete %@.", @"OK", @"nil",
-//                                                nil, currPath);
 							}
 						}
 					}

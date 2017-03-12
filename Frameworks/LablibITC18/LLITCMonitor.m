@@ -17,7 +17,9 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 - (void)checkWarnings;
 {
     double ITCMS, CPUMS, driftParts;
-    
+    NSString *messageString;
+    SEL selector = NSSelectorFromString(@"doAlarm:");
+
     if (![self success]) {
         ITCMS = previous.instructions * previous.instructionPeriodMS;
         CPUMS = previous.cumulativeTimeMS;
@@ -28,8 +30,12 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 		NSLog(@"previous.instructions: %ld", previous.instructions);
 		NSLog(@"previous.instructionPeriodMS: %f", previous.instructionPeriodMS);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
-        [self doAlarm:[NSString stringWithFormat:@"Warning: ITC clock drift is %@1 tick per %.0f relative to computer.",
-				driftParts >= 0 ? @"+" : @"-", fabs(driftParts)]];
+        if (!alarmActive && ![[settings window] isVisible]) {
+            messageString = [NSString stringWithFormat:
+                             @"Warning: ITC clock drift is %@1 tick per %.0f relative to computer.",
+                             driftParts >= 0 ? @"+" : @"-", fabs(driftParts)];
+            [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
+        }
 	}
 }
 
@@ -48,7 +54,6 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 
 - (void)doAlarm:(NSString *)message;
 {
-	long choice;
     NSAlert *theAlert = [[NSAlert alloc] init];
     
 	alarmActive = YES;
@@ -57,8 +62,7 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
     [theAlert addButtonWithTitle:@"Disarm Alarm"];
     [theAlert addButtonWithTitle:@"Change Settings"];
     [theAlert setInformativeText:message];
-	choice = [theAlert runModal];
-	switch (choice) {
+	switch ([theAlert runModal]) {
         case NSAlertSecondButtonReturn:						// disarm alarms
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
             break;

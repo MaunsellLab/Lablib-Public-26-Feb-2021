@@ -26,16 +26,12 @@ NSString *mWKey = @"mW";
 	if (mW < inputMW) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
                       @"Requested value (%f) beyond calibrated range (%f).", inputMW, mW]];
-//        NSRunAlertPanel(@"LLLaserCalibrator",  @"Requested value (%f) beyond calibrated range (%f).", @"OK",
-//                        nil, nil, inputMW, mW);
 		return -FLT_MAX;
 	}
 	[self getValuesForCalibrationIndex:0 voltagePtr:&lastVoltage mWPtr:&lastMW];
 	if (lastMW > inputMW) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
                        @"Requested value (%f) below calibrated range (%f).", inputMW, lastMW]];
-//		NSRunAlertPanel(@"LLLaserCalibrator",  @"Requested value (%f) below calibrated range (%f).", @"OK",
-//						nil, nil, inputMW, lastMW);
 		return -FLT_MAX;
 	}
 	calibrationArray = [NSMutableArray arrayWithArray:[taskDefaults arrayForKey:LLLaserCalibratorArrayKey]];
@@ -181,7 +177,6 @@ NSString *mWKey = @"mW";
 		if (value < lastValue) {
             [LLSystemUtil runAlertPanelWithMessageText:[self className]
                                        informativeText:@"Calibration must be a monotonic function."];
-//			NSRunAlertPanel(@"LLLaserCalibrator",  @"Calibration must be a monotonic function.", @"OK", nil, nil);
 			return NO;
 		}
 		lastValue = value;

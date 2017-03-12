@@ -707,8 +707,6 @@ long ELTrialStartTimeMS;
         [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6DataDevice" informativeText:[NSString stringWithFormat:
                    @"Attempt to set sample period %ld of %lu for device %@",
                    channel, (unsigned long)[samplePeriodMS count], [self name]]];
-//		NSRunAlertPanel(@"LabJackU6DataDevice", @"Attempt to set sample period %ld of %lu for device %@",
-//				@"OK", nil, nil, channel, (unsigned long)[samplePeriodMS count], [self name]);
 		exit(0);
 	}
 	[samplePeriodMS replaceObjectAtIndex:channel 

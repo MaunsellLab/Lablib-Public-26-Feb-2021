@@ -30,8 +30,7 @@
 	NSFileManager *manager;
 	NSSavePanel *savePanel;
     NSURL *fileURL;
-    NSAlert *theAlert;
-    
+
 	manager = [NSFileManager defaultManager];
 	
 // First find or create the default data dir
@@ -53,7 +52,6 @@
 	[savePanel setTitle:@"Save Data"];
 	[savePanel setAllowedFileTypes:[LLStandardFileNames allowedFileTypes]];
 	if ([savePanel runModal] != NSModalResponseOK) {
-//        if ([savePanel runModalForDirectory:dirPath file:fileName] != NSOKButton) {
 		return NO;
 	}
 	
@@ -68,14 +66,9 @@
 	attr = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSNumber numberWithUnsignedLong:LLDataFileCreator], NSFileHFSCreatorCode, 
 				[NSNumber numberWithUnsignedLong:LLDataFileType], NSFileHFSTypeCode, nil];
-	if (![[NSFileManager defaultManager] createFileAtPath:filePath
-								contents:nil attributes:attr]) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDisplayPhysical"];
-        [theAlert setInformativeText:[NSString stringWithFormat:@"Unable to create file %@", filePath]];
-        [theAlert runModal];
-        [theAlert release];
-//		NSRunAlertPanel(@"LLDataDoc",  @"Unable to create file %@", @"OK", nil, nil, filePath);
+	if (![[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:attr]) {
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
+                            [NSString stringWithFormat:@"Unable to create file %@", filePath]];
         filePath = nil;
 		return NO;
 	}
@@ -138,19 +131,12 @@
 	NSString *headerString, *dateString;
 	NSMutableData *headerData;
 //	NSCalendarDate *today;
-#ifdef __LP64__
-    NSAlert *theAlert;
-#endif
-    
+
 	headerData = [[[NSMutableData alloc] init] autorelease];
 #ifdef __LP64__
     if (!dataDefinitions) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDataDoc"];
-        [theAlert setInformativeText:@"Data definitions are required in 64-bit mode"];
-        [theAlert runModal];
-        [theAlert release];
-        //        NSRunAlertPanel(@"LLDataDoc",  @"Data definitions are required in 64-bit mode", @"OK", nil, nil, nil);
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+                        @"Data definitions are required in 64-bit mode"];
         exit(0);
     }
 	headerString = [NSString stringWithFormat:@"\007\005006.3"];
@@ -218,17 +204,13 @@ are its code (event codes are integers that increase from 0), and the number of 
     short index;
 	EventDef *pDef;
 	LLDataEventDef *dataEventDef;
-    NSAlert *theAlert;
-   
+
 	if (numEvents < 1) {
 		return YES;
 	}
 	if ([eventsByCode count] > 0 && eventsHaveDataDefs) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDataDoc"];
-        [theAlert setInformativeText:@"Attempting to mix events with and without data definitions."];
-        [theAlert runModal];
-        [theAlert release];
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+                @"Attempting to mix events with and without data definitions."];
 		exit(0);
 	}
 	eventsHaveDataDefs = NO;
@@ -388,8 +370,7 @@ This variant accepts only events definitions that include data definitions.
 	NSAutoreleasePool *threadPool;
 	NSDate *nextRelease;
     SEL methodSelector;
-    NSAlert *theAlert;
-    
+
 // Initialize and get the start time for this schedule
 
     threadPool = [[NSAutoreleasePool alloc] init];
@@ -418,15 +399,9 @@ This variant accepts only events definitions that include data definitions.
 
 			eventDef = [eventsByCode objectAtIndex:eventCode];
 			if ([eventDef code] != eventCode) {
-                theAlert = [[NSAlert alloc] init];
-                [theAlert setMessageText:@"LLDataDoc"];
-                [theAlert setInformativeText:[NSString stringWithFormat:
-                                @"dispatchEvents: Event \"%@\" code mismatch (%ld v. %ld).",
-                                [eventDef name], [eventDef code], eventCode]];
-                [theAlert runModal];
-                [theAlert release];
-//				NSRunAlertPanel(@"LLDataDoc", @"dispatchEvents: Event \"%@\" code mismatch (%ld v. %ld).",
-//					@"OK", nil, nil, [eventDef name], [eventDef code], eventCode);
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+                    [NSString stringWithFormat:@"dispatchEvents: Event \"%@\" code mismatch (%ld v. %ld).",
+                    [eventDef name], [eventDef code], eventCode]];
 				exit(0);
 			}
 

@@ -46,10 +46,10 @@
 	return dataController;
 }
 
-- (id<LLIODevice>)dataSource;
-{
-	return dataSource;
-}
+//- (id<LLIODevice>)dataSource;
+//{
+//	return dataSource;
+//}
 
 - (void)deactivate:(id)sender;
 {
@@ -62,7 +62,7 @@
 	[eyeCalibrator release];
 	[stimWindow release];
 	[synthDataDevice release];
-	[synthDataSource release];
+//	[synthDataSource release];
     [lastDataCollectionDate release];
 	[host release];
 	[super dealloc];
@@ -164,10 +164,10 @@
 	dataController = controller;
 }
 
-- (void)setDataSource:(id<LLIODevice>)source;
-{
-	dataSource = source;
-}
+//- (void)setDataSource:(id<LLIODevice>)source;
+//{
+//	dataSource = source;
+//}
 
 - (void)setDefaults:(LLUserDefaults *)newDefaults;
 {
@@ -242,12 +242,12 @@
 	[synthDataDevice retain];
 }
 
-- (void)setSynthDataSource:(LLSynthIODevice *)source;
-{
-	[synthDataSource release];
-	synthDataSource = source;
-	[synthDataSource retain];
-}
+//- (void)setSynthDataSource:(LLSynthIODevice *)source;
+//{
+//	[synthDataSource release];
+//	synthDataSource = source;
+//	[synthDataSource retain];
+//}
 
 - (void)setWritingDataFile:(BOOL)state;
 {
@@ -274,10 +274,10 @@
 	return synthDataDevice;
 }
 
-- (LLSynthIODevice *)synthDataSource;
-{
-	return synthDataSource;
-}
+//- (LLSynthIODevice *)synthDataSource;
+//{
+//	return synthDataSource;
+//}
 
 - (BOOL)writingDataFile;
 {

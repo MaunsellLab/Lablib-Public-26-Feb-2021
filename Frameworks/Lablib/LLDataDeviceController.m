@@ -119,16 +119,10 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			if (pAssign->name == nil) {						// must have a name
                 [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController"
                                 informativeText:@"Attempt to define data type with no name"];
-//				NSRunAlertPanel(@"LLDataDeviceController",  
-//							@"Attempt to define data type with no name", 
-//							@"OK", nil, nil);
 				exit(0);
 			}
 			if ([assignmentDict objectForKey:pAssign->name] != nil) {	// unique name
                 [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Attempt to define two types of sample data as \"%@\".", pAssign->name]];
-//				NSRunAlertPanel(@"LLDataDeviceController",
-//							@"Attempt to define two types of sample data as \"%@\".", 
-//							@"OK", nil, nil, pAssign->name);
 				exit(0);
 			}
 		}
@@ -136,16 +130,11 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			if (pAssign->name != nil && ![pAssign->name isEqualToString:assignments[0].name]) {
                 [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Member of grouped data given different name (\"%@\" instead of \"%@\")",
                             pAssign->name, assignments[0].name]];
-//				NSRunAlertPanel(@"LLDataDeviceController",
-//						@"Member of grouped data given different name (\"%@\" instead of \"%@\")", 
-//						@"OK", nil, nil, pAssign->name, assignments[0].name);
 				exit(0);
 			}
 			if (dataType != kLLSampleData) {				// only sample data can be grouped
                 [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController"
                                            informativeText:@"Attempt to group timestamp data"];
-//				NSRunAlertPanel(@"LLDataDeviceController",
-//						@"Attempt to group timestamp data", @"OK", nil, nil);
 				exit(0);
 			}
 		}
@@ -158,9 +147,6 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 		pAssign->device = [self indexForDeviceName:pAssign->deviceName];
 		if (pAssign->device >= kMaxDevices) {							// beyond device limit?
             [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Too many data devices in use. Only %d are supported.", kMaxDevices]];
-//			NSRunAlertPanel(@"LLDataDeviceController",
-//						@"Too many data devices in use. Only %d are supported.", 
-//						@"OK", nil, nil, kMaxDevices);
 			exit(0);
 		}
 	}

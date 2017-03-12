@@ -471,8 +471,6 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 		if (plaidNumTextureUnits < 3) {
             [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
                    @"Need 3 texture units, only %d on this machine.  LLPlaid will not draw", plaidNumTextureUnits]];
-//			NSRunAlertPanel(@"LLPlaid",  @"Need 3 texture units, only %d on this machine.  LLPlaid will not draw", @"OK",
-//							nil, nil, plaidNumTextureUnits);
 			[self release];
 			return nil;
 		}

@@ -1,5 +1,5 @@
 //
-//  LLDataReader.h
+//  LLDataFileReader.h
 //  Lablib
 //
 //  Created by John Maunsell on Sun Jul 04 2004.
@@ -8,7 +8,9 @@
 
 #import "LLDataDoc.h"
 #import "LLDataEventDef.h"
-#import "LLIODevice.h"
+//#import "LLIODevice.h"
+
+#define kADChannels			8
 
 @interface LLDataFileReader : NSObject <LLDataReader> {
 

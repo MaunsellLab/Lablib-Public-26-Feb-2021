@@ -7,7 +7,8 @@
 //
 
 #import "LLDisplays.h"
-#import "LLDisplayPhysical.h" 
+#import "LLDisplayPhysical.h"
+#import "LLSystemUtil.h"
 #import <IOKit/graphics/IOGraphicsLib.h>
 
 NSString *LLPixelBitsKey = @"LL Pixel Bits";
@@ -57,7 +58,6 @@ struct screenMode {
     long index;
     CGDisplayModeRef mode = NULL;
     float bestDifference = FLT_MAX;
-    NSAlert *theAlert;
     
 // Get a copy of the current display mode
     
@@ -89,13 +89,9 @@ struct screenMode {
 		}
 	}
     if (displayMode == NULL) {
-        theAlert = [[NSAlert alloc] init];
-        [theAlert setMessageText:@"LLDisplays"];
-        [theAlert setInformativeText:[NSString stringWithFormat:
-            @"Could not match requested display mode: %ld bpp (%ld x %ld).",
-            pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
-        [theAlert runModal];
-        [theAlert release];
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
+                 [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
+                 pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
 		exit(0);
     }
     return displayMode;
