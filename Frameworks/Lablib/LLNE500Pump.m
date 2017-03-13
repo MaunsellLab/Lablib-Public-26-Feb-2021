@@ -20,6 +20,7 @@
 
 #define kLLNE500DiameterMMKey       @"LLNE500DiameterMM"
 #define kLLNE500HostKey             @"LLNE500Host"
+#define kLLNE500MinDelayS           0.0125
 #define kLLNE500PortKey             @"LLNE500Port"
 #define kLLNE500TimeOutS            0.250
 #define kLLNE500ULPerMKey           @"LLNE500ULPerM"
@@ -252,11 +253,18 @@
     NSInteger readLength;
     uint8_t pBuffer[kBufferLength];
     double startTime;
+    static double lastWriteTimeS = 0.0;
 
+    if (lastWriteTimeS != 0) {          // NE500 needs a delay between stream close and stream open
+        while ([LLSystemUtil getTimeS] - lastWriteTimeS < kLLNE500MinDelayS) {
+            usleep(5000);
+        }
+    }
     [streamsLock lock];
     if (![self openStreams]) {      // If we've failed to communicate, clear flag to init when pump returns
         previousUL = -1;
         exists = NO;
+        lastWriteTimeS = [LLSystemUtil getTimeS];
         [streamsLock unlock];
         return exists;
     }
@@ -273,6 +281,7 @@
         [self closeStreams];
         previousUL = -1;
         exists = NO;
+        lastWriteTimeS = [LLSystemUtil getTimeS];
         [streamsLock unlock];
         return exists;
     }
@@ -283,6 +292,7 @@
             [self closeStreams];
             previousUL = -1;
             exists = NO;
+            lastWriteTimeS = [LLSystemUtil getTimeS];
             [streamsLock unlock];
            return exists;
         }
@@ -295,6 +305,7 @@
     readLength = [streams.in read:pBuffer maxLength:kBufferLength];
     [self closeStreams];
     [self postExchange:message reply:pBuffer length:readLength];    // post the exchange to the window
+    lastWriteTimeS = [LLSystemUtil getTimeS];
     [streamsLock unlock];
 
     // If we've succeeded where previously we've failed (or not been initialized), then we need to reinitialize
@@ -304,12 +315,12 @@
         exists = YES;
         [self writeMessage:@"BP 0\r"];
         [self writeMessage:@"AL 0\r"];
-        [self writeMessage:[NSString stringWithFormat:@"DIA %5.1f\r",
+       [self writeMessage:[NSString stringWithFormat:@"DIA %5.1f\r",
                             [[NSUserDefaults standardUserDefaults] floatForKey:kLLNE500DiameterMMKey]]];
         [self writeMessage:[NSString stringWithFormat:@"RAT %5.1f UM\r",
                             [[NSUserDefaults standardUserDefaults] floatForKey:kLLNE500ULPerMKey]]];
-        [self writeMessage:@"VOL UL\r"];
-        [self writeMessage:@"DIR INF\r"];
+       [self writeMessage:@"VOL UL\r"];
+       [self writeMessage:@"DIR INF\r"];
     }
     return exists;
 }
