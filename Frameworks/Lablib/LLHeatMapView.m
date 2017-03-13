@@ -70,7 +70,7 @@
     minN = LONG_MAX;
     minValue = FLT_MAX;
     maxValue = FLT_MIN;
-    for (aziIndex = 0; aziIndex < plotXPoints; aziIndex++) {
+    for (aziIndex = 0; aziIndex < plotXPoints; aziIndex++) {        // go through to find min and max
         elevationValues = [plotValues objectAtIndex:aziIndex];
         for (eleIndex = 0; eleIndex < plotYPoints; eleIndex++) {
             dist = [elevationValues objectAtIndex:eleIndex];
@@ -89,22 +89,25 @@
         cellRect.origin.x = [scale scaledX:aziIndex] - 0.5;
         elevationValues = [plotValues objectAtIndex:aziIndex];
         for (eleIndex = 0; eleIndex < plotYPoints; eleIndex++) {
+            cellRect.origin.y = [scale scaledY:eleIndex] - 0.5;
             dist = [elevationValues objectAtIndex:eleIndex];
-            if ([dist n] == 0) {
+            if ([dist n] == 0) {        // empty cells get marked with an X
+                [[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.0] set];
+                [NSBezierPath strokeLineFromPoint:NSMakePoint(cellRect.origin.x, cellRect.origin.y)
+                                        toPoint:NSMakePoint(cellRect.origin.x + cellRect.size.width,
+                                        cellRect.origin.y + cellRect.size.height)];
+                [NSBezierPath strokeLineFromPoint:NSMakePoint(cellRect.origin.x,
+                                        cellRect.origin.y + cellRect.size.height)
+                                        toPoint:NSMakePoint(cellRect.origin.x + cellRect.size.width,
+                                        cellRect.origin.y)];
                 continue;
             }
             meanValue = [dist mean];
-            if (maxValue == minValue) {
-                fraction = 0.5;
-            }
-            else {
-                fraction = (meanValue - minValue) / (maxValue - minValue);
-            }
+            fraction = (maxValue == minValue) ? 0.5 : (meanValue - minValue) / (maxValue - minValue);
             redColor = (fraction > 0.4) ? 1.0 : fraction / 0.4;
             blueColor = (fraction < 0.8) ? 0.0 : ((fraction - 0.8) / 0.2);            
             greenColor = (fraction > 0.8) ? 1.0 : ((fraction < 0.4) ? 0.0 : (fraction - 0.4) / 0.4);
             [[NSColor colorWithCalibratedRed:redColor green:greenColor blue:blueColor alpha:1.0] set];
-            cellRect.origin.y = [scale scaledY:eleIndex] - 0.5;
             [NSBezierPath fillRect:cellRect];
         }
     }

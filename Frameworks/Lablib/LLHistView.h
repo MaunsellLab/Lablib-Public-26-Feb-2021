@@ -10,7 +10,7 @@
 
 #define kDefaultBins		50
 #define kHighlightPix		1
-#define kLLMarginPix			2
+#define kLLMarginPix		2
 #define kLabelExtraPix		15						// Extra margin for x tick labels
 #define kShadowPix			1
 
@@ -64,7 +64,7 @@ typedef struct {
 - (void)fillXFrom:(float)xMin to:(float)xMax color:(NSColor *)color; 
 - (void)handleScaleChange:(NSNotification *)note;
 - (void)hide:(BOOL)state;
-- (void)initializeHistView;
+- (void) initializeHistViewWithScale:(LLViewScale *)scale;
 - (id)initWithFrame:(NSRect)frame scaling:(LLViewScale *)histScale; 
 - (void)setAutoBinWidth:(BOOL)state;
 - (void)setData:(double *)histData length:(long)histLength color:(NSColor *)color;

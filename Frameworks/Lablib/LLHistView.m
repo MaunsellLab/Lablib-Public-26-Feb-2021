@@ -35,8 +35,8 @@
     [super dealloc];
 }
 
-- (void) drawRect:(NSRect)rect {
-
+- (void) drawRect:(NSRect)rect;
+{
     long index, hist, bin;
     float xAxisMin, xAxisMax, yAxisMin, yAxisMax, yOriginPix;
     float binSum;
@@ -45,7 +45,7 @@
     NSRect b, b1;
     NSBezierPath *dataPath;  
 
-    if (hidden) {				 // do nothing if the window is not on scren
+    if (hidden) {				 // do nothing if the histogram is not on scren
         return;
     }
     xAxisMin = (useXDisplayValues) ? xMinDisplayValue : 0;
@@ -148,8 +148,9 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"LLHistView (%lx) hidden: %d dataLength: %ld",
-            (unsigned long)&self, hidden, dataLength];
+    return [NSString stringWithFormat:@"LLHistView (%lx) hidden: %d dataLength: %ld origin (%f,%f) width %f height %f",
+                (unsigned long)&self, hidden, dataLength, _frame.origin.x, _frame.origin.y,
+                _frame.size.width, _frame.size.height];
 }
 
 - (void)disableAll;
@@ -208,30 +209,33 @@
     hidden = state;
 }
 
-- (void) initializeHistView;
+- (void) initializeHistViewWithScale:(LLViewScale *)plotScale;
 {
 	NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+
+    // setScale: requires that textLineHeightPix be set before it is called
+
     textLineHeightPix = [layoutManager defaultLineHeightForFont:[NSFont userFontOfSize:0]];
-	
-	yUnitArray = [[NSMutableArray alloc] init];
-	colorArray = [[NSMutableArray alloc] init];
+    [self setScale:(plotScale != nil) ? plotScale : [[[LLViewScale alloc] init] autorelease]];
+
+    colorArray = [[NSMutableArray alloc] init];
 	dataArray = [[NSMutableArray alloc] init];
 	enableArray = [[NSMutableArray alloc] init];
+	marks = [[NSMutableArray alloc] init];
+	yUnitArray = [[NSMutableArray alloc] init];
     [self setPlotBins:kDefaultBins];
-    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(handleScaleChange:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleScaleChange:)
             name:@"LLYScaleChanged" object:scale];
     autoBinWidth = sumWhenBinning = YES;
     xTickSpacing = [scale xMax];
 	xTickLabelSpacing = 1.0;
 	[scale setAutoAdjustYMin:NO];
-	marks = [[NSMutableArray alloc] init];
 }
 
 - (id)initWithFrame:(NSRect)frame;
 {
     if ((self = [super initWithFrame:frame]) != nil) {
-		[self setScale:[[[LLViewScale alloc] init] autorelease]];
-        [self initializeHistView];
+        [self initializeHistViewWithScale:nil];
     }
     return self;
 }
@@ -239,8 +243,7 @@
 - (id) initWithFrame:(NSRect)frame scaling:(LLViewScale *)plotScale;
 {
     if ((self = [super initWithFrame:frame]) != nil) {
-		[self setScale:plotScale];
-        [self initializeHistView];
+        [self initializeHistViewWithScale:plotScale];
     }
     return self;
 }
@@ -343,8 +346,8 @@
     useYDisplayValues = YES;						
 }
 
-- (void)setScale:(LLViewScale *)newScale {
-
+- (void)setScale:(LLViewScale *)newScale;
+{
     float plotHeightPix, plotWidthPix;
     NSRect b;
     
@@ -355,8 +358,7 @@
     b = [self bounds];
     plotWidthPix = b.size.width - leftMarginPix - kRightMarginPix;
     plotHeightPix = b.size.height - bottomMarginPix - topMarginPix;
-    [scale setViewRectForScale:NSMakeRect(leftMarginPix, bottomMarginPix, 
-                    plotWidthPix, plotHeightPix)];
+    [scale setViewRectForScale:NSMakeRect(leftMarginPix, bottomMarginPix, plotWidthPix, plotHeightPix)];
 }
 
 - (void) setSumWhenBinning:(BOOL)state {
@@ -404,7 +406,7 @@
 }
 
 // Specify the value that will be assigned to each unit in a bin.  For example,
-// in a 1ms histogram, each unit might correspond to 1000 s/s.  
+// in a 1 ms histogram, each unit might correspond to 1000 s/s.
 
 - (void) setYUnit:(double)unitValue;
 {
