@@ -230,15 +230,14 @@ NSOutputStream *outputStream;
     [self closeStreams];
     
     endTime = [LLSystemUtil getTimeS];
-    if (readLength == JSONLength) {
+    if (readLength == JSONLength) {             // ??? This will no longer be the length returned
         [self postToConsole:[NSString stringWithFormat:@"Successfully sent dictionary of %d bytes\n", JSONLength]
             textColor:[NSColor blackColor]];
     }
     else {
         [self postToConsole:[NSString stringWithFormat:@"Communication error: Sent %d bytes, but server echoed %ld\n",
                              JSONLength, (long)readLength] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer]
-            textColor:[NSColor redColor]];
+        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer] textColor:[NSColor redColor]];
         if (![[self window] isVisible]) {
             [[self window] makeKeyAndOrderFront:self];
         }
@@ -248,7 +247,6 @@ NSOutputStream *outputStream;
         [self postToConsole:[NSString stringWithFormat:@"Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
               textColor:[NSColor blackColor]];
     }
-
 }
 
 @end

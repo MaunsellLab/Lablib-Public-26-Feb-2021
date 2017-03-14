@@ -20,6 +20,10 @@
 		6912F8A80919029C009B1CD1 /* LLMouseDataSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6912F8A60919029C009B1CD1 /* LLMouseDataSettings.m */; };
 		691C42300B25E87500DA5103 /* LLStateSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 691C40590B25E87400DA5103 /* LLStateSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691C42310B25E87500DA5103 /* LLStateSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 691C405A0B25E87400DA5103 /* LLStateSystem.m */; };
+		69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CAD1E7773A40000D718 /* LLNIDAQ.h */; };
+		69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CAE1E7773A40000D718 /* LLNIDAQ.m */; };
+		69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */; };
+		69272CB41E777E860000D718 /* LLNIDAQAnalogOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */; };
 		69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */; };
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		693634C01E1B09F200A2DE4B /* libeng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634BF1E1B09F200A2DE4B /* libeng.dylib */; };
@@ -274,6 +278,10 @@
 		691C405A0B25E87400DA5103 /* LLStateSystem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLStateSystem.m; sourceTree = "<group>"; };
 		69259E380468682F00A80164 /* LLPlotColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPlotColors.h; sourceTree = "<group>"; };
 		69259E390468682F00A80164 /* LLPlotColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPlotColors.m; sourceTree = "<group>"; };
+		69272CAD1E7773A40000D718 /* LLNIDAQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQ.h; sourceTree = "<group>"; };
+		69272CAE1E7773A40000D718 /* LLNIDAQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNIDAQ.m; sourceTree = "<group>"; };
+		69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQAnalogOutput.h; sourceTree = "<group>"; };
+		69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNIDAQAnalogOutput.m; sourceTree = "<group>"; };
 		692A86CE0480FA4200F95509 /* LLXTStimPlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTStimPlot.h; sourceTree = "<group>"; };
 		692A86CF0480FA4200F95509 /* LLXTStimPlot.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLXTStimPlot.m; sourceTree = "<group>"; };
 		692A86D6048136C600F95509 /* LLXTSpikePlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTSpikePlot.h; sourceTree = "<group>"; };
@@ -651,6 +659,10 @@
 				6912F8A60919029C009B1CD1 /* LLMouseDataSettings.m */,
 				694519381E465439005B75A3 /* LLNE500Pump.h */,
 				694519361E465429005B75A3 /* LLNE500Pump.m */,
+				69272CAD1E7773A40000D718 /* LLNIDAQ.h */,
+				69272CAE1E7773A40000D718 /* LLNIDAQ.m */,
+				69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */,
+				69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */,
 				69FB5570095DA531006F86F9 /* LLNullDataDevice.h */,
 				69FB5571095DA531006F86F9 /* LLNullDataDevice.m */,
 				6984E5CD0E672AA600A9E7CB /* LLPulseTrain.h */,
@@ -1002,6 +1014,7 @@
 				69F36CD80567EA5D009AED51 /* LLXTView.h in Headers */,
 				69BE4BEA05829644001C9624 /* Lablib_Prefix.h in Headers */,
 				696D383B059E39440018E5D5 /* LLTrialBlock.h in Headers */,
+				69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */,
 				69B5444B05AC606000FB9394 /* LLDisplayUtilities.h in Headers */,
 				695BC60805DC1C6300D98433 /* LLFixTarget.h in Headers */,
 				695C06D5064BDEA600809DAA /* LLDefaultAboutBox.h in Headers */,
@@ -1054,6 +1067,7 @@
 				699AC32C0C7532D9000D360E /* nrutil.h in Headers */,
 				69F36CC50567EA5D009AED51 /* LLStandardDataEvents.h in Headers */,
 				6984E5CF0E672AA600A9E7CB /* LLPulseTrain.h in Headers */,
+				69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */,
 				6984E5D20E672B2600A9E7CB /* LLPulseTrainDevice.h in Headers */,
 				69EDA65D0EAE93E100B3D1D5 /* LLFilterExp.h in Headers */,
 				696DF6540EB8E53A0004FC8E /* LLLaserCalibrator.h in Headers */,
@@ -1220,6 +1234,7 @@
 				694D0C67077B61710025BAA4 /* LLTaskPlugIn.m in Sources */,
 				69A86B450780B23F009A47EC /* LLTaskStatusTitleTransformer.m in Sources */,
 				69A86C4E0780BA01009A47EC /* LLTaskStatusImageTransformer.m in Sources */,
+				69272CB41E777E860000D718 /* LLNIDAQAnalogOutput.m in Sources */,
 				69A86C900780C130009A47EC /* LLControlPanel.m in Sources */,
 				69858371078218D500F50DD2 /* LLTaskModeTransformer.m in Sources */,
 				69FB5518078B84AA00AC42FA /* LLUserDefaults.m in Sources */,
@@ -1248,6 +1263,7 @@
 				69671AD80BA49A1800AA136E /* LLNumberMatchTransformer.m in Sources */,
 				69671B180BA49DB100AA136E /* LLNumberNonMatchTransformer.m in Sources */,
 				69C094530BDA3B8A00DB7DE8 /* LLPointDist.m in Sources */,
+				69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */,
 				699AC1B40C752D46000D360E /* LLNoise.m in Sources */,
 				699AC32B0C7532D9000D360E /* fourn.m in Sources */,
 				699AC32D0C7532D9000D360E /* nrutil.m in Sources */,
