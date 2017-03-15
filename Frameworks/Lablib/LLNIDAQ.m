@@ -10,7 +10,7 @@
 
 @implementation LLNIDAQ
 
-- (id)analogOutputTask;
+- (LLNIDAQAnalogOutput *)analogOutputTask;
 {
     LLNIDAQAnalogOutput *analogOutputTask;
 
@@ -25,10 +25,10 @@
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                 @"DAQmxCreateTask", @"command", taskName, @"taskName", nil];
-//    dict = [socket writeDictionary:dict];
+    dict = [socket writeDictionary:dict];
     theTask = (NIDAQTask)[[dict valueForKey:@"task"] pointerValue];
     return theTask;
- }
+}
 
 - (void)dealloc;
 {
@@ -42,6 +42,11 @@
         socket = [[LLSockets alloc] init];
     }
     return self;
+}
+
+- (void)showWindow:(id)sender;
+{
+    [socket showWindow:sender];
 }
 
 @end

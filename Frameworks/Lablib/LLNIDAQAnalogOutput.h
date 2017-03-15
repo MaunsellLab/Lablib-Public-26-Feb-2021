@@ -6,7 +6,9 @@
 //
 //
 
-#import "LLNIDAQ.h"
+#import "LLNIDAQmx.h"
+
+@class LLNIDAQ;
 
 @interface LLNIDAQAnalogOutput : NSObject {
 

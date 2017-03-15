@@ -21,6 +21,6 @@
 - (void)closeStreams;
 - (BOOL)openStreams;
 - (void)postToConsole:(NSString *)str textColor:(NSColor *)textColor;
-- (void)writeDictionary:(NSMutableDictionary *)dict;
+- (NSMutableDictionary *)writeDictionary:(NSMutableDictionary *)dict;
 
 @end

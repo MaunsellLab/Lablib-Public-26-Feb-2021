@@ -4,18 +4,18 @@
 //
 //  Created by John Maunsell on 3/13/17.
 //
-//
 
+#import "LLNIDAQmx.h"
 #import "LLSockets.h"
+#import "LLNIDAQAnalogOutput.h"
 
-typedef uint32_t NIDAQTask;
-
-@interface LLNIDAQ : NSObject {
+@interface LLNIDAQ : NSObject <LLNIDAQmx> {
 
     LLSockets    *socket;
 }
 
-- (id)analogOutputTask;
+- (LLNIDAQAnalogOutput *)analogOutputTask;
 - (NIDAQTask)createTaskWithName:(NSString*)taskName;
+- (void)showWindow:(id)sender;
 
 @end

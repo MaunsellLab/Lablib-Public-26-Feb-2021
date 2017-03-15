@@ -191,7 +191,7 @@ NSOutputStream *outputStream;
  current approach opens and closes a connection for each dictionary transfer.
  */
 
-- (void)writeDictionary:(NSMutableDictionary *)dict;
+- (NSMutableDictionary *)writeDictionary:(NSMutableDictionary *)dict;
 {
     NSData *JSONData;
     NSError *error;
@@ -203,7 +203,7 @@ NSOutputStream *outputStream;
 
     startTime = [LLSystemUtil getTimeS];
     if (![self openStreams]) {
-        return;
+        return nil;
     }
     
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey] forKey:@"rigID"];
@@ -247,6 +247,7 @@ NSOutputStream *outputStream;
         [self postToConsole:[NSString stringWithFormat:@"Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
               textColor:[NSColor blackColor]];
     }
+    return dict;
 }
 
 @end

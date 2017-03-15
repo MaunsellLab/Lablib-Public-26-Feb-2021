@@ -11,6 +11,7 @@
 @implementation LLTaskPlugIn
 
 @synthesize rewardPump;
+@synthesize nidaq;
 
 - (void)activate;
 {
@@ -46,11 +47,6 @@
 	return dataController;
 }
 
-//- (id<LLIODevice>)dataSource;
-//{
-//	return dataSource;
-//}
-
 - (void)deactivate:(id)sender;
 {
 }
@@ -62,7 +58,6 @@
 	[eyeCalibrator release];
 	[stimWindow release];
 	[synthDataDevice release];
-//	[synthDataSource release];
     [lastDataCollectionDate release];
 	[host release];
 	[super dealloc];
@@ -87,7 +82,6 @@
 {
     return [eyeCalibrator calibratorForEye:kRightEye];
 }
-
 
 // Overwrite this method to handle OS events.  It should return YES if it consumes the event,
 // and must return NO otherwise;
@@ -164,11 +158,6 @@
 	dataController = controller;
 }
 
-//- (void)setDataSource:(id<LLIODevice>)source;
-//{
-//	dataSource = source;
-//}
-
 - (void)setDefaults:(LLUserDefaults *)newDefaults;
 {
 	[defaults release];
@@ -242,13 +231,6 @@
 	[synthDataDevice retain];
 }
 
-//- (void)setSynthDataSource:(LLSynthIODevice *)source;
-//{
-//	[synthDataSource release];
-//	synthDataSource = source;
-//	[synthDataSource retain];
-//}
-
 - (void)setWritingDataFile:(BOOL)state;
 {
 	writingDataFile = state;
@@ -273,11 +255,6 @@
 {
 	return synthDataDevice;
 }
-
-//- (LLSynthIODevice *)synthDataSource;
-//{
-//	return synthDataSource;
-//}
 
 - (BOOL)writingDataFile;
 {

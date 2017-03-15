@@ -20,9 +20,9 @@
 		6912F8A80919029C009B1CD1 /* LLMouseDataSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6912F8A60919029C009B1CD1 /* LLMouseDataSettings.m */; };
 		691C42300B25E87500DA5103 /* LLStateSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 691C40590B25E87400DA5103 /* LLStateSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691C42310B25E87500DA5103 /* LLStateSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 691C405A0B25E87400DA5103 /* LLStateSystem.m */; };
-		69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CAD1E7773A40000D718 /* LLNIDAQ.h */; };
+		69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CAD1E7773A40000D718 /* LLNIDAQ.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CAE1E7773A40000D718 /* LLNIDAQ.m */; };
-		69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */; };
+		69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69272CB41E777E860000D718 /* LLNIDAQAnalogOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */; };
 		69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */; };
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -98,6 +98,7 @@
 		697A296D159526EC00095DB3 /* LLBinocCalibrator.h in Headers */ = {isa = PBXBuildFile; fileRef = 697A296B159526EC00095DB3 /* LLBinocCalibrator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		697A296E159526EC00095DB3 /* LLBinocCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 697A296C159526EC00095DB3 /* LLBinocCalibrator.m */; };
 		697A2970159526F700095DB3 /* LLBinocCalibrator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697A296F159526F700095DB3 /* LLBinocCalibrator.xib */; };
+		697A3BC61E78DE0C000FA7F9 /* LLMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 697A3BC51E78DE0C000FA7F9 /* LLMonitor.h */; };
 		697CD33A083AD95800AB7932 /* LLDataReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 697CD339083AD95800AB7932 /* LLDataReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6980E8D908E8A905004E3772 /* LLDataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6980E8D708E8A905004E3772 /* LLDataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6980E8DA08E8A905004E3772 /* LLDataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6980E8D808E8A905004E3772 /* LLDataDevice.m */; };
@@ -183,7 +184,7 @@
 		69F36CB30567EA5D009AED51 /* LLHistView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69405EF70461C83E00A80164 /* LLHistView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CB40567EA5D009AED51 /* LLIntervalMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C8966F03E8301F00A80164 /* LLIntervalMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CB50567EA5D009AED51 /* LLIntervalMonitorSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 69A5C64004D996EE00F95507 /* LLIntervalMonitorSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69F36CB90567EA5D009AED51 /* LLMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 699E17C404D4BCBE00F95507 /* LLMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69F36CB90567EA5D009AED51 /* LLNIDAQmx.h in Headers */ = {isa = PBXBuildFile; fileRef = 699E17C404D4BCBE00F95507 /* LLNIDAQmx.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CBA0567EA5D009AED51 /* LLMonitorController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6934D9E8049BAF2200A80164 /* LLMonitorController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CBD0567EA5D009AED51 /* LLPlotAxes.h in Headers */ = {isa = PBXBuildFile; fileRef = 697BA2CD0464924600A80164 /* LLPlotAxes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CBE0567EA5D009AED51 /* LLPlotColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 69259E380468682F00A80164 /* LLPlotColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -377,6 +378,7 @@
 		697A296B159526EC00095DB3 /* LLBinocCalibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLBinocCalibrator.h; sourceTree = "<group>"; };
 		697A296C159526EC00095DB3 /* LLBinocCalibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLBinocCalibrator.m; sourceTree = "<group>"; };
 		697A296F159526F700095DB3 /* LLBinocCalibrator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLBinocCalibrator.xib; sourceTree = "<group>"; };
+		697A3BC51E78DE0C000FA7F9 /* LLMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMonitor.h; sourceTree = "<group>"; };
 		697BA2CD0464924600A80164 /* LLPlotAxes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPlotAxes.h; sourceTree = "<group>"; };
 		697BA2CE0464924600A80164 /* LLPlotAxes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPlotAxes.m; sourceTree = "<group>"; };
 		697BA2D1046494FB00A80164 /* LLViewUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLViewUtilities.h; sourceTree = "<group>"; };
@@ -419,7 +421,7 @@
 		699AC32A0C7532D9000D360E /* sort.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = sort.m; sourceTree = "<group>"; };
 		699D01630479219700A80164 /* LLSynthSaccade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthSaccade.h; sourceTree = "<group>"; };
 		699D01640479219700A80164 /* LLSynthSaccade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSynthSaccade.m; sourceTree = "<group>"; };
-		699E17C404D4BCBE00F95507 /* LLMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMonitor.h; sourceTree = "<group>"; };
+		699E17C404D4BCBE00F95507 /* LLNIDAQmx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQmx.h; sourceTree = "<group>"; };
 		69A5C64004D996EE00F95507 /* LLIntervalMonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLIntervalMonitorSettings.h; sourceTree = "<group>"; };
 		69A5C64104D996EE00F95507 /* LLIntervalMonitorSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLIntervalMonitorSettings.m; sourceTree = "<group>"; };
 		69A7E88B0E674D250036E42A /* LLMouseDataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLMouseDataDevice.plist; sourceTree = "<group>"; };
@@ -718,7 +720,8 @@
 				697CD339083AD95800AB7932 /* LLDataReader.h */,
 				69819574070478690075BDF4 /* LLDistribution.h */,
 				6900911004B276E2007FF661 /* LLDrawable.h */,
-				699E17C404D4BCBE00F95507 /* LLMonitor.h */,
+				697A3BC51E78DE0C000FA7F9 /* LLMonitor.h */,
+				699E17C404D4BCBE00F95507 /* LLNIDAQmx.h */,
 				6984E5D10E672B2600A9E7CB /* LLPulseTrainDevice.h */,
 				693248E7067116A800FAC2FE /* LLStimTrainDevice.h */,
 				69EE45D9047D18D400A80164 /* LLXTPlot.h */,
@@ -986,7 +989,7 @@
 				69F36CB30567EA5D009AED51 /* LLHistView.h in Headers */,
 				69F36CB40567EA5D009AED51 /* LLIntervalMonitor.h in Headers */,
 				69F36CB50567EA5D009AED51 /* LLIntervalMonitorSettings.h in Headers */,
-				69F36CB90567EA5D009AED51 /* LLMonitor.h in Headers */,
+				69F36CB90567EA5D009AED51 /* LLNIDAQmx.h in Headers */,
 				69F36CBA0567EA5D009AED51 /* LLMonitorController.h in Headers */,
 				69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */,
 				69F36CBD0567EA5D009AED51 /* LLPlotAxes.h in Headers */,
@@ -1014,18 +1017,19 @@
 				69F36CD80567EA5D009AED51 /* LLXTView.h in Headers */,
 				69BE4BEA05829644001C9624 /* Lablib_Prefix.h in Headers */,
 				696D383B059E39440018E5D5 /* LLTrialBlock.h in Headers */,
-				69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */,
 				69B5444B05AC606000FB9394 /* LLDisplayUtilities.h in Headers */,
 				695BC60805DC1C6300D98433 /* LLFixTarget.h in Headers */,
 				695C06D5064BDEA600809DAA /* LLDefaultAboutBox.h in Headers */,
 				693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */,
 				69CEA76706711F74009CEDDA /* LLStimulusTrain.h in Headers */,
 				69B7F50E06790CFA003728FD /* LLRandomDots.h in Headers */,
+				69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */,
 				69914CC906863C46001800F9 /* LLTextUtil.h in Headers */,
 				69BCEEC906B2D32B0046C824 /* LLDataFileReader.h in Headers */,
 				69113E8206BDDF63008A141B /* LLParameterController.h in Headers */,
 				69819575070478690075BDF4 /* LLDistribution.h in Headers */,
 				69819629070483590075BDF4 /* LLBinomDist.h in Headers */,
+				69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */,
 				69819B450704F9AD0075BDF4 /* LLStatValues.h in Headers */,
 				694519391E465439005B75A3 /* LLNE500Pump.h in Headers */,
 				69DCC8DB0737CE3800FE4CE8 /* LLEOTHistoryView.h in Headers */,
@@ -1049,6 +1053,7 @@
 				6904B0A408EF39C700437691 /* LLDataDeviceController.h in Headers */,
 				6912F8320918FD8B009B1CD1 /* LLMouseDataDevice.h in Headers */,
 				6912F8A70919029C009B1CD1 /* LLMouseDataSettings.h in Headers */,
+				697A3BC61E78DE0C000FA7F9 /* LLMonitor.h in Headers */,
 				69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */,
 				69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */,
 				6905D24C0966EDB2009C96F6 /* LLPluginController.h in Headers */,
@@ -1067,7 +1072,6 @@
 				699AC32C0C7532D9000D360E /* nrutil.h in Headers */,
 				69F36CC50567EA5D009AED51 /* LLStandardDataEvents.h in Headers */,
 				6984E5CF0E672AA600A9E7CB /* LLPulseTrain.h in Headers */,
-				69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */,
 				6984E5D20E672B2600A9E7CB /* LLPulseTrainDevice.h in Headers */,
 				69EDA65D0EAE93E100B3D1D5 /* LLFilterExp.h in Headers */,
 				696DF6540EB8E53A0004FC8E /* LLLaserCalibrator.h in Headers */,

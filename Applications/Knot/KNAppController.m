@@ -168,6 +168,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     }
     [socket close];
     [socket release];
+    [nidaq release];
     [rewardPump close];
     [rewardPump release];
     [matlabEngine close];
@@ -204,6 +205,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	pluginController = [[LLPluginController alloc] initWithDefaults:defaults];
 	settingsController = [[LLSettingsController alloc] init];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseSocketKey]) {
+        nidaq = [[LLNIDAQ alloc] init];
         socket = [[LLSockets alloc] init];
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseNE500PumpKey]) {
@@ -287,6 +289,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 				[task setEyeCalibrator:eyeCalibration];
                 [task setMatlabEngine:matlabEngine];
 				[task setMonitorController:monitorController];
+                [task setNidaq:nidaq];
                 [task setSocket:socket];
                 [task setRewardPump:rewardPump];
 				[task setStimWindow:stimWindow];
@@ -616,7 +619,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (IBAction)showSocketsWindow:(id)sender;
 {
-    [socket showWindow:self];
+    [nidaq showWindow:self];
 }
 
 - (IBAction)showRewardPumpWindow:(id)sender;
