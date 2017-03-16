@@ -6,16 +6,22 @@
 //
 //
 
-#import "LLNIDAQmx.h"
+#import "LLSockets.h"
 
-@class LLNIDAQ;
+typedef uint32_t *NIDAQTask;
 
 @interface LLNIDAQAnalogOutput : NSObject {
 
-    LLNIDAQ     *nidaq;
+    LLSockets   *socket;
     NIDAQTask   task;
 }
 
-- (id)initWithNIDAQ:(LLNIDAQ *)theNIDAQ;
+- (void)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
+- (void)createChannelWithName:(NSString *)channelName;
+- (id)initWithName:(NSString *)taskName socket:(LLSockets *)theSocket;
+- (void)start;
+- (void)stop;
+- (void)waitUntilDone;
+- (void)writeArray:(Float64 *)outArray autoStart:(BOOL)autoStart;
 
 @end

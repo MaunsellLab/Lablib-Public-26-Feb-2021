@@ -5,44 +5,76 @@
 //  Created by John Maunsell on 3/13/17.
 //
 
+// I don't know.  Maybe the AO output and AO input are the way to go.  Could have them speak to the socket directly,
+// using a socket lock.  That would be pretty safe.
+
 #import "LLNIDAQ.h"
 #import "LLNIDAQAnalogOutput.h"
 
+#define kOutputRateHz           100000
+#define kPowerChannelName       @"ao0"
+#define kSamplesPerMS           (kOutputRateHz / 1000)
+#define kShutterChannelName     @"port0/line"
+#define kShutterDelayMS         4
+#define kTrialShutterChanName   @"port0/line2"
+#define kTriggerChanName        @"PFI0"
+
+#define kLLSocketsRigIDKey          @"LLSocketsRigID"
+
 @implementation LLNIDAQ
 
-- (LLNIDAQAnalogOutput *)analogOutputTask;
+- (void)closeShutter;
 {
-    LLNIDAQAnalogOutput *analogOutputTask;
-
-    analogOutputTask = [[[LLNIDAQAnalogOutput alloc] initWithNIDAQ:self] autorelease];
-    return analogOutputTask;
+    [self outputDigitalValue:0 channelName:[NSString stringWithFormat:@"%@%@", deviceName, kShutterChannelName]];
 }
 
-- (NIDAQTask)createTaskWithName:(NSString*)taskName;
+- (void)createChannel:(NIDAQTask)taskHandle channelName:(NSString*)channelName;
 {
     NSMutableDictionary *dict;
-    NIDAQTask theTask;
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                @"DAQmxCreateTask", @"command", taskName, @"taskName", nil];
+            @"DAQmxCreateChannel", @"command", [NSValue valueWithPointer:taskHandle], @"taskHandle",
+            channelName, @"channelName", nil];
     dict = [socket writeDictionary:dict];
-    theTask = (NIDAQTask)[[dict valueForKey:@"task"] pointerValue];
-    return theTask;
+    //int32 DAQmxCreateAOVoltageChan (TaskHandle taskHandle, const char physicalChannel[], const char nameToAssignToChannel[], float64 minVal, float64 maxVal, int32 units, const char customScaleName[]);
 }
 
 - (void)dealloc;
 {
+    [deviceLock lock];
     [socket release];
+    [deviceLock unlock];
+    [deviceLock release];
     [super dealloc];
 }
 
 - (id)init;
 {
     if ([super init] != nil) {
+        deviceLock = [[NSLock alloc] init];
         socket = [[LLSockets alloc] init];
+        deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
+        [self closeShutter];
     }
     return self;
 }
+
+- (void)outputDigitalValue:(short)value channelName:(NSString *)channelName;
+{
+    Float64 outArray[3] = {value, value, value};
+    LLNIDAQAnalogOutput *analogOutput;
+
+    analogOutput = [[[LLNIDAQAnalogOutput alloc] initWithName:@"taskAO" socket:socket] autorelease];
+    [analogOutput createChannelWithName:channelName];
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
+    [analogOutput writeArray:outArray autoStart:NO];
+    [analogOutput start];
+    usleep(100000);
+    [analogOutput waitUntilDone];
+    [analogOutput stop];
+    [analogOutput release];
+}
+
 
 - (void)showWindow:(id)sender;
 {

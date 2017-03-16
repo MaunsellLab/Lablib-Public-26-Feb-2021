@@ -206,7 +206,6 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	settingsController = [[LLSettingsController alloc] init];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseSocketKey]) {
         nidaq = [[LLNIDAQ alloc] init];
-        socket = [[LLSockets alloc] init];
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseNE500PumpKey]) {
         rewardPump = [[LLNE500Pump alloc] init];

@@ -5,17 +5,19 @@
 //  Created by John Maunsell on 3/13/17.
 //
 
-#import "LLNIDAQmx.h"
+//#import "LLNIDAQmx.h"
 #import "LLSockets.h"
 #import "LLNIDAQAnalogOutput.h"
 
-@interface LLNIDAQ : NSObject <LLNIDAQmx> {
+@interface LLNIDAQ : NSObject {
 
-    LLSockets    *socket;
+    NSLock      *deviceLock;
+    NSString    *deviceName;
+    BOOL        doControlShutter;
+    LLSockets   *socket;
 }
 
-- (LLNIDAQAnalogOutput *)analogOutputTask;
-- (NIDAQTask)createTaskWithName:(NSString*)taskName;
+- (void)outputDigitalValue:(short)value channelName:(NSString *)channelName;
 - (void)showWindow:(id)sender;
 
 @end
