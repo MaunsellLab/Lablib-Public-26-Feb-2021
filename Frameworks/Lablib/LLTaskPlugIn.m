@@ -11,7 +11,6 @@
 @implementation LLTaskPlugIn
 
 @synthesize rewardPump;
-@synthesize nidaq;
 
 - (void)activate;
 {

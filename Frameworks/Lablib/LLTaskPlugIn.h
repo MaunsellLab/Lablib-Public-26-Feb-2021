@@ -38,7 +38,6 @@
     LLMatlabEngine          *matlabEngine;
 	long					mode;
 	LLMonitorController		*monitorController;
-    LLNIDAQ                 *nidaq;
     LLNE500Pump             *rewardPump;
     LLSockets               *socket;
 	LLStateSystem			*stateSystem;
@@ -47,7 +46,6 @@
 	BOOL					writingDataFile;
 }
 
-@property (assign) LLNIDAQ     *nidaq;
 @property (assign) LLNE500Pump *rewardPump;
 
 - (void)activate;

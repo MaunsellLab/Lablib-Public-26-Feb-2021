@@ -11,6 +11,7 @@
 @interface LLSockets : NSWindowController<NSStreamDelegate> {
 
     IBOutlet NSTextView     *consoleView;
+    NSDictionary            *deviceNameDict;
     IBOutlet NSTextField    *hostTextField;
     IBOutlet NSTextField    *portTextField;
     IBOutlet NSTextField    *rigIDTextField;

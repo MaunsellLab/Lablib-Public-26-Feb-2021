@@ -48,11 +48,12 @@
     [super dealloc];
 }
 
-- (id)init;
+- (id)initWithSocket:(LLSockets *)theSocket;
 {
     if ([super init] != nil) {
         deviceLock = [[NSLock alloc] init];
-        socket = [[LLSockets alloc] init];
+        socket = theSocket;
+        [socket retain];
         deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
         [self closeShutter];
     }
@@ -61,17 +62,18 @@
 
 - (void)outputDigitalValue:(short)value channelName:(NSString *)channelName;
 {
-    Float64 outArray[3] = {value, value, value};
+//    Float64 outArray[3] = {value, value, value};
     LLNIDAQAnalogOutput *analogOutput;
 
-    analogOutput = [[[LLNIDAQAnalogOutput alloc] initWithName:@"taskAO" socket:socket] autorelease];
+    analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
     [analogOutput createChannelWithName:channelName];
-    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
-    [analogOutput writeArray:outArray autoStart:NO];
-    [analogOutput start];
-    usleep(100000);
-    [analogOutput waitUntilDone];
-    [analogOutput stop];
+//    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
+//    [analogOutput writeArray:outArray length:sizeof(outArray) autoStart:NO];
+//    [analogOutput start];
+//    usleep(100000);
+//    [analogOutput waitUntilDone];
+//    [analogOutput stop];
+    [analogOutput deleteTask];
     [analogOutput release];
 }
 

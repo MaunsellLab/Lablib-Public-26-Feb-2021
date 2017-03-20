@@ -17,6 +17,7 @@
     LLSockets   *socket;
 }
 
+- (id)initWithSocket:(LLSockets *)theSocket;
 - (void)outputDigitalValue:(short)value channelName:(NSString *)channelName;
 - (void)showWindow:(id)sender;
 

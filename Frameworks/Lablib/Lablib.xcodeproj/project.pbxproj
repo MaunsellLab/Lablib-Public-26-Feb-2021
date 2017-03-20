@@ -98,7 +98,7 @@
 		697A296D159526EC00095DB3 /* LLBinocCalibrator.h in Headers */ = {isa = PBXBuildFile; fileRef = 697A296B159526EC00095DB3 /* LLBinocCalibrator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		697A296E159526EC00095DB3 /* LLBinocCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 697A296C159526EC00095DB3 /* LLBinocCalibrator.m */; };
 		697A2970159526F700095DB3 /* LLBinocCalibrator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697A296F159526F700095DB3 /* LLBinocCalibrator.xib */; };
-		697A3BC61E78DE0C000FA7F9 /* LLMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 697A3BC51E78DE0C000FA7F9 /* LLMonitor.h */; };
+		697A3BC61E78DE0C000FA7F9 /* LLMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 697A3BC51E78DE0C000FA7F9 /* LLMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		697CD33A083AD95800AB7932 /* LLDataReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 697CD339083AD95800AB7932 /* LLDataReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6980E8D908E8A905004E3772 /* LLDataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6980E8D708E8A905004E3772 /* LLDataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6980E8DA08E8A905004E3772 /* LLDataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6980E8D808E8A905004E3772 /* LLDataDevice.m */; };
@@ -970,6 +970,7 @@
 			files = (
 				69F36CA70567EA5D009AED51 /* Lablib.h in Headers */,
 				697A296D159526EC00095DB3 /* LLBinocCalibrator.h in Headers */,
+				697A3BC61E78DE0C000FA7F9 /* LLMonitor.h in Headers */,
 				698F5966159000EC00366393 /* LLSynthBinocSaccade.h in Headers */,
 				6980E97C08E8BE77004E3772 /* LLSynthDataDevice.h in Headers */,
 				6980E9D908E8C193004E3772 /* LLSynthDataSettings.h in Headers */,
@@ -1049,7 +1050,6 @@
 				6904B0A408EF39C700437691 /* LLDataDeviceController.h in Headers */,
 				6912F8320918FD8B009B1CD1 /* LLMouseDataDevice.h in Headers */,
 				6912F8A70919029C009B1CD1 /* LLMouseDataSettings.h in Headers */,
-				697A3BC61E78DE0C000FA7F9 /* LLMonitor.h in Headers */,
 				69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */,
 				69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */,
 				6905D24C0966EDB2009C96F6 /* LLPluginController.h in Headers */,

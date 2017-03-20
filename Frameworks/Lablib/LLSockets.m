@@ -35,11 +35,12 @@
 #define kBufferLength   1024
 
 #define kLLSocketsHostKey           @"LLSocketsHost"
+#define kLLSocketNumStatusStrings   9
 #define kLLSocketsPortKey           @"LLSocketsPort"
 #define kLLSocketsRigIDKey          @"LLSocketsRigID"
+#define kLLSocketsTimeoutS          1.0
 #define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
-#define kLLSocketNumStatusStrings   9
 
 enum {kReceiveJSON = 1, kStop};
 
@@ -102,6 +103,13 @@ NSOutputStream *outputStream;
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
     
+    deviceNameDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"LaserControllerXRig1", @"rig1",
+                                 @"LaserControllerXRig2", @"rig2",
+                                 @"LaserControllerXRig3", @"rig3",
+                                 @"LaserControllerXRig4", @"rig4",
+                                 nil];
+
     streamsLock = [[NSLock alloc] init];
 
     if ([self window] == nil) {
@@ -195,6 +203,7 @@ NSOutputStream *outputStream;
 {
     NSData *JSONData;
     NSError *error;
+    NSString *deviceName, *rigID;
     uint32_t JSONLength, bufferLength;
     NSInteger readLength;
     uint8_t pBuffer[kBufferLength];
@@ -206,7 +215,14 @@ NSOutputStream *outputStream;
         return nil;
     }
     
-    [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey] forKey:@"rigID"];
+    rigID = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
+    deviceName = [deviceNameDict objectForKey:@"rigID"];
+    if (deviceName == nil) {
+        [self postToConsole:[NSString stringWithFormat:@"%@ is an unknown  rig ID\n", rigID]
+                  textColor:[NSColor redColor]];
+        return nil;
+    }
+    [dict setObject:deviceName forKey:@"deviceName"];
     JSONData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     JSONLength = (uint32_t)[JSONData length];
     bufferLength = JSONLength + sizeof(uint32_t);
@@ -224,27 +240,31 @@ NSOutputStream *outputStream;
         }
     }
     
-    while (![inputStream hasBytesAvailable]) {};
+    while (![inputStream hasBytesAvailable]) {
+        if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
+            [self closeStreams];
+            [self postToConsole:@"Response timeout\n" textColor:[NSColor redColor]];
+            if (![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
+            }
+            return nil;
+        }
+    };
     readLength = [inputStream read:pBuffer maxLength:kBufferLength];
     pBuffer[readLength] = 0;
     [self closeStreams];
-    
     endTime = [LLSystemUtil getTimeS];
-    if (readLength == JSONLength) {             // ??? This will no longer be the length returned
-        [self postToConsole:[NSString stringWithFormat:@"Successfully sent dictionary of %d bytes\n", JSONLength]
-            textColor:[NSColor blackColor]];
-    }
-    else {
-        [self postToConsole:[NSString stringWithFormat:@"Communication error: Sent %d bytes, but server echoed %ld\n",
-                             JSONLength, (long)readLength] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer] textColor:[NSColor redColor]];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
-        }
-    }
+
+    JSONData = [NSData dataWithBytes:pBuffer length:readLength];
+    dict = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+
+    NSLog(@"Dict returned: %@", dict);
+
+    [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes\n",
+                         JSONLength, (long)readLength] textColor:[NSColor blackColor]];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
-        [self postToConsole:[NSString stringWithFormat:@"Received: %s\n", pBuffer] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@"Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
+        [self postToConsole:[NSString stringWithFormat:@" Received: %s\n", pBuffer] textColor:[NSColor blackColor]];
+        [self postToConsole:[NSString stringWithFormat:@" Delay to write %.1f ms\n", 1000.0 * (endTime - startTime)]
               textColor:[NSColor blackColor]];
     }
     return dict;
