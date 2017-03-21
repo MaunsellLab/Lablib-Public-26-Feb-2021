@@ -14,7 +14,7 @@
 #define kOutputRateHz           100000
 #define kPowerChannelName       @"ao0"
 #define kSamplesPerMS           (kOutputRateHz / 1000)
-#define kShutterChannelName     @"port0/line"
+#define kShutterChannelName     @"ao0"
 #define kShutterDelayMS         4
 #define kTrialShutterChanName   @"port0/line2"
 #define kTriggerChanName        @"PFI0"
@@ -25,7 +25,7 @@
 
 - (void)closeShutter;
 {
-    [self outputDigitalValue:0 channelName:[NSString stringWithFormat:@"%@%@", deviceName, kShutterChannelName]];
+    [self outputDigitalValue:0 channelName:kShutterChannelName];
 }
 
 - (void)createChannel:(NIDAQTask)taskHandle channelName:(NSString*)channelName;
@@ -62,17 +62,14 @@
 
 - (void)outputDigitalValue:(short)value channelName:(NSString *)channelName;
 {
-//    Float64 outArray[3] = {value, value, value};
+    Float64 outArray[3] = {value, value, value};
     LLNIDAQAnalogOutput *analogOutput;
 
     analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
-    [analogOutput createChannelWithName:channelName];
-//    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
-//    [analogOutput writeArray:outArray length:sizeof(outArray) autoStart:NO];
-//    [analogOutput start];
-//    usleep(100000);
-//    [analogOutput waitUntilDone];
-//    [analogOutput stop];
+    [analogOutput createVoltageChannelWithName:channelName];
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
+    [analogOutput writeArray:outArray length:sizeof(outArray) autoStart:YES];
+    [analogOutput waitUntilDone];
     [analogOutput deleteTask];
     [analogOutput release];
 }

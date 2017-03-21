@@ -18,7 +18,7 @@ typedef uint32_t *NIDAQTask;
 }
 
 - (void)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
-- (void)createChannelWithName:(NSString *)channelName;
+- (void)createVoltageChannelWithName:(NSString *)channelName;
 - (void)deleteTask;
 - (id)initWithSocket:(LLSockets *)theSocket;
 - (void)start;
