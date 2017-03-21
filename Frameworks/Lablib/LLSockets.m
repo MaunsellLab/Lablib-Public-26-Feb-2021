@@ -203,6 +203,7 @@ NSOutputStream *outputStream;
 - (NSMutableDictionary *)writeDictionary:(NSMutableDictionary *)dict;
 {
     NSData *JSONData;
+    NSMutableDictionary *returnDict;
     NSError *error;
     NSString *deviceName, *rigID;
     uint32_t JSONLength, bufferLength;
@@ -257,13 +258,15 @@ NSOutputStream *outputStream;
     endTime = [LLSystemUtil getTimeS];
 
     JSONData = [NSData dataWithBytes:pBuffer length:readLength];
-    dict = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+    returnDict = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
     [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms)\n",
-                         JSONLength, (long)readLength, 1000.0 * (endTime - startTime)] textColor:[NSColor blackColor]];
+            JSONLength, (long)readLength, 1000.0 * (endTime - startTime)]
+            textColor:(readLength > 0) ? [NSColor blackColor] : [NSColor redColor]];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
+        [self postToConsole:[NSString stringWithFormat:@" Sent: %@\n", dict] textColor:[NSColor blackColor]];
         [self postToConsole:[NSString stringWithFormat:@" Received: %s\n", pBuffer] textColor:[NSColor blackColor]];
     }
-    return dict;
+    return returnDict;
 }
 
 @end
