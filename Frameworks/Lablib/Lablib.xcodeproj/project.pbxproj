@@ -92,6 +92,8 @@
 		696DF6550EB8E53A0004FC8E /* LLLaserCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */; };
 		696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 696FEDD10B7B854A002D6D54 /* LLMathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		696FEDD80B7B86E5002D6D54 /* LLMathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */; };
+		697012AC1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 697012AB1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m */; };
+		697012AE1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 697012AD1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6971365007E252D50083188B /* LLSynthSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D01640479219700A80164 /* LLSynthSaccade.m */; };
 		6974579E0A83A5BF00D6783B /* LLSVDSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 6974579C0A83A5BF00D6783B /* LLSVDSolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6974579F0A83A5BF00D6783B /* LLSVDSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6974579D0A83A5BF00D6783B /* LLSVDSolver.m */; };
@@ -370,6 +372,8 @@
 		696E8AC0046334C800A80164 /* LLViewScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewScale.m; sourceTree = "<group>"; };
 		696FEDD10B7B854A002D6D54 /* LLMathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMathUtil.h; sourceTree = "<group>"; };
 		696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMathUtil.m; sourceTree = "<group>"; };
+		697012AB1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNIDAQDigitalOutput.m; sourceTree = "<group>"; };
+		697012AD1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQDigitalOutput.h; sourceTree = "<group>"; };
 		69724AAD04AF30AA0023341D /* LLSmoothHist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSmoothHist.h; sourceTree = "<group>"; };
 		69724AAE04AF30AA0023341D /* LLSmoothHist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSmoothHist.m; sourceTree = "<group>"; };
 		6974579C0A83A5BF00D6783B /* LLSVDSolver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSVDSolver.h; sourceTree = "<group>"; };
@@ -663,6 +667,8 @@
 				69272CAE1E7773A40000D718 /* LLNIDAQ.m */,
 				69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */,
 				69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */,
+				697012AD1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h */,
+				697012AB1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m */,
 				69FB5570095DA531006F86F9 /* LLNullDataDevice.h */,
 				69FB5571095DA531006F86F9 /* LLNullDataDevice.m */,
 				6984E5CD0E672AA600A9E7CB /* LLPulseTrain.h */,
@@ -1059,6 +1065,7 @@
 				6953194A09B6227E00EC15C7 /* LLOldGabor.h in Headers */,
 				69F8D4A709D9B76300DF2F63 /* LLProgressIndicator.h in Headers */,
 				6974579E0A83A5BF00D6783B /* LLSVDSolver.h in Headers */,
+				697012AE1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h in Headers */,
 				691C42300B25E87500DA5103 /* LLStateSystem.h in Headers */,
 				696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */,
 				69671AD20BA498BC00AA136E /* LLNumberMatchTransformer.h in Headers */,
@@ -1254,6 +1261,7 @@
 				6905D24D0966EDB2009C96F6 /* LLPluginController.m in Sources */,
 				69BDCF0A098C09B500578E91 /* LLScrollZoomWindow.m in Sources */,
 				69897B6D099BA633001EE2DA /* LLDataUtil.m in Sources */,
+				697012AC1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m in Sources */,
 				695C167709B15D090021A27D /* LLVisualStimulus.m in Sources */,
 				6953194B09B6227E00EC15C7 /* LLOldGabor.m in Sources */,
 				69F8D4A809D9B76300DF2F63 /* LLProgressIndicator.m in Sources */,

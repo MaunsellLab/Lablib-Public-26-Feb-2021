@@ -5,20 +5,23 @@
 //  Created by John Maunsell on 3/13/17.
 //
 
-//#import "LLNIDAQmx.h"
 #import "LLSockets.h"
 #import "LLNIDAQAnalogOutput.h"
+#import "LLNIDAQDigitalOutput.h"
 
 @interface LLNIDAQ : NSObject {
 
-    NSLock      *deviceLock;
-    NSString    *deviceName;
-    BOOL        doControlShutter;
-    LLSockets   *socket;
+    LLNIDAQAnalogOutput     *analogOutput;
+    NSLock                  *deviceLock;
+    NSString                *deviceName;
+    LLNIDAQDigitalOutput    *digitalOutput;
+    BOOL                    doControlShutter;
+    LLSockets               *socket;
 }
 
 - (id)initWithSocket:(LLSockets *)theSocket;
-- (void)outputDigitalValue:(short)value channelName:(NSString *)channelName;
+- (void)outputDigitalValue:(short)value;
+- (void)setPowerToMinimum;
 - (void)showWindow:(id)sender;
 
 @end

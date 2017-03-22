@@ -1,15 +1,15 @@
 //
-//  LLNIDAQAnalogOutput.m
+//  LLNIDAQDigitalOutput.m
 //  Lablib
 //
 //  Created by John Maunsell on 3/13/17.
 //
 
-#import "LLNIDAQAnalogOutput.h"
+#import "LLNIDAQDigitalOutput.h"
 
 static long nextTaskID = 0;         // class variable to persist across all instances
 
-@implementation LLNIDAQAnalogOutput
+@implementation LLNIDAQDigitalOutput
 
 - (void)alterState:(NSString *)newState;
 {
@@ -45,23 +45,12 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
 }
 
-- (void)createChannel:(NSString *)channelName;
+- (void)createChannelWithName:(NSString *)channelName;
 {
     NSMutableDictionary *dict;
 
     if (taskName != nil) {
         dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
-                taskName, @"taskName", channelName, @"channelName", nil];
-        dict = [socket writeDictionary:dict];
-    }
-}
-
-- (void)createVoltageChannelWithName:(NSString *)channelName;
-{
-    NSMutableDictionary *dict;
-
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createVoltageChannel", @"command",
                 taskName, @"taskName", channelName, @"channelName", nil];
         dict = [socket writeDictionary:dict];
     }
@@ -96,8 +85,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     if ([super init] != nil) {
         socket = theSocket;
         [socket retain];
-        taskName = [[NSString stringWithFormat:@"AOTask%ld", nextTaskID++] retain];
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createAOTask", @"command",
+        taskName = [[NSString stringWithFormat:@"DOTask%ld", nextTaskID++] retain];
+        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createDOTask", @"command",
                                                                taskName, @"taskName", nil];
         dict = [socket writeDictionary:dict];
     }

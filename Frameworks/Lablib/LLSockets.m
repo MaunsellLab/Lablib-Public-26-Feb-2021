@@ -38,7 +38,7 @@
 #define kLLSocketNumStatusStrings   9
 #define kLLSocketsPortKey           @"LLSocketsPort"
 #define kLLSocketsRigIDKey          @"LLSocketsRigID"
-#define kLLSocketsTimeoutS          1.0
+#define kLLSocketsTimeoutS          0.100
 #define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 
@@ -211,6 +211,7 @@ NSOutputStream *outputStream;
     uint8_t pBuffer[kBufferLength];
     long result;
     double startTime, endTime;
+    static long retries = 0;
 
     startTime = [LLSystemUtil getTimeS];
     if (![self openStreams]) {
@@ -245,11 +246,20 @@ NSOutputStream *outputStream;
     while (![inputStream hasBytesAvailable]) {
         if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
             [self closeStreams];
-            [self postToConsole:@"Response timeout\n" textColor:[NSColor redColor]];
-            if (![[self window] isVisible]) {
+            if (retries >= 2) {
+                [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), giving up\n",
+                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+                retries = 0;
+                return nil;
+            }
+            if ((retries++ == 0) && ![[self window] isVisible]) {
                 [[self window] makeKeyAndOrderFront:self];
             }
-            return nil;
+            [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), retrying\n",
+                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+            returnDict = [self writeDictionary:dict];
+            retries--;
+            return returnDict;
         }
     };
     readLength = [inputStream read:pBuffer maxLength:kBufferLength];
@@ -259,8 +269,8 @@ NSOutputStream *outputStream;
 
     JSONData = [NSData dataWithBytes:pBuffer length:readLength];
     returnDict = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-    [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms)\n",
-            JSONLength, (long)readLength, 1000.0 * (endTime - startTime)]
+    [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms) %@\n",
+            JSONLength, (long)readLength, 1000.0 * (endTime - startTime), retries > 0 ? @"(successful retry)" : @""]
             textColor:(readLength > 0) ? [NSColor blackColor] : [NSColor redColor]];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
         [self postToConsole:[NSString stringWithFormat:@" Sent: %@\n", dict] textColor:[NSColor blackColor]];

@@ -1,5 +1,5 @@
 //
-//  LLNIDAQAnalogOutput.h
+//  LLNIDAQDigitalOutput.h
 //  Lablib
 //
 //  Created by John Maunsell on 3/13/17.
@@ -10,7 +10,7 @@
 
 typedef uint32_t *NIDAQTask;
 
-@interface LLNIDAQAnalogOutput : NSObject {
+@interface LLNIDAQDigitalOutput : NSObject {
 
     LLSockets   *socket;
     NSString    *taskName;
@@ -19,7 +19,7 @@ typedef uint32_t *NIDAQTask;
 - (void)alterState:(NSString *)newState;
 - (void)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
 - (void)configureTriggerDisableStart;
-- (void)createVoltageChannelWithName:(NSString *)channelName;
+- (void)createChannelWithName:(NSString *)channelName;
 - (void)deleteTask;
 - (id)initWithSocket:(LLSockets *)theSocket;
 - (void)start;

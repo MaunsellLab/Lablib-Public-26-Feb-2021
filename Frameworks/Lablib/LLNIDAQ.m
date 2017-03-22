@@ -11,13 +11,14 @@
 #import "LLNIDAQ.h"
 #import "LLNIDAQAnalogOutput.h"
 
+#define kAnalogOutChannelName   @"ao0"
+#define kDigitalOutChannelName  @"port0/line2"
 #define kOutputRateHz           100000
-#define kPowerChannelName       @"ao0"
 #define kSamplesPerMS           (kOutputRateHz / 1000)
-#define kShutterChannelName     @"ao0"
 #define kShutterDelayMS         4
 #define kTrialShutterChanName   @"port0/line2"
 #define kTriggerChanName        @"PFI0"
+#define kWaitTimeS              0.100
 
 #define kLLSocketsRigIDKey          @"LLSocketsRigID"
 
@@ -25,23 +26,19 @@
 
 - (void)closeShutter;
 {
-    [self outputDigitalValue:0 channelName:kShutterChannelName];
-}
-
-- (void)createChannel:(NIDAQTask)taskHandle channelName:(NSString*)channelName;
-{
-    NSMutableDictionary *dict;
-
-    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            @"DAQmxCreateChannel", @"command", [NSValue valueWithPointer:taskHandle], @"taskHandle",
-            channelName, @"channelName", nil];
-    dict = [socket writeDictionary:dict];
-    //int32 DAQmxCreateAOVoltageChan (TaskHandle taskHandle, const char physicalChannel[], const char nameToAssignToChannel[], float64 minVal, float64 maxVal, int32 units, const char customScaleName[]);
+    [self outputDigitalValue:0];
 }
 
 - (void)dealloc;
 {
     [deviceLock lock];
+    [self setPowerToMinimum];
+    [analogOutput stop];
+    [analogOutput deleteTask];
+    [analogOutput release];
+    [self closeShutter];
+    [digitalOutput deleteTask];
+    [digitalOutput release];
     [socket release];
     [deviceLock unlock];
     [deviceLock release];
@@ -55,25 +52,49 @@
         socket = theSocket;
         [socket retain];
         deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
+
+        analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
+        [analogOutput createVoltageChannelWithName:kAnalogOutChannelName];
+        [self setPowerToMinimum];
+
+        digitalOutput = [[LLNIDAQDigitalOutput alloc] initWithSocket:socket];
+        [digitalOutput createChannelWithName:kDigitalOutChannelName];
         [self closeShutter];
     }
     return self;
 }
 
-- (void)outputDigitalValue:(short)value channelName:(NSString *)channelName;
+- (void)openShutter;
 {
-    Float64 outArray[3] = {value, value, value};
-    LLNIDAQAnalogOutput *analogOutput;
-
-    analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
-    [analogOutput createVoltageChannelWithName:channelName];
-    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
-    [analogOutput writeArray:outArray length:sizeof(outArray) autoStart:YES];
-    [analogOutput waitUntilDone];
-    [analogOutput deleteTask];
-    [analogOutput release];
+    [self outputDigitalValue:1];
 }
 
+- (void)outputDigitalValue:(short)value;
+{
+    Float64 outArray[3] = {value, value, value};
+
+    [digitalOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
+    [digitalOutput writeArray:outArray length:sizeof(outArray) autoStart:YES];
+    [digitalOutput waitUntilDone:kWaitTimeS];
+    [digitalOutput stop];
+    [digitalOutput alterState:@"unreserve"];
+}
+
+- (void) setPowerTo:(float)powerMW;
+{
+    Float64 outputV[2] = {powerMW, powerMW};                // ???? Need to handle calibration
+
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outputV)];
+    [analogOutput configureTriggerDisableStart];            // start output on write/start
+    [analogOutput writeArray:outputV length:sizeof(outputV) autoStart:YES];
+    [analogOutput waitUntilDone:kWaitTimeS];
+    [analogOutput stop];
+}
+
+- (void)setPowerToMinimum;
+{
+    [self setPowerTo:0.0];
+}
 
 - (void)showWindow:(id)sender;
 {
