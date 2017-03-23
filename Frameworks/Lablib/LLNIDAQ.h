@@ -22,6 +22,8 @@
 }
 
 - (id)initWithSocket:(LLSockets *)theSocket;
+- (float)maximumMW;
+- (float)minimumMW;
 - (void)outputDigitalValue:(short)value;
 - (void)setPowerToMinimum;
 - (void)showWindow:(id)sender;

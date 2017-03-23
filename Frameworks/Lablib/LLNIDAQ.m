@@ -67,6 +67,16 @@
     return self;
 }
 
+- (float)maximumMW;
+{
+    return [calibrator maximumMW];
+}
+
+- (float)minimumMW;
+{
+    return [calibrator minimumMW];
+}
+
 - (void)openShutter;
 {
     [self outputDigitalValue:1];
