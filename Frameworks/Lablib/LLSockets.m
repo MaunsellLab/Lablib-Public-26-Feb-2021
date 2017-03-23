@@ -32,7 +32,7 @@
  } NSStreamEvent;
  */
 
-#define kBufferLength   1024
+//#define kBufferLength   1024
 
 #define kLLSocketsHostKey           @"LLSocketsHost"
 #define kLLSocketNumStatusStrings   9
@@ -214,7 +214,7 @@ NSOutputStream *outputStream;
     NSString *deviceName, *rigID;
     uint32_t JSONLength, bufferLength;
     NSInteger readLength;
-    uint8_t pBuffer[kBufferLength];
+    uint8_t *pBuffer;
     long result;
     double startTime, endTime;
     static long retries = 0;
@@ -235,6 +235,7 @@ NSOutputStream *outputStream;
     JSONData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     JSONLength = (uint32_t)[JSONData length];
     bufferLength = JSONLength + sizeof(uint32_t);
+    pBuffer = (uint8_t *)malloc(bufferLength);
     *(uint32_t *)pBuffer = JSONLength;
     [JSONData getBytes:&pBuffer[sizeof(uint32_t)] length:JSONLength];
     
@@ -268,7 +269,7 @@ NSOutputStream *outputStream;
             return returnDict;
         }
     };
-    readLength = [inputStream read:pBuffer maxLength:kBufferLength];
+    readLength = [inputStream read:pBuffer maxLength:bufferLength - 1];
     pBuffer[readLength] = 0;
     [self closeStreams];
     endTime = [LLSystemUtil getTimeS];

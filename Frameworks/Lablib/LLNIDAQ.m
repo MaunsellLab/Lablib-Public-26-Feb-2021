@@ -15,6 +15,7 @@
 #define kAnalogOutChannel0Name  @"ao0"
 #define kAnalogOutChannel1Name  @"ao1"
 #define kDigitalOutChannelName  @"port0/line2"
+#define kMinSamples             2
 #define kOutputRateHz           100000
 #define kSamplesPerMS           (kOutputRateHz / 1000)
 #define kShutterDelayMS         4
@@ -55,6 +56,9 @@
         socket = theSocket;
         [socket retain];
         deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
+        
+        [socket writeDictionary:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                    @"deleteAllDeviceTasks", @"command", nil]];
 
         calibrator = [[LLPowerCalibrator alloc] initWithFile:deviceName];
 
@@ -121,15 +125,21 @@
 
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(numSamples)];
     [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
-    [analogOutput writeArray:train length:numSamples autoStart:NO timeoutS:-1];
+    [analogOutput writeArray:train length:numSamples autoStart:YES timeoutS:-1];
     [analogOutput start];
 }
 
 - (void)setPowerTo:(float)powerMW;
 {
-    Float64 outputV[2] = {powerMW, powerMW};                // ???? Need to handle calibration
+    long sample;
+    long numSamples = kMinSamples * kActiveChannels;       // NIDAQ requires 2 samples per channel minimum
+    Float64 outputV[kMinSamples * kActiveChannels];        // min 2 samples per channel
+    
+    for (sample  = 0; sample < numSamples; sample++) {
+        outputV[sample] = [calibrator calibrated] ? [calibrator voltageForMW:powerMW] : powerMW;
+    }
 
-    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outputV)];
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:kMinSamples];
     [analogOutput configureTriggerDisableStart];            // start output on write/start
     [analogOutput writeArray:outputV length:sizeof(outputV) autoStart:YES timeoutS:-1];
     [analogOutput waitUntilDone:kWaitTimeS];
@@ -138,7 +148,7 @@
 
 - (void)setPowerToMinimum;
 {
-    [self setPowerTo:0.0];
+    [self setPowerTo:([calibrator calibrated]) ? [calibrator minimumMW] : 0.0];
 }
 
 - (void)showWindow:(id)sender;

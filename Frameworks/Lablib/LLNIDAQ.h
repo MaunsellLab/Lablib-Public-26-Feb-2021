@@ -25,6 +25,8 @@
 - (float)maximumMW;
 - (float)minimumMW;
 - (void)outputDigitalValue:(short)value;
+- (void)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
+                     duration1MS:(long)dur1MS delay1MS:(long)delay1MS;
 - (void)setPowerToMinimum;
 - (void)showWindow:(id)sender;
 

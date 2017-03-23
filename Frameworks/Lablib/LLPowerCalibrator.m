@@ -11,6 +11,8 @@
 
 @implementation LLPowerCalibrator
 
+@synthesize calibrated;
+
 - (void)dealloc;
 {
     if (mWatts > 0) {
@@ -39,37 +41,40 @@
                 [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension], fileName];
         fileContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
         array = [fileContents componentsSeparatedByString:@"\n"];
+        if (array != nil) {
         entries = [array count];
-        while ([(NSString *)[array objectAtIndex:entries - 1] length] == 0) {
-            entries--;
-        }
-        mWatts = malloc(sizeof(float) * entries);
-        volts = malloc(sizeof(float) * entries);
-        for (index = 0; index < entries; index++) {
-            sscanf([[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding], "%f%f", &mWatts[index],
-                   &volts[index]);
-        }
-        for (index = 0; index < entries; index++) {
-            for (j = index + 1; j < entries; j++) {
-                if (volts[index] > volts[j]) {
-                    tempV =  volts[index];
-                    tempMW = mWatts[index];
-                    volts[index] =  volts[j];
-                    mWatts[index] = mWatts[j];
-                    volts[j] =  tempV;
-                    mWatts[j] = tempMW;
+            while ([(NSString *)[array objectAtIndex:entries - 1] length] == 0) {
+                entries--;
+            }
+            mWatts = malloc(sizeof(float) * entries);
+            volts = malloc(sizeof(float) * entries);
+            for (index = 0; index < entries; index++) {
+                sscanf([[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding], "%f%f", &mWatts[index],
+                       &volts[index]);
+            }
+            for (index = 0; index < entries; index++) {
+                for (j = index + 1; j < entries; j++) {
+                    if (volts[index] > volts[j]) {
+                        tempV =  volts[index];
+                        tempMW = mWatts[index];
+                        volts[index] =  volts[j];
+                        mWatts[index] = mWatts[j];
+                        volts[j] =  tempV;
+                        mWatts[j] = tempMW;
+                    }
                 }
             }
-        }
-        for (index = 1; index < entries; index++) {
-            if (volts[index] < volts[index - 1]) {
-                NSLog(@"LLPowerCalibrator: error: voltages didn't sort properly");
-                break;
+            for (index = 1; index < entries; index++) {
+                if (volts[index] < volts[index - 1]) {
+                    NSLog(@"LLPowerCalibrator: error: voltages didn't sort properly");
+                    break;
+                }
+                if (mWatts[index] < mWatts[index - 1]) {
+                    NSLog(@"LLPowerCalibrator: error: mWatts are not monotonic with voltage");
+                    break;
+                }
             }
-            if (mWatts[index] < mWatts[index - 1]) {
-                NSLog(@"LLPowerCalibrator: error: mWatts are not monotonic with voltage");
-                break;
-            }
+            calibrated = YES;
         }
     }
     return self;
@@ -77,12 +82,12 @@
 
 - (float)maximumMW;
 {
-    return mWatts[entries - 1];
+    return (calibrated) ? mWatts[entries - 1] : -1;
 }
 
 - (float)minimumMW;
 {
-    return mWatts[0];
+    return (calibrated) ? mWatts[0] : -1;
 }
 
 - (float)voltageForMW:(float)targetMW;
@@ -90,6 +95,9 @@
     long midIndex, lowIndex, highIndex;
     float midMW, lowMW, highMW;
 
+    if (!calibrated) {
+        return -1;
+    }
     lowIndex = 0;
     highIndex = entries - 1;
     lowMW = mWatts[lowIndex];

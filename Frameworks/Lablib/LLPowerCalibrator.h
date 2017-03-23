@@ -13,7 +13,10 @@
     long                        entries;
     float                       *mWatts;
     float                       *volts;
+    
 }
+
+@property (readonly) BOOL calibrated;
 
 - (id)initWithFile:(NSString *)fileName;
 - (float)maximumMW;
