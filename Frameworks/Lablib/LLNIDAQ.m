@@ -11,7 +11,9 @@
 #import "LLNIDAQ.h"
 #import "LLNIDAQAnalogOutput.h"
 
-#define kAnalogOutChannelName   @"ao0"
+#define kActiveChannels         2
+#define kAnalogOutChannel0Name  @"ao0"
+#define kAnalogOutChannel1Name  @"ao1"
 #define kDigitalOutChannelName  @"port0/line2"
 #define kOutputRateHz           100000
 #define kSamplesPerMS           (kOutputRateHz / 1000)
@@ -57,7 +59,8 @@
         calibrator = [[LLPowerCalibrator alloc] initWithFile:deviceName];
 
         analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
-        [analogOutput createVoltageChannelWithName:kAnalogOutChannelName];
+        [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name];
+        [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name];
         [self setPowerToMinimum];
 
         digitalOutput = [[LLNIDAQDigitalOutput alloc] initWithSocket:socket];
@@ -93,13 +96,42 @@
     [digitalOutput alterState:@"unreserve"];
 }
 
-- (void) setPowerTo:(float)powerMW;
+- (void)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
+                                                duration1MS:(long)dur1MS delay1MS:(long)delay1MS;
+{
+    long sample;
+    long numSamples, pulse0Samples, delay1Samples, pulse1Samples;
+    Float64 offV, pulse0V, pulse1V, *train;
+
+    pulse0Samples = dur0MS * kOutputRateHz / 1000.0;
+    pulse1Samples = dur1MS * kOutputRateHz / 1000.0;
+    delay1Samples = dur1MS * kOutputRateHz / 1000.0;
+    numSamples = MAX(pulse0Samples, pulse1Samples + delay1Samples) + kActiveChannels;
+    train = malloc(numSamples * sizeof(Float64));
+    pulse0V = [calibrator voltageForMW:pulse0MW];
+    pulse1V = [calibrator voltageForMW:pulse1MW];
+    offV = [calibrator voltageForMW:[calibrator minimumMW]];
+    for (sample = 0; sample < numSamples - kActiveChannels; sample += kActiveChannels) {
+        train[sample] = (sample < pulse0Samples) ? pulse0V : offV;
+        train[sample + 1] = (sample < delay1Samples) ? offV : ((sample < delay1Samples + pulse1Samples) ? pulse1V : offV);
+    }
+    for ( ; sample < numSamples; sample++) {
+        train[sample] = offV;
+    }
+
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(numSamples)];
+    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
+    [analogOutput writeArray:train length:numSamples autoStart:NO timeoutS:-1];
+    [analogOutput start];
+}
+
+- (void)setPowerTo:(float)powerMW;
 {
     Float64 outputV[2] = {powerMW, powerMW};                // ???? Need to handle calibration
 
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outputV)];
     [analogOutput configureTriggerDisableStart];            // start output on write/start
-    [analogOutput writeArray:outputV length:sizeof(outputV) autoStart:YES];
+    [analogOutput writeArray:outputV length:sizeof(outputV) autoStart:YES timeoutS:-1];
     [analogOutput waitUntilDone:kWaitTimeS];
     [analogOutput stop];
 }
@@ -117,47 +149,7 @@
 @end
 
 /*
-Create objects for AnalogOutputTask and DigitalOutputTask
-give them the set of functions from below
-from nidaqmx import AnalogOutputTask, DigitalOutputTask
-task = DigitalOutputTask()
-task = AnalogOutputTask()
-del task
-
-task.create_channel(channelName)
-task.create_voltage_channel('%s/%s' % (self.deviceName, self.powerChanName), min_val=0, max_val=self.powerChanMaxV)
-task.configure_timing_sample_clock(rate = 100000.0, sample_mode='finite', samples_per_channel=len(outArr))
-task.configure_trigger_digital_edge_start('PFI0', edge='rising')
-task.write(outArr, auto_start=0)
-task.start()
-task.wait_until_done(1)
-task.stop()
- 
- 
  The following example demonstrates how to create an analog output task that generates voltage to given channel of the NI card:
-
- >>> task = AnalogOutputTask()
- >>> task.create_voltage_channel('Dev1/ao2', min_val=-10.0, max_val=10.0)
- >>> task.configure_timing_sample_clock(rate = 1000.0)
- >>> task.write(data)
- >>> task.start()
- >>> raw_input('Generating voltage continuously. Press Enter to interrupt..')
- >>> task.stop()
- >>> del task
- The generated voltage can be measured as well when connecting the corresponding channels in the NI card:
-
- >>> from nidaqmx import AnalogInputTask
- >>> import numpy as np
- >>> task = AnalogInputTask()
- >>> task.create_voltage_channel('Dev1/ai16', terminal = 'rse', min_val=-10.0, max_val=10.0)
- >>> task.configure_timing_sample_clock(rate = 1000.0)
- >>> task.start()
- >>> data = task.read(2000, fill_mode='group_by_channel')
- >>> del task
- >>> from pylab import plot, show
- >>> plot (data)
- >>> show ()
- that should plot two sine waves.
 
  Learning about your NI card and software
  The nidaqmx package allows you to make various queries about the NI card devices as well as software properties. For that, use nidaqmx.System instance as follows:

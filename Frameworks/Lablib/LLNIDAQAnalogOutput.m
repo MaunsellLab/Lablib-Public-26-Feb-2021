@@ -22,6 +22,17 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
 }
 
+- (void)configureTriggerDigitalEdgeStart:(NSString *)triggerChannelName edge:(NSString *)edge;
+{
+    NSMutableDictionary *dict;
+
+    if (taskName != nil) {
+        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTriggerDigitalEdgeStart", @"command",
+                taskName, @"taskName", edge, @"edge", nil];
+        dict = [socket writeDictionary:dict];
+    }
+}
+
 - (void)configureTriggerDisableStart;
 {
     NSMutableDictionary *dict;
@@ -45,16 +56,16 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
 }
 
-- (void)createChannel:(NSString *)channelName;
-{
-    NSMutableDictionary *dict;
-
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
-                taskName, @"taskName", channelName, @"channelName", nil];
-        dict = [socket writeDictionary:dict];
-    }
-}
+//- (void)createChannel:(NSString *)channelName;
+//{
+//    NSMutableDictionary *dict;
+//
+//    if (taskName != nil) {
+//        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
+//                taskName, @"taskName", channelName, @"channelName", nil];
+//        dict = [socket writeDictionary:dict];
+//    }
+//}
 
 - (void)createVoltageChannelWithName:(NSString *)channelName;
 {
@@ -135,7 +146,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
 }
 
-- (void)writeArray:(Float64 *)outArray length:(long)lengthBytes autoStart:(BOOL)autoStart;
+- (void)writeArray:(Float64 *)outArray length:(long)lengthBytes autoStart:(BOOL)autoStart timeoutS:(Float64)timeoutS;
 {
     long index;
     NSMutableDictionary *dict;
@@ -150,7 +161,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
         }
         sendArray = [NSArray arrayWithArray:array];
         dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"writeArray", @"command", taskName, @"taskName",
-                [NSNumber numberWithBool:autoStart], @"autoStart", sendArray, @"outArray", nil];
+                [NSNumber numberWithBool:autoStart], @"autoStart", sendArray, @"outArray",
+                [NSNumber numberWithFloat:timeoutS], @"timeoutS", nil];
         dict = [socket writeDictionary:dict];
         [array release];
     }
