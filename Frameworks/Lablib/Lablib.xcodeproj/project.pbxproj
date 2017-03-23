@@ -86,6 +86,8 @@
 		69671AD80BA49A1800AA136E /* LLNumberMatchTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69671AD70BA49A1800AA136E /* LLNumberMatchTransformer.m */; };
 		69671B170BA49DB100AA136E /* LLNumberNonMatchTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 69671B150BA49DB100AA136E /* LLNumberNonMatchTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69671B180BA49DB100AA136E /* LLNumberNonMatchTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69671B160BA49DB100AA136E /* LLNumberNonMatchTransformer.m */; };
+		696BA2521E8352C200AF4862 /* LLPowerCalibrator.h in Headers */ = {isa = PBXBuildFile; fileRef = 696BA2511E8352C200AF4862 /* LLPowerCalibrator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		696BA2541E8352CE00AF4862 /* LLPowerCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 696BA2531E8352CE00AF4862 /* LLPowerCalibrator.m */; };
 		696D383B059E39440018E5D5 /* LLTrialBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 696D3839059E39440018E5D5 /* LLTrialBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		696D383C059E39440018E5D5 /* LLTrialBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 696D383A059E39440018E5D5 /* LLTrialBlock.m */; };
 		696DF6540EB8E53A0004FC8E /* LLLaserCalibrator.h in Headers */ = {isa = PBXBuildFile; fileRef = 696DF6520EB8E53A0004FC8E /* LLLaserCalibrator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -363,6 +365,8 @@
 		69671AD70BA49A1800AA136E /* LLNumberMatchTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNumberMatchTransformer.m; sourceTree = "<group>"; };
 		69671B150BA49DB100AA136E /* LLNumberNonMatchTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNumberNonMatchTransformer.h; sourceTree = "<group>"; };
 		69671B160BA49DB100AA136E /* LLNumberNonMatchTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNumberNonMatchTransformer.m; sourceTree = "<group>"; };
+		696BA2511E8352C200AF4862 /* LLPowerCalibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPowerCalibrator.h; sourceTree = "<group>"; };
+		696BA2531E8352CE00AF4862 /* LLPowerCalibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPowerCalibrator.m; sourceTree = "<group>"; };
 		696D3839059E39440018E5D5 /* LLTrialBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTrialBlock.h; sourceTree = "<group>"; };
 		696D383A059E39440018E5D5 /* LLTrialBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTrialBlock.m; sourceTree = "<group>"; };
 		696D3920059E46030018E5D5 /* Info-Lablib.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Lablib.plist"; sourceTree = "<group>"; };
@@ -706,6 +710,8 @@
 				696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */,
 				69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */,
 				69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */,
+				696BA2511E8352C200AF4862 /* LLPowerCalibrator.h */,
+				696BA2531E8352CE00AF4862 /* LLPowerCalibrator.m */,
 				693FC6C804898EB700FE06D7 /* LLStandardDataEvents.h */,
 				693FC6C904898EB700FE06D7 /* LLStandardDataEvents.m */,
 				69D29126048E871C00F95509 /* LLStandardFileNames.h */,
@@ -1054,6 +1060,7 @@
 				69FB5517078B84AA00AC42FA /* LLUserDefaults.h in Headers */,
 				6980E8D908E8A905004E3772 /* LLDataDevice.h in Headers */,
 				6904B0A408EF39C700437691 /* LLDataDeviceController.h in Headers */,
+				696BA2521E8352C200AF4862 /* LLPowerCalibrator.h in Headers */,
 				6912F8320918FD8B009B1CD1 /* LLMouseDataDevice.h in Headers */,
 				6912F8A70919029C009B1CD1 /* LLMouseDataSettings.h in Headers */,
 				69E5E045095B505E00F6FE99 /* LLDataAssignment.h in Headers */,
@@ -1233,6 +1240,7 @@
 				69BE5A4E1E1AFD2D002B2981 /* LLMatlabEngine.m in Sources */,
 				69113E8306BDDF63008A141B /* LLParameterController.m in Sources */,
 				6981962A070483590075BDF4 /* LLBinomDist.m in Sources */,
+				696BA2541E8352CE00AF4862 /* LLPowerCalibrator.m in Sources */,
 				69819B460704F9AD0075BDF4 /* LLStatValues.m in Sources */,
 				69DCC8DC0737CE3800FE4CE8 /* LLEOTHistoryView.m in Sources */,
 				69DCCC07073AE8C600FE4CE8 /* LLBar.m in Sources */,

@@ -90,9 +90,7 @@ NSOutputStream *outputStream;
 - (id)init;
 {
     NSMutableDictionary *defaultSettings;
-//    NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsHostKey]];
-//    int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPortKey];
-    
+
     if ((self = [super init]) == nil) {
         return nil;
     }
@@ -127,6 +125,7 @@ NSOutputStream *outputStream;
 - (BOOL)openStreams;
 {
     long status;
+    double startTime;
     
     NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsHostKey]];
     int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPortKey];
@@ -139,7 +138,14 @@ NSOutputStream *outputStream;
     [outputStream retain];
     [inputStream open];
     [outputStream open];
-    while ((status = [inputStream streamStatus]) == NSStreamStatusOpening) {};
+    startTime = [LLSystemUtil getTimeS];
+    while ((status = [inputStream streamStatus]) == NSStreamStatusOpening) {
+        if ([LLSystemUtil getTimeS] - startTime > 0.250) {
+            [streamsLock unlock];
+            [self closeStreams];
+            return NO;
+        }
+    }
     status = [inputStream streamStatus];
     switch (status) {
         case NSStreamStatusError:

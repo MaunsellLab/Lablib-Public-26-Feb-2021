@@ -42,6 +42,7 @@
     [socket release];
     [deviceLock unlock];
     [deviceLock release];
+
     [super dealloc];
 }
 
@@ -52,6 +53,8 @@
         socket = theSocket;
         [socket retain];
         deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
+
+        calibrator = [[LLPowerCalibrator alloc] initWithFile:deviceName];
 
         analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
         [analogOutput createVoltageChannelWithName:kAnalogOutChannelName];

@@ -8,6 +8,7 @@
 #import "LLSockets.h"
 #import "LLNIDAQAnalogOutput.h"
 #import "LLNIDAQDigitalOutput.h"
+#import "LLPowerCalibrator.h"
 
 @interface LLNIDAQ : NSObject {
 
@@ -16,6 +17,7 @@
     NSString                *deviceName;
     LLNIDAQDigitalOutput    *digitalOutput;
     BOOL                    doControlShutter;
+    LLPowerCalibrator       *calibrator;
     LLSockets               *socket;
 }
 
