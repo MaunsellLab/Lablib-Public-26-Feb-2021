@@ -223,12 +223,10 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
 
     switch (eventCode) {
         case NSStreamEventHasBytesAvailable:
-            NSLog(@"LLSockets: hasBytesAvailable");
             if (stream == inputStream) {
                 lengthBytes = 0;
                 JSONData = [[NSMutableData alloc] init];
                 while ([inputStream hasBytesAvailable]) {
-                    NSLog(@"stream: reporting hasBytesAvailable");
                     lengthBytes = [(NSInputStream *)stream read:readBuffer maxLength:kReadBufferSize];
                     if (lengthBytes > 0) {
                         index = 0;
@@ -252,7 +250,6 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
                     }
                     if (bytesRead == bytesToRead) {
                         responseDict = [[NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error] retain];
-                        NSLog(@"LLSockets: Read %ld bytes hasBytesAvailable %d", bytesRead, [inputStream hasBytesAvailable]);
                         break;
                     }
                 }

@@ -175,6 +175,8 @@
 		69EDA65D0EAE93E100B3D1D5 /* LLFilterExp.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EDA65B0EAE93E100B3D1D5 /* LLFilterExp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69EDA65E0EAE93E100B3D1D5 /* LLFilterExp.m in Sources */ = {isa = PBXBuildFile; fileRef = 69EDA65C0EAE93E100B3D1D5 /* LLFilterExp.m */; };
 		69EE539F0864BF0A0096D396 /* LLVisualStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EE539D0864BF0A0096D396 /* LLVisualStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69EEB2141E873EB900A8C673 /* LLNIDAQTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EEB2131E873EB900A8C673 /* LLNIDAQTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69EEB2161E873ECB00A8C673 /* LLNIDAQTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 69EEB2151E873ECB00A8C673 /* LLNIDAQTask.m */; };
 		69F36CA70567EA5D009AED51 /* Lablib.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C8966703E82C5F00A80164 /* Lablib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CAA0567EA5D009AED51 /* LLDataDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CC79760447490000A80164 /* LLDataDoc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CAB0567EA5D009AED51 /* LLDisplays.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E9F6F6043D254F00F95509 /* LLDisplays.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -514,6 +516,8 @@
 		69EE45D6047D186E00A80164 /* LLXTEyePlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLXTEyePlot.m; sourceTree = "<group>"; };
 		69EE45D9047D18D400A80164 /* LLXTPlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTPlot.h; sourceTree = "<group>"; };
 		69EE539D0864BF0A0096D396 /* LLVisualStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLVisualStimulus.h; sourceTree = "<group>"; };
+		69EEB2131E873EB900A8C673 /* LLNIDAQTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQTask.h; sourceTree = "<group>"; };
+		69EEB2151E873ECB00A8C673 /* LLNIDAQTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNIDAQTask.m; sourceTree = "<group>"; };
 		69F2BB3204D3203700F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		69F2CF2504D4914800F95507 /* LLSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSettingsController.h; sourceTree = "<group>"; };
 		69F2CF2604D4914800F95507 /* LLSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLSettingsController.m; sourceTree = "<group>"; };
@@ -673,6 +677,8 @@
 				69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */,
 				697012AD1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h */,
 				697012AB1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m */,
+				69EEB2131E873EB900A8C673 /* LLNIDAQTask.h */,
+				69EEB2151E873ECB00A8C673 /* LLNIDAQTask.m */,
 				69FB5570095DA531006F86F9 /* LLNullDataDevice.h */,
 				69FB5571095DA531006F86F9 /* LLNullDataDevice.m */,
 				6984E5CD0E672AA600A9E7CB /* LLPulseTrain.h */,
@@ -1079,6 +1085,7 @@
 				69671B170BA49DB100AA136E /* LLNumberNonMatchTransformer.h in Headers */,
 				69C094520BDA3B8A00DB7DE8 /* LLPointDist.h in Headers */,
 				699AC1B30C752D46000D360E /* LLNoise.h in Headers */,
+				69EEB2141E873EB900A8C673 /* LLNIDAQTask.h in Headers */,
 				699AC32C0C7532D9000D360E /* nrutil.h in Headers */,
 				69F36CC50567EA5D009AED51 /* LLStandardDataEvents.h in Headers */,
 				6984E5CF0E672AA600A9E7CB /* LLPulseTrain.h in Headers */,
@@ -1277,6 +1284,7 @@
 				691C42310B25E87500DA5103 /* LLStateSystem.m in Sources */,
 				696FEDD80B7B86E5002D6D54 /* LLMathUtil.m in Sources */,
 				69671AD80BA49A1800AA136E /* LLNumberMatchTransformer.m in Sources */,
+				69EEB2161E873ECB00A8C673 /* LLNIDAQTask.m in Sources */,
 				69671B180BA49DB100AA136E /* LLNumberNonMatchTransformer.m in Sources */,
 				69C094530BDA3B8A00DB7DE8 /* LLPointDist.m in Sources */,
 				69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */,

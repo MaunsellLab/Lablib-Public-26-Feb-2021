@@ -9,7 +9,8 @@
 // using a socket lock.  That would be pretty safe.
 
 #import "LLNIDAQ.h"
-#import "LLNIDAQAnalogOutput.h"
+#import "LLNIDAQTask.h"
+//#import "LLNIDAQAnalogOutput.h"
 
 #define kActiveChannels         2
 #define kAnalogOutChannel0Name  @"ao0"
@@ -58,14 +59,16 @@
         deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
         calibrator = [[LLPowerCalibrator alloc] initWithFile:deviceName];
 
-        analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
+        analogOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
+        [analogOutput createAOTask];
         [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name maxVolts:[calibrator maximumV]
                                         minVolts:[calibrator minimumV]];
         [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name maxVolts:[calibrator maximumV]
                                         minVolts:[calibrator minimumV]];
         [self setPowerToMinimum];
 
-        digitalOutput = [[LLNIDAQDigitalOutput alloc] initWithSocket:socket];
+        digitalOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
+        [digitalOutput createDOTask];
         [digitalOutput createChannelWithName:kDigitalOutChannelName];
         [self closeShutter];
     }
@@ -92,7 +95,7 @@
     Float64 outArray[3] = {value, value, value};
 
     [digitalOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(outArray)];
-    [digitalOutput writeArray:outArray length:sizeof(outArray) autoStart:YES];
+    [digitalOutput writeSamples:outArray numSamples:sizeof(outArray) / sizeof(Float64) autoStart:YES timeoutS:0.250];
     [digitalOutput waitUntilDone:kWaitTimeS];
     [digitalOutput stop];
     [digitalOutput alterState:@"unreserve"];
