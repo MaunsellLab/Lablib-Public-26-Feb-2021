@@ -7,8 +7,6 @@
 
 #import "LLSockets.h"
 #import "LLNIDAQTask.h"
-//#import "LLNIDAQAnalogOutput.h"
-//#import "LLNIDAQDigitalOutput.h"
 #import "LLPowerCalibrator.h"
 
 @interface LLNIDAQ : NSObject {
@@ -23,12 +21,15 @@
 }
 
 - (id)initWithSocket:(LLSockets *)theSocket;
+- (BOOL)isDone:(LLNIDAQTask *)theTask;
 - (float)maximumMW;
 - (float)minimumMW;
 - (void)outputDigitalValue:(short)value;
-- (void)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
+- (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
                      duration1MS:(long)dur1MS delay1MS:(long)delay1MS;
 - (void)setPowerToMinimum;
 - (void)showWindow:(id)sender;
+- (BOOL)start:(LLNIDAQTask *)theTask;
+- (BOOL)stop:(LLNIDAQTask *)theTask;
 
 @end

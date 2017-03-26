@@ -38,6 +38,7 @@ typedef uint32_t *NIDAQTask;
 - (BOOL)createVoltageChannelWithName:(NSString *)channelName maxVolts:(float)maxV minVolts:(float)minV;
 - (BOOL)deleteTask;
 - (id)initWithSocket:(LLSockets *)theSocket;
+- (BOOL)isDone;
 - (BOOL)sendDictionary:(NSMutableDictionary *)dict;
 - (BOOL)start;
 - (BOOL)stop;

@@ -22,8 +22,6 @@
 		691C42310B25E87500DA5103 /* LLStateSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 691C405A0B25E87400DA5103 /* LLStateSystem.m */; };
 		69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CAD1E7773A40000D718 /* LLNIDAQ.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CAE1E7773A40000D718 /* LLNIDAQ.m */; };
-		69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69272CB41E777E860000D718 /* LLNIDAQAnalogOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */; };
 		69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */; };
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		693634C01E1B09F200A2DE4B /* libeng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634BF1E1B09F200A2DE4B /* libeng.dylib */; };
@@ -94,8 +92,6 @@
 		696DF6550EB8E53A0004FC8E /* LLLaserCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */; };
 		696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 696FEDD10B7B854A002D6D54 /* LLMathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		696FEDD80B7B86E5002D6D54 /* LLMathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */; };
-		697012AC1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 697012AB1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m */; };
-		697012AE1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 697012AD1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6971365007E252D50083188B /* LLSynthSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D01640479219700A80164 /* LLSynthSaccade.m */; };
 		6974579E0A83A5BF00D6783B /* LLSVDSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = 6974579C0A83A5BF00D6783B /* LLSVDSolver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6974579F0A83A5BF00D6783B /* LLSVDSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6974579D0A83A5BF00D6783B /* LLSVDSolver.m */; };
@@ -286,8 +282,6 @@
 		69259E390468682F00A80164 /* LLPlotColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPlotColors.m; sourceTree = "<group>"; };
 		69272CAD1E7773A40000D718 /* LLNIDAQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQ.h; sourceTree = "<group>"; };
 		69272CAE1E7773A40000D718 /* LLNIDAQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNIDAQ.m; sourceTree = "<group>"; };
-		69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQAnalogOutput.h; sourceTree = "<group>"; };
-		69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNIDAQAnalogOutput.m; sourceTree = "<group>"; };
 		692A86CE0480FA4200F95509 /* LLXTStimPlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTStimPlot.h; sourceTree = "<group>"; };
 		692A86CF0480FA4200F95509 /* LLXTStimPlot.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLXTStimPlot.m; sourceTree = "<group>"; };
 		692A86D6048136C600F95509 /* LLXTSpikePlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTSpikePlot.h; sourceTree = "<group>"; };
@@ -378,8 +372,6 @@
 		696E8AC0046334C800A80164 /* LLViewScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewScale.m; sourceTree = "<group>"; };
 		696FEDD10B7B854A002D6D54 /* LLMathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMathUtil.h; sourceTree = "<group>"; };
 		696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMathUtil.m; sourceTree = "<group>"; };
-		697012AB1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNIDAQDigitalOutput.m; sourceTree = "<group>"; };
-		697012AD1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNIDAQDigitalOutput.h; sourceTree = "<group>"; };
 		69724AAD04AF30AA0023341D /* LLSmoothHist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSmoothHist.h; sourceTree = "<group>"; };
 		69724AAE04AF30AA0023341D /* LLSmoothHist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSmoothHist.m; sourceTree = "<group>"; };
 		6974579C0A83A5BF00D6783B /* LLSVDSolver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSVDSolver.h; sourceTree = "<group>"; };
@@ -673,10 +665,6 @@
 				694519361E465429005B75A3 /* LLNE500Pump.m */,
 				69272CAD1E7773A40000D718 /* LLNIDAQ.h */,
 				69272CAE1E7773A40000D718 /* LLNIDAQ.m */,
-				69272CB11E777E790000D718 /* LLNIDAQAnalogOutput.h */,
-				69272CB31E777E860000D718 /* LLNIDAQAnalogOutput.m */,
-				697012AD1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h */,
-				697012AB1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m */,
 				69EEB2131E873EB900A8C673 /* LLNIDAQTask.h */,
 				69EEB2151E873ECB00A8C673 /* LLNIDAQTask.m */,
 				69FB5570095DA531006F86F9 /* LLNullDataDevice.h */,
@@ -1038,7 +1026,6 @@
 				693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */,
 				69CEA76706711F74009CEDDA /* LLStimulusTrain.h in Headers */,
 				69B7F50E06790CFA003728FD /* LLRandomDots.h in Headers */,
-				69272CB21E777E790000D718 /* LLNIDAQAnalogOutput.h in Headers */,
 				69914CC906863C46001800F9 /* LLTextUtil.h in Headers */,
 				69BCEEC906B2D32B0046C824 /* LLDataFileReader.h in Headers */,
 				69113E8206BDDF63008A141B /* LLParameterController.h in Headers */,
@@ -1078,7 +1065,6 @@
 				6953194A09B6227E00EC15C7 /* LLOldGabor.h in Headers */,
 				69F8D4A709D9B76300DF2F63 /* LLProgressIndicator.h in Headers */,
 				6974579E0A83A5BF00D6783B /* LLSVDSolver.h in Headers */,
-				697012AE1E81E3E900A8BDFF /* LLNIDAQDigitalOutput.h in Headers */,
 				691C42300B25E87500DA5103 /* LLStateSystem.h in Headers */,
 				696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */,
 				69671AD20BA498BC00AA136E /* LLNumberMatchTransformer.h in Headers */,
@@ -1256,7 +1242,6 @@
 				694D0C67077B61710025BAA4 /* LLTaskPlugIn.m in Sources */,
 				69A86B450780B23F009A47EC /* LLTaskStatusTitleTransformer.m in Sources */,
 				69A86C4E0780BA01009A47EC /* LLTaskStatusImageTransformer.m in Sources */,
-				69272CB41E777E860000D718 /* LLNIDAQAnalogOutput.m in Sources */,
 				69A86C900780C130009A47EC /* LLControlPanel.m in Sources */,
 				69858371078218D500F50DD2 /* LLTaskModeTransformer.m in Sources */,
 				69FB5518078B84AA00AC42FA /* LLUserDefaults.m in Sources */,
@@ -1276,7 +1261,6 @@
 				6905D24D0966EDB2009C96F6 /* LLPluginController.m in Sources */,
 				69BDCF0A098C09B500578E91 /* LLScrollZoomWindow.m in Sources */,
 				69897B6D099BA633001EE2DA /* LLDataUtil.m in Sources */,
-				697012AC1E81E3DA00A8BDFF /* LLNIDAQDigitalOutput.m in Sources */,
 				695C167709B15D090021A27D /* LLVisualStimulus.m in Sources */,
 				6953194B09B6227E00EC15C7 /* LLOldGabor.m in Sources */,
 				69F8D4A809D9B76300DF2F63 /* LLProgressIndicator.m in Sources */,

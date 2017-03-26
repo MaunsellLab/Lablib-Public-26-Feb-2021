@@ -38,7 +38,7 @@
 #define kLLSocketNumStatusStrings   9
 #define kLLSocketsPortKey           @"LLSocketsPort"
 #define kLLSocketsRigIDKey          @"LLSocketsRigID"
-#define kLLSocketsTimeoutS          0.250
+#define kLLSocketsTimeoutS          0.100
 #define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 
@@ -245,8 +245,11 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
                             bytesRead += lengthBytes - index;
                         }
                     }
-                    else if (lengthBytes < 1) {
-                        NSLog(@"LLSockets: error reading data %ld", (long)lengthBytes);
+                    else if (lengthBytes < 0) {
+                        if ([inputStream.streamError code] != 0) {
+                                NSLog(@"LLSockets: error %ld reading data %@", [inputStream.streamError code],
+                                      [inputStream.streamError localizedDescription]);
+                        }
                     }
                     if (bytesRead == bytesToRead) {
                         responseDict = [[NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error] retain];
@@ -257,7 +260,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             }
             break;
         case NSStreamEventErrorOccurred:
-            NSLog(@"LLSockets: NSStreamEventErrorOccurred");
+//            NSLog(@"LLSockets: NSStreamEventErrorOccurred");
             break;
         case NSStreamEventNone:
             NSLog(@"LLSockets: NSStreamEventNone");
@@ -271,7 +274,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             }
             break;
         case NSStreamEventEndEncountered:
-            NSLog(@"***LLSockets: NSStreamEventEndEncountered");
+//            NSLog(@"***LLSockets: NSStreamEventEndEncountered");
             break;
         case NSStreamEventHasSpaceAvailable:
             outputSpaceAvailable = YES;
@@ -300,6 +303,10 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     if (![self openStreams]) {
         return nil;
     }
+
+    // LLSockets controls the GUI window with the Rig ID field, so it is responsible for passing the Rig ID
+    // to the PC.  It is added to every dictionary that is sent to the PC
+
     rigID = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
     deviceName = [deviceNameDict objectForKey:rigID];
     if (deviceName == nil) {
@@ -317,9 +324,19 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     startTime = [LLSystemUtil getTimeS];
     while (!outputStreamOpen) {
         if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
-            [self postToConsole:@"Timed out waiting for output stream to open\n" textColor:[NSColor redColor]];
             [self closeStreams];
-            return nil;
+            if (retries >= 2) {
+                [self postToConsole:@" Giving up\n" textColor:[NSColor redColor]];
+                return nil;
+            }
+            if ((retries == 0) && ![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
+            }
+            [self postToConsole:@"Timed out waiting for open output stream, retrying\n" textColor:[NSColor redColor]];
+            retries++;
+            responseDict = [self writeDictionary:dict];
+            retries--;
+            return responseDict;
         }
     };
     if (!outputSpaceAvailable) {};
@@ -340,20 +357,19 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
         if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
             [self postToConsole:@"Timed out waiting for acknowledgment\n" textColor:[NSColor redColor]];
             [self closeStreams];
-//            if (retries >= 2) {
-//                [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), giving up\n",
-//                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
-//                return nil;
-//            }
-//            if ((retries == 0) && ![[self window] isVisible]) {
-//                [[self window] makeKeyAndOrderFront:self];
-//            }
-//            [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), retrying\n",
-//                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
-//            NSLog(@"Failed to get a response, going recursive");
-//            retries++;
-//            responseDict = [self writeDictionary:dict];
-//            retries--;
+            if (retries >= 2) {
+                [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), giving up\n",
+                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+                return nil;
+            }
+            if ((retries == 0) && ![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
+            }
+            [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), retrying\n",
+                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+            retries++;
+            responseDict = [self writeDictionary:dict];
+            retries--;
             return nil;
         }
     }
@@ -366,7 +382,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
         [self postToConsole:[NSString stringWithFormat:@"%@\n", dict] textColor:[NSColor blackColor]];
         if (success) {
-            [self postToConsole:@"Received: success" textColor:[NSColor blackColor]];
+            [self postToConsole:@"Received: success\n" textColor:[NSColor blackColor]];
         }
         else {
             [self postToConsole:[NSString stringWithFormat:@"Received: %@\n",

@@ -86,7 +86,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 {
     NSMutableDictionary *dict;
 
-    if (taskType != kNoType) {
+    if ((taskType != kNoType) && (taskType != kDigitalOutputType)) {
         NSLog(@"Attempting to change the type of a LLNIDAQTask, ignored");
         return NO;
     }
@@ -161,6 +161,22 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     return self;
 }
 
+- (BOOL)isDone;
+{
+    NSMutableDictionary *dict, *returnDict;
+
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"isDone", @"command", taskName, @"taskName", nil];
+    returnDict = [socket writeDictionary:dict];
+    if (returnDict == nil) {
+        return NO;
+    }
+    if ([[returnDict objectForKey:@"success"] boolValue]) {
+        return ([[returnDict objectForKey:@"isDone"] boolValue]);
+    }
+    return NO;
+}
+
+
 - (BOOL)sendDictionary:(NSMutableDictionary *)dict;
 {
     long channel;
@@ -176,7 +192,6 @@ static long nextTaskID = 0;         // class variable to persist across all inst
         return YES;
     }
     // We've gotten an error.  Check whether the AOTask has been lost.
-
     if (retries == 0) {                         // task recreation is recursive, so we want to prevent endless loops
         retries++;
         message = [returnDict objectForKey:@"errorMessage"];

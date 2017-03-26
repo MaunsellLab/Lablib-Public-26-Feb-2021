@@ -10,21 +10,18 @@
 
 #import "LLNIDAQ.h"
 #import "LLNIDAQTask.h"
-//#import "LLNIDAQAnalogOutput.h"
 
 #define kActiveChannels         2
 #define kAnalogOutChannel0Name  @"ao0"
 #define kAnalogOutChannel1Name  @"ao1"
 #define kDigitalOutChannelName  @"port0/line2"
 #define kMinSamples             2
-#define kOutputRateHz           1000
+#define kOutputRateHz           50000
 #define kSamplesPerMS           (kOutputRateHz / 1000)
-#define kShutterDelayMS         4
-#define kTrialShutterChanName   @"port0/line2"
+#define kLLSocketsRigIDKey      @"LLSocketsRigID"
 #define kTriggerChanName        @"PFI0"
 #define kWaitTimeS              0.100
 
-#define kLLSocketsRigIDKey          @"LLSocketsRigID"
 
 @implementation LLNIDAQ
 
@@ -75,6 +72,16 @@
     return self;
 }
 
+- (BOOL)isDone:(LLNIDAQTask *)theTask;
+{
+    if ([theTask isKindOfClass:[LLNIDAQTask class]]) {
+        return([theTask isDone]);
+    }
+    else {
+        return NO;
+    }
+}
+
 - (float)maximumMW;
 {
     return [calibrator maximumMW];
@@ -101,16 +108,16 @@
     [digitalOutput alterState:@"unreserve"];
 }
 
-- (void)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
+- (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
                                                 duration1MS:(long)dur1MS delay1MS:(long)delay1MS;
 {
     long sample;
     long numSamples, pulse0Samples, delay1Samples, pulse1Samples;
     Float64 offV, pulse0V, pulse1V, *train;
 
-    pulse0Samples = dur0MS * kOutputRateHz / 1000.0;
-    pulse1Samples = dur1MS * kOutputRateHz / 1000.0;
-    delay1Samples = dur1MS * kOutputRateHz / 1000.0;
+    pulse0Samples = dur0MS * kSamplesPerMS;
+    pulse1Samples = dur1MS * kSamplesPerMS;
+    delay1Samples = dur1MS * kSamplesPerMS;
     numSamples = MAX(pulse0Samples, pulse1Samples + delay1Samples) + kActiveChannels;
     train = malloc(numSamples * sizeof(Float64));
     pulse0V = [calibrator voltageForMW:pulse0MW];
@@ -124,13 +131,13 @@
         train[sample] = offV;
     }
 
+    [analogOutput stop];                                    // task must be stopped before re-arming
+    [analogOutput alterState:@"unreserve"];                // must unreserve in case it was never started
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite"
                                                         samplesPerChannel:numSamples / kActiveChannels];
     //    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
     [analogOutput writeSamples:train numSamples:numSamples autoStart:NO timeoutS:-1];
-    [analogOutput start];
-    [analogOutput waitUntilDone:1.0];
-    [analogOutput stop];
+    return(analogOutput);
 }
 
 - (void)setPowerTo:(float)powerMW;
@@ -159,5 +166,26 @@
 {
     [socket showWindow:sender];
 }
+
+- (BOOL)start:(LLNIDAQTask *)theTask;
+{
+    if ([theTask isKindOfClass:[LLNIDAQTask class]]) {
+        return([theTask start]);
+    }
+    else {
+        return NO;
+    }
+}
+
+- (BOOL)stop:(LLNIDAQTask *)theTask;
+{
+    if ([theTask isKindOfClass:[LLNIDAQTask class]]) {
+        return([theTask stop]);
+    }
+    else {
+        return NO;
+    }
+}
+
 
 @end
