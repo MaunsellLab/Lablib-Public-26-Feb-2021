@@ -556,9 +556,9 @@
 		0867D691FE84028FC02AAC07 /* Lablib Framework */ = {
 			isa = PBXGroup;
 			children = (
+				69B81617045E1B7300A80164 /* Things to Do.txt */,
 				69662A2D0A3DEA1A00B66B01 /* Release Notes.txt */,
 				69C895CB03E8275C00A80164 /* Notes.txt */,
-				69B81617045E1B7300A80164 /* Things to Do.txt */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Headers */,
 				699AC3260C7532B5000D360E /* Numerical Recipes */,

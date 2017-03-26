@@ -12,20 +12,25 @@ typedef uint32_t *NIDAQTask;
 
 @interface LLNIDAQAnalogOutput : NSObject {
 
-    LLSockets   *socket;
-    NSString    *taskName;
+    NSMutableArray      *channelMaxV;
+    NSMutableArray      *channelMinV;
+    NSMutableArray      *channelNames;
+    LLSockets           *socket;
+    NSString            *taskName;
 }
 
-- (void)alterState:(NSString *)newState;
-- (void)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
-- (void)configureTriggerDigitalEdgeStart:(NSString *)triggerChannelName edge:(NSString *)edge;
-- (void)configureTriggerDisableStart;
-- (void)createVoltageChannelWithName:(NSString *)channelName;
-- (void)deleteTask;
+- (BOOL)alterState:(NSString *)newState;
+- (BOOL)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
+- (BOOL)configureTriggerDigitalEdgeStart:(NSString *)triggerChannelName edge:(NSString *)edge;
+- (BOOL)configureTriggerDisableStart;
+- (BOOL)createTaskWithName:(NSString *)theName;
+- (BOOL)createVoltageChannelWithName:(NSString *)channelName maxVolts:(float)maxV minVolts:(float)minV;
+- (BOOL)deleteTask;
 - (id)initWithSocket:(LLSockets *)theSocket;
-- (void)start;
-- (void)stop;
-- (void)waitUntilDone:(float)timeoutS;
-- (void)writeArray:(Float64 *)outArray length:(long)lengthBytes autoStart:(BOOL)autoStart timeoutS:(Float64)timeoutS;
+- (BOOL)sendDictionary:(NSMutableDictionary *)dict;
+- (BOOL)start;
+- (BOOL)stop;
+- (BOOL)waitUntilDone:(float)timeoutS;
+- (BOOL)writeSamples:(Float64 *)outArray numSamples:(long)numSamples autoStart:(BOOL)autoStart timeoutS:(Float64)timeoutS;
 
 @end

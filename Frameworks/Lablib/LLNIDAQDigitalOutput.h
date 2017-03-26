@@ -16,15 +16,16 @@ typedef uint32_t *NIDAQTask;
     NSString    *taskName;
 }
 
-- (void)alterState:(NSString *)newState;
-- (void)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
-- (void)configureTriggerDisableStart;
-- (void)createChannelWithName:(NSString *)channelName;
-- (void)deleteTask;
+- (BOOL)alterState:(NSString *)newState;
+- (BOOL)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
+- (BOOL)configureTriggerDisableStart;
+- (BOOL)createChannelWithName:(NSString *)channelName;
+- (BOOL)deleteTask;
 - (id)initWithSocket:(LLSockets *)theSocket;
-- (void)start;
-- (void)stop;
-- (void)waitUntilDone:(float)timeoutS;
-- (void)writeArray:(Float64 *)outArray length:(long)lengthBytes autoStart:(BOOL)autoStart;
+- (BOOL)sendDictionary:(NSMutableDictionary *)dict;
+- (BOOL)start;
+- (BOOL)stop;
+- (BOOL)waitUntilDone:(float)timeoutS;
+- (BOOL)writeArray:(Float64 *)outArray length:(long)lengthBytes autoStart:(BOOL)autoStart;
 
 @end

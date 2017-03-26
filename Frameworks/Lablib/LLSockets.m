@@ -38,7 +38,7 @@
 #define kLLSocketNumStatusStrings   9
 #define kLLSocketsPortKey           @"LLSocketsPort"
 #define kLLSocketsRigIDKey          @"LLSocketsRigID"
-#define kLLSocketsTimeoutS          0.100
+#define kLLSocketsTimeoutS          0.250
 #define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 
@@ -58,18 +58,52 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     @"Unknown status code"
 };
 
-CFReadStreamRef readStream;
-CFWriteStreamRef writeStream;
-NSInputStream *inputStream;
-NSOutputStream *outputStream;
-
 @implementation LLSockets
+
++ (NSThread *)networkThread;
+{
+    static NSThread *networkThread = nil;
+    static dispatch_once_t oncePredicate;
+
+    dispatch_once(&oncePredicate, ^{
+        networkThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkThreadMain:) object:nil];
+        [networkThread start];
+    });
+    return networkThread;
+}
+
++ (void)networkThreadMain:(id)unused;
+{
+    do {
+        @autoreleasepool {
+            [[NSRunLoop currentRunLoop] run];
+        }
+    } while (YES);
+}
+
+- (void)removeFromCurrentThread:(NSStream *)stream;
+{
+    [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+}
+
+- (void)scheduleInCurrentThread:(NSStream *)stream;
+{
+    [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+}
+
 
 - (void)closeStreams;
 {
     [streamsLock lock];
     [inputStream close];
     [outputStream close];
+//    [inputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+//    [outputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [self performSelector:@selector(removeFromCurrentThread:) onThread:[[self class] networkThread]
+               withObject:inputStream waitUntilDone:YES];
+    [self performSelector:@selector(removeFromCurrentThread:) onThread:[[self class] networkThread]
+               withObject:outputStream waitUntilDone:YES];
+
     [inputStream release];
     [outputStream release];
     inputStream = nil;
@@ -124,9 +158,11 @@ NSOutputStream *outputStream;
 
 - (BOOL)openStreams;
 {
-    long status;
-    double startTime;
-    
+//    long status;
+//    double startTime;
+    CFReadStreamRef readStream;
+    CFWriteStreamRef writeStream;
+
     NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsHostKey]];
     int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPortKey];
     
@@ -136,50 +172,17 @@ NSOutputStream *outputStream;
     outputStream = (NSOutputStream *)writeStream;
     [inputStream retain];
     [outputStream retain];
+    CFRelease(readStream);
+    CFRelease(writeStream);
+    [inputStream setDelegate:self];
+    [outputStream setDelegate:self];
+    [self performSelector:@selector(scheduleInCurrentThread:) onThread:[[self class] networkThread]
+               withObject:inputStream waitUntilDone:YES];
+    [self performSelector:@selector(scheduleInCurrentThread:) onThread:[[self class] networkThread]
+               withObject:outputStream waitUntilDone:YES];
+    inputStreamOpen = outputStreamOpen = outputSpaceAvailable = NO;
     [inputStream open];
     [outputStream open];
-    startTime = [LLSystemUtil getTimeS];
-    while ((status = [inputStream streamStatus]) == NSStreamStatusOpening) {
-        if ([LLSystemUtil getTimeS] - startTime > 0.250) {
-            [streamsLock unlock];
-            [self closeStreams];
-            return NO;
-        }
-    }
-    status = [inputStream streamStatus];
-    switch (status) {
-        case NSStreamStatusError:
-            [streamsLock unlock];
-            [self postToConsole:@"openStreams: error opening input stream\n" textColor:[NSColor redColor]];
-            [self closeStreams];
-            if (![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
-            }
-            return NO;
-            break;
-        case NSStreamStatusOpen:
-        default:
-            break;
-    };
-    while ((status = [inputStream streamStatus]) != NSStreamStatusOpen) {};
-    
-    while ((status = [outputStream streamStatus]) == NSStreamStatusOpening) {};
-    status = [outputStream streamStatus];
-    switch (status) {
-        case NSStreamStatusError:
-            [self postToConsole:@"openStreams: error opening output stream\n" textColor:[NSColor redColor]];
-            [inputStream close];
-            [streamsLock unlock];
-            if (![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
-            }
-            return NO;
-            break;
-        case NSStreamStatusOpen:
-        default:
-            break;
-    };
-    while ((status = [outputStream streamStatus]) != NSStreamStatusOpen) {};
     [streamsLock unlock];
     return YES;
 }
@@ -201,29 +204,105 @@ NSOutputStream *outputStream;
 }
 
 /*
+ Occasionally, for reasons I cannot work out, inputStream will get an NSStreamEventHasBytesAvailable event immediately
+ after completing a buffer read.  I could see how an event might get created if the read were done piecemeal, with 
+ the first incarnation draining all the bytes after event occurred, leaving the second event with nothing to read. 
+ But when I measure things, the reads are essentially always occurring atomically.  For now it seems safe to ignore
+ these apparently supurious events.
+ 
+*/
+
+- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
+{
+    long index;
+    NSInteger lengthBytes;
+    NSMutableData *JSONData = nil;
+    NSError *error;
+    uint32_t bytesToRead;
+    uint8_t *pBytes = (uint8_t *)&bytesToRead;
+
+    switch (eventCode) {
+        case NSStreamEventHasBytesAvailable:
+            NSLog(@"LLSockets: hasBytesAvailable");
+            if (stream == inputStream) {
+                lengthBytes = 0;
+                JSONData = [[NSMutableData alloc] init];
+                while ([inputStream hasBytesAvailable]) {
+                    NSLog(@"stream: reporting hasBytesAvailable");
+                    lengthBytes = [(NSInputStream *)stream read:readBuffer maxLength:kReadBufferSize];
+                    if (lengthBytes > 0) {
+                        index = 0;
+                        while (bytesRead < 4) {
+                            *pBytes++ = readBuffer[index++];
+                            bytesRead++;
+                            if (index >= lengthBytes) {
+                                break;
+                            }
+                        }
+                        if (index >= lengthBytes) {
+                            continue;
+                        }
+                        if (bytesRead >= 4) {
+                            [JSONData appendBytes:(const void *)&readBuffer[index] length:lengthBytes - index];
+                            bytesRead += lengthBytes - index;
+                        }
+                    }
+                    else if (lengthBytes < 1) {
+                        NSLog(@"LLSockets: error reading data %ld", (long)lengthBytes);
+                    }
+                    if (bytesRead == bytesToRead) {
+                        responseDict = [[NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error] retain];
+                        NSLog(@"LLSockets: Read %ld bytes hasBytesAvailable %d", bytesRead, [inputStream hasBytesAvailable]);
+                        break;
+                    }
+                }
+                [JSONData release];
+            }
+            break;
+        case NSStreamEventErrorOccurred:
+            NSLog(@"LLSockets: NSStreamEventErrorOccurred");
+            break;
+        case NSStreamEventNone:
+            NSLog(@"LLSockets: NSStreamEventNone");
+            break;
+        case NSStreamEventOpenCompleted:
+            if (stream == inputStream) {
+                inputStreamOpen = YES;
+            }
+            else if (stream == outputStream) {
+                outputStreamOpen = YES;
+            }
+            break;
+        case NSStreamEventEndEncountered:
+            NSLog(@"***LLSockets: NSStreamEventEndEncountered");
+            break;
+        case NSStreamEventHasSpaceAvailable:
+            outputSpaceAvailable = YES;
+            break;
+    }
+}
+
+/*
  writeDictionary is the main function for communicating with the server.  I tried to set things up with the
  client and server maintaining a connection across multiple transmissions, but it always got in trouble.  The
  current approach opens and closes a connection for each dictionary transfer.
- */
+*/
 
 - (NSMutableDictionary *)writeDictionary:(NSMutableDictionary *)dict;
 {
+    BOOL success;
     NSData *JSONData;
-    NSMutableDictionary *returnDict;
-    NSError *error;
     NSString *deviceName, *rigID;
     uint32_t JSONLength, bufferLength;
-    NSInteger readLength;
+    NSError *error;
     uint8_t *pBuffer;
-    long result;
+    long written;
     double startTime, endTime;
     static long retries = 0;
 
-    startTime = [LLSystemUtil getTimeS];
     if (![self openStreams]) {
         return nil;
     }
-    
     rigID = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
     deviceName = [deviceNameDict objectForKey:rigID];
     if (deviceName == nil) {
@@ -238,10 +317,20 @@ NSOutputStream *outputStream;
     pBuffer = (uint8_t *)malloc(bufferLength);
     *(uint32_t *)pBuffer = JSONLength;
     [JSONData getBytes:&pBuffer[sizeof(uint32_t)] length:JSONLength];
-    
-    result = [outputStream write:pBuffer maxLength:bufferLength];
-    
-    if (result != bufferLength) {
+    startTime = [LLSystemUtil getTimeS];
+    while (!outputStreamOpen) {
+        if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
+            [self postToConsole:@"Timed out waiting for output stream to open\n" textColor:[NSColor redColor]];
+            [self closeStreams];
+            return nil;
+        }
+    };
+    if (!outputSpaceAvailable) {};
+    responseDict = nil;
+    bytesRead = 0;
+    outputSpaceAvailable = NO;
+    written = [outputStream write:pBuffer maxLength:bufferLength];
+    if (written != bufferLength) {
         error = [outputStream streamError];
         [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
                              error.code, error.localizedDescription] textColor:[NSColor redColor]];
@@ -249,41 +338,52 @@ NSOutputStream *outputStream;
             [[self window] makeKeyAndOrderFront:self];
         }
     }
-    
-    while (![inputStream hasBytesAvailable]) {
+    startTime = [LLSystemUtil getTimeS];
+    while (responseDict == nil) {
         if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
+            [self postToConsole:@"Timed out waiting for acknowledgment\n" textColor:[NSColor redColor]];
             [self closeStreams];
-            if (retries >= 2) {
-                [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), giving up\n",
-                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
-                retries = 0;
-                return nil;
-            }
-            if ((retries++ == 0) && ![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
-            }
-            [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), retrying\n",
-                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
-            returnDict = [self writeDictionary:dict];
-            retries--;
-            return returnDict;
+//            if (retries >= 2) {
+//                [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), giving up\n",
+//                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+//                return nil;
+//            }
+//            if ((retries == 0) && ![[self window] isVisible]) {
+//                [[self window] makeKeyAndOrderFront:self];
+//            }
+//            [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), retrying\n",
+//                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+//            NSLog(@"Failed to get a response, going recursive");
+//            retries++;
+//            responseDict = [self writeDictionary:dict];
+//            retries--;
+            return nil;
         }
-    };
-    readLength = [inputStream read:pBuffer maxLength:bufferLength - 1];
-    pBuffer[readLength] = 0;
+    }
     [self closeStreams];
     endTime = [LLSystemUtil getTimeS];
-
-    JSONData = [NSData dataWithBytes:pBuffer length:readLength];
-    returnDict = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
     [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms) %@\n",
-            JSONLength, (long)readLength, 1000.0 * (endTime - startTime), retries > 0 ? @"(successful retry)" : @""]
-            textColor:(readLength > 0) ? [NSColor blackColor] : [NSColor redColor]];
+            JSONLength, bytesRead, 1000.0 * (endTime - startTime), retries > 0 ? @"(successful retry)" : @""]
+            textColor:(bytesRead > 0) ? [NSColor blackColor] : [NSColor redColor]];
+    success = [[responseDict objectForKey:@"success"] boolValue];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
-        [self postToConsole:[NSString stringWithFormat:@" Sent: %@\n", dict] textColor:[NSColor blackColor]];
-        [self postToConsole:[NSString stringWithFormat:@" Received: %s\n", pBuffer] textColor:[NSColor blackColor]];
+        [self postToConsole:[NSString stringWithFormat:@"%@\n", dict] textColor:[NSColor blackColor]];
+        if (success) {
+            [self postToConsole:@"Received: success" textColor:[NSColor blackColor]];
+        }
+        else {
+            [self postToConsole:[NSString stringWithFormat:@"Received: %@\n",
+                    [responseDict objectForKey:@"errorMessage"]] textColor:[NSColor redColor]];
+        }
     }
-    return returnDict;
+    else if (!success) {
+        [self postToConsole:[NSString stringWithFormat:@"Received: %@\n",
+                             [responseDict objectForKey:@"errorMessage"]] textColor:[NSColor redColor]];
+    }
+    [self closeStreams];
+    [responseDict autorelease];
+    endTime = [LLSystemUtil getTimeS];
+    return responseDict;
 }
 
 @end

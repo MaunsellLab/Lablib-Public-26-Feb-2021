@@ -16,7 +16,7 @@
 #define kAnalogOutChannel1Name  @"ao1"
 #define kDigitalOutChannelName  @"port0/line2"
 #define kMinSamples             2
-#define kOutputRateHz           100000
+#define kOutputRateHz           1000
 #define kSamplesPerMS           (kOutputRateHz / 1000)
 #define kShutterDelayMS         4
 #define kTrialShutterChanName   @"port0/line2"
@@ -56,15 +56,13 @@
         socket = theSocket;
         [socket retain];
         deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
-        
-        [socket writeDictionary:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                                    @"deleteAllDeviceTasks", @"command", nil]];
-
         calibrator = [[LLPowerCalibrator alloc] initWithFile:deviceName];
 
         analogOutput = [[LLNIDAQAnalogOutput alloc] initWithSocket:socket];
-        [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name];
-        [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name];
+        [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name maxVolts:[calibrator maximumV]
+                                        minVolts:[calibrator minimumV]];
+        [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name maxVolts:[calibrator maximumV]
+                                        minVolts:[calibrator minimumV]];
         [self setPowerToMinimum];
 
         digitalOutput = [[LLNIDAQDigitalOutput alloc] initWithSocket:socket];
@@ -123,10 +121,13 @@
         train[sample] = offV;
     }
 
-    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:sizeof(numSamples)];
-    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
-    [analogOutput writeArray:train length:numSamples autoStart:YES timeoutS:-1];
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite"
+                                                        samplesPerChannel:numSamples / kActiveChannels];
+    //    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
+    [analogOutput writeSamples:train numSamples:numSamples autoStart:NO timeoutS:-1];
     [analogOutput start];
+    [analogOutput waitUntilDone:1.0];
+    [analogOutput stop];
 }
 
 - (void)setPowerTo:(float)powerMW;
@@ -141,7 +142,7 @@
 
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:kMinSamples];
     [analogOutput configureTriggerDisableStart];            // start output on write/start
-    [analogOutput writeArray:outputV length:sizeof(outputV) autoStart:YES timeoutS:-1];
+    [analogOutput writeSamples:outputV numSamples:kMinSamples * kActiveChannels autoStart:YES timeoutS:-1];
     [analogOutput waitUntilDone:kWaitTimeS];
     [analogOutput stop];
 }
@@ -157,30 +158,3 @@
 }
 
 @end
-
-/*
- The following example demonstrates how to create an analog output task that generates voltage to given channel of the NI card:
-
- Learning about your NI card and software
- The nidaqmx package allows you to make various queries about the NI card devices as well as software properties. For that, use nidaqmx.System instance as follows:
-
- >>> from nidaqmx import System
- >>> system = System()
- >>> print 'libnidaqmx version:',system.version
- libnidaqmx version: 8.0
- >>> print 'NI-DAQ devives:',system.devices
- NI-DAQ devives: ['Dev1', 'Dev2']
- >>> dev1 = system.devices[0]
- >>> print dev1.get_product_type()
- PCIe-6259
- >>> print dev1.get_bus()
- PCIe (bus=7, device=0)
- >>> print dev1.get_analog_input_channels()
- ['Dev1/ai0', 'Dev1/ai1', ..., 'Dev1/ai31']
-
- */
-
-
-
-
-

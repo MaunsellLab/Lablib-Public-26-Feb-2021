@@ -11,71 +11,76 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 
 @implementation LLNIDAQAnalogOutput
 
-- (void)alterState:(NSString *)newState;
+- (BOOL)alterState:(NSString *)newState;
 {
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"alterState", @"command", taskName, @"taskName",
-                newState, @"state", nil];
-        dict = [socket writeDictionary:dict];
-    }
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"alterState", @"command", taskName, @"taskName",
+            newState, @"state", nil];
+    return [self sendDictionary:dict];
 }
 
-- (void)configureTriggerDigitalEdgeStart:(NSString *)triggerChannelName edge:(NSString *)edge;
+- (BOOL)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
 {
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTriggerDigitalEdgeStart", @"command",
-                taskName, @"taskName", edge, @"edge", nil];
-        dict = [socket writeDictionary:dict];
-    }
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTimingSampleClock", @"command",
+            taskName, @"taskName", [NSNumber numberWithDouble:outputRateHz], @"outputRateHz", mode, @"mode",
+            [NSNumber numberWithLong:count], @"samplesPerChannel", nil];
+    return [self sendDictionary:dict];
 }
 
-- (void)configureTriggerDisableStart;
+- (BOOL)configureTriggerDigitalEdgeStart:(NSString *)triggerChannelName edge:(NSString *)edge;
 {
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTriggerDisableStart", @"command",
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTriggerDigitalEdgeStart", @"command",
+            taskName, @"taskName", triggerChannelName, @"channelName", edge, @"edge", nil];
+    return [self sendDictionary:dict];
+}
+
+- (BOOL)configureTriggerDisableStart;
+{
+    NSMutableDictionary *dict;
+
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTriggerDisableStart", @"command",
                 taskName, @"taskName", nil];
-        dict = [socket writeDictionary:dict];
-    }
+    return [self sendDictionary:dict];
 }
 
-- (void)configureTimingSampleClockWithRate:(double)outputRateHz mode:(NSString *)mode samplesPerChannel:(long)count;
+- (BOOL)createTaskWithName:(NSString *)theName;
 {
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTimingSampleClock", @"command",
-                taskName, @"taskName", [NSNumber numberWithDouble:outputRateHz], @"outputRateHz", mode, @"mode",
-                [NSNumber numberWithLong:count], @"samplesPerChannel", nil];
-        dict = [socket writeDictionary:dict];
-    }
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createAOTask", @"command",
+                                                    taskName, @"taskName", nil];
+    return [self sendDictionary:dict];
 }
 
-//- (void)createChannel:(NSString *)channelName;
-//{
-//    NSMutableDictionary *dict;
-//
-//    if (taskName != nil) {
-//        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
-//                taskName, @"taskName", channelName, @"channelName", nil];
-//        dict = [socket writeDictionary:dict];
-//    }
-//}
-
-- (void)createVoltageChannelWithName:(NSString *)channelName;
+- (BOOL)createVoltageChannelWithName:(NSString *)channelName maxVolts:(float)maxV minVolts:(float)minV;
 {
+    long channel;
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createVoltageChannel", @"command",
-                taskName, @"taskName", channelName, @"channelName", nil];
-        dict = [socket writeDictionary:dict];
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createVoltageChannel", @"command",
+                taskName, @"taskName", channelName, @"channelName",
+                [NSNumber numberWithFloat:maxV], @"maximumV",[NSNumber numberWithFloat:minV], @"minimumV",
+                nil];
+    for (channel = 0; channel < [channelNames count]; channel++) {
+        if ([channelName isEqualToString:[channelNames objectAtIndex:channel]]) {
+            break;
+        }
     }
+    if (channel >= [channelNames count]) {
+        [channelNames addObject:channelName];
+        [channelMaxV addObject:[NSNumber numberWithFloat:maxV]];
+        [channelMinV addObject:[NSNumber numberWithFloat:minV]];
+    }
+    else {
+        [channelMaxV replaceObjectAtIndex:channel withObject:[NSNumber numberWithFloat:maxV]];
+        [channelMinV replaceObjectAtIndex:channel withObject:[NSNumber numberWithFloat:minV]];
+    }
+    return [self sendDictionary:dict];
 }
 
 - (void)dealloc;
@@ -83,90 +88,113 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     [self stop];
     [self alterState:@"unreserve"];
     [self deleteTask];
+    [channelNames release];
+    [channelMaxV release];
+    [channelMinV release];
     [socket release];
     [super dealloc];
 }
 
-- (void)deleteTask;
+- (BOOL)deleteTask;
 {
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"deleteTask", @"command",
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"deleteTask", @"command",
                 taskName, @"taskName", nil];
-        dict = [socket writeDictionary:dict];
-        [taskName release];
-        taskName = nil;
-    }
+    [taskName release];
+    taskName = nil;
+    return [self sendDictionary:dict];
 }
 
 - (id)initWithSocket:(LLSockets *)theSocket;
 {
-    NSMutableDictionary *dict;
-
     if ([super init] != nil) {
         socket = theSocket;
         [socket retain];
+        channelNames = [[NSMutableArray alloc] init];
+        channelMaxV = [[NSMutableArray alloc] init];
+        channelMinV = [[NSMutableArray alloc] init];
         taskName = [[NSString stringWithFormat:@"AOTask%ld", nextTaskID++] retain];
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createAOTask", @"command",
-                                                               taskName, @"taskName", nil];
-        dict = [socket writeDictionary:dict];
+        [self createTaskWithName:taskName];                         // attempt to creat a NIDAQ task
     }
     return self;
 }
 
-- (void)start;
+- (BOOL)sendDictionary:(NSMutableDictionary *)dict;
 {
-    NSMutableDictionary *dict;
+    long channel;
+    NSString *message;
+    NSMutableDictionary *returnDict;
+    static long retries = 0;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"startTask", @"command", taskName, @"taskName", nil];
-        dict = [socket writeDictionary:dict];
+    returnDict = [socket writeDictionary:dict];
+    if (returnDict == nil) {
+        return NO;
     }
+    if ([[returnDict objectForKey:@"success"] boolValue]) {
+        return YES;
+    }
+    // We've gotten an error.  Check whether the AOTask has been lost.
+
+    if (retries == 0) {                         // task recreation is recursive, so we want to prevent endless loops
+        retries++;
+        message = [returnDict objectForKey:@"errorMessage"];
+        if ([message hasPrefix:[NSString stringWithFormat:@"no task named %@", taskName]]) {
+            [self createTaskWithName:taskName]; // try to recreate a new task
+            for (channel = 0; channel < [channelNames count]; channel++) {
+               [self createVoltageChannelWithName:[channelNames objectAtIndex:channel]
+                                             maxVolts:[[channelMaxV objectAtIndex:channel] floatValue]
+                                             minVolts:[[channelMinV objectAtIndex:channel] floatValue]];
+            }
+        }
+        retries--;
+    }
+    return NO;                                  // regardless of recreating the task, the current command failed
 }
 
-- (void)stop;
+- (BOOL)start;
 {
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"stopTask", @"command", taskName, @"taskName", nil];
-        dict = [socket writeDictionary:dict];
-    }
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"startTask", @"command", taskName, @"taskName", nil];
+    return [self sendDictionary:dict];
 }
 
-- (void)waitUntilDone:(float)timeoutS;
+- (BOOL)stop;
 {
     NSMutableDictionary *dict;
 
-    if (taskName != nil) {
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"waitUntilDone", @"command", taskName, @"taskName",
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"stopTask", @"command", taskName, @"taskName", nil];
+    return [self sendDictionary:dict];
+}
+
+- (BOOL)waitUntilDone:(float)timeoutS;
+{
+    NSMutableDictionary *dict;
+
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"waitUntilDone", @"command", taskName, @"taskName",
                 [NSNumber numberWithFloat:timeoutS], @"timeoutS", nil];
-        dict = [socket writeDictionary:dict];
-    }
+    return [self sendDictionary:dict];
 }
 
-- (void)writeArray:(Float64 *)outArray length:(long)lengthBytes autoStart:(BOOL)autoStart timeoutS:(Float64)timeoutS;
+- (BOOL)writeSamples:(Float64 *)outArray numSamples:(long)numSamples autoStart:(BOOL)autoStart timeoutS:(Float64)timeoutS;
 {
     long index;
     NSMutableDictionary *dict;
     NSMutableArray *array;
     NSArray *sendArray;
 
-    if (taskName != nil) {
-        array = [[NSMutableArray alloc] init];
-        for (index = 0; index < lengthBytes / sizeof(Float64); index++) {
+    array = [[NSMutableArray alloc] init];
+    for (index = 0; index < numSamples; index++) {
 //            [array addObject:[NSString stringWithFormat:@"%f", outArray[index]]];
-            [array addObject:[NSNumber numberWithFloat:outArray[index]]];
-        }
-        sendArray = [NSArray arrayWithArray:array];
-        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"writeArray", @"command", taskName, @"taskName",
-                [NSNumber numberWithBool:autoStart], @"autoStart", sendArray, @"outArray",
-                [NSNumber numberWithFloat:timeoutS], @"timeoutS", nil];
-        dict = [socket writeDictionary:dict];
-        [array release];
+        [array addObject:[NSNumber numberWithFloat:outArray[index]]];
     }
+    sendArray = [NSArray arrayWithArray:array];
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"writeArray", @"command", taskName, @"taskName",
+            [NSNumber numberWithBool:autoStart], @"autoStart", sendArray, @"outArray",
+            [NSNumber numberWithFloat:timeoutS], @"timeoutS", nil];
+    [array release];
+    return [self sendDictionary:dict];;
 }
-
 
 @end

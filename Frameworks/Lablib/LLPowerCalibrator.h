@@ -20,7 +20,9 @@
 
 - (id)initWithFile:(NSString *)fileName;
 - (float)maximumMW;
+- (float)maximumV;
 - (float)minimumMW;
+- (float)minimumV;
 - (float)voltageForMW:(float)targetMW;
 
 @end

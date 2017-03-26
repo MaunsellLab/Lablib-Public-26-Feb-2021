@@ -90,6 +90,16 @@
     return (calibrated) ? mWatts[0] : -1;
 }
 
+- (float)maximumV;
+{
+    return (calibrated) ? [self voltageForMW:mWatts[entries - 1]] : 10.0;
+}
+
+- (float)minimumV;
+{
+    return (calibrated) ? [self voltageForMW:mWatts[0]] : -10.0;
+}
+
 - (float)voltageForMW:(float)targetMW;
 {
     long midIndex, lowIndex, highIndex;
