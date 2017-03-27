@@ -296,7 +296,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     uint32_t JSONLength, bufferLength;
     NSError *error;
     uint8_t *pBuffer;
-    long written;
+    long totalWritten, writtenBytes;
     double startTime, endTime;
     static long retries = 0;
 
@@ -339,19 +339,36 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             return responseDict;
         }
     };
-    if (!outputSpaceAvailable) {};
     responseDict = nil;
-    bytesRead = 0;
-    outputSpaceAvailable = NO;
-    written = [outputStream write:pBuffer maxLength:bufferLength];
-    if (written != bufferLength) {
-        error = [outputStream streamError];
-        [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
-                             error.code, error.localizedDescription] textColor:[NSColor redColor]];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
+    bytesRead = 0;                      // clear for reading the response
+    totalWritten = 0;
+    while (totalWritten < bufferLength) {
+        while (!outputSpaceAvailable) {};
+        outputSpaceAvailable = NO;
+        writtenBytes = [outputStream write:(pBuffer + totalWritten) maxLength:(bufferLength - totalWritten)];
+        if (writtenBytes >= 0) {
+            totalWritten += writtenBytes;
+        }
+        else {
+            error = [outputStream streamError];
+            [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
+                                 error.code, error.localizedDescription] textColor:[NSColor redColor]];
+            if (![[self window] isVisible]) {
+                [[self window] makeKeyAndOrderFront:self];
+            }
+            [self closeStreams];
+            return nil;
         }
     }
+//    written = [outputStream write:pBuffer maxLength:bufferLength];
+//    if (written != bufferLength) {
+//        error = [outputStream streamError];
+//        [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
+//                             error.code, error.localizedDescription] textColor:[NSColor redColor]];
+//        if (![[self window] isVisible]) {
+//            [[self window] makeKeyAndOrderFront:self];
+//        }
+//    }
     startTime = [LLSystemUtil getTimeS];
     while (responseDict == nil) {
         if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
