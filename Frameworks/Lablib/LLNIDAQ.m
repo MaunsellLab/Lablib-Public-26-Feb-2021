@@ -16,7 +16,7 @@
 #define kAnalogOutChannel1Name  @"ao1"
 #define kDigitalOutChannelName  @"port0/line2"
 #define kMinSamples             2
-#define kOutputRateHz           50000
+#define kOutputRateHz           10000
 #define kSamplesPerMS           (kOutputRateHz / 1000)
 #define kLLSocketsRigIDKey      @"LLSocketsRigID"
 #define kTriggerChanName        @"PFI0"
@@ -113,30 +113,31 @@
 {
     long sample;
     long numSamples, pulse0Samples, delay1Samples, pulse1Samples;
-    Float64 offV, pulse0V, pulse1V, *train;
+    Float64 offV, pulse0V, pulse1V, *train, *pTrain;
 
     pulse0Samples = dur0MS * kSamplesPerMS;
     pulse1Samples = dur1MS * kSamplesPerMS;
-    delay1Samples = dur1MS * kSamplesPerMS;
+    delay1Samples = delay1MS * kSamplesPerMS;
     numSamples = MAX(pulse0Samples, pulse1Samples + delay1Samples) + kActiveChannels;
-    train = malloc(numSamples * sizeof(Float64));
+    train = malloc(numSamples * sizeof(Float64) * kActiveChannels);
     pulse0V = [calibrator voltageForMW:pulse0MW];
     pulse1V = [calibrator voltageForMW:pulse1MW];
     offV = [calibrator voltageForMW:[calibrator minimumMW]];
-    for (sample = 0; sample < numSamples - kActiveChannels; sample += kActiveChannels) {
-        train[sample] = (sample < pulse0Samples) ? pulse0V : offV;
-        train[sample + 1] = (sample < delay1Samples) ? offV : ((sample < delay1Samples + pulse1Samples) ? pulse1V : offV);
+
+    for (sample = 0, pTrain = train; sample < numSamples - kActiveChannels; sample++) {
+        *pTrain++ = (sample < pulse0Samples) ? pulse0V : offV;
+        *pTrain++ = (sample < delay1Samples) ? offV : ((sample < delay1Samples + pulse1Samples) ? pulse1V : offV);
     }
     for ( ; sample < numSamples; sample++) {
-        train[sample] = offV;
+        *pTrain++ = offV;
+        *pTrain++ = offV;
     }
 
     [analogOutput stop];                                    // task must be stopped before re-arming
     [analogOutput alterState:@"unreserve"];                // must unreserve in case it was never started
-    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite"
-                                                        samplesPerChannel:numSamples / kActiveChannels];
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:numSamples];
     //    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
-    [analogOutput writeSamples:train numSamples:numSamples autoStart:NO timeoutS:-1];
+    [analogOutput writeSamples:train numSamples:(numSamples * kActiveChannels) autoStart:NO timeoutS:-1];
     return(analogOutput);
 }
 

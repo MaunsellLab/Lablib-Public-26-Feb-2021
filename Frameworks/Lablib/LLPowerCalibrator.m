@@ -40,6 +40,11 @@
         path = [NSString stringWithFormat:@"/Library/Application Support/%@/Calibrations/%@.txt",
                 [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension], fileName];
         fileContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+        if (fileContents == nil) {
+            NSLog(@"LLPowerCalibrator:Failed to find calibration file %@. Continuing uncalibrated.", path);
+            calibrated = NO;
+            return self;
+        }
         array = [fileContents componentsSeparatedByString:@"\n"];
         if (array != nil) {
         entries = [array count];
