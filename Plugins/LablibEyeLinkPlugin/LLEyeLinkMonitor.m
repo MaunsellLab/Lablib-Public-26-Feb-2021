@@ -37,7 +37,7 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 		NSLog(@"previous.sequences: %ld", previous.sequences);
 		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
         if (!alarmActive && ![[settings window] isVisible]) {
-            messageString = [NSString stringWithFormat:@"Warning: LabJackU6 clock drift is %d:%.0f relative to computer.",
+            messageString = [NSString stringWithFormat:@"Warning: EyeLink clock drift is %d:%.0f relative to computer.",
                              driftParts >= 0 ? 1 : -1, driftParts];
             [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
         }
