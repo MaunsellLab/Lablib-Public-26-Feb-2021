@@ -122,7 +122,6 @@ Engine  *pEngine;
 
         NSLog(@"LLMatlabEngine: Launching Matlab");
         if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB/bin/matlab"))) {
-//        if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB_R2013a.app/bin/matlab"))) {
             NSLog(@"LLMatlabEngine: Can't start Matlab engine");
             return self;
         }
@@ -140,7 +139,6 @@ Engine  *pEngine;
             [self preparePosting:[NSString stringWithFormat:@"Matlab Version %@\n", outputStr]
                                     enabledKey:kLLMatlabDoResponsesKey];
         }
-//       [self evalString:@"display(sprintf('Matlab Version %s', builtin('version')))"];
     }
     return self;
 }

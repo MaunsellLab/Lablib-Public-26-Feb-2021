@@ -157,6 +157,8 @@
 		69CCB7EF0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CCB7ED0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m */; };
 		69CEA76706711F74009CEDDA /* LLStimulusTrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEA76506711F74009CEDDA /* LLStimulusTrain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69CEA76806711F74009CEDDA /* LLStimulusTrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEA76606711F74009CEDDA /* LLStimulusTrain.m */; };
+		69D18BE11E8B44250047F3BE /* LLMatlabController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D18BDF1E8B44250047F3BE /* LLMatlabController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69D18BE21E8B44250047F3BE /* LLMatlabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D18BE01E8B44250047F3BE /* LLMatlabController.m */; };
 		69D69E8C1E11EB55005317AA /* LLSockets.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D69E8A1E11EB55005317AA /* LLSockets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69D69E8D1E11EB55005317AA /* LLSockets.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D69E8B1E11EB55005317AA /* LLSockets.m */; };
 		69DCC8DB0737CE3800FE4CE8 /* LLEOTHistoryView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCC8D90737CE3800FE4CE8 /* LLEOTHistoryView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -474,6 +476,8 @@
 		69CFF8280477D3B900F95509 /* LLEyeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEyeWindow.m; sourceTree = "<group>"; };
 		69CFF82B0477F8E000F95509 /* LLEyeCalibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLEyeCalibrator.h; sourceTree = "<group>"; };
 		69CFF82C0477F8E000F95509 /* LLEyeCalibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEyeCalibrator.m; sourceTree = "<group>"; };
+		69D18BDF1E8B44250047F3BE /* LLMatlabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMatlabController.h; sourceTree = "<group>"; };
+		69D18BE01E8B44250047F3BE /* LLMatlabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMatlabController.m; sourceTree = "<group>"; };
 		69D29126048E871C00F95509 /* LLStandardFileNames.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLStandardFileNames.h; sourceTree = "<group>"; };
 		69D29127048E871C00F95509 /* LLStandardFileNames.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLStandardFileNames.m; sourceTree = "<group>"; };
 		69D69E8A1E11EB55005317AA /* LLSockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSockets.h; sourceTree = "<group>"; };
@@ -702,6 +706,8 @@
 				69EDA65C0EAE93E100B3D1D5 /* LLFilterExp.m */,
 				696DF6520EB8E53A0004FC8E /* LLLaserCalibrator.h */,
 				696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */,
+				69D18BDF1E8B44250047F3BE /* LLMatlabController.h */,
+				69D18BE01E8B44250047F3BE /* LLMatlabController.m */,
 				69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */,
 				69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */,
 				696BA2511E8352C200AF4862 /* LLPowerCalibrator.h */,
@@ -1049,6 +1055,7 @@
 				69BE5A4D1E1AFD2D002B2981 /* LLMatlabEngine.h in Headers */,
 				697CD33A083AD95800AB7932 /* LLDataReader.h in Headers */,
 				69EE539F0864BF0A0096D396 /* LLVisualStimulus.h in Headers */,
+				69D18BE11E8B44250047F3BE /* LLMatlabController.h in Headers */,
 				69A14B6208913B4C005A4F0D /* LLStimWindow.h in Headers */,
 				69FB5517078B84AA00AC42FA /* LLUserDefaults.h in Headers */,
 				6980E8D908E8A905004E3772 /* LLDataDevice.h in Headers */,
@@ -1251,6 +1258,7 @@
 				69EBE5DD07E1988D00037090 /* LLDataEventDef.m in Sources */,
 				6971365007E252D50083188B /* LLSynthSaccade.m in Sources */,
 				6980E8DA08E8A905004E3772 /* LLDataDevice.m in Sources */,
+				69D18BE21E8B44250047F3BE /* LLMatlabController.m in Sources */,
 				6980E97D08E8BE77004E3772 /* LLSynthDataDevice.m in Sources */,
 				6980E9DA08E8C193004E3772 /* LLSynthDataSettings.m in Sources */,
 				6904B0A508EF39C700437691 /* LLDataDeviceController.m in Sources */,

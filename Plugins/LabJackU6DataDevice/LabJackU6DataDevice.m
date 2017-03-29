@@ -279,8 +279,7 @@ long ELTrialStartTimeMS;
 {
     [deviceLock lock];
     if ([self ljU6WriteDO:LJU6_LASERTRIGGER_FIO state:state] != YES) {
-        NSLog(@"%@", [NSString stringWithFormat:
-                      @"writing lever 1 solenoid state; device likely to be broken (state %d)", state]);
+        NSLog(@"%@", [NSString stringWithFormat:@"writing laser trigger (state %d)", state]);
     }
     [deviceLock unlock];
 }
