@@ -136,8 +136,9 @@
     [analogOutput stop];                                    // task must be stopped before re-arming
     [analogOutput alterState:@"unreserve"];                // must unreserve in case it was never started
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:numSamples];
-    //    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
+    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
     [analogOutput writeSamples:train numSamples:(numSamples * kActiveChannels) autoStart:NO timeoutS:-1];
+    [analogOutput start];
     return(analogOutput);
 }
 
