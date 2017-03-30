@@ -47,6 +47,7 @@
 }
 
 @property (assign) LLNE500Pump *rewardPump;
+@property (assign) double trialStartTimeS;
 
 - (void)activate;
 - (BOOL)active;

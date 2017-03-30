@@ -11,6 +11,7 @@
 @implementation LLTaskPlugIn
 
 @synthesize rewardPump;
+@synthesize trialStartTimeS;
 
 - (void)activate;
 {

@@ -125,8 +125,8 @@
     offV = [calibrator voltageForMW:[calibrator minimumMW]];
 
     for (sample = 0, pTrain = train; sample < numSamples - kActiveChannels; sample++) {
-        *pTrain++ = (sample < pulse0Samples) ? pulse0V : offV;
         *pTrain++ = (sample < delay1Samples) ? offV : ((sample < delay1Samples + pulse1Samples) ? pulse1V : offV);
+        *pTrain++ = (sample < pulse0Samples) ? pulse0V : offV;
     }
     for ( ; sample < numSamples; sample++) {
         *pTrain++ = offV;
