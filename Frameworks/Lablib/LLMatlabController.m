@@ -176,11 +176,11 @@
     if (exists && !isDir) {
         [engine evalString:[NSString stringWithFormat:@"load '%@'", path]];
         trialNum = [[task defaults] integerForKey:kOPMatlabTrialNumKey];
+        [engine evalString:kMatlabScriptCommand];
     }
     [today release];
     [dateFormatter release];
     [fm release];
-    [engine evalString:kMatlabScriptCommand];
 }
 
 - (BOOL)matlabFileExists;
