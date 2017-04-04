@@ -11,7 +11,7 @@
 #define kMatlabInitScriptCommand    @"clear all; close all; dParams = []; dParams = OPMatlab(dParams);"
 #define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
 #define kMatlabScriptCommand        @"dParams = OPMatlab(dParams, file, trials);"
-#define kOPMatlabTrialNumKey        @"OPMatlabTrialNum"
+#define kOPMatlabTrialNumKey        [NSString stringWithFormat:@"OPMatlabTrialNum%ld", subjectNumber]
 #define kTrialStartEventName        @"trialStart"
 
 @implementation LLMatlabController : NSObject
@@ -158,9 +158,10 @@
     return self;
 }
 
-- (void)loadMatlabWorkspace;
+- (BOOL)loadMatlabWorkspace;
 {
     BOOL exists, isDir;
+    long e;
     NSString *path;
     NSDate *today;
     NSDateFormatter *dateFormatter;
@@ -173,14 +174,22 @@
             [dateFormatter stringFromDate:today]];
     fm = [[NSFileManager alloc] init];                                  // first check whether the directory exists
     exists = [fm fileExistsAtPath:path isDirectory:&isDir];
+    [engine evalString:kMatlabInitScriptCommand];                       // clear the current Matlab workspace
     if (exists && !isDir) {
         [engine evalString:[NSString stringWithFormat:@"load '%@'", path]];
         trialNum = [[task defaults] integerForKey:kOPMatlabTrialNumKey];
         [engine evalString:kMatlabScriptCommand];
     }
+    else {                                                              // found not data, reset workspace
+        trialNum = 0;
+    }
     [today release];
     [dateFormatter release];
     [fm release];
+    for (e = 0; e < numEvents; e++) {                                   // clear any trial event counts;
+        trialEventCounts[e] = 0;
+    }
+    return (exists && !isDir);
 }
 
 - (BOOL)matlabFileExists;

@@ -29,7 +29,7 @@
 - (NSMutableString *)convertToMatlabString:(NSString *)eventString;
 - (void)deactivate;
 - (id)initWithSubjectNumber:(long)number;
-- (void)loadMatlabWorkspace;
+- (BOOL)loadMatlabWorkspace;
 - (NSString *)matlabFileName;
 - (BOOL)matlabFileExists;
 - (void)processEventNamed:(NSString *)eventName eventData:(NSData *)data eventTime:(NSNumber *)time prefix:(NSString *)prefix;
