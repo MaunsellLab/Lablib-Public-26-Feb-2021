@@ -1,4 +1,8 @@
 
+170403 Knot
+
+Knot should disable entries in the File Menu when those are disabled in its preferences.
+
 170305 Visual Stimuli
 
 It's a pain that new stimuli get all their defaults set to zero when you use bindValues...WithPrefix.  This happens

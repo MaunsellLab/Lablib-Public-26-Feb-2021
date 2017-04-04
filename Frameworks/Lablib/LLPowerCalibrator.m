@@ -36,7 +36,6 @@
 
     if ((self = [super initWithWindowNibName:@"LLPowerCalibrator"]) != nil) {
         [self setWindowFrameAutosaveName:@"LLPowerCalibrator"];
-
         path = [NSString stringWithFormat:@"/Library/Application Support/%@/Calibrations/%@.txt",
                 [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension], fileName];
         fileContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
@@ -54,10 +53,10 @@
             mWatts = malloc(sizeof(float) * entries);
             volts = malloc(sizeof(float) * entries);
             for (index = 0; index < entries; index++) {
-                sscanf([[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding], "%f%f", &mWatts[index],
-                       &volts[index]);
+                sscanf([[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding], "%f%f", &volts[index],
+                       &mWatts[index]);
             }
-            for (index = 0; index < entries; index++) {
+            for (index = 0; index < entries; index++) {         // force volts to rise monotonically
                 for (j = index + 1; j < entries; j++) {
                     if (volts[index] > volts[j]) {
                         tempV =  volts[index];
