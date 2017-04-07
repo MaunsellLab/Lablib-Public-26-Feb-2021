@@ -48,24 +48,6 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     return [self sendDictionary:dict];
 }
 
-- (BOOL)createChannelWithName:(NSString *)channelName;
-{
-    long channel;
-    NSMutableDictionary *dict;
-
-    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
-            taskName, @"taskName", channelName, @"channelName", nil];
-    for (channel = 0; channel < [channelNames count]; channel++) {
-        if ([channelName isEqualToString:[channelNames objectAtIndex:channel]]) {
-            break;
-        }
-    }
-    if (channel >= [channelNames count]) {
-        [channelNames addObject:channelName];
-    }
-    return [self sendDictionary:dict];
-}
-
 - (BOOL)createAOTask;
 {
     NSMutableDictionary *dict;
@@ -95,6 +77,24 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     taskName = [[NSString stringWithFormat:@"DOTask%ld", taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createDOTask", @"command",
             taskName, @"taskName", nil];
+    return [self sendDictionary:dict];
+}
+
+- (BOOL)createChannelWithName:(NSString *)channelName;
+{
+    long channel;
+    NSMutableDictionary *dict;
+    
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
+            taskName, @"taskName", channelName, @"channelName", nil];
+    for (channel = 0; channel < [channelNames count]; channel++) {
+        if ([channelName isEqualToString:[channelNames objectAtIndex:channel]]) {
+            break;
+        }
+    }
+    if (channel >= [channelNames count]) {
+        [channelNames addObject:channelName];
+    }
     return [self sendDictionary:dict];
 }
 
