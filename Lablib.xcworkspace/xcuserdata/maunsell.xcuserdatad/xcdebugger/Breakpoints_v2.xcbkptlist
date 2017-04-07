@@ -110,7 +110,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "646"
             endingLineNumber = "646"
-            landmarkName = "-putEvent:withData:lengthBytes:"
+            landmarkName = "-setThreadingThreshold:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
