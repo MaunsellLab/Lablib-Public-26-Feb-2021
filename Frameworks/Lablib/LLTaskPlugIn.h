@@ -20,6 +20,15 @@
 #import "LLSynthDataDevice.h"
 #import "LLUserDefaults.h"
 
+#define 	kBrokeSound		        @"200Hz100msSq"     //Different sound for wrong and broke trials
+#define 	kCorrectSound			@"Correct"
+#define 	kFailedSound		    @"Wrong"
+#define		kFixOnSound				@"6C"
+#define		kFixateSound			@"7G"
+#define		kStimOnSound			@"5C"
+#define		kStimOffSound			@"5C"
+#define 	kWrongSound             @"Wrong"
+
 @interface LLTaskPlugIn : NSObject {
 
 	BOOL					active;
@@ -71,6 +80,7 @@
 - (long)mode;
 - (LLMonitorController *)monitorController;
 - (NSString *)name;
+- (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
 - (DisplayModeParam)requestedDisplayMode;
 - (void)setDataDeviceController:(LLDataDeviceController *)controller;
 - (void)setDataDocument:(LLDataDoc *)doc;
@@ -89,6 +99,7 @@
 - (LLSockets *)socket;
 - (LLStateSystem *)stateSystem;
 - (LLStimWindow *)stimWindow;
+- (void)stopSoundNamed:(NSString *)soundName;
 - (LLSynthDataDevice *)synthDataDevice;
 - (BOOL)writingDataFile;
 

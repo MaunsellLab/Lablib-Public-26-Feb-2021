@@ -26,7 +26,7 @@
 		69F11F520B1E70380068A6CF /* 7C.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F4C0B1E70380068A6CF /* 7C.aiff */; };
 		69F11F530B1E70380068A6CF /* 7G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F4D0B1E70380068A6CF /* 7G.aiff */; };
 		69F11F550B1E70410068A6CF /* Correct.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F540B1E70410068A6CF /* Correct.aiff */; };
-		69F11F570B1E704A0068A6CF /* NotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F560B1E704A0068A6CF /* NotCorrect.aiff */; };
+		69F11F570B1E704A0068A6CF /* Wrong.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F560B1E704A0068A6CF /* Wrong.aiff */; };
 		69F11F5D0B1E70700068A6CF /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F11F5C0B1E70700068A6CF /* Lablib.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		69F120460B1E72F00068A6CF /* Lablib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69F11F5C0B1E70700068A6CF /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		69F36A7605670A9A009AED51 /* KNAppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69822BCA044760BB00A80164 /* KNAppController.h */; };
@@ -86,7 +86,7 @@
 		69F11F4C0B1E70380068A6CF /* 7C.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 7C.aiff; path = ../../Resources/Sounds/7C.aiff; sourceTree = SOURCE_ROOT; };
 		69F11F4D0B1E70380068A6CF /* 7G.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 7G.aiff; path = ../../Resources/Sounds/7G.aiff; sourceTree = SOURCE_ROOT; };
 		69F11F540B1E70410068A6CF /* Correct.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Correct.aiff; path = ../../Resources/Sounds/Correct.aiff; sourceTree = SOURCE_ROOT; };
-		69F11F560B1E704A0068A6CF /* NotCorrect.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = NotCorrect.aiff; path = ../../Resources/Sounds/NotCorrect.aiff; sourceTree = SOURCE_ROOT; };
+		69F11F560B1E704A0068A6CF /* Wrong.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Wrong.aiff; path = ../../Resources/Sounds/Wrong.aiff; sourceTree = SOURCE_ROOT; };
 		69F11F5C0B1E70700068A6CF /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
 		69FF455C07C8106E0041B08D /* Knot.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Knot.icns; sourceTree = "<group>"; };
 		E7A443DD0132ED6B0ACA2124 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -163,7 +163,7 @@
 				69F11F540B1E70410068A6CF /* Correct.aiff */,
 				69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */,
 				699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */,
-				69F11F560B1E704A0068A6CF /* NotCorrect.aiff */,
+				69F11F560B1E704A0068A6CF /* Wrong.aiff */,
 				699981DE0A8A7B5400101ABF /* shortCorrect.aiff */,
 				699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */,
 				69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */,
@@ -295,7 +295,7 @@
 				69F11F520B1E70380068A6CF /* 7C.aiff in Resources */,
 				69F11F530B1E70380068A6CF /* 7G.aiff in Resources */,
 				69F11F550B1E70410068A6CF /* Correct.aiff in Resources */,
-				69F11F570B1E704A0068A6CF /* NotCorrect.aiff in Resources */,
+				69F11F570B1E704A0068A6CF /* Wrong.aiff in Resources */,
 				69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -137,6 +137,14 @@
 	return @"Unnamed Task PlugIn";
 }
 
+- (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
+{
+    if ([defaults boolForKey:key]) {
+        [self stopSoundNamed:soundName];                    // won't play again if it's current playing
+        [[NSSound soundNamed:soundName] play];
+    }
+}
+
 - (DisplayModeParam)requestedDisplayMode;
 {
 	displayMode.widthPix = 0;								// 0 signifies, don't care: video is left unchanged
@@ -249,6 +257,15 @@
 - (LLStimWindow *)stimWindow;
 {
 	return stimWindow;
+}
+
+- (void)stopSoundNamed:(NSString *)soundName;
+{
+    NSSound *sound = [NSSound soundNamed:soundName];
+
+    if ([sound isPlaying]) {
+        [sound stop];
+    }
 }
 
 - (LLSynthDataDevice *)synthDataDevice;
