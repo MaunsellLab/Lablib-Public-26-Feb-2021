@@ -20,6 +20,11 @@
 #import "LLSynthDataDevice.h"
 #import "LLUserDefaults.h"
 
+typedef NS_ENUM(NSInteger, SoundTypes) {
+    kMonkeySounds,
+    kMouseSounds
+};
+
 #define 	kBrokeSound		        @"200Hz100msSq"     //Different sound for wrong and broke trials
 #define 	kCorrectSound			@"Correct"
 #define 	kFailedSound		    @"Wrong"
@@ -46,7 +51,9 @@
     BOOL                    leverDown;
     LLMatlabEngine          *matlabEngine;
 	long					mode;
+    NSDictionary            *monkeySoundDict;
 	LLMonitorController		*monitorController;
+    NSDictionary            *mouseSoundDict;
     LLNE500Pump             *rewardPump;
     LLSockets               *socket;
 	LLStateSystem			*stateSystem;
@@ -99,6 +106,7 @@
 - (LLSockets *)socket;
 - (LLStateSystem *)stateSystem;
 - (LLStimWindow *)stimWindow;
+- (void)stopSoundFileNamed:(NSString *)soundFileName;
 - (void)stopSoundNamed:(NSString *)soundName;
 - (LLSynthDataDevice *)synthDataDevice;
 - (BOOL)writingDataFile;

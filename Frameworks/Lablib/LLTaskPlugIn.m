@@ -53,6 +53,8 @@
 
 - (void)dealloc;
 {
+    [monkeySoundDict release];
+    [mouseSoundDict release];
 	[dataDoc release];
 	[defaults release];
 	[eyeCalibrator release];
@@ -98,6 +100,19 @@
 	return NO;
 }
 
+- (id)init;
+{
+    if ((self = [super init])) {
+        monkeySoundDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"200Hz100msSq", @"broke",
+                           @"Correct", @"correct", @"Wrong", @"failed", @"6C", @"fixon", @"7G", @"fixate",
+                           @"5C", @"stimon", @"5C", @"stimoff", @"Wrong", @"wrong", nil];
+        mouseSoundDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"MouseWrong", @"broke",
+                          @"MouseCorrect", @"correct", @"MouseFailed", @"failed", @"MouseWaitForLever", @"fixon",
+                          @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong", @"wrong", nil];
+    }
+    return self;
+}
+
 - (BOOL)initialized;
 {
 	return initialized;
@@ -139,9 +154,27 @@
 
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
 {
+    NSString *soundFileName;
+
     if ([defaults boolForKey:key]) {
-        [self stopSoundNamed:soundName];                    // won't play again if it's current playing
-        [[NSSound soundNamed:soundName] play];
+        switch ([defaults integerForKey:@"KNSoundTypeSelection"]) {
+            case kMonkeySounds:
+                soundFileName = [monkeySoundDict objectForKey:[soundName lowercaseString]];
+                break;
+            case kMouseSounds:
+                soundFileName = [mouseSoundDict objectForKey:[soundName lowercaseString]];
+                break;
+            default:
+                soundFileName = nil;
+                break;
+        }
+        if (soundFileName != nil) {
+            [self stopSoundFileNamed:soundFileName];      // won't play again if it's current playing
+            [[NSSound soundNamed:soundFileName] play];
+        }
+        else {
+            NSLog(@"LLTaskPlugin:playSoundName: Unrecognized sound name %@", soundName);
+        }
     }
 }
 
@@ -259,13 +292,33 @@
 	return stimWindow;
 }
 
-- (void)stopSoundNamed:(NSString *)soundName;
+- (void)stopSoundFileNamed:(NSString *)soundFileName;
 {
-    NSSound *sound = [NSSound soundNamed:soundName];
+    NSSound *sound = [NSSound soundNamed:soundFileName];
 
     if ([sound isPlaying]) {
         [sound stop];
     }
+}
+
+- (void)stopSoundNamed:(NSString *)soundName;
+{
+    NSString *soundFileName;
+
+    switch ([defaults integerForKey:@"KNSoundTypeSelection"]) {
+        case kMonkeySounds:
+            soundFileName = [monkeySoundDict objectForKey:[soundName lowercaseString]];
+            break;
+        case kMouseSounds:
+            NSLog(@"Mouse Sounds");
+            soundFileName = [mouseSoundDict objectForKey:[soundName lowercaseString]];
+            break;
+        default:
+            NSLog(@"LLTaskPlugin: playSoundNamed: unrecognized sounds type");
+            soundFileName = nil;
+            break;
+    }
+    [self stopSoundFileNamed:soundFileName];
 }
 
 - (LLSynthDataDevice *)synthDataDevice;

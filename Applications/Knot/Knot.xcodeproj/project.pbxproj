@@ -18,6 +18,11 @@
 		699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */; };
 		69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */; };
 		69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */; };
+		69EE5FC81E994C2A00BC3787 /* MouseCorrect.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC31E994C2A00BC3787 /* MouseCorrect.wav */; };
+		69EE5FC91E994C2A00BC3787 /* MouseFailed.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC41E994C2A00BC3787 /* MouseFailed.wav */; };
+		69EE5FCA1E994C2A00BC3787 /* MouseLeverDown.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC51E994C2A00BC3787 /* MouseLeverDown.wav */; };
+		69EE5FCB1E994C2A00BC3787 /* MouseWaitForLever.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC61E994C2A00BC3787 /* MouseWaitForLever.wav */; };
+		69EE5FCC1E994C2A00BC3787 /* MouseWrong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC71E994C2A00BC3787 /* MouseWrong.wav */; };
 		69F11F470B1E70260068A6CF /* 4G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F460B1E70260068A6CF /* 4G.aiff */; };
 		69F11F4E0B1E70380068A6CF /* 5C.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F480B1E70380068A6CF /* 5C.aiff */; };
 		69F11F4F0B1E70380068A6CF /* 5G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F490B1E70380068A6CF /* 5G.aiff */; };
@@ -78,6 +83,11 @@
 		69B9AE730482FBDD00F95509 /* KNSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KNSummaryController.m; sourceTree = "<group>"; };
 		69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = KnotPlugin.icns; sourceTree = "<group>"; };
 		69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 200Hz100msSq.aiff; path = ../../Resources/Sounds/200Hz100msSq.aiff; sourceTree = SOURCE_ROOT; };
+		69EE5FC31E994C2A00BC3787 /* MouseCorrect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MouseCorrect.wav; sourceTree = "<group>"; };
+		69EE5FC41E994C2A00BC3787 /* MouseFailed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MouseFailed.wav; sourceTree = "<group>"; };
+		69EE5FC51E994C2A00BC3787 /* MouseLeverDown.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MouseLeverDown.wav; sourceTree = "<group>"; };
+		69EE5FC61E994C2A00BC3787 /* MouseWaitForLever.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MouseWaitForLever.wav; sourceTree = "<group>"; };
+		69EE5FC71E994C2A00BC3787 /* MouseWrong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MouseWrong.wav; sourceTree = "<group>"; };
 		69F11F460B1E70260068A6CF /* 4G.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 4G.aiff; path = ../../Resources/Sounds/4G.aiff; sourceTree = SOURCE_ROOT; };
 		69F11F480B1E70380068A6CF /* 5C.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 5C.aiff; path = ../../Resources/Sounds/5C.aiff; sourceTree = SOURCE_ROOT; };
 		69F11F490B1E70380068A6CF /* 5G.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 5G.aiff; path = ../../Resources/Sounds/5G.aiff; sourceTree = SOURCE_ROOT; };
@@ -153,19 +163,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				69F11F460B1E70260068A6CF /* 4G.aiff */,
-				69F11F480B1E70380068A6CF /* 5C.aiff */,
-				69F11F490B1E70380068A6CF /* 5G.aiff */,
-				69F11F4A0B1E70380068A6CF /* 6C.aiff */,
-				69F11F4B0B1E70380068A6CF /* 6G.aiff */,
-				69F11F4C0B1E70380068A6CF /* 7C.aiff */,
-				69F11F4D0B1E70380068A6CF /* 7G.aiff */,
-				69F11F540B1E70410068A6CF /* Correct.aiff */,
-				69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */,
-				699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */,
-				69F11F560B1E704A0068A6CF /* Wrong.aiff */,
-				699981DE0A8A7B5400101ABF /* shortCorrect.aiff */,
-				699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */,
+				69EE5FC21E993B9800BC3787 /* Sounds */,
 				69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */,
 				69FF455C07C8106E0041B08D /* Knot.icns */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -196,6 +194,31 @@
 			);
 			name = Plists;
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		69EE5FC21E993B9800BC3787 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				69F11F460B1E70260068A6CF /* 4G.aiff */,
+				69F11F480B1E70380068A6CF /* 5C.aiff */,
+				69F11F490B1E70380068A6CF /* 5G.aiff */,
+				69F11F4A0B1E70380068A6CF /* 6C.aiff */,
+				69F11F4B0B1E70380068A6CF /* 6G.aiff */,
+				69F11F4C0B1E70380068A6CF /* 7C.aiff */,
+				69F11F4D0B1E70380068A6CF /* 7G.aiff */,
+				69F11F540B1E70410068A6CF /* Correct.aiff */,
+				69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */,
+				699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */,
+				69F11F560B1E704A0068A6CF /* Wrong.aiff */,
+				699981DE0A8A7B5400101ABF /* shortCorrect.aiff */,
+				699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */,
+				69EE5FC31E994C2A00BC3787 /* MouseCorrect.wav */,
+				69EE5FC41E994C2A00BC3787 /* MouseFailed.wav */,
+				69EE5FC51E994C2A00BC3787 /* MouseLeverDown.wav */,
+				69EE5FC61E994C2A00BC3787 /* MouseWaitForLever.wav */,
+				69EE5FC71E994C2A00BC3787 /* MouseWrong.wav */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,14 +301,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				69F36A9205670A9A009AED51 /* InfoPlist.strings in Resources */,
+				69EE5FC91E994C2A00BC3787 /* MouseFailed.wav in Resources */,
 				695EFEDE1AC6231200D9D458 /* MainMenu.xib in Resources */,
 				6968EA5C059DDD1900E33065 /* Notes.txt in Resources */,
 				695EFEDD1AC6231200D9D458 /* KNSummaryController.xib in Resources */,
 				69FF455D07C8106E0041B08D /* Knot.icns in Resources */,
 				693E232108227B68006BD680 /* Release Notes.txt in Resources */,
 				69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */,
+				69EE5FCA1E994C2A00BC3787 /* MouseLeverDown.wav in Resources */,
 				699981E50A8A7B5400101ABF /* loud200Hz200msSq.aiff in Resources */,
 				699981E60A8A7B5400101ABF /* shortCorrect.aiff in Resources */,
+				69EE5FCC1E994C2A00BC3787 /* MouseWrong.wav in Resources */,
+				69EE5FC81E994C2A00BC3787 /* MouseCorrect.wav in Resources */,
+				69EE5FCB1E994C2A00BC3787 /* MouseWaitForLever.wav in Resources */,
 				699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */,
 				69F11F470B1E70260068A6CF /* 4G.aiff in Resources */,
 				69F11F4E0B1E70380068A6CF /* 5C.aiff in Resources */,

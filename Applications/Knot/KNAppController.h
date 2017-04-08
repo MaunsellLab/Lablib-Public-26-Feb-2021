@@ -35,6 +35,7 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
 	
 	IBOutlet NSMenuItem		*recordDontRecordMenuItem;		// Menu item for recording or not
 	IBOutlet NSMenu			*taskMenu;
+    IBOutlet NSPopUpButton  *soundTypeMenu;
 }
 
 - (void)activateCurrentTask;
