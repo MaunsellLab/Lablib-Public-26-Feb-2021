@@ -84,6 +84,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 {
     long channel;
     NSMutableDictionary *dict;
+
+    NSLog(@"createChannelWithName: creating channel with name: %@", channelName);
     
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
             taskName, @"taskName", channelName, @"channelName", nil];
@@ -104,9 +106,9 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     NSMutableDictionary *dict;
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createVoltageChannel", @"command",
-                taskName, @"taskName", channelName, @"channelName",
-                [NSNumber numberWithFloat:maxV], @"maximumV",[NSNumber numberWithFloat:minV], @"minimumV",
-                nil];
+            taskName, @"taskName", channelName, @"channelName",
+            [NSNumber numberWithFloat:maxV], @"maximumV", [NSNumber numberWithFloat:minV], @"minimumV",
+            nil];
     for (channel = 0; channel < [channelNames count]; channel++) {
         if ([channelName isEqualToString:[channelNames objectAtIndex:channel]]) {
             break;
@@ -126,9 +128,11 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 
 - (void)dealloc;
 {
-    [self stop];
-    [self alterState:@"unreserve"];
-    [self deleteTask];
+    if (taskName != nil) {
+        [self stop];
+        [self alterState:@"unreserve"];
+        [self deleteTask];
+    }
     [channelNames release];
     [channelMaxV release];
     [channelMinV release];
@@ -184,6 +188,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     NSMutableDictionary *returnDict;
     static long retries = 0;
 
+//    NSLog(@"sendDictionary: sending %@", dict);
     returnDict = [socket writeDictionary:dict];
     if (returnDict == nil) {
         return NO;

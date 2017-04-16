@@ -27,6 +27,9 @@
     IBOutlet NSTextField    *rigIDTextField;
     NSArray                 *topLevelObjects;
     NSLock                  *streamsLock;
+    long                    timeoutN;
+    double                  timeoutS;
+    double                  timeoutTotalS;
 }
 
 - (void)closeStreams;

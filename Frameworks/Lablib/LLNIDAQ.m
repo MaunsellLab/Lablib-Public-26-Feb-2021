@@ -109,7 +109,7 @@
 }
 
 - (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
-                                                duration1MS:(long)dur1MS delay1MS:(long)delay1MS;
+                   duration1MS:(long)dur1MS delay1MS:(long)delay1MS digitalTrigger:(BOOL)digitalTrigger;
 {
     long sample;
     long numSamples, pulse0Samples, delay1Samples, pulse1Samples;
@@ -136,9 +136,16 @@
     [analogOutput stop];                                    // task must be stopped before re-arming
     [analogOutput alterState:@"unreserve"];                // must unreserve in case it was never started
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:numSamples];
-    [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
+    if (digitalTrigger) {
+        [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
+    }
+    else {
+        [analogOutput configureTriggerDisableStart];
+    }
     [analogOutput writeSamples:train numSamples:(numSamples * kActiveChannels) autoStart:NO timeoutS:-1];
-    [analogOutput start];
+    if (digitalTrigger) {
+        [analogOutput start];
+    }
     return(analogOutput);
 }
 
@@ -157,6 +164,7 @@
     [analogOutput writeSamples:outputV numSamples:kMinSamples * kActiveChannels autoStart:YES timeoutS:-1];
     [analogOutput waitUntilDone:kWaitTimeS];
     [analogOutput stop];
+    [analogOutput alterState:@"unreserve"];
 }
 
 - (void)setPowerToMinimum;
@@ -181,8 +189,12 @@
 
 - (BOOL)stop:(LLNIDAQTask *)theTask;
 {
+    BOOL result;
+
     if ([theTask isKindOfClass:[LLNIDAQTask class]]) {
-        return([theTask stop]);
+        result = [theTask stop];
+        [theTask alterState:@"unreserve"];
+        return(result);
     }
     else {
         return NO;
