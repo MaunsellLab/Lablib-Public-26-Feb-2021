@@ -38,7 +38,7 @@
 #define kLLSocketNumStatusStrings   9
 #define kLLSocketsPortKey           @"LLSocketsPort"
 #define kLLSocketsRigIDKey          @"LLSocketsRigID"
-#define kLLSocketsTimeoutS          0.100
+#define kLLSocketsMinTimeoutS       0.100
 #define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 
@@ -135,7 +135,9 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     [defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLSocketsVerboseKey];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
-    
+
+    timeoutS = kLLSocketsMinTimeoutS;
+    timeoutTotalS = timeoutN = 0;
     deviceNameDict = [[NSDictionary dictionaryWithObjectsAndKeys:
                                  @"LaserControllerX", @"rig1",
                                  @"LaserControllerXRig2", @"rig2",
@@ -323,7 +325,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     [JSONData getBytes:&pBuffer[sizeof(uint32_t)] length:JSONLength];
     startTime = [LLSystemUtil getTimeS];
     while (!outputStreamOpen) {
-        if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
+        if ([LLSystemUtil getTimeS] - startTime > timeoutS) {
             [self closeStreams];
             if (retries >= 2) {
                 [self postToConsole:@" Giving up\n" textColor:[NSColor redColor]];
@@ -339,6 +341,9 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             return responseDict;
         }
     };
+    timeoutTotalS += [LLSystemUtil getTimeS] - startTime;
+    timeoutN++;
+    timeoutS = MAX(kLLSocketsMinTimeoutS, timeoutTotalS * 10.0 / timeoutN);
     responseDict = nil;
     bytesRead = 0;                      // clear for reading the response
     totalWritten = 0;
@@ -360,55 +365,58 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             return nil;
         }
     }
-//    written = [outputStream write:pBuffer maxLength:bufferLength];
-//    if (written != bufferLength) {
-//        error = [outputStream streamError];
-//        [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
-//                             error.code, error.localizedDescription] textColor:[NSColor redColor]];
-//        if (![[self window] isVisible]) {
-//            [[self window] makeKeyAndOrderFront:self];
-//        }
-//    }
     startTime = [LLSystemUtil getTimeS];
     while (responseDict == nil) {
-        if ([LLSystemUtil getTimeS] - startTime > kLLSocketsTimeoutS) {
-            [self postToConsole:@"Timed out waiting for acknowledgment\n" textColor:[NSColor redColor]];
+        if ([LLSystemUtil getTimeS] - startTime > timeoutS) {
             [self closeStreams];
             if (retries >= 2) {
-                [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), giving up\n",
-                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+                [self postToConsole:
+                            [NSString stringWithFormat:@"Sent %d bytes, read %ld before timeout (%ld ms), giving up\n",
+                            JSONLength, bytesRead, (long)(timeoutS * 1000.0)] textColor:[NSColor redColor]];
                 return nil;
             }
             if ((retries == 0) && ![[self window] isVisible]) {
                 [[self window] makeKeyAndOrderFront:self];
             }
-            [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, response timeout (%ld ms), retrying\n",
-                                     JSONLength, (long)(kLLSocketsTimeoutS * 1000.0)] textColor:[NSColor redColor]];
+            [self postToConsole:
+                            [NSString stringWithFormat:@"Sent %d bytes, read %ld before timeout (%ld ms), retrying\n",
+                            JSONLength, bytesRead, (long)(timeoutS * 1000.0)] textColor:[NSColor redColor]];
             retries++;
             responseDict = [self writeDictionary:dict];
             retries--;
             return nil;
         }
     }
+    timeoutTotalS += [LLSystemUtil getTimeS] - startTime;
+    timeoutN++;
+    timeoutS = MAX(kLLSocketsMinTimeoutS, timeoutTotalS * 10.0 / timeoutN);
     [self closeStreams];
     endTime = [LLSystemUtil getTimeS];
-    [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms) %@\n",
-            JSONLength, bytesRead, 1000.0 * (endTime - startTime), retries > 0 ? @"(successful retry)" : @""]
+    [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms) %@ %@\n",
+            JSONLength, bytesRead, 1000.0 * (endTime - startTime), [dict objectForKey:@"command"],
+            retries > 0 ? @"(successful retry)" : @""]
             textColor:(bytesRead > 0) ? [NSColor blackColor] : [NSColor redColor]];
     success = [[responseDict objectForKey:@"success"] boolValue];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
         [self postToConsole:[NSString stringWithFormat:@"%@\n", dict] textColor:[NSColor blackColor]];
         if (success) {
-            [self postToConsole:@"Received: success\n" textColor:[NSColor blackColor]];
+            [self postToConsole:@"   Received: success\n" textColor:[NSColor blackColor]];
         }
         else {
-            [self postToConsole:[NSString stringWithFormat:@"Received: %@\n",
+            [self postToConsole:[NSString stringWithFormat:@"   Received: %@\n",
                     [responseDict objectForKey:@"errorMessage"]] textColor:[NSColor redColor]];
         }
     }
     else if (!success) {
-        [self postToConsole:[NSString stringWithFormat:@"Received: %@\n",
-                             [responseDict objectForKey:@"errorMessage"]] textColor:[NSColor redColor]];
+        if ([responseDict objectForKey:@"errorMessage"] != nil) {
+            [self postToConsole:[NSString stringWithFormat:@"   Received: %@\n",
+                                 [responseDict objectForKey:@"errorMessage"]] textColor:[NSColor redColor]];
+        }
+        else {
+            [self postToConsole:
+                    [NSString stringWithFormat:@"\"%@\" failed with no message\n", [dict objectForKey:@"command"]]
+                    textColor:[NSColor redColor]];
+        }
     }
     [self closeStreams];
     [responseDict autorelease];
