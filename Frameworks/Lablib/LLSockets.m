@@ -143,6 +143,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
                                  @"LaserControllerXRig2", @"rig2",
                                  @"LaserControllerXRig3", @"rig3",
                                  @"LaserControllerXRig4", @"rig4",
+                                 @"LEDdaq", @"rig2P",
                                  nil] retain];
 
     streamsLock = [[NSLock alloc] init];
