@@ -15,11 +15,15 @@
     NSMutableString     *bundledString;
     LLMatlabEngine      *engine;
     NSFileManager       *fileManager;
+    NSString            *matFileName;
+    NSString            *matlabInitScriptCommand;
+    NSString            *matlabScriptCommand;
     long                numEvents;
     long                subjectNumber;
     LLTaskPlugIn        *task;
     long                *trialEventCounts;
     long                trialNum;
+    long                trialNumKey;
     long                trialStartEventCode;
     long                trialStartTime;
 }
@@ -28,7 +32,7 @@
 - (void)checkMatlabDataPath;
 - (NSMutableString *)convertToMatlabString:(NSString *)eventString;
 - (void)deactivate;
-- (id)initWithSubjectNumber:(long)number;
+- (id)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
 - (BOOL)loadMatlabWorkspace;
 - (NSString *)matlabFileName;
 - (BOOL)matlabFileExists;

@@ -5,7 +5,7 @@
 //  Copyright 2016 All rights reserved.
 //
 #import <Lablib/LLDataDevice.h>
-#import "labjackusb.h"
+#import "LabJackUSB.h"
 #import "LabJackU6Monitor.h"
 
 //#define LJU6_DITASK_UPDATE_PERIOD_US 15000

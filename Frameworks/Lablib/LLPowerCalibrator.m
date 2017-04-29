@@ -9,6 +9,8 @@
 #import "LLPowerCalibrator.h"
 #import "LLSystemUtil.h"
 
+#define kdefaultCalibrationFolderURL @"file:///Library/Application%20Support/Knot/Calibrations/"
+
 @implementation LLPowerCalibrator
 
 @synthesize calibrated;
@@ -26,7 +28,7 @@
 	[super dealloc];
 }
 
-- (id)initWithFile:(NSString *)fileName;
+- (id)initWithCalibrationFile:(NSString *)fileName;
 {
     long index, j;
     float tempV, tempMW;
@@ -86,22 +88,22 @@
 
 - (float)maximumMW;
 {
-    return (calibrated) ? mWatts[entries - 1] : -1;
+    return (calibrated) ? mWatts[entries - 1] : 0;
 }
 
 - (float)minimumMW;
 {
-    return (calibrated) ? mWatts[0] : -1;
+    return (calibrated) ? mWatts[0] : 0;
 }
 
 - (float)maximumV;
 {
-    return (calibrated) ? [self voltageForMW:mWatts[entries - 1]] : 10.0;
+    return (calibrated) ? [self voltageForMW:mWatts[entries - 1]] : 0;
 }
 
 - (float)minimumV;
 {
-    return (calibrated) ? [self voltageForMW:mWatts[0]] : -10.0;
+    return (calibrated) ? [self voltageForMW:mWatts[0]] : 0;
 }
 
 - (float)voltageForMW:(float)targetMW;
@@ -110,7 +112,7 @@
     float midMW, lowMW, highMW;
 
     if (!calibrated) {
-        return -1;
+        return 0;
     }
     lowIndex = 0;
     highIndex = entries - 1;
@@ -120,7 +122,7 @@
         NSLog(@"LLPowerCalibrator: requested %f mW when %f is the minimum calibration", targetMW, lowMW);
         return(volts[0]);
     }
-    if (targetMW > mWatts[highIndex]) {
+    if (targetMW > mWatts[highIndex] * 1.001) {
         NSLog(@"LLPowerCalibrator: requested %f mW when %f is the maximum calibration", targetMW,  highMW);
         return(volts[highIndex]);
     }

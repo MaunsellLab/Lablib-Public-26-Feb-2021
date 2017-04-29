@@ -22,7 +22,6 @@
 #define kTriggerChanName        @"PFI0"
 #define kWaitTimeS              0.100
 
-
 @implementation LLNIDAQ
 
 - (void)closeShutter;
@@ -47,27 +46,42 @@
     [super dealloc];
 }
 
+- (void)doInitWithSocket:(LLSockets *)theSocket calibrationFileName:(NSString *)fileName;
+{
+    deviceLock = [[NSLock alloc] init];
+    socket = theSocket;
+    [socket retain];
+    calibrator = [[LLPowerCalibrator alloc] initWithCalibrationFile:fileName];
+
+    analogOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
+    [analogOutput createAOTask];
+    [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name maxVolts:[calibrator maximumV]
+                                      minVolts:[calibrator minimumV]];
+    [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name maxVolts:[calibrator maximumV]
+                                      minVolts:[calibrator minimumV]];
+    digitalOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
+    [digitalOutput createDOTask];
+    [digitalOutput createChannelWithName:kDigitalOutChannelName];
+
+    [self setPowerToMinimum];
+    [self closeShutter];
+}
+
 - (id)initWithSocket:(LLSockets *)theSocket;
 {
+    NSString *fileName;
+
     if ([super init] != nil) {
-        deviceLock = [[NSLock alloc] init];
-        socket = theSocket;
-        [socket retain];
-        deviceName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
-        calibrator = [[LLPowerCalibrator alloc] initWithFile:deviceName];
+        fileName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
+        [self doInitWithSocket:theSocket calibrationFileName:fileName];
+    }
+    return self;
+}
 
-        analogOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
-        [analogOutput createAOTask];
-        [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name maxVolts:[calibrator maximumV]
-                                        minVolts:[calibrator minimumV]];
-        [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name maxVolts:[calibrator maximumV]
-                                        minVolts:[calibrator minimumV]];
-        [self setPowerToMinimum];
-
-        digitalOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
-        [digitalOutput createDOTask];
-        [digitalOutput createChannelWithName:kDigitalOutChannelName];
-        [self closeShutter];
+- (id)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
+{
+    if ([super init] != nil) {
+        [self doInitWithSocket:theSocket calibrationFileName:calibrationFileName];
     }
     return self;
 }

@@ -20,7 +20,9 @@
     LLSockets               *socket;
 }
 
+- (void)doInitWithSocket:(LLSockets *)theSocket calibrationFileName:(NSString *)fileName;
 - (id)initWithSocket:(LLSockets *)theSocket;
+- (id)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
 - (BOOL)isDone:(LLNIDAQTask *)theTask;
 - (float)maximumMW;
 - (float)minimumMW;

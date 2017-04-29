@@ -1,6 +1,6 @@
 //
-//  OPMatlabController.m
-//  OptiPulse
+//  LLMatlabController.m
+//  Lablib
 //
 //  Created by John Maunsell on 1/7/17.
 //
@@ -8,10 +8,8 @@
 #import "LLMatlabController.h"
 #import "LLSystemUtil.h"
 
-#define kMatlabInitScriptCommand    @"clear all; close all; dParams = []; dParams = OPMatlab(dParams);"
 #define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
-#define kMatlabScriptCommand        @"dParams = OPMatlab(dParams, file, trials);"
-#define kOPMatlabTrialNumKey        [NSString stringWithFormat:@"OPMatlabTrialNum%ld", subjectNumber]
+#define kMatlabTrialNumKey          [NSString stringWithFormat:@"%@TrialNum%ld", matFileName, subjectNumber]
 #define kTrialStartEventName        @"trialStart"
 
 @implementation LLMatlabController : NSObject
@@ -61,8 +59,8 @@
     }
 
     engine = [task matlabEngine];
-    [engine addMatlabPathForPlugin:@"OptiPulse"];
-    [engine evalString:kMatlabInitScriptCommand];
+    [engine addMatlabPathForPlugin:[plugin name]];
+    [engine evalString:matlabInitScriptCommand];
     [self loadMatlabWorkspace];
     [[task dataDoc] addObserver:self];
 }
@@ -81,7 +79,7 @@
         [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
     }
     else if (!isDir) {
-        NSLog(@"OPMatlabController: openMatlabDataFile, %@ is not a directory", path);
+        NSLog(@"LLMatlabController: openMatlabDataFile, %@ is not a directory", path);
         exit(1);
     }
     [fm release];
@@ -149,9 +147,21 @@
     engine = nil;
 }
 
-- (id)initWithSubjectNumber:(long)number;
+- (void)dealloc;
+{
+    [matFileName release];
+    [matlabScriptCommand release];
+    [matlabInitScriptCommand release];
+    [super dealloc];
+}
+
+- (id)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
 {
     if ((self = [super init]) != nil) {
+        matFileName = [fileName retain];
+        matlabScriptCommand = [[NSString alloc] initWithFormat:@"dParams = %@(dParams, file, trials);", matFileName];
+        matlabInitScriptCommand = [[NSString alloc]
+                        initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
         subjectNumber = number;
         [self checkMatlabDataPath];
     }
@@ -174,11 +184,11 @@
             [dateFormatter stringFromDate:today]];
     fm = [[NSFileManager alloc] init];                                  // first check whether the directory exists
     exists = [fm fileExistsAtPath:path isDirectory:&isDir];
-    [engine evalString:kMatlabInitScriptCommand];                       // clear the current Matlab workspace
+    [engine evalString:matlabInitScriptCommand];                       // clear the current Matlab workspace
     if (exists && !isDir) {
         [engine evalString:[NSString stringWithFormat:@"load '%@'", path]];
-        trialNum = [[task defaults] integerForKey:kOPMatlabTrialNumKey];
-        [engine evalString:kMatlabScriptCommand];
+        trialNum = [[task defaults] integerForKey:kMatlabTrialNumKey];
+        [engine evalString:matlabScriptCommand];
     }
     else {                                                              // found not data, reset workspace
         trialNum = 0;
@@ -218,7 +228,7 @@
     NSString *fileName;
 
     if (subjectNumber == -1) {
-        NSLog(@"OPMatlabController: openMatlabDataFile, no subject number specified");
+        NSLog(@"MatlabController: openMatlabDataFile, no subject number specified");
         return nil;
     }
     today = [[NSDate alloc] init];
@@ -253,7 +263,6 @@
     if (stringRange.length > 0) {
         eventName = [eventName substringToIndex:stringRange.location];
     }
-
     eventDef = [[task dataDoc] eventNamed:eventName];
     theEvent.data = eventData;
     theEvent.time = [eventTime unsignedLongValue];
@@ -349,7 +358,7 @@
     path = [NSString stringWithFormat:@"%@%ld/%@.mat", kMatlabDataPath, subjectNumber,
             [dateFormatter stringFromDate:today]];
     [engine evalString:[NSString stringWithFormat:@"save '%@'", path]];
-    [[task defaults] setObject:[NSNumber numberWithLong:trialNum] forKey:kOPMatlabTrialNumKey];
+    [[task defaults] setObject:[NSNumber numberWithLong:trialNum] forKey:kMatlabTrialNumKey];
     [today release];
     [dateFormatter release];
 }
@@ -401,7 +410,7 @@
 
 //===============================================================================================================
 //
-// The following are methods supporting LLDataEvents.  They are called by virtue of making the OPMatlabController
+// The following are methods supporting LLDataEvents.  They are called by virtue of making the LLMatlabController
 // an event observer when we activate (addObserver:self).
 //
 //===============================================================================================================
