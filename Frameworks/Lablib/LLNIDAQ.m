@@ -31,8 +31,12 @@
 
 - (void)dealloc;
 {
+    long index;
+
     [deviceLock lock];
-    [self setPowerToMinimum];
+    for (index = 0; index < kAOChannels; index++) {
+        [self setPowerToMinimumForChannel:index];
+    }
     [analogOutput stop];
     [analogOutput deleteTask];
     [analogOutput release];
@@ -40,6 +44,9 @@
     [digitalOutput deleteTask];
     [digitalOutput release];
     [socket release];
+    for (index = 0; index < kAOChannels; index++) {
+        [calibrator[index] release];
+    }
     [deviceLock unlock];
     [deviceLock release];
 
@@ -51,18 +58,14 @@
     deviceLock = [[NSLock alloc] init];
     socket = theSocket;
     [socket retain];
-    calibrator = [[LLPowerCalibrator alloc] initWithCalibrationFile:fileName];
 
     analogOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
     [analogOutput createAOTask];
-    [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name maxVolts:[calibrator maximumV]
-                                      minVolts:[calibrator minimumV]];
-    [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name maxVolts:[calibrator maximumV]
-                                      minVolts:[calibrator minimumV]];
+    [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name maxVolts:10 minVolts:-10];
+    [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name maxVolts:10 minVolts:-10];
     digitalOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
     [digitalOutput createDOTask];
     [digitalOutput createChannelWithName:kDigitalOutChannelName];
-
     [self setPowerToMinimum];
     [self closeShutter];
 }
@@ -96,14 +99,32 @@
     }
 }
 
-- (float)maximumMW;
+- (BOOL)loadCalibration:(short)channel url:(NSURL *)url;
 {
-    return [calibrator maximumMW];
+    NSString *channelNames[kAOChannels] = {kAnalogOutChannel0Name, kAnalogOutChannel1Name};
+
+    if (calibrator[channel] != nil) {
+        [calibrator[channel] release];
+    }
+    calibrator[channel] = [[LLPowerCalibrator alloc] initFromFile:url];
+    if ([calibrator[channel] calibrated]) {
+        [analogOutput setMaxVolts:[calibrator[channel] maximumV] minVolts:[calibrator[channel] minimumV]
+                      forChannelName:channelNames[channel]];
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
-- (float)minimumMW;
+- (float)maximumMWForChannel:(long)channel;
 {
-    return [calibrator minimumMW];
+    return [calibrator[channel] maximumMW];
+}
+
+- (float)minimumMWForChannel:(long)channel;
+{
+    return [calibrator[channel] minimumMW];
 }
 
 - (void)openShutter;
@@ -127,24 +148,25 @@
 {
     long sample;
     long numSamples, pulse0Samples, delay1Samples, pulse1Samples;
-    Float64 offV, pulse0V, pulse1V, *train, *pTrain;
+    Float64 off0V, off1V, pulse0V, pulse1V, *train, *pTrain;
 
     pulse0Samples = dur0MS * kSamplesPerMS;
     pulse1Samples = dur1MS * kSamplesPerMS;
     delay1Samples = delay1MS * kSamplesPerMS;
     numSamples = MAX(pulse0Samples, pulse1Samples + delay1Samples) + kActiveChannels;
     train = malloc(numSamples * sizeof(Float64) * kActiveChannels);
-    pulse0V = [calibrator voltageForMW:pulse0MW];
-    pulse1V = [calibrator voltageForMW:pulse1MW];
-    offV = [calibrator voltageForMW:[calibrator minimumMW]];
+    pulse0V = [calibrator[0] voltageForMW:pulse0MW];
+    pulse1V = [calibrator[1] voltageForMW:pulse1MW];
+    off0V = [calibrator[0] voltageForMW:[calibrator[0] minimumMW]];
+    off1V = [calibrator[1] voltageForMW:[calibrator[1] minimumMW]];
 
     for (sample = 0, pTrain = train; sample < numSamples - kActiveChannels; sample++) {
-        *pTrain++ = (sample < delay1Samples) ? offV : ((sample < delay1Samples + pulse1Samples) ? pulse1V : offV);
-        *pTrain++ = (sample < pulse0Samples) ? pulse0V : offV;
+        *pTrain++ = (sample < delay1Samples) ? off1V : ((sample < delay1Samples + pulse1Samples) ? pulse1V : off1V);
+        *pTrain++ = (sample < pulse0Samples) ? pulse0V : off0V;
     }
     for ( ; sample < numSamples; sample++) {
-        *pTrain++ = offV;
-        *pTrain++ = offV;
+        *pTrain++ = off1V;
+        *pTrain++ = off0V;
     }
 
     [analogOutput stop];                                    // task must be stopped before re-arming
@@ -163,14 +185,14 @@
     return(analogOutput);
 }
 
-- (void)setPowerTo:(float)powerMW;
+- (void)setChannel:(long)channel powerTo:(float)powerMW;
 {
     long sample;
     long numSamples = kMinSamples * kActiveChannels;       // NIDAQ requires 2 samples per channel minimum
     Float64 outputV[kMinSamples * kActiveChannels];        // min 2 samples per channel
     
     for (sample  = 0; sample < numSamples; sample++) {
-        outputV[sample] = [calibrator calibrated] ? [calibrator voltageForMW:powerMW] : powerMW;
+        outputV[sample] = [calibrator[channel] calibrated] ? [calibrator[channel] voltageForMW:powerMW] : powerMW;
     }
 
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:kMinSamples];
@@ -183,7 +205,16 @@
 
 - (void)setPowerToMinimum;
 {
-    [self setPowerTo:([calibrator calibrated]) ? [calibrator minimumMW] : 0.0];
+    long c;
+
+    for (c = 0; c < kAOChannels; c++) {
+        [self setPowerToMinimumForChannel:c];
+    }
+}
+
+- (void)setPowerToMinimumForChannel:(long)channel;
+{
+    [self setChannel:channel powerTo:[calibrator[channel] minimumMW]];
 }
 
 - (void)showWindow:(id)sender;

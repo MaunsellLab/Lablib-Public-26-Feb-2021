@@ -3,12 +3,7 @@ Cursor wants to be visible on the stimWindow when the mouse is the IODevice
 
 • Turn of fixation calibration offset when entering FixateTask, and restore it later
 
-• Saccade and EyeXY windows in Freestim are not registering previous visible states.
-
 •RFMap wants ability to change fix spot color
-
-• It would be good to put an LLScheduleController into Knot so that all modules could use it.
-
 
 _______________
 

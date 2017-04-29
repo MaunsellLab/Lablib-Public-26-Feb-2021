@@ -18,5 +18,9 @@
 	<false/>
 	<key>KNUseSocket</key>
 	<false/>
+	<key>KNAO0Calibration</key>
+	<string>/Library/Application Support/Knot/Calibrations/1PCalibration.txt</string>
+	<key>KNAO1Calibration</key>
+	<string>/Library/Application Support/Knot/Calibrations/2PCalibration.txt</string>
 </dict>
 </plist>

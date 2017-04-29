@@ -19,6 +19,7 @@
 
 @property (readonly) BOOL calibrated;
 
+- (id)initFromFile:(NSURL *)fileURL;
 - (id)initWithCalibrationFile:(NSString *)fileName;
 - (float)maximumMW;
 - (float)maximumV;

@@ -10,6 +10,7 @@
 
 @implementation LLTaskPlugIn
 
+@synthesize nidaq;
 @synthesize rewardPump;
 @synthesize trialStartTimeS;
 

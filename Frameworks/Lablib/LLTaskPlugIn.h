@@ -54,6 +54,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
     NSDictionary            *monkeySoundDict;
 	LLMonitorController		*monitorController;
     NSDictionary            *mouseSoundDict;
+    LLNIDAQ                 *nidaq;
     LLNE500Pump             *rewardPump;
     LLSockets               *socket;
 	LLStateSystem			*stateSystem;
@@ -62,6 +63,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 	BOOL					writingDataFile;
 }
 
+@property (assign) LLNIDAQ *nidaq;
 @property (assign) LLNE500Pump *rewardPump;
 @property (assign) double trialStartTimeS;
 
