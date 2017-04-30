@@ -29,7 +29,7 @@
 - (NSPoint)centerPointPixLLOrigin;
 - (NSPoint)degPointFromPixPoint:(NSPoint)pointPix;
 - (NSSize)degSizeFromPixSize:(NSSize)sizePix;
-- (DisplayParam)display;
+//- (DisplayParam)display;
 - (long)displayIndex;
 - (DisplayParam *)displayParameters;
 - (NSRect)displayRectDeg;

@@ -103,18 +103,18 @@ NSImage *stoppingButton;
 	taskMode = newMode;
 	switch (taskMode) {
     case kTaskRunning:
-		[taskModeButton setTitle:@"Stop"];
-		[taskModeButton setToolTip:@"Stop"];
+		[taskModeButton setTitle:NSLocalizedString(@"Stop", @"Stop")];
+		[taskModeButton setToolTip:NSLocalizedString(@"Stop", @"Stop")];
 		[taskModeButton setImage:stopButton];
         break;
     case kTaskStopping:
-		[taskModeButton setTitle:@"Stop"];
-		[taskModeButton setToolTip:@"Stop Now"];
+		[taskModeButton setTitle:NSLocalizedString(@"Stop", @"Stop")];
+		[taskModeButton setToolTip:NSLocalizedString(@"Stop Now", @"Stop Now")];
 		[taskModeButton setImage:stoppingButton];
         break;
     case kTaskIdle:
-		[taskModeButton setTitle:@"Run"];
-		[taskModeButton setToolTip:@"Run"];
+		[taskModeButton setTitle:NSLocalizedString(@"Run", @"Run")];
+		[taskModeButton setToolTip:NSLocalizedString(@"Run", @"Run")];
 		[taskModeButton setImage:playButton];
         break;
     default:

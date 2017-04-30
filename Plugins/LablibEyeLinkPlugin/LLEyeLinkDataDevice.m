@@ -249,7 +249,7 @@ void handler(int signal) {
         else {
             sampleData[index] = samples;
         }
-        [samples autorelease];
+//        [samples autorelease];
 	}
 	return sampleData;
 }
@@ -289,8 +289,6 @@ void handler(int signal) {
 
 - (void)setDeviceEnabled:(NSNumber *)state;
 {
-    int error;
-    
 	if (![state boolValue] && deviceEnabled) {						// Disable the device
 		[self setDataEnabled:NO];
         deviceEnabled = NO;
@@ -320,7 +318,7 @@ void handler(int signal) {
 		if (pollThread == nil) {
 			shouldKillThread = NO;
 			[NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
-			error = start_recording(0, 0, 1, 0);                    // Eyelink: link, not file, samples, no events
+			start_recording(0, 0, 1, 0);                    // Eyelink: link, not file, samples, no events
 		}
 	}
 }

@@ -64,17 +64,9 @@
 	NSPoint pointDeg;
 	NSSize displayDeg;
 	long heightPix, widthPix;
-//	NSRect bounds;
-	
-//	if (fullscreen) {
-//		bounds = [displays displayBoundsLLOrigin:displayIndex];
-//		heightPix = [displays heightPix:displayIndex];
-//		widthPix = [displays widthPix:displayIndex];
-//	}
-//	else {
+
     heightPix = [[self contentView] bounds].size.height;
     widthPix = [[self contentView] bounds].size.width;
-//	}
 	displayDeg = [displays displaySizeDeg:displayIndex];
 	pointDeg.x = -displayDeg.width / 2.0 - scaleOffsetDeg.x + pointPix.x / widthPix * displayDeg.width;
 	pointDeg.y = -displayDeg.height / 2.0 - scaleOffsetDeg.y + pointPix.y / heightPix * displayDeg.height;
@@ -86,35 +78,26 @@
 	NSSize sizeDeg;
 	NSSize displayDeg;
 	long heightPix, widthPix;
-//	NSRect bounds;
-	
-//	if (fullscreen) {
-////		bounds = [displays displayBoundsLLOrigin:displayIndex];
-//		heightPix = [displays heightPix:displayIndex];
-//		widthPix = [displays widthPix:displayIndex];
-//	}
-//	else {
     heightPix = [[self contentView] bounds].size.height;
     widthPix = [[self contentView] bounds].size.width;
-//	}
 	displayDeg = [displays displaySizeDeg:displayIndex];
 	sizeDeg.width = sizePix.width / widthPix * displayDeg.width;
 	sizeDeg.height = sizePix.height / heightPix * displayDeg.height;
 	return sizeDeg;
 }
 
-- (DisplayParam)display;
-{
-	return display;
-}
+//- (DisplayParam)display;
+//{
+//	return display;
+//}
 
 - (long)displayIndex;
 {
 	return displayIndex;
 }
 
-- (DisplayParam *)displayParameters {
-
+- (DisplayParam *)displayParameters;
+{
 	return &display;
 }
 
@@ -212,24 +195,10 @@
 			dRect.origin.y + dRect.size.height - stimWindowSize.height - 55, 
             stimWindowSize.width, stimWindowSize.height);
 		self = [super initWithContentRect:stimRect 
-					styleMask: NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
+					styleMask:NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
 					backing:NSBackingStoreBuffered defer:NO];
         [self setContentAspectRatio:stimWindowSize];
 		[self setTitle:@"Stimulus"];
-//		fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
-//		if (!fmt) {
-//			NSLog(@"Cannot create NSOpenGLPixelFormat");
-//			[openGLLock unlock];
-//			return nil;
-//		}
-//		[self setContentView:[[[NSOpenGLView alloc] 
-//					initWithFrame:NSMakeRect(0, 0, stimRect.size.width, stimRect.size.height) 
-//					pixelFormat:fmt] autorelease]];
-//		stimOpenGLContext = [[self contentView] openGLContext];
-//		[stimOpenGLContext makeCurrentContext];
-//		[stimOpenGLContext setValues:&swapParam forParameter:NSOpenGLCPSwapInterval];
-//		[self setDelegate:self];				// set up to receive delegate messages (for resize)
-//		[self makeKeyAndOrderFront:nil];
 		break;
 	case 1:                                                 // more than one screen, use the second one
 	default:                                                //   regardless of the number of screens

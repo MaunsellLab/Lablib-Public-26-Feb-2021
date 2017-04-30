@@ -124,10 +124,6 @@
 		69914CCA06863C46001800F9 /* LLTextUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69914CC806863C46001800F9 /* LLTextUtil.m */; };
 		699AC1B30C752D46000D360E /* LLNoise.h in Headers */ = {isa = PBXBuildFile; fileRef = 699AC1B10C752D46000D360E /* LLNoise.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		699AC1B40C752D46000D360E /* LLNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AC1B20C752D46000D360E /* LLNoise.m */; };
-		699AC32B0C7532D9000D360E /* fourn.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AC3270C7532D9000D360E /* fourn.m */; };
-		699AC32C0C7532D9000D360E /* nrutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 699AC3280C7532D9000D360E /* nrutil.h */; };
-		699AC32D0C7532D9000D360E /* nrutil.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AC3290C7532D9000D360E /* nrutil.m */; };
-		699AC32E0C7532D9000D360E /* sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AC32A0C7532D9000D360E /* sort.m */; };
 		69A14B6208913B4C005A4F0D /* LLStimWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 697CC9D3077F12FC0025E7D2 /* LLStimWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69A7E88C0E674D250036E42A /* LLMouseDataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69A7E88B0E674D250036E42A /* LLMouseDataDevice.plist */; };
 		69A86B440780B23F009A47EC /* LLTaskStatusTitleTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 69A86B420780B23F009A47EC /* LLTaskStatusTitleTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -418,10 +414,6 @@
 		699542D104FFD75300F95523 /* LLSounds.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLSounds.m; sourceTree = "<group>"; };
 		699AC1B10C752D46000D360E /* LLNoise.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLNoise.h; sourceTree = "<group>"; };
 		699AC1B20C752D46000D360E /* LLNoise.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLNoise.m; sourceTree = "<group>"; };
-		699AC3270C7532D9000D360E /* fourn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = fourn.m; sourceTree = "<group>"; };
-		699AC3280C7532D9000D360E /* nrutil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = nrutil.h; sourceTree = "<group>"; };
-		699AC3290C7532D9000D360E /* nrutil.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = nrutil.m; sourceTree = "<group>"; };
-		699AC32A0C7532D9000D360E /* sort.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = sort.m; sourceTree = "<group>"; };
 		699D01630479219700A80164 /* LLSynthSaccade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthSaccade.h; sourceTree = "<group>"; };
 		699D01640479219700A80164 /* LLSynthSaccade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSynthSaccade.m; sourceTree = "<group>"; };
 		69A5C64004D996EE00F95507 /* LLIntervalMonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLIntervalMonitorSettings.h; sourceTree = "<group>"; };
@@ -561,7 +553,6 @@
 				69C895CB03E8275C00A80164 /* Notes.txt */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Headers */,
-				699AC3260C7532B5000D360E /* Numerical Recipes */,
 				694879EC0486A7F400FE06D7 /* Protocols */,
 				69897A62099B898B001EE2DA /* Plists */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -873,17 +864,6 @@
 			name = Plists;
 			sourceTree = "<group>";
 		};
-		699AC3260C7532B5000D360E /* Numerical Recipes */ = {
-			isa = PBXGroup;
-			children = (
-				699AC3280C7532D9000D360E /* nrutil.h */,
-				699AC3270C7532D9000D360E /* fourn.m */,
-				699AC3290C7532D9000D360E /* nrutil.m */,
-				699AC32A0C7532D9000D360E /* sort.m */,
-			);
-			name = "Numerical Recipes";
-			sourceTree = "<group>";
-		};
 		69A86C930780C1DE009A47EC /* Displays */ = {
 			isa = PBXGroup;
 			children = (
@@ -1079,7 +1059,6 @@
 				69C094520BDA3B8A00DB7DE8 /* LLPointDist.h in Headers */,
 				699AC1B30C752D46000D360E /* LLNoise.h in Headers */,
 				69EEB2141E873EB900A8C673 /* LLNIDAQTask.h in Headers */,
-				699AC32C0C7532D9000D360E /* nrutil.h in Headers */,
 				69F36CC50567EA5D009AED51 /* LLStandardDataEvents.h in Headers */,
 				6984E5CF0E672AA600A9E7CB /* LLPulseTrain.h in Headers */,
 				6984E5D20E672B2600A9E7CB /* LLPulseTrainDevice.h in Headers */,
@@ -1281,9 +1260,6 @@
 				69C094530BDA3B8A00DB7DE8 /* LLPointDist.m in Sources */,
 				69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */,
 				699AC1B40C752D46000D360E /* LLNoise.m in Sources */,
-				699AC32B0C7532D9000D360E /* fourn.m in Sources */,
-				699AC32D0C7532D9000D360E /* nrutil.m in Sources */,
-				699AC32E0C7532D9000D360E /* sort.m in Sources */,
 				6984E5D00E672AA600A9E7CB /* LLPulseTrain.m in Sources */,
 				69EDA65E0EAE93E100B3D1D5 /* LLFilterExp.m in Sources */,
 				696DF6550EB8E53A0004FC8E /* LLLaserCalibrator.m in Sources */,

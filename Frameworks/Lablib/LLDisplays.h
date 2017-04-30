@@ -55,7 +55,7 @@ typedef struct {
 + (NSString *)displayNameUsingIndex:(long)displayIndex;
 
 - (size_t)bitsPerPixelForMode:(CGDisplayModeRef)mode;
-- (CGDisplayModeRef)bestMatchForMode:(DisplayParam *)pDP forDisplayID:(CGDirectDisplayID)displayID;
+//- (CGDisplayModeRef)bestMatchForMode:(DisplayParam *)pDP forDisplayID:(CGDirectDisplayID)displayID;
 //- (BOOL)captureDisplay:(long)displayIndex;
 - (NSRect)displayBounds:(long)mainDisplayIndex;
 - (NSRect)displayBoundsLLOrigin:(long)displayIndex;

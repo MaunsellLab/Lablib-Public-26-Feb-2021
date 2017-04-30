@@ -84,23 +84,23 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 			if ([pluginDesc.class isSubclassOfClass:[LLTaskPlugIn class]]) {
 				if ([pluginDesc.class version] != kLLPluginVersion) {
                     theAlert = [[NSAlert alloc] init];
-                    [theAlert setMessageText:@"LLPluginController: error loading plugin"];
+                    [theAlert setMessageText:NSLocalizedString(@"LLPluginController: error loading plugin", nil)];
                     [theAlert setInformativeText:[NSString stringWithFormat:
                                 @"%@ has version %ld, but current version is %d.  It will be not be used.",
                                 currPath, (long)[pluginDesc.class version], kLLPluginVersion]];
                     [theAlert setAlertStyle:NSCriticalAlertStyle];
-                    [theAlert addButtonWithTitle:@"OK"];
-                    [theAlert addButtonWithTitle:@"Delete"];
+                    [theAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
+                    [theAlert addButtonWithTitle:NSLocalizedString(@"Delete", @"Delete")];
                     theResponse = [theAlert runModal];
                     [theAlert release];
                     if (theResponse == NSAlertSecondButtonReturn) {     // user wants to delete it
                         theAlert = [[NSAlert alloc] init];
-                       [theAlert setMessageText:@"LLPluginController"];
+                       [theAlert setMessageText:NSLocalizedString(@"LLPluginController", nil)];
                         [theAlert setInformativeText:[NSString stringWithFormat:
                                                       @"Delete %@.  Are you sure?", currPath]];
                         [theAlert setAlertStyle:NSWarningAlertStyle];
-                        [theAlert addButtonWithTitle:@"Delete"];
-                        [theAlert addButtonWithTitle:@"Cancel"];
+                        [theAlert addButtonWithTitle:NSLocalizedString(@"Delete", @"Delete")];
+                        [theAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel")];
                         theResponse = [theAlert runModal];
                         [theAlert release];
                         if (theResponse == NSAlertFirstButtonReturn) {   // user confirmed delete

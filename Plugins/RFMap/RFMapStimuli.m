@@ -122,8 +122,8 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 {
 	long index;
 	NSEnumerator *enumerator;
-	NSString *key, *theKey;
-	id object;
+    NSString *key;
+//	id object;
 
 	if ((self = [super init]) != nil) {
 		monitor = [[[LLIntervalMonitor alloc] initWithID:RFMonitorIDString 
@@ -140,9 +140,9 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 			[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self 
 				forKeyPath:[NSString stringWithFormat:@"values.%@", key]
 				options:NSKeyValueObservingOptionNew context:nil];
-			object = [[task defaults] objectForKey:key];
-			theKey = [LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"];
-			[self setValue:[[task defaults] objectForKey:key] 
+//			object = [[task defaults] objectForKey:key];
+//			theKey = [LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"];
+			[self setValue:[[task defaults] objectForKey:key]
 				forKey:[LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"]];
 		}
 		
@@ -254,12 +254,12 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 	NSRect stimRectDeg;
  	Rect shieldRect = {-500, -500, 500, 500};
 	NSRect bounds;
-    NSDate *nextRelease;
+//    NSDate *nextRelease;
 	long frame = 0;
 	BOOL cursorHidden = NO;
 
     threadPool = [[NSAutoreleasePool alloc] init];		// create a threadPool for this thread
-	nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
+//	nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
 	stimulusOn = YES;
 	
 	if ([[task stimWindow] fullscreen]) {

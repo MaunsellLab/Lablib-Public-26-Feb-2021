@@ -153,7 +153,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 
 - (id)initWithSocket:(LLSockets *)theSocket;
 {
-    if ([super init] != nil) {
+    if ((self = [super init]) != nil) {
         socket = theSocket;
         [socket retain];
         channelNames = [[NSMutableArray alloc] init];

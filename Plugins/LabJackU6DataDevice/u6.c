@@ -143,7 +143,6 @@ HANDLE openUSBConnection(int localID)
             }
             else
             {
-                checksumTotal = 0;
 
                 //setting up a U6Config
                 sendBuffer[1] = (uint8)(0xF8);
@@ -353,8 +352,6 @@ long getTdacCalibrationInfo(HANDLE hDevice, u6TdacCalibrationInfo *caliInfo, uin
     uint8 bytesCommand[1];
     uint8 bytesResponse[32];
     uint8 ackArray[4];
-
-    err = 0;
 
     //Setting up I2C command for LJTDAC
     options = 0;                //I2COptions : 0

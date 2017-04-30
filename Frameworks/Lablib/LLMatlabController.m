@@ -212,12 +212,15 @@
 
     fm = [[NSFileManager alloc] init];                                  // first check whether the directory exists
     path = [NSString stringWithFormat:@"%@%ld", kMatlabDataPath, subjectNumber];
-    exists = [fm fileExistsAtPath:path isDirectory:&isDir];
+    [fm fileExistsAtPath:path isDirectory:&isDir];
     today = [[NSDate alloc] init];
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     path = [path stringByAppendingString:[NSString stringWithFormat:@"/%@.mat", [dateFormatter stringFromDate:today]]];
     exists = [fm fileExistsAtPath:path isDirectory:&isDir];
+    [fm release];
+    [today release];
+    [dateFormatter release];
     return exists && !isDir;
 }
 
@@ -236,6 +239,8 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     fileName = [NSString stringWithFormat:@"%@%ld/%@.mat", kMatlabDataPath, subjectNumber,
                 [dateFormatter stringFromDate:today]];
+    [dateFormatter release];
+    [today release];
     return fileName;
 }
 

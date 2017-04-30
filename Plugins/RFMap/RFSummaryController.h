@@ -28,7 +28,6 @@
 	long				recentComputer;			// Count of trials with computer certification errors
     long				recentEOTs[kEOTTypes];
     long				recentEOTTotal;
-    NSSize				staticWindowFrame;
 	StimParams			stimParams[kStimTypes];
     long 				taskMode;
 	TrialDesc			trial;

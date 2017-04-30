@@ -16,7 +16,7 @@
 
 - (id)init {
 	
-	if ([super init] != nil) {
+	if ((self = [super init]) != nil) {
 		mode = kTaskIdle;
 		dataFileOpen = NO;
 	}

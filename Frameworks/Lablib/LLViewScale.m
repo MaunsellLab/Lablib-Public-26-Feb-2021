@@ -162,12 +162,13 @@
    
 - (id) init;
 {
-    [super init];
-    scaleRect = NSMakeRect(0.0, 0.0, kDefaultUserWidth, kDefaultUserHeight);
-    yMaxMinViewArray = [[NSMutableArray alloc] init];
-    yMaxs = [[NSMutableArray alloc] init];
-    yMins = [[NSMutableArray alloc] init];
-	autoAdjustYMax = autoAdjustYMin = YES;
+    if ((self = [super init]) != nil) {
+        scaleRect = NSMakeRect(0.0, 0.0, kDefaultUserWidth, kDefaultUserHeight);
+        yMaxMinViewArray = [[NSMutableArray alloc] init];
+        yMaxs = [[NSMutableArray alloc] init];
+        yMins = [[NSMutableArray alloc] init];
+        autoAdjustYMax = autoAdjustYMin = YES;
+    }
     return self;
 }
 

@@ -154,21 +154,16 @@ static PrintView	*printView;
         [LLSystemUtil runAlertPanelWithMessageText:@"DataConvert" informativeText:@"eventString: nil event returned."];
 		exit(0);
 	}
-	index = [pEvent->data length];		// test for valid NSData object
+    //	index = [pEvent->data length];		// test for valid NSData object
     if ([defaults boolForKey:DCShowAddressKey]) {
     	pBuffer += sprintf(pBuffer, "0x%0*lx ", hexAddressTextCols, eventIndex);
     }
     if ([defaults boolForKey:DCShowTimeOfDayKey]) {
         eventDate = [[dataReader fileDate] dateByAddingTimeInterval:(unsigned long)(pEvent->time / 1000.0)];
-//        eventDate = [[dataReader fileDate] dateByAddingYears:0 months:0 days:0 hours:0 minutes:0
-//                                                     seconds:(unsigned long)(pEvent->time / 1000.0)];
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"HH:mm:ss"];
         pBuffer += sprintf(pBuffer, "%s", [[dateFormatter stringFromDate:eventDate] UTF8String]);
         pBuffer += sprintf(pBuffer, ".%03ld", (unsigned long)(pEvent->time % 1000));
-//        pBuffer += sprintf(pBuffer, "%02ld:%02ld:%02ld.%03ld ",
-//                    (long)[eventDate hourOfDay], (long)[eventDate minuteOfHour], (long)[eventDate secondOfMinute],
-//                    (unsigned long)(pEvent->time % 1000));
         [dateFormatter release];
     }
     if ([defaults boolForKey:DCShowTimeKey]) {
@@ -182,18 +177,15 @@ static PrintView	*printView;
         sprintf(pBuffer, "\r");
     }
     else {
-//        if ([pEvent->name isEqualToString:@"text"]) {
-//            pBuffer += sprintf(pBuffer, "\"%s\"", (char *)[pEvent->data bytes]);
-//        }
         if ([pEvent->name isEqualToString:@"text"]) {
-            pBuffer += sprintf(pBuffer, "\"%.*s\"", (int)[pEvent->data length], (char *)[pEvent->data bytes]);
+            sprintf(pBuffer, "\"%.*s\"", (int)[pEvent->data length], (char *)[pEvent->data bytes]);
         }
         else if ([pEvent->name isEqualToString:@"sample01"]) {
-            pBuffer += sprintf(pBuffer, "%*d %*d ", formatChars[kShortFormat], ((short *)[pEvent->data bytes])[0], 
+            sprintf(pBuffer, "%*d %*d ", formatChars[kShortFormat], ((short *)[pEvent->data bytes])[0],
                     formatChars[kShortFormat], ((short *)[pEvent->data bytes])[1]);
         }
-         else if ([pEvent->name isEqualToString:@"spike"]) {
-            pBuffer += sprintf(pBuffer, "%*d %*ld ", formatChars[kShortFormat], 
+        else if ([pEvent->name isEqualToString:@"spike"]) {
+            sprintf(pBuffer, "%*d %*ld ", formatChars[kShortFormat],
                 ((SpikeData *)[pEvent->data bytes])->channel, formatChars[kLongFormat], 
                 ((SpikeData *)[pEvent->data bytes])->time);
         }
@@ -201,10 +193,10 @@ static PrintView	*printView;
 					([pEvent->name isEqualToString:@"trialEnd"]) ||
 					([pEvent->name isEqualToString:@"stimulusOn"]) ||
 					([pEvent->name isEqualToString:@"stimulusOff"])) {
-				pBuffer += sprintf(pBuffer, "%*ld ", formatChars[kLongFormat],  *(long *)[pEvent->data bytes]);
+            sprintf(pBuffer, "%*ld ", formatChars[kLongFormat],  *(long *)[pEvent->data bytes]);
 		}
-         else if ([pEvent->name isEqualToString:@"fixWindow"]) {
-            pBuffer += sprintf(pBuffer, "%*ld:  %*f %*f %*f %*f ", 
+        else if ([pEvent->name isEqualToString:@"fixWindow"]) {
+            sprintf(pBuffer, "%*ld:  %*f %*f %*f %*f ",
                     formatChars[kShortFormat], ((FixWindowData *)[pEvent->data bytes])->index, 
                     formatChars[kShortFormat], ((FixWindowData *)[pEvent->data bytes])->windowUnits.origin.x, 
                     formatChars[kShortFormat], ((FixWindowData *)[pEvent->data bytes])->windowUnits.origin.y, 
@@ -215,7 +207,7 @@ static PrintView	*printView;
             for (index = 0; index < [pEvent->data length]; ) {
                 filled = (unsigned long)pBuffer - (unsigned long)textBuffer;
                 if (![self enoughRoomInBuffer:filled format:dataFormat length:kTextBufferLength margin:8]) {
-					pBuffer += sprintf(pBuffer, "...");
+					sprintf(pBuffer, "...");
 					break;
                 }
                 switch (dataFormat) {
@@ -256,9 +248,9 @@ static PrintView	*printView;
             }
         }
     }
-    string = [[NSMutableAttributedString alloc] 
+    string = [[[NSMutableAttributedString alloc]
               initWithString:[NSString stringWithCString:textBuffer encoding:NSASCIIStringEncoding]
-            attributes:fontDefaultAttributes];
+            attributes:fontDefaultAttributes] autorelease];
     if (line == selectedEventLine) {
         [string addAttribute:NSBackgroundColorAttributeName value:[NSColor selectedTextBackgroundColor]
             range:NSMakeRange(0, [string length])];
@@ -348,7 +340,7 @@ static PrintView	*printView;
 			pBuffer += sprintf(pBuffer, "*");
 		}
     }
-    pBuffer += sprintf(pBuffer, "]");
+    sprintf(pBuffer, "]");
 
 // Make a string to return, highling selected text or header text
 
@@ -498,7 +490,7 @@ static PrintView	*printView;
 
 - (NSString *)printString:(long)line;
 {
-    NSString *string;
+//    NSString *string;
     NSAttributedString *attribString;
     
     switch (printMode) {
@@ -510,8 +502,9 @@ static PrintView	*printView;
         attribString = [self eventString:line];
         break;
     }
-    string = [[NSString alloc] initWithString:[attribString string]];
-    return string;
+    return [attribString string];
+//    string = [[NSString alloc] initWithString:[attribString string]];
+//    return string;
 }
 
 // This is the method that is called when it is time to read the contents of a document

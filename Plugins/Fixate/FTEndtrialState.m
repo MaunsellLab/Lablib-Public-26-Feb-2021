@@ -17,11 +17,10 @@
 
 - (void)stateAction {
 
-	long trialCertify, value;
+	long trialCertify;
 	NSSound *juiceSound;
 	
 	[stimuli erase];
-	value = 0;
 	[[task dataDoc] putEvent:@"fixOff"];
 	
 // The computer may have failed to create the display correctly.  We check that now

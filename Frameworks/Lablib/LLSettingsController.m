@@ -64,16 +64,17 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     
     [theAlert setMessageText:[self className]];
 	if ([settingsNameArray count] == 1) {
-        [theAlert setInformativeText:@"There must always be least one configuration"];
+        [theAlert setInformativeText:NSLocalizedString(@"There must always be least one configuration", nil)];
         [theAlert beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
             if (result == NSModalResponseOK) {
             }
         }];
 	}
 	else {
-        [theAlert setInformativeText:@"Really delete configuration? This operation cannot be undone."];
-        [theAlert addButtonWithTitle:@"Delete"];
-        [theAlert addButtonWithTitle:@"Cancel"];
+        [theAlert setInformativeText:
+                NSLocalizedString(@"Really delete configuration? This operation cannot be undone.", nil)];
+        [theAlert addButtonWithTitle:NSLocalizedString(@"Delete", @"Common Delete")];
+        [theAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Common Cancel")];
         [theAlert beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
             long row;
             switch (result) {

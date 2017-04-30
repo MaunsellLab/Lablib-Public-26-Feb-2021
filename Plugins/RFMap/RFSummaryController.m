@@ -226,7 +226,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             string = @"???";
             break;
     }
-	return [[[NSAttributedString alloc] initWithString:string attributes:attr] autorelease];
+	return [[[NSAttributedString alloc] initWithString:NSLocalizedString(string, nil) attributes:attr] autorelease];
 }
 
 - (void) positionZoomButton {
@@ -390,7 +390,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             string = @"???";
             break;
     }
-    cellContents = [[NSAttributedString alloc] initWithString:string attributes:leftFontAttr];
+    cellContents = [[NSAttributedString alloc] initWithString:NSLocalizedString(string, nil) attributes:leftFontAttr];
 	[cellContents autorelease];
     return cellContents;
 }

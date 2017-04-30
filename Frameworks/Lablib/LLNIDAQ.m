@@ -74,7 +74,7 @@
 {
     NSString *fileName;
 
-    if ([super init] != nil) {
+    if ((self = [super init]) != nil) {
         fileName = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
         [self doInitWithSocket:theSocket calibrationFileName:fileName];
     }
@@ -83,7 +83,7 @@
 
 - (id)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
 {
-    if ([super init] != nil) {
+    if ((self = [super init]) != nil) {
         [self doInitWithSocket:theSocket calibrationFileName:calibrationFileName];
     }
     return self;

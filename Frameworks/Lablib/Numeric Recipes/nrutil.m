@@ -11,6 +11,8 @@
 #define NR_END 1
 #define FREE_ARG char*
 
+#ifndef __clang_analyzer__          // Analyzer doesn't like all these potential memory leaks
+
 void nrerror(char error_text[])
 /* Numerical Recipes standard error handler */
 {
@@ -219,6 +221,8 @@ float ***f3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
 	/* return pointer to array of pointers to rows */
 	return t;
 }
+
+#endif
 
 void free_vector(float *v, long nl, long nh)
 /* free a float vector allocated with vector() */

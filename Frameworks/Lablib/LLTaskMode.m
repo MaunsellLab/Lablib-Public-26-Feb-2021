@@ -23,32 +23,33 @@ NSString *LLTaskModeChange = @"LLTaskModeChange";
 	[super dealloc];
 }
 
-- (id)init {
-	
-	if ([super init] != nil) {
+- (id)init;
+{
+	if ((self = [super init]) != nil) {
 		mode = kTaskIdle;
 		dataFileOpen = NO;
 	}
 	return self;
 }
 
-- (BOOL)isEnding {
+- (BOOL)isEnding;
+{
 	
 	return (mode >= kTaskEnding);
 }
 
-- (BOOL)isIdle {
-	
+- (BOOL)isIdle;
+{
 	return (mode == kTaskIdle);
 }
 
-- (BOOL)isStopping {
-	
+- (BOOL)isStopping;
+{
 	return (mode == kTaskStopping);
 }
 
-- (long) mode {
-
+- (long)mode;
+{
 	return mode;
 }
 
@@ -74,8 +75,8 @@ NSString *LLTaskModeChange = @"LLTaskModeChange";
 	}
 }
 
-- (void)setMode:(long)newMode {
-
+- (void)setMode:(long)newMode;
+{
 	mode = newMode;
 	[[NSNotificationCenter defaultCenter] postNotificationName:LLTaskModeChange object:[NSNumber numberWithLong:mode]];
 	[self setDefaults];

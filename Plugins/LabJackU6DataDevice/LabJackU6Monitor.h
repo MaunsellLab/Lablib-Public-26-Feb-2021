@@ -26,8 +26,6 @@ typedef struct {
 	NSString					*descriptionString;				// First line in report
 	NSString					*IDString;						// Short string for menu entry
 	LabJackU6MonitorValues 		previous;
-	double						samplePeriodMS;
-	double						sequenceStartTimeMS;			// start of current sequence
 	LabJackU6MonitorSettings	*settings;
 }
 

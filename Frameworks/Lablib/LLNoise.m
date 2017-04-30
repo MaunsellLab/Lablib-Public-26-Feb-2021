@@ -18,6 +18,7 @@
 //	Bug fixes 7/05: circular texture vertices fixed. updateNoiseTexture fixed,makeNoiseTexture fixed.
 
 #import "LLNoise.h"
+#include <math.h>
 
 extern GLuint	circularTexture;
 extern GLuint 	gaussianTexture;
@@ -25,17 +26,133 @@ extern GLint	numTextureUnits;
 extern Gabor	lastGabor;
 static Noise	lastNoise;
 static Gabor	lastNoiseGabor;
-void fourn(float data[], unsigned long nn[], int ndim, int isign);
-float *vector(long nl, long nh);
-void free_vector(float *v, long nl, long nh);
-unsigned long *lvector(long nl, long nh);
-void free_lvector(unsigned long *v, long nl, long nh);
+
+void nrerror(char error_text[]);
+//void fourn(float data[], unsigned long nn[], int ndim, int isign);
+//float *vector(long nl, long nh);
+//void free_vector(float *v, long nl, long nh);
+//unsigned long *lvector(long nl, long nh);
+//void free_lvector(unsigned long *v, long nl, long nh);
+
+#define FREE_ARG char*
+#define SWAP(a,b) tempr=(a);(a)=(b);(b)=tempr
+#define NR_END 1
+
+void fourn(float data[], unsigned long nn[], int ndim, int isign)
+{
+    int idim;
+    unsigned long i1,i2,i3,i2rev,i3rev,ip1,ip2,ip3,ifp1,ifp2;
+    unsigned long ibit,k1,k2,n,nprev,nrem,ntot;
+    float tempi,tempr;
+    double theta,wi,wpi,wpr,wr,wtemp;
+
+    for (ntot=1,idim=1;idim<=ndim;idim++)
+        ntot *= nn[idim];
+    nprev=1;
+    for (idim=ndim;idim>=1;idim--) {
+        n=nn[idim];
+        nrem=ntot/(n*nprev);
+        ip1=nprev << 1;
+        ip2=ip1*n;
+        ip3=ip2*nrem;
+        i2rev=1;
+        for (i2=1;i2<=ip2;i2+=ip1) {
+            if (i2 < i2rev) {
+                for (i1=i2;i1<=i2+ip1-2;i1+=2) {
+                    for (i3=i1;i3<=ip3;i3+=ip2) {
+                        i3rev=i2rev+i3-i2;
+                        SWAP(data[i3],data[i3rev]);
+                        SWAP(data[i3+1],data[i3rev+1]);
+                    }
+                }
+            }
+            ibit=ip2 >> 1;
+            while (ibit >= ip1 && i2rev > ibit) {
+                i2rev -= ibit;
+                ibit >>= 1;
+            }
+            i2rev += ibit;
+        }
+        ifp1=ip1;
+        while (ifp1 < ip2) {
+            ifp2=ifp1 << 1;
+            theta=isign*6.28318530717959/(ifp2/ip1);
+            wtemp=sin(0.5*theta);
+            wpr = -2.0*wtemp*wtemp;
+            wpi=sin(theta);
+            wr=1.0;
+            wi=0.0;
+            for (i3=1;i3<=ifp1;i3+=ip1) {
+                for (i1=i3;i1<=i3+ip1-2;i1+=2) {
+                    for (i2=i1;i2<=ip3;i2+=ifp2) {
+                        k1=i2;
+                        k2=k1+ifp1;
+                        tempr=(float)wr*data[k2]-(float)wi*data[k2+1];
+                        tempi=(float)wr*data[k2+1]+(float)wi*data[k2];
+                        data[k2]=data[k1]-tempr;
+                        data[k2+1]=data[k1+1]-tempi;
+                        data[k1] += tempr;
+                        data[k1+1] += tempi;
+                    }
+                }
+                wr=(wtemp=wr)*wpr-wi*wpi+wr;
+                wi=wi*wpr+wtemp*wpi+wi;
+            }
+            ifp1=ifp2;
+        }
+        nprev *= n;
+    }
+}
+#undef SWAP
+
+void free_lvector(unsigned long *v, long nl, long nh)
+/* free an unsigned long vector allocated with lvector() */
+{
+    free((FREE_ARG) (v+nl-NR_END));
+}
+
+void free_vector(float *v, long nl, long nh)
+/* free a float vector allocated with vector() */
+{
+    free((FREE_ARG) (v+nl-NR_END));
+}
+
+unsigned long *lvector(long nl, long nh)
+/* allocate an unsigned long vector with subscript range v[nl..nh] */
+{
+    unsigned long *v;
+
+    v=(unsigned long *)malloc((size_t) ((nh-nl+1+NR_END)*sizeof(unsigned long)));
+    if (!v) nrerror("allocation failure in lvector()");
+    return v-nl+NR_END;
+}
+
+void nrerror(char error_text[])
+/* Numerical Recipes standard error handler */
+{
+    fprintf(stderr,"Numerical Recipes run-time error...\n");
+    fprintf(stderr,"%s\n",error_text);
+    fprintf(stderr,"...now exiting to system...\n");
+    exit(1);
+}
+
+float *vector(long nl, long nh)
+/* allocate a float vector with subscript range v[nl..nh] */
+{
+    float *v;
+
+    v=(float *)malloc((size_t) ((nh-nl+1+NR_END)*sizeof(float)));
+    if (!v) nrerror("allocation failure in vector()");
+    return v-nl+NR_END;
+}
+
+/* (C) Copr. 1986-92 Numerical Recipes Software ):5-). */
 
 @implementation LLNoise
 
 - (void)dealloc;
 {
-	free_vector(freq,1,2*kNoisePix*kNoisePix);   
+	free_vector(freq, 1, 2*kNoisePix*kNoisePix);
 	[super dealloc];
 } 
 
@@ -203,11 +320,8 @@ void free_lvector(unsigned long *v, long nl, long nh);
 	long fx, fy;
 	float phase, maxf;
 	long halfNoisePix;
-    //	NSSize displaySizeDeg;
 
-NSLog(@"Start makeNoiseTexture");
-
-	nn = lvector(1,2);
+	nn = lvector(1, 2);
 	nn[1] = kNoisePix;
 	nn[2] = kNoisePix;
 	halfNoisePix = kNoisePix / 2;
@@ -243,6 +357,7 @@ NSLog(@"Start makeNoiseTexture");
 		lastNoise.seed = drawNoise.seed;
 	}
 	if (displays == nil) {
+        free_lvector(nn, 1, 2);
 		return;
 	}
 	
@@ -355,9 +470,8 @@ NSLog(@"Start makeNoiseTexture");
 		n = (GLubyte)(lfreq[x] / maxf * 127.0 + 127.0);
 		noiseImage[row][col]=(GLubyte)n;
 	}
-	free_vector(lfreq,1,2*kNoisePix*kNoisePix);
-	free_lvector(nn,1,2);
-NSLog(@"End makeNoiseTexture");
+	free_vector(lfreq, 1, 2* kNoisePix * kNoisePix);
+	free_lvector(nn, 1, 2);
 }
 
 // Advance the gabor one time interval (for counterphase, drifting, etc)

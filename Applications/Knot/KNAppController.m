@@ -119,10 +119,10 @@ char *idString = "Knot Version 2.2";
         message = @"Task is running.  Stop and quit?";
 	}
     theAlert = [[NSAlert alloc] init];
-    [theAlert setMessageText:@"Knot"];
-    [theAlert addButtonWithTitle:@"OK"];
-    [theAlert addButtonWithTitle:@"Cancel"];
-    [theAlert setInformativeText:message];
+    [theAlert setMessageText:NSLocalizedString(@"Knot", @"Knot")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel")];
+    [theAlert setInformativeText:NSLocalizedString(message, nil)];
 	choice = [theAlert runModal];
     [theAlert release];
 	if (choice == NSAlertFirstButtonReturn) {
@@ -318,7 +318,8 @@ char *idString = "Knot Version 2.2";
 		currentTask = [taskPlugIns objectAtIndex:0];
 	}
 	[taskMenu addItem:[NSMenuItem separatorItem]];
-	[taskMenu addItemWithTitle:@"Previous Task" action:@selector(doPreviousTask:) keyEquivalent:@"0"];
+	[taskMenu addItemWithTitle:NSLocalizedString(@"Previous Task", nil)
+                                                    action:@selector(doPreviousTask:) keyEquivalent:@"0"];
 }
 
 // Deactivate the current LLTaskPlugin, closing any windows that it left open
@@ -562,6 +563,7 @@ char *idString = "Knot Version 2.2";
                    forKey:NSForegroundColorAttributeName]];
     }
     [fields[channel] setAttributedStringValue:aString];
+    [aString release];
 }
 
 - (void)postDataParamEvents;
@@ -602,7 +604,7 @@ char *idString = "Knot Version 2.2";
 			}
 			[self postDataParamEvents];
 			[currentTask setWritingDataFile:YES];
-			[recordDontRecordMenuItem setTitle:@"Stop Recording Data"];
+			[recordDontRecordMenuItem setTitle:NSLocalizedString(@"Stop Recording Data", nil)];
 			[recordDontRecordMenuItem setKeyEquivalent:@"W"];   // NB: Implies command-shift-w
 		}
 		[settingsController synchronize];						// save our current settings
@@ -611,7 +613,7 @@ char *idString = "Knot Version 2.2";
 		[defaults setBool:NO forKey:kWritingDataFile];
 		[currentTask setWritingDataFile:NO];
 		[dataDoc closeDataFile];
-		[recordDontRecordMenuItem setTitle:@"Record Data To File"];
+		[recordDontRecordMenuItem setTitle:NSLocalizedString(@"Record Data To File", nil)];
 		[recordDontRecordMenuItem setKeyEquivalent:@"s"];		// NB: Implies command-s (no shift)
 	}
 }

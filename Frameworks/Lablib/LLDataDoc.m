@@ -49,7 +49,7 @@
 // Run the save panel to get the user's input
 
 	savePanel = [NSSavePanel savePanel];
-	[savePanel setTitle:@"Save Data"];
+	[savePanel setTitle:NSLocalizedString(@"Save Data", @"Save Data on Save Panel")];
 	[savePanel setAllowedFileTypes:[LLStandardFileNames allowedFileTypes]];
 	if ([savePanel runModal] != NSModalResponseOK) {
 		return NO;

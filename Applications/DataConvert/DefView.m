@@ -60,6 +60,7 @@
 
         [[document definitionString:line] drawAtPoint:NSMakePoint(xTextOffsetPix, line * [document lineHeightPix])];
     }
+    [buttonTranslate release];
 }
 
 - (IBAction)enableAllEvents:(id)sender

@@ -58,9 +58,9 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
     
 	alarmActive = YES;
     [theAlert setMessageText:[NSString stringWithFormat:@"LLITCMonitor (%@)", [self IDString]]];
-    [theAlert addButtonWithTitle:@"OK"];
-    [theAlert addButtonWithTitle:@"Disarm Alarm"];
-    [theAlert addButtonWithTitle:@"Change Settings"];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"Disarm Alarm", @"Disarm Hardware Alarm")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"Change Settings", @"Change Hardware Alarm Settings")];
     [theAlert setInformativeText:message];
 	switch ([theAlert runModal]) {
         case NSAlertSecondButtonReturn:						// disarm alarms
