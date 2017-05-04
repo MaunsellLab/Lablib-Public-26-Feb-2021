@@ -22,6 +22,7 @@ char *idString = "Knot Version 2.2";
 #define kAO1Calibration     @"KNAO1Calibration"
 #define kDoDataDirectory    @"KNDoDataDirectory"
 #define kPreviousTaskName   @"KNPreviousTaskName"
+#define kStimWindowFactor   5
 #define kUseEyeLinkKey      @"KNUseEyeLink"
 #define kUseMatlabKey       @"KNUseMatlab"
 #define kUseNE500PumpKey    @"KNUseNE500Pump"
@@ -194,7 +195,10 @@ char *idString = "Knot Version 2.2";
 
 - (void)awakeFromNib;
 {
-    long c;
+    long c, displayIndex;
+    NSSize stimWindowSize;
+    LLDisplays	*displays;
+    NSRect dRect;
     NSURL *calibrationURL;
 
 	if (initialized) {
@@ -224,9 +228,24 @@ char *idString = "Knot Version 2.2";
 
 	monitorController = [[LLMonitorController alloc] init];
 	
-// Set up the stimulus window.  This needs to be done before setting up the mouseData (below)
- 
-    stimWindow = [[LLStimWindow alloc] init];
+// Set up the stimulus window.  This needs to be done before setting up the mouseData (below).  We need to
+// figure out whether there is a dedicated display or not, because LLStimWindow needs to know this when it
+// initializes itself
+
+    displays = [[LLDisplays alloc] init];
+    displayIndex = [displays numDisplays] - 1;      // use main if only one display, otherwise use the last
+    if (displayIndex >= 0) {                        // nothing to do if there is no display at all
+        dRect = [displays displayBoundsLLOrigin:displayIndex];
+        if (displayIndex == 0) {                    // smaller window if it's the main screen
+            stimWindowSize.width = dRect.size.width / kStimWindowFactor;
+            stimWindowSize.height = dRect.size.height / kStimWindowFactor;
+            dRect = NSMakeRect(dRect.origin.x + dRect.size.width - stimWindowSize.width - 10,
+                                  dRect.origin.y + dRect.size.height - stimWindowSize.height - 55,
+                                  stimWindowSize.width, stimWindowSize.height);
+        }
+        stimWindow = [[LLStimWindow alloc] initWithDisplayIndex:displayIndex contentRect:dRect];
+    }
+    [displays release];
 
 // Set up the eye calibration system and a fixation window
 
