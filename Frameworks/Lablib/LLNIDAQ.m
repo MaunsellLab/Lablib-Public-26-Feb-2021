@@ -22,7 +22,6 @@
 #define kTriggerChanName        @"PFI0"
 #define kWaitTimeS              0.100
 
-
 @implementation LLNIDAQ
 
 - (void)closeShutter;

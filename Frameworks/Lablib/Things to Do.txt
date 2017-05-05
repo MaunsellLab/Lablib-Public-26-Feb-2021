@@ -1,4 +1,7 @@
 
+• Matlab report when it is uncalibrated data (or someone report)
+• NIDAQ need to detect uncalibrated signals and not send them out
+
 170403 Knot
 
 Knot should disable entries in the File Menu when those are disabled in its preferences.
