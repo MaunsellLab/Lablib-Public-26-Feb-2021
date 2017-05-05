@@ -244,8 +244,10 @@ NSString *LLWidthMMKey = @"LL Width MM";
 
 - (void)writeDomain:(NSString *)domainName key:(NSString *)keyName doublePtr:(double *)pValue;
 {
-	CFPreferencesSetValue((CFStringRef)keyName, CFNumberCreate(NULL, kCFNumberDoubleType, pValue),
+    CFNumberRef pNumber = CFNumberCreate(NULL, kCFNumberDoubleType, pValue);
+	CFPreferencesSetValue((CFStringRef)keyName, pNumber,
 		(CFStringRef)domainName, kCFPreferencesCurrentUser, kCFPreferencesCurrentApplication);
+    CFRelease(pNumber);
 }
 
 - (void)writeParameters:(long)index {

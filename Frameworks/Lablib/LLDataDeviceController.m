@@ -184,6 +184,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 // by checking whether the corresponding sampleData or timestampData entry has been initialized.
 // Once the assignment is validated, we can finish initializing it.
 
+#ifndef __clang_analyzer__
 		if ([assign type] == kLLSampleData) {
 			if (sampleData[[assign device]][[assign channel]] != nil) {
 				[self assignToNullDevice:assign];
@@ -202,7 +203,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			timestampData[[assign device]][[assign channel]] = [[NSMutableData alloc] init];
 			[device setTimestampTicksPerMS:assignments[index].timing channel:[assign channel]];
 		}
-
+#endif
 // Save the current settings
 
 		[self writeDefaults:assign];
@@ -233,7 +234,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 
 - (void)assignToNullDevice:(LLDataAssignment *)assign;
 {
-	long channelIndex;
+	long channelIndex = 0;
 	
 	[assign setDevice:0];
 	switch ([assign type]) {
@@ -360,6 +361,9 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 // If this assignment is not grouped data, we can just return the single data entry
 
 	members = [assignments count];
+    if (members == 0) {
+        return nil;
+    }
 	if (members == 1) {
 		[deviceLock lock];
 		assign = [assignments objectAtIndex:0];
@@ -385,14 +389,13 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	for (index = 0, sampleCount = LONG_MAX; index < members; index++) {
 		assign = [assignments objectAtIndex:index];
 		[dataArray addObject:sampleData[[assign device]][[assign channel]]];
-		sampleCount = MIN(sampleCount, 
-					[sampleData[[assign device]][[assign channel]] length] / sizeof(short));
+		sampleCount = MIN(sampleCount, [sampleData[[assign device]][[assign channel]] length] / sizeof(short));
 	}
 	if (sampleCount == 0) {
 		[deviceLock unlock];
 		return nil;
 	}
-	memberData = (short **)malloc(sizeof(Ptr) * members);
+	memberData = (short **)malloc(sizeof(short *) * members);
 	for (index = 0; index < members; index++) {
 		memberData[index] = (short *)[[dataArray objectAtIndex:index] bytes];
 	}

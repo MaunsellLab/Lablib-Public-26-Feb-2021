@@ -241,7 +241,8 @@ typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 
 - (NSString *)dataString {
 
-    char c, buffer[1024];
+    char c = 0;
+    char buffer[1024];
 	
 	[self dataBytes:(Ptr)&c length:1L];					// get length of string
 	[self dataBytes:(Ptr)&buffer length:(long)c];		// get string
@@ -360,7 +361,11 @@ them.
 	long fileEndEventCode = [self eventCodeForEventName:@"fileEnd"];
 	NSString *bundledEventPrefixes[] = {@"sample", @"eye", @"spike", @"timestamp", @"VBL", @"vbl", @"eStimData", nil};
 	NSString *bundledEventStops[] = {@"calibration", @"zero", @"window", @"eyeCal", @"Break", nil};
-	
+
+    if (numEvents == 0) {
+        return nil;
+    }
+
 // We can't do anything if the trial start codes are not defined
 
 	if (trialStartEventCode < 0) {
@@ -705,11 +710,11 @@ them.
 
 - (DataEvent *)readEvent;
 {
-    unsigned char charCode;
-    unsigned short shortCode;
-	unsigned long numBytes;
+    unsigned char charCode = 0;
+    unsigned short shortCode = 0;
+	unsigned long numBytes = 0;
     short index, channel;
-	long eventCode;
+	long eventCode = 0;
 	LLDataEventDef *eventDef;
 
 	if (dataIndex == [fileData length]) {				// at end of file
@@ -785,7 +790,7 @@ them.
 
 // Certain special events cause timebases to be reset or need a relative time
 
-    if ([theEvent.name isEqualToString:@"sampleZero"]) {
+    if ([theEvent.name isEqualToString:@"sampleZero"] && (theEvent.data != nil)) {
 		sampleIntervalMS = *(long *)[theEvent.data bytes];
         for (index = 0; index < kADChannels; index++) {
             lastSampleTime[index] = 0;
@@ -799,18 +804,16 @@ them.
         lastSampleTime[0] += sampleIntervalMS;
         lastSampleTime[1] += sampleIntervalMS;
     }
-    else if ([theEvent.name isEqualToString:@"sample"]) {
+    else if ([theEvent.name isEqualToString:@"sample"] && (theEvent.data != nil)) {
         channel = ((ADData *)[theEvent.data bytes])->channel;
         theEvent.trialTime = lastSampleTime[channel];
         lastSampleTime[channel] += sampleIntervalMS;
     }
-    else if ([theEvent.name isEqualToString:@"spike"]) {
-        theEvent.trialTime = spikeStartTime - trialStartTime + 
-                    ((TimestampData *)[theEvent.data bytes])->time;
+    else if ([theEvent.name isEqualToString:@"spike"] && (theEvent.data != nil)) {
+        theEvent.trialTime = spikeStartTime - trialStartTime + ((TimestampData *)[theEvent.data bytes])->time;
     }
-    else if ([theEvent.name isEqualToString:@"spike0"]) {
-        theEvent.trialTime = spikeStartTime - trialStartTime + 
-                    (*(long *)[theEvent.data bytes]);
+    else if ([theEvent.name isEqualToString:@"spike0"] && (theEvent.data != nil)) {
+        theEvent.trialTime = spikeStartTime - trialStartTime + (*(long *)[theEvent.data bytes]);
     }
 	return &theEvent;
 }
@@ -820,9 +823,9 @@ them.
 
 - (unsigned long)readEventCode;
 {
-    unsigned char charCode;
-    unsigned short shortCode;
-	unsigned long numBytes;
+    unsigned char charCode = 0;
+    unsigned short shortCode = 0;
+	unsigned long numBytes = 0;
 	long eventCode;
 	LLDataEventDef *eventDef;
 

@@ -16,7 +16,7 @@
 	long index, bin, gindex;
 	double *temp;
 	long glength, gHalfDown, gHalfUp;
-	double kernel[kLLFilterMax];
+    double kernel[kLLFilterMax] = {0};
 	double maxbin, sigmaSq;
 	double x, sum;
 	double factor;
@@ -104,8 +104,9 @@
 		gHalfDown = glength / 2;
 		gHalfUp = (glength + 1) / 2;
 		if ((temp = (double *)calloc(bins, sizeof(double))) == NULL) {
-			// ??? Fatal exit
-		}
+            NSLog(@"LLSmoothHist: Failed to alloc memory");
+            exit(0);
+        }
 
 // We need special effort at the start of the histogram so that the smoothing window
 // does not go before the start of the histogram

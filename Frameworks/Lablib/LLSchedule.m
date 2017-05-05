@@ -21,7 +21,7 @@
 
     IMP method;
 
-	if ([super init]) {
+	if ((self = [super init])) {
         target = settings.target;
         selector = settings.selector;
         method = [settings.target methodForSelector:settings.selector];

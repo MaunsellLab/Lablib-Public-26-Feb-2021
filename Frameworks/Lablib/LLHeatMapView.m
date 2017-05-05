@@ -30,6 +30,7 @@
 	[plotValues release];
     [scale release];
     [defaultColors release];
+    [title release];
     [super dealloc];
 }
 

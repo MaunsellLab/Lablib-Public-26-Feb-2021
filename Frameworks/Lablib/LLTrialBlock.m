@@ -112,13 +112,12 @@
 	blocks = count;
 }
 
-
 // Set the number of different trial types in the block
 
 - (void)setTrialCount:(long)count {
 
 	if (count != trialsPerBlock) {
-		trialsPerBlock = MAX(0, count);
+		trialsPerBlock = MAX(1, count);
 		if (trials != nil) {
 			free(trials);
 		}

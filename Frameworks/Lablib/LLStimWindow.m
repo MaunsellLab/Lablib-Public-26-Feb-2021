@@ -64,17 +64,9 @@
 	NSPoint pointDeg;
 	NSSize displayDeg;
 	long heightPix, widthPix;
-//	NSRect bounds;
-	
-//	if (fullscreen) {
-//		bounds = [displays displayBoundsLLOrigin:displayIndex];
-//		heightPix = [displays heightPix:displayIndex];
-//		widthPix = [displays widthPix:displayIndex];
-//	}
-//	else {
+
     heightPix = [[self contentView] bounds].size.height;
     widthPix = [[self contentView] bounds].size.width;
-//	}
 	displayDeg = [displays displaySizeDeg:displayIndex];
 	pointDeg.x = -displayDeg.width / 2.0 - scaleOffsetDeg.x + pointPix.x / widthPix * displayDeg.width;
 	pointDeg.y = -displayDeg.height / 2.0 - scaleOffsetDeg.y + pointPix.y / heightPix * displayDeg.height;
@@ -86,35 +78,26 @@
 	NSSize sizeDeg;
 	NSSize displayDeg;
 	long heightPix, widthPix;
-//	NSRect bounds;
-	
-//	if (fullscreen) {
-////		bounds = [displays displayBoundsLLOrigin:displayIndex];
-//		heightPix = [displays heightPix:displayIndex];
-//		widthPix = [displays widthPix:displayIndex];
-//	}
-//	else {
     heightPix = [[self contentView] bounds].size.height;
     widthPix = [[self contentView] bounds].size.width;
-//	}
 	displayDeg = [displays displaySizeDeg:displayIndex];
 	sizeDeg.width = sizePix.width / widthPix * displayDeg.width;
 	sizeDeg.height = sizePix.height / heightPix * displayDeg.height;
 	return sizeDeg;
 }
 
-- (DisplayParam)display;
-{
-	return display;
-}
+//- (DisplayParam)display;
+//{
+//	return display;
+//}
 
 - (long)displayIndex;
 {
 	return displayIndex;
 }
 
-- (DisplayParam *)displayParameters {
-
+- (DisplayParam *)displayParameters;
+{
 	return &display;
 }
 
@@ -177,10 +160,84 @@
 // by forcing displayIndex to 0 and dragging the window onto a different display. But this should not be possible
 // the way things are currently coded.
 
-- (id)init;
-{	
-	NSRect dRect;
-    NSRect stimRect;
+//- (id)init;
+//{	
+//	NSRect dRect;
+//    NSRect stimRect;
+//    NSSize stimWindowSize;
+//    const GLint swapParam = 1;
+//    NSOpenGLPixelFormatAttribute windowedAttrib[] = {
+//        NSOpenGLPFANoRecovery, NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer,
+//        NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute) 24,
+//        NSOpenGLPFAAlphaSize, (NSOpenGLPixelFormatAttribute) 8,
+//        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
+//        NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
+//        NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
+//        0                       // must be null terminated
+////        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
+//        };
+//    NSOpenGLPixelFormat *fmt;
+//	
+//	openGLLock = [[NSLock alloc] init];
+//	displays = [[LLDisplays alloc] init];
+//	displayIndex = [displays numDisplays] - 1;      // use main if only one display, otherwise use the last
+//    if (displayIndex < 0) {                         // no display
+//		return nil;
+//	}
+//	display = [displays displayParameters:displayIndex];    // get the stimulus display parameters
+//	[openGLLock lock];
+//	switch (displayIndex) {
+//	case 0:										// only one display, create stimulus window on it
+//		dRect = [displays displayBoundsLLOrigin:displayIndex];
+//            stimWindowSize.width = dRect.size.width / kStimWindowFactor;
+//            stimWindowSize.height = dRect.size.height / kStimWindowFactor;
+//		stimRect = NSMakeRect(dRect.origin.x + dRect.size.width - stimWindowSize.width - 10,
+//			dRect.origin.y + dRect.size.height - stimWindowSize.height - 55, 
+//            stimWindowSize.width, stimWindowSize.height);
+//		self = [super initWithContentRect:stimRect 
+//					styleMask:NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
+//					backing:NSBackingStoreBuffered defer:NO];
+//        [self setContentAspectRatio:stimWindowSize];
+//		[self setTitle:@"Stimulus"];
+//		break;
+//	case 1:                                                 // more than one screen, use the second one
+//	default:                                                //   regardless of the number of screens
+//		fullscreen = YES;                                   // flag fullscreen mode
+//		if ([displays setDisplayMode:displayIndex size:CGSizeMake(display.widthPix, display.heightPix) 
+//					bitDepth:display.pixelBits frameRate:display.frameRateHz]) {
+//			[displays dumpCurrentDisplayMode:(int)displayIndex];
+//		}
+//		self = [super initWithContentRect:[displays displayBoundsLLOrigin:displayIndex] styleMask:NSBorderlessWindowMask 
+//                        backing:NSBackingStoreBuffered defer:NO];
+//        [self setLevel:NSMainMenuWindowLevel + 1];          // move window to front of all windows
+//		break;
+//	}
+//    [self setDelegate:self];				// set up to receive delegate messages (for resize)
+//    fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
+//    if (fmt == nil) {
+//        NSLog(@"Cannot create NSOpenGLPixelFormat");
+//        [self autorelease];
+//        return nil;
+//    }
+//    [self setContentView:[[[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, display.widthPix, display.heightPix)
+//                           pixelFormat:fmt] autorelease]];
+//    stimOpenGLContext = [[self contentView] openGLContext];
+//    [stimOpenGLContext makeCurrentContext];
+//    [stimOpenGLContext setValues:&swapParam forParameter:NSOpenGLCPSwapInterval];
+//    [self makeKeyAndOrderFront:nil];
+//	[openGLLock unlock]; 
+//	[self grayScreen];
+//    
+//    monitor = [[LLIntervalMonitor alloc] initWithID:@"Stimulus" description:@"Stimulus frame intervals"];
+//	[monitor setTargetIntervalMS:1000.0 / display.frameRateHz];
+//
+//	return self;
+//}
+//
+
+- (id)initWithDisplayIndex:(long)dIndex contentRect:(NSRect)cRect;
+{
+    NSRect dRect;
     NSSize stimWindowSize;
     const GLint swapParam = 1;
     NSOpenGLPixelFormatAttribute windowedAttrib[] = {
@@ -191,58 +248,44 @@
         NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
         NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
         0                       // must be null terminated
-//        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
-        };
+                                //        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0
+    };
     NSOpenGLPixelFormat *fmt;
-	
-	openGLLock = [[NSLock alloc] init];
-	displays = [[LLDisplays alloc] init];
-	displayIndex = [displays numDisplays] - 1;      // use main if only one display, otherwise use the last
-    if (displayIndex < 0) {                         // no display
-		return nil;
-	}
-	display = [displays displayParameters:displayIndex];    // get the stimulus display parameters
-	[openGLLock lock];
-	switch (displayIndex) {
-	case 0:										// only one display, create stimulus window on it
-		dRect = [displays displayBoundsLLOrigin:displayIndex];
-            stimWindowSize.width = dRect.size.width / kStimWindowFactor;
-            stimWindowSize.height = dRect.size.height / kStimWindowFactor;
-		stimRect = NSMakeRect(dRect.origin.x + dRect.size.width - stimWindowSize.width - 10,
-			dRect.origin.y + dRect.size.height - stimWindowSize.height - 55, 
-            stimWindowSize.width, stimWindowSize.height);
-		self = [super initWithContentRect:stimRect 
-					styleMask: NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
-					backing:NSBackingStoreBuffered defer:NO];
+
+    if (displayIndex < 0) {
+        return nil;
+    }
+    switch (displayIndex) {
+        case 0:										// only one display, create stimulus window on it
+            self = [super initWithContentRect:cRect
+                    styleMask:NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
+                    backing:NSBackingStoreBuffered defer:NO];
+            break;
+        case 1:                                                 // more than one screen, we're using the second one
+        default:                                                //   regardless of the number of screens
+            self = [super initWithContentRect:cRect styleMask:NSBorderlessWindowMask
+                    backing:NSBackingStoreBuffered defer:NO];
+            fullscreen = YES;                                   // flag fullscreen mode
+            [self setLevel:NSMainMenuWindowLevel + 1];          // move window to front of all windows
+            break;
+    }
+    displayIndex = dIndex;
+    openGLLock = [[NSLock alloc] init];
+    displays = [[LLDisplays alloc] init];
+    display = [displays displayParameters:displayIndex];    // get the stimulus display parameters
+    if (fullscreen) {
+        if ([displays setDisplayMode:displayIndex size:CGSizeMake(display.widthPix, display.heightPix)
+                            bitDepth:display.pixelBits frameRate:display.frameRateHz]) {
+            [displays dumpCurrentDisplayMode:(int)displayIndex];
+        }
+    }
+    else {
+        dRect = [displays displayBoundsLLOrigin:displayIndex];
+        stimWindowSize.width = dRect.size.width / kStimWindowFactor;
+        stimWindowSize.height = dRect.size.height / kStimWindowFactor;
         [self setContentAspectRatio:stimWindowSize];
-		[self setTitle:@"Stimulus"];
-//		fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
-//		if (!fmt) {
-//			NSLog(@"Cannot create NSOpenGLPixelFormat");
-//			[openGLLock unlock];
-//			return nil;
-//		}
-//		[self setContentView:[[[NSOpenGLView alloc] 
-//					initWithFrame:NSMakeRect(0, 0, stimRect.size.width, stimRect.size.height) 
-//					pixelFormat:fmt] autorelease]];
-//		stimOpenGLContext = [[self contentView] openGLContext];
-//		[stimOpenGLContext makeCurrentContext];
-//		[stimOpenGLContext setValues:&swapParam forParameter:NSOpenGLCPSwapInterval];
-//		[self setDelegate:self];				// set up to receive delegate messages (for resize)
-//		[self makeKeyAndOrderFront:nil];
-		break;
-	case 1:                                                 // more than one screen, use the second one
-	default:                                                //   regardless of the number of screens
-		fullscreen = YES;                                   // flag fullscreen mode
-		if ([displays setDisplayMode:displayIndex size:CGSizeMake(display.widthPix, display.heightPix) 
-					bitDepth:display.pixelBits frameRate:display.frameRateHz]) {
-			[displays dumpCurrentDisplayMode:(int)displayIndex];
-		}
-		self = [super initWithContentRect:[displays displayBoundsLLOrigin:displayIndex] styleMask:NSBorderlessWindowMask 
-                        backing:NSBackingStoreBuffered defer:NO];
-        [self setLevel:NSMainMenuWindowLevel + 1];          // move window to front of all windows
-		break;
-	}
+        [self setTitle:NSLocalizedString(@"Stimulus", @"Stimulus Window Title")];
+    }
     [self setDelegate:self];				// set up to receive delegate messages (for resize)
     fmt = [[[NSOpenGLPixelFormat alloc] initWithAttributes:windowedAttrib] autorelease];
     if (fmt == nil) {
@@ -251,19 +294,19 @@
         return nil;
     }
     [self setContentView:[[[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, display.widthPix, display.heightPix)
-                           pixelFormat:fmt] autorelease]];
+                                                  pixelFormat:fmt] autorelease]];
     stimOpenGLContext = [[self contentView] openGLContext];
     [stimOpenGLContext makeCurrentContext];
     [stimOpenGLContext setValues:&swapParam forParameter:NSOpenGLCPSwapInterval];
     [self makeKeyAndOrderFront:nil];
-	[openGLLock unlock]; 
-	[self grayScreen];
+    [self grayScreen];
     
     monitor = [[LLIntervalMonitor alloc] initWithID:@"Stimulus" description:@"Stimulus frame intervals"];
-	[monitor setTargetIntervalMS:1000.0 / display.frameRateHz];
-
-	return self;
+    [monitor setTargetIntervalMS:1000.0 / display.frameRateHz];
+    
+    return self;
 }
+
 
 - (LLIntervalMonitor *)monitor;
 {

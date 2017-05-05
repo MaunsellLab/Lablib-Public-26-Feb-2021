@@ -64,7 +64,7 @@
 
 - (LLStateSystemController *)initWithStartState:(LLState *)start stopState:(LLState *)stop;
 {
-	if ([super init]) {
+	if ((self = [super init]) != nil) {
         startState = start;
         stopState = stop;
         currentState = nil;

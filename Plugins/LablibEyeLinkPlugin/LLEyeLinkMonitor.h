@@ -27,8 +27,6 @@ typedef struct {
 	NSString					*descriptionString;				// First line in report
 	NSString					*IDString;						// Short string for menu entry
 	EyeLinkMonitorValues 		previous;
-	double						samplePeriodMS;
-	double						sequenceStartTimeMS;			// start of current sequence
 	LLEyeLinkMonitorSettings	*settings;
 }
 

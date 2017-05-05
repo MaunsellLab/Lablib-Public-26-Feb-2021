@@ -3,7 +3,7 @@
 //  Lablib
 //
 //  Created by John Maunsell on Sun Jul 04 2004.
-//  Copyright (c) 2004. All rights reserved.
+//  Copyright (c) 2017. All rights reserved.
 //
 
 #import "LLDataDoc.h"

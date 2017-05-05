@@ -10,7 +10,6 @@
 
 @private
     NSSize				baseMaxContentSize;
-    long				blockLimit;
     long 				eotCode;
     NSDictionary		*fontAttr;
     NSDictionary		*labelFontAttr;

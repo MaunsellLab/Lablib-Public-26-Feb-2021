@@ -25,6 +25,7 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
     LLMatlabEngine          *matlabEngine;
 	LLMouseDataDevice		*mouseDataDevice;
 	LLMonitorController		*monitorController;
+    LLNIDAQ                 *nidaq;
 	LLPluginController		*pluginController;
     LLNE500Pump             *rewardPump;
 	LLSettingsController	*settingsController;
@@ -33,6 +34,9 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
     KNSummaryController		*summaryController;
 	LLSynthDataDevice		*synthDataDevice;
 	
+    IBOutlet NSTextField    *calibration0Text;
+    IBOutlet NSTextField    *calibration1Text;
+    IBOutlet NSWindow       *preferencesDialog;
 	IBOutlet NSMenuItem		*recordDontRecordMenuItem;		// Menu item for recording or not
 	IBOutlet NSMenu			*taskMenu;
     IBOutlet NSPopUpButton  *soundTypeMenu;
@@ -46,6 +50,9 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
 
 - (IBAction)changeDataSource:(id)sender;
 - (IBAction)changeSettings:(id)sender;
+- (IBAction)doAO0CalibrationBrowse:(id)sender;
+- (IBAction)doAO1CalibrationBrowse:(id)sender;
+- (void)doCalibrationBrowseForChannel:(long)channel;
 - (IBAction)doPluginController:(id)sender;
 - (IBAction)doTaskMenu:(id)sender;
 - (IBAction)recordDontRecord:(id)sender;

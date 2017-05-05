@@ -153,7 +153,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 
 - (id)initWithSocket:(LLSockets *)theSocket;
 {
-    if ([super init] != nil) {
+    if ((self = [super init]) != nil) {
         socket = theSocket;
         [socket retain];
         channelNames = [[NSMutableArray alloc] init];
@@ -225,6 +225,17 @@ static long nextTaskID = 0;         // class variable to persist across all inst
         retries--;
     }
     return NO;                                  // regardless of recreating the task, the current command failed
+}
+
+- (BOOL)setMaxVolts:(float)maxV minVolts:(float)minV forChannelName:(NSString *)channelName;
+{
+    NSMutableDictionary *dict;
+
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"setChannelMaxMin", @"command", taskName, @"taskName",
+            channelName, @"channelName", [NSNumber numberWithFloat:maxV], @"maxVolts",
+            [NSNumber numberWithFloat:minV], @"minVolts",
+            nil];
+    return [self sendDictionary:dict];
 }
 
 - (BOOL)start;

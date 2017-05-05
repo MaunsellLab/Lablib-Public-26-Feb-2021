@@ -53,49 +53,50 @@ struct screenMode {
     size_t bitsPerPixel;
 };
 
-- (CGDisplayModeRef)bestMatchForMode:(DisplayParam *)pDP forDisplayID:(CGDirectDisplayID)displayID;
-{    
-    long index;
-    CGDisplayModeRef mode = NULL;
-    float bestDifference = FLT_MAX;
-    
-// Get a copy of the current display mode
-    
-	CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(displayID);
-    
-// Loop through all display modes to determine the closest match.
-// CGDisplayBestModeForParameters is deprecated on 10.6 so we will emulate it's behavior
-// Try to find a mode with the requested depth and equal or greater dimensions first.
-// If no match is found, try to find a mode with greater depth and same or greater dimensions.
-// If still no match is found, just use the current mode.
-
-    CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
-    for (index = 0; index < CFArrayGetCount(allModes); index++)	{
-		mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
-		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
-			continue;
-        }
-		if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
-            if (CGDisplayModeGetRefreshRate(mode) == pDP->frameRateHz) {
-                displayMode = mode;
-                break;
-            }
-            else {
-                if (fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz) < bestDifference) {
-                    bestDifference = fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz);
-                    displayMode = mode;
-                }
-            }
-		}
-	}
-    if (displayMode == NULL) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
-                 [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
-                 pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
-		exit(0);
-    }
-    return displayMode;
-}
+//- (CGDisplayModeRef)bestMatchForMode:(DisplayParam *)pDP forDisplayID:(CGDirectDisplayID)displayID;
+//{    
+//    long index;
+//    CGDisplayModeRef mode = NULL;
+//    float bestDifference = FLT_MAX;
+//    
+//// Get a copy of the current display mode
+//    
+//	CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(displayID);
+//    
+//// Loop through all display modes to determine the closest match.
+//// CGDisplayBestModeForParameters is deprecated on 10.6 so we will emulate it's behavior
+//// Try to find a mode with the requested depth and equal or greater dimensions first.
+//// If no match is found, try to find a mode with greater depth and same or greater dimensions.
+//// If still no match is found, just use the current mode.
+//
+//    CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
+//    for (index = 0; index < CFArrayGetCount(allModes); index++)	{
+//		mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
+//		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
+//			continue;
+//        }
+//		if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
+//            if (CGDisplayModeGetRefreshRate(mode) == pDP->frameRateHz) {
+//                displayMode = mode;
+//                break;
+//            }
+//            else {
+//                if (fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz) < bestDifference) {
+//                    bestDifference = fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz);
+//                    displayMode = mode;
+//                }
+//            }
+//		}
+//	}
+//    CFRelease(allModes);
+//    if (displayMode == NULL) {
+//        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
+//                 [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
+//                 pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
+//		exit(0);
+//    }
+//    return displayMode;
+//}
 
 // CGDisplayModeCopyPixelEncoding was deprecated in 10.11,with not alternative listed for finding the pixel depth
 // for displays.  I found the following methods to pull up a dictionary that contains display parameters.  This
@@ -205,10 +206,14 @@ struct screenMode {
 	[self updatePhysicalParam:[displayPhysical displayParameters:displayIndex] displayIndex:displayIndex];
 }
 
-- (void)dumpCurrentDisplayMode:(CGDisplayCount)displayIndex {
+- (void)dumpCurrentDisplayMode:(CGDisplayCount)displayIndex;
+{
+    CGDisplayModeRef theRef;
 
     if (displayIndex < numDisplays) {
-		[self dumpDisplayModeValues:CGDisplayCopyDisplayMode(displayIDs[displayIndex])];
+        theRef = CGDisplayCopyDisplayMode(displayIDs[displayIndex]);
+		[self dumpDisplayModeValues:theRef];
+        CFRelease(theRef);
     }
 }
 
@@ -224,6 +229,7 @@ struct screenMode {
 		for (index = 0; index < modes; index++) {
 			[self dumpDisplayModeValues:(CGDisplayModeRef)CFArrayGetValueAtIndex(display_modes, index)];
 		}
+        CFRelease(display_modes);
     }
 }
 
@@ -312,12 +318,12 @@ struct screenMode {
 // Some display parameters are values that the controller determines, such
 // as frame rate and pixel width.  These are read from the hardware.
 
-//    displayModeDict = CGDisplayCurrentMode(displayID);
     displayMode = CGDisplayCopyDisplayMode(displayID);
     pDP->widthPix = CGDisplayModeGetWidth(displayMode);
     pDP->heightPix = CGDisplayModeGetHeight(displayMode);
     pDP->frameRateHz = CGDisplayModeGetRefreshRate(displayMode);
     pDP->pixelBits = [self bitsPerPixelForMode:displayMode];
+    CFRelease(displayMode);
 	if (pDP->frameRateHz <= 0.0) {
 		pDP->frameRateHz = 60.0;
 		NSLog(@"Device for displayIndex %ld not reporting frame rate. Assuming 60 Hz", displayIndex);
@@ -388,9 +394,14 @@ struct screenMode {
 
 - (BOOL)setDisplayMode:(long)displayIndex size:(CGSize)size bitDepth:(size_t)pixelBits frameRate:(CGRefreshRate)hz;
 {				
+    long index;
+    CGDisplayModeRef mode = NULL;
+    float bestDifference = FLT_MAX;
     CGError status;
-    CGDisplayModeRef modeRef;
-    DisplayParam dp;
+//    CGDisplayModeRef modeRef;
+    CGDirectDisplayID displayID;
+    CGDisplayModeRef displayMode;
+    DisplayParam dp, *pDP;
 
     if (displayIndex >= numDisplays) {
         return NO;
@@ -399,8 +410,55 @@ struct screenMode {
     dp.heightPix = size.height;
     dp.frameRateHz = hz;
     dp.pixelBits = pixelBits;
-    modeRef = [self bestMatchForMode:&dp forDisplayID:displayIDs[displayIndex]];
-    status = CGDisplaySetDisplayMode(displayIDs[displayIndex], modeRef, NULL);
+
+    // find the best match for the requested mode
+
+//    modeRef = [self bestMatchForMode:&dp forDisplayID:displayIDs[displayIndex]];
+    pDP = &dp;
+    displayID = displayIDs[displayIndex];
+
+    // Get a copy of the current display mode
+
+    displayMode = CGDisplayCopyDisplayMode(displayID);
+
+    // Loop through all display modes to determine the closest match.
+    // CGDisplayBestModeForParameters is deprecated on 10.6 so we will emulate it's behavior
+    // Try to find a mode with the requested depth and equal or greater dimensions first.
+    // If no match is found, try to find a mode with greater depth and same or greater dimensions.
+    // If still no match is found, just use the current mode.
+
+    CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
+    for (index = 0; index < CFArrayGetCount(allModes); index++)	{
+        mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
+        if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
+            continue;
+        }
+        if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
+            if (CGDisplayModeGetRefreshRate(mode) == pDP->frameRateHz) {
+                CFRelease(displayMode);
+                displayMode = mode;
+                CFRetain(displayMode);
+                break;
+            }
+            else {
+                if (fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz) < bestDifference) {
+                    bestDifference = fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz);
+                    CFRelease(displayMode);
+                    displayMode = mode;
+                    CFRetain(displayMode);
+                }
+            }
+        }
+    }
+    CFRelease(allModes);
+    if (displayMode == NULL) {
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
+         [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
+          pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
+        exit(0);
+    }
+    status = CGDisplaySetDisplayMode(displayIDs[displayIndex], displayMode, NULL);
+    CFRelease(displayMode);
 	[self loadDisplayParameters:displayIndex];
     return (status == CGDisplayNoErr);
 }

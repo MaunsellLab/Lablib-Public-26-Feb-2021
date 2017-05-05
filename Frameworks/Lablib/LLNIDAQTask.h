@@ -40,6 +40,7 @@ typedef uint32_t *NIDAQTask;
 - (id)initWithSocket:(LLSockets *)theSocket;
 - (BOOL)isDone;
 - (BOOL)sendDictionary:(NSMutableDictionary *)dict;
+- (BOOL)setMaxVolts:(float)maxV minVolts:(float)minV forChannelName:(NSString *)channelName;
 - (BOOL)start;
 - (BOOL)stop;
 - (BOOL)waitUntilDone:(float)timeoutS;

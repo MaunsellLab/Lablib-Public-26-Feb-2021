@@ -17,17 +17,17 @@
 
 char *idString = "Knot Version 2.2";
 
-#define kUseEyeLinkKey       @"KNUseEyeLink"
+#define kActiveTaskName     @"KNActiveTaskName"
+#define kAO0Calibration     @"KNAO0Calibration"
+#define kAO1Calibration     @"KNAO1Calibration"
+#define kDoDataDirectory    @"KNDoDataDirectory"
+#define kPreviousTaskName   @"KNPreviousTaskName"
+#define kStimWindowFactor   5
+#define kUseEyeLinkKey      @"KNUseEyeLink"
 #define kUseMatlabKey       @"KNUseMatlab"
 #define kUseNE500PumpKey    @"KNUseNE500Pump"
 #define kUseSocketKey       @"KNUseSocket"
-
-// Preferences dialog
-
-NSString *KNActiveTaskNameKey = @"KNActiveTaskName";
-NSString *KNDoDataDirectoryKey = @"KNDoDataDirectory";
-NSString *KNPreviousTaskNameKey = @"KNPreviousTaskName";
-NSString *KNWritingDataFileKey = @"KNWritingDataFile";
+#define kWritingDataFile    @"KNWritingDataFile"
 
 
 @implementation KNAppController
@@ -69,7 +69,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		[stimWindow setDisplayMode:[currentTask requestedDisplayMode]];
 		[currentTask activate];
 		[self postDataParamEvents];
-		[defaults setObject:[currentTask name] forKey:KNActiveTaskNameKey];
+		[defaults setObject:[currentTask name] forKey:kActiveTaskName];
 	}
 }
 
@@ -96,7 +96,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
 {
 	long choice;
-	BOOL writingDataFile = [defaults boolForKey:KNWritingDataFileKey];
+	BOOL writingDataFile = [defaults boolForKey:kWritingDataFile];
     NSAlert *theAlert;
     NSString *message;
 		
@@ -120,10 +120,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
         message = @"Task is running.  Stop and quit?";
 	}
     theAlert = [[NSAlert alloc] init];
-    [theAlert setMessageText:@"Knot"];
-    [theAlert addButtonWithTitle:@"OK"];
-    [theAlert addButtonWithTitle:@"Cancel"];
-    [theAlert setInformativeText:message];
+    [theAlert setMessageText:NSLocalizedString(@"Knot", @"Knot")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel")];
+    [theAlert setInformativeText:NSLocalizedString(message, nil)];
 	choice = [theAlert runModal];
     [theAlert release];
 	if (choice == NSAlertFirstButtonReturn) {
@@ -151,9 +151,9 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 // We've already check it was ok to close open file in -applicationShouldTerminate
 
-	if ([defaults boolForKey:KNWritingDataFileKey]) {	
+	if ([defaults boolForKey:kWritingDataFile]) {	
 		[dataDoc closeDataFile];
-		[defaults setBool:NO forKey:KNWritingDataFileKey];
+		[defaults setBool:NO forKey:kWritingDataFile];
 	}
     [dataDoc removeObserver:summaryController];
 
@@ -166,6 +166,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
         argDict = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:YES], @"exitFlag", nil];
         [socket writeDictionary:argDict];
     }
+    [nidaq release];
     [socket close];
     [socket release];
     [rewardPump close];
@@ -194,6 +195,12 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void)awakeFromNib;
 {
+    long c, displayIndex;
+    NSSize stimWindowSize;
+    LLDisplays	*displays;
+    NSRect dRect;
+    NSURL *calibrationURL;
+
 	if (initialized) {
 		return;
 	}
@@ -206,6 +213,13 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseSocketKey]) {
         socket = [[LLSockets alloc] init];
     }
+
+    nidaq = [[LLNIDAQ alloc] initWithSocket:socket];
+    for (c = 0; c < kAOChannels; c++) {
+        calibrationURL = [NSURL fileURLWithPath:[defaults stringForKey:
+                            [NSString stringWithFormat:@"KNAO%ldCalibration", c]]];
+        [self loadNidaqCalibration:c url:calibrationURL];
+    }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseNE500PumpKey]) {
         rewardPump = [[LLNE500Pump alloc] init];
     }
@@ -214,9 +228,24 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 	monitorController = [[LLMonitorController alloc] init];
 	
-// Set up the stimulus window.  This needs to be done before setting up the mouseData (below)
- 
-    stimWindow = [[LLStimWindow alloc] init];
+// Set up the stimulus window.  This needs to be done before setting up the mouseData (below).  We need to
+// figure out whether there is a dedicated display or not, because LLStimWindow needs to know this when it
+// initializes itself
+
+    displays = [[LLDisplays alloc] init];
+    displayIndex = [displays numDisplays] - 1;      // use main if only one display, otherwise use the last
+    if (displayIndex >= 0) {                        // nothing to do if there is no display at all
+        dRect = [displays displayBoundsLLOrigin:displayIndex];
+        if (displayIndex == 0) {                    // smaller window if it's the main screen
+            stimWindowSize.width = dRect.size.width / kStimWindowFactor;
+            stimWindowSize.height = dRect.size.height / kStimWindowFactor;
+            dRect = NSMakeRect(dRect.origin.x + dRect.size.width - stimWindowSize.width - 10,
+                                  dRect.origin.y + dRect.size.height - stimWindowSize.height - 55,
+                                  stimWindowSize.width, stimWindowSize.height);
+        }
+        stimWindow = [[LLStimWindow alloc] initWithDisplayIndex:displayIndex contentRect:dRect];
+    }
+    [displays release];
 
 // Set up the eye calibration system and a fixation window
 
@@ -275,7 +304,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		}
 	}
 	else {
-		activeTaskName = [defaults stringForKey:KNActiveTaskNameKey];
+		activeTaskName = [defaults stringForKey:kActiveTaskName];
 		for (index = 0; index < [taskPlugIns count]; index++) {
 			task = [taskPlugIns objectAtIndex:index];
 			if (![task initialized]) {
@@ -287,7 +316,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 				[task setEyeCalibrator:eyeCalibration];
                 [task setMatlabEngine:matlabEngine];
 				[task setMonitorController:monitorController];
-                [task setSocket:socket];
+                [task setNidaq:nidaq];
                 [task setRewardPump:rewardPump];
 				[task setStimWindow:stimWindow];
 				[task initializationDidFinish];
@@ -308,7 +337,8 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 		currentTask = [taskPlugIns objectAtIndex:0];
 	}
 	[taskMenu addItem:[NSMenuItem separatorItem]];
-	[taskMenu addItemWithTitle:@"Previous Task" action:@selector(doPreviousTask:) keyEquivalent:@"0"];
+	[taskMenu addItemWithTitle:NSLocalizedString(@"Previous Task", nil)
+                                                    action:@selector(doPreviousTask:) keyEquivalent:@"0"];
 }
 
 // Deactivate the current LLTaskPlugin, closing any windows that it left open
@@ -323,7 +353,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	if (currentTask != nil) {
 		[[taskMenu itemWithTitle:[currentTask name]] setState:NSOffState];
 		[currentTask deactivate:self];
-		[defaults setObject:[currentTask name] forKey:KNPreviousTaskNameKey];
+		[defaults setObject:[currentTask name] forKey:kPreviousTaskName];
 		[dataDeviceController removeAllAssignments];
 		[dataDoc clearEventDefinitions];
 		[stimWindow lock];
@@ -362,10 +392,33 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 - (void) dealloc;
 {
-    NSLog(@"Knot dealloc");
     [defaults release];
 	[super dealloc];
     NSLog(@"Knot dealloc is done");
+}
+
+- (IBAction)doAO0CalibrationBrowse:(id)sender;
+{
+    [self doCalibrationBrowseForChannel:0];
+}
+
+- (IBAction)doAO1CalibrationBrowse:(id)sender;
+{
+    [self doCalibrationBrowseForChannel:1];
+}
+
+- (void)doCalibrationBrowseForChannel:(long)channel;
+{
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setMessage:[NSString stringWithFormat:@"Select the AO%ld calibration file.", channel]];
+    [panel setDirectoryURL:[NSURL URLWithString:@"file:///Library/Application%20Support/Knot/Calibrations/"]];
+    [panel beginSheetModalForWindow:preferencesDialog completionHandler:^(NSInteger result) {
+        if (result == NSFileHandlingPanelOKButton) {
+            NSArray *urls = [panel URLs];
+            [self loadNidaqCalibration:channel url:[urls objectAtIndex:0]];
+        }
+    }];
+
 }
 
 - (IBAction)doPluginController:(id)sender;
@@ -383,10 +436,10 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 	NSArray *taskPlugins;
 	NSEnumerator *enumerator;
 	
-	if ([defaults boolForKey:KNWritingDataFileKey] || ([currentTask mode] != kTaskIdle)) {
+	if ([defaults boolForKey:kWritingDataFile] || ([currentTask mode] != kTaskIdle)) {
 		return;
 	}
-	taskName = [defaults objectForKey:KNPreviousTaskNameKey];
+	taskName = [defaults objectForKey:kPreviousTaskName];
 	if (taskName == nil || [[currentTask name] isEqualToString:taskName]) {
 		return;
 	}
@@ -509,6 +562,29 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
     }
 }
 
+- (void)loadNidaqCalibration:(long)channel url:(NSURL *)calibrationURL;
+{
+    NSAttributedString *aString;
+    NSTextField *fields[kAOChannels] = {calibration0Text, calibration1Text};
+
+    if ([nidaq loadCalibration:channel url:calibrationURL]) {
+        aString = [[NSAttributedString alloc]
+                initWithString:[NSString stringWithFormat:@"AO%ld Calibration File: %@",
+                channel, [[calibrationURL lastPathComponent] stringByDeletingPathExtension]]
+                attributes:[NSDictionary dictionaryWithObject:[NSColor blackColor]
+                forKey:NSForegroundColorAttributeName]];
+    }
+    else {
+        aString = [[NSAttributedString alloc]
+                   initWithString:[NSString stringWithFormat:
+                   @"AO%ld Calibration: Failed to find file", channel]
+                   attributes:[NSDictionary dictionaryWithObject:[NSColor redColor]
+                   forKey:NSForegroundColorAttributeName]];
+    }
+    [fields[channel] setAttributedStringValue:aString];
+    [aString release];
+}
+
 - (void)postDataParamEvents;
 {
 	DataParam dataParam;
@@ -532,11 +608,11 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 
 // Start recording
 
-	if (![defaults boolForKey:KNWritingDataFileKey]) {
-		[dataDoc setUseDefaultDataDirectory:[defaults boolForKey:KNDoDataDirectoryKey]];
+	if (![defaults boolForKey:kWritingDataFile]) {
+		[dataDoc setUseDefaultDataDirectory:[defaults boolForKey:kDoDataDirectory]];
 		[dataDeviceController setDataEnabled:[NSNumber numberWithBool:NO]];
 		if ([dataDoc createDataFile]) {
-			[defaults setBool:YES forKey:KNWritingDataFileKey];
+			[defaults setBool:YES forKey:kWritingDataFile];
 			if ([dataDoc eventNamed:@"text"]) {
 				[dataDoc putEvent:@"text" withData:idString lengthBytes:strlen(idString)];
 				pluginName = [[currentTask name] UTF8String];
@@ -547,16 +623,16 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 			}
 			[self postDataParamEvents];
 			[currentTask setWritingDataFile:YES];
-			[recordDontRecordMenuItem setTitle:@"Stop Recording Data"];
+			[recordDontRecordMenuItem setTitle:NSLocalizedString(@"Stop Recording Data", nil)];
 			[recordDontRecordMenuItem setKeyEquivalent:@"W"];   // NB: Implies command-shift-w
 		}
 		[settingsController synchronize];						// save our current settings
 	}
 	else {														// stop recording
-		[defaults setBool:NO forKey:KNWritingDataFileKey];
+		[defaults setBool:NO forKey:kWritingDataFile];
 		[currentTask setWritingDataFile:NO];
 		[dataDoc closeDataFile];
-		[recordDontRecordMenuItem setTitle:@"Record Data To File"];
+		[recordDontRecordMenuItem setTitle:NSLocalizedString(@"Record Data To File", nil)];
 		[recordDontRecordMenuItem setKeyEquivalent:@"s"];		// NB: Implies command-s (no shift)
 	}
 }
@@ -630,7 +706,7 @@ NSString *KNWritingDataFileKey = @"KNWritingDataFile";
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 {
 	SEL action = [menuItem action];
-	BOOL writingDataFile = [defaults boolForKey:KNWritingDataFileKey];
+	BOOL writingDataFile = [defaults boolForKey:kWritingDataFile];
 	
 	if (action == @selector(changeDataSource:)) {		// Data source
 		return (!writingDataFile && ([currentTask mode] == kTaskIdle));

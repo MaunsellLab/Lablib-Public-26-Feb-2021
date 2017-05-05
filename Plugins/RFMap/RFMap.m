@@ -139,13 +139,13 @@ LLTaskPlugIn	*task = nil;
 {
 	if (actionsMenuItem == nil) {
 		actionsMenuItem = [[NSMenuItem alloc] init]; 
-		[actionsMenu setTitle:@"Actions"];
+		[actionsMenu setTitle:NSLocalizedString(@"Actions", @"Action Menu Title")];
 		[actionsMenuItem setSubmenu:actionsMenu];
 		[actionsMenuItem setEnabled:YES];
 	}
 	if (settingsMenuItem == nil) {
 		settingsMenuItem = [[NSMenuItem alloc] init]; 
-		[settingsMenu setTitle:@"Settings"];
+		[settingsMenu setTitle:NSLocalizedString(@"Settings", @"Settings Menu Title")];
 		[settingsMenuItem setSubmenu:settingsMenu];
 		[settingsMenuItem setEnabled:YES];
 	}
@@ -243,6 +243,7 @@ LLTaskPlugIn	*task = nil;
 
 	switch ([defaults boolForKey:RFDisplayUnitsKey]) {
 	case kAzimuthElevation:
+        default:
 		displayString = [NSString stringWithFormat:@"Azimuth: %5.1f\nElevation: %5.1f",
 							stimCenterDeg.x, stimCenterDeg.y];
 		break;
@@ -431,7 +432,7 @@ LLTaskPlugIn	*task = nil;
 	controlPanel = [[LLControlPanel alloc] init];
 	[[controlPanel window] setFrameUsingName:@"RFControlPanel"];
 	[controlPanel setWindowFrameAutosaveName:@"RFControlPanel"];
-	[[controlPanel window] setTitle:@"RFMap"];
+	[[controlPanel window] setTitle:NSLocalizedString(@"RFMap", nil)];
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 		selector:@selector(doControls:) name:nil object:controlPanel];
 

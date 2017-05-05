@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "labjackusb.h"
+#include "LabJackUSB.h"
 
 
 typedef unsigned char uint8;

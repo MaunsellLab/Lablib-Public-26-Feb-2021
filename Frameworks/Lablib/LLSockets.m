@@ -221,13 +221,12 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     NSInteger lengthBytes;
     NSMutableData *JSONData = nil;
     NSError *error;
-    uint32_t bytesToRead;
+    uint32_t bytesToRead = 0;
     uint8_t *pBytes = (uint8_t *)&bytesToRead;
 
     switch (eventCode) {
         case NSStreamEventHasBytesAvailable:
             if (stream == inputStream) {
-                lengthBytes = 0;
                 JSONData = [[NSMutableData alloc] init];
                 while ([inputStream hasBytesAvailable]) {
                     lengthBytes = [(NSInputStream *)stream read:readBuffer maxLength:kReadBufferSize];
@@ -421,7 +420,6 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     }
     [self closeStreams];
     [responseDict autorelease];
-    endTime = [LLSystemUtil getTimeS];
     return responseDict;
 }
 

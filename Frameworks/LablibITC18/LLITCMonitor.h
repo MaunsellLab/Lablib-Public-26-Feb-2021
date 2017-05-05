@@ -32,8 +32,6 @@ typedef struct {
 	NSString 				*descriptionString;				// First line in report
 	NSString 				*IDString;						// Short string for menu entry
 	ITCMonitorValues 		previous;
-	double					samplePeriodMS;
-	double 					sequenceStartTimeMS;			// start of current sequence
 	LLITCMonitorSettings	*settings;
 }
 

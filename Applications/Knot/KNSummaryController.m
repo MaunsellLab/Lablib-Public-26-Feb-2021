@@ -194,7 +194,7 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
             string = @"???";
             break;
     }
-	return [[[NSAttributedString alloc] initWithString:string attributes:attr] autorelease];
+	return [[[NSAttributedString alloc] initWithString:NSLocalizedString(string, nil) attributes:attr] autorelease];
 }
 
 - (void) positionZoomButton {

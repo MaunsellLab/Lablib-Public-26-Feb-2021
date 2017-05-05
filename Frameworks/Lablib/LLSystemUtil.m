@@ -76,7 +76,7 @@ extern void CGSDeferredUpdates(int);
 
 + (NSString *)formattedDateString:(NSDate *)date format:(NSString *)format;
 {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
     
     [formatter setDateFormat:format];
     return [formatter stringFromDate:date];

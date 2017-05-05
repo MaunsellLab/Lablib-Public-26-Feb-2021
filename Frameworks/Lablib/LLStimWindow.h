@@ -29,7 +29,6 @@
 - (NSPoint)centerPointPixLLOrigin;
 - (NSPoint)degPointFromPixPoint:(NSPoint)pointPix;
 - (NSSize)degSizeFromPixSize:(NSSize)sizePix;
-- (DisplayParam)display;
 - (long)displayIndex;
 - (DisplayParam *)displayParameters;
 - (NSRect)displayRectDeg;
@@ -40,6 +39,7 @@
 - (float)frameRateHz;
 - (BOOL)fullscreen;
 - (void)grayScreen;
+- (id)initWithDisplayIndex:(long)displayIndex contentRect:(NSRect)cRect;
 - (void)lock;
 - (LLIntervalMonitor *)monitor;
 - (BOOL)mouseInside;

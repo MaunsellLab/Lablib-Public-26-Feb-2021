@@ -94,9 +94,9 @@ NSString *standardKey = @"LLMonitorTarget";
     theAlert = [[NSAlert alloc] init];
     [theAlert setMessageText:[NSString stringWithFormat:@"LLIntervalMonitor (%@)", [self IDString]]];
     [theAlert setInformativeText:message];
-    [theAlert addButtonWithTitle:@"OK"];
-    [theAlert addButtonWithTitle:@"Disarm Alarms"];
-    [theAlert addButtonWithTitle:@"Change Settings"];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"OK", @"Common OK")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"Disarm Alarms", @"Disarm Hardware Alarm")];
+    [theAlert addButtonWithTitle:NSLocalizedString(@"Change Settings", @"Change Alarm Settings")];
 	switch ([theAlert runModal]) {
 	case NSAlertSecondButtonReturn:						// disarm alarms
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDisarmKey]];
