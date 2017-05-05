@@ -252,10 +252,10 @@
     };
     NSOpenGLPixelFormat *fmt;
 
-    if (displayIndex < 0) {
+    if (dIndex < 0) {
         return nil;
     }
-    switch (displayIndex) {
+    switch (dIndex) {
         case 0:										// only one display, create stimulus window on it
             self = [super initWithContentRect:cRect
                     styleMask:NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
@@ -269,7 +269,7 @@
             [self setLevel:NSMainMenuWindowLevel + 1];          // move window to front of all windows
             break;
     }
-    displayIndex = dIndex;
+    displayIndex = dIndex;                          // with self initialized, we can now use instance variables
     openGLLock = [[NSLock alloc] init];
     displays = [[LLDisplays alloc] init];
     display = [displays displayParameters:displayIndex];    // get the stimulus display parameters
