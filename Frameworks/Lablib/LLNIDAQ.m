@@ -147,38 +147,39 @@
                    duration1MS:(long)dur1MS delay1MS:(long)delay1MS digitalTrigger:(BOOL)digitalTrigger;
 {
     long sample;
-    long numSamples, pulse0Samples, delay1Samples, pulse1Samples;
+    long numChannelSamples, numTrainSamples, pulse0Samples, delay1Samples, pulse1Samples;
     Float64 off0V, off1V, pulse0V, pulse1V, *train, *pTrain;
 
     pulse0Samples = dur0MS * kSamplesPerMS;
     pulse1Samples = dur1MS * kSamplesPerMS;
     delay1Samples = delay1MS * kSamplesPerMS;
-    numSamples = MAX(pulse0Samples, pulse1Samples + delay1Samples) + kActiveChannels;
-    train = malloc(numSamples * sizeof(Float64) * kActiveChannels);
+    numChannelSamples = MAX(pulse0Samples, pulse1Samples + delay1Samples) + 1;
+    numTrainSamples = numChannelSamples * kActiveChannels;
+    train = malloc(numTrainSamples * sizeof(Float64));
     pulse0V = [calibrator[0] voltageForMW:pulse0MW];
     pulse1V = [calibrator[1] voltageForMW:pulse1MW];
     off0V = [calibrator[0] voltageForMW:[calibrator[0] minimumMW]];
     off1V = [calibrator[1] voltageForMW:[calibrator[1] minimumMW]];
 
-    for (sample = 0, pTrain = train; sample < numSamples - kActiveChannels; sample++) {
+    for (sample = 0, pTrain = train; sample < numChannelSamples - 1; sample++) {
         *pTrain++ = (sample < delay1Samples) ? off1V : ((sample < delay1Samples + pulse1Samples) ? pulse1V : off1V);
         *pTrain++ = (sample < pulse0Samples) ? pulse0V : off0V;
     }
-    for ( ; sample < numSamples; sample++) {
+    for ( ; sample < numChannelSamples; sample++) {
         *pTrain++ = off1V;
         *pTrain++ = off0V;
     }
 
     [analogOutput stop];                                    // task must be stopped before re-arming
     [analogOutput alterState:@"unreserve"];                // must unreserve in case it was never started
-    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:numSamples];
+    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:numChannelSamples];
     if (digitalTrigger) {
         [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
     }
     else {
         [analogOutput configureTriggerDisableStart];
     }
-    [analogOutput writeSamples:train numSamples:(numSamples * kActiveChannels) autoStart:NO timeoutS:-1];
+    [analogOutput writeSamples:train numSamples:numTrainSamples autoStart:NO timeoutS:-1];
     if (digitalTrigger) {
         [analogOutput start];
     }
