@@ -151,6 +151,35 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     return [self sendDictionary:dict];
 }
 
+// A train is always assumed to incorporate two analog out channels.  Digital trigger edge is assumed to be rising.
+
+- (BOOL)doTrain:(Float64 *)train numSamples:(long)trainSamples outputRateHz:(float)outputRateHz
+        digitalTrigger:(BOOL)digitalTrigger triggerChannelName:(NSString *)channelName autoStart:(BOOL)autoStart
+        waitTimeS:(float)waitTimeS;
+{
+    long index;
+    NSMutableDictionary *dict;
+    NSMutableArray *array;
+    NSArray *sendArray;
+
+    array = [[NSMutableArray alloc] init];
+    for (index = 0; index < trainSamples; index++) {
+        [array addObject:[NSNumber numberWithFloat:train[index]]];
+    }
+    sendArray = [NSArray arrayWithArray:array];
+    [array release];
+
+    dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"doTrain", @"command", taskName, @"taskName",
+            sendArray, @"outArray",
+            [NSNumber numberWithDouble:outputRateHz], @"outputRateHz",
+            [NSNumber numberWithBool:autoStart], @"autoStart",
+            [NSNumber numberWithBool:digitalTrigger], @"digitalTrigger",
+            channelName, @"channelName",
+            [NSNumber numberWithFloat:waitTimeS], @"waitTimeS", nil];
+    return [self sendDictionary:dict];
+
+}
+
 - (id)initWithSocket:(LLSockets *)theSocket;
 {
     if ((self = [super init]) != nil) {
@@ -263,7 +292,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     return [self sendDictionary:dict];
 }
 
-- (BOOL)writeSamples:(Float64 *)outArray numSamples:(long)numSamples autoStart:(BOOL)autoStart timeoutS:(Float64)timeoutS;
+- (BOOL)writeSamples:(Float64 *)outArray numSamples:(long)numSamples autoStart:(BOOL)autoStart
+            timeoutS:(Float64)timeoutS;
 {
     long index;
     NSMutableDictionary *dict;
