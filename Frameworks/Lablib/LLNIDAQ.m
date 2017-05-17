@@ -220,14 +220,6 @@
     }
     [analogOutput doTrain:train numSamples:kMinSamples * kActiveChannels outputRateHz:kOutputRateHz
            digitalTrigger:NO triggerChannelName:kTriggerChanName autoStart:YES waitTimeS:kWaitTimeS];
-
-
-//   long c;
-
-//    for (c = 0; c < kAOChannels; c++) {
-//        [self setPowerToMinimumForChannel:c];
-//    }
-
 }
 
 - (void)setPowerToMinimumForChannel:(long)channel;

@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Frameworks/Lablib/LLNIDAQTask.m"
-            timestampString = "516060100.062608"
+            filePath = "Frameworks/Lablib/LLNIDAQ.m"
+            timestampString = "516751218.222373"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "-writeSamples:numSamples:autoStart:timeoutS:"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "-stop:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
