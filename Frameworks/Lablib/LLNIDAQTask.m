@@ -175,7 +175,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
             [NSNumber numberWithBool:autoStart], @"autoStart",
             [NSNumber numberWithBool:digitalTrigger], @"digitalTrigger",
             channelName, @"channelName",
-            [NSNumber numberWithFloat:waitTimeS], @"waitTimeS", nil];
+            [NSNumber numberWithFloat:waitTimeS], @"waitTimeS",
+            nil];
     return [self sendDictionary:dict];
 
 }
@@ -264,6 +265,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
             channelName, @"channelName", [NSNumber numberWithFloat:maxV], @"maxVolts",
             [NSNumber numberWithFloat:minV], @"minVolts",
             nil];
+    NSLog(@"%@", dict);
     return [self sendDictionary:dict];
 }
 

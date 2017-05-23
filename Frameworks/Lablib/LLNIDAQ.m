@@ -162,12 +162,12 @@
     off1V = [calibrator[1] voltageForMW:[calibrator[1] minimumMW]];
 
     for (sample = 0, pTrain = train; sample < numChannelSamples - 1; sample++) {
-        *pTrain++ = (sample < delay1Samples) ? off1V : ((sample < delay1Samples + pulse1Samples) ? pulse1V : off1V);
         *pTrain++ = (sample < pulse0Samples) ? pulse0V : off0V;
+        *pTrain++ = (sample < delay1Samples) ? off1V : ((sample < delay1Samples + pulse1Samples) ? pulse1V : off1V);
     }
     for ( ; sample < numChannelSamples; sample++) {
-        *pTrain++ = off1V;
         *pTrain++ = off0V;
+        *pTrain++ = off1V;
     }
 
     [analogOutput doTrain:train numSamples:numTrainSamples outputRateHz:kOutputRateHz digitalTrigger:digitalTrigger
@@ -220,14 +220,6 @@
     }
     [analogOutput doTrain:train numSamples:kMinSamples * kActiveChannels outputRateHz:kOutputRateHz
            digitalTrigger:NO triggerChannelName:kTriggerChanName autoStart:YES waitTimeS:kWaitTimeS];
-
-
-//   long c;
-
-//    for (c = 0; c < kAOChannels; c++) {
-//        [self setPowerToMinimumForChannel:c];
-//    }
-
 }
 
 - (void)setPowerToMinimumForChannel:(long)channel;
