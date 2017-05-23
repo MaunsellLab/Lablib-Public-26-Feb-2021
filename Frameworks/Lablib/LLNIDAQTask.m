@@ -265,6 +265,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
             channelName, @"channelName", [NSNumber numberWithFloat:maxV], @"maxVolts",
             [NSNumber numberWithFloat:minV], @"minVolts",
             nil];
+    NSLog(@"%@", dict);
     return [self sendDictionary:dict];
 }
 
