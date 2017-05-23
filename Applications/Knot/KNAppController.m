@@ -416,6 +416,8 @@ char *idString = "Knot Version 2.2";
         if (result == NSFileHandlingPanelOKButton) {
             NSArray *urls = [panel URLs];
             [self loadNidaqCalibration:channel url:[urls objectAtIndex:0]];
+            [defaults setObject:[[urls objectAtIndex:0] path]
+                                    forKey:[NSString stringWithFormat:@"KNAO%ldCalibration", channel]];
         }
     }];
 
