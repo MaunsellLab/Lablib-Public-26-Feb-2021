@@ -144,7 +144,7 @@
 }
 
 - (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
-                   duration1MS:(long)dur1MS delay1MS:(long)delay1MS digitalTrigger:(BOOL)digitalTrigger;
+        duration1MS:(long)dur1MS delay1MS:(long)delay1MS autoStart:(BOOL)autoStart digitalTrigger:(BOOL)digitalTrigger;
 {
     long sample;
     long numChannelSamples, numTrainSamples, pulse0Samples, delay1Samples, pulse1Samples;
@@ -171,7 +171,7 @@
     }
 
     [analogOutput doTrain:train numSamples:numTrainSamples outputRateHz:kOutputRateHz digitalTrigger:digitalTrigger
-                triggerChannelName:kTriggerChanName autoStart:NO waitTimeS:0.0];
+                triggerChannelName:kTriggerChanName autoStart:autoStart waitTimeS:0.0];
 
 //    [analogOutput stop];                                    // task must be stopped before re-arming
 //    [analogOutput alterState:@"unreserve"];                // must unreserve in case it was never started
