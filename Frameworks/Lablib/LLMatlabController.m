@@ -65,7 +65,7 @@
     [[task dataDoc] addObserver:self];
 }
 
-- (void)checkMatlabDataPath;
+- (void)checkMatlabDataPath:(NSString *)dirName;
 {
     BOOL exists, isDir;
     NSError *error;
@@ -73,7 +73,12 @@
     NSFileManager *fm;
 
     fm = [[NSFileManager alloc] init];                          // check whether the subject directory exists
-    path = [NSString stringWithFormat:@"%@%ld", kMatlabDataPath, subjectNumber];
+    if (dirName == nil) {
+        path = [NSString stringWithFormat:@"%@%ld", kMatlabDataPath, subjectNumber];
+    }
+    else {
+        path = [NSString stringWithFormat:@"%@%ld/%@", kMatlabDataPath, subjectNumber, dirName];
+    }
     exists = [fm fileExistsAtPath:path isDirectory:&isDir];
     if (!exists) {                                              // guarantee that the directory will be there
         [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
@@ -149,6 +154,7 @@
 
 - (void)dealloc;
 {
+    [dateFormatter release];
     [matFileName release];
     [matlabScriptCommand release];
     [matlabInitScriptCommand release];
@@ -163,7 +169,11 @@
         matlabInitScriptCommand = [[NSString alloc]
                         initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
         subjectNumber = number;
-        [self checkMatlabDataPath];
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [self checkMatlabDataPath:nil];
+        [self checkMatlabDataPath:@"MatFiles"];
+        [self checkMatlabDataPath:@"PDFs"];
     }
     return self;
 }
@@ -173,15 +183,10 @@
     BOOL exists, isDir;
     long e;
     NSString *path;
-    NSDate *today;
-    NSDateFormatter *dateFormatter;
     NSFileManager *fm;
 
-    today = [[NSDate alloc] init];
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    path = [NSString stringWithFormat:@"%@%ld/%@.mat", kMatlabDataPath, subjectNumber,
-            [dateFormatter stringFromDate:today]];
+    path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
+            [dateFormatter stringFromDate:[NSDate date]]];
     fm = [[NSFileManager alloc] init];                                  // first check whether the directory exists
     exists = [fm fileExistsAtPath:path isDirectory:&isDir];
     [engine evalString:matlabInitScriptCommand];                       // clear the current Matlab workspace
@@ -193,8 +198,6 @@
     else {                                                              // found not data, reset workspace
         trialNum = 0;
     }
-    [today release];
-    [dateFormatter release];
     [fm release];
     for (e = 0; e < numEvents; e++) {                                   // clear any trial event counts;
         trialEventCounts[e] = 0;
@@ -205,42 +208,28 @@
 - (BOOL)matlabFileExists;
 {
     BOOL exists, isDir;
-    NSDate *today;
-    NSDateFormatter *dateFormatter;
     NSString *path;
     NSFileManager *fm;
 
     fm = [[NSFileManager alloc] init];                                  // first check whether the directory exists
-    path = [NSString stringWithFormat:@"%@%ld", kMatlabDataPath, subjectNumber];
+    path = [NSString stringWithFormat:@"%@%ld/MatFiles", kMatlabDataPath, subjectNumber];
     [fm fileExistsAtPath:path isDirectory:&isDir];
-    today = [[NSDate alloc] init];
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    path = [path stringByAppendingString:[NSString stringWithFormat:@"/%@.mat", [dateFormatter stringFromDate:today]]];
+    path = [path stringByAppendingString:[NSString stringWithFormat:@"/%@.mat", [dateFormatter stringFromDate:[NSDate date]]]];
     exists = [fm fileExistsAtPath:path isDirectory:&isDir];
     [fm release];
-    [today release];
-    [dateFormatter release];
     return exists && !isDir;
 }
 
 - (NSString *)matlabFileName;
 {
-    NSDate *today;
-    NSDateFormatter *dateFormatter;
     NSString *fileName;
 
     if (subjectNumber == -1) {
         NSLog(@"MatlabController: openMatlabDataFile, no subject number specified");
         return nil;
     }
-    today = [[NSDate alloc] init];
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    fileName = [NSString stringWithFormat:@"%@%ld/%@.mat", kMatlabDataPath, subjectNumber,
-                [dateFormatter stringFromDate:today]];
-    [dateFormatter release];
-    [today release];
+    fileName = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
+                [dateFormatter stringFromDate:[NSDate date]]];
     return fileName;
 }
 
@@ -351,21 +340,24 @@
                      prefix:[NSString stringWithFormat:@"trials(%ld).", trialNum]];
 }
 
-- (void)saveMatlabWorkspace;
+- (void)saveFigureAsPDF;
 {
-    NSDate *today;
-    NSDateFormatter *dateFormatter;
     NSString *path;
 
-    today = [[NSDate alloc] init];
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    path = [NSString stringWithFormat:@"%@%ld/%@.mat", kMatlabDataPath, subjectNumber,
-            [dateFormatter stringFromDate:today]];
+    path = [NSString stringWithFormat:@"%@%ld/PDFs/%@", kMatlabDataPath, subjectNumber,
+            [dateFormatter stringFromDate:[NSDate date]]];
+    [engine evalString:[NSString stringWithFormat:@"print('%@', '-dpdf')", path]];
+}
+
+
+- (void)saveMatlabWorkspace;
+{
+    NSString *path;
+
+    path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
+            [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"save '%@'", path]];
     [[task defaults] setObject:[NSNumber numberWithLong:trialNum] forKey:kMatlabTrialNumKey];
-    [today release];
-    [dateFormatter release];
 }
 
 /*

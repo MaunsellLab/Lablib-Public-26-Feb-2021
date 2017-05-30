@@ -13,6 +13,7 @@
 
     NSMutableDictionary *bundledEvents;
     NSMutableString     *bundledString;
+    NSDateFormatter     *dateFormatter;
     LLMatlabEngine      *engine;
     NSFileManager       *fileManager;
     NSString            *matFileName;
@@ -29,7 +30,7 @@
 }
 
 - (void)activate:(LLTaskPlugIn *)plugin;
-- (void)checkMatlabDataPath;
+- (void)checkMatlabDataPath:(NSString *)dirName;
 - (NSMutableString *)convertToMatlabString:(NSString *)eventString;
 - (void)deactivate;
 - (id)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
@@ -39,6 +40,7 @@
 - (void)processEventNamed:(NSString *)eventName eventData:(NSData *)data eventTime:(NSNumber *)time prefix:(NSString *)prefix;
 - (void)processFileEventNamed:(NSString *)eventName eventData:(NSData *)data eventTime:(NSNumber *)time;
 - (void)processTrialEventNamed:(NSString *)eventName eventData:(NSData *)data eventTime:(NSNumber *)time;
+- (void)saveFigureAsPDF;
 - (void)saveMatlabWorkspace;
 - (void)writeBundledData;
 
