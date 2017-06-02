@@ -342,7 +342,8 @@
     [self checkMatlabDataPath:@"PDFs"];
     path = [NSString stringWithFormat:@"%@%ld/PDFs/%@", kMatlabDataPath, subjectNumber,
             [dateFormatter stringFromDate:[NSDate date]]];
-    [engine evalString:[NSString stringWithFormat:@"print('%@', '-dpdf')", path]];
+    //    [engine evalString:[NSString stringWithFormat:@"print('%@', '-dpdf')", path]];
+    [engine evalString:[NSString stringWithFormat:@"saveFigureAsPDF(1, '%@')", path]];
 }
 
 
