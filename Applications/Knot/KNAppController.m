@@ -85,6 +85,7 @@ char *idString = "Knot Version 2.2";
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseMatlabKey]) {
         matlabEngine = [[LLMatlabEngine alloc] init];               // allocate before configurePlugins
+        [matlabEngine addMatlabPathForApp];
     }
 
 	[pluginController loadPlugins];
