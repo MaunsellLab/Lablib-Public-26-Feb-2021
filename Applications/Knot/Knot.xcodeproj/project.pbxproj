@@ -15,6 +15,7 @@
 		699981E50A8A7B5400101ABF /* loud200Hz200msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */; };
 		699981E60A8A7B5400101ABF /* shortCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DE0A8A7B5400101ABF /* shortCorrect.aiff */; };
 		699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */; };
+		69C346DB1EE3593B00C278F8 /* Matlab in Resources */ = {isa = PBXBuildFile; fileRef = 69C346DA1EE3593B00C278F8 /* Matlab */; };
 		69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */; };
 		69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */; };
 		69EE5FC81E994C2A00BC3787 /* MouseCorrect.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC31E994C2A00BC3787 /* MouseCorrect.wav */; };
@@ -79,6 +80,7 @@
 		699EB8B915CEBD86004E2B0D /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = ../../Frameworks/LablibITC18/build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		69B9AE720482FBDD00F95509 /* KNSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KNSummaryController.h; sourceTree = "<group>"; };
 		69B9AE730482FBDD00F95509 /* KNSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KNSummaryController.m; sourceTree = "<group>"; };
+		69C346DA1EE3593B00C278F8 /* Matlab */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Matlab; sourceTree = "<group>"; };
 		69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = KnotPlugin.icns; sourceTree = "<group>"; };
 		69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 200Hz100msSq.aiff; path = ../../Resources/Sounds/200Hz100msSq.aiff; sourceTree = SOURCE_ROOT; };
 		69EE5FC31E994C2A00BC3787 /* MouseCorrect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MouseCorrect.wav; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				69C346DA1EE3593B00C278F8 /* Matlab */,
 				69EE5FC21E993B9800BC3787 /* Sounds */,
 				69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */,
 				69FF455C07C8106E0041B08D /* Knot.icns */,
@@ -317,6 +320,7 @@
 				69F11F520B1E70380068A6CF /* 7C.aiff in Resources */,
 				69F11F530B1E70380068A6CF /* 7G.aiff in Resources */,
 				69F11F550B1E70410068A6CF /* Correct.aiff in Resources */,
+				69C346DB1EE3593B00C278F8 /* Matlab in Resources */,
 				69EE5FCA1E994C2A00BC3787 /* MouseLeverDown.wav in Resources */,
 				69EE5FC91E994C2A00BC3787 /* MouseFailed.wav in Resources */,
 				69F11F570B1E704A0068A6CF /* Wrong.aiff in Resources */,

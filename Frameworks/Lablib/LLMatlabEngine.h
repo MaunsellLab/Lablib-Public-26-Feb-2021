@@ -19,6 +19,7 @@
     NSArray             *topLevelObjects;
 }
 
+- (void)addMatlabPathForApp;
 - (void)addMatlabPathForPlugin:(NSString *)pluginName;
 - (void)close;
 - (void *)engine;
