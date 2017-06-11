@@ -15,7 +15,7 @@ extern NSString *LLSettingsChanged;
     NSString                *prefix;
     NSBundle                *plugin;
     NSString                *settingsDomain;
-	NSMutableArray			*settingsNameArray;
+	NSMutableArray			*settingsFileNames;
 
     IBOutlet NSButton	 	*deleteButton;
     IBOutlet NSButton	 	*duplicateButton;
@@ -27,6 +27,7 @@ extern NSString *LLSettingsChanged;
 - (BOOL)extractSettings;
 - (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)prefix;
 - (BOOL)loadSettings;
+- (void)loadSettingsFileNames;
 - (BOOL)registerDefaults;
 - (void)selectSettings;
 
