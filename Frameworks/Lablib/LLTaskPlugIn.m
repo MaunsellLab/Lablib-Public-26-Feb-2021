@@ -71,6 +71,26 @@
 	return defaults;
 }
 
+- (IBAction)doRunStop:(id)sender;
+{
+    long newMode;
+
+    switch ([taskStatus mode]) {
+        case kTaskIdle:
+            newMode = kTaskRunning;
+            break;
+        case kTaskRunning:
+            newMode = kTaskStopping;
+            break;
+        case kTaskStopping:
+        default:
+            newMode = kTaskIdle;
+            break;
+    }
+    [self setMode:newMode];
+}
+
+
 - (LLBinocCalibrator *)eyeCalibrator;
 {
     return eyeCalibrator;

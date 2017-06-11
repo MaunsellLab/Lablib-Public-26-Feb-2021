@@ -18,6 +18,7 @@
 #import "LLStateSystem.h"
 #import "LLStimWindow.h"
 #import "LLSynthDataDevice.h"
+#import "LLTaskStatus.h"
 #import "LLUserDefaults.h"
 
 typedef NS_ENUM(NSInteger, SoundTypes) {
@@ -60,12 +61,15 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 	LLStateSystem			*stateSystem;
 	LLStimWindow			*stimWindow;
 	LLSynthDataDevice		*synthDataDevice;
+    LLTaskStatus			*taskStatus;
 	BOOL					writingDataFile;
 }
 
 @property (assign) LLNIDAQ *nidaq;
 @property (assign) LLNE500Pump *rewardPump;
 @property (assign) double trialStartTimeS;
+
+- (IBAction)doRunStop:(id)sender;
 
 - (void)activate;
 - (BOOL)active;

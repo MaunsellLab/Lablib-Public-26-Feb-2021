@@ -19,7 +19,6 @@
 	NSMenuItem				*settingsMenuItem;
     NSWindowController 		*summaryController;
     NSWindowController 		*xtController;
-	LLTaskStatus			*taskStatus;
     NSArray                 *topLevelObjects;
     
     IBOutlet NSMenu			*settingsMenu;

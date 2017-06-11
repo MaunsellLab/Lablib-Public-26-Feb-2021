@@ -105,12 +105,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Frameworks/Lablib/LLDataDoc.m"
-            timestampString = "508786289.295218"
+            timestampString = "518809588.379767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
-            landmarkName = "-setThreadingThreshold:"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
+            landmarkName = "-putEvent:withData:lengthBytes:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applications/Knot/KNAppController.m"
+            timestampString = "518811410.133065"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
+            landmarkName = "-changeSettings:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Frameworks/Lablib/LLSettingsController.m"
+            timestampString = "518888335.391884"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "317"
+            endingLineNumber = "317"
+            landmarkName = "-selectSettings"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

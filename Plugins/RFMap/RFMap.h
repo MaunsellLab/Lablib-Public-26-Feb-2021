@@ -20,7 +20,6 @@
 	float					originalFixOffsetDeg;			// holds incoming fix offset
 	NSMenuItem				*settingsMenuItem;
     RFSummaryController		*summaryController;
-	LLTaskStatus			*taskStatus;
     NSArray                 *topLevelObjects;
     NSWindowController 		*xtController;
 

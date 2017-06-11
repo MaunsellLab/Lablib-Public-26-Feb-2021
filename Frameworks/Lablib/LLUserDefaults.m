@@ -92,14 +92,6 @@
 	return self;
 }
 
-- (id)initWithUser:(NSString *)username;
-{
-	if ((self = [super initWithUser:username]) != nil) {
-		defaultsLock = [[NSLock alloc] init];
-	}
-	return self;
-}
-
 - (NSInteger)integerForKey:(NSString *)defaultName;
 {
 	int value;
@@ -148,16 +140,6 @@
 	domain = [[NSUserDefaults standardUserDefaults] persistentDomainForName:domainName];
 	[defaultsLock unlock];
 	return domain;
-}
-
-- (NSArray *)persistentDomainNames;
-{
-	NSArray *names;
-	
-	[defaultsLock lock];
-	names = [[NSUserDefaults standardUserDefaults] persistentDomainNames];
-	[defaultsLock unlock];
-	return names;
 }
 
 - (void)registerDefaults:(NSDictionary *)dictionary;
