@@ -10,8 +10,8 @@ extern NSString *LLSettingsChanged;
 
 @interface LLSettingsController : NSWindowController {
 
+    BOOL					allowNextSelectionChange;
     NSString                *baseDomain;
-    BOOL					disallowNextSelectionChange;
     NSString                *prefix;
     NSBundle                *plugin;
     NSString                *settingsDomain;

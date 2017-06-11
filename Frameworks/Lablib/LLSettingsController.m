@@ -20,6 +20,7 @@ NSUserDefaults (e.g., dialogs) should be loaded fresh each time they appear.
 #import "LLSystemUtil.h"
 
 #define kActiveSettings     @"LLActiveSettings"
+#define kPreferencesPath    [NSString stringWithFormat:@"%@/Library/Preferences", NSHomeDirectory()]
 
 NSString *LLSettingsChanged = @"LLSettings Changed";
 NSString *kDefaultSettingsName = @"Settings 0";
@@ -224,8 +225,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     NSDirectoryEnumerator *dirEnum;
 
     [settingsFileNames removeAllObjects];
-    dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:[NSString stringWithFormat:@"%@/Library/Preferences",
-                                                                                            NSHomeDirectory()]];
+    dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:kPreferencesPath];
     while ((fileName = [dirEnum nextObject])) {
         if ([fileName hasPrefix:baseDomain]) {
             pathComponents = [fileName componentsSeparatedByString:@"."];
@@ -329,6 +329,52 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     [theDict setObject:settingsDomain forKey:kActiveSettings];
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:theDict forName:baseDomain];
 }
+
+- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView;
+{
+    BOOL allow = allowNextSelectionChange;
+
+    allowNextSelectionChange = YES;
+    return allow;
+}
+
+// tableView is called when the user tries to rename one of the settings
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column
+              row:(int)rowIndex;
+{
+    NSString *newName = object;
+    NSString *oldName = [settingsFileNames objectAtIndex:rowIndex];
+    NSDictionary *settingsDict;
+
+    if ([oldName isEqual:newName]) {                                        // no change, do nothing
+        return;
+    }
+    if ([newName length] == 0) {                                            // blank name, not allowed
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:@"Blank name not allowed."];
+        allowNextSelectionChange = NO;
+        return;
+    }
+    if ([settingsFileNames containsObject:newName]) {						// Name already taken
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+               informativeText:[NSString stringWithFormat:@"The name \"%@\" is already in use, please select another.",
+               newName]];
+        allowNextSelectionChange = NO;
+        return;
+    }
+    [settingsFileNames replaceObjectAtIndex:rowIndex withObject:object];
+    settingsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:oldName];
+    NSLog(@"Creating new settings for %@", newName);
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:
+                                    [NSString stringWithFormat:@"%@.%@", baseDomain, newName]];
+    NSLog(@"Deleting %@", [NSString stringWithFormat:@"%@.%@.plist", baseDomain, oldName]);
+    [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/%@.%@.plist",
+                                    kPreferencesPath, baseDomain, oldName] error:nil];
+//    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:
+//                                    [NSString stringWithFormat:@"%@.%@.plist", baseDomain, oldName]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 - (NSString *)uniqueSettingsName;
 {
@@ -442,15 +488,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 					bundleID, suffix] atomically:YES];
 }
 
-- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView;
-{
-	if (disallowNextSelectionChange) {
-		disallowNextSelectionChange = NO;
-		return NO;
-	}
-	return YES;
-}
-
 - (BOOL) shouldCascadeWindows {
 
     return NO;
@@ -466,39 +503,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 {
 	return [settingsFileNames objectAtIndex:row];
-}
-
-// tableView is called when the user tries to rename one of the settings
-
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column
-						row:(int)rowIndex;
-{
-	NSString *newName = object;
-	NSString *oldName = [settingsFileNames objectAtIndex:rowIndex];
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	
-	if ([oldName isEqual:newName]) {		// no change, do nothing
-		return;
-	}
-	if ([newName length] == 0) {												// blank name, not allowed
-        [LLSystemUtil runAlertPanelWithMessageText:[self className]
-                    informativeText:@"Please use a name that is not blank."];
-		disallowNextSelectionChange = YES;
-		return;
-	}
-	if ([settingsFileNames containsObject:newName]) {						// Name already taken
-        [LLSystemUtil runAlertPanelWithMessageText:[self className]
-                informativeText:[NSString stringWithFormat:@"The name \"%@\" is already in use, please select another.",
-                newName]];
-		disallowNextSelectionChange = YES;
-		return;
-	}
-	[settingsFileNames replaceObjectAtIndex:rowIndex withObject:object];
-	[self loadDefaultsFromFileWithSuffix:oldName];
-	[[NSUserDefaults standardUserDefaults] setObject:newName forKey:LLSettingsNameKey];
-	[self saveCurrentDefaultsToFileWithSuffix:newName];
-	[[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/Library/Preferences/%@.%@.plist", 
-                                                      NSHomeDirectory(), bundleID, oldName] error:NULL];
 }
 
 @end
