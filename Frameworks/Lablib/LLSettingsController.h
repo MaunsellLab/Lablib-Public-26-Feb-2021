@@ -32,14 +32,14 @@ extern NSString *LLSettingsChanged;
 - (NSString *)pathToFile:(NSString *)name;
 - (BOOL)registerDefaults;
 - (void)selectSettings;
-
-- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
-- (NSUserDefaults *)defaultSettings;
-- (NSString *)domainNameWithName:(NSString *)name;
-- (void)loadDefaultsFromFileWithSuffix:(NSString *)suffix;
-- (void)saveCurrentDefaultsToFileWithSuffix:(NSString *)suffix;
 - (void)synchronize;
 - (NSString *)uniqueSettingsName;
+
+//- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
+//- (NSUserDefaults *)defaultSettings;
+//- (NSString *)domainNameWithName:(NSString *)name;
+//- (void)loadDefaultsFromFileWithSuffix:(NSString *)suffix;
+//- (void)saveCurrentDefaultsToFileWithSuffix:(NSString *)suffix;
 
 - (IBAction)deleteSettings:(id)sender;
 - (IBAction)duplicateSettings:(id)sender;

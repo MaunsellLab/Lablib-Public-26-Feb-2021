@@ -34,18 +34,18 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
     NSLog(@"Creating a new settings file named %@", [self pathToDomain:newName]);
     [[NSUserDefaults standardUserDefaults]
-     setPersistentDomain:[self userDefaults] forName:[self pathToDomain:newName]];
+            setPersistentDomain:[self userDefaults] forName:[self pathToDomain:newName]];
     [settingsFileNames addObject:newName];				// add the new name to the list of settings names
     return newName;
 }
 
 - (void)dealloc;
 {
-    NSString *settingsName;
-
-    settingsName = [[NSUserDefaults standardUserDefaults] objectForKey:LLSettingsNameKey]; // name of active settings
-    [self saveCurrentDefaultsToFileWithSuffix:settingsName];
-    NSLog(@"LLSettingsController: saved to %@", settingsName);
+//    NSString *settingsName;
+//
+//    settingsName = [[NSUserDefaults standardUserDefaults] objectForKey:LLSettingsNameKey]; // name of active settings
+//    [self saveCurrentDefaultsToFileWithSuffix:settingsName];
+//    NSLog(@"LLSettingsController: saved to %@", settingsName);
     [settingsFileNames release];
     [settingsDomain release];
     [plugin release];
@@ -110,30 +110,23 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (IBAction)duplicateSettings:(id)sender;
 {
-    long index;
-    NSString *newName;
+    long index, j;
+    NSString *tempName, *newName;
+    NSDictionary *settingsDict;
 
     index = [settingsTable selectedRow];				// get the settings to duplicate
-    newName = [NSString stringWithFormat:@"%@ copy", [settingsFileNames objectAtIndex:index]];
+    tempName = [NSString stringWithFormat:@"%@ Copy", [settingsFileNames objectAtIndex:index]];
+    newName = tempName;
+    j = 1;
     while ([settingsFileNames containsObject:newName]) {
-        newName = [NSString stringWithFormat:@"%@a", newName];
+        newName = [NSString stringWithFormat:@"%@ %ld", tempName, j++];
     }
-
-    // We're going to automatically activate the newly created duplicate, so we need to save the current
-    // settings to a file.  We have to write to the newly created file, because selectSettings will notice
-    // the selection has changed and will load it.
-
-    //	[self saveCurrentDefaultsToFileWithSuffix:[settingsFileNames objectAtIndex:index]];
-    [[NSUserDefaults standardUserDefaults] setObject:newName forKey:LLSettingsNameKey];
-    [self saveCurrentDefaultsToFileWithSuffix:newName];
-
-    // Update the table to show the new name and select it
-
+    settingsDict = [[NSUserDefaults standardUserDefaults]
+                    persistentDomainForName:[self pathToDomain:[settingsFileNames objectAtIndex:index]]];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:[self pathToDomain:newName]];
     [settingsFileNames addObject:newName];				// add the new name to the name array
     index = [settingsFileNames indexOfObject:newName];
     [settingsTable reloadData];							// Make sure number of rows is up to date
-    [settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-    [settingsTable scrollRowToVisible:index];
 }
 
 - (BOOL)extractSettings;
@@ -147,8 +140,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
                                             persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
     settingsDict = [[NSMutableDictionary alloc] init];
     enumerator = [knotDict keyEnumerator];
-//    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"TPGaborContrast"]);
-//    NSLog(@"%@", [knotDict objectForKey:@"TPGaborContrast"]);
     windowFramePrefix = [NSString stringWithFormat:@"NSWindow Frame %@", prefix];
     for (key in enumerator) {
         if ([key hasPrefix:prefix] || [key hasPrefix:windowFramePrefix]) {
@@ -366,6 +357,16 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     return allow;
 }
 
+- (void)synchronize;
+{
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+{
+    return [settingsFileNames objectAtIndex:row];
+}
+
 // tableView is called when the user tries to rename one of the settings
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column
@@ -397,7 +398,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     NSLog(@"Deleting %@", [self pathToDomain:oldName]);
     [[NSFileManager defaultManager] removeItemAtPath:[self pathToFile:oldName] error:nil];
 }
-
 
 - (NSString *)uniqueSettingsName;
 {
@@ -431,7 +431,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 
 
-
+/*
 
 - (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
 {
@@ -511,14 +511,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 // Write the current settings into the appropriate domain so it is up to date
 
-- (void)synchronize;
-{
-	[[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
-{
-	return [settingsFileNames objectAtIndex:row];
-}
+ */
 
 @end
