@@ -28,6 +28,8 @@ extern NSString *LLSettingsChanged;
 - (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)prefix;
 - (BOOL)loadSettings;
 - (void)loadSettingsFileNames;
+- (NSString *)pathToDomain:(NSString *)name;
+- (NSString *)pathToFile:(NSString *)name;
 - (BOOL)registerDefaults;
 - (void)selectSettings;
 
@@ -35,7 +37,6 @@ extern NSString *LLSettingsChanged;
 - (NSUserDefaults *)defaultSettings;
 - (NSString *)domainNameWithName:(NSString *)name;
 - (void)loadDefaultsFromFileWithSuffix:(NSString *)suffix;
-- (NSString *)pathToFile:(NSString *)fileName;
 - (void)saveCurrentDefaultsToFileWithSuffix:(NSString *)suffix;
 - (void)synchronize;
 - (NSString *)uniqueSettingsName;
