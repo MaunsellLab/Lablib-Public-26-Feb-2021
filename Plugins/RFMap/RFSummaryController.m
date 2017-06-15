@@ -43,20 +43,20 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     
     zoomValue = [[sender selectedCell] tag];
     [self setScaleFactor:zoomValue / 100.0];
-    [[task defaults] setObject:[NSNumber numberWithInt:(int)zoomValue] 
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:(int)zoomValue] 
                 forKey:RFSummaryWindowZoomKey];
 }
 
 - (void)dealloc;
 {
-	[[task defaults] setFloat:[NSDate timeIntervalSinceReferenceDate] forKey:RFSummaryWindowDateKey];
-	[[task defaults] setInteger:dayEOTs[kEOTBroke] forKey:RFSummaryWindowBrokeKey];
-	[[task defaults] setInteger:dayEOTs[kEOTCorrect] forKey:RFSummaryWindowCorrectKey];
-	[[task defaults] setInteger:dayEOTs[kEOTFailed] forKey:RFSummaryWindowFailedKey];
-	[[task defaults] setInteger:dayEOTs[kEOTIgnored] forKey:RFSummaryWindowIgnoredKey];
-	[[task defaults] setInteger:dayEOTs[kEOTWrong] forKey:RFSummaryWindowWrongKey];
-	[[task defaults] setInteger:dayEOTTotal forKey:RFSummaryWindowTotalKey];
-	[[task defaults] setInteger:dayComputer forKey:RFSummaryWindowComputerKey];
+	[[NSUserDefaults standardUserDefaults] setFloat:[NSDate timeIntervalSinceReferenceDate] forKey:RFSummaryWindowDateKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTBroke] forKey:RFSummaryWindowBrokeKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTCorrect] forKey:RFSummaryWindowCorrectKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTFailed] forKey:RFSummaryWindowFailedKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTIgnored] forKey:RFSummaryWindowIgnoredKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTWrong] forKey:RFSummaryWindowWrongKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTTotal forKey:RFSummaryWindowTotalKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:dayComputer forKey:RFSummaryWindowComputerKey];
     [fontAttr release];
     [labelFontAttr release];
     [leftFontAttr release];
@@ -107,16 +107,16 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 #endif
         lastEOTCode = -1;
 		
-		timeStored = [[task defaults] floatForKey:RFSummaryWindowDateKey];
+		timeStored = [[NSUserDefaults standardUserDefaults] floatForKey:RFSummaryWindowDateKey];
 		timeNow = [NSDate timeIntervalSinceReferenceDate];
 		if (timeNow - timeStored < 12 * 60 * 60) {			// Less than 12 h old?
-			dayEOTs[kEOTBroke] = [[task defaults] integerForKey:RFSummaryWindowBrokeKey];
-			dayEOTs[kEOTCorrect] = [[task defaults] integerForKey:RFSummaryWindowCorrectKey];
-			dayEOTs[kEOTFailed] = [[task defaults] integerForKey:RFSummaryWindowFailedKey];
-			dayEOTs[kEOTIgnored] = [[task defaults] integerForKey:RFSummaryWindowIgnoredKey];
-			dayEOTs[kEOTWrong] = [[task defaults] integerForKey:RFSummaryWindowWrongKey];
-			dayEOTTotal = [[task defaults] integerForKey:RFSummaryWindowTotalKey];
-			dayComputer = [[task defaults] integerForKey:RFSummaryWindowComputerKey];
+			dayEOTs[kEOTBroke] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowBrokeKey];
+			dayEOTs[kEOTCorrect] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowCorrectKey];
+			dayEOTs[kEOTFailed] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowFailedKey];
+			dayEOTs[kEOTIgnored] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowIgnoredKey];
+			dayEOTs[kEOTWrong] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowWrongKey];
+			dayEOTTotal = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowTotalKey];
+			dayComputer = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowComputerKey];
 		}
 
 //		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:)
@@ -397,7 +397,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification;
 {
-	[[task defaults] setBool:YES forKey:RFSummaryWindowVisibleKey];
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:RFSummaryWindowVisibleKey];
 }
 
 - (void) windowDidLoad {
@@ -407,7 +407,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     [[zoomButton cell] setBordered:NO];
     [[zoomButton cell] setBezeled:YES];
     [[zoomButton cell] setFont:[NSFont labelFontOfSize:10.0]];
-    defaultZoom = [[task defaults] integerForKey:RFSummaryWindowZoomKey];
+    defaultZoom = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowZoomKey];
     for (index = 0; index < [[zoomButton itemArray] count]; index++) {
         if ([[zoomButton itemAtIndex:index] tag] == defaultZoom) {
             [zoomButton selectItemAtIndex:index];
@@ -416,7 +416,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
         }
     }
 	[[self window] setFrameUsingName:RFSummaryAutosaveKey];			// Needed when opened a second time
-    if ([[task defaults] boolForKey:RFSummaryWindowVisibleKey]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:RFSummaryWindowVisibleKey]) {
         [[self window] makeKeyAndOrderFront:self];
     }
     else {
@@ -439,7 +439,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 - (BOOL) windowShouldClose:(NSNotification *)aNotification;
 {
     [[self window] orderOut:self];
-    [[task defaults] setBool:NO forKey:RFSummaryWindowVisibleKey];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RFSummaryWindowVisibleKey];
     [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     return NO;
 }

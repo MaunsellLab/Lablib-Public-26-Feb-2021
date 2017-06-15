@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TrialController">
@@ -22,7 +23,7 @@
             <value key="minSize" type="size" width="137" height="130"/>
             <value key="maxSize" type="size" width="661" height="671"/>
             <view key="contentView" id="77">
-                <rect key="frame" x="7" y="11" width="271" height="297"/>
+                <rect key="frame" x="0.0" y="0.0" width="271" height="297"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="204">
@@ -39,11 +40,11 @@
                             </subviews>
                         </clipView>
                         <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.15887850522994995" horizontal="YES" id="214">
-                            <rect key="frame" x="1" y="201" width="214" height="15"/>
+                            <rect key="frame" x="1" y="200" width="229" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="213">
-                            <rect key="frame" x="215" y="1" width="15" height="200"/>
+                            <rect key="frame" x="214" y="1" width="16" height="215"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

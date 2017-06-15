@@ -140,9 +140,9 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 			[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self 
 				forKeyPath:[NSString stringWithFormat:@"values.%@", key]
 				options:NSKeyValueObservingOptionNew context:nil];
-//			object = [[task defaults] objectForKey:key];
+//			object = [[NSUserDefaults standardUserDefaults] objectForKey:key];
 //			theKey = [LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"];
-			[self setValue:[[task defaults] objectForKey:key]
+			[self setValue:[[NSUserDefaults standardUserDefaults] objectForKey:key]
 				forKey:[LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"]];
 		}
 		
@@ -207,7 +207,7 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 	NSString *defaultsKey;
 
 	defaultsKey = [keyPath pathExtension];
-	[self setValue:[[task defaults] objectForKey:defaultsKey] 
+	[self setValue:[[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey] 
 			forKey:[LLTextUtil stripPrefixAndDecapitalize:defaultsKey prefix:@"RF"]];
 }
 
@@ -305,13 +305,13 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 
 // Display the grid
 
-		if ([[task defaults] boolForKey:RFDoGridKey]) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoGridKey]) {
 			stimRectDeg = [[task stimWindow] displayRectDeg];
-			gridSpacingDeg = [[task defaults] floatForKey:RFGridSpacingDegKey];
+			gridSpacingDeg = [[NSUserDefaults standardUserDefaults] floatForKey:RFGridSpacingDegKey];
 			glPushMatrix();
 			glColor3f(kGridGray, kGridGray, kGridGray);
 			glLineWidth(1.0);
-			switch ([[task defaults] boolForKey:RFDisplayUnitsKey]) {
+			switch ([[NSUserDefaults standardUserDefaults] boolForKey:RFDisplayUnitsKey]) {
 			case kAzimuthElevation:
 				glBegin(GL_LINES);
 				startGridDeg = (long)(NSMinX(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;

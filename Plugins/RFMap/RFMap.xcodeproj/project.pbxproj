@@ -45,7 +45,6 @@
 		6933B5450784BD4C006963FA /* UserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69756447076F90A900293610 /* UserDefaults.plist */; };
 		6933B5480784BD84006963FA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		6933B5490784BD86006963FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
-		694D21F2092D1CC600764986 /* Release Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 694D21F1092D1CC600764986 /* Release Notes.txt */; };
 		695EFEF11AC6243800D9D458 /* RFBehaviorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEEB1AC6243800D9D458 /* RFBehaviorController.xib */; };
 		695EFEF21AC6243800D9D458 /* RFEyeXYController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEEC1AC6243800D9D458 /* RFEyeXYController.xib */; };
 		695EFEF31AC6243800D9D458 /* RFMap.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEED1AC6243800D9D458 /* RFMap.xib */; };
@@ -78,14 +77,12 @@
 		694879FA0486AF9300FE06D7 /* RFStopState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFStopState.m; sourceTree = "<group>"; };
 		694879FD0486B06A00FE06D7 /* RFIdleState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFIdleState.h; sourceTree = "<group>"; };
 		694879FE0486B06A00FE06D7 /* RFIdleState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFIdleState.m; sourceTree = "<group>"; };
-		694D21F1092D1CC600764986 /* Release Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Release Notes.txt"; sourceTree = "<group>"; };
 		695EFEEB1AC6243800D9D458 /* RFBehaviorController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFBehaviorController.xib; sourceTree = "<group>"; };
 		695EFEEC1AC6243800D9D458 /* RFEyeXYController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFEyeXYController.xib; sourceTree = "<group>"; };
 		695EFEED1AC6243800D9D458 /* RFMap.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFMap.xib; sourceTree = "<group>"; };
 		695EFEEE1AC6243800D9D458 /* RFSpikeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFSpikeController.xib; sourceTree = "<group>"; };
 		695EFEEF1AC6243800D9D458 /* RFSummaryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFSummaryController.xib; sourceTree = "<group>"; };
 		695EFEF01AC6243800D9D458 /* RFXTController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFXTController.xib; sourceTree = "<group>"; };
-		6968EA58059DDD1900E33065 /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
 		69756447076F90A900293610 /* UserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = UserDefaults.plist; sourceTree = "<group>"; };
 		6983253D0486BE9600FE06D7 /* RFIntertrialState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFIntertrialState.h; sourceTree = "<group>"; };
 		6983253E0486BE9600FE06D7 /* RFIntertrialState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFIntertrialState.m; sourceTree = "<group>"; };
@@ -167,8 +164,6 @@
 		29B97314FDCFA39411CA2CEA /* terstes */ = {
 			isa = PBXGroup;
 			children = (
-				694D21F1092D1CC600764986 /* Release Notes.txt */,
-				6968EA58059DDD1900E33065 /* Notes.txt */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -362,7 +357,6 @@
 				695EFEF11AC6243800D9D458 /* RFBehaviorController.xib in Resources */,
 				695EFEF41AC6243800D9D458 /* RFSpikeController.xib in Resources */,
 				6933B5450784BD4C006963FA /* UserDefaults.plist in Resources */,
-				694D21F2092D1CC600764986 /* Release Notes.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -64,8 +64,8 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
     
     r = [eyePlot visibleRect];
-	[[task defaults] setFloat:r.origin.x forKey:RFEyeXYHScrollKey];
-	[[task defaults] setFloat:r.origin.y forKey:RFEyeXYVScrollKey];
+	[[NSUserDefaults standardUserDefaults] setFloat:r.origin.x forKey:RFEyeXYHScrollKey];
+	[[NSUserDefaults standardUserDefaults] setFloat:r.origin.y forKey:RFEyeXYVScrollKey];
 	if (autosaveName != nil) {
 		[[self window] saveFrameUsingName:autosaveName]; 
 	}
@@ -104,7 +104,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 // Draw the calibration for the fixation window
 	
-	if ([[task defaults] integerForKey:RFEyeXYDoDrawCalKey]) {
+	if ([[NSUserDefaults standardUserDefaults] integerForKey:RFEyeXYDoDrawCalKey]) {
 		[calColor set];
 		[calBezierPath stroke];
 	}
@@ -143,7 +143,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification;
 {
-	[[task defaults] setObject:[NSNumber numberWithBool:YES]  forKey:RFEyeXYWindowVisibleKey];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES]  forKey:RFEyeXYWindowVisibleKey];
 }
 
 
@@ -160,7 +160,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 // Register defaults and bind the LLEyeXYView values to our keys
 		
-	[[task defaults] registerDefaults:[NSDictionary dictionaryWithObject:
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:
 		[NSArchiver archivedDataWithRootObject:[NSColor blueColor]] forKey:RFEyeXYEyeColorKey]];
 
 	enumerator = [keyArray objectEnumerator];
@@ -181,16 +181,16 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
     fixWindowColor = [[NSColor colorWithDeviceRed:0.00 green:0.00 blue:1.00 alpha:1.0] retain];
 	unitsToDeg = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
 	degToUnits = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-	[slider setFloatValue:[[task defaults] floatForKey:RFEyeXYMagKey]];
-    [self setScaleFactor:[[task defaults] floatForKey:RFEyeXYMagKey]];
+	[slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYMagKey]];
+    [self setScaleFactor:[[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYMagKey]];
 	[eyePlot setDrawOnlyDirtyRect:YES];
     [eyePlot addDrawable:self];
 	[self changeZoom:slider];
-	[eyePlot scrollPoint:NSMakePoint([[task defaults] floatForKey:RFEyeXYHScrollKey], 
-            [[task defaults] floatForKey:RFEyeXYVScrollKey])];
+	[eyePlot scrollPoint:NSMakePoint([[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYHScrollKey], 
+            [[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYVScrollKey])];
 	
 	[[self window] setFrameUsingName:RFEyeXYAutosaveKey];			// Needed when opened a second time
-    if ([[task defaults] boolForKey:RFEyeXYWindowVisibleKey]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:RFEyeXYWindowVisibleKey]) {
         [[self window] makeKeyAndOrderFront:self];
     }
     else {
@@ -202,7 +202,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 - (BOOL)windowShouldClose:(NSNotification *)aNotification;
 {
     [[self window] orderOut:self];
-    [[task defaults] setBool:NO forKey:RFEyeXYWindowVisibleKey];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RFEyeXYWindowVisibleKey];
     [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     return NO;
 }

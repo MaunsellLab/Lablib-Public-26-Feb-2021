@@ -18,7 +18,8 @@
 	NSTimer					*displayTimer;
     RFEyeXYController		*eyeXYController;				// Eye position display
 	float					originalFixOffsetDeg;			// holds incoming fix offset
-	NSMenuItem				*settingsMenuItem;
+    LLSettingsController    *settingsController;
+    NSMenuItem				*settingsMenuItem;
     RFSummaryController		*summaryController;
     NSArray                 *topLevelObjects;
     NSWindowController 		*xtController;
@@ -37,7 +38,6 @@
 - (IBAction)doStimSettings:(id)sender;
 - (IBAction)doJuice:(id)sender;
 - (IBAction)doReset:(id)sender;
-- (IBAction)doRunStop:(id)sender;
 - (IBAction)postPosition:(id)sender;
 
 @end

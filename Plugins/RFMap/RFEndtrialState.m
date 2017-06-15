@@ -25,7 +25,7 @@
 	
 	long juiceMS;
 	
-	juiceMS = [[task defaults] integerForKey:RFRewardMSKey];
+	juiceMS = [[NSUserDefaults standardUserDefaults] integerForKey:RFRewardMSKey];
 	return juiceMS;
 }
 
@@ -52,8 +52,8 @@
 	case kEOTCorrect:
 		[[task dataController] digitalOutputBitsOff:kRewardBit];
 		[scheduler schedule:@selector(doJuiceOff) toTarget:self withObject:nil 
-			delayMS:[[task defaults] integerForKey:RFRewardMSKey]];
-		if ([[task defaults] boolForKey:RFDoSoundsKey]) {
+			delayMS:[[NSUserDefaults standardUserDefaults] integerForKey:RFRewardMSKey]];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
 			juiceSound = [NSSound soundNamed:kCorrectSound];
 			if ([juiceSound isPlaying]) {   // won't play again if it's still playing
 				[juiceSound stop];
@@ -66,7 +66,7 @@
 		}
 		//  FALL THROUGH
 	default:
-		if ([[task defaults] boolForKey:RFDoSoundsKey]) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
 			[[NSSound soundNamed:kNotCorrectSound] play];
 		}
 		break;
