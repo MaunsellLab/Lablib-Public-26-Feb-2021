@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		693E232C08227BAB006BD680 /* Release Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 693E232B08227BAB006BD680 /* Release Notes.txt */; };
 		694D0C82077B65400025BAA4 /* Fixate.h in Resources */ = {isa = PBXBuildFile; fileRef = 694D0C80077B65400025BAA4 /* Fixate.h */; };
 		694D0C83077B65400025BAA4 /* Fixate.m in Sources */ = {isa = PBXBuildFile; fileRef = 694D0C81077B65400025BAA4 /* Fixate.m */; };
 		694D127D077B8EC50025BAA4 /* FTBlockedState.h in Resources */ = {isa = PBXBuildFile; fileRef = 694D125B077B8EC50025BAA4 /* FTBlockedState.h */; };
@@ -43,6 +42,7 @@
 		697CC99D077E01CA0025E7D2 /* FTStimuli.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC99C077E01CA0025E7D2 /* FTStimuli.h */; };
 		697CC9A1077E01E00025E7D2 /* FTStimuli.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CC9A0077E01E00025E7D2 /* FTStimuli.m */; };
 		697CD04B077F6B510025E7D2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697CD04A077F6B510025E7D2 /* OpenGL.framework */; };
+		6981BB061EF21D39001CF3CE /* FTXTController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6981BB051EF21D39001CF3CE /* FTXTController.xib */; };
 		69952B7415A247C0002CD226 /* FTUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 69952B7315A247C0002CD226 /* FTUtilities.m */; };
 		69B8D545088EB863002FCFD4 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B8D544088EB863002FCFD4 /* Lablib.framework */; };
 		69C19D6007834E7B00D2B044 /* FTSummaryController.h in Resources */ = {isa = PBXBuildFile; fileRef = 69C19D5F07834E7B00D2B044 /* FTSummaryController.h */; };
@@ -56,7 +56,6 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		693E232B08227BAB006BD680 /* Release Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Release Notes.txt"; sourceTree = "<group>"; };
 		694D0C80077B65400025BAA4 /* Fixate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fixate.h; sourceTree = "<group>"; };
 		694D0C81077B65400025BAA4 /* Fixate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Fixate.m; sourceTree = "<group>"; };
 		694D125B077B8EC50025BAA4 /* FTBlockedState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FTBlockedState.h; sourceTree = "<group>"; };
@@ -92,6 +91,7 @@
 		697CC99C077E01CA0025E7D2 /* FTStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FTStimuli.h; sourceTree = "<group>"; };
 		697CC9A0077E01E00025E7D2 /* FTStimuli.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FTStimuli.m; sourceTree = "<group>"; };
 		697CD04A077F6B510025E7D2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		6981BB051EF21D39001CF3CE /* FTXTController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTXTController.xib; sourceTree = "<group>"; };
 		69952B7215A247C0002CD226 /* FTUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTUtilities.h; sourceTree = "<group>"; };
 		69952B7315A247C0002CD226 /* FTUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTUtilities.m; sourceTree = "<group>"; };
 		69B8D544088EB863002FCFD4 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
@@ -118,7 +118,6 @@
 		089C166AFE841209C02AAC07 /* FixateTask */ = {
 			isa = PBXGroup;
 			children = (
-				693E232B08227BAB006BD680 /* Release Notes.txt */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				694D215F077D34C00025BAA4 /* Plists */,
@@ -144,6 +143,7 @@
 				695EFEE31AC623AA00D9D458 /* Fixate.xib */,
 				695EFEE51AC623D400D9D458 /* FTEyeXYController.xib */,
 				695EFEE71AC623E600D9D458 /* FTSummaryController.xib */,
+				6981BB051EF21D39001CF3CE /* FTXTController.xib */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -294,6 +294,7 @@
 				695EFEE41AC623AA00D9D458 /* Fixate.xib in Resources */,
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				694D0C82077B65400025BAA4 /* Fixate.h in Resources */,
+				6981BB061EF21D39001CF3CE /* FTXTController.xib in Resources */,
 				694D127D077B8EC50025BAA4 /* FTBlockedState.h in Resources */,
 				694D127F077B8EC50025BAA4 /* FTEndtrialState.h in Resources */,
 				695EFEE81AC623E600D9D458 /* FTSummaryController.xib in Resources */,
@@ -312,7 +313,6 @@
 				697CC99D077E01CA0025E7D2 /* FTStimuli.h in Resources */,
 				69C19D6007834E7B00D2B044 /* FTSummaryController.h in Resources */,
 				694E0E6E07C2B90400A965E0 /* FT_Prefix.h in Resources */,
-				693E232C08227BAB006BD680 /* Release Notes.txt in Resources */,
 				695EFEE61AC623D400D9D458 /* FTEyeXYController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -41,11 +41,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (void)dealloc;
 {
-//    NSString *settingsName;
-//
-//    settingsName = [[NSUserDefaults standardUserDefaults] objectForKey:LLSettingsNameKey]; // name of active settings
-//    [self saveCurrentDefaultsToFileWithSuffix:settingsName];
-//    NSLog(@"LLSettingsController: saved to %@", settingsName);
     [settingsFileNames release];
     [settingsDomain release];
     [plugin release];
@@ -155,9 +150,10 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)thePrefix;
 {
-        NSDictionary *baseDict;
+    NSString *settingsName;
+    NSDictionary *baseDict;
 
-    if ((self =  [super initWithWindowNibName:@"LLSettingsController"]) != nil) {
+    if ((self = [super initWithWindowNibName:@"LLSettingsController"]) != nil) {
         plugin = thePlugin;
         [plugin retain];
         prefix = thePrefix;
@@ -177,7 +173,9 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
             [self loadSettingsFileNames];
             if ([settingsFileNames count] == 0) {               // no settings files, make one
                 NSLog(@"Found no settings files -- creating one");
-               [self createNewSettingsFile];
+                settingsName = [self createNewSettingsFile];
+                settingsDomain = [self pathToDomain:settingsName];
+                [settingsDomain retain];
             }
             [[NSUserDefaults standardUserDefaults] setPersistentDomain:@{kActiveSettings:settingsDomain}
                                                                             forName:baseDomain];

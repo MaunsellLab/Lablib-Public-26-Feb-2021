@@ -55,10 +55,10 @@
 		69AF8AD91DFB6E9F00488DF2 /* LabJackU6Settings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabJackU6Settings.xib; sourceTree = "<group>"; };
 		69AF8AFC1DFB895400488DF2 /* u6.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = u6.c; sourceTree = "<group>"; };
 		69AF8AFD1DFB895400488DF2 /* u6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = u6.h; sourceTree = "<group>"; };
-		69D7851C17F3C8E800785BA7 /* eyelink_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = eyelink_core.framework; path = ../../../../Library/Frameworks/eyelink_core.framework; sourceTree = "<group>"; };
+		69D7851C17F3C8E800785BA7 /* eyelink_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = eyelink_core.framework; path = /Library/Frameworks/eyelink_core.framework; sourceTree = "<absolute>"; };
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		69F457831DFCD2B9004C700F /* libusb-1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libusb-1.0.dylib"; path = "../../../../usr/local/lib/libusb-1.0.dylib"; sourceTree = "<group>"; };
-		69F457851DFCD2D2004C700F /* liblabjackusb.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = liblabjackusb.dylib; path = ../../../../usr/local/lib/liblabjackusb.dylib; sourceTree = "<group>"; };
+		69F457831DFCD2B9004C700F /* libusb-1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libusb-1.0.dylib"; path = "/usr/local/lib/libusb-1.0.dylib"; sourceTree = "<absolute>"; };
+		69F457851DFCD2D2004C700F /* liblabjackusb.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = liblabjackusb.dylib; path = /usr/local/lib/liblabjackusb.dylib; sourceTree = "<absolute>"; };
 		E97BF1EA1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabJackU6MonitorSettings.xib; sourceTree = "<group>"; };
 		FC0ED4640CA064BC00BE2453 /* LabJackU6DataDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LabJackU6DataDevice.h; sourceTree = "<group>"; };
 		FC0ED4650CA064BC00BE2453 /* LabJackU6DataDevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LabJackU6DataDevice.m; sourceTree = "<group>"; };
@@ -110,8 +110,14 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
-				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+				6975F2950B3328C200312509 /* Lablib.framework */,
+				69F457851DFCD2D2004C700F /* liblabjackusb.dylib */,
+				69F457831DFCD2B9004C700F /* libusb-1.0.dylib */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
+				69D7851C17F3C8E800785BA7 /* eyelink_core.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -139,28 +145,6 @@
 				69AF8AD81DFB6E9F00488DF2 /* LabJackU6Settings.m */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6975F2950B3328C200312509 /* Lablib.framework */,
-				69F457851DFCD2D2004C700F /* liblabjackusb.dylib */,
-				69F457831DFCD2B9004C700F /* libusb-1.0.dylib */,
-				69D7851C17F3C8E800785BA7 /* eyelink_core.framework */,
-				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {

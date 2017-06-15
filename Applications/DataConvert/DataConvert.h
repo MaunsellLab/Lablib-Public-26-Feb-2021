@@ -12,13 +12,13 @@
 typedef short FixWindow[4];				// definition for a fixation window
 
 typedef struct sampleData {				// description of event type
-    char channel;					// sample channel
-    short value;					// sample value
+    char channel;                       // sample channel
+    short value;                        // sample value
 } SampleData;
 
 typedef struct spikedata {				// description of event type
-    short channel;					// spike channel
-    long time;						// spike time
+    short channel;                      // spike channel
+    long time;                          // spike time
 } SpikeData;
 
 extern NSString *DCDataFormatKey;

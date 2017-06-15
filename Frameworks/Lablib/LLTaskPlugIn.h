@@ -69,8 +69,6 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (assign) LLNE500Pump *rewardPump;
 @property (assign) double trialStartTimeS;
 
-- (IBAction)doRunStop:(id)sender;
-
 - (void)activate;
 - (BOOL)active;
 - (NSTimer *)collectorTimer;
@@ -80,6 +78,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 - (LLDataDoc *)dataDoc;
 - (IBAction)deactivate:(id)sender;
 - (LLUserDefaults *)defaults;
+- (IBAction)doRunStop:(id)sender;
 - (LLBinocCalibrator *)eyeCalibrator;
 - (LLEyeCalibrator *)eyeLeftCalibrator;
 - (LLEyeCalibrator *)eyeRightCalibrator;

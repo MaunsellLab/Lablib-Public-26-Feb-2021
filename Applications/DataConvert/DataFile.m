@@ -145,7 +145,6 @@ static PrintView	*printView;
     NSDate *eventDate;
     NSDateFormatter *dateFormatter;
     
-//    NSCalendarDate *eventDate;
     NSMutableAttributedString *string;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	

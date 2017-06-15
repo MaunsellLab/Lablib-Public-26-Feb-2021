@@ -102,7 +102,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 // Draw the calibration for the fixation window
 	
-	if ([[task defaults] integerForKey:FTEyeXYDoDrawCalKey]) {
+	if ([[NSUserDefaults standardUserDefaults] integerForKey:FTEyeXYDoDrawCalKey]) {
         [[eyePlot eyeLColor] set];
 		[calBezierPath[kLeftEye] stroke];
         [[eyePlot eyeRColor] set];
@@ -171,18 +171,18 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 
 - (void)setEyePlotValues;
 {    
-	[eyePlot setDotSizeDeg:[[task defaults] floatForKey:FTEyeXYDotSizeDegKey]];
-	[eyePlot setDotFade:[[task defaults] boolForKey:FTEyeXYDoDotFadeKey]];
-    [eyePlot setEyeColor:[NSUnarchiver unarchiveObjectWithData:[[task defaults] objectForKey:FTEyeXYLEyeColorKey]]
+	[eyePlot setDotSizeDeg:[[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYDotSizeDegKey]];
+	[eyePlot setDotFade:[[NSUserDefaults standardUserDefaults] boolForKey:FTEyeXYDoDotFadeKey]];
+    [eyePlot setEyeColor:[NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:FTEyeXYLEyeColorKey]]
                   forEye:kLeftEye];
-    [eyePlot setEyeColor:[NSUnarchiver unarchiveObjectWithData:[[task defaults] objectForKey:FTEyeXYREyeColorKey]]
+    [eyePlot setEyeColor:[NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:FTEyeXYREyeColorKey]]
                   forEye:kRightEye];
-	[eyePlot setGrid:[[task defaults] boolForKey:FTEyeXYDoGridKey]];
-	[eyePlot setGridDeg:[[task defaults] floatForKey:FTEyeXYGridDegKey]];
-	[eyePlot setOneInN:[[task defaults] integerForKey:FTEyeXYOneInNKey]];
-	[eyePlot setTicks:[[task defaults] boolForKey:FTEyeXYDoTicksKey]];
-	[eyePlot setTickDeg:[[task defaults] floatForKey:FTEyeXYTickDegKey]];
-	[eyePlot setSamplesToSave:[[task defaults] integerForKey:FTEyeXYSamplesToSaveKey]];
+	[eyePlot setGrid:[[NSUserDefaults standardUserDefaults] boolForKey:FTEyeXYDoGridKey]];
+	[eyePlot setGridDeg:[[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYGridDegKey]];
+	[eyePlot setOneInN:[[NSUserDefaults standardUserDefaults] integerForKey:FTEyeXYOneInNKey]];
+	[eyePlot setTicks:[[NSUserDefaults standardUserDefaults] boolForKey:FTEyeXYDoTicksKey]];
+	[eyePlot setTickDeg:[[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYTickDegKey]];
+	[eyePlot setSamplesToSave:[[NSUserDefaults standardUserDefaults] integerForKey:FTEyeXYSamplesToSaveKey]];
 }
 
 
@@ -232,16 +232,16 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 	unitsToDeg[kRightEye] = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
 	degToUnits[kLeftEye] = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
 	degToUnits[kRightEye] = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-    [self setScaleFactor:[[task defaults] floatForKey:FTEyeXYMagKey]];
+    [self setScaleFactor:[[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYMagKey]];
 	[self setEyePlotValues];
 	[eyePlot setDrawOnlyDirtyRect:YES];
     [eyePlot addDrawable:self];
 	[self changeZoom:slider];
-	[eyePlot scrollPoint:NSMakePoint([[task defaults] floatForKey:FTEyeXYHScrollKey], 
-                                     [[task defaults] floatForKey:FTEyeXYVScrollKey])];
+	[eyePlot scrollPoint:NSMakePoint([[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYHScrollKey], 
+                                     [[NSUserDefaults standardUserDefaults] floatForKey:FTEyeXYVScrollKey])];
 	
 	[[self window] setFrameUsingName:@"FTXYAutosave"];			// Needed when opened a second time
-    if ([[task defaults] boolForKey:FTEyeXYWindowVisibleKey]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:FTEyeXYWindowVisibleKey]) {
         [[self window] makeKeyAndOrderFront:self];
     }
     else {
@@ -254,7 +254,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 - (BOOL) windowShouldClose:(NSNotification *)aNotification {
 
     [[self window] orderOut:self];
-    [[task defaults] setObject:[NSNumber numberWithBool:NO] 
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] 
                 forKey:FTEyeXYWindowVisibleKey];
     [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
     return NO;

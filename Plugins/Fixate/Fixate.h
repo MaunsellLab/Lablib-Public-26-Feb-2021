@@ -16,7 +16,8 @@
 	LLControlPanel			*controlPanel;
 	NSPoint					currentEyesUnits[kEyes];
     FTEyeXYController		*eyeXYController;				// Eye position display
-	NSMenuItem				*settingsMenuItem;
+    LLSettingsController    *settingsController;
+    NSMenuItem				*settingsMenuItem;
     NSWindowController 		*summaryController;
     NSWindowController 		*xtController;
     NSArray                 *topLevelObjects;
@@ -31,7 +32,6 @@
 - (IBAction)doJuice:(id)sender;
 - (void)doJuiceOff;
 - (IBAction)doReset:(id)sender;
-- (IBAction)doRunStop:(id)sender;
 - (FTStimuli *)stimuli;
 
 @end

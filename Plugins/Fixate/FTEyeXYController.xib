@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FTEyeXYController">
@@ -100,7 +100,7 @@
                             <binding destination="248" name="selectedIndex" keyPath="values.FTEyeToUse" id="368"/>
                         </connections>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" id="359">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="359">
                         <rect key="frame" x="115" y="28" width="144" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Base Performance On:" id="360">
@@ -125,7 +125,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="493" height="182"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField verticalHuggingPriority="750" id="312">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="312">
                         <rect key="frame" x="43" y="142" width="101" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Dot Size (deg):" id="313">
@@ -134,7 +134,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" id="311">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="311">
                         <rect key="frame" x="17" y="112" width="127" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Samples Displayed:" id="314">
@@ -143,7 +143,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField toolTip="Size of Dots in Pixels" verticalHuggingPriority="750" id="310">
+                    <textField toolTip="Size of Dots in Pixels" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="310">
                         <rect key="frame" x="149" y="140" width="78" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="315">
@@ -162,7 +162,7 @@
                             <binding destination="248" name="value" keyPath="values.FTEyeXYDotSizeDeg" id="335"/>
                         </connections>
                     </textField>
-                    <textField toolTip="Lifetime  of Dots in Seconds" verticalHuggingPriority="750" id="309">
+                    <textField toolTip="Lifetime  of Dots in Seconds" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="309">
                         <rect key="frame" x="149" y="110" width="78" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="317">
@@ -195,7 +195,7 @@ DQ
                             <action selector="endOptionSheet:" target="-2" id="355"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="307">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="307">
                         <rect key="frame" x="43" y="82" width="101" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Plot 1 Point in:" id="320">
@@ -204,7 +204,7 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField toolTip="Plot Only Every Nth Dot" verticalHuggingPriority="750" id="306">
+                    <textField toolTip="Plot Only Every Nth Dot" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="306">
                         <rect key="frame" x="149" y="80" width="78" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="321">
@@ -240,7 +240,7 @@ DQ
                             </binding>
                         </connections>
                     </colorWell>
-                    <textField verticalHuggingPriority="750" id="297">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="297">
                         <rect key="frame" x="312" y="112" width="70" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Left Eye" id="332">
@@ -262,7 +262,7 @@ DQ
                             </binding>
                         </connections>
                     </colorWell>
-                    <textField verticalHuggingPriority="750" id="295">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="295">
                         <rect key="frame" x="402" y="112" width="70" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Right Eye" id="333">
@@ -282,7 +282,7 @@ DQ
                             <binding destination="248" name="value" keyPath="values.FTEyeXYDoTicks" id="342"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="303">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="303">
                         <rect key="frame" x="149" y="50" width="78" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="324">
@@ -301,7 +301,7 @@ DQ
                             <binding destination="248" name="value" keyPath="values.FTEyeXYTickDeg" id="338"/>
                         </connections>
                     </textField>
-                    <textField verticalHuggingPriority="750" id="302">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="302">
                         <rect key="frame" x="17" y="52" width="127" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Tick Spacing (deg):" id="326">
@@ -321,7 +321,7 @@ DQ
                             <binding destination="248" name="value" keyPath="values.FTEyeXYDoGrid" id="343"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="300">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="300">
                         <rect key="frame" x="149" y="20" width="78" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="328">
@@ -340,7 +340,7 @@ DQ
                             <binding destination="248" name="value" keyPath="values.FTEyeXYGridDeg" id="339"/>
                         </connections>
                     </textField>
-                    <textField verticalHuggingPriority="750" id="299">
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="299">
                         <rect key="frame" x="17" y="22" width="127" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Grid Spacing (deg):" id="330">
