@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -271,7 +271,7 @@
 				LastUpgradeCheck = 0800;
 			};
 			buildConfigurationList = 69B8D113088DABA8002FCFD4 /* Build configuration list for PBXProject "Fixate" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
