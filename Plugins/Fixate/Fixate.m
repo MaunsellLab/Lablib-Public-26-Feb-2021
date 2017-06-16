@@ -64,8 +64,11 @@ LLTaskPlugIn	*task = nil;
 	[mainMenu insertItem:actionsMenuItem atIndex:([mainMenu indexOfItemWithTitle:@"Tasks"] + 1)];
 	[mainMenu insertItem:settingsMenuItem atIndex:([mainMenu indexOfItemWithTitle:@"Tasks"] + 1)];
 	
-// Clear the stimulus
+// Load settings and create and clear the stimulus
 
+    [settingsController loadSettings];
+    [settingsController registerDefaults];
+    stimuli = [[FTStimuli alloc] init];
 	[stimuli erase];
 	
 // Create on-line display windows
@@ -195,7 +198,9 @@ LLTaskPlugIn	*task = nil;
     [xtController close];
     [xtController release];
     [[controlPanel window] close];
-	
+    [stimuli release];
+
+    [settingsController extractSettings];
 	active = NO;
 }
 
@@ -208,9 +213,9 @@ LLTaskPlugIn	*task = nil;
 	[settingsMenuItem release];
 	
 	[scheduler release];
-	[stimuli release];
 	[controlPanel release];
     [topLevelObjects release];
+    [settingsController release];
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self]; 
 
@@ -264,23 +269,11 @@ LLTaskPlugIn	*task = nil;
 	[dataDoc putEvent:@"reset" withData:&resetType];
 }
 
-- (IBAction)doRunStop:(id)sender;
+- (IBAction)doSettings:(id)sender;
 {
-	long newMode;
-	
-    switch ([taskStatus mode]) {
-    case kTaskIdle:
-		newMode = kTaskRunning;
-        break;
-    case kTaskRunning:
-		newMode = kTaskStopping;
-        break;
-    case kTaskStopping:
-    default:
-		newMode = kTaskIdle;
-        break;
-    }
-	[self setMode:newMode];
+    [stimuli release];
+    [settingsController selectSettings];
+    stimuli = [[FTStimuli alloc] init];
 }
 
 // After our -init is called, the host will provide essential pointers such as
@@ -291,12 +284,6 @@ LLTaskPlugIn	*task = nil;
 {
 	task = self;
 	
-// Register our default settings. This should be done first thing, before the
-// nib is loaded, because items in the nib are linked to defaults
-
-	[LLSystemUtil registerDefaultsFromFilePath:
-			[[NSBundle bundleForClass:[self class]] pathForResource:@"UserDefaults" ofType:@"plist"] defaults:defaults];
-
 // Set up the task mode object.  We need to do this before loading the nib,
 // because some items in the nib are bound to the task mode. We also need
 // to set the mode, because the value in defaults will be the last entry made
@@ -304,7 +291,7 @@ LLTaskPlugIn	*task = nil;
 
 	taskStatus = [[LLTaskStatus alloc] init];
 	[taskStatus setMode:kTaskIdle];
-	stimuli = [[FTStimuli alloc] init];
+    settingsController = [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"FT"];
 
 // Load the items in the nib
 

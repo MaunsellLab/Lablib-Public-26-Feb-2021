@@ -12,6 +12,8 @@
 
 #define	kDefaultThreadingThreshold	8192
 
+static BOOL warned = NO;
+
 @implementation LLDataDoc
 
 - (void) addObserver:(id)anObserver {
@@ -544,13 +546,16 @@ This variant accepts only events definitions that include data definitions.
 - (void) putEvent:(NSString *)eventKey;
 {
 	LLDataEventDef *eventDef;
-	
+
 // Extract the event from the event dictionary
 
     if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
-            [NSString stringWithFormat:@"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
-             eventKey]];
+        if (!warned) {
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+                [NSString stringWithFormat:@"putEvent: Attempt to putEvent for \"%@\", which has not been defined (no further warning will be issued).",
+                 eventKey]];
+            warned = YES;
+        }
         return;
     }
     if ([eventDef dataBytes] != 0) {
@@ -561,17 +566,20 @@ This variant accepts only events definitions that include data definitions.
     [self eventToBuffer:[eventDef code] dataPtr:(char *)NULL bytes:0 writeLength:NO];
 }
 
-- (void) putEvent:(NSString *)eventKey withData:(void *)pData {
-
+- (void) putEvent:(NSString *)eventKey withData:(void *)pData;
+{
 	LLDataEventDef *eventDef;
 	long dataBytes;
-	
+
 // Extract the event from the event dictionary
 
     if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
-            [NSString stringWithFormat:@"putEvent: Attempt to putEvent for \"%@\", which has not been defined",
-            eventKey]];
+        if (!warned) {
+            [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:[NSString stringWithFormat:
+                 @"putEvent: Attempt to putEvent for \"%@\", which has not been defined (no further warning will be issued).",
+                 eventKey]];
+            warned = YES;
+        }
         return;
     }
 	dataBytes = [eventDef dataBytes];
@@ -618,10 +626,12 @@ This variant accepts only events definitions that include data definitions.
 // Extract the event from the event dictionary
 
     if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
-        [LLSystemUtil runAlertPanelWithMessageText:[self className]
-                    informativeText:[NSString stringWithFormat:
-                    @"putEvent: Attempt to putEvent for \"%@\", which has not been defined", eventKey]];
-        return;
+        if (!warned) {
+            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+                @"putEvent: Attempt to putEvent for \"%@\", which has not been defined (no further warning will be issued)", eventKey]];
+            warned = YES;
+            return;
+        }
     }
     if ([eventDef dataBytes] > 0) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className]

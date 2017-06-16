@@ -46,11 +46,11 @@ December 26, 2004 John Maunsell
 	if ((self = [super init]) != nil) {
 		fixSpot = [[LLFixTarget alloc] init];
 		[fixSpot setState:YES];
-		[[task defaults] registerDefaults:
+		[[NSUserDefaults standardUserDefaults] registerDefaults:
 					[NSDictionary dictionaryWithObject:
 					[NSArchiver archivedDataWithRootObject:[NSColor whiteColor]] 
 					forKey:FTFixForeColorKey]];
-		[[task defaults] registerDefaults:
+		[[NSUserDefaults standardUserDefaults] registerDefaults:
 					[NSDictionary dictionaryWithObject:
 					[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedRed:0.5 green:0.5 blue:0.5 alpha:1.0]] 
 					forKey:FTFixBackColorKey]];

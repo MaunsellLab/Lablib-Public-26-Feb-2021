@@ -3,15 +3,19 @@
 //  Lablib
 //
 //  Created by John Maunsell on Sat Jun 14 2003.
-//  Copyright (c) 2003. All rights reserved.
+//  Copyright (c) 2017. All rights reserved.
 //
 
 extern NSString *LLSettingsChanged;
 
 @interface LLSettingsController : NSWindowController {
 
-	BOOL					disallowNextSelectionChange;
-	NSMutableArray			*settingsNameArray;
+    BOOL					allowNextSelectionChange;
+    NSString                *baseDomain;
+    NSString                *prefix;
+    NSBundle                *plugin;
+    NSString                *settingsDomain;
+	NSMutableArray			*settingsFileNames;
 
     IBOutlet NSButton	 	*deleteButton;
     IBOutlet NSButton	 	*duplicateButton;
@@ -20,15 +24,22 @@ extern NSString *LLSettingsChanged;
     IBOutlet NSTableView	*settingsTable;
 }
 
-- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
-- (NSUserDefaults *)defaultSettings;
-- (NSString *)domainNameWithName:(NSString *)name;
-- (void)loadDefaultsFromFileWithSuffix:(NSString *)suffix;
-- (NSString *)pathToFile:(NSString *)fileName;
-- (void)saveCurrentDefaultsToFileWithSuffix:(NSString *)suffix;
+- (BOOL)extractSettings;
+- (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)prefix;
+- (BOOL)loadSettings;
+- (void)loadSettingsFileNames;
+- (NSString *)pathToDomain:(NSString *)name;
+- (NSString *)pathToFile:(NSString *)name;
+- (BOOL)registerDefaults;
 - (void)selectSettings;
 - (void)synchronize;
 - (NSString *)uniqueSettingsName;
+
+//- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
+//- (NSUserDefaults *)defaultSettings;
+//- (NSString *)domainNameWithName:(NSString *)name;
+//- (void)loadDefaultsFromFileWithSuffix:(NSString *)suffix;
+//- (void)saveCurrentDefaultsToFileWithSuffix:(NSString *)suffix;
 
 - (IBAction)deleteSettings:(id)sender;
 - (IBAction)duplicateSettings:(id)sender;

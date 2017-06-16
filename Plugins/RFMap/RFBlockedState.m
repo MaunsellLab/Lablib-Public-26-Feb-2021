@@ -14,7 +14,7 @@
 
 	[[task dataDoc] putEvent:@"blocked"];
 //	schedule(&bNode, (PSCHED)&blockedTones, PRISYS - 1, 400, -1, NULL);
-	expireTime = [LLSystemUtil timeFromNow:[[task defaults] integerForKey:RFAcquireMSKey]];
+	expireTime = [LLSystemUtil timeFromNow:[[NSUserDefaults standardUserDefaults] integerForKey:RFAcquireMSKey]];
 }
 
 - (NSString *)name {
@@ -24,7 +24,7 @@
 
 - (LLState *)nextState {
 
-	if (![[task defaults] boolForKey:RFDoFixateKey] || ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] || ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
 		return [[task stateSystem] stateNamed:@"Fixon"];
     }
 	if ([task mode] == kTaskIdle) {

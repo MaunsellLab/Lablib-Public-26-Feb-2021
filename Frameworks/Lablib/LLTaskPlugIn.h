@@ -18,6 +18,7 @@
 #import "LLStateSystem.h"
 #import "LLStimWindow.h"
 #import "LLSynthDataDevice.h"
+#import "LLTaskStatus.h"
 #import "LLUserDefaults.h"
 
 typedef NS_ENUM(NSInteger, SoundTypes) {
@@ -60,6 +61,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 	LLStateSystem			*stateSystem;
 	LLStimWindow			*stimWindow;
 	LLSynthDataDevice		*synthDataDevice;
+    LLTaskStatus			*taskStatus;
 	BOOL					writingDataFile;
 }
 
@@ -76,6 +78,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 - (LLDataDoc *)dataDoc;
 - (IBAction)deactivate:(id)sender;
 - (LLUserDefaults *)defaults;
+- (IBAction)doRunStop:(id)sender;
 - (LLBinocCalibrator *)eyeCalibrator;
 - (LLEyeCalibrator *)eyeLeftCalibrator;
 - (LLEyeCalibrator *)eyeRightCalibrator;

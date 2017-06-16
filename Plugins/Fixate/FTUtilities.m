@@ -9,7 +9,7 @@
 #import "FTUtilities.h"
 #include "FT.h"
 
-NSString *VCANEyeToUseKey = @"FTEyeToUse";
+NSString *FTEyeToUseKey = @"FTEyeToUse";
 
 typedef enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular} FTEyeToUse;
 
@@ -19,7 +19,7 @@ typedef enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular} FTEyeToUse;
 {
     BOOL inWindow = NO;
     
-    switch ([[task defaults] integerForKey:VCANEyeToUseKey]) {
+    switch ([[NSUserDefaults standardUserDefaults] integerForKey:FTEyeToUseKey]) {
         case kUseLeftEye:
         default:
             inWindow = [window inWindowDeg:([task currentEyesDeg])[kLeftEye]];

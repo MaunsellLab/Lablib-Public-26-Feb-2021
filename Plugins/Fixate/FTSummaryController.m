@@ -48,14 +48,14 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
 
 - (void)dealloc {
 
-	[[task defaults] setFloat:[NSDate timeIntervalSinceReferenceDate] forKey:FTSummaryWindowDateKey];
-	[[task defaults] setInteger:recentEOTs[kEOTBroke] forKey:FTSummaryWindowBrokeKey];
-	[[task defaults] setInteger:recentEOTs[kEOTCorrect] forKey:FTSummaryWindowCorrectKey];
-	[[task defaults] setInteger:recentEOTs[kEOTFailed] forKey:FTSummaryWindowFailedKey];
-	[[task defaults] setInteger:recentEOTs[kEOTIgnored] forKey:FTSummaryWindowIgnoredKey];
-	[[task defaults] setInteger:recentEOTs[kEOTWrong] forKey:FTSummaryWindowWrongKey];
-	[[task defaults] setInteger:recentEOTTotal forKey:FTSummaryWindowTotalKey];
-	[[task defaults] setInteger:recentComputer forKey:FTSummaryWindowComputerKey];
+	[[NSUserDefaults standardUserDefaults] setFloat:[NSDate timeIntervalSinceReferenceDate] forKey:FTSummaryWindowDateKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:recentEOTs[kEOTBroke] forKey:FTSummaryWindowBrokeKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:recentEOTs[kEOTCorrect] forKey:FTSummaryWindowCorrectKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:recentEOTs[kEOTFailed] forKey:FTSummaryWindowFailedKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:recentEOTs[kEOTIgnored] forKey:FTSummaryWindowIgnoredKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:recentEOTs[kEOTWrong] forKey:FTSummaryWindowWrongKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:recentEOTTotal forKey:FTSummaryWindowTotalKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:recentComputer forKey:FTSummaryWindowComputerKey];
     [fontAttr release];
     [labelFontAttr release];
     [leftFontAttr release];

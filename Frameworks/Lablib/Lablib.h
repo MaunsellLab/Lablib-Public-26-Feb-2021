@@ -69,6 +69,7 @@
 #import <Lablib/LLPlotColors.h>
 #import <Lablib/LLPlotView.h>
 #import <Lablib/LLPluginController.h>
+#import <Lablib/LLPluginDefaults.h>
 #import <Lablib/LLPointDist.h>
 #import <Lablib/LLProgressIndicator.h>
 #import <Lablib/LLPulseTrain.h>

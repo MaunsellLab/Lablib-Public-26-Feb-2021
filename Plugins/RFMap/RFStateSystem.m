@@ -54,7 +54,7 @@ TrialDesc				trial;
 		[controller setLogging:NO];
 		
 		fixWindow = [[LLEyeWindow alloc] init];
-		[fixWindow setWidthAndHeightDeg:[[task defaults] floatForKey:RFFixWindowWidthDegKey]];
+		[fixWindow setWidthAndHeightDeg:[[NSUserDefaults standardUserDefaults] floatForKey:RFFixWindowWidthDegKey]];
     }
     return self;
 }

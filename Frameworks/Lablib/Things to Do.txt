@@ -1,7 +1,37 @@
+STILL PROBLEMS GETTING NEW SETTINGS FOLDERS TO APPEAR WHEN EDITING THE NAME OF SETTINGS FILES.
 
-• Matlab report when it is uncalibrated data (or someone report)
-• NIDAQ need to detect uncalibrated signals and not send them out
 
+When Plugin is activated:
+    *Register defaults as base persistent domain (e.g., lablib.knot.TPOP.plist)
+    *Load new persistent domain into StandardUserDefaults (SUD) otherwise
+        *Get base persistent domain to find which settings file to use
+        *Default settings file is base persistent domain, use that if nothing overrides
+         Load a different settings file if something else is specified
+
+When settings manager is called:
+    Offer list of settings files (persistent domains) for the current plugin
+        They take for form of lablib.knot.TPOP.name.plist
+        Don't show base persistent domain in list
+    Allow delete (but only of listed files)
+    All may be deleted, leaving only the base
+    Allow new (based on base persistent domain)
+    Allow duplicatation of an existing settings file
+        New or deleted file becomes the active by default
+    On OK, load the new file (if it's not currently loaded)
+
+*To load a settings file:
+        *These are recognized as entries in SUD with active prefix
+    *Add new settings into SUD
+    *Change the base persistent domain to record the current settings file
+
+*When Plugin is deactivated:
+
+    *Get the currently active settings and save them in the settings file
+    *Remove the currently active settings
+        *These are recognized as entries in SUD with active prefix
+        *Must get rid of anything binding the settings that will be removed (e.g., visual stimuli)
+
+_______________________________________
 170403 Knot
 
 Knot should disable entries in the File Menu when those are disabled in its preferences.

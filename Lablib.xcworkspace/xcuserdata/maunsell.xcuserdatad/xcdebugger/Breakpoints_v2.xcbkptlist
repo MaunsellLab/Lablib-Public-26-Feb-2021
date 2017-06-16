@@ -104,13 +104,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Frameworks/Lablib/LLDataDoc.m"
-            timestampString = "508786289.295218"
+            filePath = "Applications/Knot/KNAppController.m"
+            timestampString = "518811410.133065"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
-            landmarkName = "-setThreadingThreshold:"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
+            landmarkName = "-changeSettings:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Frameworks/Lablib/LLSettingsController.m"
+            timestampString = "519183323.811636"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "-deleteSettings:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

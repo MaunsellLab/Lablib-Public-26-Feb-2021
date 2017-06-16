@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -55,8 +55,11 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
-				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				69E8CA930B0A4A8000DBD2A2 /* Lablib.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -77,25 +80,6 @@
 				69E8CA9C0B0A4A9900DBD2A2 /* LLSynthDataDevicePlugin.m */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				69E8CA930B0A4A8000DBD2A2 /* Lablib.framework */,
-				089C167FFE841241C02AAC07 /* AppKit.framework */,
-				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
-				089C1672FE841209C02AAC07 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
@@ -144,7 +128,7 @@
 				LastUpgradeCheck = 0800;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "LLSynthDataDevice" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (

@@ -16,8 +16,7 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
 
 	NSWindowController		*aboutPanel;					// About this application panel 
     LLTaskPlugIn 			*currentTask;
-    
-	LLDataDoc				*dataDoc;						// LLDataDoc for data events
+    LLDataDoc				*dataDoc;						// LLDataDoc for data events
 	LLUserDefaults			*defaults;
 	LLDataDeviceController	*dataDeviceController;
 	LLBinocCalibrator		*eyeCalibration;

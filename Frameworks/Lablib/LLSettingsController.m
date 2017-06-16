@@ -19,70 +19,76 @@ NSUserDefaults (e.g., dialogs) should be loaded fresh each time they appear.
 #import "LLSettingsController.h"
 #import "LLSystemUtil.h"
 
+#define kActiveSettings     @"LLActiveSettings"
+#define kPreferencesPath    [NSString stringWithFormat:@"%@/Library/Preferences", NSHomeDirectory()]
+
 NSString *LLSettingsChanged = @"LLSettings Changed";
 NSString *kDefaultSettingsName = @"Settings 0";
 NSString *LLSettingsNameKey = @"LLSettingsName";
 
 @implementation LLSettingsController
 
-- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
+- (NSString *)createNewSettingsFile;
 {
-	long index;
+    NSString *newName = [self uniqueSettingsName];
 
-// Install the new name and update the settings table
-
-	[settingsNameArray addObject:name];
-	index = [settingsNameArray indexOfObject:name];
-	[settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-	[settingsTable scrollRowToVisible:index];
-	
-// Create the new persistent domain, making sure it has the correct name entered
-
-	[[NSUserDefaults standardUserDefaults] setPersistentDomain:dict 
-				forName:[self domainNameWithName:name]];
+    NSLog(@"Creating a new settings file named %@", [self pathToDomain:newName]);
+    [[NSUserDefaults standardUserDefaults]
+            setPersistentDomain:[self userDefaults] forName:[self pathToDomain:newName]];
+    [settingsFileNames addObject:newName];				// add the new name to the list of settings names
+    return newName;
 }
 
 - (void)dealloc;
 {
-    NSString *settingsName;
-
-    settingsName = [[NSUserDefaults standardUserDefaults] objectForKey:LLSettingsNameKey]; // name of active settings
-    [self saveCurrentDefaultsToFileWithSuffix:settingsName];
-    NSLog(@"LLSettingsController: saved to %@", settingsName);
-	[settingsNameArray release];
-	[super dealloc];
-}
-
-- (NSUserDefaults *)defaultSettings;
-{
-	return [NSUserDefaults standardUserDefaults];
+    [settingsFileNames release];
+    [settingsDomain release];
+    [plugin release];
+    [prefix release];
+    [baseDomain release];
+    [super dealloc];
 }
 
 - (IBAction)deleteSettings:(id)sender;
 {
     NSAlert *theAlert = [[NSAlert alloc] init];
-    
+
     [theAlert setMessageText:[self className]];
-	if ([settingsNameArray count] == 1) {
-        [theAlert setInformativeText:NSLocalizedString(@"There must always be least one configuration", nil)];
+    if ([settingsFileNames count] == 1) {
+        [theAlert setInformativeText:NSLocalizedString(@"There must always be least one settings file", nil)];
         [theAlert beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
             if (result == NSModalResponseOK) {
             }
         }];
-	}
-	else {
+    }
+    else {
         [theAlert setInformativeText:
-                NSLocalizedString(@"Really delete configuration? This operation cannot be undone.", nil)];
+         NSLocalizedString(@"Really delete settings? This operation cannot be undone.", nil)];
         [theAlert addButtonWithTitle:NSLocalizedString(@"Delete", @"Common Delete")];
         [theAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Common Cancel")];
         [theAlert beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
             long row;
+            NSString *fileName, *settingsFileName;
+            NSDirectoryEnumerator *dirEnum;
             switch (result) {
                 case NSAlertFirstButtonReturn:					// DELETE the settings
                     row = [settingsTable selectedRow];			// row to delete
-                    [[NSFileManager defaultManager] removeItemAtPath:
-                            [self pathToFile:[settingsNameArray objectAtIndex:row]] error:NULL];
-                    [settingsNameArray removeObjectAtIndex:row];//  and their name
+                    NSLog(@"Deleting %@", [self pathToFile:[settingsFileNames objectAtIndex:row]]);
+                    [[NSUserDefaults standardUserDefaults]
+                            removePersistentDomainForName:[self pathToFile:[settingsFileNames objectAtIndex:row]]];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    settingsFileName = [NSString stringWithFormat:@"%@.%@",
+                                        baseDomain, [settingsFileNames objectAtIndex:row]];
+                    dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:kPreferencesPath];
+                    while ((fileName = [dirEnum nextObject])) {
+                        if ([fileName hasPrefix:settingsFileName]) {
+                            [[NSFileManager defaultManager] removeItemAtPath:
+                             [NSString stringWithFormat:@"%@/Library/Preferences/%@", NSHomeDirectory(), fileName]
+                             error:nil];
+                        }
+                        [dirEnum skipDescendents];				// don't go into any directories
+                    }
+                    [settingsFileNames removeObjectAtIndex:row];//  and their name
                     [settingsTable reloadData];					// update table display
                     break;
                 case NSAlertSecondButtonReturn:                 // CANCEL the deletion
@@ -90,13 +96,8 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
                     break;
             }
         }];
-	}
+    }
     [theAlert release];
-}
-
-- (NSString *)domainNameWithName:(NSString *)name;
-{
-	return [NSString stringWithFormat:@"%@-%@", [[NSBundle mainBundle] bundleIdentifier], name];
 }
 
 // Respond to the duplicate button. In this case, we make a new file with the contents of the current
@@ -104,67 +105,360 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (IBAction)duplicateSettings:(id)sender;
 {
-	long index;
-	NSString *newName;
+    long index, j;
+    NSString *tempName, *newName;
+    NSDictionary *settingsDict;
 
-	index = [settingsTable selectedRow];				// get the settings to duplicate
-	newName = [NSString stringWithFormat:@"%@ copy", [settingsNameArray objectAtIndex:index]];
-	while ([settingsNameArray containsObject:newName]) {
-		newName = [NSString stringWithFormat:@"%@a", newName];
-	}
-	
-// We're going to automatically activate the newly created duplicate, so we need to save the current
-// settings to a file.  We have to write to the newly created file, because selectSettings will notice
-// the selection has changed and will load it.
-
-//	[self saveCurrentDefaultsToFileWithSuffix:[settingsNameArray objectAtIndex:index]];
-	[[NSUserDefaults standardUserDefaults] setObject:newName forKey:LLSettingsNameKey];
-	[self saveCurrentDefaultsToFileWithSuffix:newName];
-
-// Update the table to show the new name and select it
-
-	[settingsNameArray addObject:newName];				// add the new name to the name array
-	index = [settingsNameArray indexOfObject:newName];
-	[settingsTable reloadData];							// Make sure number of rows is up to date
-	[settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-	[settingsTable scrollRowToVisible:index];
+    index = [settingsTable selectedRow];				// get the settings to duplicate
+    tempName = [NSString stringWithFormat:@"%@ Copy", [settingsFileNames objectAtIndex:index]];
+    newName = tempName;
+    j = 1;
+    while ([settingsFileNames containsObject:newName]) {
+        newName = [NSString stringWithFormat:@"%@ %ld", tempName, j++];
+    }
+    settingsDict = [[NSUserDefaults standardUserDefaults]
+                    persistentDomainForName:[self pathToDomain:[settingsFileNames objectAtIndex:index]]];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:[self pathToDomain:newName]];
+    [settingsFileNames addObject:newName];				// add the new name to the name array
+    index = [settingsFileNames indexOfObject:newName];
+    [settingsTable reloadData];							// Make sure number of rows is up to date
 }
 
-- (id)init;
+- (BOOL)extractSettings;
 {
-	NSString *settingsName;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-    if ((self =  [super initWithWindowNibName:@"LLSettingsController"]) != nil) {
+    NSString *key, *windowFramePrefix;
+    NSMutableDictionary *knotDict, *settingsDict;
+    NSEnumerator *enumerator;
+
+    NSLog(@"Extracting keys for %@", settingsDomain);
+    knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
+                                            persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
+    settingsDict = [[NSMutableDictionary alloc] init];
+    enumerator = [knotDict keyEnumerator];
+    windowFramePrefix = [NSString stringWithFormat:@"NSWindow Frame %@", prefix];
+    for (key in enumerator) {
+        if ([key hasPrefix:prefix] || [key hasPrefix:windowFramePrefix]) {
+            [settingsDict setObject:[knotDict objectForKey:key] forKey:key];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+        }
+    }
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:settingsDomain];
+    [[NSUserDefaults standardUserDefaults] synchronize];        // write any changes to disk
+    [settingsDict release];
+    return YES;
+}
+
+- (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)thePrefix;
+{
+    NSString *settingsName;
+    NSDictionary *baseDict;
+
+    if ((self = [super initWithWindowNibName:@"LLSettingsController"]) != nil) {
+        plugin = thePlugin;
+        [plugin retain];
+        prefix = thePrefix;
+        [prefix retain];
+        baseDomain = [NSString stringWithFormat:@"lablib.knot.%@",
+                                            [plugin objectForInfoDictionaryKey:@"CFBundleExecutable"]];
+        [baseDomain retain];
+        [self window];
         [self setWindowFrameAutosaveName:@"LLSettingsController"];
-		[self window];
+        [[self window] makeFirstResponder:settingsTable];
+        settingsFileNames = [[NSMutableArray alloc] init];
 
-// We should be able to set the initialFirstResponder in IB, but that does not seem
-// to work.  We need the table to come up as the first responder so that it will 
-// respond to keys (e.g., arrows).
+        // If there is no base domain plist, create one.  loadSettings will check for existence of settings file.
 
-		[[self window] makeFirstResponder:settingsTable];
-		settingsNameArray = [[NSMutableArray alloc] init];
+        if ((baseDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:baseDomain]) == nil) {
+            NSLog(@"Found no base domain -- creating one");
+            [self loadSettingsFileNames];
+            if ([settingsFileNames count] == 0) {               // no settings files, make one
+                NSLog(@"Found no settings files -- creating one");
+                settingsName = [self createNewSettingsFile];
+                settingsDomain = [self pathToDomain:settingsName];
+                [settingsDomain retain];
+            }
+            [[NSUserDefaults standardUserDefaults] setPersistentDomain:@{kActiveSettings:settingsDomain}
+                                                                            forName:baseDomain];
+        }
+    }
+    return self;
+}
 
-// If we don't have a named default configuration, name the current (only) one.  If we do have a named default, 
-// we don't need to worry about loading it, because it was left in the default configuration, which is the one
-// we have reloaded by default.  We also create the file, so it's there to be found when the list is made for
-// the table, and there's a file available to rename if the user does that
+- (BOOL)loadSettings;
+{
+    NSDictionary *pluginDict, *settingsDict;
+    NSMutableDictionary *knotDict;
 
-        settingsName = [defaults objectForKey:LLSettingsNameKey];       // name of active setting file
-        if (settingsName == nil) {                                      // if none, initialize a defaults file
-			[defaults setObject:kDefaultSettingsName forKey:LLSettingsNameKey];
-			[self saveCurrentDefaultsToFileWithSuffix:kDefaultSettingsName];
-		}
+    if ((pluginDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:baseDomain]) == nil) {
+        return NO;
+    }
 
-        // If there is a current defaults file, we need to load it
+    // if there is not no setting file specified, take the first one found
 
-		else if ([[NSFileManager defaultManager] isReadableFileAtPath:[self pathToFile:settingsName]]) {
-//			[self saveCurrentDefaultsToFileWithSuffix:settingsName];
-            [self loadDefaultsFromFileWithSuffix:settingsName];
-		}
-	} 
-	return self;
+    [settingsDomain release];
+    if ((settingsDomain = [pluginDict objectForKey:kActiveSettings]) == nil) {
+        [self loadSettingsFileNames];
+        if ([settingsFileNames count] == 0) {               // no settings files, make one
+            NSLog(@"Found no settings files -- creating one");
+            [self createNewSettingsFile];
+        }
+        settingsDomain = [self pathToDomain:[settingsFileNames objectAtIndex:0]];
+        [[NSUserDefaults standardUserDefaults] setPersistentDomain:@{kActiveSettings:settingsDomain} forName:baseDomain];
+    }
+    [settingsDomain retain];
+    settingsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:settingsDomain];
+    NSLog(@"Loading domain named %@", settingsDomain);
+
+    knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
+                                            persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
+    [knotDict addEntriesFromDictionary:settingsDict];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict forName:[NSBundle mainBundle].bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    return YES;
+}
+
+- (void)loadSettingsFileNames;
+{
+    NSString *fileName;
+    NSArray *pathComponents;
+    NSDirectoryEnumerator *dirEnum;
+
+    [settingsFileNames removeAllObjects];
+    dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:kPreferencesPath];
+
+    // The OS sometimes creates temporary files, with an extension appended on the full name.  This puts the
+    // base settings file with a count of 5 and its normal extension "plist" at index 3. We check for that.
+
+    while ((fileName = [dirEnum nextObject])) {
+        if ([fileName hasPrefix:baseDomain]) {
+            pathComponents = [fileName componentsSeparatedByString:@"."];
+            if ([pathComponents count] == 5) {   // avoid the base settings plist file
+                if (![[pathComponents objectAtIndex:3] isEqualTo:@"plist"]) {
+                    [settingsFileNames addObject:[pathComponents objectAtIndex:3]];
+                }
+            }
+        }
+        [dirEnum skipDescendents];				// don't go into any directories
+    }
+}
+
+// Create new settings (which will assume the registered default values).
+
+- (IBAction)newSettings:(id)sender;
+{
+    long index;
+    NSString *newName = [self uniqueSettingsName];
+
+    newName = [self createNewSettingsFile];
+    index = [settingsFileNames indexOfObject:newName];  // update the settings table in the dialog
+    [settingsTable reloadData];							// make sure number of rows is up to date
+    [settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [settingsTable scrollRowToVisible:index];
+}
+
+- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+{
+    return (int)[settingsFileNames count];
+}
+
+- (IBAction)ok:(id)sender;
+{
+    [NSApp stopModal];
+}
+
+- (NSString *)pathToDomain:(NSString *)name;
+{
+    return [NSString stringWithFormat:@"%@/Library/Preferences/%@.%@", NSHomeDirectory(), baseDomain, name];
+}
+
+- (NSString *)pathToFile:(NSString *)name;
+{
+    return [NSString stringWithFormat:@"%@.plist", [self pathToDomain:name]];
+}
+
+
+// Find the file "UserDefaults.plist" in the resources of the named plugin and register the contents in
+// a persistent domain.  This should be called immediately after calling loadSettingsDefaultsForPlugin,
+// so it will fill any holes that need to be plugged.
+
+- (BOOL)registerDefaults;
+{
+    NSDictionary *pluginValuesDict;
+
+    pluginValuesDict = [self userDefaults];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:pluginValuesDict];
+    return YES;
+}
+
+- (void)selectSettings;
+{
+    long settingsIndex;
+    NSString *pName, *newSettingsName;
+
+    if (settingsDomain == nil) {
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];		// make sure persistent domain is up to date
+
+    // Load the array of names with all candidate files
+
+    [self loadSettingsFileNames];
+    if ([settingsFileNames count] == 0) {
+        [duplicateButton setEnabled:NO];
+        [deleteButton setEnabled:NO];
+    }
+    else {
+        [settingsFileNames sortUsingSelector:@selector(caseInsensitiveCompare:)];
+        [duplicateButton setEnabled:YES];
+        [deleteButton setEnabled:YES];
+    }
+    [settingsTable reloadData];							// make sure number of rows is up to date
+    pName = [[settingsDomain componentsSeparatedByString:@"."] lastObject];
+    settingsIndex = [settingsFileNames indexOfObject:pName];
+    if (settingsIndex != NSNotFound) {
+        [settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:settingsIndex] byExtendingSelection:NO];
+        [settingsTable scrollRowToVisible:settingsIndex];
+    }
+    [NSApp runModalForWindow:[self window]];
+    [[self window] orderOut:self];
+    if ([settingsTable selectedRow] >= 0) {
+        newSettingsName = [settingsFileNames objectAtIndex:[settingsTable selectedRow]];
+        if (![pName isEqualToString:newSettingsName]) {
+            NSLog(@"Switching settings from %@ to %@", settingsDomain, [self pathToDomain:newSettingsName]);
+            [self extractSettings];
+            [settingsDomain release];
+            settingsDomain = [self pathToDomain:newSettingsName];
+            [settingsDomain retain];
+            [self saveSettingsDomainName];
+            [self loadSettings];
+            [[NSNotificationCenter defaultCenter] postNotificationName:LLSettingsChanged object:nil];
+        }
+        [[NSUserDefaults standardUserDefaults] synchronize];		// make sure persistent domain is up to date
+    }
+}
+
+- (void)saveSettingsDomainName;
+{
+    NSMutableDictionary *theDict;
+
+    theDict = [NSMutableDictionary dictionaryWithDictionary:
+               [[NSUserDefaults standardUserDefaults] persistentDomainForName:baseDomain]];
+    [theDict setObject:settingsDomain forKey:kActiveSettings];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:theDict forName:baseDomain];
+}
+
+- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView;
+{
+    BOOL allow = allowNextSelectionChange;
+
+    allowNextSelectionChange = YES;
+    return allow;
+}
+
+- (void)synchronize;
+{
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+{
+    return [settingsFileNames objectAtIndex:row];
+}
+
+// tableView is called when the user tries to rename one of the settings
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column
+              row:(int)rowIndex;
+{
+    NSString *newName = object;
+    NSString *oldName = [settingsFileNames objectAtIndex:rowIndex];
+    NSDictionary *settingsDict;
+
+    if ([oldName isEqual:newName]) {                                        // no change, do nothing
+        return;
+    }
+    if ([newName length] == 0) {                                            // blank name, not allowed
+        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:@"Blank name not allowed."];
+        allowNextSelectionChange = NO;
+        return;
+    }
+    if ([settingsFileNames containsObject:newName]) {						// Name already taken
+        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+               informativeText:[NSString stringWithFormat:@"The name \"%@\" is already in use, please select another.",
+               newName]];
+        allowNextSelectionChange = NO;
+        return;
+    }
+    [settingsFileNames replaceObjectAtIndex:rowIndex withObject:object];
+    settingsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[self pathToDomain:oldName]];
+    NSLog(@"Creating new settings for %@ from %@", [self pathToDomain:newName], [self pathToDomain:oldName]);
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:[self pathToDomain:newName]];
+    NSLog(@"Deleting %@", [self pathToDomain:oldName]);
+    [[NSFileManager defaultManager] removeItemAtPath:[self pathToFile:oldName] error:nil];
+}
+
+- (NSString *)uniqueSettingsName;
+{
+    long count;
+    NSString *newName;
+
+    count = [settingsFileNames count];
+    do {
+        newName = [NSString stringWithFormat:@"Settings %ld", count++];
+    } while ([settingsFileNames containsObject:newName]);
+    return newName;
+}
+
+- (NSDictionary *)userDefaults;
+{
+    NSString *pluginValuesPath;
+    NSDictionary *pluginValuesDict;
+
+    if ((pluginValuesPath = [plugin pathForResource:@"UserDefaults" ofType:@"plist"]) == nil) {
+        return nil;
+    }
+    if ((pluginValuesDict = [NSDictionary dictionaryWithContentsOfFile:pluginValuesPath]) == nil) {
+        return nil;
+    }
+    return pluginValuesDict;
+}
+
+
+
+
+
+
+
+/*
+
+- (void)createSettingsWithName:(NSString *)name dictionary:(NSDictionary *)dict;
+{
+    long index;
+
+    // Install the new name and update the settings table
+
+    [settingsFileNames addObject:name];
+    index = [settingsFileNames indexOfObject:name];
+    [settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [settingsTable scrollRowToVisible:index];
+
+    // Create the new persistent domain, making sure it has the correct name entered
+
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:dict
+                                                       forName:[self domainNameWithName:name]];
+}
+
+// Present the dialog and let the user change settings.  Unused settings are kept in plist files named by
+// appending a name to the default plist file.
+
+- (NSUserDefaults *)defaultSettings;
+{
+	return [NSUserDefaults standardUserDefaults];
+}
+
+- (NSString *)domainNameWithName:(NSString *)name;
+{
+	return [NSString stringWithFormat:@"%@-%@", [[NSBundle mainBundle] bundleIdentifier], name];
 }
 
 // Load defaults from an NSDictionary in a file in ~/Library/Preferences using the bundle ID name
@@ -193,43 +487,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 	}
 }
 	
-// Create new, empty settings (which will assume the registered default values).
-
-- (IBAction)newSettings:(id)sender;
-{
-	long index;
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *newName = [self uniqueSettingsName];
-	
-	[settingsNameArray addObject:newName];				// add the new name to the list of settings names
-	[defaults removePersistentDomainForName:bundleID];	// clear out any current settings
-	[defaults setObject:newName forKey:LLSettingsNameKey];
-	[self saveCurrentDefaultsToFileWithSuffix:newName];
-
-	index = [settingsNameArray indexOfObject:newName];  // update the settings table in the dialog
-	[settingsTable reloadData];							// make sure number of rows is up to date
-	[settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-	[settingsTable scrollRowToVisible:index];
-}
-
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
-{
-    return (int)[settingsNameArray count];
-}
-
-- (IBAction)ok:(id)sender;
-{
-	[NSApp stopModal];
-}
-
-- (NSString *)pathToFile:(NSString *)fileName;
-{
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-
-	return [NSString stringWithFormat:@"%@/Library/Preferences/%@.%@.plist", NSHomeDirectory(), bundleID, fileName];
-}
-
 // Save the current defaults as an NSDictionary in a file in ~/Library/Preferences using the bundle ID name
 // and a suffix.
 
@@ -245,72 +502,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 					bundleID, suffix] atomically:YES];
 }
 
-- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView;
-{
-	if (disallowNextSelectionChange) {
-		disallowNextSelectionChange = NO;
-		return NO;
-	}
-	return YES;
-}
-
-// Present the dialog and let the user change settings.  Unused settings are kept in plist files named by 
-// appending a name to the default plist file.
-
-- (void)selectSettings;
-{
-	long settingsIndex;
-	NSString *pname;
-	NSArray *pathComponents;
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSDirectoryEnumerator *direnum;
-
-	[defaults synchronize];						// make sure persistent domain is up to date
-
-// Load the array of names with all candidate files, plus the name of the settings currently loaded (in case
-// they are not yet in a file.
-
-	[settingsNameArray removeAllObjects];
-	direnum = [[NSFileManager defaultManager] enumeratorAtPath:
-					[NSString stringWithFormat:@"%@/Library/Preferences", NSHomeDirectory()]];
-	while ((pname = [direnum nextObject])) {
-		if ([pname hasPrefix:bundleID]) {
-			pathComponents = [pname componentsSeparatedByString:@"."];
-			if ([pathComponents count] == 4) {
-				[settingsNameArray addObject:[pathComponents objectAtIndex:2]];
-			}
-		}
-		[direnum skipDescendents];				// we don't want to go into any directories
-	}
-	
-// Add the name of the current settings if they are not in there
-
-	[settingsNameArray sortUsingSelector:@selector(caseInsensitiveCompare:)];
-	pname = [defaults objectForKey:LLSettingsNameKey];
-
-// Configure the table for display
-
-	settingsIndex = [settingsNameArray indexOfObject:pname];
-	[settingsTable reloadData];							// make sure number of rows is up to date
-	[settingsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:settingsIndex] byExtendingSelection:NO];
-	[settingsTable scrollRowToVisible:settingsIndex];
-
-// We are now ready to run the dialog. Save settings before, and reload setting afterward.  We do this because
-// settings may get overwritten if some settings are renamed, even if the index doesn't change
-
-	[self saveCurrentDefaultsToFileWithSuffix:pname];
-	[NSApp runModalForWindow:[self window]];
-	[self loadDefaultsFromFileWithSuffix:[settingsNameArray objectAtIndex:[settingsTable selectedRow]]];
-
-// If the index has changed, notify observers that the defaults are different
-
-	if (settingsIndex != [settingsTable selectedRow]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:LLSettingsChanged object:nil];
-	}
-    [[self window] orderOut:self];
-}
-
 - (BOOL) shouldCascadeWindows {
 
     return NO;
@@ -318,59 +509,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 // Write the current settings into the appropriate domain so it is up to date
 
-- (void)synchronize;
-{
-	[[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
-{
-	return [settingsNameArray objectAtIndex:row];
-}
-
-// tableView is called when the user tries to rename one of the settings
-
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column
-						row:(int)rowIndex;
-{
-	NSString *newName = object;
-	NSString *oldName = [settingsNameArray objectAtIndex:rowIndex];
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	
-	if ([oldName isEqual:newName]) {		// no change, do nothing
-		return;
-	}
-	if ([newName length] == 0) {												// blank name, not allowed
-        [LLSystemUtil runAlertPanelWithMessageText:[self className]
-                    informativeText:@"Please use a name that is not blank."];
-		disallowNextSelectionChange = YES;
-		return;
-	}
-	if ([settingsNameArray containsObject:newName]) {						// Name already taken
-        [LLSystemUtil runAlertPanelWithMessageText:[self className]
-                informativeText:[NSString stringWithFormat:@"The name \"%@\" is already in use, please select another.",
-                newName]];
-		disallowNextSelectionChange = YES;
-		return;
-	}
-	[settingsNameArray replaceObjectAtIndex:rowIndex withObject:object];
-	[self loadDefaultsFromFileWithSuffix:oldName];
-	[[NSUserDefaults standardUserDefaults] setObject:newName forKey:LLSettingsNameKey];
-	[self saveCurrentDefaultsToFileWithSuffix:newName];
-	[[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/Library/Preferences/%@.%@.plist", 
-                                                      NSHomeDirectory(), bundleID, oldName] error:NULL];
-}
-
-- (NSString *)uniqueSettingsName;
-{
-	long count;
-	NSString *newName;
-	
-	count = [settingsNameArray count];
-	do {
-		newName = [NSString stringWithFormat:@"Settings %ld", count++];
-	} while ([settingsNameArray containsObject:newName]);
-	return newName;
-}
+ */
 
 @end

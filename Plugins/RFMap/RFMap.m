@@ -82,6 +82,8 @@ LLTaskPlugIn	*task = nil;
 	if (active) {
 		return;
 	}
+    [settingsController loadSettings];
+    [settingsController registerDefaults];
 
 // Insert Actions and Settings menus into menu bar
 	 
@@ -90,6 +92,7 @@ LLTaskPlugIn	*task = nil;
 	
 // Erase the stimulus display
 
+    stimuli = [[RFMapStimuli alloc] init];
 	[stimuli erase];
 	
 // Create on-line display windows
@@ -213,7 +216,8 @@ LLTaskPlugIn	*task = nil;
 // Restore the eye calibration to its original value
 
 	[[task eyeCalibrator] setCalibrationOffsetDeg:originalFixOffsetDeg];
-
+    [stimuli release];
+    [settingsController extractSettings];
 	active = NO;
 }
 
@@ -222,11 +226,9 @@ LLTaskPlugIn	*task = nil;
     while ([stateSystem running]) {};		// wait for state system to stop, then release it
     [[task dataDoc] removeObserver:stateSystem];
     [stateSystem release];
-
 	[actionsMenuItem release];
 	[settingsMenuItem release];
 	[scheduler release];
-	[stimuli release];
 	[controlPanel release];
 	[taskStatus release];
     [topLevelObjects release];
@@ -241,7 +243,7 @@ LLTaskPlugIn	*task = nil;
 	NSString *displayString;
 	NSPoint stimCenterDeg =[stimWindow mouseLocationDeg];
 
-	switch ([defaults boolForKey:RFDisplayUnitsKey]) {
+	switch ([[NSUserDefaults standardUserDefaults] boolForKey:RFDisplayUnitsKey]) {
 	case kAzimuthElevation:
         default:
 		displayString = [NSString stringWithFormat:@"Azimuth: %5.1f\nElevation: %5.1f",
@@ -279,10 +281,10 @@ LLTaskPlugIn	*task = nil;
 	long juiceMS;
 	NSSound *juiceSound;
 	
-	juiceMS = [defaults integerForKey:RFRewardMSKey];
+	juiceMS = [[NSUserDefaults standardUserDefaults] integerForKey:RFRewardMSKey];
 	[[task dataController] digitalOutputBitsOff:kRewardBit];
 	[scheduler schedule:@selector(doJuiceOff) toTarget:self withObject:nil delayMS:juiceMS];
-	if ([defaults boolForKey:RFDoSoundsKey]) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
 		juiceSound = [NSSound soundNamed:@"Correct"];
 		if ([juiceSound isPlaying]) {   // won't play again if it's still playing
 			[juiceSound stop];
@@ -300,23 +302,11 @@ LLTaskPlugIn	*task = nil;
 {
 }
 
-- (IBAction)doRunStop:(id)sender;
+- (IBAction)doSettings:(id)sender;
 {
-	long newMode;
-	
-    switch ([taskStatus mode]) {
-    case kTaskIdle:
-		newMode = kTaskRunning;
-        break;
-    case kTaskRunning:
-		newMode = kTaskStopping;
-        break;
-    case kTaskStopping:
-    default:
-		newMode = kTaskIdle;
-        break;
-    }
-	[self setMode:newMode];
+    [stimuli release];
+    [settingsController selectSettings];
+    stimuli = [[RFMapStimuli alloc] init];
 }
 
 // Run the settings dialog for the current stimulus
@@ -333,27 +323,27 @@ LLTaskPlugIn	*task = nil;
 	if ([theEvent type] == NSEventTypeKeyDown) {
 		switch ([theEvent keyCode]) {
 		case kKeyPad7KeyCode:						// make stimulus smaller
-			[stimuli changeSize:1.0 / [[task defaults] floatForKey:RFSizeFactorKey]];
+			[stimuli changeSize:1.0 / [[NSUserDefaults standardUserDefaults] floatForKey:RFSizeFactorKey]];
 			handled = YES;
 			break;
 		case kKeyPad9KeyCode:						// make stimulus larger
-			[stimuli changeSize:[[task defaults] floatForKey:RFSizeFactorKey]];
+			[stimuli changeSize:[[NSUserDefaults standardUserDefaults] floatForKey:RFSizeFactorKey]];
 			handled = YES;
 			break;
 		case kKeyPad1KeyCode: 						// make stimulus narrow
-			[stimuli changeWidth:1.0 / [[task defaults] floatForKey:RFWidthFactorKey]];
+			[stimuli changeWidth:1.0 / [[NSUserDefaults standardUserDefaults] floatForKey:RFWidthFactorKey]];
 			handled = YES;
 			break;
 		case kKeyPad3KeyCode:						// make stimulus wider
-			[stimuli changeWidth:[[task defaults] floatForKey:RFWidthFactorKey]];
+			[stimuli changeWidth:[[NSUserDefaults standardUserDefaults] floatForKey:RFWidthFactorKey]];
 			handled = YES;
 			break;
 		case kKeyPad6KeyCode:						// rotate CW
-			[stimuli rotate:-[[task defaults] floatForKey:RFOrientationStepDegKey]];
+			[stimuli rotate:-[[NSUserDefaults standardUserDefaults] floatForKey:RFOrientationStepDegKey]];
 			handled = YES;
 			break;
 		case kKeyPad4KeyCode:						// rotate CCW
-			[stimuli rotate:[[task defaults] floatForKey:RFOrientationStepDegKey]];
+			[stimuli rotate:[[NSUserDefaults standardUserDefaults] floatForKey:RFOrientationStepDegKey]];
 			handled = YES;
 			break;
 		case kKeyPad0KeyCode:
@@ -397,13 +387,8 @@ LLTaskPlugIn	*task = nil;
 	LLMultiplierTransformer *transformer;
 	
 	task = self;
+    settingsController = [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"RF"];
 
-// Register our default settings. This should be done first thing, before the
-// nib is loaded, because items in the nib are linked to defaults
-
-	[LLSystemUtil registerDefaultsFromFilePath:
-			[[NSBundle bundleForClass:[self class]] pathForResource:@"UserDefaults" ofType:@"plist"] defaults:defaults];
-	
 // Set up the value transformers that are needed for some of the key bindings
 
 	transformer = [[[LLMultiplierTransformer alloc] init] autorelease];
@@ -436,10 +421,6 @@ LLTaskPlugIn	*task = nil;
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 		selector:@selector(doControls:) name:nil object:controlPanel];
 
-// Modes are saved in defaults, and the last thing saved will be the kTaskEnding.
-// We need to set ourselves to idle mode.
-
-	stimuli = [[RFMapStimuli alloc] init];
 }
 
 - (long)mode;
@@ -468,7 +449,7 @@ LLTaskPlugIn	*task = nil;
 - (void)setMode:(long)newMode;
 {
 	[taskStatus setMode:newMode];
-	[defaults setInteger:newMode forKey:RFTaskStatusKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:newMode forKey:RFTaskStatusKey];
 	[controlPanel setTaskMode:[taskStatus mode]];
 	[[task dataDoc] putEvent:@"taskMode" withData:&newMode];
 	switch ([taskStatus mode]) {

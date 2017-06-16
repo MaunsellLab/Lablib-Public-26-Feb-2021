@@ -22,7 +22,7 @@ void putParameterEvents(void) {
 	
 // ??? Here we need additional test strings that give the screen parameters and eye calibration
 
-    lValue = [[task defaults] integerForKey:RFStimTypeKey];
+    lValue = [[NSUserDefaults standardUserDefaults] integerForKey:RFStimTypeKey];
 	[[task dataDoc] putEvent:@"stimulusType" withData:&lValue];
 }
 
