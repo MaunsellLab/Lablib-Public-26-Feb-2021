@@ -148,7 +148,6 @@ char *idString = "Knot Version 2.2";
     [self deactivateCurrentTask];
     
     [dataDeviceController setDataEnabled:[NSNumber numberWithBool:NO]];
-	[settingsController synchronize];		// Wait until after task deactivates, in case it saves settings
 
 // We've already check it was ok to close open file in -applicationShouldTerminate
 
@@ -188,7 +187,6 @@ char *idString = "Knot Version 2.2";
 	[monitorController release];
     [dataDoc release];										// release data document
     [eyeCalibration release];
-	[settingsController release];
     [defaults synchronize];									// synchronize defaults with disk
 }
 
@@ -210,7 +208,6 @@ char *idString = "Knot Version 2.2";
 // Creating the settings controller was causing a crash when it was in the -init. JHRM 110623
     
 	pluginController = [[LLPluginController alloc] initWithDefaults:defaults];
-	settingsController = [[LLSettingsController alloc] init];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseSocketKey]) {
         socket = [[LLSockets alloc] init];
     }
@@ -268,11 +265,6 @@ char *idString = "Knot Version 2.2";
 {	
 	[dataDeviceController assignmentDialog];
 	[self postDataParamEvents];
-}
-
-- (IBAction)changeSettings:(id)sender;
-{
-    [settingsController selectSettings];
 }
 
 // Initialize any plugins that have not been initialized and update the task menu
@@ -630,7 +622,6 @@ char *idString = "Knot Version 2.2";
 			[recordDontRecordMenuItem setTitle:NSLocalizedString(@"Stop Recording Data", nil)];
 			[recordDontRecordMenuItem setKeyEquivalent:@"W"];   // NB: Implies command-shift-w
 		}
-		[settingsController synchronize];						// save our current settings
 	}
 	else {														// stop recording
 		[defaults setBool:NO forKey:kWritingDataFile];
@@ -715,19 +706,16 @@ char *idString = "Knot Version 2.2";
 	if (action == @selector(changeDataSource:)) {		// Data source
 		return (!writingDataFile && ([currentTask mode] == kTaskIdle));
 	}
-	else if (action == @selector(changeSettings:)) {			// change settings
-		return (!writingDataFile && ([currentTask mode] == kTaskIdle));
-	}
-	else if (action == @selector(recordDontRecord:)) {		// Create or close data file
+	else if (action == @selector(recordDontRecord:)) {              // Create or close data file
 		return ([currentTask mode] == kTaskIdle);
 	}
 	else if (action == @selector(doPreviousTask:)) {				// change task
 		return (!writingDataFile && currentTask != nil && ([currentTask mode] == kTaskIdle));
 	}
-	else if (action == @selector(doTaskMenu:)) {				// change task
+	else if (action == @selector(doTaskMenu:)) {                    // change task
 		return (!writingDataFile && ([currentTask mode] == kTaskIdle));
 	}
-	else if (action == @selector(doPluginController:)) {		// enable/disable plugins
+	else if (action == @selector(doPluginController:)) {            // enable/disable plugins
 		return (!writingDataFile && ([currentTask mode] == kTaskIdle));
 	}
 	return YES;

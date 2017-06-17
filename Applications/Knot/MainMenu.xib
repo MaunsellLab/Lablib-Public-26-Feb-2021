@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -127,19 +127,13 @@
                                     <action selector="showRewardPumpWindow:" target="-2" id="3q0-kc-3A3"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Interprocessor Link…" keyEquivalent="7" id="auw-jH-4eW">
+                            <menuItem title="NIDAQ PC…" keyEquivalent="7" id="auw-jH-4eW">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="showSocketsWindow:" target="-2" id="6xS-HX-hux"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Configuration…" keyEquivalent="8" id="828">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="changeSettings:" target="-2" id="863"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Plugin Manager…" keyEquivalent="9" id="867">
+                            <menuItem title="Plugin Manager…" keyEquivalent="8" id="867">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="doPluginController:" target="-2" id="868"/>
@@ -393,7 +387,7 @@
                                     <rect key="frame" x="18" y="43" width="215" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="1P Calibration File" id="ylh-as-RGQ">
-                                        <font key="font" metaFont="system" size="11"/>
+                                        <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -402,7 +396,7 @@
                                     <rect key="frame" x="18" y="14" width="215" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="2P Calibration File" id="yuo-du-388">
-                                        <font key="font" metaFont="system" size="11"/>
+                                        <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -412,7 +406,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="roundRect" title="Select" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3nz-HZ-LbD">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system" size="9"/>
+                                        <font key="font" metaFont="miniSystem"/>
                                     </buttonCell>
                                     <connections>
                                         <action selector="doAO0CalibrationBrowse:" target="-2" id="UCC-Ao-LSU"/>
@@ -423,7 +417,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="roundRect" title="Select" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8Q7-q7-kZf">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system" size="9"/>
+                                        <font key="font" metaFont="miniSystem"/>
                                     </buttonCell>
                                     <connections>
                                         <action selector="doAO1CalibrationBrowse:" target="-2" id="RJE-it-CWp"/>
