@@ -171,10 +171,14 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
         if ((baseDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:baseDomain]) == nil) {
             NSLog(@"Found no base domain -- creating one");
             [self loadSettingsFileNames];
-            if ([settingsFileNames count] == 0) {               // no settings files, make one
+            if ([settingsFileNames count] == 0) {                       // no settings files, make one
                 NSLog(@"Found no settings files -- creating one");
                 settingsName = [self createNewSettingsFile];
                 settingsDomain = [self pathToDomain:settingsName];
+                [settingsDomain retain];
+            }
+            else {                                                      // take first usable settings file
+                settingsDomain = [self pathToDomain:[settingsFileNames objectAtIndex:0]];
                 [settingsDomain retain];
             }
             [[NSUserDefaults standardUserDefaults] setPersistentDomain:@{kActiveSettings:settingsDomain}
