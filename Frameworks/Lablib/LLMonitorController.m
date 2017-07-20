@@ -23,7 +23,7 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 	}
 	if ([monitorMenu indexOfItemWithTitle:[monitor IDString]] != -1) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
-                @"Attempting to add monitor \"%@|' a second time. (You are probably failling to remove it when the plugin is deallocated.)",
+                @"Attempting to add monitor \"%@|' a second time. (You are probably failing to remove it when the plugin is deallocated.)",
                 [monitor IDString]]];
 		exit(0);
 	}

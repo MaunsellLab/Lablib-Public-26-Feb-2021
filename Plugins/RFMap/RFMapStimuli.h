@@ -40,6 +40,7 @@ RFMapStimuli.h
 - (LLIntervalMonitor *)monitor;
 - (BOOL)mouseDown;
 - (BOOL)mouseUp;
+- (void)releaseStimuli;
 - (void)rotate:(float)deltaDeg;
 - (void)startStimulus;
 - (BOOL)stimulusOn;

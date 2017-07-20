@@ -259,6 +259,7 @@ LLTaskPlugIn	*task = nil;
 // Restore the eye calibration to its original value
 
 	[[task eyeCalibrator] setCalibrationOffsetDeg:originalFixOffsetDeg];
+    [stimuli releaseStimuli];
     [stimuli release];
     [settingsController extractSettings];
 	active = NO;
@@ -347,9 +348,18 @@ LLTaskPlugIn	*task = nil;
 
 - (IBAction)doSettings:(id)sender;
 {
-    [stimuli release];
+    BOOL wasOn;
+
+    if ((wasOn = [stimuli stimulusOn])) {
+        [stimuli stopStimulus];
+        while ([stimuli stimulusOn]) {};
+    }
+    [stimuli releaseStimuli];
     [settingsController selectSettings];
-    stimuli = [[RFMapStimuli alloc] init];
+    [stimuli initializeStimuli];
+    if (wasOn) {
+        [stimuli startStimulus];
+    }
 }
 
 // Run the settings dialog for the current stimulus

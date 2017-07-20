@@ -64,21 +64,9 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 	}
 }
 
-- (void) dealloc;
+- (void)dealloc;
 {
-	NSString *key;
-	NSEnumerator *enumerator = [keys objectEnumerator];
-	
-	while ((key = [enumerator nextObject]) != nil) {
-		[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self 
-				forKeyPath:[NSString stringWithFormat:@"values.%@", key]];
-	}
 	[keys release];
-	[bar release];
-	[gabor release];
-	[dots release];
-	[plaid release];
-	[fixSpot release];
 	[[task monitorController] removeMonitorWithID:RFMonitorIDString];
     [super dealloc];
 }
@@ -121,9 +109,6 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 - (id)init;
 {
 	long index;
-	NSEnumerator *enumerator;
-    NSString *key;
-//	id object;
 
 	if ((self = [super init]) != nil) {
 		monitor = [[[LLIntervalMonitor alloc] initWithID:RFMonitorIDString 
@@ -135,17 +120,7 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
  
 		keys = [[NSArray alloc] initWithObjects:RFDisplayModeKey, RFDoMouseGateKey, 
 				RFStimTypeKey, nil];
-		enumerator = [keys objectEnumerator];
-		while ((key = [enumerator nextObject]) != nil) {
-			[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self 
-				forKeyPath:[NSString stringWithFormat:@"values.%@", key]
-				options:NSKeyValueObservingOptionNew context:nil];
-//			object = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-//			theKey = [LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"];
-			[self setValue:[[NSUserDefaults standardUserDefaults] objectForKey:key]
-				forKey:[LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"]];
-		}
-		
+
 		for (index = 0; index < kCircleSteps; index++) {
 			rotationCos[index] = cos(index * kAngleStep * kRadiansPerDeg);
 			rotationSin[index] = sin(index * kAngleStep * kRadiansPerDeg);
@@ -159,6 +134,16 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 
 - (void)initializeStimuli;
 {
+    NSEnumerator *enumerator;
+    NSString *key;
+
+    enumerator = [keys objectEnumerator];
+    while ((key = [enumerator nextObject]) != nil) {
+        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
+            forKeyPath:[NSString stringWithFormat:@"values.%@", key] options:NSKeyValueObservingOptionNew context:nil];
+        [self setValue:[[NSUserDefaults standardUserDefaults] objectForKey:key]
+                forKey:[LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RF"]];
+    }
 	fixSpot = [[LLFixTarget alloc] init];
 	[fixSpot bindValuesToKeysWithPrefix:@"RF"]; 
 	bar = [[LLBar alloc] init];					// Create a bar stimulus
@@ -211,6 +196,22 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 			forKey:[LLTextUtil stripPrefixAndDecapitalize:defaultsKey prefix:@"RF"]];
 }
 
+- (void)releaseStimuli;
+{
+    NSString *key;
+    NSEnumerator *enumerator = [keys objectEnumerator];
+
+    while ((key = [enumerator nextObject]) != nil) {
+        [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self
+                                                    forKeyPath:[NSString stringWithFormat:@"values.%@", key]];
+    }
+    [bar release];
+    [gabor release];
+    [dots release];
+    [plaid release];
+    [fixSpot release];
+}
+
 - (void)rotate:(float)deltaDeg;
 {
 	float absDeltaDeg;
@@ -254,12 +255,10 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 	NSRect stimRectDeg;
  	Rect shieldRect = {-500, -500, 500, 500};
 	NSRect bounds;
-//    NSDate *nextRelease;
 	long frame = 0;
 	BOOL cursorHidden = NO;
 
     threadPool = [[NSAutoreleasePool alloc] init];		// create a threadPool for this thread
-//	nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
 	stimulusOn = YES;
 	
 	if ([[task stimWindow] fullscreen]) {
@@ -268,7 +267,6 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 		shieldRect.left = NSMinX(bounds);
 		shieldRect.bottom = NSMinY(bounds);
 		shieldRect.right = NSMaxX(bounds);
-//		ShieldCursor(&shieldRect, shieldPoint);
 	}
 
 // Set up the calibration, including the offset then present the stimulus sequence
@@ -396,12 +394,6 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
         glFinish();
         [monitor recordEvent];
 		frame++;
-//        if ([nextRelease timeIntervalSinceNow] < 0.0) {
-//            [monitor reset];
-//            [threadPool release];
-//            threadPool = [[NSAutoreleasePool alloc] init];
-//            nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
-//        }
     }
 
     [monitor reset];
