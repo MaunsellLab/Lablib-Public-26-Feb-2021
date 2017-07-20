@@ -129,6 +129,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     NSString *key, *windowFramePrefix;
     NSMutableDictionary *knotDict, *settingsDict;
     NSEnumerator *enumerator;
+    id theObject;
 
     NSLog(@"Extracting keys for %@", settingsDomain);
     knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
@@ -138,8 +139,11 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     windowFramePrefix = [NSString stringWithFormat:@"NSWindow Frame %@", prefix];
     for (key in enumerator) {
         if ([key hasPrefix:prefix] || [key hasPrefix:windowFramePrefix]) {
-            [settingsDict setObject:[knotDict objectForKey:key] forKey:key];
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+            theObject = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+                if (theObject != nil) {
+                [settingsDict setObject:theObject forKey:key];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+            }
         }
     }
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:settingsDomain];
