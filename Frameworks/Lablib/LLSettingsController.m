@@ -120,7 +120,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
                     persistentDomainForName:[self pathToDomain:[settingsFileNames objectAtIndex:index]]];
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:[self pathToDomain:newName]];
     [settingsFileNames addObject:newName];				// add the new name to the name array
-    index = [settingsFileNames indexOfObject:newName];
+//    index = [settingsFileNames indexOfObject:newName];
     [settingsTable reloadData];							// Make sure number of rows is up to date
 }
 
@@ -251,7 +251,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 - (IBAction)newSettings:(id)sender;
 {
     long index;
-    NSString *newName = [self uniqueSettingsName];
+    NSString *newName;
 
     newName = [self createNewSettingsFile];
     index = [settingsFileNames indexOfObject:newName];  // update the settings table in the dialog
