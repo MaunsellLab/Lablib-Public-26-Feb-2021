@@ -198,8 +198,8 @@ LLTaskPlugIn	*task = nil;
     [xtController close];
     [xtController release];
     [[controlPanel window] close];
-    [stimuli release];
 
+    [stimuli release];
     [settingsController extractSettings];
 	active = NO;
 }

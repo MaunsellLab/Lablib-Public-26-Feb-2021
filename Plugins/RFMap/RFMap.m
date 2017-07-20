@@ -45,9 +45,15 @@ BOOL					resetFlag = NO;
 LLScheduleController	*scheduler = nil;
 RFMapStimuli			*stimuli = nil;
 
-DataAssignment eyeDataAssignment[] = {
-									{@"eyeData",	@"Synthetic", 0, 5.0},
-									{nil,			@"Synthetic", 1, 5.0}};
+DataAssignment eyeRXDataAssignment = {@"eyeRXData",     @"Synthetic", 2, 5.0};
+DataAssignment eyeRYDataAssignment = {@"eyeRYData",     @"Synthetic", 3, 5.0};
+DataAssignment eyeRPDataAssignment = {@"eyeRPData",     @"Synthetic", 4, 5.0};
+DataAssignment eyeLXDataAssignment = {@"eyeLXData",     @"Synthetic", 5, 5.0};
+DataAssignment eyeLYDataAssignment = {@"eyeLYData",     @"Synthetic", 6, 5.0};
+DataAssignment eyeLPDataAssignment = {@"eyeLPData",     @"Synthetic", 7, 5.0};
+//DataAssignment eyeDataAssignment[] = {
+//									{@"eyeData",	@"Synthetic", 0, 5.0},
+//									{nil,			@"Synthetic", 1, 5.0}};
 DataAssignment leverDataAssignment = {@"leverData",	@"Synthetic", 0, 1};	
 DataAssignment VBLDataAssignment = {@"VBLData",	@"Synthetic", 1, 1};	
 DataAssignment spikeDataAssignment = {@"spikeData", @"Synthetic", 2, 1};
@@ -82,13 +88,15 @@ LLTaskPlugIn	*task = nil;
 	if (active) {
 		return;
 	}
+// Insert Actions and Settings menus into menu bar
+    
+    [mainMenu insertItem:actionsMenuItem atIndex:([mainMenu indexOfItemWithTitle:@"Tasks"] + 1)];
+    [mainMenu insertItem:settingsMenuItem atIndex:([mainMenu indexOfItemWithTitle:@"Tasks"] + 1)];
+
+// Load settings and create and clear the stimulus
     [settingsController loadSettings];
     [settingsController registerDefaults];
 
-// Insert Actions and Settings menus into menu bar
-	 
-	[mainMenu insertItem:actionsMenuItem atIndex:([mainMenu indexOfItemWithTitle:@"Tasks"] + 1)];
-	[mainMenu insertItem:settingsMenuItem atIndex:([mainMenu indexOfItemWithTitle:@"Tasks"] + 1)];
 	
 // Erase the stimulus display
 
@@ -110,7 +118,16 @@ LLTaskPlugIn	*task = nil;
  
 	xtController = [[RFXTController alloc] init];
     [[task dataDoc] addObserver:xtController];
-	[dataController assignGroupedSampleData:eyeDataAssignment groupCount:2];
+    
+    // Set up the data collector to handle our data types
+	//[dataController assignGroupedSampleData:eyeDataAssignment groupCount:2];
+    [dataController assignSampleData:eyeRXDataAssignment];
+    [dataController assignSampleData:eyeRYDataAssignment];
+    [dataController assignSampleData:eyeRPDataAssignment];
+    [dataController assignSampleData:eyeLXDataAssignment];
+    [dataController assignSampleData:eyeLYDataAssignment];
+    [dataController assignSampleData:eyeLPDataAssignment];
+    
 	[dataController assignTimestampData:VBLDataAssignment];
 	[dataController assignTimestampData:spikeDataAssignment];
 	[dataController assignDigitalInputDevice:@"Synthetic"];
@@ -158,13 +175,39 @@ LLTaskPlugIn	*task = nil;
 - (void)dataCollect:(NSTimer *)timer;
 {
 	NSData *data;
-	short *pEyeData;
+	//short *pEyeData;
 	
-	if ((data = [dataController dataOfType:@"eyeData"]) != nil) {
-		[dataDoc putEvent:@"eyeData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
-		pEyeData = (short *)([data bytes] + [data length] - 2 * sizeof(short));
-		currentEyeDeg = [[task eyeCalibrator] degPointFromUnitPoint:NSMakePoint(pEyeData[0], pEyeData[1])];
-	}
+	//if ((data = [dataController dataOfType:@"eyeData"]) != nil) {
+	//	[dataDoc putEvent:@"eyeData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+	//	pEyeData = (short *)([data bytes] + [data length] - 2 * sizeof(short));
+	//	currentEyeDeg = [[task eyeCalibrator] degPointFromUnitPoint:NSMakePoint(pEyeData[0], pEyeData[1])];
+	//}
+    
+    if ((data = [dataController dataOfType:@"eyeLXData"]) != nil) {
+        [dataDoc putEvent:@"eyeLXData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+        currentEyesUnits[kLeftEye].x = *(short *)([data bytes] + [data length] - sizeof(short));
+    }
+    if ((data = [dataController dataOfType:@"eyeLYData"]) != nil) {
+        [dataDoc putEvent:@"eyeLYData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+        currentEyesUnits[kLeftEye].y = *(short *)([data bytes] + [data length] - sizeof(short));
+        currentEyesDeg[kLeftEye] = [[task eyeCalibrator] degPointFromUnitPoint:currentEyesUnits[kLeftEye] forEye:kLeftEye];
+    }
+    if ((data = [dataController dataOfType:@"eyeLPData"]) != nil) {
+        [dataDoc putEvent:@"eyeLPData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+    }
+    if ((data = [dataController dataOfType:@"eyeRXData"]) != nil) {
+        [dataDoc putEvent:@"eyeRXData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+        currentEyesUnits[kRightEye].x = *(short *)([data bytes] + [data length] - sizeof(short));
+    }
+    if ((data = [dataController dataOfType:@"eyeRYData"]) != nil) {
+        [dataDoc putEvent:@"eyeRYData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+        currentEyesUnits[kRightEye].y = *(short *)([data bytes] + [data length] - sizeof(short));
+        currentEyesDeg[kRightEye] = [[task eyeCalibrator] degPointFromUnitPoint:currentEyesUnits[kRightEye]
+                                                                         forEye:kRightEye];
+    }
+    if ((data = [dataController dataOfType:@"eyeRPData"]) != nil) {
+        [dataDoc putEvent:@"eyeRPData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+    }
 	if ((data = [dataController dataOfType:@"VBLData"]) != nil) {
 		[dataDoc putEvent:@"VBLData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
 	}

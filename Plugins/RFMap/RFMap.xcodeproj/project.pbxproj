@@ -54,6 +54,8 @@
 		69CEB7A107999A7000C79781 /* RF.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEB7A007999A7000C79781 /* RF.h */; };
 		69CEB7A907999A7D00C79781 /* RFMap_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEB7A807999A7D00C79781 /* RFMap_Prefix.h */; };
 		69FB5C35078EE91700AC42FA /* RFMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 6933AFC5078459D1006963FA /* RFMap.h */; };
+		E9D8F3171F08239100140930 /* RFUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D8F3151F08239100140930 /* RFUtilities.h */; };
+		E9D8F3181F08239100140930 /* RFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E9D8F3161F08239100140930 /* RFUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		69E8A04C0486DB1300FE06D7 /* RFFixonState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFFixonState.h; sourceTree = "<group>"; };
 		69E8A04D0486DB1300FE06D7 /* RFFixonState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFFixonState.m; sourceTree = "<group>"; };
 		E7A443DD0132ED6B0ACA2124 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		E9D8F3151F08239100140930 /* RFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFUtilities.h; sourceTree = "<group>"; };
+		E9D8F3161F08239100140930 /* RFUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,11 +169,11 @@
 			isa = PBXGroup;
 			children = (
 				080E96DDFE201D6D7F000001 /* Classes */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				29B97317FDCFA39411CA2CEA /* Resources */,
-				69756442076F905200293610 /* Plists */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				69756442076F905200293610 /* Plists */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
 			);
 			name = terstes;
 			sourceTree = "<group>";
@@ -181,6 +185,8 @@
 				69CEB7A807999A7D00C79781 /* RFMap_Prefix.h */,
 				69E7FC6E04DBE6EF00F95507 /* RFMapUtilityFunctions.h */,
 				69975550043E645C00F95509 /* RFMapUtilityFunctions.m */,
+				E9D8F3151F08239100140930 /* RFUtilities.h */,
+				E9D8F3161F08239100140930 /* RFUtilities.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -288,6 +294,7 @@
 				6933B5380784BD19006963FA /* RFFixonState.h in Headers */,
 				6933B53A0784BD19006963FA /* RFMapUtilityFunctions.h in Headers */,
 				6933B53E0784BD19006963FA /* RFFixateState.h in Headers */,
+				E9D8F3171F08239100140930 /* RFUtilities.h in Headers */,
 				6933B5410784BD19006963FA /* RFMapStimuli.h in Headers */,
 				6922B38D0785DF1200B0F5D0 /* RFEyeXYController.h in Headers */,
 				69FB5C35078EE91700AC42FA /* RFMap.h in Headers */,
@@ -380,6 +387,7 @@
 				6933B5130784BCA6006963FA /* RFBlockedState.m in Sources */,
 				6933B5140784BCA6006963FA /* RFFixonState.m in Sources */,
 				6933B5150784BCA6006963FA /* RFFixateState.m in Sources */,
+				E9D8F3181F08239100140930 /* RFUtilities.m in Sources */,
 				6933B5170784BCA6006963FA /* RFMap.m in Sources */,
 				6933B5180784BCA6006963FA /* RFMapStimuli.m in Sources */,
 				6922B38E0785DF1200B0F5D0 /* RFEyeXYController.m in Sources */,

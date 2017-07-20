@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Plugins/RFMap/RFMap.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Plugins/LabJackU6DataDevice/Things to Do.rtf">
    </FileRef>
    <FileRef
@@ -30,8 +33,5 @@
    </FileRef>
    <FileRef
       location = "group:Plugins/Fixate/Fixate.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Plugins/RFMap/RFMap.xcodeproj">
    </FileRef>
 </Workspace>

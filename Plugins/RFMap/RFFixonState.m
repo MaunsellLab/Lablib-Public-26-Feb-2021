@@ -7,6 +7,7 @@
 //
 
 #import "RFFixonState.h"
+#import "RFUtilities.h"
 
 @implementation RFFixonState
 
@@ -32,9 +33,13 @@
 		eotCode = kEOTQuit;
 		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] || 
-							[fixWindow inWindowDeg:[task currentEyeDeg]])  {
-		return [[task stateSystem] stateNamed:@"Fixate"];
+	//if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] ||
+	//						[fixWindow inWindowDeg:[task currentEyeDeg]])  {
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey]) {
+        return [[task stateSystem] stateNamed:@"Fixate"];
+    }
+    else if ([RFUtilities inWindow:fixWindow])  {
+        return [[task stateSystem] stateNamed:@"Fixate"];
     }
 	if ([LLSystemUtil timeIsPast:expireTime]) {
 		eotCode = kEOTIgnored;

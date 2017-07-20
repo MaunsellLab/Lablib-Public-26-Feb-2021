@@ -15,6 +15,7 @@
 
 	NSMenuItem				*actionsMenuItem;
 	LLControlPanel			*controlPanel;
+    NSPoint					currentEyesUnits[kEyes];
 	NSTimer					*displayTimer;
     RFEyeXYController		*eyeXYController;				// Eye position display
 	float					originalFixOffsetDeg;			// holds incoming fix offset

@@ -7,6 +7,7 @@
 //
 
 #import "RFFixateState.h"
+#import "RFUtilities.h"
 
 @implementation RFFixateState
 
@@ -38,7 +39,9 @@
 		eotCode = kEOTQuit;
 		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] && ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	//if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] && ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] &&
+        ![RFUtilities inWindow:fixWindow]) {
 		eotCode = kEOTBroke;
 		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
@@ -51,8 +54,11 @@
 
 - (void)updateCalibration {
 
-	if ([fixWindow inWindowDeg:[task currentEyeDeg]]) {
-		[[task eyeCalibrator] updateCalibration:[task currentEyeDeg]];
+	//if ([fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	//	[[task eyeCalibrator] updateCalibration:[task currentEyeDeg]];
+    if ([RFUtilities inWindow:fixWindow]) {
+        [[task eyeCalibrator] updateLeftCalibration:([task currentEyesDeg])[kLeftEye]
+                                   rightCalibration:([task currentEyesDeg])[kRightEye]];
 	}
 }
 

@@ -46,7 +46,7 @@ extern RFMapStimuli			*stimuli;
 
 // Preferences keys
 
-extern NSString *RFTDoDataDirectoryKey;
+extern NSString *RFDoDataDirectoryKey;
 
 extern NSString *RFAcquireMSKey;
 extern NSString *RFDisplayUnitsKey;

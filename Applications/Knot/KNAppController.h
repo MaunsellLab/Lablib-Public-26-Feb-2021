@@ -27,7 +27,6 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
     LLNIDAQ                 *nidaq;
 	LLPluginController		*pluginController;
     LLNE500Pump             *rewardPump;
-	LLSettingsController	*settingsController;
     LLSockets               *socket;
 	LLStimWindow			*stimWindow;
     KNSummaryController		*summaryController;
@@ -48,7 +47,6 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
 - (void)postDataParamEvents;
 
 - (IBAction)changeDataSource:(id)sender;
-- (IBAction)changeSettings:(id)sender;
 - (IBAction)doAO0CalibrationBrowse:(id)sender;
 - (IBAction)doAO1CalibrationBrowse:(id)sender;
 - (void)doCalibrationBrowseForChannel:(long)channel;

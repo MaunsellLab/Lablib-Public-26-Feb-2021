@@ -8,14 +8,17 @@
 
 @interface RFEyeXYController : NSWindowController <LLDrawable> {
 
-	NSBezierPath			*calBezierPath;
-	NSColor					*calColor;
-	NSPoint					currentEyeDeg;
- 	NSAffineTransform		*degToUnits;
+	NSBezierPath			*calBezierPath[kEyes];
+	NSColor					*calColor[kEyes];
+	NSPoint					currentEyeDeg[kEyes];
+ 	NSAffineTransform		*degToUnits[kEyes];
+    NSMutableData			*eyeXSamples[kEyes];
+    NSMutableData			*eyeYSamples[kEyes];
 	NSRect					eyeWindowRectDeg;
 	NSColor					*fixWindowColor;
-	BOOL					inWindow;
- 	NSAffineTransform		*unitsToDeg;
+    BOOL					inWindow;
+    NSLock					*sampleLock;
+    NSAffineTransform		*unitsToDeg[kEyes];
    
     IBOutlet LLEyeXYView 	*eyePlot;
     IBOutlet NSScrollView 	*scrollView;
@@ -28,6 +31,7 @@
 - (IBAction)doOptions:(id)sender;
 - (IBAction)endOptionSheet:(id)sender;
 - (void)deactivate;
+- (void)setEyePlotValues;
 - (void)setScaleFactor:(double)factor;
 
 @end

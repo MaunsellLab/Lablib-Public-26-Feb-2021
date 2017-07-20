@@ -7,7 +7,7 @@
 //
 
 #import "RFStarttrialState.h"
-
+#import "RFUtilities.h"
 @implementation RFStarttrialState
 
 - (void)stateAction {
@@ -35,8 +35,10 @@
 	[[task dataDoc] putEvent:@"spikeZero" withData:&lValue];
 
     [[task dataController] setDataEnabled:[NSNumber numberWithBool:YES]];
-	[[task dataDoc] putEvent:@"eyeCalibration" withData:[[task eyeCalibrator] calibrationData]];
-	[[task dataDoc] putEvent:@"eyeWindow" withData:&fixWindowData];
+	//[[task dataDoc] putEvent:@"eyeCalibration" withData:[[task eyeCalibrator] calibrationData]];
+    [[task dataDoc] putEvent:@"eyeLeftCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kLeftEye]];
+    [[task dataDoc] putEvent:@"eyeRightCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kRightEye]];
+    [[task dataDoc] putEvent:@"eyeWindow" withData:&fixWindowData];
 }
 
 - (NSString *)name {
@@ -50,7 +52,9 @@
 		eotCode = kEOTQuit;
 		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] && [fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	//if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] && [fixWindow inWindowDeg:[task currentEyeDeg]]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] &&
+        [RFUtilities inWindow:fixWindow]) {
 		return [[task stateSystem] stateNamed:@"Blocked"];
 	}
 	else {
