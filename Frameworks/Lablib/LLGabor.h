@@ -134,6 +134,5 @@ extern NSString *LLGaborTemporalPhaseDegKey;
 - (void)updateCycleTexture;
 - (void)updateCycleTextureGL;
 
-
 @end
 

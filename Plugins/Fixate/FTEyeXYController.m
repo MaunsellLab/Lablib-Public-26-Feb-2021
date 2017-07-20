@@ -196,7 +196,7 @@ NSString *FTEyeXYOneInNKey = @"FTEyeXYOneInN";
 	float currentFactor, applyFactor;
   
 	currentFactor = [eyePlot bounds].size.width / [[eyePlot superview] bounds].size.width;
-	applyFactor = factor / currentFactor;
+	applyFactor = MAX(1, factor) / currentFactor;
 	[[scrollView contentView] scaleUnitSquareToSize:NSMakeSize(applyFactor, applyFactor)];
 	[self centerDisplay:self];
 }

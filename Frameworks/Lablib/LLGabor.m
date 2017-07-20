@@ -110,7 +110,6 @@ static GLuint	circleList;
 GLuint			cycleTexture = 0;
 GLuint			gaussianTexture = 0;
 Gabor			lastGabor = {};
-//static GLfloat	lastProjectionMatrix[16];
 GLint			numTextureUnits = 0;
 static GLubyte	sinImage[kCyclePix];
 static GLubyte	triImage[kCyclePix];
