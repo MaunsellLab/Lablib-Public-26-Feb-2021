@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		696AA39F1F3CDAE300D7549B /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696AA39D1F3CD8B700D7549B /* Lablib.framework */; };
 		696DF5AA0EB8A8F80004FC8E /* LLEyeLinkDataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0ED4650CA064BC00BE2453 /* LLEyeLinkDataDevice.m */; };
 		69D7851D17F3C8E800785BA7 /* eyelink_core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851C17F3C8E800785BA7 /* eyelink_core.framework */; };
 		E97BF1EB1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97BF1EA1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib */; };
 		FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		FC0ED5220CA067EA00BE2453 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		FC0ED5230CA067EA00BE2453 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6975F2950B3328C200312509 /* Lablib.framework */; };
 		FC0ED5260CA067EA00BE2453 /* LLEyeLinkDataDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC0ED4640CA064BC00BE2453 /* LLEyeLinkDataDevice.h */; };
 		FC4059810CD6669100F2E428 /* LLEyeLinkMonitor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC4059800CD6669100F2E428 /* LLEyeLinkMonitor.h */; };
 		FC40598E0CD666E300F2E428 /* LLEyeLinkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = FC40598D0CD666E300F2E428 /* LLEyeLinkMonitor.m */; };
@@ -41,10 +41,10 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* LablibEyeLink_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LablibEyeLink_Prefix.h; sourceTree = "<group>"; };
-		6975F2950B3328C200312509 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../../../../../Documents/Lablib/Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		696AA39D1F3CD8B700D7549B /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = "<group>"; };
 		697BD6710988415500D9176F /* LablibEyeLink_Plugin.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = LablibEyeLink_Plugin.plist; sourceTree = "<group>"; };
 		69D31ADC097C5B44001102CA /* LablibEyeLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LablibEyeLink.h; sourceTree = "<group>"; };
-		69D7851C17F3C8E800785BA7 /* eyelink_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = eyelink_core.framework; path = ../../../../Library/Frameworks/eyelink_core.framework; sourceTree = "<group>"; };
+		69D7851C17F3C8E800785BA7 /* eyelink_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = eyelink_core.framework; path = /Library/Frameworks/eyelink_core.framework; sourceTree = "<absolute>"; };
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		E97BF1EA1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLEyeLinkMonitorSettings.xib; sourceTree = "<group>"; };
 		FC0ED4640CA064BC00BE2453 /* LLEyeLinkDataDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLEyeLinkDataDevice.h; sourceTree = "<group>"; };
@@ -61,9 +61,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69D7851D17F3C8E800785BA7 /* eyelink_core.framework in Frameworks */,
 				FC0ED5220CA067EA00BE2453 /* Cocoa.framework in Frameworks */,
-				FC0ED5230CA067EA00BE2453 /* Lablib.framework in Frameworks */,
+				696AA39F1F3CDAE300D7549B /* Lablib.framework in Frameworks */,
+				69D7851D17F3C8E800785BA7 /* eyelink_core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,19 +84,24 @@
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks and Libraries */,
 				697BD676098841E600D9176F /* Plists */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = LablibITC18;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				696AA39D1F3CD8B700D7549B /* Lablib.framework */,
+				69D7851C17F3C8E800785BA7 /* eyelink_core.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
 			);
-			name = "External Frameworks and Libraries";
+			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
@@ -119,19 +124,6 @@
 				FC40598D0CD666E300F2E428 /* LLEyeLinkMonitor.m */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6975F2950B3328C200312509 /* Lablib.framework */,
-				69D7851C17F3C8E800785BA7 /* eyelink_core.framework */,
-				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
-			);
-			name = "Linked Frameworks";
 			sourceTree = "<group>";
 		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
@@ -325,11 +317,9 @@
 				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					/Documents/Lablib/Frameworks/Lablib/build/Development/,
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../Lablib/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(HOME)/Library/Frameworks\"";
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
@@ -362,13 +352,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../Lablib/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../Lablib/build/Development\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -394,13 +380,9 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Documents/Lablib/Frameworks/Lablib/build/Development,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../Lablib/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../Lablib/build/Development\"";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LablibEyeLink_Prefix.h;

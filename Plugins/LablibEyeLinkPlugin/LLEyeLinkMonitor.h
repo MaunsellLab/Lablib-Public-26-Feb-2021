@@ -6,9 +6,8 @@
 //  Copyright (c) 2003 . All rights reserved.
 //
 
+#include <Lablib/LLMonitor.h>
 #import "LLEyeLinkMonitorSettings.h"
-#import <Lablib/LLMonitor.h>
-//#import <Lablib/LLIODevice.h>
 
 extern NSString	*doWarnDriftKey;
 extern NSString	*driftLimitKey;
