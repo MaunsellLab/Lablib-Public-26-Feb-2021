@@ -122,14 +122,18 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 				exit(0);
 			}
 			if ([assignmentDict objectForKey:pAssign->name] != nil) {	// unique name
-                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Attempt to define two types of sample data as \"%@\".", pAssign->name]];
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController"
+                                        informativeText:[NSString stringWithFormat:
+                                        @"Attempt to define two types of sample data as \"%@\".", pAssign->name]];
 				exit(0);
 			}
 		}
 		else {												// same name for whole group
 			if (pAssign->name != nil && ![pAssign->name isEqualToString:assignments[0].name]) {
-                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController" informativeText:[NSString stringWithFormat:@"Member of grouped data given different name (\"%@\" instead of \"%@\")",
-                            pAssign->name, assignments[0].name]];
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDeviceController"
+                                        informativeText:[NSString stringWithFormat:
+                                        @"Member of grouped data given different name (\"%@\" instead of \"%@\")",
+                                        pAssign->name, assignments[0].name]];
 				exit(0);
 			}
 			if (dataType != kLLSampleData) {				// only sample data can be grouped
@@ -835,7 +839,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 
     assignmentArray = [self allDataParam];
     if (assignmentArray == nil) {                                // no assignments?
-        return result;
+        return NO;
     }
     enumerator = [assignmentArray objectEnumerator];
     while ((paramValue = [enumerator nextObject])) {
@@ -843,6 +847,14 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
         if (strcmp((char *)dataParam.deviceName, "Synthetic") == 0) {
             result = YES;
             break;
+        }
+    }
+    if (!result) {
+        if ([[defaults stringForKey:LLDataDeviceDigitalInKey] isEqualToString:@"Synthetic"]) {
+            result = YES;
+        }
+        if ([[defaults stringForKey:LLDataDeviceDigitalOutKey] isEqualToString:@"Synthetic"]) {
+            result = YES;
         }
     }
     return result;
