@@ -38,7 +38,7 @@
 #define kLLSocketNumStatusStrings   9
 #define kLLSocketsPortKey           @"LLSocketsPort"
 #define kLLSocketsRigIDKey          @"LLSocketsRigID"
-#define kLLSocketsMinTimeoutS       0.100
+#define kLLSocketsMinTimeoutS       0.200
 #define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 
@@ -81,17 +81,6 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     } while (YES);
 }
 
-- (void)removeFromCurrentThread:(NSStream *)stream;
-{
-    [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-}
-
-- (void)scheduleInCurrentThread:(NSStream *)stream;
-{
-    [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-}
-
-
 - (void)closeStreams;
 {
     [streamsLock lock];
@@ -130,7 +119,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     }
     defaultSettings = [[NSMutableDictionary alloc] init];
     [defaultSettings setObject:@"http://127.0.0.1" forKey:kLLSocketsHostKey];
-    [defaultSettings setObject:@"Rig0" forKey:kLLSocketsRigIDKey];
+    [defaultSettings setObject:@"rig0" forKey:kLLSocketsRigIDKey];
     [defaultSettings setObject:[NSNumber numberWithInt:9990] forKey:kLLSocketsPortKey];
     [defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLSocketsVerboseKey];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
@@ -139,12 +128,13 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     timeoutS = kLLSocketsMinTimeoutS;
     timeoutTotalS = timeoutN = 0;
     deviceNameDict = [[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"LaserControllerX", @"rig1",
-                                 @"LaserControllerXRig2", @"rig2",
-                                 @"LaserControllerXRig3", @"rig3",
-                                 @"LaserControllerXRig4", @"rig4",
-                                 @"LEDdaq", @"rig2P",
-                                 nil] retain];
+                @"LaserControllerX", @"rig 1",
+                @"LaserControllerXRig2", @"rig 2",
+                @"LaserControllerXRig3", @"rig 3",
+                @"LaserControllerXRig4", @"rig 4",
+                @"LEDdaq", @"rig2P",
+                @"LEDdaq", @"rig 2P",
+                nil] retain];
 
     streamsLock = [[NSLock alloc] init];
 
@@ -204,6 +194,21 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     attrStr = [[NSAttributedString alloc] initWithString:str attributes:attr];
     [self performSelectorOnMainThread:@selector(post:) withObject:attrStr waitUntilDone:NO];
     [attrStr release];
+}
+
+- (void)removeFromCurrentThread:(NSStream *)stream;
+{
+    [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+}
+
+- (NSString *)rigID;
+{
+    return [[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey] lowercaseString];
+}
+
+- (void)scheduleInCurrentThread:(NSStream *)stream;
+{
+    [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 }
 
 /*
@@ -309,8 +314,8 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     // LLSockets controls the GUI window with the Rig ID field, so it is responsible for passing the Rig ID
     // to the PC.  It is added to every dictionary that is sent to the PC
 
-    rigID = [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey];
-    deviceName = [deviceNameDict objectForKey:rigID];
+    rigID = [self rigID];
+    deviceName = [deviceNameDict objectForKey:[rigID lowercaseString]];
     if (deviceName == nil) {
         [self postToConsole:[NSString stringWithFormat:@"%@ is an unknown  rig ID\n", rigID]
                   textColor:[NSColor redColor]];

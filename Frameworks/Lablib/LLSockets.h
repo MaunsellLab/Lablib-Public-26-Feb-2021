@@ -35,6 +35,7 @@
 - (void)closeStreams;
 - (BOOL)openStreams;
 - (void)postToConsole:(NSString *)str textColor:(NSColor *)textColor;
+- (NSString *)rigID;
 - (NSMutableDictionary *)writeDictionary:(NSMutableDictionary *)dict;
 
 @end

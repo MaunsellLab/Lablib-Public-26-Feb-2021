@@ -58,7 +58,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kAnalogOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"AOTask%ld", taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@AOTask%ld", [socket rigID], taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createAOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
@@ -218,7 +218,6 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     NSMutableDictionary *returnDict;
     static long retries = 0;
 
-//    NSLog(@"sendDictionary: sending %@", dict);
     returnDict = [socket writeDictionary:dict];
     if (returnDict == nil) {
         return NO;
