@@ -74,7 +74,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kDigitalOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"DOTask%ld", taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@DOTask%ld", [socket rigID], taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createDOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
