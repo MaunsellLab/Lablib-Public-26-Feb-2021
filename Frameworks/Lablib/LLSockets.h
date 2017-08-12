@@ -27,15 +27,15 @@
     IBOutlet NSTextField    *rigIDTextField;
     NSArray                 *topLevelObjects;
     NSLock                  *streamsLock;
-    long                    timeoutN;
     double                  timeoutS;
-    double                  timeoutTotalS;
 }
 
 - (void)closeStreams;
 - (BOOL)openStreams;
 - (void)postToConsole:(NSString *)str textColor:(NSColor *)textColor;
 - (NSString *)rigID;
+- (void)setTimeoutS:(double)newTimeoutS;
+- (double)timeoutS;
 - (NSMutableDictionary *)writeDictionary:(NSMutableDictionary *)dict;
 
 @end

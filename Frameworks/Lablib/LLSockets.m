@@ -42,6 +42,9 @@
 #define kLLSocketsVerboseKey        @"LLSocketsVerbose"
 #define kLLSocketsWindowVisibleKey  @"kLLSocketsWindowVisible"
 
+#define kDelayMSPerByte             (1.0 / 25000)
+#define kMinTimeoutS                0.200
+
 enum {kReceiveJSON = 1, kStop};
 
 #import "LLSockets.h"
@@ -126,7 +129,6 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     [defaultSettings release];
 
     timeoutS = kLLSocketsMinTimeoutS;
-    timeoutTotalS = timeoutN = 0;
     deviceNameDict = [[NSDictionary dictionaryWithObjectsAndKeys:
                 @"LaserControllerX", @"rig 1",
                 @"LaserControllerXRig2", @"rig 2",
@@ -289,6 +291,16 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     }
 }
 
+- (void)setTimeoutS:(double)newTimeoutS;
+{
+    timeoutS = MAX(newTimeoutS, kMinTimeoutS);
+}
+
+- (double)timeoutS;
+{
+    return timeoutS;
+}
+
 /*
  writeDictionary is the main function for communicating with the server.  I tried to set things up with the
  client and server maintaining a connection across multiple transmissions, but it always got in trouble.  The
@@ -304,7 +316,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     NSError *error;
     uint8_t *pBuffer;
     long totalWritten, writtenBytes;
-    double startTime, endTime;
+    double startTime, endTime, thisTimeoutS;
     static long retries = 0;
 
     if (![self openStreams]) {
@@ -328,9 +340,12 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     pBuffer = (uint8_t *)malloc(bufferLength);
     *(uint32_t *)pBuffer = JSONLength;
     [JSONData getBytes:&pBuffer[sizeof(uint32_t)] length:JSONLength];
+    
+    // Wait for output channel to finish opening
+    
     startTime = [LLSystemUtil getTimeS];
     while (!outputStreamOpen) {
-        if ([LLSystemUtil getTimeS] - startTime > timeoutS) {
+        if ([LLSystemUtil getTimeS] - startTime > kMinTimeoutS) {
             [self closeStreams];
             if (retries >= 2) {
                 [self postToConsole:@" Giving up\n" textColor:[NSColor redColor]];
@@ -346,9 +361,9 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             return responseDict;
         }
     };
-    timeoutTotalS += [LLSystemUtil getTimeS] - startTime;
-    timeoutN++;
-    timeoutS = MAX(kLLSocketsMinTimeoutS, timeoutTotalS * 10.0 / timeoutN);
+    
+    // Write the data to the NIDAQ computer
+    
     responseDict = nil;
     bytesRead = 0;                      // clear for reading the response
     totalWritten = 0;
@@ -370,14 +385,17 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             return nil;
         }
     }
+    // Get the response from the NIDAQ computer
+    
+    thisTimeoutS = MAX(timeoutS, bufferLength * kDelayMSPerByte);
     startTime = [LLSystemUtil getTimeS];
     while (responseDict == nil) {
-        if ([LLSystemUtil getTimeS] - startTime > timeoutS) {
+        if ([LLSystemUtil getTimeS] - startTime > thisTimeoutS) {
             [self closeStreams];
             if (retries >= 2) {
                 [self postToConsole:
                             [NSString stringWithFormat:@"Sent %d bytes, read %ld before timeout (%ld ms), giving up\n",
-                            JSONLength, bytesRead, (long)(timeoutS * 1000.0)] textColor:[NSColor redColor]];
+                            JSONLength, bytesRead, (long)(thisTimeoutS * 1000.0)] textColor:[NSColor redColor]];
                 return nil;
             }
             if ((retries == 0) && ![[self window] isVisible]) {
@@ -385,17 +403,13 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             }
             [self postToConsole:
                             [NSString stringWithFormat:@"Sent %d bytes, read %ld before timeout (%ld ms), retrying\n",
-                            JSONLength, bytesRead, (long)(timeoutS * 1000.0)] textColor:[NSColor redColor]];
+                            JSONLength, bytesRead, (long)(thisTimeoutS * 1000.0)] textColor:[NSColor redColor]];
             retries++;
             responseDict = [self writeDictionary:dict];
             retries--;
-            return nil;
+            return responseDict;
         }
     }
-    timeoutTotalS += [LLSystemUtil getTimeS] - startTime;
-    timeoutN++;
-    timeoutS = MAX(kLLSocketsMinTimeoutS, timeoutTotalS * 10.0 / timeoutN);
-    [self closeStreams];
     endTime = [LLSystemUtil getTimeS];
     [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms) %@ %@\n",
             JSONLength, bytesRead, 1000.0 * (endTime - startTime), [dict objectForKey:@"command"],

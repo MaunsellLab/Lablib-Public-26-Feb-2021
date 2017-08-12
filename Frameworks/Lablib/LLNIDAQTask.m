@@ -100,10 +100,21 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     return [self sendDictionary:dict];
 }
 
+/*
+ There is an extraordinary 1.5 s delay the first time a createVoltageChannelWithName is called after
+ the PC python script is launched.  No telling where that is coming from.  It looks like it is buried
+ deep within the NIDAQ library.  It's only the first call from any computer.  After that, all call seem
+ to take a reasonable time.  In any case, to avoid that we extend the timeout for the LLSocket the first
+ time we make this call from within any instance of LLNIDAQTask.
+*/
+
 - (BOOL)createVoltageChannelWithName:(NSString *)channelName maxVolts:(float)maxV minVolts:(float)minV;
 {
     long channel;
     NSMutableDictionary *dict;
+    double originalTimeoutS;
+    BOOL result;
+    static BOOL firstTime = YES;
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createVoltageChannel", @"command",
             taskName, @"taskName", channelName, @"channelName",
@@ -123,7 +134,16 @@ static long nextTaskID = 0;         // class variable to persist across all inst
         [channelMaxV replaceObjectAtIndex:channel withObject:[NSNumber numberWithFloat:maxV]];
         [channelMinV replaceObjectAtIndex:channel withObject:[NSNumber numberWithFloat:minV]];
     }
-    return [self sendDictionary:dict];
+    if (firstTime) {
+        originalTimeoutS = [socket timeoutS];
+        [socket setTimeoutS:2.5];
+    }
+    result = [self sendDictionary:dict];
+    if (firstTime) {
+        [socket setTimeoutS:originalTimeoutS];
+        firstTime = NO;
+    }
+    return result;
 }
 
 - (void)dealloc;
