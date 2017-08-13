@@ -172,6 +172,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC0ED5270CA067EA00BE2453 /* Build configuration list for PBXNativeTarget "LabJackU6 Plugin" */;
 			buildPhases = (
+				693DB69B1F4108FC00E9D035 /* Run Script */,
 				FC0ED5130CA067EA00BE2453 /* Resources */,
 				FC0ED51A0CA067EA00BE2453 /* Sources */,
 				FC0ED5210CA067EA00BE2453 /* Frameworks */,
@@ -225,6 +226,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		693DB69B1F4108FC00E9D035 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LabJackU6DataDevice.plugin";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FC0ED51A0CA067EA00BE2453 /* Sources */ = {

@@ -7,7 +7,18 @@
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 \'95\'a0Eye calibration and stimulus drawing is not tracking offsets of the fixation point.  I believe what is required is for each plugin to look at the position of the fixation point at the start of each trial, and move the eye calibration appropriately.  The stimulus drawing should be following the eye calibration correctly already.\
+\f0\fs24 \cf0 Upgrade to Lablib to manage distributions better:\
+\
+Create a Package that can go on Blur for distribution purposes.  It should do the following:\
+	Install Knot & DataConvert into /Applications\
+	Install Lablib & LablibITC18 frameworks into /Library/Frameworks\
+	Install EyeLink frameworks into /Library/Frameworks\
+	Install baseline Plugins into /Library/Application Support/Knot\
+\
+_____________________________________________\
+WHEN PYTHON NIDAQ RETURNS NO TASK NAMED.... THINGS WILL NEVER RECOVER.  NEED TO DETECT THIS PROBLEM AND FIX IT.\
+\
+\'a0Eye calibration and stimulus drawing is not tracking offsets of the fixation point.  I believe what is required is for each plugin to look at the position of the fixation point at the start of each trial, and move the eye calibration appropriately.  The stimulus drawing should be following the eye calibration correctly already.\
 \
 \
 \'95 The things associated with activating and deactivating plugins are so touchy about thier ordering, that it might make sense to hand time all to Lablib to let Lablib make sure they're done in the correct order, and save them to remove them in the correct order.\
