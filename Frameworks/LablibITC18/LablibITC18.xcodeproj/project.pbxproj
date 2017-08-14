@@ -22,7 +22,6 @@
 		69D82D170B06A1D600E8C369 /* LLITCMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 697139600506215500F95523 /* LLITCMonitorSettings.m */; };
 		69D82D190B06A1ED00E8C369 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		69D82D1D0B06A1FB00E8C369 /* LLITC18DataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */; };
-		69DC82D815CF0BCC009F80C5 /* LablibITC18.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		69F368B2056705B9009AED51 /* LLITC18_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* LLITC18_Prefix.h */; };
 		69F368B5056705B9009AED51 /* LLITCMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 69080C6804FCF4AF00F95530 /* LLITCMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F368B6056705B9009AED51 /* LLITCMonitorSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6971395F0506215500F95523 /* LLITCMonitorSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -43,7 +42,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				69DC82D815CF0BCC009F80C5 /* LablibITC18.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +73,6 @@
 		69D31ADC097C5B44001102CA /* LLITC18.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18.h; sourceTree = "<group>"; };
 		69D7851E17F3C96D00785BA7 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../Lablib/build/Development/Lablib.framework; sourceTree = "<group>"; };
 		69D82C9E0B069FF500E8C369 /* LablibITC18.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LablibITC18.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		69EF10BB0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18PulseTrainDevice.h; sourceTree = "<group>"; };
 		69EF10BC0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLITC18PulseTrainDevice.m; sourceTree = "<group>"; };
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -187,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				69D7851E17F3C96D00785BA7 /* Lablib.framework */,
-				69DC82D715CF0BCC009F80C5 /* LablibITC18.framework */,
 				6917CF9613B79AD700E4D1D4 /* Cocoa.framework */,
 				690869D914AEA30E00347B8F /* CoreFoundation.framework */,
 				6917CF9B13B79AD700E4D1D4 /* AppKit.framework */,

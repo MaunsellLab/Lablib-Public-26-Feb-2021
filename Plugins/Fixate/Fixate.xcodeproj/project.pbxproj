@@ -131,8 +131,11 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
-				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				69B8D544088EB863002FCFD4 /* Lablib.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				697CD04A077F6B510025E7D2 /* OpenGL.framework */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -165,25 +168,6 @@
 				694D1258077B8E9D0025BAA4 /* State System */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				69B8D544088EB863002FCFD4 /* Lablib.framework */,
-				089C167FFE841241C02AAC07 /* AppKit.framework */,
-				089C1672FE841209C02AAC07 /* Foundation.framework */,
-				697CD04A077F6B510025E7D2 /* OpenGL.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {

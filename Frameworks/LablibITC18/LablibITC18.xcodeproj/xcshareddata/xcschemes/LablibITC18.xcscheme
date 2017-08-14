@@ -84,6 +84,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "69F368B0056705B9009AED51"
+            BuildableName = "LablibITC18.framework"
+            BlueprintName = "LablibITC18"
+            ReferencedContainer = "container:LablibITC18.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Development">
