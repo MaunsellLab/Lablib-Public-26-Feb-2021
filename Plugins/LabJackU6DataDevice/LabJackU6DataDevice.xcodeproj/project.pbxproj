@@ -100,14 +100,14 @@
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks and Libraries */,
 				697BD676098841E600D9176F /* Plists */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = LablibITC18;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
 				6975F2950B3328C200312509 /* Lablib.framework */,
@@ -119,7 +119,7 @@
 				69D7851C17F3C8E800785BA7 /* eyelink_core.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
-			name = "External Frameworks and Libraries";
+			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
@@ -172,6 +172,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC0ED5270CA067EA00BE2453 /* Build configuration list for PBXNativeTarget "LabJackU6 Plugin" */;
 			buildPhases = (
+				693DB69B1F4108FC00E9D035 /* Run Script */,
 				FC0ED5130CA067EA00BE2453 /* Resources */,
 				FC0ED51A0CA067EA00BE2453 /* Sources */,
 				FC0ED5210CA067EA00BE2453 /* Frameworks */,
@@ -226,6 +227,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		693DB69B1F4108FC00E9D035 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LabJackU6DataDevice.plugin";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FC0ED51A0CA067EA00BE2453 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -267,6 +285,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -297,6 +316,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -325,6 +345,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -344,7 +365,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)";
+				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -381,6 +402,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -413,6 +435,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
