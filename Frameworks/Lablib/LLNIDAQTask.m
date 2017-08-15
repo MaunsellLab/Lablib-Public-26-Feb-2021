@@ -58,7 +58,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kAnalogOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"%@AOTask%ld", [socket rigID], taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@ AOTask %ld", [[socket rigID] capitalizedString], taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createAOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
@@ -74,7 +74,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kDigitalOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"%@DOTask%ld", [socket rigID], taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@ DOTask %ld", [[socket rigID] capitalizedString], taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createDOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
@@ -245,11 +245,11 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     if ([[returnDict objectForKey:@"success"] boolValue]) {
         return YES;
     }
-    // We've gotten an error.  Check whether the AOTask has been lost.
+    // We've gotten an error.  Check whether our AO/AI-Task has been lost.
     if (retries == 0) {                         // task recreation is recursive, so we want to prevent endless loops
         retries++;
         message = [returnDict objectForKey:@"errorMessage"];
-        if ([message hasPrefix:[NSString stringWithFormat:@"no task named %@", taskName]]) {
+        if ([message hasPrefix:[NSString stringWithFormat:@"no task named \"%@\"", taskName]]) {
             switch (taskType) {
                 case (kAnalogOutputType):
                     [self createAOTask];            // try to recreate a new task
