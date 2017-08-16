@@ -9,7 +9,7 @@
 #import "LLSystemUtil.h"
 
 #define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
-#define kMatlabTrialNumKey          [NSString stringWithFormat:@"%@TrialNum%ld", matFileName, subjectNumber]
+//#define kMatlabTrialNumKey          [NSString stringWithFormat:@"%@TrialNum%ld", matFileName, subjectNumber]
 #define kTrialStartEventName        @"trialStart"
 
 @implementation LLMatlabController : NSObject
@@ -181,21 +181,32 @@
 {
     BOOL exists, isDir;
     long e;
-    NSString *path;
+    NSRange stringRange;
+    NSScanner *aScanner;
+    NSString *path, *replyString;
 
     [self checkMatlabDataPath:@"MatFiles"];
     path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
             [dateFormatter stringFromDate:[NSDate date]]];
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     [engine evalString:matlabInitScriptCommand];                       // clear the current Matlab workspace
+    trialNum = 0;                                                      // default to no trials loaded
     if (exists && !isDir) {
         [engine evalString:[NSString stringWithFormat:@"load '%@'", path]];
-        trialNum = [[task defaults] integerForKey:kMatlabTrialNumKey];
+ //       trialNum = [[task defaults] integerForKey:kMatlabTrialNumKey];
+        replyString = [engine evalString:@"length(trials)" postResult:NO];
+        NSLog(@"loadMatlabWorkspace: length(trials) query: %@", replyString);
+        stringRange = [replyString rangeOfString:@">> ans ="];
+        if (stringRange.location != NSNotFound) {
+            NSLog(@"loadMatlabWorkspace: contains answer string");
+            replyString = [replyString substringFromIndex:stringRange.location + stringRange.length];
+            NSLog(@"loadMatlabWorkspace: reduced query response: %@", replyString);
+            aScanner = [NSScanner scannerWithString:replyString];
+            [aScanner scanInteger:&trialNum];
+        }
         [engine evalString:matlabScriptCommand];
     }
-    else {                                                              // found not data, reset workspace
-        trialNum = 0;
-    }
+    NSLog(@"loadMatlabWorkspace: trialNum: %ld", trialNum);
     [engine evalString:@"file.startTimeVec = now;"];                    // reset time base for this subject
     for (e = 0; e < numEvents; e++) {                                   // clear any trial event counts;
         trialEventCounts[e] = 0;
@@ -355,7 +366,7 @@
     path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
             [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"save '%@'", path]];
-    [[task defaults] setObject:[NSNumber numberWithLong:trialNum] forKey:kMatlabTrialNumKey];
+//    [[task defaults] setObject:[NSNumber numberWithLong:trialNum] forKey:kMatlabTrialNumKey];
 }
 
 /*

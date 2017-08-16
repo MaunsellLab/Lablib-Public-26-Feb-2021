@@ -155,6 +155,11 @@ Engine  *pEngine;
     return (void *)pEngine;
 }
 
+- (NSString *)evalString:(NSString *)string;
+{
+    return [self evalString:string postResult:YES];
+}
+
 // Ask Matlab to evaluate a string.  We bundle every string in a "try/catch" block, so that if there is an error the
 // text will return to us, rather than going to stderr.  We include a diagnostic "disp()" command, which lets us
 // distinguish Matlab errors from other other Matlab responses.
@@ -163,13 +168,13 @@ Engine  *pEngine;
 // case, the command to ask for the information at ex.stack(1) causes Matlab to give up and send a message about
 // 'index exceeds matrix limit' to stderr.  So I've put in a check on the length of the stack.
 
-- (void)evalString:(NSString *)string;
+- (NSString *)evalString:(NSString *)string postResult:(BOOL)doPosting;
 {
     NSRange errorCodeRange;
     NSString *commandStr, *outputStr, *subStr, *formatting;
 
     if (pEngine == nil) {
-        return;
+        return nil;
     }
     [engineLock lock];
     formatting = @"'File: %s, Function: %s, Line: %djhrmNEWLINE'";
@@ -185,28 +190,36 @@ Engine  *pEngine;
                   "end",
                   string, formatting];
     engEvalString(pEngine, [commandStr UTF8String]);
+    [engineLock unlock];
+    
     [self preparePosting:[string stringByAppendingString:@"\n"] enabledKey:kLLMatlabDoCommandsKey];
     if (strlen(outputBuffer) > 0) {
         outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
                         stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
         outputStr = [outputStr stringByReplacingOccurrencesOfString:@"  " withString:@" "];
         outputStr = [outputStr stringByReplacingOccurrencesOfString:@"jhrmNEWLINE" withString:@"\n\t"];
-        errorCodeRange = [outputStr rangeOfString:@" jhrmERROR"];
-        if (errorCodeRange.length == 0) {
-            [self preparePosting:[NSString stringWithFormat:@"  %@\n", outputStr] enabledKey:kLLMatlabDoResponsesKey];
+        if (doPosting) {
+            errorCodeRange = [outputStr rangeOfString:@" jhrmERROR"];
+            if (errorCodeRange.length == 0) {
+                [self preparePosting:[NSString stringWithFormat:@"  %@\n", outputStr]
+                                                                            enabledKey:kLLMatlabDoResponsesKey];
+            }
+            else if (errorCodeRange.location == 2) {                // whole message is an error message
+                subStr = [outputStr substringFromIndex:(errorCodeRange.length + 3)];    // strip error code
+                [self preparePosting:[NSString stringWithFormat:@"  >>%@\n", subStr] enabledKey:kLLMatlabDoErrorsKey];
+            }
+            else {                                                  // normal message precedes error message
+                subStr = [outputStr substringToIndex:errorCodeRange.location];    // strip error code
+                [self preparePosting:[NSString stringWithFormat:@"  %@\n", subStr] enabledKey:kLLMatlabDoResponsesKey];
+                subStr = [outputStr substringFromIndex:(errorCodeRange.location + errorCodeRange.length + 1)];
+                [self preparePosting:[NSString stringWithFormat:@"  >>%@\n", subStr] enabledKey:kLLMatlabDoErrorsKey];
+            }
         }
-        else if (errorCodeRange.location == 2) {                // whole message is an error message
-            subStr = [outputStr substringFromIndex:(errorCodeRange.length + 3)];    // strip error code
-            [self preparePosting:[NSString stringWithFormat:@"  >>%@\n", subStr] enabledKey:kLLMatlabDoErrorsKey];
-        }
-        else {                                                  // normal message precedes error message
-            subStr = [outputStr substringToIndex:errorCodeRange.location];    // strip error code
-            [self preparePosting:[NSString stringWithFormat:@"  %@\n", subStr] enabledKey:kLLMatlabDoResponsesKey];
-            subStr = [outputStr substringFromIndex:(errorCodeRange.location + errorCodeRange.length + 1)]; // strip other
-            [self preparePosting:[NSString stringWithFormat:@"  >>%@\n", subStr] enabledKey:kLLMatlabDoErrorsKey];
-        }
+        return outputStr;
     }
-    [engineLock unlock];
+    else {
+        return nil;
+    }
 }
 
 - (void)post:(NSAttributedString *)attrStr;

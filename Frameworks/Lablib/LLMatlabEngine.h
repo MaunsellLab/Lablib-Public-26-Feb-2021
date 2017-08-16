@@ -23,7 +23,8 @@
 - (void)addMatlabPathForPlugin:(NSString *)pluginName;
 - (void)close;
 - (void *)engine;
-- (void)evalString:(NSString *)string;
+- (NSString *)evalString:(NSString *)string;
+- (NSString *)evalString:(NSString *)string postResult:(BOOL)post;
 - (void)post:(NSAttributedString *)attrStr;
 
 - (IBAction)windowFront:(id)sender;
