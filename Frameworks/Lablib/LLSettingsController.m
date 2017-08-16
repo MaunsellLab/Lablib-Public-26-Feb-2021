@@ -298,6 +298,24 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     return YES;
 }
 
+- (void)saveSettingsDomainName;
+{
+    NSMutableDictionary *theDict;
+
+    theDict = [NSMutableDictionary dictionaryWithDictionary:
+               [[NSUserDefaults standardUserDefaults] persistentDomainForName:baseDomain]];
+    [theDict setObject:settingsDomain forKey:kActiveSettings];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:theDict forName:baseDomain];
+}
+
+- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView;
+{
+    BOOL allow = allowNextSelectionChange;
+
+    allowNextSelectionChange = YES;
+    return allow;
+}
+
 - (void)selectSettings;
 {
     long settingsIndex;
@@ -345,22 +363,14 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     }
 }
 
-- (void)saveSettingsDomainName;
+- (NSString *)settingsFileName;
 {
-    NSMutableDictionary *theDict;
+    NSString *fileName;
 
-    theDict = [NSMutableDictionary dictionaryWithDictionary:
-               [[NSUserDefaults standardUserDefaults] persistentDomainForName:baseDomain]];
-    [theDict setObject:settingsDomain forKey:kActiveSettings];
-    [[NSUserDefaults standardUserDefaults] setPersistentDomain:theDict forName:baseDomain];
-}
-
-- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView;
-{
-    BOOL allow = allowNextSelectionChange;
-
-    allowNextSelectionChange = YES;
-    return allow;
+    fileName = [settingsDomain stringByReplacingOccurrencesOfString:@" " withString:@"!"];
+    fileName = [fileName pathExtension];
+    fileName = [fileName stringByReplacingOccurrencesOfString:@"!" withString:@" "];
+    return fileName;
 }
 
 - (void)synchronize;
