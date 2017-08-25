@@ -28,6 +28,21 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 @implementation LLSettingsController
 
+- (void)checkRunTimes:(long)subjectNumber;
+{
+    double timeNow, timeStored;
+
+    timeNow = [NSDate timeIntervalSinceReferenceDate];
+    timeStored = [[NSUserDefaults standardUserDefaults]
+                                floatForKey:[NSString stringWithFormat:@"%@LastRunTime%ld", prefix, subjectNumber]];
+    if (timeNow - timeStored >= 12 * 60 * 60) {                 // More than 12 h ago (or timeStored nil)?
+        [[NSUserDefaults standardUserDefaults] setFloat:0       // Then clear the run times
+                                forKey:[NSString stringWithFormat:@"%@MinRunTime%ld", prefix, subjectNumber]];
+        [[NSUserDefaults standardUserDefaults] setFloat:0
+                                forKey:[NSString stringWithFormat:@"%@TotalRunTime%ld", prefix, subjectNumber]];
+    }
+}
+
 - (NSString *)createNewSettingsFile;
 {
     NSString *newName = [self uniqueSettingsName];
@@ -152,6 +167,19 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     return YES;
 }
 
+- (void)incrementRunTimes:(long)subjectNumber minRunTime:(float *)pMinTimeS totalRunTime:(float *)pTotalTimeS;
+{
+    NSString *minRunKey = [NSString stringWithFormat:@"%@MinRunTimeS", prefix];
+    NSString *totalRunKey = [NSString stringWithFormat:@"%@TotalRunTimeS", prefix];
+
+    *pMinTimeS += [[NSUserDefaults standardUserDefaults] floatForKey:minRunKey];
+    *pTotalTimeS += [[NSUserDefaults standardUserDefaults] floatForKey:totalRunKey];
+    [[NSUserDefaults standardUserDefaults] setFloat:*pMinTimeS forKey:minRunKey];
+    [[NSUserDefaults standardUserDefaults] setFloat:*pTotalTimeS forKey:totalRunKey];
+    [[NSUserDefaults standardUserDefaults] setFloat:[NSDate timeIntervalSinceReferenceDate]
+                forKey:[NSString stringWithFormat:@"%@LastRunTime%ld", prefix, subjectNumber]];
+}
+
 - (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)thePrefix;
 {
     NSString *settingsName;
@@ -194,6 +222,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (BOOL)loadSettings;
 {
+    long subjectNumber;
     NSDictionary *pluginDict, *settingsDict;
     NSMutableDictionary *knotDict;
 
@@ -222,6 +251,12 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     [knotDict addEntriesFromDictionary:settingsDict];
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict forName:[NSBundle mainBundle].bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] synchronize];
+
+    // If there is a subject number, check whether the run times should be reset.
+
+    subjectNumber = [[NSUserDefaults standardUserDefaults] integerForKey:
+                                                        [NSString stringWithFormat:@"%@SubjectNumber", prefix]];
+    [self checkRunTimes:subjectNumber];
     return YES;
 }
 
@@ -338,7 +373,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
         [duplicateButton setEnabled:YES];
         [deleteButton setEnabled:YES];
     }
-    [settingsTable reloadData];							// make sure number of rows is up to date
+    [settingsTable reloadData];                                 // make sure number of rows is up to date
     pName = [[settingsDomain componentsSeparatedByString:@"."] lastObject];
     settingsIndex = [settingsFileNames indexOfObject:pName];
     if (settingsIndex != NSNotFound) {

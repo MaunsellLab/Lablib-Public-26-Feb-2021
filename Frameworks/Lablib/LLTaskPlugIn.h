@@ -14,6 +14,7 @@
 #import "LLMonitorController.h"
 #import "LLNE500Pump.h"
 #import "LLNIDAQ.h"
+#import "LLSettingsController.h"
 #import "LLSockets.h"
 #import "LLStateSystem.h"
 #import "LLStimWindow.h"
@@ -65,9 +66,10 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 	BOOL					writingDataFile;
 }
 
-@property (assign) LLNIDAQ *nidaq;
-@property (assign) LLNE500Pump *rewardPump;
-@property (assign) double trialStartTimeS;
+@property (nonatomic, assign) LLNIDAQ *nidaq;
+@property (nonatomic, assign) LLNE500Pump *rewardPump;
+@property (nonatomic, assign) double trialStartTimeS;
+@property (nonatomic, retain) LLSettingsController *settingsController;
 
 - (void)activate;
 - (BOOL)active;

@@ -13,6 +13,7 @@
 @synthesize nidaq;
 @synthesize rewardPump;
 @synthesize trialStartTimeS;
+@synthesize settingsController;
 
 - (void)activate;
 {
@@ -59,7 +60,7 @@
 	[dataDoc release];
 	[defaults release];
 	[eyeCalibrator release];
-	[stimWindow release];
+    [stimWindow release];
 	[synthDataDevice release];
     [lastDataCollectionDate release];
 	[host release];

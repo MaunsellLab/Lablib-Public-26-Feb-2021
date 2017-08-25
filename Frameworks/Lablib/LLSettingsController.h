@@ -24,7 +24,9 @@ extern NSString *LLSettingsChanged;
     IBOutlet NSTableView	*settingsTable;
 }
 
+- (void)checkRunTimes:(long)subjectNumber;
 - (BOOL)extractSettings;
+- (void)incrementRunTimes:(long)subjectNumber minRunTime:(float *)pMinTimeS totalRunTime:(float *)pTotalTimeS;
 - (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)prefix;
 - (BOOL)loadSettings;
 - (void)loadSettingsFileNames;
