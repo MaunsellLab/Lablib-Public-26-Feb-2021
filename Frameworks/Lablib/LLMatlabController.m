@@ -193,20 +193,19 @@
     trialNum = 0;                                                      // default to no trials loaded
     if (exists && !isDir) {
         [engine evalString:[NSString stringWithFormat:@"load '%@'", path]];
- //       trialNum = [[task defaults] integerForKey:kMatlabTrialNumKey];
         replyString = [engine evalString:@"length(trials)" postResult:NO];
-        NSLog(@"loadMatlabWorkspace: length(trials) query: %@", replyString);
+//        NSLog(@"loadMatlabWorkspace: length(trials) query: %@", replyString);
         stringRange = [replyString rangeOfString:@">> ans ="];
         if (stringRange.location != NSNotFound) {
-            NSLog(@"loadMatlabWorkspace: contains answer string");
+//            NSLog(@"loadMatlabWorkspace: contains answer string");
             replyString = [replyString substringFromIndex:stringRange.location + stringRange.length];
-            NSLog(@"loadMatlabWorkspace: reduced query response: %@", replyString);
+//            NSLog(@"loadMatlabWorkspace: reduced query response: %@", replyString);
             aScanner = [NSScanner scannerWithString:replyString];
             [aScanner scanInteger:&trialNum];
         }
         [engine evalString:matlabScriptCommand];
     }
-    NSLog(@"loadMatlabWorkspace: trialNum: %ld", trialNum);
+//    NSLog(@"loadMatlabWorkspace: trialNum: %ld", trialNum);
     [engine evalString:@"file.startTimeVec = now;"];                    // reset time base for this subject
     for (e = 0; e < numEvents; e++) {                                   // clear any trial event counts;
         trialEventCounts[e] = 0;

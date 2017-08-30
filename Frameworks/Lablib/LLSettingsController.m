@@ -32,14 +32,18 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 {
     double timeNow, timeStored;
 
+    NSLog(@"checking run times");
     timeNow = [NSDate timeIntervalSinceReferenceDate];
     timeStored = [[NSUserDefaults standardUserDefaults]
                                 floatForKey:[NSString stringWithFormat:@"%@LastRunTime%ld", prefix, subjectNumber]];
     if (timeNow - timeStored >= 12 * 60 * 60) {                 // More than 12 h ago (or timeStored nil)?
+        NSLog(@"  resetting run times");
         [[NSUserDefaults standardUserDefaults] setFloat:0       // Then clear the run times
                                 forKey:[NSString stringWithFormat:@"%@MinRunTime%ld", prefix, subjectNumber]];
         [[NSUserDefaults standardUserDefaults] setFloat:0
                                 forKey:[NSString stringWithFormat:@"%@TotalRunTime%ld", prefix, subjectNumber]];
+        [[NSUserDefaults standardUserDefaults] setFloat:[NSDate timeIntervalSinceReferenceDate]
+                                forKey:[NSString stringWithFormat:@"%@LastRunTime%ld", prefix, subjectNumber]];
     }
 }
 
