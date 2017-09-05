@@ -6,18 +6,16 @@
 	<string>en_US</string>
 	<key>CFBundleExecutable</key>
 	<string>Lablib</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleSignature</key>
-	<string>LLib</string>
 	<key>CFBundleVersion</key>
 	<string>4.2.0</string>
 	<key>NSPrincipalClass</key>

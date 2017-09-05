@@ -14,9 +14,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>LablibStandalone.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>6954539B1F5E05D800D2C74C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>695453A91F5E112500D2C74C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>695453B71F5E13F800D2C74C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>69F36CA50567EA35009AED51</key>
 		<dict>
 			<key>primary</key>
