@@ -11,6 +11,8 @@
 
 @implementation LLMultiplierTransformer
 
+@synthesize multiplier;
+
 + (BOOL)allowsReverseTransformation;
 {
     return YES;   
@@ -29,11 +31,6 @@
 	return self;
 }
 		 
-- (float)multiplier;
-{
-	return multiplier;
-}
-
 - (id)reverseTransformedValue:(id)value;
 {
 	float outputValue;
@@ -42,8 +39,7 @@
 		return nil;
 	}
     
-// Attempt to get a reasonable value from the 
-// value object. 
+// Attempt to get a reasonable value from the value object.
 
     if ([value respondsToSelector: @selector(floatValue)]) {
         outputValue = [value floatValue];			  // handles NSString and NSNumber
@@ -57,11 +53,6 @@
     return [NSNumber numberWithFloat:outputValue / multiplier];
 }
 
-- (void)setMultiplier:(float)newMultiplier;
-{
-	multiplier = newMultiplier;
-}
-
 - (id)transformedValue:(id)value;
 {
     float inputValue;
@@ -70,8 +61,7 @@
 		return nil;
 	}
 
-// Attempt to get a reasonable value from the 
-// value object. 
+// Attempt to get a reasonable value from the value object.
 
     if ([value respondsToSelector: @selector(floatValue)]) {
         inputValue = [value floatValue];		 // handles NSString and NSNumber
