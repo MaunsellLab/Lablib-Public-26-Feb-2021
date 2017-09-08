@@ -1,0 +1,17 @@
+Title Lablib
+Version 2.0.1
+Description Lablib 
+February 7, 2005
+DefaultLocation /
+DeleteWarning 
+
+### Package Flags
+
+NeedsAuthorization NO
+Required NO
+Relocatable NO
+RequiresReboot NO
+UseUserMask NO
+OverwritePermissions NO
+InstallFat NO
+RootVolumeOnly NO

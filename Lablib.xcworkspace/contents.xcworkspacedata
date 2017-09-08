@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Plugins/LabJackU6DataDevice/Things to Do.rtf">
+      location = "group:Things to Do.txt">
    </FileRef>
    <FileRef
       location = "container:Frameworks/Lablib/Lablib.xcodeproj">
@@ -17,21 +17,21 @@
       location = "group:Applications/DataConvert/DataConvert.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
+      location = "group:Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
+      location = "group:Data_Plugins/LLEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Documents/Lablib/Plugins/LablibEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
+      location = "group:Data_Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
+      location = "group:Data_Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Plugins/Fixate/Fixate.xcodeproj">
+      location = "group:Task_Plugins/Fixate/Fixate.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Plugins/RFMap/RFMap.xcodeproj">
+      location = "group:Task_Plugins/RFMap/RFMap.xcodeproj">
    </FileRef>
 </Workspace>
