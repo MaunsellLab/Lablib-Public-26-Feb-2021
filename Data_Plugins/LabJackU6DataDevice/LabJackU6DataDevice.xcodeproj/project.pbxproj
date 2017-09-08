@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		696DF5AA0EB8A8F80004FC8E /* LabJackU6DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0ED4650CA064BC00BE2453 /* LabJackU6DataDevice.m */; };
-		698FC00C1DFF6C6C00DF41D3 /* Things to Do.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 698FC00B1DFF6C6B00DF41D3 /* Things to Do.rtf */; };
 		69AF8ADA1DFB6E9F00488DF2 /* LabJackU6Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AF8AD81DFB6E9F00488DF2 /* LabJackU6Settings.m */; };
 		69AF8ADB1DFB6E9F00488DF2 /* LabJackU6Settings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69AF8AD91DFB6E9F00488DF2 /* LabJackU6Settings.xib */; };
 		69AF8AFE1DFB895400488DF2 /* u6.c in Sources */ = {isa = PBXBuildFile; fileRef = 69AF8AFC1DFB895400488DF2 /* u6.c */; };
@@ -219,7 +218,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */,
-				698FC00C1DFF6C6C00DF41D3 /* Things to Do.rtf in Resources */,
 				69AF8ADB1DFB6E9F00488DF2 /* LabJackU6Settings.xib in Resources */,
 				E97BF1EB1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib in Resources */,
 			);
