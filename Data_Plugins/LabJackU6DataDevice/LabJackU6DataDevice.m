@@ -510,7 +510,7 @@ long ELTrialStartTimeMS;
     if ([self ljU6ReadPorts:&fioState EIOState:&eioState CIOState:&cioState] < 0) {
         [deviceLock unlock];
         NSLog(@"LabJackDataDevice readLeverDI: error reading DI, stopping IO ");
-        [self setDataEnabled:NO];  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
+        [self setDataEnabled:[NSNumber numberWithBool:NO]];  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
         return NO;
     }
     elapsedTimeS = [LLSystemUtil getTimeS] - startTimeS;

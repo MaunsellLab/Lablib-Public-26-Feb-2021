@@ -71,8 +71,11 @@ all requested sampling rates are checked and lowered if necessary
 #import "LLITC18DataDevice.h" 
 #import <Lablib/LLSystemUtil.h>
 #import <Lablib/LLPluginController.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
 #import <ITC/Itcmm.h>
 #import <ITC/ITC18.h>
+#pragma clang diagnostic pop
 
 #define kUseLLDataDevices							// needed for versioning
 

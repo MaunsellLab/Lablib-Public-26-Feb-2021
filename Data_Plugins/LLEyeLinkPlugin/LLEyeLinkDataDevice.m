@@ -8,7 +8,10 @@
 // August 21, 2015, Working version for Rig 1
 
 #import <eyelink_core/eyelink.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
 #import <eyelink_core/core_expt.h>
+#pragma clang diagnostic pop
 #import <Lablib/LLPluginController.h>
 #import <Lablib/LLSystemUtil.h>
 #import "LLEyeLinkDataDevice.h"
@@ -290,7 +293,7 @@ void handler(int signal) {
 - (void)setDeviceEnabled:(NSNumber *)state;
 {
 	if (![state boolValue] && deviceEnabled) {						// Disable the device
-		[self setDataEnabled:NO];
+		[self setDataEnabled:[NSNumber numberWithBool:NO]];
         deviceEnabled = NO;
 		shouldKillThread = YES;
 		while (pollThread != nil) {
