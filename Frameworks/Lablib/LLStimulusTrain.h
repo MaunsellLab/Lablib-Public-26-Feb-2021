@@ -1,6 +1,5 @@
 //
 //  LLStimulusTrain.h
-//  Experiment
 //
 //  Created by John Maunsell on Thu Jun 03 2004.
 //  Copyright (c) 2004. All rights reserved.

@@ -37,6 +37,7 @@
 		694519371E465429005B75A3 /* LLNE500Pump.m in Sources */ = {isa = PBXBuildFile; fileRef = 694519361E465429005B75A3 /* LLNE500Pump.m */; };
 		694519391E465439005B75A3 /* LLNE500Pump.h in Headers */ = {isa = PBXBuildFile; fileRef = 694519381E465439005B75A3 /* LLNE500Pump.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6945193B1E465727005B75A3 /* LLNE500Pump.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6945193A1E465727005B75A3 /* LLNE500Pump.xib */; };
+		69461C3C1F72F617004C7DA8 /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69461C3B1F72F617004C7DA8 /* Development.xcconfig */; };
 		694761B6092A782600841167 /* LLLaserCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 694761B5092A782600841167 /* LLLaserCalibrator.plist */; };
 		69476829092BE72B00841167 /* PlayButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476826092BE72B00841167 /* PlayButton.tif */; };
 		6947682A092BE72B00841167 /* StopButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476827092BE72B00841167 /* StopButton.tif */; };
@@ -310,6 +311,7 @@
 		694519361E465429005B75A3 /* LLNE500Pump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNE500Pump.m; sourceTree = "<group>"; };
 		694519381E465439005B75A3 /* LLNE500Pump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNE500Pump.h; sourceTree = "<group>"; };
 		6945193A1E465727005B75A3 /* LLNE500Pump.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLNE500Pump.xib; sourceTree = "<group>"; };
+		69461C3B1F72F617004C7DA8 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = ../../../Development.xcconfig; sourceTree = "<group>"; };
 		69473E2E0B095B21005DE552 /* LLMouseDataDevice-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LLMouseDataDevice-Info.plist"; sourceTree = "<group>"; };
 		694761B5092A782600841167 /* LLLaserCalibrator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLLaserCalibrator.plist; sourceTree = "<group>"; };
 		69476826092BE72B00841167 /* PlayButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PlayButton.tif; path = ../../Resources/Images/PlayButton.tif; sourceTree = SOURCE_ROOT; };
@@ -555,6 +557,7 @@
 				69B81617045E1B7300A80164 /* Things to Do.txt */,
 				69662A2D0A3DEA1A00B66B01 /* Release Notes.txt */,
 				69C895CB03E8275C00A80164 /* Notes.txt */,
+				69461C3A1F72F5F5004C7DA8 /* External Configuration */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Headers */,
 				694879EC0486A7F400FE06D7 /* Protocols */,
@@ -717,6 +720,14 @@
 				699D01640479219700A80164 /* LLSynthSaccade.m */,
 			);
 			name = "Data Utilities";
+			sourceTree = "<group>";
+		};
+		69461C3A1F72F5F5004C7DA8 /* External Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				69461C3B1F72F617004C7DA8 /* Development.xcconfig */,
+			);
+			path = "External Configuration";
 			sourceTree = "<group>";
 		};
 		694879EC0486A7F400FE06D7 /* Protocols */ = {
@@ -1148,6 +1159,7 @@
 				695EFED51AC6225B00D9D458 /* LLRandomDots.xib in Resources */,
 				69EB7AF21E21D15800B3CF7C /* LLMatlabEngine.xib in Resources */,
 				695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */,
+				69461C3C1F72F617004C7DA8 /* Development.xcconfig in Resources */,
 				695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */,
 				695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */,
 				6957BF851E1301980059716F /* LLSockets.xib in Resources */,

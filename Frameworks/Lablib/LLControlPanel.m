@@ -100,26 +100,28 @@ NSImage *stoppingButton;
 
 - (void)setTaskMode:(long)newMode;
 {
-	taskMode = newMode;
-	switch (taskMode) {
-    case kTaskRunning:
-		[taskModeButton setTitle:NSLocalizedString(@"Stop", @"Stop")];
-		[taskModeButton setToolTip:NSLocalizedString(@"Stop", @"Stop")];
-		[taskModeButton setImage:stopButton];
-        break;
-    case kTaskStopping:
-		[taskModeButton setTitle:NSLocalizedString(@"Stop", @"Stop")];
-		[taskModeButton setToolTip:NSLocalizedString(@"Stop Now", @"Stop Now")];
-		[taskModeButton setImage:stoppingButton];
-        break;
-    case kTaskIdle:
-		[taskModeButton setTitle:NSLocalizedString(@"Run", @"Run")];
-		[taskModeButton setToolTip:NSLocalizedString(@"Run", @"Run")];
-		[taskModeButton setImage:playButton];
-        break;
-    default:
-        break;
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        taskMode = newMode;
+        switch (taskMode) {
+        case kTaskRunning:
+            [taskModeButton setTitle:NSLocalizedString(@"Stop", @"Stop")];
+            [taskModeButton setToolTip:NSLocalizedString(@"Stop", @"Stop")];
+            [taskModeButton setImage:stopButton];
+            break;
+        case kTaskStopping:
+            [taskModeButton setTitle:NSLocalizedString(@"Stop", @"Stop")];
+            [taskModeButton setToolTip:NSLocalizedString(@"Stop Now", @"Stop Now")];
+            [taskModeButton setImage:stoppingButton];
+            break;
+        case kTaskIdle:
+            [taskModeButton setTitle:NSLocalizedString(@"Run", @"Run")];
+            [taskModeButton setToolTip:NSLocalizedString(@"Run", @"Run")];
+            [taskModeButton setImage:playButton];
+            break;
+        default:
+            break;
+        }
+    });
 }
 
 - (long)taskMode;

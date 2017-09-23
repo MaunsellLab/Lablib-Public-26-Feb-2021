@@ -39,6 +39,7 @@ typedef enum {kLeftEye, kRightEye} LLWhichEye;
     NSLock			*sampleLock;
     NSMutableArray  *sampleRectsDeg[kEyes];
 	long			samplesToSave;
+    NSRect          theBounds;
 	CGFloat			tickDeg;
 }
 

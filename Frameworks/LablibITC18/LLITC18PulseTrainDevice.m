@@ -7,7 +7,7 @@
 //
 
 #import "LLITC18PulseTrainDevice.h"					
-#import <ITC/Itcmm.h>
+//#import <ITC/Itcmm.h>
 #import <ITC/ITC18.h>
 #import <unistd.h>
 
@@ -31,7 +31,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	if (itcExists) {
 		[deviceLock lock];
 		ITC18_Close(itc);
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 		[deviceLock unlock];
 	}
@@ -93,7 +93,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
 	if (overflow != 0) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
-                informativeString:@"Fatal error: FIFO overflow"];
+                informativeText:@"Fatal error: FIFO overflow"];
 		exit(0);
 	}
 	return available;
@@ -153,9 +153,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
     [deviceLock lock];
 	if (itc == nil) {						// current opened?
-		if ((itc = NewPtr(ITC18_GetStructureSize())) == nil) {
+		if ((itc = malloc(ITC18_GetStructureSize())) == nil) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
-                                     informativeString:@"Failed to allocate pLocal memory"];
+                                     informativeText:@"Failed to allocate pLocal memory"];
 			exit(0);
 		}
 	}
@@ -164,9 +164,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	}
 
 	for (code = 0, itcExists = NO; code < sizeof(interfaceCodes) / sizeof(long); code++) {
-		NSLog(@"LLITC18DataDevice: attempting to initialize device %d using code %d",
+        NSLog(@"LLITC18DataDevice: attempting to initialize device %ld using code %ld",
 					deviceNum, deviceNum | interfaceCodes[code]);
-		if (ITC18_Open(itc, deviceNum | interfaceCodes[code]) != noErr) {
+		if (ITC18_Open(itc, (int)(deviceNum | interfaceCodes[code])) != noErr) {
 			continue;									// failed, try another code
 		}
 
@@ -181,13 +181,13 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	if (itcExists) {
-		NSLog(@"LLITC18PulseTrainDevice: succeeded initialize device %d using code %d",
+		NSLog(@"LLITC18PulseTrainDevice: succeeded initialize device %ld using code %ld",
 					deviceNum, deviceNum | interfaceCodes[code]);
 		ITC18_SetDigitalInputMode(itc, YES, NO);				// latch and do not invert
 		ITC18_SetExternalTriggerMode(itc, NO, NO);				// no external trigger
 	}
 	else {
-		DisposePtr(itc);
+		free(itc);
 		itc = nil;
 	}
 	[deviceLock unlock];
@@ -329,22 +329,22 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	} 
 	ITCInstructions[index] = ITC18_OUTPUT_DIGITAL1 | ITC18_INPUT_SKIP | ITC18_OUTPUT_UPDATE;
 	[deviceLock lock];
-	ITC18_SetSequence(itc, channels + 1, ITCInstructions); 
+	ITC18_SetSequence(itc, (int)(channels + 1), ITCInstructions);
 	ITC18_StopAndInitialize(itc, YES, YES);
     ITC18_GetFIFOWriteAvailable(itc, &writeAvailable);
 	if (writeAvailable < DASampleSetsInTrain) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
-                informativeString:@"An ITC18 Laboratory Interface card was found, but the write buffer was full."];
+                informativeText:@"An ITC18 Laboratory Interface card was found, but the write buffer was full."];
 		[trainValues release];
 		return NO;
 	}
-    result = ITC18_WriteFIFO(itc, bufferLength, (short *)[trainValues bytes]);
+    result = ITC18_WriteFIFO(itc, (int)bufferLength, (short *)[trainValues bytes]);
 	[trainValues release];
     if (result != noErr) { 
         NSLog(@"Error ITC18_WriteFIFO, result: %d", result);
         return NO;
     }
-	ITC18_SetSamplingInterval(itc, ticksPerInstruction, NO);
+	ITC18_SetSamplingInterval(itc, (int)ticksPerInstruction, NO);
 	samplesReady = NO;
 	[deviceLock unlock];
 	return YES;
@@ -379,7 +379,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 // When all the samples are available, read them and unpack them
 	
-	ITC18_ReadFIFO(itc, bufferLength, samples);							// read all available sets
+	ITC18_ReadFIFO(itc, (int)bufferLength, samples);							// read all available sets
 ///	for (set = 0; set < 100; set++) {
 //		NSLog(@"%d value %d", set, samples[set]);
 //	}
@@ -458,7 +458,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	
 	if (DAchannels > ITC18_NUMBEROFDACOUTPUTS) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
-                                 informativeString: @"Too many channels requested.  Ignoring request."];
+                                 informativeText: @"Too many channels requested.  Ignoring request."];
 		return NO;
 	}
 	for (index = 0; index < DAchannels; index++) {
@@ -484,7 +484,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 			frequencyHZ != trainData[index].frequencyHZ || fullRangeV != trainData[index].fullRangeV ||
 				 UAPerV != trainData[index].UAPerV) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18PulseTrainDevice"
-                                     informativeString: @"Incompatible values requested on different DA channels."];
+                                     informativeText: @"Incompatible values requested on different DA channels."];
 			return NO;
 		}			
 	} 

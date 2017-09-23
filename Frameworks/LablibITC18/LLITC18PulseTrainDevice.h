@@ -7,7 +7,7 @@
 //
 
 #import <Lablib/LLPulseTrainDevice.h>
-#import <ITC/itcmm.h> 
+#import <ITC/Itcmm.h>
 
 @interface LLITC18PulseTrainDevice : NSObject <LLPulseTrainDevice>  {
 

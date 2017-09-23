@@ -185,16 +185,18 @@
     [marks addObject:[NSValue value:&mark withObjCType:@encode(XHistAxisMark)]];
 }
 
-- (void) fillXFrom:(float)xMin to:(float)xMax color:(NSColor *)color {
+- (void) fillXFrom:(float)xMin to:(float)xMax color:(NSColor *)color;
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        XHistAxisMark mark;
 
-    XHistAxisMark mark;
-
-    mark.xMin = xMin;
-    mark.xMax = xMax;
-    mark.yPix = [self bounds].size.height - bottomMarginPix - topMarginPix;
-    mark.color = color;
-    [color retain];
-    [marks addObject:[NSValue value:&mark withObjCType:@encode(XHistAxisMark)]];
+        mark.xMin = xMin;
+        mark.xMax = xMax;
+        mark.yPix = [self bounds].size.height - bottomMarginPix - topMarginPix;
+        mark.color = color;
+        [color retain];
+        [marks addObject:[NSValue value:&mark withObjCType:@encode(XHistAxisMark)]];
+    });
 }
 
 - (void) handleScaleChange:(NSNotification *)note;

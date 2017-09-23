@@ -1,6 +1,5 @@
 STILL PROBLEMS GETTING NEW SETTINGS FOLDERS TO APPEAR WHEN EDITING THE NAME OF SETTINGS FILES.
 
-
 When Plugin is activated:
     *Register defaults as base persistent domain (e.g., lablib.knot.TPOP.plist)
     *Load new persistent domain into StandardUserDefaults (SUD) otherwise

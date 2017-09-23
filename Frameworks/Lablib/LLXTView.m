@@ -402,47 +402,17 @@
 	[self updateEventTime:stimulusBarTimeMS];
 }
 
-- (void)updateEventTime:(long)timeMS {
-
-//	NSRect b, scrollRect, drawRect;
-//	float scrollFraction;							// the fraction of the view rect that needs to scroll
-//	double deltaTimeMS;
-	
-//	scrollFraction = (timeMS - lastEventTimeMS) / durationMS;
+- (void)updateEventTime:(long)timeMS;
+{
 	if (freeze) {
 		lastEventTimeMS = timeMS;
 		return;
 	}
-	
 	lastEventTimeMS = timeMS;
-	[self setNeedsDisplay:YES];
-	return;
-
-/*	
-
-The following code was used for scrolling the view, rather than redrawing it entirely on each drawRect.
-
-	if (scrollFraction >= 1.0) {					// if the view is wholly displaced, signal a complete display
-		lastEventTimeMS = timeMS;
-		[self setNeedsDisplay:YES];
-		return;
-	}
-	if (waitingForDrawRect) {
-		return;
-	}
-	b = drawRect = scrollRect = [self bounds];
-	drawRect.size.height = round(scrollFraction * b.size.height);
-	if (drawRect.size.height < 1.0) {
-		return;
-	}
-	scrollRect.origin.y = drawRect.size.height;
-	scrollRect.size.height = drawRect.origin.y = b.size.height - drawRect.size.height;
-	[self scrollRect:scrollRect by:NSMakeSize(0, -drawRect.size.height)];
-	deltaTimeMS = timeMS - lastEventTimeMS;
-	lastEventTimeMS += deltaTimeMS * drawRect.size.height / (scrollFraction * b.size.height);
-	waitingForDrawRect = YES;
-	[self setNeedsDisplayInRect:drawRect];
-*/
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:YES];
+    });
+    return;
 }
 
 @end

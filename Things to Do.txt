@@ -1,1 +1,32 @@
-Upgrade to Lablib to manage distributions better:Create a Package that can go on Blur for distribution purposes.  It should do the following:	Install Knot & DataConvert into /Applications	Install baseline Plugins into /Library/Application Support/Knot_____________________________________________ÊEye calibration and stimulus drawing is not tracking offsets of the fixation point.  I believe what is required is for each plugin to look at the position of the fixation point at the start of each trial, and move the eye calibration appropriately.  The stimulus drawing should be following the eye calibration correctly already.¥ The things associated with activating and deactivating plugins are so touchy about thier ordering, that it might make sense to hand time all to Lablib to let Lablib make sure they're done in the correct order, and save them to remove them in the correct order.Register SettingsLoad SettingsDefine EventsAdd observersNE500 pump can run at 2.953 ml/min at 8.585 mm diameter.  The code should adjust the units to send the correct number of digits for what is specified in the dialog.  Also, need to work out the timing needed for multiple rewards.  ¥ Test the latency and precision of the LabJack IO (doesn't need to be good for reward, but lever)? OR -- NIDAC DataDevice? ¥ Decide how to convert the PC/NIDAQ into a general purpose physiology buffer (like the ITC).  This might consist of making a library of stubs on the Mac that expose the PC NIDAC library to Lablib.¥ Stop letting the Plugin Manager show the Screen plists.CAUTIONS:setNeedsDisplay is only supposed to be run from the main loop             dispatch_async(dispatch_get_main_queue(), ^{                [hist[level] setNeedsDisplay:YES];            });
+Upgrade to Lablib to manage distributions better:
+
+Create a Package that can go on Blur for distribution purposes.  It should do the following:
+	Install Knot & DataConvert into /Applications
+	Install baseline Plugins into /Library/Application Support/Knot
+
+_____________________________________________
+ÊEye calibration and stimulus drawing is not tracking offsets of the fixation point.  I believe what is required is for each plugin to look at the position of the fixation point at the start of each trial, and move the eye calibration appropriately.  The stimulus drawing should be following the eye calibration correctly already.
+
+
+¥ The things associated with activating and deactivating plugins are so touchy about thier ordering, that it might make sense to hand time all to Lablib to let Lablib make sure they're done in the correct order, and save them to remove them in the correct order.
+
+Register Settings
+Load Settings
+Define Events
+Add observers
+
+NE500 pump can run at 2.953 ml/min at 8.585 mm diameter.  The code should adjust the units to send the correct number of digits for what is specified in the dialog.  Also, need to work out the timing needed for multiple rewards.  
+
+¥ Test the latency and precision of the LabJack IO (doesn't need to be good for reward, but lever)? OR -- NIDAC DataDevice?
+ 
+¥ Decide how to convert the PC/NIDAQ into a general purpose physiology buffer (like the ITC).  This might consist of making a library of stubs on the Mac that expose the PC NIDAC library to Lablib.
+
+¥ Stop letting the Plugin Manager show the Screen plists.
+
+CAUTIONS:
+
+setNeedsDisplay, setFrame, setFrameOrigin, are only supposed to be run from the main loop
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [hist[level] setNeedsDisplay:YES];
+            });
