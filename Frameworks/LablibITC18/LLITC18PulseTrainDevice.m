@@ -7,7 +7,6 @@
 //
 
 #import "LLITC18PulseTrainDevice.h"					
-//#import <ITC/Itcmm.h>
 #import <ITC/ITC18.h>
 #import <unistd.h>
 
@@ -36,11 +35,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		[deviceLock unlock];
 	}
 }
-
-//- (BOOL)dataEnabled {
-//	
-//	return dataEnabled;
-//}
 
 - (void)dealloc;
 {
@@ -77,11 +71,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		ITC18_WriteAuxiliaryDigitalOutput(itc, digitalOutputWord);
 	}
 }
-
-//- (unsigned short)digitalInputValues {
-//
-//	return digitalInputWord;
-//}
 
 // Get the number of entries ready to be read from the FIFO.  We assume that the device has been locked before
 // this method is called
@@ -194,7 +183,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return itcExists;
 }
 
-	
 - (BOOL)makeInstructionsFromTrainData:(PulseTrainData *)pTrain channels:(long)activeChannels;
 {
 	short values[kMaxChannels + 1], gateAndPulseBits, gateBits, *sPtr;
@@ -380,26 +368,16 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // When all the samples are available, read them and unpack them
 	
 	ITC18_ReadFIFO(itc, (int)bufferLength, samples);							// read all available sets
-///	for (set = 0; set < 100; set++) {
-//		NSLog(@"%d value %d", set, samples[set]);
-//	}
 	for (set = 0; set < sets; set++) {									// process each set
 		pSamples = &samples[(channels + 1) * set];						// point to start of a set
 		for (index = 0; index < channels; index++) {					// for every channel
 			channelSamples[index][set] = *pSamples++;
 		}
 	}
-//	for (set = 250; set < 300; set++) {
-//		NSLog(@"Channel 0 %d value %d", set, channelSamples[0][set]);
-//	}
-//	for (set = 0; set < 100; set++) {
-//		NSLog(@"Channel 1 %d value %d", set, channelSamples[1][set]);
-//	}
 	for (index = 0; index < channels; index++) {
 		[inputSamples[index] release];
 		inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
 	}
-//	NSLog(@"Channel 0:\n%@", inputSamples[0]);
 	samplesReady = YES;
 	[deviceLock unlock];
     [threadPool release];
