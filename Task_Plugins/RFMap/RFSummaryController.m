@@ -229,19 +229,21 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 	return [[[NSAttributedString alloc] initWithString:NSLocalizedString(string, nil) attributes:attr] autorelease];
 }
 
-- (void) positionZoomButton {
+- (void) positionZoomButton;
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSRect scrollerRect, buttonRect;
 
-    NSRect scrollerRect, buttonRect;
-   
-    scrollerRect = [[scrollView horizontalScroller] frame];
-    scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
-    NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
-    [[scrollView horizontalScroller] setFrame:scrollerRect];
-    [[scrollView horizontalScroller] setNeedsDisplay:YES];
-    buttonRect.origin.y += buttonRect.size.height;				// Offset because the clipRect is flipped
-    buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
-    [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
-    [zoomButton setNeedsDisplay:YES];
+        scrollerRect = [[scrollView horizontalScroller] frame];
+        scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
+        NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
+        [[scrollView horizontalScroller] setFrame:scrollerRect];
+        [[scrollView horizontalScroller] setNeedsDisplay:YES];
+        buttonRect.origin.y += buttonRect.size.height;                // Offset because the clipRect is flipped
+        buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
+        [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
+        [zoomButton setNeedsDisplay:YES];
+    });
 }
 
 - (void) setScaleFactor:(double)factor;
@@ -474,14 +476,12 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     if (taskMode == kTaskRunning) {
         lastStartTimeS = [LLSystemUtil getTimeS];
     }
-	[percentTable reloadData];
-	[trialTable reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [percentTable reloadData];
+        [trialTable reloadData];
+    });
 }
-/*- (void) stimulusType:(NSData *)eventData eventTime:(NSNumber *)eventTime {
-    
-	[eventData getBytes:&stimType];
-}
-*/
+
 - (void) taskMode:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
 	[eventData getBytes:&taskMode length:sizeof(long)];
@@ -519,10 +519,12 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     }
     newTrial = NO;
 	lastEOTCode = eotCode;
-    [percentTable reloadData];
-	[trialTable reloadData];
-	[dayPlot setNeedsDisplay:YES];
-	[recentPlot setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [percentTable reloadData];
+        [trialTable reloadData];
+        [dayPlot setNeedsDisplay:YES];
+        [recentPlot setNeedsDisplay:YES];
+    });
 }
 
 - (void) trial:(NSData *)eventData eventTime:(NSNumber *)eventTime {

@@ -160,7 +160,9 @@
 	for (index = 0; index < [enableArray count]; index++) {
 		[enableArray replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:NO]];
 	}
-	[self setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:YES];
+    });
 }
 
 - (void)enableAll;
@@ -170,7 +172,9 @@
 	for (index = 0; index < [enableArray count]; index++) {
 		[enableArray replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:YES]];
 	}
-	[self setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:YES];
+    });
 }
 
 - (void) fillXAxisFrom:(float)xMin to:(float)xMax heightPix:(long)heightPix color:(NSColor *)color  {
@@ -202,7 +206,9 @@
 - (void) handleScaleChange:(NSNotification *)note;
 {
 	if (!hidden) {
-		[self setNeedsDisplay:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setNeedsDisplay:YES];
+        });
 	}
 }
 
@@ -286,7 +292,9 @@
 									withObject:[NSNumber numberWithBool:YES]];
 		}
 	}
-	[self setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:YES];
+    });
 }
 
 - (void) setAutoBinWidth:(BOOL)state {
@@ -379,7 +387,9 @@
 
     if (highlight != state) {
         highlight = state;
-        [self setNeedsDisplay:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setNeedsDisplay:YES];
+        });
     }
 }
 

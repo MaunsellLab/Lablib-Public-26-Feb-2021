@@ -326,19 +326,6 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 // Update the display of the calibration in the xy window.  We get the calibration structure
 // and use it to construct crossing lines that mark ±1 degree.
 
-//- (void)eyeCalibration:(NSData *)eventData eventTime:(NSNumber *)eventTime;
-//{
-//	LLEyeCalibrationData cal;
-//
-//    [eventData getBytes:&cal length:sizeof(LLEyeCalibrationData)];
-//	[unitsToDeg setTransformStruct:cal.calibration];
-//	[degToUnits setTransformStruct:cal.calibration];
-//	[degToUnits invert];
-//
-//	[calBezierPath release];
-//	calBezierPath = [LLEyeCalibrator bezierPathForCalibration:cal];
-//	[calBezierPath retain];
-//}
 - (void)eyeLeftCalibration:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
     [self updateEyeCalibration:kLeftEye eventData:eventData];
@@ -348,26 +335,6 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 {
     [self updateEyeCalibration:kRightEye eventData:eventData];
 }
-
-//- (void)eyeData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
-//{
-//	short *pSamples;
-//	long samplePair, samplePairs, x, y;
-//
-//	samplePairs = [eventData length] / (2 * sizeof(short));
-//	pSamples = (short *)[eventData bytes];
-//	for (samplePair = 0; samplePair < samplePairs; samplePair++) {
-//		x = *pSamples++;
-//		y = *pSamples++;
-//		currentEyeDeg = [unitsToDeg transformPoint:NSMakePoint(x, y)];
-//		[eyePlot addSample:currentEyeDeg];
-//	}
-//	if ((!inWindow && NSPointInRect(currentEyeDeg, eyeWindowRectDeg)) ||
-//				(inWindow && !NSPointInRect(currentEyeDeg, eyeWindowRectDeg))) {
-//		[eyePlot setNeedsDisplayInRect:[eyePlot pixRectFromDegRect:eyeWindowRectDeg]];
-//		inWindow = !inWindow;
-//	}
-//}
 
 - (void)eyeLXData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
@@ -405,7 +372,9 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
     
     [eventData getBytes:&fixWindowData length:sizeof(FixWindowData)];
 	eyeWindowRectDeg = fixWindowData.windowDeg;
-    [eyePlot setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [eyePlot setNeedsDisplay:YES];
+    });
 }
 
 @end

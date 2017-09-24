@@ -209,7 +209,7 @@
 	for (index = 0; index < [enable count]; index++) {
 		[enable replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:NO]];
 	}
-	[self setNeedsDisplay:YES];
+	[self setNeedsDisplayOnMainThread:YES];
 }
 
 - (void)enableAll;
@@ -219,14 +219,14 @@
 	for (index = 0; index < [enable count]; index++) {
 		[enable replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:YES]];
 	}
-	[self setNeedsDisplay:YES];
+	[self setNeedsDisplayOnMainThread:YES];
 }
 
 // Handler for change in y max or min on scaling
 
 - (void) handleScaleChange:(NSNotification *)note {
 
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayOnMainThread:YES];
 }
 
 - (id) initWithFrame:(NSRect)frame;
@@ -303,7 +303,7 @@
 									withObject:[NSNumber numberWithBool:YES]];
 		}
 	}
-	[self setNeedsDisplay:YES];
+	[self setNeedsDisplayOnMainThread:YES];
 }
 
 - (long)points;
@@ -356,15 +356,15 @@
 
     if (highlightPlot != state) {
         highlightPlot = state;
-        [self setNeedsDisplay:YES];
+        [self setNeedsDisplayOnMainThread:YES];
     }
 }
 
-- (void)setHighlightXRangeFrom:(float)minValue to:(float)maxValue {
-
+- (void)setHighlightXRangeFrom:(float)minValue to:(float)maxValue;
+{
     xHighlight.minValue = minValue;
     xHighlight.maxValue = maxValue;
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayOnMainThread:YES];
 }
 
 - (void)setHighlightXRangeColor:(NSColor *)color{
@@ -374,14 +374,14 @@
         [xHighlight.color release];
     }
     xHighlight.color = color;
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayOnMainThread:YES];
 }
 
 - (void)setHighlightYRangeFrom:(float)minValue to:(float)maxValue {
 
     yHighlight.minValue = minValue;
     yHighlight.maxValue = maxValue;
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayOnMainThread:YES];
 }
 
 - (void) setHighlightYRangeColor:(NSColor *)color{
@@ -391,7 +391,14 @@
         [yHighlight.color release];
     }
     yHighlight.color = color;
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayOnMainThread:YES];
+}
+
+- (void)setNeedsDisplayOnMainThread:(BOOL)state;
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:state];
+    });
 }
 
 - (void) setXAxisLabel:(NSString *)label {

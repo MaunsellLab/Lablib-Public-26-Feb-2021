@@ -71,6 +71,7 @@ typedef struct {
 - (void)setHighlightXRangeFrom:(float)minValue to:(float)maxValue;
 - (void)setHighlightYRangeColor:(NSColor *)color; 
 - (void)setHighlightYRangeFrom:(float)minValue to:(float)maxValue;
+- (void)setNeedsDisplayOnMainThread:(BOOL)state;
 - (void)setPoints:(long)binsToPlot;
 - (void)setScale:(LLViewScale *)newScale;
 - (void)setTitle:(NSString *)string;

@@ -12,6 +12,7 @@
 @interface LLStimWindow : NSWindow <NSWindowDelegate> { 
 
 @protected
+    NSRect                  contentBounds;
 	double					contrast;
 	DisplayParam			display;
 	long					displayIndex;

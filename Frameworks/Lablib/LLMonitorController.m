@@ -99,13 +99,14 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
     [[text textStorage] setAttributedString:textString]; 
 }
 
-- (void)monitorUpdated:(NSNotification *)notification {
-
+- (void)monitorUpdated:(NSNotification *)notification;
+{
     id<LLMonitor> monitor = [notification object];
-
-	if (!frozen &&  (monitor == [monitors objectAtIndex:[monitorMenu indexOfSelectedItem]])) {
-		[self refresh:self];
-	}
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!frozen && (monitor == [monitors objectAtIndex:[monitorMenu indexOfSelectedItem]])) {
+            [self refresh:self];
+        }
+    });
 }
 
 - (void)removeMonitorWithID:(NSString *)IDString;

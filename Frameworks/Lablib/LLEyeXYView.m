@@ -69,6 +69,7 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         theBounds = [self bounds];
+        NSLog(@"LLEyeXYView bounds did change");
     });
 }
 
@@ -90,7 +91,7 @@
 
 - (void)dealloc;
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:self];
 	[eyeColor[kLeftEye] release];
 	[eyeColor[kRightEye] release];
 	[gridColor release];
@@ -248,7 +249,7 @@
 		sampleRectsDeg[kRightEye] = [[NSMutableArray alloc] init];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                 selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:nil];
+                 selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:self];
         theBounds = [self bounds];
     }
     return self;

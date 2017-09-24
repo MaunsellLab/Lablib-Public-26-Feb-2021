@@ -205,19 +205,21 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
 	return [[[NSAttributedString alloc] initWithString:string attributes:attr] autorelease];
 }
 
-- (void) positionZoomButton {
+- (void) positionZoomButton;
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSRect scrollerRect, buttonRect;
 
-    NSRect scrollerRect, buttonRect;
-   
-    scrollerRect = [[scrollView horizontalScroller] frame];
-    scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
-    NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
-    [[scrollView horizontalScroller] setFrame:scrollerRect];
-    [[scrollView horizontalScroller] setNeedsDisplay:YES];
-    buttonRect.origin.y += buttonRect.size.height;				// Offset because the clipRect is flipped
-    buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
-    [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
-    [zoomButton setNeedsDisplay:YES];
+        scrollerRect = [[scrollView horizontalScroller] frame];
+        scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
+        NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
+        [[scrollView horizontalScroller] setFrame:scrollerRect];
+        [[scrollView horizontalScroller] setNeedsDisplay:YES];
+        buttonRect.origin.y += buttonRect.size.height;                // Offset because the clipRect is flipped
+        buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
+        [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
+        [zoomButton setNeedsDisplay:YES];
+    });
 }
 
 - (void) setScaleFactor:(double)factor {
@@ -461,8 +463,10 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
     newTrial = NO;
 	lastEOTCode = eotCode;
 	[eotHistory addEOT:eotCode];
-    [percentTable reloadData];
-	[recentPlot setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [percentTable reloadData];
+        [recentPlot setNeedsDisplay:YES];
+    });
 }
 
 @end
