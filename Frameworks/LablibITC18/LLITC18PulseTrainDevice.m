@@ -6,7 +6,8 @@
 //  Copyright (c) 2008. All rights reserved. 
 //
 
-#import "LLITC18PulseTrainDevice.h"					
+#import "LLITC18PulseTrainDevice.h"
+#import <LablibITC18/LLITC18DataDevice.h>
 #import <ITC/ITC18.h>
 #import <unistd.h>
 
@@ -25,12 +26,14 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 // Close the ITC18.  
 
-- (void)close {
-
+- (void)close;
+{
 	if (itcExists) {
 		[deviceLock lock];
-		ITC18_Close(itc);
-		free(itc);
+        if (weOwnITC) {
+            ITC18_Close(itc);
+            free(itc);
+        }
 		itc = nil;
 		[deviceLock unlock];
 	}
@@ -72,6 +75,26 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	}
 }
 
+- (void)doInitializationWithDevice:(long)numDevice;
+{
+    long index;
+    int ranges[ITC18_AD_CHANNELS];
+
+    itc = nil;
+    deviceLock = [[NSLock alloc] init];
+    if ([self open:numDevice]) {
+        for (index = 0; index < ITC18_AD_CHANNELS; index++) {    // Set AD voltage range
+            ranges[index] = ITC18_AD_RANGE_10V;
+        }
+        [deviceLock lock];
+        ITC18_SetRange(itc, ranges);
+        ITC18_SetDigitalInputMode(itc, YES, NO);                // latch and do not invert
+        FIFOSize = ITC18_GetFIFOSize(itc);
+        [deviceLock unlock];
+    }
+    weOwnITC = YES;                                               // we are solely in control of ITC-18
+}
+
 // Get the number of entries ready to be read from the FIFO.  We assume that the device has been locked before
 // this method is called
 
@@ -88,32 +111,13 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return available;
 }
 
-- (BOOL)hasITC18 {
-
+- (BOOL)hasITC18;
+{
 	return itcExists;
 }
 
-- (void)doInitializationWithDevice:(long)numDevice {
-
-	long index; 
-	int ranges[ITC18_AD_CHANNELS];
-
-	itc = nil;
-	deviceLock = [[NSLock alloc] init];
-	if ([self open:numDevice]) {
-		for (index = 0; index < ITC18_AD_CHANNELS; index++) {	// Set AD voltage range
-			ranges[index] = ITC18_AD_RANGE_10V;
-		}
-		[deviceLock lock];
-		ITC18_SetRange(itc, ranges);
-		ITC18_SetDigitalInputMode(itc, YES, NO);				// latch and do not invert
-		FIFOSize = ITC18_GetFIFOSize(itc);
-		[deviceLock unlock];
-	}
-}
-
-- (id)init {
-
+- (id)init;
+{
 	if ((self = [super init]) != nil) {
 		[self doInitializationWithDevice:0];
 	}
@@ -125,14 +129,32 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive 
 // value at the next read, but a steady level can also produce a series of positive values.
 
-- (id)initWithDevice:(long)numDevice {
-
+- (id)initWithDevice:(long)numDevice;
+{
 	if ((self = [super init]) != nil) {
 		[self doInitializationWithDevice:numDevice];
 	}
 	return self;
 }
 
+- (id)initWithDataDevice:(LLDataDevice *)dataDevice;
+{
+    if ((self = [super init]) != nil && dataDevice != nil) {
+        deviceLock = [[NSLock alloc] init];
+        if (![[dataDevice name] hasPrefix:@"ITC-18"]) {
+            itc = nil;
+        }
+        else {
+            itc = [(LLITC18DataDevice *)dataDevice itc];
+            itcExists = (itc != nil);
+            [deviceLock lock];
+            FIFOSize = ITC18_GetFIFOSize(itc);
+            [deviceLock unlock];
+        }
+    }
+    weOwnITC = FALSE;
+    return self;
+}
 // Open and initialize the ITC18
 
 - (BOOL)open:(long)deviceNum;
@@ -338,6 +360,18 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return YES;
 }
 
+- (BOOL)outputDigitalEvent:(long)event withData:(long)data;
+{
+    if (itc == nil) {
+        return NO;
+    }
+    [deviceLock lock];
+    [self digitalOutputBits:(event | 0x8000)];
+    [self digitalOutputBits:(data & 0x7fff)];
+    [deviceLock unlock];
+    return YES;
+}
+
 - (void)readData;
 {
 	short index, *samples, *pSamples, *channelSamples[ITC18_NUMBEROFDACOUTPUTS];
@@ -490,5 +524,4 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 	[deviceLock unlock];
 	[NSThread detachNewThreadSelector:@selector(readData) toTarget:self withObject:nil];
 }
-
 @end

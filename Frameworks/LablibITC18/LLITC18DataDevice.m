@@ -417,7 +417,6 @@ static long	ITCCount = 0;
 	if (timestampChannels > 0) {
 		for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
 			if (timestampChannels & (0x01 << channel)) {
-//				channelTicksPerMS = [[timestampTicksPerMS objectAtIndex:channel] longValue];
 				channelPeriodMS = [[timestampPeriodMS objectAtIndex:channel] floatValue];
 				timestampTickS[channel] = 0.001 * channelPeriodMS;
 				maxDigitalRateHz = MAX(1000.0 / channelPeriodMS, maxDigitalRateHz);
