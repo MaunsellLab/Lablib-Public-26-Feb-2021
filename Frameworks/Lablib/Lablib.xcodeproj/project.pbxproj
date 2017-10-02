@@ -37,7 +37,6 @@
 		694519371E465429005B75A3 /* LLNE500Pump.m in Sources */ = {isa = PBXBuildFile; fileRef = 694519361E465429005B75A3 /* LLNE500Pump.m */; };
 		694519391E465439005B75A3 /* LLNE500Pump.h in Headers */ = {isa = PBXBuildFile; fileRef = 694519381E465439005B75A3 /* LLNE500Pump.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6945193B1E465727005B75A3 /* LLNE500Pump.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6945193A1E465727005B75A3 /* LLNE500Pump.xib */; };
-		69461C3C1F72F617004C7DA8 /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69461C3B1F72F617004C7DA8 /* Development.xcconfig */; };
 		694761B6092A782600841167 /* LLLaserCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 694761B5092A782600841167 /* LLLaserCalibrator.plist */; };
 		69476829092BE72B00841167 /* PlayButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476826092BE72B00841167 /* PlayButton.tif */; };
 		6947682A092BE72B00841167 /* StopButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69476827092BE72B00841167 /* StopButton.tif */; };
@@ -1113,7 +1112,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					69F36CA50567EA35009AED51 = {
 						ProvisioningStyle = Automatic;
@@ -1159,7 +1158,6 @@
 				695EFED51AC6225B00D9D458 /* LLRandomDots.xib in Resources */,
 				69EB7AF21E21D15800B3CF7C /* LLMatlabEngine.xib in Resources */,
 				695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */,
-				69461C3C1F72F617004C7DA8 /* Development.xcconfig in Resources */,
 				695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */,
 				695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */,
 				6957BF851E1301980059716F /* LLSockets.xib in Resources */,
