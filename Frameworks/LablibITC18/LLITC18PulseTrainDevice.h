@@ -22,12 +22,15 @@
 	Ptr					itc;
 	BOOL				itcExists;
 	BOOL				samplesReady;
+    BOOL                weOwnITC;
 }
 
 - (void)close;
 - (void)digitalOutputBits:(unsigned long)bits;
+- (void)digitalOutputBitsOff:(unsigned short)bits;
 - (void)doInitializationWithDevice:(long)numDevice;
 - (id)initWithDevice:(long)numDevice;
+- (id)initWithDataDevice:(LLDataDevice *)dataDevice;
 - (BOOL)makeInstructionsFromTrainData:(PulseTrainData *)pTrain channels:(long)channels;
 - (BOOL)open:(long)numDevice;
 
