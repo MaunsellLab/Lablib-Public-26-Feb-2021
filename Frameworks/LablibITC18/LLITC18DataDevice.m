@@ -341,7 +341,7 @@ static long	ITCCount = 0;
 	if (overflow != 0) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                    informativeText:@"Fatal error: FIFO overflow"];
-		exit(0);
+//		exit(0);
 	}
 	return available;
 }
