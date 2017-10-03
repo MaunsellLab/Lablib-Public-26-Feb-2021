@@ -87,6 +87,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
         for (index = 0; index < ITC18_AD_CHANNELS; index++) {    // Set AD voltage range
             ranges[index] = ITC18_AD_RANGE_10V;
         }
+        for (index = 0; index < ITC18_NUMBEROFDACOUTPUTS; index++) {    // init in case sampleData is called unprepared
+            inputSamples[index] = nil;
+        }
         [deviceLock lock];
         ITC18_SetRange(itc, ranges);
         ITC18_SetDigitalInputMode(itc, YES, NO);                // latch and do not invert
@@ -224,12 +227,12 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // We take common values from the first entry, on the assumption that others have been checked and are the same
 	
 	channels = MIN(activeChannels, ITC18_NUMBEROFDACOUTPUTS);
-	instructionsPerSampleSet = channels + 1;
+	instructionsPerSampleSet = channels + 1;                            // channels plus a digital word
 	gatePorchUS = (pTrain->doGate) ? pTrain->gatePorchMS * 1000.0 : 0;
 	durationUS = pTrain->durationMS * 1000.0;
 	
 // First determine the DASample period.  We require the entire stimulus to fit within the ITC-18 FIFO.
-// We divide down to allow for enough DA (channels) and Digital (1) samples, and a factor of safety (2x)
+// We divide down to allow for enough DA (channels) and digital (1) samples, plus a 2x safety factor
     
 	ticksPerInstruction = ITC18_MINIMUM_TICKS;
 	while ((durationUS + 2 * gatePorchUS) / (kITC18TickTimeUS * ticksPerInstruction) > 
@@ -240,7 +243,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		return NO;
 	}
 	
-// Precompute values
+// Precompute some important values
 	
 	instructionPeriodUS = ticksPerInstruction * kITC18TickTimeUS;
 	DASampleSetPeriodUS = instructionPeriodUS * instructionsPerSampleSet;
@@ -252,7 +255,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	gateBits = ((pTrain->doGate) ? (0x1 << pTrain->gateBit) : 0);
 	gateAndPulseBits = gateBits | ((pTrain->doPulseMarkers) ? (0x1 << pTrain->pulseMarkerBit) : 0);
 	
-// Create and load an array with output values that make up one pulse (DA and digital)
+// Create and load an array with output values that make up one pulse (DA plus digital).  These will be inserted
+// into trainValues repeatedly in the next section.
 	
 	DASamplesPerPulse = DASampleSetsPerPhase * (pTrain->pulseBiphasic) ? 2 : 1;
 	if (DASamplesPerPulse > 0) {
@@ -260,7 +264,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 			rangeFraction[index] = (pTrain[index].amplitude / pTrain[index].fullRangeV) /
 				((pTrain[index].pulseType == kCurrentPulses) ? pTrain[index].UAPerV : 1);
 		}
-		pulseValues = [[NSMutableData alloc] initWithLength:DASamplesPerPulse * instructionsPerSampleSet * sizeof(short)];
+		pulseValues = [[NSMutableData alloc] initWithLength:DASamplesPerPulse *
+                                                   instructionsPerSampleSet * sizeof(short)];
 		for (index = 0; index < channels; index++) {
 			values[index] = rangeFraction[index] * 0x7fff;		// amplitude might be positive or negative
 		}
@@ -282,7 +287,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	
-// Create an array with the entire output sequence.  It is created zeroed.  If there is a gating signal,
+// Create an array for the entire output sequence (trainValues).  It is created zeroed.  If there is a gating signal,
 // we add that to the digital output values.  bufferLength is always at least as long as instructionsPerSampleSet.
 	
 	trainValues = [[NSMutableData alloc] initWithLength:bufferLength * sizeof(short)];
@@ -294,7 +299,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	
-// Modify the output sequence to include the pulses.  If the stimulation frequency is zero
+// Modify the output sequence by inserting the pulses.  If the stimulation frequency is zero
 // (pulsePeriodUS set to 0), we load no pulses.  If the duration is shorter than one pulse, nothing
 // is loaded.  If the pulseWidth is zero, nothing is loaded.
 	
@@ -310,7 +315,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	
-// If there the gate has a front and back porch, add the porches to the instructions
+// If there the gate has a front and back porch, add the porches to the output values
 	
 	if (sampleSetsInPorch > 0) {
 		porchBufferLength = sampleSetsInPorch * instructionsPerSampleSet;
@@ -331,7 +336,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	
 	[trainValues resetBytesInRange:NSMakeRange((bufferLength - 1) * sizeof(short), sizeof(short))];
 
-// Set up the ITC for the stimulus train.  Do everything except the start
+// Set up the ITC for the stimulus train.  Do everything except the start.  For every DA output,
+// we also do a read on the corresponding AD channel
 	
 	for (index = 0; index < channels; index++) {
 		ITCInstructions[index] = 
@@ -413,7 +419,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		[inputSamples[index] release];
 		inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
 	}
-	samplesReady = YES;
+	samplesReady = YES;                                                 // flag that the input is all read in
 	[deviceLock unlock];
     [threadPool release];
 }
@@ -421,9 +427,10 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 - (NSData **)sampleData;
 {
 	if (!itcExists) {								// return nil data when no device is present
-		return inputSamples;
+        return nil;
+//        return inputSamples;
 	}
-	if (!samplesReady) {
+	if (!samplesReady) {                            // or the samples aren't all read in yet
 		return nil;
 	}
 	else {
