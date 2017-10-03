@@ -29,7 +29,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 - (void)close;
 {
-	if (itcExists) {
+	if (itcExists && itc != nil) {
 		[deviceLock lock];
         if (weOwnITC) {
             ITC18_Close(itc);
