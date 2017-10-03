@@ -35,6 +35,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             ITC18_Close(itc);
             free(itc);
         }
+        else {
+            dataDevice.itc = itc;
+        }
 		itc = nil;
 		[deviceLock unlock];
 	}
@@ -120,6 +123,11 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return itcExists;
 }
 
+// Initialization tests for the existence of the ITC, and initializes it if it is there.
+// The ITC initialization sets thd AD voltage, and also set the digital input to latch.
+// ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive
+// value at the next read, but a steady level can also produce a series of positive values.
+
 - (id)init;
 {
 	if ((self = [super init]) != nil) {
@@ -127,11 +135,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	}
 	return self;
 }
-
-// Initialization tests for the existence of the ITC, and initializes it if it is there.
-// The ITC initialization sets thd AD voltage, and also set the digital input to latch.
-// ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive 
-// value at the next read, but a steady level can also produce a series of positive values.
 
 - (id)initWithDevice:(long)numDevice;
 {
@@ -141,15 +144,23 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return self;
 }
 
-- (id)initWithDataDevice:(LLDataDevice *)dataDevice;
+// In some circumstances, a task plugin will want to take over an ITC18 that is already been loaded as a
+// LLDataDevice plugin for use with other task plugins.  To do that, we temporarally seize the ITC-18 by
+// getting a pointer to the device (itc), and setting the LLDataDevice pointer to nil.  Setting the LLDataDevice
+// pointer to nil insures that it will not take any action on the ITC18 while we control it.  We restore the
+// LLDataDevice pointer in our -close method.
+
+- (id)initWithDataDevice:(LLDataDevice *)theDataDevice;
 {
-    if ((self = [super init]) != nil && dataDevice != nil) {
+    if ((self = [super init]) != nil && theDataDevice != nil) {
         deviceLock = [[NSLock alloc] init];
-        if (![[dataDevice name] hasPrefix:@"ITC-18"]) {
+        if (![[theDataDevice name] hasPrefix:@"ITC-18"]) {
             itc = nil;
         }
         else {
-            itc = [(LLITC18DataDevice *)dataDevice itc];
+            dataDevice = (LLITC18DataDevice *)theDataDevice;                         // save for -close
+            itc = dataDevice.itc;
+            dataDevice.itc = nil;                              // clear dataDevice.itc to stop it from using ITC18
             itcExists = (itc != nil);
             [deviceLock lock];
             FIFOSize = ITC18_GetFIFOSize(itc);

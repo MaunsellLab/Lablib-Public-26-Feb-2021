@@ -19,7 +19,6 @@
 	unsigned long		digitalOutputWord;
 	BOOL				justStartedITC18;
 	int					instructions[kMaxInstructions];
-	Ptr					itc;
 	double				ITCSamplePeriodS;
 	long				ITCTicksPerInstruction;
 	double				lastReadDataTimeS;
@@ -43,6 +42,8 @@
 
 	IBOutlet NSWindow 	*settingsWindow;
 }
+
+@property (nonatomic, assign) Ptr itc;;
 
 - (IBAction)ok:(id)sender;
 

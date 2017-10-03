@@ -101,6 +101,7 @@ static long	ITCCount = 0;
 
 @implementation LLITC18DataDevice
 
+@synthesize itc;
 
 // I'm not sure we need to load the ITC framework. It should be picked up automatically. JHRM 120804
 
@@ -337,6 +338,9 @@ static long	ITCCount = 0;
 {
 	int available, overflow;
 	
+    if (itc == nil) {
+        return 0;
+    }
 	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
 	if (overflow != 0) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
@@ -370,11 +374,11 @@ static long	ITCCount = 0;
 	return self;
 }
 
-- (Ptr)itc;
-{
-	return itc;
-}
-
+//- (Ptr)itc;
+//{
+//    return itc;
+//}
+//
 /*
  Construct and load the ITC18 instruction set, setting the associated variables.  There are three different
  situations that generate different instructions sets: no digital sampling, digital sampling at less than 
@@ -578,12 +582,15 @@ static long	ITCCount = 0;
 	BOOL bitOn;
 	int available;
 
+    if (itc == nil) {
+        return;
+    }
+
 // Don't attempt to read if we just read a little while ago
 
 	if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {
 		return;
 	}
-	
     if (![deviceLock tryLock]) {
 		[deviceLock lock];			// Wait here for the lock, then check time again
 		if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {
