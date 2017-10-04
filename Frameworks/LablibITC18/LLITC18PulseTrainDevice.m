@@ -405,11 +405,12 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 // When a sequence is started, the first three entries in the FIFO are garbage.  They should be thrown out.  
 	
-	[deviceLock lock];			// Wait here for the lock, then check time again
 	while ((available = [self getAvailable]) < kGarbageLength + 1) {
 		usleep(1000);
 	}
+    [deviceLock lock];			// Wait here for the lock, then check time again
 	ITC18_ReadFIFO(itc, kGarbageLength, samples);
+    [deviceLock unlock];
 	
 // Wait for the stimulus to be over.
 	
@@ -419,7 +420,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 // When all the samples are available, read them and unpack them
 	
+    [deviceLock lock];			// Wait here for the lock, then check time again
 	ITC18_ReadFIFO(itc, (int)bufferLength, samples);							// read all available sets
+    [deviceLock unlock];
 	for (set = 0; set < sets; set++) {									// process each set
 		pSamples = &samples[(channels + 1) * set];						// point to start of a set
 		for (index = 0; index < channels; index++) {					// for every channel
@@ -431,7 +434,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
 	}
 	samplesReady = YES;                                                 // flag that the input is all read in
-	[deviceLock unlock];
     [threadPool release];
 }
 
@@ -535,7 +537,7 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 
 - (void)stimulate;
 {
-	if (!itcExists) {
+    if (!itcExists) {
 		return;
 	}
 	[deviceLock lock];
