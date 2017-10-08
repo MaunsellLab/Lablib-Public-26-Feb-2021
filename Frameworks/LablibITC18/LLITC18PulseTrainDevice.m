@@ -390,6 +390,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     return YES;
 }
 
+// Read the AD samples and put them into inputSamples.  The host app can track when they are ready using
+// samplesReady.  If the host doesn't pick up the data, it will be discarded when the next stimulus cycle runs.
+
 - (void)readData;
 {
 	short index, *samples, *pSamples, *channelSamples[ITC18_NUMBEROFDACOUTPUTS];
@@ -430,7 +433,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	for (index = 0; index < channels; index++) {
-		[inputSamples[index] release];
+		[inputSamples[index] release];                                  // release samples from previous stim cycle
 		inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
 	}
 	samplesReady = YES;                                                 // flag that the input is all read in
