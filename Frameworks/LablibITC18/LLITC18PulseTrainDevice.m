@@ -29,11 +29,14 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 - (void)close;
 {
-	if (itcExists) {
+	if (itcExists && itc != nil) {
 		[deviceLock lock];
         if (weOwnITC) {
             ITC18_Close(itc);
             free(itc);
+        }
+        else {
+            dataDevice.itc = itc;
         }
 		itc = nil;
 		[deviceLock unlock];
@@ -87,6 +90,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
         for (index = 0; index < ITC18_AD_CHANNELS; index++) {    // Set AD voltage range
             ranges[index] = ITC18_AD_RANGE_10V;
         }
+        for (index = 0; index < ITC18_NUMBEROFDACOUTPUTS; index++) {    // init in case sampleData is called unprepared
+            inputSamples[index] = nil;
+        }
         [deviceLock lock];
         ITC18_SetRange(itc, ranges);
         ITC18_SetDigitalInputMode(itc, YES, NO);                // latch and do not invert
@@ -117,6 +123,11 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return itcExists;
 }
 
+// Initialization tests for the existence of the ITC, and initializes it if it is there.
+// The ITC initialization sets thd AD voltage, and also set the digital input to latch.
+// ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive
+// value at the next read, but a steady level can also produce a series of positive values.
+
 - (id)init;
 {
 	if ((self = [super init]) != nil) {
@@ -124,11 +135,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	}
 	return self;
 }
-
-// Initialization tests for the existence of the ITC, and initializes it if it is there.
-// The ITC initialization sets thd AD voltage, and also set the digital input to latch.
-// ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive 
-// value at the next read, but a steady level can also produce a series of positive values.
 
 - (id)initWithDevice:(long)numDevice;
 {
@@ -138,15 +144,23 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	return self;
 }
 
-- (id)initWithDataDevice:(LLDataDevice *)dataDevice;
+// In some circumstances, a task plugin will want to take over an ITC18 that is already been loaded as a
+// LLDataDevice plugin for use with other task plugins.  To do that, we temporarally seize the ITC-18 by
+// getting a pointer to the device (itc), and setting the LLDataDevice pointer to nil.  Setting the LLDataDevice
+// pointer to nil insures that it will not take any action on the ITC18 while we control it.  We restore the
+// LLDataDevice pointer in our -close method.
+
+- (id)initWithDataDevice:(LLDataDevice *)theDataDevice;
 {
-    if ((self = [super init]) != nil && dataDevice != nil) {
+    if ((self = [super init]) != nil && theDataDevice != nil) {
         deviceLock = [[NSLock alloc] init];
-        if (![[dataDevice name] hasPrefix:@"ITC-18"]) {
+        if (![[theDataDevice name] hasPrefix:@"ITC-18"]) {
             itc = nil;
         }
         else {
-            itc = [(LLITC18DataDevice *)dataDevice itc];
+            dataDevice = (LLITC18DataDevice *)theDataDevice;                         // save for -close
+            itc = dataDevice.itc;
+            dataDevice.itc = nil;                              // clear dataDevice.itc to stop it from using ITC18
             itcExists = (itc != nil);
             [deviceLock lock];
             FIFOSize = ITC18_GetFIFOSize(itc);
@@ -224,12 +238,12 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // We take common values from the first entry, on the assumption that others have been checked and are the same
 	
 	channels = MIN(activeChannels, ITC18_NUMBEROFDACOUTPUTS);
-	instructionsPerSampleSet = channels + 1;
+	instructionsPerSampleSet = channels + 1;                            // channels plus a digital word
 	gatePorchUS = (pTrain->doGate) ? pTrain->gatePorchMS * 1000.0 : 0;
 	durationUS = pTrain->durationMS * 1000.0;
 	
 // First determine the DASample period.  We require the entire stimulus to fit within the ITC-18 FIFO.
-// We divide down to allow for enough DA (channels) and Digital (1) samples, and a factor of safety (2x)
+// We divide down to allow for enough DA (channels) and digital (1) samples, plus a 2x safety factor
     
 	ticksPerInstruction = ITC18_MINIMUM_TICKS;
 	while ((durationUS + 2 * gatePorchUS) / (kITC18TickTimeUS * ticksPerInstruction) > 
@@ -240,7 +254,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		return NO;
 	}
 	
-// Precompute values
+// Precompute some important values
 	
 	instructionPeriodUS = ticksPerInstruction * kITC18TickTimeUS;
 	DASampleSetPeriodUS = instructionPeriodUS * instructionsPerSampleSet;
@@ -252,7 +266,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	gateBits = ((pTrain->doGate) ? (0x1 << pTrain->gateBit) : 0);
 	gateAndPulseBits = gateBits | ((pTrain->doPulseMarkers) ? (0x1 << pTrain->pulseMarkerBit) : 0);
 	
-// Create and load an array with output values that make up one pulse (DA and digital)
+// Create and load an array with output values that make up one pulse (DA plus digital).  These will be inserted
+// into trainValues repeatedly in the next section.
 	
 	DASamplesPerPulse = DASampleSetsPerPhase * (pTrain->pulseBiphasic) ? 2 : 1;
 	if (DASamplesPerPulse > 0) {
@@ -260,7 +275,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 			rangeFraction[index] = (pTrain[index].amplitude / pTrain[index].fullRangeV) /
 				((pTrain[index].pulseType == kCurrentPulses) ? pTrain[index].UAPerV : 1);
 		}
-		pulseValues = [[NSMutableData alloc] initWithLength:DASamplesPerPulse * instructionsPerSampleSet * sizeof(short)];
+		pulseValues = [[NSMutableData alloc] initWithLength:DASamplesPerPulse *
+                                                   instructionsPerSampleSet * sizeof(short)];
 		for (index = 0; index < channels; index++) {
 			values[index] = rangeFraction[index] * 0x7fff;		// amplitude might be positive or negative
 		}
@@ -282,7 +298,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	
-// Create an array with the entire output sequence.  It is created zeroed.  If there is a gating signal,
+// Create an array for the entire output sequence (trainValues).  It is created zeroed.  If there is a gating signal,
 // we add that to the digital output values.  bufferLength is always at least as long as instructionsPerSampleSet.
 	
 	trainValues = [[NSMutableData alloc] initWithLength:bufferLength * sizeof(short)];
@@ -294,7 +310,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	
-// Modify the output sequence to include the pulses.  If the stimulation frequency is zero
+// Modify the output sequence by inserting the pulses.  If the stimulation frequency is zero
 // (pulsePeriodUS set to 0), we load no pulses.  If the duration is shorter than one pulse, nothing
 // is loaded.  If the pulseWidth is zero, nothing is loaded.
 	
@@ -310,7 +326,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	
-// If there the gate has a front and back porch, add the porches to the instructions
+// If there the gate has a front and back porch, add the porches to the output values
 	
 	if (sampleSetsInPorch > 0) {
 		porchBufferLength = sampleSetsInPorch * instructionsPerSampleSet;
@@ -331,7 +347,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	
 	[trainValues resetBytesInRange:NSMakeRange((bufferLength - 1) * sizeof(short), sizeof(short))];
 
-// Set up the ITC for the stimulus train.  Do everything except the start
+// Set up the ITC for the stimulus train.  Do everything except the start.  For every DA output,
+// we also do a read on the corresponding AD channel
 	
 	for (index = 0; index < channels; index++) {
 		ITCInstructions[index] = 
@@ -373,6 +390,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     return YES;
 }
 
+// Read the AD samples and put them into inputSamples.  The host app can track when they are ready using
+// samplesReady.  If the host doesn't pick up the data, it will be discarded when the next stimulus cycle runs.
+
 - (void)readData;
 {
 	short index, *samples, *pSamples, *channelSamples[ITC18_NUMBEROFDACOUTPUTS];
@@ -388,11 +408,12 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 // When a sequence is started, the first three entries in the FIFO are garbage.  They should be thrown out.  
 	
-	[deviceLock lock];			// Wait here for the lock, then check time again
 	while ((available = [self getAvailable]) < kGarbageLength + 1) {
 		usleep(1000);
 	}
+    [deviceLock lock];			// Wait here for the lock, then check time again
 	ITC18_ReadFIFO(itc, kGarbageLength, samples);
+    [deviceLock unlock];
 	
 // Wait for the stimulus to be over.
 	
@@ -402,7 +423,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 // When all the samples are available, read them and unpack them
 	
+    [deviceLock lock];			// Wait here for the lock, then check time again
 	ITC18_ReadFIFO(itc, (int)bufferLength, samples);							// read all available sets
+    [deviceLock unlock];
 	for (set = 0; set < sets; set++) {									// process each set
 		pSamples = &samples[(channels + 1) * set];						// point to start of a set
 		for (index = 0; index < channels; index++) {					// for every channel
@@ -410,20 +433,20 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 		}
 	}
 	for (index = 0; index < channels; index++) {
-		[inputSamples[index] release];
+		[inputSamples[index] release];                                  // release samples from previous stim cycle
 		inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
 	}
-	samplesReady = YES;
-	[deviceLock unlock];
+	samplesReady = YES;                                                 // flag that the input is all read in
     [threadPool release];
 }
 
 - (NSData **)sampleData;
 {
 	if (!itcExists) {								// return nil data when no device is present
-		return inputSamples;
+        return nil;
+//        return inputSamples;
 	}
-	if (!samplesReady) {
+	if (!samplesReady) {                            // or the samples aren't all read in yet
 		return nil;
 	}
 	else {
@@ -517,7 +540,7 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 
 - (void)stimulate;
 {
-	if (!itcExists) {
+    if (!itcExists) {
 		return;
 	}
 	[deviceLock lock];

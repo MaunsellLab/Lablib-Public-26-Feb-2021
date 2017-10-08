@@ -8,6 +8,7 @@
 
 #import <Lablib/LLPulseTrainDevice.h>
 #import <Lablib/LLDataDevice.h>
+#import <LablibITC18/LLITC18DataDevice.h>
 #import <ITC/Itcmm.h>
 
 @interface LLITC18PulseTrainDevice : NSObject <LLPulseTrainDevice>  {
@@ -16,6 +17,7 @@
 	long				bufferLength;				// instructions in stimulus
 	long				channels;					// number of active channels
 	float				DASampleSetPeriodUS;
+    LLITC18DataDevice   *dataDevice;                // LLITCDataDevice from which we inherited control
     NSLock				*deviceLock;
 	unsigned short		digitalOutputWord;
 	long				FIFOSize;
@@ -32,7 +34,7 @@
 - (void)digitalOutputBitsOn:(unsigned short)bits;
 - (void)doInitializationWithDevice:(long)numDevice;
 - (id)initWithDevice:(long)numDevice;
-- (id)initWithDataDevice:(LLDataDevice *)dataDevice;
+- (id)initWithDataDevice:(LLDataDevice *)theDataDevice;
 - (BOOL)makeInstructionsFromTrainData:(PulseTrainData *)pTrain channels:(long)channels;
 - (BOOL)open:(long)numDevice;
 - (BOOL)outputDigitalEvent:(long)event withData:(long)data;
