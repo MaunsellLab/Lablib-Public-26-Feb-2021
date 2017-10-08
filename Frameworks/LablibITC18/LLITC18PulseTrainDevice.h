@@ -9,7 +9,11 @@
 #import <Lablib/LLPulseTrainDevice.h>
 #import <Lablib/LLDataDevice.h>
 #import <LablibITC18/LLITC18DataDevice.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
 #import <ITC/Itcmm.h>
+#import <ITC/ITC18.h>
+#pragma clang diagnostic pop
 
 @interface LLITC18PulseTrainDevice : NSObject <LLPulseTrainDevice>  {
 

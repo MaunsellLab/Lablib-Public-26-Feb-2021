@@ -9,7 +9,6 @@
 #import "LLITC18PulseTrainDevice.h"
 #import <LablibITC18/LLITC18DataDevice.h>
 #import <Lablib/LLSystemUtil.h>
-#import <ITC/ITC18.h>
 #import <unistd.h>
 
 #define kDriftTimeLimitMS	0.010
