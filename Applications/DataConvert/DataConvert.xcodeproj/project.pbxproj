@@ -36,6 +36,16 @@
 		69CB695713B6748000582AD4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CB695613B6748000582AD4 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		691C21D11F62234100D91684 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FCDA921E0CC017D4001C4E70;
+			remoteInfo = "LabJackU6 Plugin";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		6971330707E24DAB0083188B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -52,6 +62,7 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LabJackU6DataDevice.xcodeproj; path = ../../Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj; sourceTree = "<group>"; };
 		695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConverterDoc.xib; sourceTree = "<group>"; };
 		695EFEE01AC6234100D9D458 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		69712D2107E244E10083188B /* DataConvert_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataConvert_Prefix.h; sourceTree = "<group>"; };
@@ -106,6 +117,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* Data Inspector */ = {
 			isa = PBXGroup;
 			children = (
+				691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */,
 				6973FCEC0A43267E00A68677 /* Release Notes.txt */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Supporting Files */,
@@ -170,6 +182,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		691C21CE1F62234100D91684 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				691C21D21F62234100D91684 /* LabJackU6DataDevice.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -218,7 +238,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 			};
 			buildConfigurationList = 69B8D160088DAC45002FCFD4 /* Build configuration list for PBXProject "DataConvert" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -229,12 +249,28 @@
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Data Inspector */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 691C21CE1F62234100D91684 /* Products */;
+					ProjectRef = 691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				69A9E3CA0588E51700F6A0DD /* DataConvert */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		691C21D21F62234100D91684 /* LabJackU6DataDevice.plugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = LabJackU6DataDevice.plugin;
+			remoteRef = 691C21D11F62234100D91684 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		69A9E3D60588E51700F6A0DD /* Resources */ = {
@@ -365,12 +401,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -398,12 +440,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -429,12 +477,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

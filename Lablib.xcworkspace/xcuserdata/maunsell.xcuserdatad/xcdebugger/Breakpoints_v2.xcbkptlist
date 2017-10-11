@@ -153,22 +153,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Frameworks/Lablib/LLDataDoc.m"
-            timestampString = "519415325.246596"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "578"
-            endingLineNumber = "578"
-            landmarkName = "-putEvent:withData:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Frameworks/Lablib/LLDataDoc.m"
             timestampString = "519415331.325212"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

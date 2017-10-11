@@ -71,8 +71,11 @@ all requested sampling rates are checked and lowered if necessary
 #import "LLITC18DataDevice.h" 
 #import <Lablib/LLSystemUtil.h>
 #import <Lablib/LLPluginController.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
 #import <ITC/Itcmm.h>
 #import <ITC/ITC18.h>
+#pragma clang diagnostic pop
 
 #define kUseLLDataDevices							// needed for versioning
 
@@ -98,6 +101,7 @@ static long	ITCCount = 0;
 
 @implementation LLITC18DataDevice
 
+@synthesize itc;
 
 // I'm not sure we need to load the ITC framework. It should be picked up automatically. JHRM 120804
 
@@ -334,11 +338,14 @@ static long	ITCCount = 0;
 {
 	int available, overflow;
 	
+    if (itc == nil) {
+        return 0;
+    }
 	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
 	if (overflow != 0) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                    informativeText:@"Fatal error: FIFO overflow"];
-		exit(0);
+//		exit(0);
 	}
 	return available;
 }
@@ -367,11 +374,11 @@ static long	ITCCount = 0;
 	return self;
 }
 
-- (Ptr)itc;
-{
-	return itc;
-}
-
+//- (Ptr)itc;
+//{
+//    return itc;
+//}
+//
 /*
  Construct and load the ITC18 instruction set, setting the associated variables.  There are three different
  situations that generate different instructions sets: no digital sampling, digital sampling at less than 
@@ -414,7 +421,6 @@ static long	ITCCount = 0;
 	if (timestampChannels > 0) {
 		for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
 			if (timestampChannels & (0x01 << channel)) {
-//				channelTicksPerMS = [[timestampTicksPerMS objectAtIndex:channel] longValue];
 				channelPeriodMS = [[timestampPeriodMS objectAtIndex:channel] floatValue];
 				timestampTickS[channel] = 0.001 * channelPeriodMS;
 				maxDigitalRateHz = MAX(1000.0 / channelPeriodMS, maxDigitalRateHz);
@@ -576,12 +582,15 @@ static long	ITCCount = 0;
 	BOOL bitOn;
 	int available;
 
+    if (itc == nil) {
+        return;
+    }
+
 // Don't attempt to read if we just read a little while ago
 
 	if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {
 		return;
 	}
-	
     if (![deviceLock tryLock]) {
 		[deviceLock lock];			// Wait here for the lock, then check time again
 		if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {

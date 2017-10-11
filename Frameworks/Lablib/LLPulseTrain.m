@@ -1,12 +1,11 @@
 //
 //  LLPulseTraim.m
 //  
-//  This object supports the generation of microstimulation trains using the ITC-18.  
-//  This is an extension of LLStimTrain, which was made to allow for optical stimulation
+//  This class supports the generation of microstimulation trains using the ITC-18.  
+//  It is based on, but not subclassed from LLStimulusTrain, which was made to allow for optical stimulation
 //
 //  Created by John Maunsell on August 28, 2008
 //  Copyright (c) 2008. All rights reserved.
-//
 
 #import "LLPulseTrain.h"
 

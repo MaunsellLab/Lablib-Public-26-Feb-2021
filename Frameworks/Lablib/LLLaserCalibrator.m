@@ -41,8 +41,8 @@ NSString *mWKey = @"mW";
 			lastMW = mW;
 			lastVoltage = voltage;
 		}
-		else {
-			outputVoltage = lastVoltage + (voltage - lastVoltage) *(inputMW - lastMW) / (mW - lastMW);		// linear interpolation
+		else {                              // linear interpolation
+			outputVoltage = lastVoltage + (voltage - lastVoltage) * (inputMW - lastMW) / (mW - lastMW);
 			break;
 		}
 	}

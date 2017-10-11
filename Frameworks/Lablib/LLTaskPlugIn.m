@@ -63,6 +63,7 @@
     [stimWindow release];
 	[synthDataDevice release];
     [lastDataCollectionDate release];
+    [settingsController release];
 	[host release];
 	[super dealloc];
 }

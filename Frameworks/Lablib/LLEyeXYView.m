@@ -40,18 +40,9 @@
 	if (!((sampleCount[eyeIndex]++) % oneInN)) {
 		if (drawOnlyDirtyRect) {
             if ([NSThread isMainThread]) {
-//                if (!(++counter % 1000)) {
-//                    rect = [self pixRectFromDegRect:rectDeg];
-//                    NSLog(@"LLEyeXYView addSample: %f %f %f %f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-//                }
                [self setNeedsDisplayInRect:[self pixRectFromDegRect:rectDeg]];
             }
             else {
-                dirtyRectPix = [self pixRectFromDegRect:rectDeg];
-//                if (!(++counter % 1000)) {
-//                    rect = [self pixRectFromDegRect:rectDeg];
-//                    NSLog(@"LLEyeXYView addSample: %f %f %f %f", dirtyRectPix.origin.x, dirtyRectPix.origin.y, dirtyRectPix.size.width, dirtyRectPix.size.height);
-//                }
                 [self performSelectorOnMainThread:@selector(setNeedsDisplayInRect) withObject:nil waitUntilDone:NO];
             }
 		}
@@ -69,6 +60,17 @@
 - (void)addSample:(NSPoint)samplePointDeg;
 {
     [self addSample:samplePointDeg forEye:kLeftEye];
+}
+
+// We can't use [self bounds] except in the main thread, but we need to return bounds related values
+// all the time from other threads.  So we keep a current copy of the bounds.
+
+- (void)boundsDidChange:(NSNotification *)notification
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        theBounds = [self bounds];
+        NSLog(@"LLEyeXYView bounds did change");
+    });
 }
 
 - (void)centerDisplay;
@@ -89,6 +91,7 @@
 
 - (void)dealloc;
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:self];
 	[eyeColor[kLeftEye] release];
 	[eyeColor[kRightEye] release];
 	[gridColor release];
@@ -116,12 +119,6 @@
     NSRect b, pixRect;
 	NSAffineTransform *transform;
     
-// Clear
-    
-    if (![NSThread isMainThread]) {
-        NSLog(@"LLEYEXYVIEW IS DRAWING OUTSIDE MAIN THREAD!");
-    }
-//    NSLog(@"DRAWRECT: %.0f %.0f %.0f %.0f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
     [[NSColor whiteColor] set];
     [NSBezierPath fillRect:rect];
 
@@ -250,6 +247,10 @@
 		sampleLock = [[NSLock alloc] init];
 		sampleRectsDeg[kLeftEye] = [[NSMutableArray alloc] init];
 		sampleRectsDeg[kRightEye] = [[NSMutableArray alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                 selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:self];
+        theBounds = [self bounds];
     }
     return self;
 }
@@ -282,11 +283,11 @@
 
 - (NSRect)pixRectFromDegRect:(NSRect)eyeRectDeg;
 {
-	NSRect b = [self bounds];
-	return NSMakeRect(eyeRectDeg.origin.x * (b.size.width / kMaxDeg) + b.size.width / 2.0,
-						eyeRectDeg.origin.y * (b.size.height / kMaxDeg) + b.size.height / 2.0,
-						eyeRectDeg.size.width * (b.size.width / kMaxDeg), 
-						eyeRectDeg.size.height * (b.size.height / kMaxDeg));
+    NSRect b = theBounds;
+    return NSMakeRect(eyeRectDeg.origin.x * (b.size.width / kMaxDeg) + b.size.width / 2.0,
+                        eyeRectDeg.origin.y * (b.size.height / kMaxDeg) + b.size.height / 2.0,
+                        eyeRectDeg.size.width * (b.size.width / kMaxDeg),
+                        eyeRectDeg.size.height * (b.size.height / kMaxDeg));
 }
 
 - (void)removeAllDrawables;
@@ -357,25 +358,7 @@
 
 - (void)setNeedsDisplayInRect;
 {
-//    static long counter = 0;
-//    NSRect vRect;
-    
-//    if ((++counter % 500) == 0) {
-//        vRect = [self visibleRect];
-//        NSLog(@"IN: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
-//        NSLog(@"LLEyeXYView visible:    %.0f %.0f %.0f %.0f", vRect.origin.x, vRect.origin.y, vRect.size.width, vRect.size.height);
-//        NSLog(@" LLEyeXYView dirtyRect: %.0f %.0f %.0f %.0f", dirtyRectPix.origin.x, dirtyRectPix.origin.y, dirtyRectPix.size.width, dirtyRectPix.size.height);
-//        if (NSPointInRect(dirtyRectPix.origin, vRect)) {
-//            NSLog(@" dirtyRect Visible");
-//        }
-//        else {
-//            NSLog(@" dirtyRect NOT Visible");
-//        }
-//    }
     [self setNeedsDisplayInRect:dirtyRectPix];
-//    if ((counter % 500) == 0) {
-//        NSLog(@" OUT: %@", ([self needsDisplay]? @"Needs Display" : @"Does NOT Need Display"));
-//    }
 }
 
 - (void)setOneInN:(CGFloat)n;

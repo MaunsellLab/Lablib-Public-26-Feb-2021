@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array/>
+	<key>CFBundleExecutable</key>
+	<string>ITC</string>
+	<key>CFBundleGetInfoString</key>
+	<string>ITC Framework for MacOSX (Universal), Version 21.02, Copyright (c) 2003-2010 HEKA Electronik GmbH</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.instrutech.itcframework</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>ITC Framework</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleShortVersionString</key>
+	<string>ITC Framework, Version 21.02</string>
+	<key>CFBundleSignature</key>
+	<string>INST</string>
+	<key>CFBundleVersion</key>
+	<string>21.02</string>
+</dict>
+</plist>

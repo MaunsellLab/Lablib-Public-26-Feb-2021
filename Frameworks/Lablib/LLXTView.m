@@ -46,32 +46,10 @@
 
 @implementation LLXTView
 
-- (void)checkScroll:(NSTimer *)timer {
-
-//    float scrollDist, scrollOrigin;
-//    NSRect drawRect, scrollRect;
-
+- (void)checkScroll:(NSTimer *)timer;
+{
     [self displayIfNeeded];
     return;
-    
-//    if (lastEventTimeMS > lastScrollTimeMS) {
-//        drawRect = scrollRect = [self visibleRect];
-//        scrollDist = MIN(scrollRect.size.height, 
-//                        [scale scaledYInc:lastEventTimeMS - lastScrollTimeMS]);
-//        if (scrollDist < scrollRect.size.height) {
-//            scrollOrigin = MAX(0, [scale scaledYInc:lastScrollTimeMS - lastTimePlottedMS]);
-//            scrollRect.origin.y = scrollOrigin;
-//            scrollRect.size.height -= scrollOrigin;
-//            [[NSGraphicsContext currentContext] saveGraphicsState];
-//            [[NSBezierPath bezierPathWithRect:[self visibleRect]] setClip];
-//            [self scrollRect:scrollRect by:NSMakeSize(0, -scrollDist)];
-//            [[NSGraphicsContext currentContext] restoreGraphicsState]; // restore clipRect
-//            drawRect.origin.y = drawRect.size.height - scrollDist;
-//            drawRect.size.height = scrollOrigin;
-//        }
-//        lastScrollTimeMS = lastEventTimeMS;
-//        [self setNeedsDisplayInRect:drawRect];
-//    }
 }
 
 - (void)dealloc;
@@ -402,47 +380,15 @@
 	[self updateEventTime:stimulusBarTimeMS];
 }
 
-- (void)updateEventTime:(long)timeMS {
-
-//	NSRect b, scrollRect, drawRect;
-//	float scrollFraction;							// the fraction of the view rect that needs to scroll
-//	double deltaTimeMS;
-	
-//	scrollFraction = (timeMS - lastEventTimeMS) / durationMS;
-	if (freeze) {
-		lastEventTimeMS = timeMS;
-		return;
+- (void)updateEventTime:(long)timeMS;
+{
+	if (!freeze) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setNeedsDisplay:YES];
+        });
 	}
-	
 	lastEventTimeMS = timeMS;
-	[self setNeedsDisplay:YES];
-	return;
-
-/*	
-
-The following code was used for scrolling the view, rather than redrawing it entirely on each drawRect.
-
-	if (scrollFraction >= 1.0) {					// if the view is wholly displaced, signal a complete display
-		lastEventTimeMS = timeMS;
-		[self setNeedsDisplay:YES];
-		return;
-	}
-	if (waitingForDrawRect) {
-		return;
-	}
-	b = drawRect = scrollRect = [self bounds];
-	drawRect.size.height = round(scrollFraction * b.size.height);
-	if (drawRect.size.height < 1.0) {
-		return;
-	}
-	scrollRect.origin.y = drawRect.size.height;
-	scrollRect.size.height = drawRect.origin.y = b.size.height - drawRect.size.height;
-	[self scrollRect:scrollRect by:NSMakeSize(0, -drawRect.size.height)];
-	deltaTimeMS = timeMS - lastEventTimeMS;
-	lastEventTimeMS += deltaTimeMS * drawRect.size.height / (scrollFraction * b.size.height);
-	waitingForDrawRect = YES;
-	[self setNeedsDisplayInRect:drawRect];
-*/
+    return;
 }
 
 @end

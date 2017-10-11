@@ -1,0 +1,17 @@
+Title Lablib
+Version 1.0.6
+Description Lablib 
+January 4, 2005
+DefaultLocation /
+DeleteWarning 
+
+### Package Flags
+
+NeedsAuthorization NO
+Required NO
+Relocatable NO
+RequiresReboot NO
+UseUserMask NO
+OverwritePermissions NO
+InstallFat NO
+RootVolumeOnly NO

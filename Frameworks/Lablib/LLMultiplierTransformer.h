@@ -8,10 +8,8 @@
 
 @interface LLMultiplierTransformer:NSValueTransformer {
 
-	float multiplier;
 }
 
-- (float)multiplier;
-- (void)setMultiplier:(float)newMultiplier;
+@property (nonatomic) float multiplier;
 
 @end

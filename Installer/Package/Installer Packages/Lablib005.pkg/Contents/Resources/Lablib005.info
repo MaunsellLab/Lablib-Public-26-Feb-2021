@@ -1,0 +1,17 @@
+Title Lablib
+Version 0.0.5
+Description Pre-release version of Lablib 
+March 10, 2004
+DefaultLocation /
+DeleteWarning 
+
+### Package Flags
+
+NeedsAuthorization NO
+Required NO
+Relocatable NO
+RequiresReboot NO
+UseUserMask YES
+OverwritePermissions NO
+InstallFat NO
+RootVolumeOnly NO
