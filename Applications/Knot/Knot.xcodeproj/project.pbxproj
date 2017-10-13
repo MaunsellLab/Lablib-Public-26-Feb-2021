@@ -64,6 +64,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		690F2EAF1F9166F00034150E /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = ../../Frameworks/LablibITC18/build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		694D0BB1077B5B860025BAA4 /* Knot_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Knot_Prefix.h; sourceTree = "<group>"; };
 		694D0BB8077B5B9E0025BAA4 /* Knot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Knot.h; sourceTree = "<group>"; };
 		694D0BCB077B5BE90025BAA4 /* Info-Knot.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Knot.plist"; sourceTree = SOURCE_ROOT; };
@@ -138,6 +139,7 @@
 		29B97314FDCFA39411CA2CEA /* terstes */ = {
 			isa = PBXGroup;
 			children = (
+				690F2EAF1F9166F00034150E /* LablibITC18.framework */,
 				6968EA58059DDD1900E33065 /* Notes.txt */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,

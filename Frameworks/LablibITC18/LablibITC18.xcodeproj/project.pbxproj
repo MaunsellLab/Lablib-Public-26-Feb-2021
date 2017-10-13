@@ -9,17 +9,19 @@
 /* Begin PBXBuildFile section */
 		690869EF14AEBC7F00347B8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6917CF9613B79AD700E4D1D4 /* Cocoa.framework */; };
 		690869F214AEBCEC00347B8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6917CF9613B79AD700E4D1D4 /* Cocoa.framework */; };
+		690F2EB11F91683F0034150E /* LLITC18DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */; };
+		690F2EB21F9168440034150E /* LLITCMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 69080C6904FCF4AF00F95530 /* LLITCMonitor.m */; };
+		690F2EB31F9168480034150E /* LLITCMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 697139600506215500F95523 /* LLITCMonitorSettings.m */; };
+		690F2EB41F9172540034150E /* LLITC18PulseTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EF10BB0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		690F2EB51F9172560034150E /* LLITC18PulseTrainDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 69EF10BC0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.m */; };
 		6917B197091EFCC40082A1F4 /* LLITC18DataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6917B195091EFCC40082A1F4 /* LLITC18DataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6917B198091EFCC40082A1F4 /* LLITC18DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */; };
 		6925DB2E17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
 		6925DB2F17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
 		69941F74097C5E1900FD57B5 /* LablibITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69941F73097C5E1900FD57B5 /* LablibITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69C6362E0B07893A001FA1D0 /* LLITC18DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */; };
 		69D31B5E097C5C98001102CA /* LLITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D31ADC097C5B44001102CA /* LLITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69D7851F17F3C96D00785BA7 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851E17F3C96D00785BA7 /* Lablib.framework */; };
 		69D7852017F3C96D00785BA7 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851E17F3C96D00785BA7 /* Lablib.framework */; };
-		69D82D160B06A1D500E8C369 /* LLITCMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 69080C6904FCF4AF00F95530 /* LLITCMonitor.m */; };
-		69D82D170B06A1D600E8C369 /* LLITCMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 697139600506215500F95523 /* LLITCMonitorSettings.m */; };
 		69D82D190B06A1ED00E8C369 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		69D82D1D0B06A1FB00E8C369 /* LLITC18DataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */; };
 		69F368B2056705B9009AED51 /* LLITC18_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* LLITC18_Prefix.h */; };
@@ -135,8 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				6975F2950B3328C200312509 /* Lablib.framework */,
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				6925DB2D17F39D15009C5F31 /* ITC.framework */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 				69F2BB2F04D31F6300F95507 /* IOKit.framework */,
 			);
@@ -211,11 +213,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				69D31B5E097C5C98001102CA /* LLITC18.h in Headers */,
-				69941F74097C5E1900FD57B5 /* LablibITC18.h in Headers */,
 				69F368B2056705B9009AED51 /* LLITC18_Prefix.h in Headers */,
+				690F2EB41F9172540034150E /* LLITC18PulseTrainDevice.h in Headers */,
+				69941F74097C5E1900FD57B5 /* LablibITC18.h in Headers */,
+				6917B197091EFCC40082A1F4 /* LLITC18DataDevice.h in Headers */,
 				69F368B5056705B9009AED51 /* LLITCMonitor.h in Headers */,
 				69F368B6056705B9009AED51 /* LLITCMonitorSettings.h in Headers */,
-				6917B197091EFCC40082A1F4 /* LLITC18DataDevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,9 +339,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69C6362E0B07893A001FA1D0 /* LLITC18DataDevice.m in Sources */,
-				69D82D160B06A1D500E8C369 /* LLITCMonitor.m in Sources */,
-				69D82D170B06A1D600E8C369 /* LLITCMonitorSettings.m in Sources */,
+				690F2EB11F91683F0034150E /* LLITC18DataDevice.m in Sources */,
+				690F2EB31F9168480034150E /* LLITCMonitorSettings.m in Sources */,
+				690F2EB21F9168440034150E /* LLITCMonitor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				690F2EB51F9172560034150E /* LLITC18PulseTrainDevice.m in Sources */,
 				69F368BC056705B9009AED51 /* LLITCMonitor.m in Sources */,
 				69F368BD056705B9009AED51 /* LLITCMonitorSettings.m in Sources */,
 				6917B198091EFCC40082A1F4 /* LLITC18DataDevice.m in Sources */,
@@ -470,6 +474,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -505,7 +510,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = "";
 				VALID_ARCHS = "i386 x86_64";
@@ -540,7 +545,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				SDKROOT = "";
 				VALID_ARCHS = "i386 x86_64";
 			};
@@ -574,7 +579,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				SDKROOT = "";
 				VALID_ARCHS = "i386 x86_64";
 			};
