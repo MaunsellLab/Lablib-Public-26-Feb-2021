@@ -409,12 +409,10 @@ char *idString = "Knot Version 2.2";
         if (result == NSFileHandlingPanelOKButton) {
             NSArray *urls = [panel URLs];
             [self loadNidaqCalibration:channel url:[urls objectAtIndex:0]];
-            NSLog(@"Knt: setting defaults for %@", [NSString stringWithFormat:@"KNAO%ldCalibration", channel]);
             [defaults setObject:[[urls objectAtIndex:0] path]
                                     forKey:[NSString stringWithFormat:@"KNAO%ldCalibration", channel]];
         }
     }];
-
 }
 
 - (IBAction)doPluginController:(id)sender;
@@ -565,7 +563,7 @@ char *idString = "Knot Version 2.2";
 
     if ([nidaq loadCalibration:channel url:calibrationURL]) {
         aString = [[NSAttributedString alloc]
-                initWithString:[NSString stringWithFormat:@"AO%ld Calibration File: %@",
+                initWithString:[NSString stringWithFormat:@"AO%ld Calibration: %@",
                 channel, [[calibrationURL lastPathComponent] stringByDeletingPathExtension]]
                 attributes:[NSDictionary dictionaryWithObject:[NSColor blackColor]
                 forKey:NSForegroundColorAttributeName]];

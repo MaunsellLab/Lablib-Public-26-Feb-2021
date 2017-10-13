@@ -30,13 +30,8 @@
 
 - (id)initFromFile:(NSURL *)fileURL;
 {
-    char *strEnd1, *strEnd2;
-    long index, j, arrayLength;
-    float tempV, tempMW, f1, f2;
     NSString *fileContents;
     NSError *error;
-    NSArray *array;
-    const char *c;
 
     if ((self = [super initWithWindowNibName:@"LLPowerCalibrator"]) != nil) {
         [self setWindowFrameAutosaveName:@"LLPowerCalibrator"];
@@ -47,60 +42,15 @@
             calibrated = NO;
             return self;
         }
-        array = [fileContents componentsSeparatedByString:@"\n"];
-        if (array != nil) {
-            arrayLength = [array count];
-            mWatts = malloc(sizeof(float) * arrayLength);
-            volts = malloc(sizeof(float) * arrayLength);
-            for (index = entries = 0; index < arrayLength; index++) {
-                c = [[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding];
-                f1 = strtof(c, &strEnd1);
-                if (strEnd1 != c) {
-                    f2 = strtof(strEnd1, &strEnd2);
-                    if (strEnd1 != strEnd2) {                   // found two valid floating point numbers
-                        volts[index] = f1;
-                        mWatts[index] = f2;
-                        entries++;
-                        NSLog(@"%ld: volts %f mW %f", index, volts[index], mWatts[index]);
-                    }
-                }
-            }
-            for (index = 0; index < entries; index++) {         // sort volts to rise monotonically
-                for (j = index + 1; j < entries; j++) {
-                    if (volts[index] > volts[j]) {
-                        tempV =  volts[index];
-                        tempMW = mWatts[index];
-                        volts[index] =  volts[j];
-                        mWatts[index] = mWatts[j];
-                        volts[j] =  tempV;
-                        mWatts[j] = tempMW;
-                    }
-                }
-            }
-            for (index = 1; index < entries; index++) {
-                if (volts[index] < volts[index - 1]) {
-                    NSLog(@"LLPowerCalibrator: error: voltages didn't sort properly");
-                    break;
-                }
-                if (mWatts[index] < mWatts[index - 1]) {
-                    volts[index] = volts[index - 1];
-                    mWatts[index] = mWatts[index - 1];
-                    NSLog(@"LLPowerCalibrator: correcting mWatts to make them mono-tonic with voltage");
-                }
-            }
-            calibrated = YES;
-        }
+        [self loadCalibration:fileContents];
     }
     return self;
 }
 
 - (id)initWithCalibrationFile:(NSString *)fileName;
 {
-    long index, j;
-    float tempV, tempMW;
     NSString *path, *fileContents;
     NSError *error;
-    NSArray *array;
 
     if ((self = [super initWithWindowNibName:@"LLPowerCalibrator"]) != nil) {
         [self setWindowFrameAutosaveName:@"LLPowerCalibrator"];
@@ -112,44 +62,60 @@
             calibrated = NO;
             return self;
         }
-        array = [fileContents componentsSeparatedByString:@"\n"];
-        if (array != nil) {
-            entries = [array count];
-            while ([(NSString *)[array objectAtIndex:entries - 1] length] == 0) {
-                entries--;
-            }
-            mWatts = malloc(sizeof(float) * entries);
-            volts = malloc(sizeof(float) * entries);
-            for (index = 0; index < entries; index++) {
-                sscanf([[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding], "%f%f", &volts[index],
-                       &mWatts[index]);
-            }
-            for (index = 0; index < entries; index++) {         // force volts to rise monotonically
-                for (j = index + 1; j < entries; j++) {
-                    if (volts[index] > volts[j]) {
-                        tempV =  volts[index];
-                        tempMW = mWatts[index];
-                        volts[index] =  volts[j];
-                        mWatts[index] = mWatts[j];
-                        volts[j] =  tempV;
-                        mWatts[j] = tempMW;
-                    }
-                }
-            }
-            for (index = 1; index < entries; index++) {
-                if (volts[index] < volts[index - 1]) {
-                    NSLog(@"LLPowerCalibrator: error: voltages didn't sort properly");
-                    break;
-                }
-                if (mWatts[index] < mWatts[index - 1]) {
-                    NSLog(@"LLPowerCalibrator: error: mWatts are not monotonic with voltage");
-                    break;
-                }
-            }
-            calibrated = YES;
-        }
+        [self loadCalibration:fileContents];
     }
     return self;
+}
+
+-(void)loadCalibration:(NSString *)fileContents;
+{
+    const char *c;
+    char *strEnd1, *strEnd2;
+    long index, j, arrayLength;
+    float tempV, tempMW, f1, f2;
+    NSArray *array;
+
+    array = [fileContents componentsSeparatedByString:@"\n"];
+    if (array != nil) {
+        arrayLength = [array count];
+        mWatts = malloc(sizeof(float) * arrayLength);
+        volts = malloc(sizeof(float) * arrayLength);
+        for (index = entries = 0; index < arrayLength; index++) {
+            c = [[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding];
+            f1 = strtof(c, &strEnd1);
+            if (strEnd1 != c) {
+                f2 = strtof(strEnd1, &strEnd2);
+                if (strEnd1 != strEnd2) {                   // found two valid floating point numbers
+                    volts[index] = f1;
+                    mWatts[index] = f2;
+                    entries++;
+                }
+            }
+        }
+        for (index = 0; index < entries; index++) {         // sort volts to rise monotonically
+            for (j = index + 1; j < entries; j++) {
+                if (volts[index] > volts[j]) {
+                    tempV =  volts[index];
+                    tempMW = mWatts[index];
+                    volts[index] =  volts[j];
+                    mWatts[index] = mWatts[j];
+                    volts[j] =  tempV;
+                    mWatts[j] = tempMW;
+                }
+            }
+        }
+        for (index = 1; index < entries; index++) {
+            if (volts[index] < volts[index - 1]) {
+                NSLog(@"LLPowerCalibrator: error: voltages didn't sort properly");
+                break;
+            }
+            if (mWatts[index] < mWatts[index - 1]) {
+                volts[index] = volts[index - 1];
+                mWatts[index] = mWatts[index - 1];
+            }
+        }
+        calibrated = YES;
+    }
 }
 
 - (float)maximumMW;

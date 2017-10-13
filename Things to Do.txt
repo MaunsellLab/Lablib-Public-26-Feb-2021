@@ -1,3 +1,11 @@
+Git support:
+
+1) For each mouse's settings, declare a project
+2) Project maps on to a folder in /Users/Shared/Data
+3) Each night, the contents of /Users/Shared/Data shoould be copied into a repository on Blur
+4) Later each night, Blur should push the repository to GitHub
+
++++++++++++++++++++++++++++++++++++++++++++++++
 Upgrade to Lablib to manage distributions better:
 
 Create a Package that can go on Blur for distribution purposes.  It should do the following:
@@ -22,11 +30,3 @@ NE500 pump can run at 2.953 ml/min at 8.585 mm diameter.  The code should adjust
 ¥ Decide how to convert the PC/NIDAQ into a general purpose physiology buffer (like the ITC).  This might consist of making a library of stubs on the Mac that expose the PC NIDAC library to Lablib.
 
 ¥ Stop letting the Plugin Manager show the Screen plists.
-
-CAUTIONS:
-
-setNeedsDisplay, setFrame, setFrameOrigin, are only supposed to be run from the main loop
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [hist[level] setNeedsDisplay:YES];
-            });
