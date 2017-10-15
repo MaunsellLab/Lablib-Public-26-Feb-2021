@@ -1,57 +1,39 @@
 // Architectures
-
 ONLY_ACTIVE_ARCH = YES
 MACOSX_DEPLOYMENT_TARGET = 10.11
-//ARCHS = "$(ARCHS_STANDARD)"
-//SDKROOT = macosx
-//FRAMEWORK_SEARCH_PATHS = /Library/Frameworks
-//HEADER_SEARCH_PATHS = $(MW_INCLUDE_DIR)
-//LIBRARY_SEARCH_PATHS = $(MW_LIB_DIR)
-//GCC_GENERATE_DEBUGGING_SYMBOLS = YES
-//GCC_OPTIMIZATION_LEVEL = s
-//GCC_SYMBOLS_PRIVATE_EXTERN = YES
-//WARNING_CFLAGS = -Wpartial-availability -Wreorder -Wno-inconsistent-missing-override
-//GCC_C_LANGUAGE_STANDARD = c99
-//CLANG_CXX_LANGUAGE_STANDARD = c++0x
-//CLANG_CXX_LIBRARY = libc++
-//GCC_PREPROCESSOR_DEFINITIONS = boost=mworks_boost
-//GCC_WARN_ABOUT_RETURN_TYPE = YES
-//GCC_WARN_MISSING_PARENTHESES = NO
-//GCC_WARN_SIGN_COMPARE = NO
-
+// Assets
+// Build Locations
 // Build Options
-
 // Deployment
-
 DEPLOYMENT_LOCATION = YES
 DEPLOYMENT_POSTPROCESSING = YES
 COMBINE_HIDPI_IMAGES = YES
 SKIP_INSTALL = YES
 COPY_PHASE_STRIP = NO
-
+// Headers
+// Kernel Module
+// Linking
+// Packaging
 // Search Paths
-
 HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include
+// Signing
+// Testing
+// Text-Based API
+// Versioning
 
-// Apple LLVM 9.0 Language
-
-GCC_PRECOMPILE_PREFIX_HEADER = YES
-
+// Apple LLVM 9.0 Address Sanitizer
 // Apple LLVM 9.0 Code Generation
-
 GCC_NO_COMMON_BLOCKS = YES
 GCC_OPTIMIZATION_LEVEL = 0
-
+// Apple LLVM 9.0 Custom Compiler Flags
+// Apple LLVM 9.0 Language
+GCC_PRECOMPILE_PREFIX_HEADER = YES
 // Apple LLVM 9.0 Preprocessing
-
 ENABLE_STRICT_OBJC_MSGSEND = YES
-
+// Apple LLVM 9.0 Undefined Behavior Sanitizer
 // Apple LLVM 9.0 Warning Policies
-
 GCC_TREAT_WARNINGS_AS_ERRORS = YES
-
 // Apple LLVM 9.0 Warnings - All languages
-
 CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES
 CLANG_WARN_EMPTY_BODY = YES
 CLANG_WARN_BOOL_CONVERSION = YES
@@ -71,17 +53,23 @@ GCC_WARN_UNUSED_FUNCTION = YES
 GCC_WARN_UNUSED_VARIABLE = YES
 GCC_WARN_UNUSED_LABEL = YES
 GCC_WARN_UNUSED_VALUE = YES
-
 // Apple LLVM 9.0 Warnings - C++
-
 CLANG_WARN_RANGE_LOOP_ANALYSIS = YES
 CLANG_WARN_SUSPICIOUS_MOVE = YES
-
 // Apple LLVM 9.0 Warnings - Objective C
-
 CLANG_WARN__DUPLICATE_METHOD_MATCH = YES
 CLANG_WARN_OBJC_LITERAL_CONVERSION = YES
 GCC_WARN_UNDECLARED_SELECTOR = YES
+// Apple LLVM 9.0 Warnings - Objective C and ARC
+
+// Interface Builder XIB Compiler - Options
+// OSACompile - Build Options
+// Static Analyzer - Issues - Analysis Policy
+// Static Analyzer - Issues - Generic Issues
+// Static Analyzer - Issues - Apple APIs
+// Static Analyzer - Issues - Objective C
+// Static Analyzer - Issues - Security
+
 
 //MW_VERSION = 0.7.dev
 
@@ -112,3 +100,5 @@ GCC_WARN_UNDECLARED_SELECTOR = YES
 
 //MW_PYTHON_VERSION = 2.7
 //MW_PYTHON_DIR = $(MW_SCRIPTING_DIR)/Python
+
+

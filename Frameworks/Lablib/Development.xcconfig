@@ -1,9 +1,11 @@
 // Architectures
+// Assets
 // Build Locations
-CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 // Build Options
 // Deployment
 INSTALL_PATH = @executable_path/../Frameworks
+// Headers
+// Kernel Module
 // Linking
 DYLIB_COMPATIBILITY_VERSION = 1
 DYLIB_CURRENT_VERSION = 1
@@ -20,14 +22,30 @@ HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include
 LIBRARY_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
 // Signing
 DEVELOPMENT_TEAM = E54G4AFC7H
-//Apple LLVM 9.0 - Custom Compiler Flags
+// Testing
+// Text-Based API
+// Versioning
+
+// Apple LLVM 9.0 Address Sanitizer
+// Apple LLVM 9.0 Code Generation
+// Apple LLVM 9.0 - Custom Compiler Flags
 WARNING_CFLAGS = -Wmost
 // Apple LLVM 9.0 Language
 GCC_PREFIX_HEADER = Lablib_Prefix.h
 // Apple LLVM 9.0 Code Generation
 // Apple LLVM 9.0 Preprocessing
+// Apple LLVM 9.0 Preprocessing
+// Apple LLVM 9.0 Undefined Behavior Sanitizer
 // Apple LLVM 9.0 Warning Policies
 // Apple LLVM 9.0 Warnings - All languages
 // Apple LLVM 9.0 Warnings - C++
 // Apple LLVM 9.0 Warnings - Objective C
+// Apple LLVM 9.0 Warnings - Objective C and ARC
 
+// Interface Builder XIB Compiler - Options
+// OSACompile - Build Options
+// Static Analyzer - Issues - Analysis Policy
+// Static Analyzer - Issues - Generic Issues
+// Static Analyzer - Issues - Apple APIs
+// Static Analyzer - Issues - Objective C
+// Static Analyzer - Issues - Security

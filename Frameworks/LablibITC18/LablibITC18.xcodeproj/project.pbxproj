@@ -19,6 +19,9 @@
 		6925DB2E17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
 		6925DB2F17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
 		69941F74097C5E1900FD57B5 /* LablibITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69941F73097C5E1900FD57B5 /* LablibITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69AB36151F940FA000E7DA2F /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69F8E0D41F94039400820505 /* AllProjects.xcconfig */; };
+		69AB36171F94107000E7DA2F /* Plugin.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */; };
+		69AB36181F94109A00E7DA2F /* FrameworkConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69AB36141F940F9800E7DA2F /* FrameworkConfig.xcconfig */; };
 		69D31B5E097C5C98001102CA /* LLITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D31ADC097C5B44001102CA /* LLITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69D7851F17F3C96D00785BA7 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851E17F3C96D00785BA7 /* Lablib.framework */; };
 		69D7852017F3C96D00785BA7 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851E17F3C96D00785BA7 /* Lablib.framework */; };
@@ -30,6 +33,7 @@
 		69F368B8056705B9009AED51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		69F368BC056705B9009AED51 /* LLITCMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 69080C6904FCF4AF00F95530 /* LLITCMonitor.m */; };
 		69F368BD056705B9009AED51 /* LLITCMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 697139600506215500F95523 /* LLITCMonitorSettings.m */; };
+		69F8E0D51F94039500820505 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69F8E0D41F94039400820505 /* AllProjects.xcconfig */; };
 		69FBCE85097C1CD6008D9A0E /* LLITC18DataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */; };
 		E97BF1EE1AC58E8C004E8F19 /* LLITC18DataSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97BF1EC1AC58E8C004E8F19 /* LLITC18DataSettings.xib */; };
 		E97BF1EF1AC58E8C004E8F19 /* LLITC18DataSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97BF1EC1AC58E8C004E8F19 /* LLITC18DataSettings.xib */; };
@@ -72,6 +76,8 @@
 		69941F73097C5E1900FD57B5 /* LablibITC18.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LablibITC18.h; sourceTree = "<group>"; };
 		699DA3CB06714B7400D46DD1 /* LLITC18StimTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLITC18StimTrainDevice.h; sourceTree = "<group>"; usesTabs = 1; };
 		699DA3CC06714B7400D46DD1 /* LLITC18StimTrainDevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLITC18StimTrainDevice.m; sourceTree = "<group>"; };
+		69AB36141F940F9800E7DA2F /* FrameworkConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FrameworkConfig.xcconfig; sourceTree = SOURCE_ROOT; };
+		69AB36161F94107000E7DA2F /* Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Plugin.xcconfig; sourceTree = SOURCE_ROOT; };
 		69D31ADC097C5B44001102CA /* LLITC18.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18.h; sourceTree = "<group>"; };
 		69D7851E17F3C96D00785BA7 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../Lablib/build/Development/Lablib.framework; sourceTree = "<group>"; };
 		69D82C9E0B069FF500E8C369 /* LablibITC18.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LablibITC18.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +86,7 @@
 		69F2BB2F04D31F6300F95507 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		69F368C4056705B9009AED51 /* LablibITC18_Framework.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LablibITC18_Framework.plist; sourceTree = "<group>"; };
 		69F369E405670921009AED51 /* LablibITC18.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LablibITC18.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69F8E0D41F94039400820505 /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = LLITC18DataDevice.plist; sourceTree = "<group>"; };
 		E97BF1EC1AC58E8C004E8F19 /* LLITC18DataSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLITC18DataSettings.xib; sourceTree = "<group>"; };
 		E97BF1ED1AC58E8C004E8F19 /* LLITCMonitorSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLITCMonitorSettings.xib; sourceTree = "<group>"; };
@@ -122,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				693E22FD08227B2D006BD680 /* Notes.txt */,
+				69F8E0D31F94036700820505 /* External Configurations */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -203,6 +211,16 @@
 				69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */,
 			);
 			name = Plists;
+			sourceTree = "<group>";
+		};
+		69F8E0D31F94036700820505 /* External Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				69F8E0D41F94039400820505 /* AllProjects.xcconfig */,
+				69AB36141F940F9800E7DA2F /* FrameworkConfig.xcconfig */,
+				69AB36161F94107000E7DA2F /* Plugin.xcconfig */,
+			);
+			path = "External Configurations";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,8 +316,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69AB36151F940FA000E7DA2F /* AllProjects.xcconfig in Resources */,
 				69D82D190B06A1ED00E8C369 /* InfoPlist.strings in Resources */,
 				E97BF1EF1AC58E8C004E8F19 /* LLITC18DataSettings.xib in Resources */,
+				69AB36171F94107000E7DA2F /* Plugin.xcconfig in Resources */,
 				E97BF1F11AC58E8C004E8F19 /* LLITCMonitorSettings.xib in Resources */,
 				69D82D1D0B06A1FB00E8C369 /* LLITC18DataDevice.plist in Resources */,
 			);
@@ -309,6 +329,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69AB36181F94109A00E7DA2F /* FrameworkConfig.xcconfig in Resources */,
+				69F8E0D51F94039500820505 /* AllProjects.xcconfig in Resources */,
 				69F368B8056705B9009AED51 /* InfoPlist.strings in Resources */,
 				E97BF1EE1AC58E8C004E8F19 /* LLITC18DataSettings.xib in Resources */,
 				E97BF1F01AC58E8C004E8F19 /* LLITCMonitorSettings.xib in Resources */,
@@ -372,10 +394,8 @@
 /* Begin XCBuildConfiguration section */
 		69B8D100088DAB78002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69AB36141F940F9800E7DA2F /* FrameworkConfig.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)";
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -383,26 +403,15 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					/Documents/Lablib/Frameworks/Lablib/build/Development,
 				);
-				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = LablibITC18_Framework.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xd1000000,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
@@ -411,10 +420,8 @@
 		};
 		69B8D101088DAB78002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69AB36141F940F9800E7DA2F /* FrameworkConfig.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)";
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -422,26 +429,15 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					/Documents/Lablib/Frameworks/Lablib/build/Development,
 				);
-				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = LablibITC18_Framework.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xd1000000,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -449,10 +445,8 @@
 		};
 		69B8D102088DAB78002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69AB36141F940F9800E7DA2F /* FrameworkConfig.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/build/$(CONFIGURATION)";
-				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -460,21 +454,14 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					/Documents/Lablib/Frameworks/Lablib/build/Development,
 				);
-				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = LablibITC18_Framework.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -482,115 +469,30 @@
 		};
 		69B8D104088DAB78002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69F8E0D41F94039400820505 /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = "";
-				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Development;
 		};
 		69B8D105088DAB78002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69F8E0D41F94039400820505 /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				SDKROOT = "";
-				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Deployment;
 		};
 		69B8D106088DAB78002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69F8E0D41F94039400820505 /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				SDKROOT = "";
-				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Default;
 		};
 		69D82CA10B069FF700E8C369 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../Lablib/build/Development",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -601,31 +503,16 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
-				INFOPLIST_FILE = LablibITC18_Plugin.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OBJROOT = build;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-weak_framework",
-					ITC,
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
-				SYMROOT = build;
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = Development;
 		};
 		69D82CA20B069FF700E8C369 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../Lablib/build/Development",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -634,15 +521,6 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
-				INFOPLIST_FILE = LablibITC18_Plugin.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				WRAPPER_EXTENSION = plugin;
@@ -651,9 +529,8 @@
 		};
 		69D82CA30B069FF700E8C369 /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../Lablib/build/Development",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -661,15 +538,6 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LLITC18_Prefix.h;
-				INFOPLIST_FILE = LablibITC18_Plugin.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18;
 				PRODUCT_NAME = LablibITC18;
 				WRAPPER_EXTENSION = plugin;
