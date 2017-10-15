@@ -120,6 +120,7 @@
 		69897B6D099BA633001EE2DA /* LLDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69897B6B099BA633001EE2DA /* LLDataUtil.m */; };
 		698F5966159000EC00366393 /* LLSynthBinocSaccade.h in Headers */ = {isa = PBXBuildFile; fileRef = 698F5964159000EC00366393 /* LLSynthBinocSaccade.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		698F5967159000EC00366393 /* LLSynthBinocSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 698F5965159000EC00366393 /* LLSynthBinocSaccade.m */; };
+		699100931F93EA55003E3F0F /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */; };
 		69914CC906863C46001800F9 /* LLTextUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 69914CC706863C46001800F9 /* LLTextUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69914CCA06863C46001800F9 /* LLTextUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69914CC806863C46001800F9 /* LLTextUtil.m */; };
 		699AC1B30C752D46000D360E /* LLNoise.h in Headers */ = {isa = PBXBuildFile; fileRef = 699AC1B10C752D46000D360E /* LLNoise.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -253,6 +254,7 @@
 		69F36D120567EA9E009AED51 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E9F6FF043D260E00F95509 /* OpenGL.framework */; };
 		69F8D4A709D9B76300DF2F63 /* LLProgressIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 69F8D4A509D9B76200DF2F63 /* LLProgressIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F8D4A809D9B76300DF2F63 /* LLProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F8D4A609D9B76300DF2F63 /* LLProgressIndicator.m */; };
+		69F8E0D11F93FBB800820505 /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69F8E0D01F93FBB800820505 /* Development.xcconfig */; };
 		69FB5517078B84AA00AC42FA /* LLUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5515078B84AA00AC42FA /* LLUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FB5518078B84AA00AC42FA /* LLUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FB5516078B84AA00AC42FA /* LLUserDefaults.m */; };
 		69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5570095DA531006F86F9 /* LLNullDataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -310,7 +312,7 @@
 		694519361E465429005B75A3 /* LLNE500Pump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNE500Pump.m; sourceTree = "<group>"; };
 		694519381E465439005B75A3 /* LLNE500Pump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNE500Pump.h; sourceTree = "<group>"; };
 		6945193A1E465727005B75A3 /* LLNE500Pump.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLNE500Pump.xib; sourceTree = "<group>"; };
-		69461C3B1F72F617004C7DA8 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = ../../../Development.xcconfig; sourceTree = "<group>"; };
+		69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		69473E2E0B095B21005DE552 /* LLMouseDataDevice-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LLMouseDataDevice-Info.plist"; sourceTree = "<group>"; };
 		694761B5092A782600841167 /* LLLaserCalibrator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLLaserCalibrator.plist; sourceTree = "<group>"; };
 		69476826092BE72B00841167 /* PlayButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PlayButton.tif; path = ../../Resources/Images/PlayButton.tif; sourceTree = SOURCE_ROOT; };
@@ -411,6 +413,7 @@
 		698E35CF048F958700F95509 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		698F5964159000EC00366393 /* LLSynthBinocSaccade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthBinocSaccade.h; sourceTree = "<group>"; };
 		698F5965159000EC00366393 /* LLSynthBinocSaccade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSynthBinocSaccade.m; sourceTree = "<group>"; };
+		699100941F93EBBB003E3F0F /* Lablib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Lablib; sourceTree = "<group>"; };
 		69914CC706863C46001800F9 /* LLTextUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTextUtil.h; sourceTree = "<group>"; };
 		69914CC806863C46001800F9 /* LLTextUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTextUtil.m; sourceTree = "<group>"; };
 		699542D004FFD75300F95523 /* LLSounds.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSounds.h; sourceTree = "<group>"; };
@@ -516,6 +519,7 @@
 		69F2CF2604D4914800F95507 /* LLSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLSettingsController.m; sourceTree = "<group>"; };
 		69F8D4A509D9B76200DF2F63 /* LLProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLProgressIndicator.h; sourceTree = "<group>"; };
 		69F8D4A609D9B76300DF2F63 /* LLProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLProgressIndicator.m; sourceTree = "<group>"; };
+		69F8E0D01F93FBB800820505 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = ../../../Development.xcconfig; sourceTree = "<group>"; };
 		69FB5515078B84AA00AC42FA /* LLUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLUserDefaults.h; sourceTree = "<group>"; };
 		69FB5516078B84AA00AC42FA /* LLUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLUserDefaults.m; sourceTree = "<group>"; };
 		69FB5570095DA531006F86F9 /* LLNullDataDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNullDataDevice.h; sourceTree = "<group>"; };
@@ -553,6 +557,7 @@
 		0867D691FE84028FC02AAC07 /* Lablib Framework */ = {
 			isa = PBXGroup;
 			children = (
+				699100941F93EBBB003E3F0F /* Lablib */,
 				69B81617045E1B7300A80164 /* Things to Do.txt */,
 				69662A2D0A3DEA1A00B66B01 /* Release Notes.txt */,
 				69C895CB03E8275C00A80164 /* Notes.txt */,
@@ -724,7 +729,8 @@
 		69461C3A1F72F5F5004C7DA8 /* External Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				69461C3B1F72F617004C7DA8 /* Development.xcconfig */,
+				69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */,
+				69F8E0D01F93FBB800820505 /* Development.xcconfig */,
 			);
 			path = "External Configuration";
 			sourceTree = "<group>";
@@ -1153,11 +1159,13 @@
 				695EFED61AC6225B00D9D458 /* LLSettingsController.xib in Resources */,
 				695EFECE1AC6225B00D9D458 /* LLMonitorView.xib in Resources */,
 				695EFED71AC6225B00D9D458 /* LLStimulusTrain.xib in Resources */,
+				69F8E0D11F93FBB800820505 /* Development.xcconfig in Resources */,
 				695EFEC91AC6225B00D9D458 /* LLGabor.xib in Resources */,
 				695EFEA61AC6219100D9D458 /* English.lproj in Resources */,
 				695EFED51AC6225B00D9D458 /* LLRandomDots.xib in Resources */,
 				69EB7AF21E21D15800B3CF7C /* LLMatlabEngine.xib in Resources */,
 				695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */,
+				699100931F93EA55003E3F0F /* AllProjects.xcconfig in Resources */,
 				695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */,
 				695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */,
 				6957BF851E1301980059716F /* LLSockets.xib in Resources */,
@@ -1308,280 +1316,41 @@
 /* Begin XCBuildConfiguration section */
 		69CA1DDE088DA53700D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69F8E0D01F93FBB800820505 /* Development.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
-				CODE_SIGN_IDENTITY = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_LOCATION = NO;
-				DEVELOPMENT_TEAM = E54G4AFC7H;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)/build/Development",
-				);
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Lablib_Prefix.h;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_VERSION = "";
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
-				INFOPLIST_FILE = "Info-Lablib.plist";
-				INSTALLHDRS_COPY_PHASE = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "/Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64";
-				LIBRARY_SEARCH_PATHS = (
-					/Applications/MATLAB/bin/maci64,
-					/Applications/MATLAB/sys/os/maci64,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xd4000000,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib;
-				PRODUCT_NAME = Lablib;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				RESOURCES_TARGETED_DEVICE_FAMILY = "";
-				SDKROOT = "";
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				UNSTRIPPED_PRODUCT = YES;
-				USER_HEADER_SEARCH_PATHS = "";
-				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Development;
 		};
 		69CA1DDF088DA53700D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
-				CODE_SIGN_IDENTITY = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = E54G4AFC7H;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Lablib_Prefix.h;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_VERSION = "";
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
-				INFOPLIST_FILE = "Info-Lablib.plist";
-				INSTALLHDRS_COPY_PHASE = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "/Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64";
-				LIBRARY_SEARCH_PATHS = (
-					/Applications/MATLAB/bin/maci64,
-					/Applications/MATLAB/sys/os/maci64,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xd2000000,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib;
-				PRODUCT_NAME = Lablib;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				RESOURCES_TARGETED_DEVICE_FAMILY = "";
-				SDKROOT = "";
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				UNSTRIPPED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "";
-				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Deployment;
 		};
 		69CA1DE0088DA53700D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
-				CODE_SIGN_IDENTITY = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEPLOYMENT_LOCATION = NO;
-				DEVELOPMENT_TEAM = E54G4AFC7H;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build;
-				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Lablib_Prefix.h;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_VERSION = "";
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
-				INFOPLIST_FILE = "Info-Lablib.plist";
-				INSTALLHDRS_COPY_PHASE = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "/Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64";
-				LIBRARY_SEARCH_PATHS = (
-					/Applications/MATLAB/bin/maci64,
-					/Applications/MATLAB/sys/os/maci64,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib;
-				PRODUCT_NAME = Lablib;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				RESOURCES_TARGETED_DEVICE_FAMILY = "";
-				SDKROOT = "";
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "";
-				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Default;
 		};
 		69CA1DE2088DA53700D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */;
 			buildSettings = {
-				ALTERNATE_OWNER = "";
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_LOCATION = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include;
-				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				RUN_CLANG_STATIC_ANALYZER = NO;
-				SDKROOT = macosx;
 			};
 			name = Development;
 		};
 		69CA1DE3088DA53700D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */;
 			buildSettings = {
-				ALTERNATE_OWNER = "";
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_LOCATION = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include;
-				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = NO;
-				RUN_CLANG_STATIC_ANALYZER = NO;
-				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
 		69CA1DE4088DA53700D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */;
 			buildSettings = {
-				ALTERNATE_OWNER = "";
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_LOCATION = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include;
-				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = NO;
-				RUN_CLANG_STATIC_ANALYZER = NO;
-				SDKROOT = macosx;
 			};
 			name = Default;
 		};

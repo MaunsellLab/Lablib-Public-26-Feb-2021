@@ -1,56 +1,33 @@
-ARCHS = "$(ARCHS_STANDARD)"
-BUILD_VARIANTS = normal
-//GCC_VERSION = com.apple.compilers.llvm.clang.1_0
-//DEBUG_INFORMATION_FORMAT = dwarf
-MACOSX_DEPLOYMENT_TARGET = 10.11
-SDKROOT = macosx
-//COPY_PHASE_STRIP = NO
-//STRIP_INSTALLED_PRODUCT = NO
-//ALWAYS_SEARCH_USER_PATHS = NO
-// Xcode should find frameworks in /Library/Frameworks by default, but
-// sometimes it doesn't, so we explicitly add it to the search path
-//FRAMEWORK_SEARCH_PATHS = /Library/Frameworks
-//HEADER_SEARCH_PATHS = $(MW_INCLUDE_DIR)
-//LIBRARY_SEARCH_PATHS = $(MW_LIB_DIR)
-//GCC_GENERATE_DEBUGGING_SYMBOLS = YES
-//GCC_OPTIMIZATION_LEVEL = s
-//GCC_SYMBOLS_PRIVATE_EXTERN = YES
-//WARNING_CFLAGS = -Wpartial-availability -Wreorder -Wno-inconsistent-missing-override
-//GCC_C_LANGUAGE_STANDARD = c99
-//CLANG_CXX_LANGUAGE_STANDARD = c++0x
-//CLANG_CXX_LIBRARY = libc++
-//GCC_PREPROCESSOR_DEFINITIONS = boost=mworks_boost
-//GCC_WARN_ABOUT_RETURN_TYPE = YES
-//GCC_WARN_MISSING_PARENTHESES = NO
-//GCC_WARN_SIGN_COMPARE = NO
-//GCC_WARN_UNUSED_VARIABLE = YES
+// Architectures
+// Build Locations
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+// Build Options
+// Deployment
+INSTALL_PATH = @executable_path/../Frameworks
+// Linking
+DYLIB_COMPATIBILITY_VERSION = 1
+DYLIB_CURRENT_VERSION = 1
+OTHER_LDFLAGS = -seg1addr 0xd4000000
+LD_RUNPATH_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
+// Packaging
+FRAMEWORK_VERSION = A
+INFOPLIST_FILE = Info-Lablib.plist
+PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib
+PRODUCT_NAME = Lablib
+// Search Paths
+FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS) $(SRCROOT)/build/Development
+HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include
+LIBRARY_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
+// Signing
+DEVELOPMENT_TEAM = E54G4AFC7H
+//Apple LLVM 9.0 - Custom Compiler Flags
+WARNING_CFLAGS = -Wmost
+// Apple LLVM 9.0 Language
+GCC_PREFIX_HEADER = Lablib_Prefix.h
+// Apple LLVM 9.0 Code Generation
+// Apple LLVM 9.0 Preprocessing
+// Apple LLVM 9.0 Warning Policies
+// Apple LLVM 9.0 Warnings - All languages
+// Apple LLVM 9.0 Warnings - C++
+// Apple LLVM 9.0 Warnings - Objective C
 
-//MW_VERSION = 0.7.dev
-
-//MW_APP_SUPPORT_DIR = /Library/Application Support/MWorks
-//MW_BIN_DIR = "$(MW_BIN_DIR_UNQUOTED)"
-//MW_BIN_DIR_UNQUOTED = $(MW_DEVELOPER_DIR)/bin
-//MW_CLIENT_PLUGINS_DIR = $(MW_APP_SUPPORT_DIR)/Plugins/Client
-//MW_CONFIG_DIR = $(MW_APP_SUPPORT_DIR)/Configuration
-//MW_DEVELOPER_DIR = $(MW_APP_SUPPORT_DIR)/Developer
-//MW_EXAMPLES_DIR = "$(MW_APP_SUPPORT_DIR)/Examples"
-//MW_INCLUDE_DIR = "$(MW_INCLUDE_DIR_UNQUOTED)"
-//MW_INCLUDE_DIR_UNQUOTED = $(MW_DEVELOPER_DIR)/include
-//MW_LIB_DIR = "$(MW_LIB_DIR_UNQUOTED)"
-//MW_LIB_DIR_UNQUOTED = $(MW_DEVELOPER_DIR)/lib
-//MW_PLUGINS_DIR = $(MW_APP_SUPPORT_DIR)/Plugins/Core
-//MW_SCRIPTING_DIR = $(MW_APP_SUPPORT_DIR)/Scripting
-//MW_TESTS_DIR = $(MW_DEVELOPER_DIR)/tests
-//MW_TESTS_XML_DIR = $(MW_TESTS_DIR)/XML
-//MW_XCODE_DIR = $(MW_DEVELOPER_DIR)/Xcode
-
-// For compatibility with existing project files
-//APP_SUPPORT_DIR = $(MW_APP_SUPPORT_DIR)
-//CLIENT_PLUGINS_DIR = $(MW_CLIENT_PLUGINS_DIR)
-//CONFIG_DIR = $(MW_CONFIG_DIR)
-//EXAMPLES_DIR = $(MW_EXAMPLES_DIR)
-//PLUGINS_DIR = $(MW_PLUGINS_DIR)
-//TESTS_DIR = $(MW_TESTS_DIR)
-
-//MW_PYTHON_VERSION = 2.7
-//MW_PYTHON_DIR = $(MW_SCRIPTING_DIR)/Python
