@@ -120,7 +120,6 @@
 		69897B6D099BA633001EE2DA /* LLDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69897B6B099BA633001EE2DA /* LLDataUtil.m */; };
 		698F5966159000EC00366393 /* LLSynthBinocSaccade.h in Headers */ = {isa = PBXBuildFile; fileRef = 698F5964159000EC00366393 /* LLSynthBinocSaccade.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		698F5967159000EC00366393 /* LLSynthBinocSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 698F5965159000EC00366393 /* LLSynthBinocSaccade.m */; };
-		699100931F93EA55003E3F0F /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */; };
 		69914CC906863C46001800F9 /* LLTextUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 69914CC706863C46001800F9 /* LLTextUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69914CCA06863C46001800F9 /* LLTextUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69914CC806863C46001800F9 /* LLTextUtil.m */; };
 		699AC1B30C752D46000D360E /* LLNoise.h in Headers */ = {isa = PBXBuildFile; fileRef = 699AC1B10C752D46000D360E /* LLNoise.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1117,7 +1116,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				TargetAttributes = {
 					69F36CA50567EA35009AED51 = {
 						ProvisioningStyle = Automatic;
@@ -1163,7 +1162,6 @@
 				695EFED51AC6225B00D9D458 /* LLRandomDots.xib in Resources */,
 				69EB7AF21E21D15800B3CF7C /* LLMatlabEngine.xib in Resources */,
 				695EFECF1AC6225B00D9D458 /* LLMouseDataSettings.xib in Resources */,
-				699100931F93EA55003E3F0F /* AllProjects.xcconfig in Resources */,
 				695EFEDA1AC6225B00D9D458 /* LLVisualStimulus.xib in Resources */,
 				695EFECA1AC6225B00D9D458 /* LLIntervalMonitorSettings.xib in Resources */,
 				6957BF851E1301980059716F /* LLSockets.xib in Resources */,
