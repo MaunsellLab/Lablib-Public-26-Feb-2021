@@ -15,7 +15,6 @@ COPY_PHASE_STRIP = NO
 // Linking
 // Packaging
 // Search Paths
-HEADER_SEARCH_PATHS = /Applications/Matlab/extern/include
 // Signing
 // Testing
 // Text-Based API

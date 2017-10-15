@@ -16,10 +16,9 @@ INFOPLIST_FILE = LablibITC18_Framework.plist
 FRAMEWORK_VERSION = A
 PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18
 PRODUCT_NAME = LablibITC18
+WRAPPER_EXTENSION = framework
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS) $(SRCROOT)/build/Development
-HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include
-LIBRARY_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
+FRAMEWORK_SEARCH_PATHS = /Library/Frameworks $(FRAMEWORK_SEARCH_PATHS)
 // Signing
 DEVELOPMENT_TEAM = E54G4AFC7H
 // Testing
@@ -31,7 +30,7 @@ DEVELOPMENT_TEAM = E54G4AFC7H
 // Apple LLVM 9.0 - Custom Compiler Flags
 WARNING_CFLAGS = -Wmost
 // Apple LLVM 9.0 Language
-GCC_PREFIX_HEADER = Lablib_Prefix.h
+GCC_PREFIX_HEADER = LLITC18_Prefix.h
 // Apple LLVM 9.0 Code Generation
 // Apple LLVM 9.0 Preprocessing
 // Apple LLVM 9.0 Preprocessing
