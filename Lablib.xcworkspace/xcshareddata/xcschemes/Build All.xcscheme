@@ -85,7 +85,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "LLMouseDataDevice.bundle"
+               BuildableName = "LLMouseDataDevice.plugin"
                BlueprintName = "LLMouseDataDevice"
                ReferencedContainer = "container:Data_Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
             </BuildableReference>

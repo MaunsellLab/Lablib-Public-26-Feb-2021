@@ -5,6 +5,7 @@
 // Build Options
 // Deployment
 INSTALL_PATH = @executable_path/../Frameworks
+SKIP_INSTALL = YES
 // Headers
 // Kernel Module
 // Linking
