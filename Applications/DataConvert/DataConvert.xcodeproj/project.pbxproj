@@ -10,6 +10,8 @@
 		693B5DC50B8232C50063939F /* Lablib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6975F4160B332F1000312509 /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */; };
 		695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE01AC6234100D9D458 /* MainMenu.xib */; };
+		696A9CD01F954EA800C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */; };
+		696A9CD21F954FAC00C6527B /* AllApplications.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */; };
 		69712D2207E244E10083188B /* DataConvert_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2107E244E10083188B /* DataConvert_Prefix.h */; };
 		69712D2B07E244F50083188B /* DataConvert.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2A07E244F50083188B /* DataConvert.h */; };
 		6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6973FCEC0A43267E00A68677 /* Release Notes.txt */; };
@@ -36,16 +38,6 @@
 		69CB695713B6748000582AD4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CB695613B6748000582AD4 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		691C21D11F62234100D91684 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FCDA921E0CC017D4001C4E70;
-			remoteInfo = "LabJackU6 Plugin";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		6971330707E24DAB0083188B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -62,14 +54,15 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LabJackU6DataDevice.xcodeproj; path = ../../Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj; sourceTree = "<group>"; };
 		695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConverterDoc.xib; sourceTree = "<group>"; };
 		695EFEE01AC6234100D9D458 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
+		696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllApplications.xcconfig; path = ../AllApplications.xcconfig; sourceTree = "<group>"; };
 		69712D2107E244E10083188B /* DataConvert_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataConvert_Prefix.h; sourceTree = "<group>"; };
 		69712D2A07E244F50083188B /* DataConvert.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataConvert.h; sourceTree = "<group>"; };
 		6973FCEC0A43267E00A68677 /* Release Notes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "Release Notes.txt"; path = "../../Documentation/Release Notes.txt"; sourceTree = SOURCE_ROOT; };
 		6975F4160B332F1000312509 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
-		69A9E3E90588E51800F6A0DD /* Info-DataConvert.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-DataConvert.plist"; sourceTree = "<group>"; };
+		69A9E3E90588E51800F6A0DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69A9E3EA0588E51800F6A0DD /* DataConvert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataConvert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69AA8A8D083F7DFD00DAB812 /* PrintView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintView.h; sourceTree = "<group>"; };
 		69AA8A8E083F7DFD00DAB812 /* InfoView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = InfoView.h; sourceTree = "<group>"; };
@@ -117,8 +110,8 @@
 		2A37F4AAFDCFA73011CA2CEA /* Data Inspector */ = {
 			isa = PBXGroup;
 			children = (
-				691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */,
 				6973FCEC0A43267E00A68677 /* Release Notes.txt */,
+				696A9CCE1F954E8C00C6527B /* External Configurations */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Supporting Files */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -155,7 +148,7 @@
 				69DCA7BA043CF6E000F95509 /* main.m */,
 				69712D2A07E244F50083188B /* DataConvert.h */,
 				69712D2107E244E10083188B /* DataConvert_Prefix.h */,
-				69A9E3E90588E51800F6A0DD /* Info-DataConvert.plist */,
+				69A9E3E90588E51800F6A0DD /* Info.plist */,
 				69AA8FC40841282F00DAB812 /* UserDefaults.plist */,
 			);
 			name = "Supporting Files";
@@ -182,12 +175,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		691C21CE1F62234100D91684 /* Products */ = {
+		696A9CCE1F954E8C00C6527B /* External Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				691C21D21F62234100D91684 /* LabJackU6DataDevice.plugin */,
+				696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */,
+				696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */,
 			);
-			name = Products;
+			name = "External Configurations";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,28 +243,12 @@
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Data Inspector */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 691C21CE1F62234100D91684 /* Products */;
-					ProjectRef = 691C21CD1F62234100D91684 /* LabJackU6DataDevice.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				69A9E3CA0588E51700F6A0DD /* DataConvert */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		691C21D21F62234100D91684 /* LabJackU6DataDevice.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = LabJackU6DataDevice.plugin;
-			remoteRef = 691C21D11F62234100D91684 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		69A9E3D60588E51700F6A0DD /* Resources */ = {
@@ -279,6 +257,8 @@
 			files = (
 				69A9E3D70588E51700F6A0DD /* InfoPlist.strings in Resources */,
 				69AA8FC50841282F00DAB812 /* UserDefaults.plist in Resources */,
+				696A9CD01F954EA800C6527B /* AllProjects.xcconfig in Resources */,
+				696A9CD21F954FAC00C6527B /* AllApplications.xcconfig in Resources */,
 				6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */,
 				695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */,
 				695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */,
@@ -319,194 +299,55 @@
 /* Begin XCBuildConfiguration section */
 		69B8D15D088DAC45002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DataConvert_Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = "Info-DataConvert.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.dataconvert;
 				PRODUCT_NAME = DataConvert;
-				SDKROOT = "";
-				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "";
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
 		};
 		69B8D15E088DAC45002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DataConvert_Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = "Info-DataConvert.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.dataconvert;
 				PRODUCT_NAME = DataConvert;
-				SDKROOT = "";
-				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "";
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = app;
 			};
 			name = Deployment;
 		};
 		69B8D15F088DAC45002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = /Documents/Lablib/Frameworks/Lablib/build/Development;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DataConvert_Prefix.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = "Info-DataConvert.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.dataconvert;
 				PRODUCT_NAME = DataConvert;
-				SDKROOT = "";
-				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "";
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = app;
 			};
 			name = Default;
 		};
 		69B8D161088DAC45002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = /Applications;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				SDKROOT = macosx;
-				SYMROOT = build;
 			};
 			name = Development;
 		};
 		69B8D162088DAC45002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = /Applications;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				SDKROOT = macosx;
-				SYMROOT = build;
 			};
 			name = Deployment;
 		};
 		69B8D163088DAC45002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = /Applications;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				SDKROOT = macosx;
-				SYMROOT = build;
 			};
 			name = Default;
 		};

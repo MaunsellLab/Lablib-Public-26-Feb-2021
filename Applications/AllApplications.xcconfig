@@ -1,0 +1,43 @@
+// Architectures
+// Assets
+// Build Locations
+CONFIGURATION_BUILD_DIR = /Applications/$(EFFECTIVE_PLATFORM_NAME)
+// Build Options
+// Deployment
+// Headers
+// Kernel Module
+// Linking
+// Packaging
+INFOPLIST_FILE = Info.plist
+WRAPPER_EXTENSION = app
+// Search Paths
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(FRAMEWORK_SEARCH_PATHS) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
+// Signing
+DEVELOPMENT_TEAM = E54G4AFC7H
+// Testing
+// Text-Based API
+// Versioning
+
+// Apple LLVM 9.0 Address Sanitizer
+// Apple LLVM 9.0 Code Generation
+// Apple LLVM 9.0 - Custom Compiler Flags
+WARNING_CFLAGS = -Wmost
+// Apple LLVM 9.0 Language
+// Apple LLVM 9.0 Code Generation
+// Apple LLVM 9.0 Preprocessing
+// Apple LLVM 9.0 Preprocessing
+// Apple LLVM 9.0 Undefined Behavior Sanitizer
+// Apple LLVM 9.0 Warning Policies
+// Apple LLVM 9.0 Warnings - All languages
+// Apple LLVM 9.0 Warnings - C++
+// Apple LLVM 9.0 Warnings - Objective C
+// Apple LLVM 9.0 Warnings - Objective C and ARC
+
+// Interface Builder XIB Compiler - Options
+// OSACompile - Build Options
+// Static Analyzer - Issues - Analysis Policy
+// Static Analyzer - Issues - Generic Issues
+// Static Analyzer - Issues - Apple APIs
+// Static Analyzer - Issues - Objective C
+// Static Analyzer - Issues - Security
+

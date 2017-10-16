@@ -85,7 +85,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "LLMouseDataDevice.plugin"
+               BuildableName = "LLMouseDataDevice.bundle"
                BlueprintName = "LLMouseDataDevice"
                ReferencedContainer = "container:Data_Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
             </BuildableReference>
@@ -99,7 +99,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "LLSynthDataDevice.bundle"
+               BuildableName = "LLSynthDataDevice.plugin"
                BlueprintName = "LLSynthDataDevice"
                ReferencedContainer = "container:Data_Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
             </BuildableReference>
@@ -127,7 +127,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
-               BuildableName = "LablibEyeLink.bundle"
+               BuildableName = "LablibEyeLink.plugin"
                BlueprintName = "LablibEyeLink Plugin"
                ReferencedContainer = "container:Data_Plugins/LLEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
             </BuildableReference>

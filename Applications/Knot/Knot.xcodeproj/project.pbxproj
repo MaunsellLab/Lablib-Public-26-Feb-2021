@@ -12,6 +12,10 @@
 		694D0BB9077B5B9E0025BAA4 /* Knot.h in Headers */ = {isa = PBXBuildFile; fileRef = 694D0BB8077B5B9E0025BAA4 /* Knot.h */; };
 		695EFEDD1AC6231200D9D458 /* KNSummaryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDB1AC6231200D9D458 /* KNSummaryController.xib */; };
 		695EFEDE1AC6231200D9D458 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDC1AC6231200D9D458 /* MainMenu.xib */; };
+		696A9CD51F95529A00C6527B /* AllApplications.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */; };
+		696A9CD71F9552A800C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */; };
+		696A9CD81F9554A000C6527B /* LablibITC18.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699EB8B915CEBD86004E2B0D /* LablibITC18.framework */; };
+		696A9CD91F9554D700C6527B /* LablibITC18.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 699EB8B915CEBD86004E2B0D /* LablibITC18.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		699981E50A8A7B5400101ABF /* loud200Hz200msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */; };
 		699981E60A8A7B5400101ABF /* shortCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DE0A8A7B5400101ABF /* shortCorrect.aiff */; };
 		699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */; };
@@ -52,6 +56,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				696A9CD91F9554D700C6527B /* LablibITC18.framework in CopyFiles */,
 				69F120460B1E72F00068A6CF /* Lablib.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,14 +69,15 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		690F2EAF1F9166F00034150E /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = ../../Frameworks/LablibITC18/build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		694D0BB1077B5B860025BAA4 /* Knot_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Knot_Prefix.h; sourceTree = "<group>"; };
 		694D0BB8077B5B9E0025BAA4 /* Knot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Knot.h; sourceTree = "<group>"; };
-		694D0BCB077B5BE90025BAA4 /* Info-Knot.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Knot.plist"; sourceTree = SOURCE_ROOT; };
+		694D0BCB077B5BE90025BAA4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		694D17D5077C62B60025BAA4 /* Knot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		695EFEDB1AC6231200D9D458 /* KNSummaryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNSummaryController.xib; sourceTree = "<group>"; };
 		695EFEDC1AC6231200D9D458 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		6968EA58059DDD1900E33065 /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
+		696A9CD41F95529A00C6527B /* AllApplications.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllApplications.xcconfig; path = ../AllApplications.xcconfig; sourceTree = "<group>"; };
+		696A9CD61F9552A800C6527B /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		696D8C8A075D683B0057453A /* UserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = UserDefaults.plist; sourceTree = SOURCE_ROOT; };
 		69822BCA044760BB00A80164 /* KNAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNAppController.h; sourceTree = "<group>"; };
 		69822BCB044760BB00A80164 /* KNAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNAppController.m; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696A9CD81F9554A000C6527B /* LablibITC18.framework in Frameworks */,
 				69F36AC405670A9A009AED51 /* Cocoa.framework in Frameworks */,
 				69F36AC505670A9A009AED51 /* OpenGL.framework in Frameworks */,
 				69F11F5D0B1E70700068A6CF /* Lablib.framework in Frameworks */,
@@ -139,8 +146,8 @@
 		29B97314FDCFA39411CA2CEA /* terstes */ = {
 			isa = PBXGroup;
 			children = (
-				690F2EAF1F9166F00034150E /* LablibITC18.framework */,
 				6968EA58059DDD1900E33065 /* Notes.txt */,
+				696A9CD31F95528600C6527B /* External Configurations */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -188,11 +195,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		696A9CD31F95528600C6527B /* External Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				696A9CD61F9552A800C6527B /* AllProjects.xcconfig */,
+				696A9CD41F95529A00C6527B /* AllApplications.xcconfig */,
+			);
+			name = "External Configurations";
+			sourceTree = "<group>";
+		};
 		696D3830059E19990018E5D5 /* Plists */ = {
 			isa = PBXGroup;
 			children = (
 				696D8C8A075D683B0057453A /* UserDefaults.plist */,
-				694D0BCB077B5BE90025BAA4 /* Info-Knot.plist */,
+				694D0BCB077B5BE90025BAA4 /* Info.plist */,
 			);
 			name = Plists;
 			path = Sounds;
@@ -305,6 +321,7 @@
 				69F36A9205670A9A009AED51 /* InfoPlist.strings in Resources */,
 				695EFEDE1AC6231200D9D458 /* MainMenu.xib in Resources */,
 				695EFEDD1AC6231200D9D458 /* KNSummaryController.xib in Resources */,
+				696A9CD51F95529A00C6527B /* AllApplications.xcconfig in Resources */,
 				6927EA401EB5004D004D90AC /* UserDefaults.plist in Resources */,
 				69FF455D07C8106E0041B08D /* Knot.icns in Resources */,
 				69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */,
@@ -327,6 +344,7 @@
 				69EE5FC91E994C2A00BC3787 /* MouseFailed.wav in Resources */,
 				69F11F570B1E704A0068A6CF /* Wrong.aiff in Resources */,
 				69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */,
+				696A9CD71F9552A800C6527B /* AllProjects.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,219 +377,67 @@
 /* Begin XCBuildConfiguration section */
 		69CA1DEA088DA56D00D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"",
-					"\"$(SRCROOT)/../../Frameworks/LablibITC18/build/Development\"",
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					/Documents/Lablib/Frameworks/LablibITC18/build/Development,
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_PEDANTIC = NO;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
-				INFOPLIST_FILE = "Info-Knot.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = NO;
-				UNSTRIPPED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Wfloat-equal",
-					"-Wunreachable-code",
-				);
-				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
 		};
 		69CA1DEB088DA56D00D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"",
-					"\"$(SRCROOT)/../../Frameworks/LablibITC18/build/Development\"",
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					/Documents/Lablib/Frameworks/LablibITC18/build/Development,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
-				INFOPLIST_FILE = "Info-Knot.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = NO;
-				UNSTRIPPED_PRODUCT = YES;
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = app;
 			};
 			name = Deployment;
 		};
 		69CA1DEC088DA56D00D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"",
-					"\"$(SRCROOT)/../../Frameworks/LablibITC18/build/Development\"",
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					/Documents/Lablib/Frameworks/LablibITC18/build/Development,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../Frameworks/Lablib/build/Development\"";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
-				INFOPLIST_FILE = "Info-Knot.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = NO;
-				UNSTRIPPED_PRODUCT = YES;
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = app;
 			};
 			name = Default;
 		};
 		69CA1DF2088DA56D00D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = /Applications;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 			};
 			name = Development;
 		};
 		69CA1DF3088DA56D00D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = /Applications;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
 		69CA1DF4088DA56D00D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = /Applications;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 			};
 			name = Default;
 		};

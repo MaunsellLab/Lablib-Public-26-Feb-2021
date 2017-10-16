@@ -38,6 +38,8 @@
 		695EFEE41AC623AA00D9D458 /* Fixate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE31AC623AA00D9D458 /* Fixate.xib */; };
 		695EFEE61AC623D400D9D458 /* FTEyeXYController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE51AC623D400D9D458 /* FTEyeXYController.xib */; };
 		695EFEE81AC623E600D9D458 /* FTSummaryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE71AC623E600D9D458 /* FTSummaryController.xib */; };
+		696A9CC61F954C5B00C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */; };
+		696A9CC81F954C9000C6527B /* AllTaskPlugins.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */; };
 		697CC50F077DD6F10025E7D2 /* FT.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC50E077DD6F10025E7D2 /* FT.h */; };
 		697CC99D077E01CA0025E7D2 /* FTStimuli.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC99C077E01CA0025E7D2 /* FTStimuli.h */; };
 		697CC9A1077E01E00025E7D2 /* FTStimuli.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CC9A0077E01E00025E7D2 /* FTStimuli.m */; };
@@ -87,6 +89,8 @@
 		695EFEE31AC623AA00D9D458 /* Fixate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Fixate.xib; sourceTree = "<group>"; };
 		695EFEE51AC623D400D9D458 /* FTEyeXYController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTEyeXYController.xib; sourceTree = "<group>"; };
 		695EFEE71AC623E600D9D458 /* FTSummaryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTSummaryController.xib; sourceTree = "<group>"; };
+		696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
+		696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllTaskPlugins.xcconfig; path = ../AllTaskPlugins.xcconfig; sourceTree = "<group>"; };
 		697CC50E077DD6F10025E7D2 /* FT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FT.h; sourceTree = "<group>"; };
 		697CC99C077E01CA0025E7D2 /* FTStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FTStimuli.h; sourceTree = "<group>"; };
 		697CC9A0077E01E00025E7D2 /* FTStimuli.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FTStimuli.m; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 		089C166AFE841209C02AAC07 /* FixateTask */ = {
 			isa = PBXGroup;
 			children = (
+				696A9CC41F954C4600C6527B /* External Configurations */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				694D215F077D34C00025BAA4 /* Plists */,
@@ -225,6 +230,15 @@
 			name = Plists;
 			sourceTree = "<group>";
 		};
+		696A9CC41F954C4600C6527B /* External Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */,
+				696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */,
+			);
+			name = "External Configurations";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -290,7 +304,9 @@
 				694D1297077B8EC50025BAA4 /* FTStarttrialState.h in Resources */,
 				694D1299077B8EC50025BAA4 /* FTStateSystem.h in Resources */,
 				694D129B077B8EC50025BAA4 /* FTStopState.h in Resources */,
+				696A9CC61F954C5B00C6527B /* AllProjects.xcconfig in Resources */,
 				694D14FF077BA5CC0025BAA4 /* FTFixateState.h in Resources */,
+				696A9CC81F954C9000C6527B /* AllTaskPlugins.xcconfig in Resources */,
 				694D184E077C67B50025BAA4 /* FTEyeXYController.h in Resources */,
 				694D19B5077C76B70025BAA4 /* FTXTController.h in Resources */,
 				694D215C077D34A10025BAA4 /* UserDefaults.plist in Resources */,
@@ -360,170 +376,55 @@
 /* Begin XCBuildConfiguration section */
 		69B8D110088DABA8002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
 				PRODUCT_NAME = Fixate;
-				WRAPPER_EXTENSION = plugin;
-				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
 		69B8D111088DABA8002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */;
 			buildSettings = {
-				BUILD_VARIANTS = normal;
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
-				PRODUCT_NAME = FixateTask;
-				WRAPPER_EXTENSION = plugin;
-				ZERO_LINK = NO;
+				PRODUCT_NAME = Fixate;
 			};
 			name = Deployment;
 		};
 		69B8D112088DABA8002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Frameworks/Lablib/build/Development";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
-				PRODUCT_NAME = FixateTask;
-				WRAPPER_EXTENSION = plugin;
+				PRODUCT_NAME = Fixate;
 			};
 			name = Default;
 		};
 		69B8D114088DABA8002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = "";
-				SYMROOT = build;
 			};
 			name = Development;
 		};
 		69B8D115088DABA8002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				SDKROOT = "";
-				SYMROOT = build;
 			};
 			name = Deployment;
 		};
 		69B8D116088DABA8002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)";
-				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				SDKROOT = "";
-				SYMROOT = build;
 			};
 			name = Default;
 		};

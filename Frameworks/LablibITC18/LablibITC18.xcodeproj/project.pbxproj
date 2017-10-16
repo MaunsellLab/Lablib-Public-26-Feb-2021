@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		690F2EB11F91683F0034150E /* LLITC18DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */; };
-		690F2EB21F9168440034150E /* LLITCMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 69080C6904FCF4AF00F95530 /* LLITCMonitor.m */; };
-		690F2EB31F9168480034150E /* LLITCMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 697139600506215500F95523 /* LLITCMonitorSettings.m */; };
 		690F2EB41F9172540034150E /* LLITC18PulseTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EF10BB0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		690F2EB51F9172560034150E /* LLITC18PulseTrainDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 69EF10BC0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.m */; };
 		6917B197091EFCC40082A1F4 /* LLITC18DataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6917B195091EFCC40082A1F4 /* LLITC18DataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6917B198091EFCC40082A1F4 /* LLITC18DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */; };
 		6925DB2E17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
 		6925DB2F17F39D15009C5F31 /* ITC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6925DB2D17F39D15009C5F31 /* ITC.framework */; };
+		696A9CDB1F95620400C6527B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 696A9CDA1F95620300C6527B /* main.m */; };
+		696A9CDC1F9562AB00C6527B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 696A9CDA1F95620300C6527B /* main.m */; };
 		6970BC2C1F950D660058CE60 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6970BC2B1F950D660058CE60 /* Lablib.framework */; };
 		6970BC2D1F950D6E0058CE60 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6970BC2B1F950D660058CE60 /* Lablib.framework */; };
 		6970BC311F951D530058CE60 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6970BC301F951D520058CE60 /* AllProjects.xcconfig */; };
@@ -70,6 +69,7 @@
 		6917B196091EFCC40082A1F4 /* LLITC18DataDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLITC18DataDevice.m; sourceTree = "<group>"; };
 		6925DB2D17F39D15009C5F31 /* ITC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ITC.framework; path = ../../../../Library/Frameworks/ITC.framework; sourceTree = "<group>"; };
 		693E22FD08227B2D006BD680 /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
+		696A9CDA1F95620300C6527B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6970BC2B1F950D660058CE60 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../Lablib/build/Development/Lablib.framework; sourceTree = "<group>"; };
 		6970BC301F951D520058CE60 /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		6971395F0506215500F95523 /* LLITCMonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLITCMonitorSettings.h; sourceTree = "<group>"; };
@@ -189,6 +189,7 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				696A9CDA1F95620300C6527B /* main.m */,
 				32DBCF5E0370ADEE00C91783 /* LLITC18_Prefix.h */,
 				69D31ADC097C5B44001102CA /* LLITC18.h */,
 				69941F73097C5E1900FD57B5 /* LablibITC18.h */,
@@ -353,9 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				690F2EB11F91683F0034150E /* LLITC18DataDevice.m in Sources */,
-				690F2EB31F9168480034150E /* LLITCMonitorSettings.m in Sources */,
-				690F2EB21F9168440034150E /* LLITCMonitor.m in Sources */,
+				696A9CDC1F9562AB00C6527B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696A9CDB1F95620400C6527B /* main.m in Sources */,
 				690F2EB51F9172560034150E /* LLITC18PulseTrainDevice.m in Sources */,
 				69F368BC056705B9009AED51 /* LLITCMonitor.m in Sources */,
 				69F368BD056705B9009AED51 /* LLITCMonitorSettings.m in Sources */,
