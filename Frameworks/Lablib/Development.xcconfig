@@ -1,9 +1,13 @@
 // Architectures
 // Assets
 // Build Locations
+//  Configuration build must be set to get product in the right place. SYMROOT doesn't do it
+CONFIGURATION_BUILD_DIR = $(SRCROOT)/build/$CONFIGURATION
 // Build Options
 // Deployment
 INSTALL_PATH = @executable_path/../Frameworks
+// Deployment location must be NO to get real product, rather than an alias
+DEPLOYMENT_LOCATION = NO
 SKIP_INSTALL = YES
 // Headers
 // Kernel Module
@@ -18,7 +22,7 @@ INFOPLIST_FILE = Info-Lablib.plist
 PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib
 PRODUCT_NAME = Lablib
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS) $(SRCROOT)/build/Development
+FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS)
 HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include
 LIBRARY_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
 // Signing

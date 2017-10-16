@@ -310,7 +310,6 @@
 		694519361E465429005B75A3 /* LLNE500Pump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNE500Pump.m; sourceTree = "<group>"; };
 		694519381E465439005B75A3 /* LLNE500Pump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNE500Pump.h; sourceTree = "<group>"; };
 		6945193A1E465727005B75A3 /* LLNE500Pump.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLNE500Pump.xib; sourceTree = "<group>"; };
-		69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		69473E2E0B095B21005DE552 /* LLMouseDataDevice-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LLMouseDataDevice-Info.plist"; sourceTree = "<group>"; };
 		694761B5092A782600841167 /* LLLaserCalibrator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLLaserCalibrator.plist; sourceTree = "<group>"; };
 		69476826092BE72B00841167 /* PlayButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PlayButton.tif; path = ../../Resources/Images/PlayButton.tif; sourceTree = SOURCE_ROOT; };
@@ -373,6 +372,7 @@
 		696E8AC0046334C800A80164 /* LLViewScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLViewScale.m; sourceTree = "<group>"; };
 		696FEDD10B7B854A002D6D54 /* LLMathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMathUtil.h; sourceTree = "<group>"; };
 		696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMathUtil.m; sourceTree = "<group>"; };
+		6970BC281F9508410058CE60 /* AllProjects.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		69724AAD04AF30AA0023341D /* LLSmoothHist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSmoothHist.h; sourceTree = "<group>"; };
 		69724AAE04AF30AA0023341D /* LLSmoothHist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSmoothHist.m; sourceTree = "<group>"; };
 		6974579C0A83A5BF00D6783B /* LLSVDSolver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSVDSolver.h; sourceTree = "<group>"; };
@@ -411,7 +411,6 @@
 		698E35CF048F958700F95509 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		698F5964159000EC00366393 /* LLSynthBinocSaccade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthBinocSaccade.h; sourceTree = "<group>"; };
 		698F5965159000EC00366393 /* LLSynthBinocSaccade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSynthBinocSaccade.m; sourceTree = "<group>"; };
-		699100941F93EBBB003E3F0F /* Lablib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Lablib; sourceTree = "<group>"; };
 		69914CC706863C46001800F9 /* LLTextUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTextUtil.h; sourceTree = "<group>"; };
 		69914CC806863C46001800F9 /* LLTextUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTextUtil.m; sourceTree = "<group>"; };
 		699542D004FFD75300F95523 /* LLSounds.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSounds.h; sourceTree = "<group>"; };
@@ -555,11 +554,10 @@
 		0867D691FE84028FC02AAC07 /* Lablib Framework */ = {
 			isa = PBXGroup;
 			children = (
-				699100941F93EBBB003E3F0F /* Lablib */,
 				69B81617045E1B7300A80164 /* Things to Do.txt */,
 				69662A2D0A3DEA1A00B66B01 /* Release Notes.txt */,
 				69C895CB03E8275C00A80164 /* Notes.txt */,
-				69461C3A1F72F5F5004C7DA8 /* External Configurations */,
+				6970BC271F9508170058CE60 /* External Configurations */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Headers */,
 				694879EC0486A7F400FE06D7 /* Protocols */,
@@ -724,15 +722,6 @@
 			name = "Data Utilities";
 			sourceTree = "<group>";
 		};
-		69461C3A1F72F5F5004C7DA8 /* External Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */,
-				69AB36191F94154300E7DA2F /* Development.xcconfig */,
-			);
-			path = "External Configurations";
-			sourceTree = "<group>";
-		};
 		694879EC0486A7F400FE06D7 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -854,6 +843,15 @@
 				692ADEB30491714100F95509 /* Data Utilities */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		6970BC271F9508170058CE60 /* External Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				6970BC281F9508410058CE60 /* AllProjects.xcconfig */,
+				69AB36191F94154300E7DA2F /* Development.xcconfig */,
+			);
+			name = "External Configurations";
 			sourceTree = "<group>";
 		};
 		69897A50099B895D001EE2DA /* Plugins */ = {
@@ -1333,22 +1331,28 @@
 		};
 		69CA1DE2088DA53700D7ADEE /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */;
+			baseConfigurationReference = 6970BC281F9508410058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
+				OBJROOT = "";
+				SYMROOT = "";
 			};
 			name = Development;
 		};
 		69CA1DE3088DA53700D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */;
+			baseConfigurationReference = 6970BC281F9508410058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
+				OBJROOT = "";
+				SYMROOT = "";
 			};
 			name = Deployment;
 		};
 		69CA1DE4088DA53700D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69461C3B1F72F617004C7DA8 /* AllProjects.xcconfig */;
+			baseConfigurationReference = 6970BC281F9508410058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
+				OBJROOT = "";
+				SYMROOT = "";
 			};
 			name = Default;
 		};
