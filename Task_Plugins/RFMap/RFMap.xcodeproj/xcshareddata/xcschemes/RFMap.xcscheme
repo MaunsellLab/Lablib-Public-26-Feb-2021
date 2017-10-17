@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6933B3A80784BBE2006963FA"
-               BuildableName = "RFMap.bundle"
+               BuildableName = "RFMap.plugin"
                BlueprintName = "RFMap"
                ReferencedContainer = "container:RFMap.xcodeproj">
             </BuildableReference>
@@ -53,6 +53,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6933B3A80784BBE2006963FA"
+            BuildableName = "RFMap.plugin"
+            BlueprintName = "RFMap"
+            ReferencedContainer = "container:RFMap.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -66,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6933B3A80784BBE2006963FA"
-            BuildableName = "RFMap.bundle"
+            BuildableName = "RFMap.plugin"
             BlueprintName = "RFMap"
             ReferencedContainer = "container:RFMap.xcodeproj">
          </BuildableReference>
