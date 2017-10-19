@@ -11,7 +11,8 @@ CONFIGURATION_BUILD_DIR = /Library/Application Support/Knot/Plugins/$(EFFECTIVE_
 INFOPLIST_FILE = Info.plist
 WRAPPER_EXTENSION = plugin
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(inherited) $(FRAMEWORK_SEARCH_PATHS) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
+HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
 // Signing
 DEVELOPMENT_TEAM = E54G4AFC7H
 // Testing

@@ -7,10 +7,10 @@
 //
 #import <Appkit/NSApplication.h>
 #import "KNSummaryController.h"
-#include <Lablib/LLMatlabEngine.h>
+#import "LLMatlabEngine.h"
 
-typedef uint16_t char16_t;                  // Matlab engine uses a type that isn't defined by CLANG
-#include <engine.h>
+//typedef uint16_t char16_t;                  // Matlab engine uses a type that isn't defined by CLANG
+//#include <engine.h>
 
 @interface KNAppController : NSApplication <NSApplicationDelegate> {
 

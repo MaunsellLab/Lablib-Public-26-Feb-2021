@@ -12,17 +12,17 @@ SKIP_INSTALL = YES
 // Linking
 DYLIB_COMPATIBILITY_VERSION = 1
 DYLIB_CURRENT_VERSION = 1
-OTHER_LDFLAGS = -seg1addr 0xd1000000
+OTHER_LDFLAGS = -seg1addr 0xd2000000
 // Packaging
-INFOPLIST_FILE = LablibITC18_Framework.plist
+//INFOPLIST_FILE = LablibITC18_Framework.plist
 FRAMEWORK_VERSION = A
-PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18
-PRODUCT_NAME = LablibITC18
+PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibMatlab
+PRODUCT_NAME = LablibMatlab
 WRAPPER_EXTENSION = framework
 // Search Paths
-// FRAMEWORK_SEARCH_PATHS = /Library/Frameworks $(FRAMEWORK_SEARCH_PATHS)
+HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include
+LIBRARY_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
 // Signing
-DEVELOPMENT_TEAM = E54G4AFC7H
 // Testing
 // Text-Based API
 // Versioning
@@ -30,15 +30,14 @@ DEVELOPMENT_TEAM = E54G4AFC7H
 // Apple LLVM 9.0 Address Sanitizer
 // Apple LLVM 9.0 Code Generation
 // Apple LLVM 9.0 - Custom Compiler Flags
-WARNING_CFLAGS = -Wmost
 // Apple LLVM 9.0 Language
-GCC_PREFIX_HEADER = LLITC18_Prefix.h
 // Apple LLVM 9.0 Code Generation
 // Apple LLVM 9.0 Preprocessing
 // Apple LLVM 9.0 Preprocessing
 // Apple LLVM 9.0 Undefined Behavior Sanitizer
 // Apple LLVM 9.0 Warning Policies
 // Apple LLVM 9.0 Warnings - All languages
+CLANG_WARN_DOCUMENTATION_COMMENTS = NO
 // Apple LLVM 9.0 Warnings - C++
 // Apple LLVM 9.0 Warnings - Objective C
 // Apple LLVM 9.0 Warnings - Objective C and ARC

@@ -11,6 +11,9 @@
       location = "group:Frameworks/Lablib/../LablibITC18/LablibITC18.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Frameworks/LablibMatlab/LablibMatlab.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Applications/Knot/Knot.xcodeproj">
    </FileRef>
    <FileRef

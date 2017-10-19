@@ -7,11 +7,13 @@ CONFIGURATION_BUILD_DIR = /Applications/$(EFFECTIVE_PLATFORM_NAME)
 // Headers
 // Kernel Module
 // Linking
+LD_RUNPATH_SEARCH_PATHS = @executable_path/../Frameworks /Applications/MATLAB/bin/maci64
 // Packaging
 INFOPLIST_FILE = Info.plist
 WRAPPER_EXTENSION = app
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(inherited) $(FRAMEWORK_SEARCH_PATHS) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
+//HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug /Documents/Lablib/Frameworks/LablibITC18/build/Development
 // Signing
 DEVELOPMENT_TEAM = E54G4AFC7H
 // Testing
@@ -21,7 +23,6 @@ DEVELOPMENT_TEAM = E54G4AFC7H
 // Apple LLVM 9.0 Address Sanitizer
 // Apple LLVM 9.0 Code Generation
 // Apple LLVM 9.0 - Custom Compiler Flags
-WARNING_CFLAGS = -Wmost
 // Apple LLVM 9.0 Language
 // Apple LLVM 9.0 Code Generation
 // Apple LLVM 9.0 Preprocessing

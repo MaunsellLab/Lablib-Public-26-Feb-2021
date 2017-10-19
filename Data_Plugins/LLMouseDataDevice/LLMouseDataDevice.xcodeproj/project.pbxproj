@@ -25,7 +25,7 @@
 		6947400C0B096310005DE552 /* LLMouseDataDevicePIugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMouseDataDevicePIugin.m; sourceTree = "<group>"; };
 		6970BC381F9520CC0058CE60 /* AllDataPlugins.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = AllDataPlugins.xcconfig; path = ../AllDataPlugins.xcconfig; sourceTree = "<group>"; };
 		69C5243C1F94249B00E021E6 /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
-		8D5B49B6048680CD000E48DA /* LLMouseDataDevice.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LLMouseDataDevice.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B6048680CD000E48DA /* LLMouseDataDevice.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LLMouseDataDevice.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -89,7 +89,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B6048680CD000E48DA /* LLMouseDataDevice.bundle */,
+				8D5B49B6048680CD000E48DA /* LLMouseDataDevice.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,7 +130,7 @@
 			name = LLMouseDataDevice;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = LLMouseDataDevice;
-			productReference = 8D5B49B6048680CD000E48DA /* LLMouseDataDevice.bundle */;
+			productReference = 8D5B49B6048680CD000E48DA /* LLMouseDataDevice.plugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -210,6 +210,7 @@
 /* Begin XCBuildConfiguration section */
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6970BC381F9520CC0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = LLMouseDataDevice_Prefix.pch;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LLMouseDataDevice;
@@ -219,6 +220,7 @@
 		};
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6970BC381F9520CC0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = LLMouseDataDevice_Prefix.pch;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LLMouseDataDevice;

@@ -14,32 +14,18 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69F368B0056705B9009AED51"
-               BuildableName = ".framework"
-               BlueprintName = "LablibITC18"
-               ReferencedContainer = "container:LablibITC18.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69D82C9D0B069FF500E8C369"
-               BuildableName = "LablibITC18.plugin"
-               BlueprintName = "LablibITC18 Plugin"
-               ReferencedContainer = "container:LablibITC18.xcodeproj">
+               BlueprintIdentifier = "699DE0201F990052000FD3C9"
+               BuildableName = "LablibMatlab.framework"
+               BlueprintName = "LablibMatlab"
+               ReferencedContainer = "container:LablibMatlab.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Development"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
@@ -50,14 +36,14 @@
             BlueprintIdentifier = "69F36A7205670A9A009AED51"
             BuildableName = "Knot.app"
             BlueprintName = "Knot"
-            ReferencedContainer = "container:../../Applications/Knot/Knot.xcodeproj">
+            ReferencedContainer = "container:Applications/Knot/Knot.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Development"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       language = ""
@@ -67,11 +53,21 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "69F36A7205670A9A009AED51"
+            BuildableName = "Knot.app"
+            BlueprintName = "Knot"
+            ReferencedContainer = "container:Applications/Knot/Knot.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Development"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -79,18 +75,18 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "69F368B0056705B9009AED51"
-            BuildableName = ".framework"
-            BlueprintName = "LablibITC18"
-            ReferencedContainer = "container:LablibITC18.xcodeproj">
+            BlueprintIdentifier = "699DE0201F990052000FD3C9"
+            BuildableName = "LablibMatlab.framework"
+            BlueprintName = "LablibMatlab"
+            ReferencedContainer = "container:LablibMatlab.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Development">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Development"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

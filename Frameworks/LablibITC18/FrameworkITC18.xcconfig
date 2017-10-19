@@ -1,19 +1,25 @@
 // Architectures
 // Assets
 // Build Locations
-CONFIGURATION_BUILD_DIR = /Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)
+//  Configuration build must be set to get product in the right place. SYMROOT doesn't do it
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 // Build Options
 // Deployment
+INSTALL_PATH = @executable_path/../Frameworks
+SKIP_INSTALL = YES
 // Headers
 // Kernel Module
 // Linking
+DYLIB_COMPATIBILITY_VERSION = 1
+DYLIB_CURRENT_VERSION = 1
+OTHER_LDFLAGS = -seg1addr 0xd1000000
 // Packaging
-INFOPLIST_FILE = LablibITC18_Plugin.plist
+//INFOPLIST_FILE = LablibITC18_Framework.plist
+FRAMEWORK_VERSION = A
 PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18
 PRODUCT_NAME = LablibITC18
-WRAPPER_EXTENSION = plugin
+WRAPPER_EXTENSION = framework
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
 // Signing
 // Testing
 // Text-Based API

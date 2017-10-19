@@ -19,6 +19,7 @@
 		699981E50A8A7B5400101ABF /* loud200Hz200msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */; };
 		699981E60A8A7B5400101ABF /* shortCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DE0A8A7B5400101ABF /* shortCorrect.aiff */; };
 		699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */; };
+		699DE0821F995FD9000FD3C9 /* LablibMatlab.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0811F995FD9000FD3C9 /* LablibMatlab.framework */; };
 		69C346DB1EE3593B00C278F8 /* Matlab in Resources */ = {isa = PBXBuildFile; fileRef = 69C346DA1EE3593B00C278F8 /* Matlab */; };
 		69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */; };
 		69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */; };
@@ -84,6 +85,7 @@
 		699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = loud200Hz200msSq.aiff; path = ../../Resources/Sounds/loud200Hz200msSq.aiff; sourceTree = SOURCE_ROOT; };
 		699981DE0A8A7B5400101ABF /* shortCorrect.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shortCorrect.aiff; path = ../../Resources/Sounds/shortCorrect.aiff; sourceTree = SOURCE_ROOT; };
 		699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shortNotCorrect.aiff; path = ../../Resources/Sounds/shortNotCorrect.aiff; sourceTree = SOURCE_ROOT; };
+		699DE0811F995FD9000FD3C9 /* LablibMatlab.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibMatlab.framework; path = ../../Frameworks/LablibMatlab/build/Debug/LablibMatlab.framework; sourceTree = "<group>"; };
 		699EB8B915CEBD86004E2B0D /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = ../../Frameworks/LablibITC18/build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		69B9AE720482FBDD00F95509 /* KNSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KNSummaryController.h; sourceTree = "<group>"; };
 		69B9AE730482FBDD00F95509 /* KNSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KNSummaryController.m; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				696A9CD81F9554A000C6527B /* LablibITC18.framework in Frameworks */,
+				699DE0821F995FD9000FD3C9 /* LablibMatlab.framework in Frameworks */,
 				69F36AC405670A9A009AED51 /* Cocoa.framework in Frameworks */,
 				69F36AC505670A9A009AED51 /* OpenGL.framework in Frameworks */,
 				69F11F5D0B1E70700068A6CF /* Lablib.framework in Frameworks */,
@@ -185,6 +188,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				699DE0811F995FD9000FD3C9 /* LablibMatlab.framework */,
 				69F11F5C0B1E70700068A6CF /* Lablib.framework */,
 				699EB8B915CEBD86004E2B0D /* LablibITC18.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
@@ -379,12 +383,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					/Documents/Lablib/Frameworks/LablibITC18/build/Development,
-				);
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
 			};
@@ -394,12 +393,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					/Documents/Lablib/Frameworks/LablibITC18/build/Development,
-				);
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
 			};
@@ -409,12 +403,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					/Documents/Lablib/Frameworks/LablibITC18/build/Development,
-				);
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
-				HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
 			};

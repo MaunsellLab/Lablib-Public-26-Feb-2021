@@ -3,24 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
-	<string>LablibITC18 0</string>
-	<key>CFBundleIconFile</key>
-	<string>KnotPlugin</string>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>lablib.lablibITC18-0</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
-	<key>CFBundleSignature</key>
-	<string>LLpi</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>4.2.0</string>
-	<key>NSPrincipalClass</key>
-	<string>LLITC18DataDevice0</string>
-	<key>Principal Class</key>
-	<string>LLITC18DataDevice0</string>
+	<string>1</string>
 </dict>
 </plist>

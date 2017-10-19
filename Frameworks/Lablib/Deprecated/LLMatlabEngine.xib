@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="LLMatlabEngine">
+            <connections>
+                <outlet property="consoleView" destination="SBd-Xt-JKA" id="Zhu-T8-iUg"/>
+                <outlet property="window" destination="veL-e5-xF3" id="0bV-7f-wZK"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <userDefaultsController representsSharedInstance="YES" id="139"/>
+        <window title="Matlab Engine" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="LLMatlabEngine" animationBehavior="default" id="veL-e5-xF3">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="475" y="550" width="500" height="427"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <value key="minSize" type="size" width="500" height="300"/>
+            <value key="maxSize" type="size" width="500" height="1000"/>
+            <view key="contentView" misplaced="YES" id="OOu-mg-SLl">
+                <rect key="frame" x="0.0" y="0.0" width="500" height="427"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <scrollView misplaced="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="gdq-Cd-NJY">
+                        <rect key="frame" x="22" y="20" width="458" height="325"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <clipView key="contentView" id="jXv-NR-Joe">
+                            <rect key="frame" x="1" y="1" width="456" height="323"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" spellingCorrection="YES" smartInsertDelete="YES" id="SBd-Xt-JKA">
+                                    <rect key="frame" x="0.0" y="0.0" width="456" height="323"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="456" height="323"/>
+                                    <size key="maxSize" width="1000" height="10000000"/>
+                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="Ct2-Yf-d2G">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="5my-ZU-Shq">
+                            <rect key="frame" x="441" y="1" width="16" height="323"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                        </scroller>
+                    </scrollView>
+                    <button misplaced="YES" id="Y5D-AE-vCo">
+                        <rect key="frame" x="20" y="391" width="162" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Display Commands" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hhC-ur-MpM">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="139" name="value" keyPath="values.LLMatlabDoCommands" id="AVV-rU-Eli"/>
+                        </connections>
+                    </button>
+                    <button misplaced="YES" id="pGP-uk-b9I">
+                        <rect key="frame" x="20" y="371" width="162" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Display Responses" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Hfa-O7-eLx">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="139" name="value" keyPath="values.LLMatlabDoResponses" id="N9q-ym-8Ul"/>
+                        </connections>
+                    </button>
+                    <button misplaced="YES" id="m7e-Wk-eaD">
+                        <rect key="frame" x="20" y="351" width="162" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Display Errors" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6uv-ad-TqS">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="139" name="value" keyPath="values.LLMatlabDoErrors" id="eIs-oU-5uX"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="eLi-tN-98i">
+                        <rect key="frame" x="335" y="379" width="153" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Bring Matlab Front" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9MC-Vh-a96">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <connections>
+                                <action selector="windowFront:" target="-2" id="dXf-Gr-6fy"/>
+                            </connections>
+                        </buttonCell>
+                    </button>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="709" y="-1907.5"/>
+        </window>
+    </objects>
+</document>

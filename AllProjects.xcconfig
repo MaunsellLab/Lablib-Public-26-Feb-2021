@@ -16,6 +16,7 @@ COPY_PHASE_STRIP = NO
 // Linking
 // Packaging
 // Search Paths
+HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
 FRAMEWORK_SEARCH_PATHS = /Library/Frameworks $(FRAMEWORK_SEARCH_PATHS) /Documents/Lablib/Frameworks/Lablib/build/Development
 // Signing
 // Testing
@@ -28,7 +29,9 @@ GCC_NO_COMMON_BLOCKS = YES
 GCC_OPTIMIZATION_LEVEL = 0
 // Apple LLVM 9.0 Custom Compiler Flags
 // Apple LLVM 9.0 Language
+CLANG_ENABLE_OBJC_ARC = NO
 GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREFIX_HEADER = Prefix.h
 // Apple LLVM 9.0 Preprocessing
 ENABLE_STRICT_OBJC_MSGSEND = YES
 // Apple LLVM 9.0 Undefined Behavior Sanitizer
