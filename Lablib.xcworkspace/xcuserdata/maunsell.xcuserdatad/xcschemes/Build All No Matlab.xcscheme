@@ -42,20 +42,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "699DE0201F990052000FD3C9"
-               BuildableName = "LablibMatlab.framework"
-               BlueprintName = "LablibMatlab"
-               ReferencedContainer = "container:Frameworks/LablibMatlab/LablibMatlab.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "69A9E3CA0588E51700F6A0DD"
                BuildableName = "DataConvert.app"
                BlueprintName = "DataConvert"
@@ -70,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "69F36A7205670A9A009AED51"
+               BlueprintIdentifier = "697BC9EA1F9A7A2F005DE82A"
                BuildableName = "Knot.app"
-               BlueprintName = "Knot"
+               BlueprintName = "Knot No Matlab"
                ReferencedContainer = "container:Applications/Knot/Knot.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -221,9 +207,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "69F36A7205670A9A009AED51"
+            BlueprintIdentifier = "697BC9EA1F9A7A2F005DE82A"
             BuildableName = "Knot.app"
-            BlueprintName = "Knot"
+            BlueprintName = "Knot No Matlab"
             ReferencedContainer = "container:Applications/Knot/Knot.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

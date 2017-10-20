@@ -11,11 +11,11 @@
 		695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */; };
 		695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE01AC6234100D9D458 /* MainMenu.xib */; };
 		696A9CD01F954EA800C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */; };
-		696A9CD21F954FAC00C6527B /* AllApplications.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */; };
 		69712D2207E244E10083188B /* DataConvert_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2107E244E10083188B /* DataConvert_Prefix.h */; };
 		69712D2B07E244F50083188B /* DataConvert.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2A07E244F50083188B /* DataConvert.h */; };
 		6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6973FCEC0A43267E00A68677 /* Release Notes.txt */; };
 		6975F4170B332F1000312509 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6975F4160B332F1000312509 /* Lablib.framework */; };
+		697BCA231F9A8255005DE82A /* AllApps.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 697BCA221F9A8254005DE82A /* AllApps.xcconfig */; };
 		69A9E3D70588E51700F6A0DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		69A9E3E50588E51800F6A0DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCA7BA043CF6E000F95509 /* main.m */; };
 		69A9E3E70588E51800F6A0DD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -57,11 +57,11 @@
 		695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConverterDoc.xib; sourceTree = "<group>"; };
 		695EFEE01AC6234100D9D458 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
-		696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllApplications.xcconfig; path = ../AllApplications.xcconfig; sourceTree = "<group>"; };
 		69712D2107E244E10083188B /* DataConvert_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataConvert_Prefix.h; sourceTree = "<group>"; };
 		69712D2A07E244F50083188B /* DataConvert.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataConvert.h; sourceTree = "<group>"; };
 		6973FCEC0A43267E00A68677 /* Release Notes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "Release Notes.txt"; path = "../../Documentation/Release Notes.txt"; sourceTree = SOURCE_ROOT; };
 		6975F4160B332F1000312509 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
+		697BCA221F9A8254005DE82A /* AllApps.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllApps.xcconfig; path = ../AllApps.xcconfig; sourceTree = "<group>"; };
 		69A9E3E90588E51800F6A0DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69A9E3EA0588E51800F6A0DD /* DataConvert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataConvert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69AA8A8D083F7DFD00DAB812 /* PrintView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintView.h; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 		696A9CCE1F954E8C00C6527B /* External Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */,
+				697BCA221F9A8254005DE82A /* AllApps.xcconfig */,
 				696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */,
 			);
 			name = "External Configurations";
@@ -258,8 +258,8 @@
 				69A9E3D70588E51700F6A0DD /* InfoPlist.strings in Resources */,
 				69AA8FC50841282F00DAB812 /* UserDefaults.plist in Resources */,
 				696A9CD01F954EA800C6527B /* AllProjects.xcconfig in Resources */,
-				696A9CD21F954FAC00C6527B /* AllApplications.xcconfig in Resources */,
 				6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */,
+				697BCA231F9A8255005DE82A /* AllApps.xcconfig in Resources */,
 				695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */,
 				695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */,
 			);
@@ -299,7 +299,7 @@
 /* Begin XCBuildConfiguration section */
 		69B8D15D088DAC45002FCFD4 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */;
+			baseConfigurationReference = 697BCA221F9A8254005DE82A /* AllApps.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DataConvert_Prefix.h;
@@ -310,7 +310,7 @@
 		};
 		69B8D15E088DAC45002FCFD4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */;
+			baseConfigurationReference = 697BCA221F9A8254005DE82A /* AllApps.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DataConvert_Prefix.h;
@@ -321,7 +321,7 @@
 		};
 		69B8D15F088DAC45002FCFD4 /* Default */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 696A9CD11F954FAC00C6527B /* AllApplications.xcconfig */;
+			baseConfigurationReference = 697BCA221F9A8254005DE82A /* AllApps.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DataConvert_Prefix.h;

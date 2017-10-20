@@ -15,7 +15,6 @@ WRAPPER_EXTENSION = app
 //HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
 FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug /Documents/Lablib/Frameworks/LablibITC18/build/Development
 // Signing
-DEVELOPMENT_TEAM = E54G4AFC7H
 // Testing
 // Text-Based API
 // Versioning

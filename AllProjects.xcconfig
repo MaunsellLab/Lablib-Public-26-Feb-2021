@@ -6,6 +6,7 @@ MACOSX_DEPLOYMENT_TARGET = 10.11
 // Build Options
 ENABLE_TESTABILITY = YES
 // Deployment
+//    Deployment location must be NO to get real product, rather than an alias
 DEPLOYMENT_LOCATION = NO
 DEPLOYMENT_POSTPROCESSING = NO
 COMBINE_HIDPI_IMAGES = YES
@@ -17,7 +18,7 @@ COPY_PHASE_STRIP = NO
 // Packaging
 // Search Paths
 HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
-FRAMEWORK_SEARCH_PATHS = /Library/Frameworks $(FRAMEWORK_SEARCH_PATHS) /Documents/Lablib/Frameworks/Lablib/build/Development
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
 // Signing
 // Testing
 // Text-Based API

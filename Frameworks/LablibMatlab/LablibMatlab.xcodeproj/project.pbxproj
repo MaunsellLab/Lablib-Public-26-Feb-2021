@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		697B758E1F9A567D00E22AF5 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B758D1F9A567D00E22AF5 /* Lablib.framework */; };
+		697B75C41F9A5D2D00E22AF5 /* Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 697B75C21F9A5D2C00E22AF5 /* Prefix.h */; };
 		699DE02B1F990053000FD3C9 /* LablibMatlab.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0211F990052000FD3C9 /* LablibMatlab.framework */; };
 		699DE0301F990053000FD3C9 /* LablibMatlabTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 699DE02F1F990053000FD3C9 /* LablibMatlabTests.m */; };
 		699DE04E1F993021000FD3C9 /* LLMatlabController.h in Headers */ = {isa = PBXBuildFile; fileRef = 699DE04D1F993020000FD3C9 /* LLMatlabController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -14,10 +16,6 @@
 		699DE0531F9930E1000FD3C9 /* LLMatlabEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 699DE0511F9930E1000FD3C9 /* LLMatlabEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		699DE0541F9930E1000FD3C9 /* LLMatlabEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 699DE0521F9930E1000FD3C9 /* LLMatlabEngine.m */; };
 		699DE0591F993171000FD3C9 /* LablibMatlab.h in Headers */ = {isa = PBXBuildFile; fileRef = 699DE0581F993171000FD3C9 /* LablibMatlab.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		699DE05C1F9931BC000FD3C9 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 699DE05B1F9931BC000FD3C9 /* AllProjects.xcconfig */; };
-		699DE0601F9932AE000FD3C9 /* Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 699DE05F1F9932AE000FD3C9 /* Prefix.h */; };
-		699DE0621F993411000FD3C9 /* FrameworkMatlab.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 699DE0611F993411000FD3C9 /* FrameworkMatlab.xcconfig */; };
-		699DE0671F995223000FD3C9 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0681F995223000FD3C9 /* Lablib.framework */; };
 		699DE06A1F99530A000FD3C9 /* libeng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0691F99530A000FD3C9 /* libeng.dylib */; };
 		699DE0701F995494000FD3C9 /* LLMatlabEngine.xib in Resources */ = {isa = PBXBuildFile; fileRef = 699DE06F1F995494000FD3C9 /* LLMatlabEngine.xib */; };
 		699DE07E1F995EB6000FD3C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE07A1F995E79000FD3C9 /* Cocoa.framework */; };
@@ -34,8 +32,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		697B758D1F9A567D00E22AF5 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../Lablib/build/Development/Lablib.framework; sourceTree = "<group>"; };
+		697B75C11F9A5D2C00E22AF5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		697B75C21F9A5D2C00E22AF5 /* Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.h; sourceTree = SOURCE_ROOT; };
 		699DE0211F990052000FD3C9 /* LablibMatlab.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LablibMatlab.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		699DE0251F990052000FD3C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		699DE02A1F990053000FD3C9 /* LablibMatlabTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LablibMatlabTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		699DE02F1F990053000FD3C9 /* LablibMatlabTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LablibMatlabTests.m; sourceTree = "<group>"; };
 		699DE0311F990053000FD3C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,9 +45,7 @@
 		699DE0521F9930E1000FD3C9 /* LLMatlabEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMatlabEngine.m; sourceTree = SOURCE_ROOT; };
 		699DE0581F993171000FD3C9 /* LablibMatlab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LablibMatlab.h; sourceTree = SOURCE_ROOT; };
 		699DE05B1F9931BC000FD3C9 /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../../AllProjects.xcconfig; sourceTree = "<group>"; };
-		699DE05F1F9932AE000FD3C9 /* Prefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.h; sourceTree = "<group>"; };
 		699DE0611F993411000FD3C9 /* FrameworkMatlab.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = FrameworkMatlab.xcconfig; sourceTree = SOURCE_ROOT; };
-		699DE0681F995223000FD3C9 /* Lablib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Lablib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		699DE0691F99530A000FD3C9 /* libeng.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libeng.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libeng.dylib; sourceTree = "<group>"; };
 		699DE06F1F995494000FD3C9 /* LLMatlabEngine.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LLMatlabEngine.xib; sourceTree = SOURCE_ROOT; };
 		699DE07A1F995E79000FD3C9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -59,9 +57,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				697B758E1F9A567D00E22AF5 /* Lablib.framework in Frameworks */,
 				699DE07E1F995EB6000FD3C9 /* Cocoa.framework in Frameworks */,
 				699DE06A1F99530A000FD3C9 /* libeng.dylib in Frameworks */,
-				699DE0671F995223000FD3C9 /* Lablib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,8 +79,8 @@
 			children = (
 				699DE0231F990052000FD3C9 /* LablibMatlab */,
 				699DE02E1F990053000FD3C9 /* LablibMatlabTests */,
-				699DE0221F990052000FD3C9 /* Products */,
 				699DE0551F99311F000FD3C9 /* Frameworks */,
+				699DE0221F990052000FD3C9 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,9 +102,9 @@
 				699DE04F1F993029000FD3C9 /* LLMatlabController.m */,
 				699DE0511F9930E1000FD3C9 /* LLMatlabEngine.h */,
 				699DE0521F9930E1000FD3C9 /* LLMatlabEngine.m */,
-				699DE0251F990052000FD3C9 /* Info.plist */,
-				699DE05F1F9932AE000FD3C9 /* Prefix.h */,
 				699DE06F1F995494000FD3C9 /* LLMatlabEngine.xib */,
+				697B75C11F9A5D2C00E22AF5 /* Info.plist */,
+				697B75C21F9A5D2C00E22AF5 /* Prefix.h */,
 			);
 			path = LablibMatlab;
 			sourceTree = "<group>";
@@ -123,10 +121,10 @@
 		699DE0551F99311F000FD3C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				697B758D1F9A567D00E22AF5 /* Lablib.framework */,
 				699DE07B1F995E93000FD3C9 /* IOKit.framework */,
 				699DE07A1F995E79000FD3C9 /* Cocoa.framework */,
 				699DE0691F99530A000FD3C9 /* libeng.dylib */,
-				699DE0681F995223000FD3C9 /* Lablib.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -147,7 +145,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				699DE0601F9932AE000FD3C9 /* Prefix.h in Headers */,
+				697B75C41F9A5D2D00E22AF5 /* Prefix.h in Headers */,
 				699DE0591F993171000FD3C9 /* LablibMatlab.h in Headers */,
 				699DE04E1F993021000FD3C9 /* LLMatlabController.h in Headers */,
 				699DE0531F9930E1000FD3C9 /* LLMatlabEngine.h in Headers */,
@@ -236,8 +234,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				699DE0701F995494000FD3C9 /* LLMatlabEngine.xib in Resources */,
-				699DE0621F993411000FD3C9 /* FrameworkMatlab.xcconfig in Resources */,
-				699DE05C1F9931BC000FD3C9 /* AllProjects.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,21 +295,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 699DE0611F993411000FD3C9 /* FrameworkMatlab.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = LablibMatlab/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lablib.LablibMatlab;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -321,21 +302,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 699DE0611F993411000FD3C9 /* FrameworkMatlab.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = LablibMatlab/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lablib.LablibMatlab;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

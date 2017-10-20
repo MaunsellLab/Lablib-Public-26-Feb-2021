@@ -12,14 +12,58 @@
 		694D0BB9077B5B9E0025BAA4 /* Knot.h in Headers */ = {isa = PBXBuildFile; fileRef = 694D0BB8077B5B9E0025BAA4 /* Knot.h */; };
 		695EFEDD1AC6231200D9D458 /* KNSummaryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDB1AC6231200D9D458 /* KNSummaryController.xib */; };
 		695EFEDE1AC6231200D9D458 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDC1AC6231200D9D458 /* MainMenu.xib */; };
-		696A9CD51F95529A00C6527B /* AllApplications.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */; };
+		696A9CD51F95529A00C6527B /* AllApps.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */; };
 		696A9CD71F9552A800C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */; };
-		696A9CD81F9554A000C6527B /* LablibITC18.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699EB8B915CEBD86004E2B0D /* LablibITC18.framework */; };
-		696A9CD91F9554D700C6527B /* LablibITC18.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 699EB8B915CEBD86004E2B0D /* LablibITC18.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		697B75B91F9A5A9C00E22AF5 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75B81F9A5A9C00E22AF5 /* Lablib.framework */; };
+		697B75BA1F9A5A9C00E22AF5 /* Lablib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75B81F9A5A9C00E22AF5 /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		697B75BD1F9A5AAF00E22AF5 /* LablibITC18.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75BB1F9A5AAF00E22AF5 /* LablibITC18.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		697BC9EC1F9A7A2F005DE82A /* KNAppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69822BCA044760BB00A80164 /* KNAppController.h */; };
+		697BC9ED1F9A7A2F005DE82A /* KNSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B9AE720482FBDD00F95509 /* KNSummaryController.h */; };
+		697BC9EE1F9A7A2F005DE82A /* Knot_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 694D0BB1077B5B860025BAA4 /* Knot_Prefix.h */; };
+		697BC9EF1F9A7A2F005DE82A /* Knot.h in Headers */ = {isa = PBXBuildFile; fileRef = 694D0BB8077B5B9E0025BAA4 /* Knot.h */; };
+		697BC9F11F9A7A2F005DE82A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		697BC9F21F9A7A2F005DE82A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDC1AC6231200D9D458 /* MainMenu.xib */; };
+		697BC9F31F9A7A2F005DE82A /* KNSummaryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDB1AC6231200D9D458 /* KNSummaryController.xib */; };
+		697BC9F41F9A7A2F005DE82A /* AllApps.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */; };
+		697BC9F51F9A7A2F005DE82A /* UserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 696D8C8A075D683B0057453A /* UserDefaults.plist */; };
+		697BC9F61F9A7A2F005DE82A /* Knot.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69FF455C07C8106E0041B08D /* Knot.icns */; };
+		697BC9F71F9A7A2F005DE82A /* KnotPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */; };
+		697BC9F81F9A7A2F005DE82A /* loud200Hz200msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */; };
+		697BC9F91F9A7A2F005DE82A /* shortCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DE0A8A7B5400101ABF /* shortCorrect.aiff */; };
+		697BC9FA1F9A7A2F005DE82A /* MouseWrong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC71E994C2A00BC3787 /* MouseWrong.wav */; };
+		697BC9FB1F9A7A2F005DE82A /* MouseCorrect.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC31E994C2A00BC3787 /* MouseCorrect.wav */; };
+		697BC9FC1F9A7A2F005DE82A /* MouseWaitForLever.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC61E994C2A00BC3787 /* MouseWaitForLever.wav */; };
+		697BC9FD1F9A7A2F005DE82A /* shortNotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */; };
+		697BC9FE1F9A7A2F005DE82A /* 4G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F460B1E70260068A6CF /* 4G.aiff */; };
+		697BC9FF1F9A7A2F005DE82A /* 5C.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F480B1E70380068A6CF /* 5C.aiff */; };
+		697BCA001F9A7A2F005DE82A /* 5G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F490B1E70380068A6CF /* 5G.aiff */; };
+		697BCA011F9A7A2F005DE82A /* 6C.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F4A0B1E70380068A6CF /* 6C.aiff */; };
+		697BCA021F9A7A2F005DE82A /* 6G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F4B0B1E70380068A6CF /* 6G.aiff */; };
+		697BCA031F9A7A2F005DE82A /* 7C.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F4C0B1E70380068A6CF /* 7C.aiff */; };
+		697BCA041F9A7A2F005DE82A /* 7G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F4D0B1E70380068A6CF /* 7G.aiff */; };
+		697BCA051F9A7A2F005DE82A /* Correct.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F540B1E70410068A6CF /* Correct.aiff */; };
+		697BCA061F9A7A2F005DE82A /* Matlab in Resources */ = {isa = PBXBuildFile; fileRef = 69C346DA1EE3593B00C278F8 /* Matlab */; };
+		697BCA071F9A7A2F005DE82A /* MouseLeverDown.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC51E994C2A00BC3787 /* MouseLeverDown.wav */; };
+		697BCA081F9A7A2F005DE82A /* MouseFailed.wav in Resources */ = {isa = PBXBuildFile; fileRef = 69EE5FC41E994C2A00BC3787 /* MouseFailed.wav */; };
+		697BCA091F9A7A2F005DE82A /* Wrong.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F560B1E704A0068A6CF /* Wrong.aiff */; };
+		697BCA0A1F9A7A2F005DE82A /* 200Hz100msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */; };
+		697BCA0B1F9A7A2F005DE82A /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */; };
+		697BCA0D1F9A7A2F005DE82A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		697BCA0E1F9A7A2F005DE82A /* KNAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69822BCB044760BB00A80164 /* KNAppController.m */; };
+		697BCA0F1F9A7A2F005DE82A /* KNSummaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B9AE730482FBDD00F95509 /* KNSummaryController.m */; };
+		697BCA111F9A7A2F005DE82A /* LablibITC18.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75BB1F9A5AAF00E22AF5 /* LablibITC18.framework */; };
+		697BCA131F9A7A2F005DE82A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		697BCA141F9A7A2F005DE82A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7A443DD0132ED6B0ACA2124 /* OpenGL.framework */; };
+		697BCA151F9A7A2F005DE82A /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75B81F9A5A9C00E22AF5 /* Lablib.framework */; };
+		697BCA171F9A7A2F005DE82A /* LablibITC18.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75BB1F9A5AAF00E22AF5 /* LablibITC18.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		697BCA191F9A7A2F005DE82A /* Lablib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75B81F9A5A9C00E22AF5 /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		697BCA211F9A7DE3005DE82A /* AllAppsNoMatlab.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */; };
+		697BCA241F9A85AC005DE82A /* LablibITC18.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B75BB1F9A5AAF00E22AF5 /* LablibITC18.framework */; };
+		697BCA261F9A85C4005DE82A /* LablibMatlab.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697BCA251F9A85C3005DE82A /* LablibMatlab.framework */; };
+		697BCA271F9A85C4005DE82A /* LablibMatlab.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 697BCA251F9A85C3005DE82A /* LablibMatlab.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		699981E50A8A7B5400101ABF /* loud200Hz200msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */; };
 		699981E60A8A7B5400101ABF /* shortCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DE0A8A7B5400101ABF /* shortCorrect.aiff */; };
 		699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */; };
-		699DE0821F995FD9000FD3C9 /* LablibMatlab.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0811F995FD9000FD3C9 /* LablibMatlab.framework */; };
 		69C346DB1EE3593B00C278F8 /* Matlab in Resources */ = {isa = PBXBuildFile; fileRef = 69C346DA1EE3593B00C278F8 /* Matlab */; };
 		69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */; };
 		69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */; };
@@ -37,8 +81,6 @@
 		69F11F530B1E70380068A6CF /* 7G.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F4D0B1E70380068A6CF /* 7G.aiff */; };
 		69F11F550B1E70410068A6CF /* Correct.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F540B1E70410068A6CF /* Correct.aiff */; };
 		69F11F570B1E704A0068A6CF /* Wrong.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69F11F560B1E704A0068A6CF /* Wrong.aiff */; };
-		69F11F5D0B1E70700068A6CF /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F11F5C0B1E70700068A6CF /* Lablib.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		69F120460B1E72F00068A6CF /* Lablib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 69F11F5C0B1E70700068A6CF /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		69F36A7605670A9A009AED51 /* KNAppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69822BCA044760BB00A80164 /* KNAppController.h */; };
 		69F36A7E05670A9A009AED51 /* KNSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B9AE720482FBDD00F95509 /* KNSummaryController.h */; };
 		69F36A9205670A9A009AED51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -51,15 +93,29 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		698692F80624EAE800E07899 /* CopyFiles */ = {
+		697B75A51F9A598D00E22AF5 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				696A9CD91F9554D700C6527B /* LablibITC18.framework in CopyFiles */,
-				69F120460B1E72F00068A6CF /* Lablib.framework in CopyFiles */,
+				697B75BD1F9A5AAF00E22AF5 /* LablibITC18.framework in Embed Frameworks */,
+				697BCA271F9A85C4005DE82A /* LablibMatlab.framework in Embed Frameworks */,
+				697B75BA1F9A5A9C00E22AF5 /* Lablib.framework in Embed Frameworks */,
 			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		697BCA161F9A7A2F005DE82A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				697BCA171F9A7A2F005DE82A /* LablibITC18.framework in Embed Frameworks */,
+				697BCA191F9A7A2F005DE82A /* Lablib.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -77,16 +133,19 @@
 		695EFEDB1AC6231200D9D458 /* KNSummaryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNSummaryController.xib; sourceTree = "<group>"; };
 		695EFEDC1AC6231200D9D458 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		6968EA58059DDD1900E33065 /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
-		696A9CD41F95529A00C6527B /* AllApplications.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllApplications.xcconfig; path = ../AllApplications.xcconfig; sourceTree = "<group>"; };
+		696A9CD41F95529A00C6527B /* AllApps.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllApps.xcconfig; path = ../AllApps.xcconfig; sourceTree = "<group>"; };
 		696A9CD61F9552A800C6527B /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		696D8C8A075D683B0057453A /* UserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = UserDefaults.plist; sourceTree = SOURCE_ROOT; };
+		697B75B81F9A5A9C00E22AF5 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = "<group>"; };
+		697B75BB1F9A5AAF00E22AF5 /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = ../../Frameworks/LablibITC18/build/Development/LablibITC18.framework; sourceTree = "<group>"; };
+		697BCA1E1F9A7A2F005DE82A /* Knot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllAppsNoMatlab.xcconfig; path = ../AllAppsNoMatlab.xcconfig; sourceTree = "<group>"; };
+		697BCA251F9A85C3005DE82A /* LablibMatlab.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibMatlab.framework; path = ../../Frameworks/LablibMatlab/build/Debug/LablibMatlab.framework; sourceTree = "<group>"; };
 		69822BCA044760BB00A80164 /* KNAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNAppController.h; sourceTree = "<group>"; };
 		69822BCB044760BB00A80164 /* KNAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNAppController.m; sourceTree = "<group>"; };
 		699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = loud200Hz200msSq.aiff; path = ../../Resources/Sounds/loud200Hz200msSq.aiff; sourceTree = SOURCE_ROOT; };
 		699981DE0A8A7B5400101ABF /* shortCorrect.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shortCorrect.aiff; path = ../../Resources/Sounds/shortCorrect.aiff; sourceTree = SOURCE_ROOT; };
 		699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shortNotCorrect.aiff; path = ../../Resources/Sounds/shortNotCorrect.aiff; sourceTree = SOURCE_ROOT; };
-		699DE0811F995FD9000FD3C9 /* LablibMatlab.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibMatlab.framework; path = ../../Frameworks/LablibMatlab/build/Debug/LablibMatlab.framework; sourceTree = "<group>"; };
-		699EB8B915CEBD86004E2B0D /* LablibITC18.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LablibITC18.framework; path = ../../Frameworks/LablibITC18/build/Development/LablibITC18.framework; sourceTree = "<group>"; };
 		69B9AE720482FBDD00F95509 /* KNSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KNSummaryController.h; sourceTree = "<group>"; };
 		69B9AE730482FBDD00F95509 /* KNSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KNSummaryController.m; sourceTree = "<group>"; };
 		69C346DA1EE3593B00C278F8 /* Matlab */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Matlab; sourceTree = "<group>"; };
@@ -106,21 +165,31 @@
 		69F11F4D0B1E70380068A6CF /* 7G.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 7G.aiff; path = ../../Resources/Sounds/7G.aiff; sourceTree = SOURCE_ROOT; };
 		69F11F540B1E70410068A6CF /* Correct.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Correct.aiff; path = ../../Resources/Sounds/Correct.aiff; sourceTree = SOURCE_ROOT; };
 		69F11F560B1E704A0068A6CF /* Wrong.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Wrong.aiff; path = ../../Resources/Sounds/Wrong.aiff; sourceTree = SOURCE_ROOT; };
-		69F11F5C0B1E70700068A6CF /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
 		69FF455C07C8106E0041B08D /* Knot.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Knot.icns; sourceTree = "<group>"; };
 		E7A443DD0132ED6B0ACA2124 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		697BCA101F9A7A2F005DE82A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				697BCA111F9A7A2F005DE82A /* LablibITC18.framework in Frameworks */,
+				697BCA131F9A7A2F005DE82A /* Cocoa.framework in Frameworks */,
+				697BCA141F9A7A2F005DE82A /* OpenGL.framework in Frameworks */,
+				697BCA151F9A7A2F005DE82A /* Lablib.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69F36AC305670A9A009AED51 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				696A9CD81F9554A000C6527B /* LablibITC18.framework in Frameworks */,
-				699DE0821F995FD9000FD3C9 /* LablibMatlab.framework in Frameworks */,
+				697BCA241F9A85AC005DE82A /* LablibITC18.framework in Frameworks */,
+				697BCA261F9A85C4005DE82A /* LablibMatlab.framework in Frameworks */,
 				69F36AC405670A9A009AED51 /* Cocoa.framework in Frameworks */,
 				69F36AC505670A9A009AED51 /* OpenGL.framework in Frameworks */,
-				69F11F5D0B1E70700068A6CF /* Lablib.framework in Frameworks */,
+				697B75B91F9A5A9C00E22AF5 /* Lablib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				694D17D5077C62B60025BAA4 /* Knot.app */,
+				697BCA1E1F9A7A2F005DE82A /* Knot.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -188,9 +258,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				699DE0811F995FD9000FD3C9 /* LablibMatlab.framework */,
-				69F11F5C0B1E70700068A6CF /* Lablib.framework */,
-				699EB8B915CEBD86004E2B0D /* LablibITC18.framework */,
+				697BCA251F9A85C3005DE82A /* LablibMatlab.framework */,
+				697B75BB1F9A5AAF00E22AF5 /* LablibITC18.framework */,
+				697B75B81F9A5A9C00E22AF5 /* Lablib.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
@@ -203,7 +273,8 @@
 			isa = PBXGroup;
 			children = (
 				696A9CD61F9552A800C6527B /* AllProjects.xcconfig */,
-				696A9CD41F95529A00C6527B /* AllApplications.xcconfig */,
+				696A9CD41F95529A00C6527B /* AllApps.xcconfig */,
+				697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */,
 			);
 			name = "External Configurations";
 			sourceTree = "<group>";
@@ -246,6 +317,17 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		697BC9EB1F9A7A2F005DE82A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				697BC9EC1F9A7A2F005DE82A /* KNAppController.h in Headers */,
+				697BC9ED1F9A7A2F005DE82A /* KNSummaryController.h in Headers */,
+				697BC9EE1F9A7A2F005DE82A /* Knot_Prefix.h in Headers */,
+				697BC9EF1F9A7A2F005DE82A /* Knot.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69F36A7305670A9A009AED51 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -260,6 +342,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		697BC9EA1F9A7A2F005DE82A /* Knot No Matlab */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 697BCA1A1F9A7A2F005DE82A /* Build configuration list for PBXNativeTarget "Knot No Matlab" */;
+			buildPhases = (
+				697BC9EB1F9A7A2F005DE82A /* Headers */,
+				697BC9F01F9A7A2F005DE82A /* Resources */,
+				697BCA0C1F9A7A2F005DE82A /* Sources */,
+				697BCA101F9A7A2F005DE82A /* Frameworks */,
+				697BCA161F9A7A2F005DE82A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Knot No Matlab";
+			productInstallPath = "$(HOME)/Applications";
+			productName = terstes;
+			productReference = 697BCA1E1F9A7A2F005DE82A /* Knot.app */;
+			productType = "com.apple.product-type.application";
+		};
 		69F36A7205670A9A009AED51 /* Knot */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69CA1DE9088DA56D00D7ADEE /* Build configuration list for PBXNativeTarget "Knot" */;
@@ -268,7 +370,7 @@
 				69F36A9105670A9A009AED51 /* Resources */,
 				69F36AA605670A9A009AED51 /* Sources */,
 				69F36AC305670A9A009AED51 /* Frameworks */,
-				698692F80624EAE800E07899 /* CopyFiles */,
+				697B75A51F9A598D00E22AF5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -313,11 +415,47 @@
 			projectRoot = "";
 			targets = (
 				69F36A7205670A9A009AED51 /* Knot */,
+				697BC9EA1F9A7A2F005DE82A /* Knot No Matlab */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		697BC9F01F9A7A2F005DE82A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				697BC9F11F9A7A2F005DE82A /* InfoPlist.strings in Resources */,
+				697BC9F21F9A7A2F005DE82A /* MainMenu.xib in Resources */,
+				697BCA211F9A7DE3005DE82A /* AllAppsNoMatlab.xcconfig in Resources */,
+				697BC9F31F9A7A2F005DE82A /* KNSummaryController.xib in Resources */,
+				697BC9F41F9A7A2F005DE82A /* AllApps.xcconfig in Resources */,
+				697BC9F51F9A7A2F005DE82A /* UserDefaults.plist in Resources */,
+				697BC9F61F9A7A2F005DE82A /* Knot.icns in Resources */,
+				697BC9F71F9A7A2F005DE82A /* KnotPlugin.icns in Resources */,
+				697BC9F81F9A7A2F005DE82A /* loud200Hz200msSq.aiff in Resources */,
+				697BC9F91F9A7A2F005DE82A /* shortCorrect.aiff in Resources */,
+				697BC9FA1F9A7A2F005DE82A /* MouseWrong.wav in Resources */,
+				697BC9FB1F9A7A2F005DE82A /* MouseCorrect.wav in Resources */,
+				697BC9FC1F9A7A2F005DE82A /* MouseWaitForLever.wav in Resources */,
+				697BC9FD1F9A7A2F005DE82A /* shortNotCorrect.aiff in Resources */,
+				697BC9FE1F9A7A2F005DE82A /* 4G.aiff in Resources */,
+				697BC9FF1F9A7A2F005DE82A /* 5C.aiff in Resources */,
+				697BCA001F9A7A2F005DE82A /* 5G.aiff in Resources */,
+				697BCA011F9A7A2F005DE82A /* 6C.aiff in Resources */,
+				697BCA021F9A7A2F005DE82A /* 6G.aiff in Resources */,
+				697BCA031F9A7A2F005DE82A /* 7C.aiff in Resources */,
+				697BCA041F9A7A2F005DE82A /* 7G.aiff in Resources */,
+				697BCA051F9A7A2F005DE82A /* Correct.aiff in Resources */,
+				697BCA061F9A7A2F005DE82A /* Matlab in Resources */,
+				697BCA071F9A7A2F005DE82A /* MouseLeverDown.wav in Resources */,
+				697BCA081F9A7A2F005DE82A /* MouseFailed.wav in Resources */,
+				697BCA091F9A7A2F005DE82A /* Wrong.aiff in Resources */,
+				697BCA0A1F9A7A2F005DE82A /* 200Hz100msSq.aiff in Resources */,
+				697BCA0B1F9A7A2F005DE82A /* AllProjects.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69F36A9105670A9A009AED51 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -325,7 +463,7 @@
 				69F36A9205670A9A009AED51 /* InfoPlist.strings in Resources */,
 				695EFEDE1AC6231200D9D458 /* MainMenu.xib in Resources */,
 				695EFEDD1AC6231200D9D458 /* KNSummaryController.xib in Resources */,
-				696A9CD51F95529A00C6527B /* AllApplications.xcconfig in Resources */,
+				696A9CD51F95529A00C6527B /* AllApps.xcconfig in Resources */,
 				6927EA401EB5004D004D90AC /* UserDefaults.plist in Resources */,
 				69FF455D07C8106E0041B08D /* Knot.icns in Resources */,
 				69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */,
@@ -355,6 +493,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		697BCA0C1F9A7A2F005DE82A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				697BCA0D1F9A7A2F005DE82A /* main.m in Sources */,
+				697BCA0E1F9A7A2F005DE82A /* KNAppController.m in Sources */,
+				697BCA0F1F9A7A2F005DE82A /* KNSummaryController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69F36AA605670A9A009AED51 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -379,11 +527,45 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		69CA1DEA088DA56D00D7ADEE /* Development */ = {
+		697BCA1B1F9A7A2F005DE82A /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
+			baseConfigurationReference = 697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
+				PRODUCT_NAME = Knot;
+			};
+			name = Development;
+		};
+		697BCA1C1F9A7A2F005DE82A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = Knot_Prefix.h;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
+				PRODUCT_NAME = Knot;
+			};
+			name = Deployment;
+		};
+		697BCA1D1F9A7A2F005DE82A /* Default */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = Knot_Prefix.h;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
+				PRODUCT_NAME = Knot;
+			};
+			name = Default;
+		};
+		69CA1DEA088DA56D00D7ADEE /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = Knot_Prefix.h;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
 			};
@@ -391,9 +573,10 @@
 		};
 		69CA1DEB088DA56D00D7ADEE /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
+			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
 			};
@@ -401,9 +584,10 @@
 		};
 		69CA1DEC088DA56D00D7ADEE /* Default */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApplications.xcconfig */;
+			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
 				PRODUCT_NAME = Knot;
 			};
@@ -433,6 +617,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		697BCA1A1F9A7A2F005DE82A /* Build configuration list for PBXNativeTarget "Knot No Matlab" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				697BCA1B1F9A7A2F005DE82A /* Development */,
+				697BCA1C1F9A7A2F005DE82A /* Deployment */,
+				697BCA1D1F9A7A2F005DE82A /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
 		69CA1DE9088DA56D00D7ADEE /* Build configuration list for PBXNativeTarget "Knot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

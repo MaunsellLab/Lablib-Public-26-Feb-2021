@@ -61,7 +61,7 @@ char *idString = "Knot Version 2.2";
 //	}
 //}
 
-- (void)activateCurrentTask;
+- (void)activateCurrentTask; 
 {
 	if (currentTask != nil) {
 		[[taskMenu itemWithTitle:[currentTask name]] setState:NSOnState];
@@ -83,11 +83,14 @@ char *idString = "Knot Version 2.2";
     summaryController = [[KNSummaryController alloc] initWithDefaults:defaults];
     [dataDoc addObserver:summaryController];
 
+#ifndef NO_MATLAB
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseMatlabKey]) {
         matlabEngine = [[LLMatlabEngine alloc] init];               // allocate before configurePlugins
         [matlabEngine addMatlabPathForApp];
     }
-
+#else
+    NSLog(@"This version of Knot has been compiled without Matlab support");
+#endif
 	[pluginController loadPlugins];
 	[self configurePlugins];
 	[self activateCurrentTask];
@@ -171,9 +174,10 @@ char *idString = "Knot Version 2.2";
     [socket release];
     [rewardPump close];
     [rewardPump release];
+#ifndef NO_MATLAB
     [matlabEngine close];
     [matlabEngine release];
-
+#endif
 // Release the plugins before releasing the objects they might use as they clean up
 
 	[pluginController release];
@@ -675,7 +679,9 @@ char *idString = "Knot Version 2.2";
 
 - (IBAction)showMatlabWindow:(id)sender;
 {
+#ifndef NO_MATLAB
     [matlabEngine showWindow:self];
+#endif
 }
 
 - (IBAction)showReportPanel:(id)sender {

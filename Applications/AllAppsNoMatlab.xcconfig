@@ -1,17 +1,19 @@
 // Architectures
 // Assets
 // Build Locations
-CONFIGURATION_BUILD_DIR = /Library/Application Support/Knot/Plugins/$(EFFECTIVE_PLATFORM_NAME)
+CONFIGURATION_BUILD_DIR = /Applications/$(EFFECTIVE_PLATFORM_NAME)
 // Build Options
 // Deployment
 // Headers
 // Kernel Module
 // Linking
+LD_RUNPATH_SEARCH_PATHS = @executable_path/../Frameworks /Applications/MATLAB/bin/maci64
 // Packaging
 INFOPLIST_FILE = Info.plist
-WRAPPER_EXTENSION = plugin
+WRAPPER_EXTENSION = app
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development /Documents/Lablib/Frameworks/LablibITC18/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug
+//HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug /Documents/Lablib/Frameworks/LablibITC18/build/Development
 // Signing
 // Testing
 // Text-Based API
@@ -19,11 +21,11 @@ FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Fram
 
 // Apple LLVM 9.0 Address Sanitizer
 // Apple LLVM 9.0 Code Generation
-// Apple LLVM 9.0 Custom Compiler Flags
+// Apple LLVM 9.0 - Custom Compiler Flags
 // Apple LLVM 9.0 Language
 // Apple LLVM 9.0 Code Generation
 // Apple LLVM 9.0 Preprocessing
-// Apple LLVM 9.0 Preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) NO_MATLAB
 // Apple LLVM 9.0 Undefined Behavior Sanitizer
 // Apple LLVM 9.0 Warning Policies
 // Apple LLVM 9.0 Warnings - All languages

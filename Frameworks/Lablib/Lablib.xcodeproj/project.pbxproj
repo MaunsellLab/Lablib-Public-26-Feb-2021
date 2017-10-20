@@ -24,10 +24,6 @@
 		69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CAE1E7773A40000D718 /* LLNIDAQ.m */; };
 		69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */; };
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		693634C01E1B09F200A2DE4B /* libeng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634BF1E1B09F200A2DE4B /* libeng.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
-		693634C21E1B0A2200A2DE4B /* libmx.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634C11E1B0A2200A2DE4B /* libmx.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
-		693634C41E1B135A00A2DE4B /* libmat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634C31E1B135A00A2DE4B /* libmat.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
-		693634C61E1B136D00A2DE4B /* libut.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 693634C51E1B136D00A2DE4B /* libut.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		69366665139E66B9000508B6 /* ResetButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69366664139E66B9000508B6 /* ResetButton.tif */; };
 		693BAB420906F01B008574BF /* LLSynthDataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 693BAB410906F01B008574BF /* LLSynthDataDevice.plist */; };
 		693D9EB91605299B00113D5D /* LLHeatMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = 693D9EB81605299B00113D5D /* LLHeatMapView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -288,10 +284,6 @@
 		6934455504856D8300FE06D7 /* LLEOTView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEOTView.m; sourceTree = "<group>"; };
 		6934D9E8049BAF2200A80164 /* LLMonitorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMonitorController.h; sourceTree = "<group>"; };
 		6934D9E9049BAF2200A80164 /* LLMonitorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMonitorController.m; sourceTree = "<group>"; };
-		693634BF1E1B09F200A2DE4B /* libeng.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libeng.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libeng.dylib; sourceTree = "<group>"; };
-		693634C11E1B0A2200A2DE4B /* libmx.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmx.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libmx.dylib; sourceTree = "<group>"; };
-		693634C31E1B135A00A2DE4B /* libmat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmat.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libmat.dylib; sourceTree = "<group>"; };
-		693634C51E1B136D00A2DE4B /* libut.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libut.dylib; path = ../../../../Applications/MATLAB_R2013a.app/bin/maci64/libut.dylib; sourceTree = "<group>"; };
 		69366664139E66B9000508B6 /* ResetButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ResetButton.tif; path = ../../Resources/Images/ResetButton.tif; sourceTree = SOURCE_ROOT; };
 		693BAB410906F01B008574BF /* LLSynthDataDevice.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLSynthDataDevice.plist; sourceTree = "<group>"; };
 		693D9EB81605299B00113D5D /* LLHeatMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLHeatMapView.h; sourceTree = "<group>"; };
@@ -522,10 +514,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				693634C01E1B09F200A2DE4B /* libeng.dylib in Frameworks */,
-				693634C21E1B0A2200A2DE4B /* libmx.dylib in Frameworks */,
-				693634C41E1B135A00A2DE4B /* libmat.dylib in Frameworks */,
-				693634C61E1B136D00A2DE4B /* libut.dylib in Frameworks */,
 				69F36D0E0567EA9E009AED51 /* AppKit.framework in Frameworks */,
 				69F36D0F0567EA9E009AED51 /* Carbon.framework in Frameworks */,
 				69F36D100567EA9E009AED51 /* Foundation.framework in Frameworks */,
@@ -572,10 +560,6 @@
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 				69F2BB3204D3203700F95507 /* IOKit.framework */,
 				69E9F6FF043D260E00F95509 /* OpenGL.framework */,
-				693634BF1E1B09F200A2DE4B /* libeng.dylib */,
-				693634C31E1B135A00A2DE4B /* libmat.dylib */,
-				693634C11E1B0A2200A2DE4B /* libmx.dylib */,
-				693634C51E1B136D00A2DE4B /* libut.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

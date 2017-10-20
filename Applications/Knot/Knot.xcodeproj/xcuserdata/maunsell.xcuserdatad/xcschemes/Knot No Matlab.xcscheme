@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "LLMouseDataDevice.plugin"
-               BlueprintName = "LLMouseDataDevice"
-               ReferencedContainer = "container:LLMouseDataDevice.xcodeproj">
+               BlueprintIdentifier = "697BC9EA1F9A7A2F005DE82A"
+               BuildableName = "Knot No Matlab.app"
+               BlueprintName = "Knot No Matlab"
+               ReferencedContainer = "container:Knot.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,7 +36,7 @@
             BlueprintIdentifier = "69F36A7205670A9A009AED51"
             BuildableName = "Knot.app"
             BlueprintName = "Knot"
-            ReferencedContainer = "container:../../Applications/Knot/Knot.xcodeproj">
+            ReferencedContainer = "container:Knot.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -53,15 +53,29 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-            BuildableName = "LLMouseDataDevice.plugin"
-            BlueprintName = "LLMouseDataDevice"
-            ReferencedContainer = "container:LLMouseDataDevice.xcodeproj">
+            BlueprintIdentifier = "697BC9EA1F9A7A2F005DE82A"
+            BuildableName = "Knot.app"
+            BlueprintName = "Knot No Matlab"
+            ReferencedContainer = "container:Knot.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-NSBindingDebugLevel 1"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "CG_NUMERICS_SHOW_BACKTRACE"
+            value = "YES"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -74,10 +88,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-            BuildableName = "LLMouseDataDevice.plugin"
-            BlueprintName = "LLMouseDataDevice"
-            ReferencedContainer = "container:LLMouseDataDevice.xcodeproj">
+            BlueprintIdentifier = "697BC9EA1F9A7A2F005DE82A"
+            BuildableName = "Knot No Matlab.app"
+            BlueprintName = "Knot No Matlab"
+            ReferencedContainer = "container:Knot.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
