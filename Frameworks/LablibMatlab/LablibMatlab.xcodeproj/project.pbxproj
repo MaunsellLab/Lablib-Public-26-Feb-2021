@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69769A281F9D3548006CF5C4 /* libeng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0691F99530A000FD3C9 /* libeng.dylib */; };
 		697B758E1F9A567D00E22AF5 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 697B758D1F9A567D00E22AF5 /* Lablib.framework */; };
 		697B75C41F9A5D2D00E22AF5 /* Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 697B75C21F9A5D2C00E22AF5 /* Prefix.h */; };
 		699DE02B1F990053000FD3C9 /* LablibMatlab.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0211F990052000FD3C9 /* LablibMatlab.framework */; };
@@ -16,7 +17,6 @@
 		699DE0531F9930E1000FD3C9 /* LLMatlabEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 699DE0511F9930E1000FD3C9 /* LLMatlabEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		699DE0541F9930E1000FD3C9 /* LLMatlabEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 699DE0521F9930E1000FD3C9 /* LLMatlabEngine.m */; };
 		699DE0591F993171000FD3C9 /* LablibMatlab.h in Headers */ = {isa = PBXBuildFile; fileRef = 699DE0581F993171000FD3C9 /* LablibMatlab.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		699DE06A1F99530A000FD3C9 /* libeng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0691F99530A000FD3C9 /* libeng.dylib */; };
 		699DE0701F995494000FD3C9 /* LLMatlabEngine.xib in Resources */ = {isa = PBXBuildFile; fileRef = 699DE06F1F995494000FD3C9 /* LLMatlabEngine.xib */; };
 		699DE07E1F995EB6000FD3C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE07A1F995E79000FD3C9 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -57,9 +57,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69769A281F9D3548006CF5C4 /* libeng.dylib in Frameworks */,
 				697B758E1F9A567D00E22AF5 /* Lablib.framework in Frameworks */,
 				699DE07E1F995EB6000FD3C9 /* Cocoa.framework in Frameworks */,
-				699DE06A1F99530A000FD3C9 /* libeng.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,7 +339,7 @@
 				699DE0341F990053000FD3C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		699DE0351F990053000FD3C9 /* Build configuration list for PBXNativeTarget "LablibMatlab" */ = {
 			isa = XCConfigurationList;
@@ -348,7 +348,7 @@
 				699DE0371F990053000FD3C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		699DE0381F990053000FD3C9 /* Build configuration list for PBXNativeTarget "LablibMatlabTests" */ = {
 			isa = XCConfigurationList;
@@ -357,7 +357,7 @@
 				699DE03A1F990053000FD3C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

@@ -4,30 +4,6 @@
 //
 //  Created by John Maunsell on 1/2/17.
 //
-// Using Matlab requires the libraries libeng.dylib and libmx.dylib.  They can be found in the Matlab folder returned
-// by Matlab by the command "fullfile(matlabroot,'bin',computer('arch'))".  Typically, this is something like
-// /Applications/MATLAB_R2013a.app/bin/maci64.  Note: Xcode will not work with an alias like "Matlab" that points to
-// the current Matlab.  You must use actual application folder (with ".app").  The path should be added to the "Search
-// Library Path" in the project settings, so that the linker can resolve the Matlab refernces.  It must also be added
-// to the "Runpath Search Path", so that the Matlab dylibs can be found at run time.
-
-// We also need "engine.h", which is a location Matlab identifies when queried with
-// "fullfile(matlabroot,'extern','include')".  It will be something like
-// "/Applications/MATLAB_R2013a.app/extern/include".  This should be added to the "Header Search Paths" in the
-// project settings.
-
-// The demonstration programs show starting Matlab with a null argument, but that didn't work, even when Matlab
-// could be launched at the csh command line with "matlab".
-
-//cd /usr/local/bin/
-//sudo ln -s /usr/local/MATLAB/R2012a/bin/matlab matlab
-
-// Finally, the code in this file isn't specific for a particular version of Matlab, but it requires that you
-// create an alias to the Matlab application (bundle) that is called "MATLAB" and is in the Application folder
-// (where Matlab should reside).  This MUST be a symbolic link -- NOT an alias.  The link can be created using
-// the terminal: cd /Applications; ln -s MATLAB_R2013a.app MATLAB
-// Of course, you should change "2013a" as needed to match the version of Matlab that you have.
-
 
 #import "LLMatlabEngine.h"
 #import <Lablib/LLSystemUtil.h>

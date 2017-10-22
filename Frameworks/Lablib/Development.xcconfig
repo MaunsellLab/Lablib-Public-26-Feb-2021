@@ -21,8 +21,8 @@ PRODUCT_BUNDLE_IDENTIFIER = com.lablib.lablib
 PRODUCT_NAME = Lablib
 // Search Paths
 FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS)
-HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include /Documents/Lablib/Frameworks/LablibMatlab
-LIBRARY_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
+//HEADER_SEARCH_PATHS = /Applications/MATLAB/extern/include /Documents/Lablib/Frameworks/LablibMatlab
+//LIBRARY_SEARCH_PATHS = /Applications/MATLAB/bin/maci64 /Applications/MATLAB/sys/os/maci64
 // Signing
 // Testing
 // Text-Based API

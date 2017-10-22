@@ -7,11 +7,12 @@ CONFIGURATION_BUILD_DIR = /Library/Application Support/Knot/Plugins/$(EFFECTIVE_
 // Headers
 // Kernel Module
 // Linking
+OTHER_LDFLAGS = -weak_framework LablibMatlab
 // Packaging
 INFOPLIST_FILE = Info.plist
 WRAPPER_EXTENSION = plugin
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development /Documents/Lablib/Frameworks/LablibITC18/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibITC18/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug
 // Signing
 // Testing
 // Text-Based API

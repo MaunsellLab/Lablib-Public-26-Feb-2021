@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "697BC9EA1F9A7A2F005DE82A"
-               BuildableName = "Knot No Matlab.app"
+               BuildableName = "Knot.app"
                BlueprintName = "Knot No Matlab"
                ReferencedContainer = "container:Knot.xcodeproj">
             </BuildableReference>
@@ -89,7 +89,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "697BC9EA1F9A7A2F005DE82A"
-            BuildableName = "Knot No Matlab.app"
+            BuildableName = "Knot.app"
             BlueprintName = "Knot No Matlab"
             ReferencedContainer = "container:Knot.xcodeproj">
          </BuildableReference>
