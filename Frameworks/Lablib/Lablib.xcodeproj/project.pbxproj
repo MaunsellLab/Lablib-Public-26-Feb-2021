@@ -431,8 +431,6 @@
 		69BDCF07098C09B500578E91 /* LLScrollZoomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLScrollZoomWindow.h; sourceTree = "<group>"; };
 		69BDCF08098C09B500578E91 /* LLScrollZoomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLScrollZoomWindow.m; sourceTree = "<group>"; };
 		69BE4BE805829644001C9624 /* Lablib_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Lablib_Prefix.h; sourceTree = "<group>"; };
-		69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMatlabEngine.h; sourceTree = "<group>"; };
-		69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMatlabEngine.m; sourceTree = "<group>"; };
 		69C094500BDA3B8A00DB7DE8 /* LLPointDist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPointDist.h; sourceTree = "<group>"; };
 		69C094510BDA3B8A00DB7DE8 /* LLPointDist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPointDist.m; sourceTree = "<group>"; };
 		69C7FF83047ECBF500F95509 /* LLXTEventPlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTEventPlot.h; sourceTree = "<group>"; };
@@ -459,8 +457,6 @@
 		69CFF8280477D3B900F95509 /* LLEyeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEyeWindow.m; sourceTree = "<group>"; };
 		69CFF82B0477F8E000F95509 /* LLEyeCalibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLEyeCalibrator.h; sourceTree = "<group>"; };
 		69CFF82C0477F8E000F95509 /* LLEyeCalibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEyeCalibrator.m; sourceTree = "<group>"; };
-		69D18BDF1E8B44250047F3BE /* LLMatlabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLMatlabController.h; sourceTree = "<group>"; };
-		69D18BE01E8B44250047F3BE /* LLMatlabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLMatlabController.m; sourceTree = "<group>"; };
 		69D29126048E871C00F95509 /* LLStandardFileNames.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLStandardFileNames.h; sourceTree = "<group>"; };
 		69D29127048E871C00F95509 /* LLStandardFileNames.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLStandardFileNames.m; sourceTree = "<group>"; };
 		69D69E8A1E11EB55005317AA /* LLSockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSockets.h; sourceTree = "<group>"; };
@@ -681,10 +677,6 @@
 				69EDA65C0EAE93E100B3D1D5 /* LLFilterExp.m */,
 				696DF6520EB8E53A0004FC8E /* LLLaserCalibrator.h */,
 				696DF6530EB8E53A0004FC8E /* LLLaserCalibrator.m */,
-				69D18BDF1E8B44250047F3BE /* LLMatlabController.h */,
-				69D18BE01E8B44250047F3BE /* LLMatlabController.m */,
-				69BE5A4B1E1AFD2D002B2981 /* LLMatlabEngine.h */,
-				69BE5A4C1E1AFD2D002B2981 /* LLMatlabEngine.m */,
 				696BA2511E8352C200AF4862 /* LLPowerCalibrator.h */,
 				696BA2531E8352CE00AF4862 /* LLPowerCalibrator.m */,
 				693FC6C804898EB700FE06D7 /* LLStandardDataEvents.h */,
