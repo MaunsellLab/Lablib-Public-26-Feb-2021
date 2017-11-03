@@ -128,14 +128,17 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
 
+    
+    NSLog(@"LLSockets: keyValue: %@", [[NSUserDefaults standardUserDefaults] objectForKey:kLLSocketsRigIDKey]);
+    
     timeoutS = kLLSocketsMinTimeoutS;
     deviceNameDict = [[NSDictionary dictionaryWithObjectsAndKeys:
                 @"LaserControllerX", @"rig 1",
                 @"LaserControllerXRig2", @"rig 2",
                 @"LaserControllerXRig3", @"rig 3",
                 @"LaserControllerXRig4", @"rig 4",
-                @"LEDdaq", @"rig2P",
-                @"LEDdaq", @"rig 2P",
+                @"LEDdaq", @"rig2p",
+                @"LEDdaq", @"rig 2p",
                 nil] retain];
 
     streamsLock = [[NSLock alloc] init];
