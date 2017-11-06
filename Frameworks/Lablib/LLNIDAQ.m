@@ -168,7 +168,7 @@
 
     pulse0Samples = dur0MS * kSamplesPerMS;
     pulse1Samples = dur1MS * kSamplesPerMS;
-    delay0Samples = delay1MS * kSamplesPerMS;
+    delay0Samples = delay0MS * kSamplesPerMS;
     delay1Samples = delay1MS * kSamplesPerMS;
     numChannelSamples = MAX(pulse0Samples + delay0Samples, pulse1Samples + delay1Samples) + 1;
     numTrainSamples = numChannelSamples * kActiveChannels;
