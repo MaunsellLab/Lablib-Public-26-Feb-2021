@@ -17,10 +17,7 @@
 		696A9CDC1F9562AB00C6527B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 696A9CDA1F95620300C6527B /* main.m */; };
 		6970BC2C1F950D660058CE60 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6970BC2B1F950D660058CE60 /* Lablib.framework */; };
 		6970BC2D1F950D6E0058CE60 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6970BC2B1F950D660058CE60 /* Lablib.framework */; };
-		6970BC311F951D530058CE60 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6970BC301F951D520058CE60 /* AllProjects.xcconfig */; };
 		69941F74097C5E1900FD57B5 /* LablibITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69941F73097C5E1900FD57B5 /* LablibITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		699DE0661F993B56000FD3C9 /* FrameworkITC18.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 699DE0651F993B56000FD3C9 /* FrameworkITC18.xcconfig */; };
-		69AB36171F94107000E7DA2F /* Plugin.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */; };
 		69ABB3FA1F941C0B0081A601 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69ABB3F91F941BF30081A601 /* Cocoa.framework */; };
 		69ABB3FB1F941C0C0081A601 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69ABB3F91F941BF30081A601 /* Cocoa.framework */; };
 		69ABB3FE1F941C190081A601 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D6A5FE840307C02AAC07 /* AppKit.framework */; };
@@ -281,7 +278,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibITC18" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -312,7 +309,6 @@
 			files = (
 				69D82D190B06A1ED00E8C369 /* InfoPlist.strings in Resources */,
 				E97BF1EF1AC58E8C004E8F19 /* LLITC18DataSettings.xib in Resources */,
-				69AB36171F94107000E7DA2F /* Plugin.xcconfig in Resources */,
 				E97BF1F11AC58E8C004E8F19 /* LLITCMonitorSettings.xib in Resources */,
 				69D82D1D0B06A1FB00E8C369 /* LLITC18DataDevice.plist in Resources */,
 			);
@@ -322,9 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				699DE0661F993B56000FD3C9 /* FrameworkITC18.xcconfig in Resources */,
 				69F368B8056705B9009AED51 /* InfoPlist.strings in Resources */,
-				6970BC311F951D530058CE60 /* AllProjects.xcconfig in Resources */,
 				E97BF1EE1AC58E8C004E8F19 /* LLITC18DataSettings.xib in Resources */,
 				E97BF1F01AC58E8C004E8F19 /* LLITCMonitorSettings.xib in Resources */,
 				69FBCE85097C1CD6008D9A0E /* LLITC18DataDevice.plist in Resources */,

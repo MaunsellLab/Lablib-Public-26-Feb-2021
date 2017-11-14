@@ -10,12 +10,10 @@
 		693B5DC50B8232C50063939F /* Lablib.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6975F4160B332F1000312509 /* Lablib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEDF1AC6234100D9D458 /* ConverterDoc.xib */; };
 		695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE01AC6234100D9D458 /* MainMenu.xib */; };
-		696A9CD01F954EA800C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CCF1F954EA800C6527B /* AllProjects.xcconfig */; };
 		69712D2207E244E10083188B /* DataConvert_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2107E244E10083188B /* DataConvert_Prefix.h */; };
 		69712D2B07E244F50083188B /* DataConvert.h in Headers */ = {isa = PBXBuildFile; fileRef = 69712D2A07E244F50083188B /* DataConvert.h */; };
 		6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6973FCEC0A43267E00A68677 /* Release Notes.txt */; };
 		6975F4170B332F1000312509 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6975F4160B332F1000312509 /* Lablib.framework */; };
-		697BCA231F9A8255005DE82A /* AllApps.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 697BCA221F9A8254005DE82A /* AllApps.xcconfig */; };
 		69A9E3D70588E51700F6A0DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		69A9E3E50588E51800F6A0DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCA7BA043CF6E000F95509 /* main.m */; };
 		69A9E3E70588E51800F6A0DD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -232,7 +230,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 69B8D160088DAC45002FCFD4 /* Build configuration list for PBXProject "DataConvert" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -257,9 +255,7 @@
 			files = (
 				69A9E3D70588E51700F6A0DD /* InfoPlist.strings in Resources */,
 				69AA8FC50841282F00DAB812 /* UserDefaults.plist in Resources */,
-				696A9CD01F954EA800C6527B /* AllProjects.xcconfig in Resources */,
 				6973FCED0A43267E00A68677 /* Release Notes.txt in Resources */,
-				697BCA231F9A8255005DE82A /* AllApps.xcconfig in Resources */,
 				695EFEE21AC6234100D9D458 /* MainMenu.xib in Resources */,
 				695EFEE11AC6234100D9D458 /* ConverterDoc.xib in Resources */,
 			);

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		69473FFA0B096223005DE552 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69473FF90B096223005DE552 /* Lablib.framework */; };
 		6947400D0B096310005DE552 /* LLMouseDataDevicePIugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6947400C0B096310005DE552 /* LLMouseDataDevicePIugin.m */; };
-		69C5243D1F94249B00E021E6 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 69C5243C1F94249B00E021E6 /* AllProjects.xcconfig */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -139,7 +138,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "LLMouseDataDevice" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -162,7 +161,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69C5243D1F94249B00E021E6 /* AllProjects.xcconfig in Resources */,
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

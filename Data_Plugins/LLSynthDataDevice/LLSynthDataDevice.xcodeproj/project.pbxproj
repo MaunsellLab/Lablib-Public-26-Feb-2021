@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6970BC341F9520910058CE60 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6970BC331F9520910058CE60 /* AllProjects.xcconfig */; };
 		69E8CA940B0A4A8000DBD2A2 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E8CA930B0A4A8000DBD2A2 /* Lablib.framework */; };
 		69E8CA9D0B0A4A9900DBD2A2 /* LLSynthDataDevicePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E8CA9C0B0A4A9900DBD2A2 /* LLSynthDataDevicePlugin.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -139,7 +138,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "LLSynthDataDevice" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -162,7 +161,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6970BC341F9520910058CE60 /* AllProjects.xcconfig in Resources */,
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

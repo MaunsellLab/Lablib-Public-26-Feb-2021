@@ -38,8 +38,6 @@
 		695EFEE41AC623AA00D9D458 /* Fixate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE31AC623AA00D9D458 /* Fixate.xib */; };
 		695EFEE61AC623D400D9D458 /* FTEyeXYController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE51AC623D400D9D458 /* FTEyeXYController.xib */; };
 		695EFEE81AC623E600D9D458 /* FTSummaryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEE71AC623E600D9D458 /* FTSummaryController.xib */; };
-		696A9CC61F954C5B00C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */; };
-		696A9CC81F954C9000C6527B /* AllTaskPlugins.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */; };
 		697CC50F077DD6F10025E7D2 /* FT.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC50E077DD6F10025E7D2 /* FT.h */; };
 		697CC99D077E01CA0025E7D2 /* FTStimuli.h in Resources */ = {isa = PBXBuildFile; fileRef = 697CC99C077E01CA0025E7D2 /* FTStimuli.h */; };
 		697CC9A1077E01E00025E7D2 /* FTStimuli.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CC9A0077E01E00025E7D2 /* FTStimuli.m */; };
@@ -267,7 +265,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 69B8D113088DABA8002FCFD4 /* Build configuration list for PBXProject "Fixate" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -304,9 +302,7 @@
 				694D1297077B8EC50025BAA4 /* FTStarttrialState.h in Resources */,
 				694D1299077B8EC50025BAA4 /* FTStateSystem.h in Resources */,
 				694D129B077B8EC50025BAA4 /* FTStopState.h in Resources */,
-				696A9CC61F954C5B00C6527B /* AllProjects.xcconfig in Resources */,
 				694D14FF077BA5CC0025BAA4 /* FTFixateState.h in Resources */,
-				696A9CC81F954C9000C6527B /* AllTaskPlugins.xcconfig in Resources */,
 				694D184E077C67B50025BAA4 /* FTEyeXYController.h in Resources */,
 				694D19B5077C76B70025BAA4 /* FTXTController.h in Resources */,
 				694D215C077D34A10025BAA4 /* UserDefaults.plist in Resources */,

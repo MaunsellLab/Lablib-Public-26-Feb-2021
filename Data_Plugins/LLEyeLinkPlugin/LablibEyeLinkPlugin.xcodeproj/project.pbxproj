@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		696AA39F1F3CDAE300D7549B /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696AA39D1F3CD8B700D7549B /* Lablib.framework */; };
 		696DF5AA0EB8A8F80004FC8E /* LLEyeLinkDataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0ED4650CA064BC00BE2453 /* LLEyeLinkDataDevice.m */; };
-		6970BC401F954A4C0058CE60 /* AllDataPlugins.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6970BC3F1F954A4C0058CE60 /* AllDataPlugins.xcconfig */; };
-		6970BC431F954AB50058CE60 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6970BC421F954AB50058CE60 /* AllProjects.xcconfig */; };
 		69D7851D17F3C8E800785BA7 /* eyelink_core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D7851C17F3C8E800785BA7 /* eyelink_core.framework */; };
 		E97BF1EB1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97BF1EA1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib */; };
 		FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -185,7 +183,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibEyeLinkPlugin" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -211,8 +209,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */,
-				6970BC401F954A4C0058CE60 /* AllDataPlugins.xcconfig in Resources */,
-				6970BC431F954AB50058CE60 /* AllProjects.xcconfig in Resources */,
 				E97BF1EB1AC58D97004E8F19 /* LLEyeLinkMonitorSettings.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		696DF5AA0EB8A8F80004FC8E /* LabJackU6DataDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0ED4650CA064BC00BE2453 /* LabJackU6DataDevice.m */; };
-		6970BC3B1F9523810058CE60 /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6970BC3A1F9523810058CE60 /* AllProjects.xcconfig */; };
-		6970BC3D1F95238B0058CE60 /* AllDataPlugins.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6970BC3C1F95238B0058CE60 /* AllDataPlugins.xcconfig */; };
 		699DE0761F995AA3000FD3C9 /* liblabjackusb.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F457851DFCD2D2004C700F /* liblabjackusb.dylib */; };
 		699DE0771F995AA6000FD3C9 /* libusb-1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F457831DFCD2B9004C700F /* libusb-1.0.dylib */; };
 		699DE0791F995AC5000FD3C9 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699DE0781F995AC5000FD3C9 /* Lablib.framework */; };
@@ -204,7 +202,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LabJackU6DataDevice" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -230,9 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */,
-				6970BC3D1F95238B0058CE60 /* AllDataPlugins.xcconfig in Resources */,
 				69AF8ADB1DFB6E9F00488DF2 /* LabJackU6Settings.xib in Resources */,
-				6970BC3B1F9523810058CE60 /* AllProjects.xcconfig in Resources */,
 				E97BF1EB1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
