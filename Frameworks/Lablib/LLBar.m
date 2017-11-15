@@ -39,7 +39,7 @@ NSString *LLBarWidthDegKey = @"widthDeg";
 	glPopMatrix();
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super init]) != nil) {
 		directionDeg = 45.0;

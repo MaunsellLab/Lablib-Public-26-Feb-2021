@@ -82,7 +82,7 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 	return IDString;
 }
 
-- (id)initWithID:(NSString *)ID description:(NSString *)description {
+- (instancetype)initWithID:(NSString *)ID description:(NSString *)description {
 
     NSMutableDictionary *defaultSettings;
 

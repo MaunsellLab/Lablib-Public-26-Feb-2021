@@ -99,7 +99,7 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
 		[calibrators[kLeftEye] description], [calibrators[kRightEye] description]];
 }
 	
-- (id)init;
+- (instancetype)init;
 {
     long eyeIndex;
 	NSString *defaultsPath;
@@ -124,7 +124,7 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
     return self;
 }
 
-- (id)initWithKeyPrefix:(NSString *)prefix;
+- (instancetype)initWithKeyPrefix:(NSString *)prefix;
 {
     long eyeIndex;
 	NSString *defaultsPath, *extendedPrefix;

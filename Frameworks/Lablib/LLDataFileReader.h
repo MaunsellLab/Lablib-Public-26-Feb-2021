@@ -82,7 +82,7 @@
 - (DataEvent *)findEventByIndex:(unsigned long)index line:(long *)pLine;
 - (DataEvent *)findEventByLine:(unsigned long)line index:(long *)pIndex;
 - (unsigned long)firstDataEventIndex;
-- (id)initWithData:(NSData *)data;
+- (instancetype)initWithData:(NSData *)data;
 - (long)length;
 - (unsigned long)maxEventCount;
 - (unsigned long)maxEventDataBytes;

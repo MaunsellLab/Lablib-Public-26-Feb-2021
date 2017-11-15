@@ -71,7 +71,7 @@
 	return bitPattern;
 }
 
-- (id)init {
+- (instancetype)init {
 
     if ((self =  [super initWithWindowNibName:@"LLMouseDataSettings"])) {
         [self setWindowFrameAutosaveName:@"LLMouseDataSettings"];

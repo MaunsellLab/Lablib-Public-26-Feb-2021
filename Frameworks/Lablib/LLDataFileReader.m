@@ -666,7 +666,7 @@ them.
 	return firstDataEventIndex;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
 		lastLineRead = -10;
@@ -674,7 +674,7 @@ them.
 	return self;
 }
 
-- (id)initWithData:(NSData *)data;
+- (instancetype)initWithData:(NSData *)data;
 {
 	if ((self = [super init]) != nil) {
 		[self setFileData:data];

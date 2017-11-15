@@ -37,7 +37,7 @@
 	return groupIndex;
 }
 
-- (id)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
+- (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
 			type:(long)theType groupIndex:(long)index;
 {
 	if (self = [super init]) {

@@ -31,7 +31,7 @@
 	[super dealloc];
 }
 
-- (id)init {
+- (instancetype)init {
 
 	self = [super init];
 	statLock = [[NSLock alloc] init];

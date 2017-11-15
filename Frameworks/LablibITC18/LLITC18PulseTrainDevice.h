@@ -37,8 +37,8 @@
 - (void)digitalOutputBitsOff:(unsigned short)bits;
 - (void)digitalOutputBitsOn:(unsigned short)bits;
 - (void)doInitializationWithDevice:(long)numDevice;
-- (id)initWithDevice:(long)numDevice;
-- (id)initWithDataDevice:(LLDataDevice *)theDataDevice;
+- (instancetype)initWithDevice:(long)numDevice;
+- (instancetype)initWithDataDevice:(LLDataDevice *)theDataDevice;
 - (BOOL)makeInstructionsFromTrainData:(PulseTrainData *)pTrain channels:(long)channels;
 - (BOOL)open:(long)numDevice;
 - (BOOL)outputDigitalEvent:(long)event withData:(long)data;

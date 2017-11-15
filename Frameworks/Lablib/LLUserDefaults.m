@@ -84,7 +84,7 @@
 	return value;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
 		defaultsLock = [[NSLock alloc] init];

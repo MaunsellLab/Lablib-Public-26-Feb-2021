@@ -27,7 +27,7 @@ extern NSString *LLSettingsChanged;
 - (void)checkRunTimes:(long)subjectNumber;
 - (BOOL)extractSettings;
 - (void)incrementRunTimes:(long)subjectNumber minRunTime:(float *)pMinTimeS totalRunTime:(float *)pTotalTimeS;
-- (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)prefix;
+- (instancetype)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)prefix;
 - (BOOL)loadSettings;
 - (void)loadSettingsFileNames;
 - (NSString *)pathToDomain:(NSString *)name;

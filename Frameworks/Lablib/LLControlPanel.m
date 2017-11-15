@@ -69,7 +69,7 @@ NSImage *stoppingButton;
 		object:self];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	NSString *imagePath;
 	

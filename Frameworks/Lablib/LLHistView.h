@@ -65,7 +65,7 @@ typedef struct {
 - (void)handleScaleChange:(NSNotification *)note;
 - (void)hide:(BOOL)state;
 - (void) initializeHistViewWithScale:(LLViewScale *)scale;
-- (id)initWithFrame:(NSRect)frame scaling:(LLViewScale *)histScale; 
+- (instancetype)initWithFrame:(NSRect)frame scaling:(LLViewScale *)histScale; 
 - (void)setAutoBinWidth:(BOOL)state;
 - (void)setData:(double *)histData length:(long)histLength color:(NSColor *)color;
 - (void)setDataLength:(long)length;

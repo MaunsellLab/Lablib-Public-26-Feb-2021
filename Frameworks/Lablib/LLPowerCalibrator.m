@@ -28,7 +28,7 @@
 	[super dealloc];
 }
 
-- (id)initFromFile:(NSURL *)fileURL;
+- (instancetype)initFromFile:(NSURL *)fileURL;
 {
     NSString *fileContents;
     NSError *error;
@@ -47,7 +47,7 @@
     return self;
 }
 
-- (id)initWithCalibrationFile:(NSString *)fileName;
+- (instancetype)initWithCalibrationFile:(NSString *)fileName;
 {
     NSString *path, *fileContents;
     NSError *error;

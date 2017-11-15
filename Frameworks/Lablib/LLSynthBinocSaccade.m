@@ -19,7 +19,7 @@
     return (decelSteps[kLeftEye] == 0 && decelSteps[kRightEye] == 0);
 }
 
-- (id)initFrom:(NSPoint *)currentDeg degToUnits:(NSAffineTransform **)degToUnits samplePerMS:(long)samplePeriodMS;
+- (instancetype)initFrom:(NSPoint *)currentDeg degToUnits:(NSAffineTransform **)degToUnits samplePerMS:(long)samplePeriodMS;
 {
     long distanceIndex;
     NSPoint targetDeg;
@@ -53,7 +53,7 @@
     return self;
 }
 
-- (id)initFrom:(NSPoint *)currentDeg to:(NSPoint)targetDeg degToUnits:(NSAffineTransform **)degToUnits
+- (instancetype)initFrom:(NSPoint *)currentDeg to:(NSPoint)targetDeg degToUnits:(NSAffineTransform **)degToUnits
                                                                             samplePerMS:(long)samplePeriodMS;
 {
     if ((self = [super init]) != nil) {

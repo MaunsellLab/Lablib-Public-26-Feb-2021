@@ -38,7 +38,7 @@ NSString *FTTrialWindowZoomKey = @"FTTrialWindowZoom";
                 forKey:FTTrialWindowZoomKey];
 }
 
-- (id)init {
+- (instancetype)init {
 
     if ((self = [super initWithWindowNibName:@"FTXTController"]) != Nil) {
  		[self setShouldCascadeWindows:NO];

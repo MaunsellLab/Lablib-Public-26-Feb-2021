@@ -378,7 +378,7 @@ NSString *LLGaborTemporalPhaseDegKey = @"temporalPhaseDeg";
 	return &gabor;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	LLMultiplierTransformer *transformPC;
 	GLuint	allTextures[3] = {};

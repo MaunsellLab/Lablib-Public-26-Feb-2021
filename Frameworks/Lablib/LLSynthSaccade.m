@@ -19,7 +19,7 @@
     return (decelSteps == 0);
 }
 
-- (id)initFrom:(NSPoint)current samplePerMS:(long)samplePeriodMS unitsPerDeg:(float)calibration;
+- (instancetype)initFrom:(NSPoint)current samplePerMS:(long)samplePeriodMS unitsPerDeg:(float)calibration;
 {
     long distanceIndex;
     double magDeg;
@@ -52,7 +52,7 @@
     return self;
 }
 
-- (id)initFrom:(NSPoint)current to:(NSPoint)target samplePerMS:(long)samplePeriodMS unitsPerDeg:(float)calibration;
+- (instancetype)initFrom:(NSPoint)current to:(NSPoint)target samplePerMS:(long)samplePeriodMS unitsPerDeg:(float)calibration;
 {
     double xDelta, yDelta;
     

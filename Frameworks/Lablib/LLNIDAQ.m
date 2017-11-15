@@ -70,7 +70,7 @@
     [self closeShutter];
 }
 
-- (id)initWithSocket:(LLSockets *)theSocket;
+- (instancetype)initWithSocket:(LLSockets *)theSocket;
 {
     NSString *fileName;
 
@@ -81,7 +81,7 @@
     return self;
 }
 
-- (id)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
+- (instancetype)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
 {
     if ((self = [super init]) != nil) {
         [self doInitWithSocket:theSocket calibrationFileName:calibrationFileName];

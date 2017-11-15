@@ -29,7 +29,7 @@
 	}
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self =  [super initWithWindowNibName:@"LLSynthDataSettings"])) {
         [self setWindowFrameAutosaveName:@"LLSynthDataSettings"];

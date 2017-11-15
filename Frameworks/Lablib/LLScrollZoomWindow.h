@@ -17,7 +17,7 @@
 }
 
 - (IBAction)changeZoom:(id)sender;
-- (id)initWithWindowNibName:(NSString *)nibName defaults:(NSUserDefaults *)taskDefaults;
+- (instancetype)initWithWindowNibName:(NSString *)nibName defaults:(NSUserDefaults *)taskDefaults;
 - (void)setBaseMaxContentSize:(NSSize)newSize;
 - (void)setScaleFactor:(float)newFactor;
 - (void)setWindowMaxSize;

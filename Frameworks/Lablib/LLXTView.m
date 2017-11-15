@@ -195,7 +195,7 @@
     eyeWindowWidthFactor = MAX(0.01, factor);
 }
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
 
     long index;
     float eyeColors[kEyePlots][4] = {

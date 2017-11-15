@@ -99,7 +99,7 @@
 	[super dealloc];
 }
 
-- (id)initWithID:(NSString *)ID {
+- (instancetype)initWithID:(NSString *)ID {
 
 	if ((self = [super initWithWindowNibName:@"LLIntervalMonitorSettings"]) != nil) {
 		[ID retain];

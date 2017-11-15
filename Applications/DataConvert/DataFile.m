@@ -392,7 +392,7 @@ static PrintView	*printView;
     return MAstring;
 }
 
-- (id)init
+- (instancetype)init
 {
     NSFont *font;
     NSUserDefaultsController *defaultsController;

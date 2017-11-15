@@ -33,7 +33,7 @@
 - (void)checkMatlabDataPath:(NSString *)dirName;
 - (NSMutableString *)convertToMatlabString:(NSString *)eventString;
 - (void)deactivate;
-- (id)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
+- (instancetype)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
 - (BOOL)loadMatlabWorkspace;
 - (NSString *)matlabFileName;
 - (BOOL)matlabFileExists;

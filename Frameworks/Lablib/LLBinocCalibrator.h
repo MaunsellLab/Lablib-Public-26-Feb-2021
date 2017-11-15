@@ -37,7 +37,7 @@ typedef enum {kLeftEye, kRightEye} kWhichEye;
 - (LLEyeCalibrator *)calibratorForEye:(long)eyeIndex;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint forEye:(long)eyeIndex;
-- (id)initWithKeyPrefix:(NSString *)prefix;
+- (instancetype)initWithKeyPrefix:(NSString *)prefix;
 - (void)loadOffsets;
 - (long)nextCalibrationPosition;
 - (long)nextCalibrationPosition:(long)offsetIndex;

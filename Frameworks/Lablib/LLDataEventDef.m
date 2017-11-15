@@ -324,7 +324,7 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 
 // Perform initialization without data definitions
 
-- (id)initWithCode:(long)initCode name:(NSString *)initName dataBytes:(long)initBytes;
+- (instancetype)initWithCode:(long)initCode name:(NSString *)initName dataBytes:(long)initBytes;
 {
 	if ((self = [super init]) != nil) {
 		code = initCode;
@@ -338,7 +338,7 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 
 // Perform initialization with data defintions
 
-- (id)initWithCode:(long)initCode name:(NSString *)initName elementBytes:(long)eleBytes
+- (instancetype)initWithCode:(long)initCode name:(NSString *)initName elementBytes:(long)eleBytes
 			dataDefinition:(LLDataDef *)pDataDef;
 {
 	if (pDataDef == nil) {

@@ -49,7 +49,7 @@ typedef struct {
 - (void)computeTransformFromOffsets;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint;
 - (void)initFinish;
-- (id)initWithKeyPrefix:(NSString *)theKey;
+- (instancetype)initWithKeyPrefix:(NSString *)theKey;
 - (NSString *)keyFor:(NSString *)keyType;
 - (void)loadOffsets;
 - (void)loadTransforms;

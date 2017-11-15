@@ -465,7 +465,7 @@ char *idString = "Knot Version 2.2";
 	[self activateCurrentTask];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	NSString *userDefaultsValuesPath;
     NSDictionary *userDefaultsValuesDict;

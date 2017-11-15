@@ -28,7 +28,7 @@
 	[[self window] close];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super initWithWindowNibName:@"LLProgressIndicator"]) != nil) {
         [self setWindowFrameAutosaveName:@"LLProgressIndicator"];

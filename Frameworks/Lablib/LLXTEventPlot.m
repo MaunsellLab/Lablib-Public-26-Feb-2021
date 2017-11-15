@@ -110,7 +110,7 @@
 	[eventLock unlock];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
         eventNames = [[NSMutableArray alloc] init];

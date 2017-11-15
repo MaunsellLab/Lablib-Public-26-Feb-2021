@@ -309,7 +309,7 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 	return &gabor;
 }
 
-- (id)init {
+- (instancetype)init {
 
 	GLuint	allTextures[2] = {};
 	

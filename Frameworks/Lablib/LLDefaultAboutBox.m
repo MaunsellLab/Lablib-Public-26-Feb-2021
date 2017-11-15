@@ -10,7 +10,7 @@
 
 @implementation LLDefaultAboutBox
  
- - (id)init {
+ - (instancetype)init {
  
 	if ((self =  [super initWithWindowNibName:@"LLDefaultAboutPanel"])) {
 		[self window];

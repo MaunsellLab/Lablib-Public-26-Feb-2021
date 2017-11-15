@@ -32,7 +32,7 @@
 	IBOutlet NSTextField	*warnLessCountField;
 }
 
-- (id)initWithID:(NSString *)ID;
+- (instancetype)initWithID:(NSString *)ID;
 - (NSString *)uniqueKey:(NSString *)commonKey;
 
 - (IBAction)changeDoSuccessGreater:(id)sender;

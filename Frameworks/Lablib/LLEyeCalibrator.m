@@ -220,7 +220,7 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 		currentCalibration.tX, currentCalibration.tY];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super initWithWindowNibName:@"LLEyeCalibrator"]) != nil) {
         keyPrefix = [@"LLFixCal" retain];
@@ -250,7 +250,7 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
     [self readDefaults];
 }
 
-- (id)initWithKeyPrefix:(NSString *)theKey;
+- (instancetype)initWithKeyPrefix:(NSString *)theKey;
 {
     if ((self = [super initWithWindowNibName:@"LLEyeCalibrator"]) != nil) {
         keyPrefix = theKey;

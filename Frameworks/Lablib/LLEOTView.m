@@ -12,7 +12,7 @@
 
 @implementation LLEOTView
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
 
     if ((self = [super initWithFrame:frame]) != nil) {
 		eotTypes = kEOTTypes;

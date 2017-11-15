@@ -11,7 +11,7 @@
     NSString *domainName;
 }
 
-- (id)initWithPluginName:(NSString *)name;
+- (instancetype)initWithPluginName:(NSString *)name;
 - (void)registerDefaults:(NSDictionary *)dictionary;
 
 @end

@@ -54,7 +54,7 @@ NSString *KNSummaryWindowZoomKey = @"KNSummaryWindowZoom";
     [super dealloc];
 }
     
--(id)initWithDefaults:(LLUserDefaults *)userDefaults;
+-(instancetype)initWithDefaults:(LLUserDefaults *)userDefaults;
 {
     NSRect maxScrollRect;
 	double timeNow, timeStored;

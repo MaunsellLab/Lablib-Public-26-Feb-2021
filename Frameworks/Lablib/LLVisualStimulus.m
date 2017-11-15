@@ -175,7 +175,7 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 	return foreColor;
 }
 
-- (id)init;
+- (instancetype)init;
 {	
 	if ((self = [super init]) != nil) {
 		keys = [[NSMutableArray alloc] initWithObjects:LLAzimuthDegKey, LLDirectionDegKey, LLElevationDegKey, 

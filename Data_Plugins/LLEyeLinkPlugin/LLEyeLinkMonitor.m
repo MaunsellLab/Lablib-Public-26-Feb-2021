@@ -88,7 +88,7 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 	return IDString;
 }
 
-- (id)initWithID:(NSString *)ID description:(NSString *)description {
+- (instancetype)initWithID:(NSString *)ID description:(NSString *)description {
 
     NSMutableDictionary *defaultSettings;
 

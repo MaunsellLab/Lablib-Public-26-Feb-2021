@@ -28,8 +28,8 @@
 }
 
 - (BOOL)done;
-- (id)initFrom:(NSPoint)current samplePerMS:(long)samplePer unitsPerDeg:(float)calibration;
-- (id)initFrom:(NSPoint)current to:(NSPoint)target samplePerMS:(long)samplePer 
+- (instancetype)initFrom:(NSPoint)current samplePerMS:(long)samplePer unitsPerDeg:(float)calibration;
+- (instancetype)initFrom:(NSPoint)current to:(NSPoint)target samplePerMS:(long)samplePer 
                     unitsPerDeg:(float)calibration;
 - (void)initParameters;
 - (NSPoint)nextPosition;

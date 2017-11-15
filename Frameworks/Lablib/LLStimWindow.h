@@ -40,7 +40,7 @@
 - (float)frameRateHz;
 - (BOOL)fullscreen;
 - (void)grayScreen;
-- (id)initWithDisplayIndex:(long)displayIndex contentRect:(NSRect)cRect;
+- (instancetype)initWithDisplayIndex:(long)displayIndex contentRect:(NSRect)cRect;
 - (void)lock;
 - (LLIntervalMonitor *)monitor;
 - (BOOL)mouseInside;

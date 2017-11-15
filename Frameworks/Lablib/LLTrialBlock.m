@@ -56,7 +56,7 @@
 	[super dealloc];
 }
 
-- (id)initWithTrialCount:(long)trialNum triesCount:(long)repeats blockCount:(long)blockCount {
+- (instancetype)initWithTrialCount:(long)trialNum triesCount:(long)repeats blockCount:(long)blockCount {
 
 	if ((self = [super init]) != nil) {
 		blocks = blockCount;

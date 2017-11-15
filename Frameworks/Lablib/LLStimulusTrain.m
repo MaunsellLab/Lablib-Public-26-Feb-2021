@@ -76,7 +76,7 @@ NSString *LLSTUAPerVKey = @"Stim Train uA Per V";
     [[NSUserDefaults standardUserDefaults] setFloat:[sender floatValue] forKey:LLSTUAPerVKey];
 } 
 
-- (id)init {
+- (instancetype)init {
 
     NSMutableDictionary *defaultSettings;
 

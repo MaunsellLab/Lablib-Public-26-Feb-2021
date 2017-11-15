@@ -41,7 +41,7 @@ December 26, 2004 John Maunsell
 	return fixSpot;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
 		fixSpot = [[LLFixTarget alloc] init];

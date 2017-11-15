@@ -113,7 +113,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     [super dealloc];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     NSMutableDictionary *defaultSettings;
 

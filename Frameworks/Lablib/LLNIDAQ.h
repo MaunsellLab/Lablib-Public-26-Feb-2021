@@ -23,8 +23,8 @@
 }
 
 - (void)doInitWithSocket:(LLSockets *)theSocket calibrationFileName:(NSString *)fileName;
-- (id)initWithSocket:(LLSockets *)theSocket;
-- (id)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
+- (instancetype)initWithSocket:(LLSockets *)theSocket;
+- (instancetype)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
 - (BOOL)isDone:(LLNIDAQTask *)theTask;
 - (BOOL)loadCalibration:(short)channel url:(NSURL *)url;
 - (float)maximumMWForChannel:(long)channel;

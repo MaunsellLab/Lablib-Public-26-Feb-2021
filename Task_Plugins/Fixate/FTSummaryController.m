@@ -62,7 +62,7 @@ NSString *FTSummaryWindowZoomKey = @"FTSummaryWindowZoom";
     [super dealloc];
 }
     
-- (id)init {
+- (instancetype)init {
 
     NSRect maxScrollRect;
 	double timeNow, timeStored;

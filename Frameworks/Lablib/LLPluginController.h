@@ -24,7 +24,7 @@
 	IBOutlet NSTableView	*pluginTable;
 }
 
-- (id)initWithDefaults:(NSUserDefaults *)theDefaults;
+- (instancetype)initWithDefaults:(NSUserDefaults *)theDefaults;
 - (void)loadPlugins;
 - (void)loadPluginsForApplication:(NSString *)appName;
 - (NSArray *)loadedPlugins;

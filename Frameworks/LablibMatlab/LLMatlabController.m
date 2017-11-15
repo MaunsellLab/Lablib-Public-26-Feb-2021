@@ -159,7 +159,7 @@
     [super dealloc];
 }
 
-- (id)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
+- (instancetype)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
 {
     if ((self = [super init]) != nil) {
         matFileName = [fileName retain];

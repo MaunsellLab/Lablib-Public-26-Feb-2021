@@ -42,7 +42,7 @@
     return rectDeg.size.height;
 }
 
-- (id)init {
+- (instancetype)init {
 
     if ((self = [super init]) != nil) {
         plotColor = [[NSColor blueColor] retain];

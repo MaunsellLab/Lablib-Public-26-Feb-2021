@@ -17,7 +17,7 @@
 	IBOutlet NSTextField	*driftLimitField;
 }
 
-- (id)initWithID:(NSString *)ID monitor:(id)monitorID;
+- (instancetype)initWithID:(NSString *)ID monitor:(id)monitorID;
 - (NSString *)uniqueKey:(NSString *)commonKey;
 
 - (IBAction)changeDoWarnDrift:(id)sender;

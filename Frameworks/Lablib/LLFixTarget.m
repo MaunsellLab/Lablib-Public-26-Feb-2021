@@ -121,7 +121,7 @@ NSString *LLFixShapeKey = @"shape";
 	return foreColor;
 }
 
-- (id)init;
+- (instancetype)init;
 {	
 	if ((self = [super init]) != nil) {
 		shape = kLLSquare;

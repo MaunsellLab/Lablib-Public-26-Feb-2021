@@ -28,7 +28,7 @@
 	[super dealloc];
 }
 
-- (id)initWithID:(NSString *)ID monitor:(id)monitorID {
+- (instancetype)initWithID:(NSString *)ID monitor:(id)monitorID {
 
 	if ((self = [super initWithWindowNibName:@"LabJackU6MonitorSettings"]) != Nil) {
 		[ID retain];

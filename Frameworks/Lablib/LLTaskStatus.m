@@ -14,7 +14,7 @@
 	return dataFileOpen;
 }
 
-- (id)init {
+- (instancetype)init {
 	
 	if ((self = [super init]) != nil) {
 		mode = kTaskIdle;

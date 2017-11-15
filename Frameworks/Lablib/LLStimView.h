@@ -28,7 +28,7 @@
 - (DisplayParam *)displayParameters;
 - (LLDisplays *)displays;
 - (BOOL)fullscreen;
-- (id)initWithFrame:(NSRect)frameRect displayIndex:(long)dIndex;
+- (instancetype)initWithFrame:(NSRect)frameRect displayIndex:(long)dIndex;
 - (void)lock;
 - (void)makeFullscreenWindow;
 - (void)makeWindow:(NSRect)contentRect;

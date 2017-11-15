@@ -288,7 +288,7 @@ struct screenMode {
 	return (displayParam[displayIndex].widthPix / [self displaySizeDeg:displayIndex].width / 2.0);
 }
 
-- (id)init {
+- (instancetype)init {
 
 	long index;
 	

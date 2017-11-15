@@ -251,7 +251,7 @@ float *vector(long nl, long nh)
 
 // Initialize and set default parameters
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super init]) != nil) {
 		noiseType = kWhiteNoise;										// default white noise

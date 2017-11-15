@@ -86,7 +86,7 @@ NSString *DCShowTimeOfDayKey = @"DCShowTimeOfDay";
 	[outError release];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init])) {
 		[self setDelegate:self];

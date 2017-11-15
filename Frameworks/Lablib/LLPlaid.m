@@ -435,7 +435,7 @@ NSString *LLPlaid1TemporalPhaseDegKey = @"temporalPhaseDeg1";
 	return &plaid;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	LLMultiplierTransformer *transformPC;
 	GLuint	allTextures[3] = {};

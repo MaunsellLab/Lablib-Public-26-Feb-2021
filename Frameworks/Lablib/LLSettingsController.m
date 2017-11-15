@@ -180,7 +180,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
                 forKey:[NSString stringWithFormat:@"%@LastRunTime%ld", prefix, subjectNumber]];
 }
 
-- (id)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)thePrefix;
+- (instancetype)initForPlugin:(NSBundle *)thePlugin prefix:(NSString *)thePrefix;
 {
     NSString *settingsName;
     NSDictionary *baseDict;

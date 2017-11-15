@@ -23,7 +23,7 @@
 - (long)blocksRemaining;
 - (void)countCurrentTrial:(BOOL)correct;
 - (long)currentTrialIndex;
-- (id)initWithTrialCount:(long)trialNum triesCount:(long)repeats blockCount:(long)blockCount;
+- (instancetype)initWithTrialCount:(long)trialNum triesCount:(long)repeats blockCount:(long)blockCount;
 - (void)newBlock;
 - (long)nextTrialIndex;
 - (void)reset;

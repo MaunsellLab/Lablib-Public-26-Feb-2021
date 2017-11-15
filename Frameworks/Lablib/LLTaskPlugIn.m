@@ -123,7 +123,7 @@
 	return NO;
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super init])) {
         monkeySoundDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"200Hz100msSq", @"broke",

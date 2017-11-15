@@ -201,7 +201,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 
 }
 
-- (id)initWithSocket:(LLSockets *)theSocket;
+- (instancetype)initWithSocket:(LLSockets *)theSocket;
 {
     if ((self = [super init]) != nil) {
         socket = theSocket;

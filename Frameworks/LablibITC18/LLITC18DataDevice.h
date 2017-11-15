@@ -50,7 +50,7 @@
 - (void)allocateSampleBuffer:(short **)ppBuffer size:(long)sizeInShorts;
 - (void)closeITC18;
 - (int)getAvailable;
-- (id)initWithDevice:(long)deviceNum;
+- (instancetype)initWithDevice:(long)deviceNum;
 - (Ptr)itc;
 - (void)loadInstructions;
 - (id <LLMonitor>)monitor;

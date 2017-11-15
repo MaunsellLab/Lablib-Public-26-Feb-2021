@@ -40,7 +40,7 @@ static float colorValues[][kGuns] = {
     return self;
 }
 
--(id)initWithAlpha:(float)alpha {
+-(instancetype)initWithAlpha:(float)alpha {
 
     if ((self = [super init]) != nil) {
         [self initColorsWithAlpha:alpha];

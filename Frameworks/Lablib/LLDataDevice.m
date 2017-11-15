@@ -130,7 +130,7 @@
 	timestampChannels |= [bitPattern unsignedLongValue];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
 		samplePeriodMS = [[NSMutableArray alloc] init];

@@ -20,7 +20,7 @@ typedef enum {kLLSampleData, kLLTimestampData, kLLAssignmentTypes} LLDataAssignm
 - (long)channel;
 - (long)device;
 - (long)groupIndex;
-- (id)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
+- (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
 			type:(long)theType groupIndex:(long)index;
 - (NSString *)name;
 - (void)setChannel:(NSNumber *)newChannel;

@@ -58,7 +58,7 @@
 	return value;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
         domainName = @"lablib.knot.unnamed";
@@ -67,7 +67,7 @@
 	return self;
 }
 
-- (id)initWithPluginName:(NSString *)name;
+- (instancetype)initWithPluginName:(NSString *)name;
 {
 	if ((self = [super init]) != nil) {
         domainName = [NSString stringWithFormat:@"lablib.knot.%@", name];

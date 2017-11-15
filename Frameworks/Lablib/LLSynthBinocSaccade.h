@@ -24,8 +24,8 @@ typedef enum {kLeftEye, kRightEye} WhichEye;
 }
 
 - (BOOL)done;
-- (id)initFrom:(NSPoint *)currentDeg degToUnits:(NSAffineTransform **)degToUnits samplePerMS:(long)samplePeriodMS;
-- (id)initFrom:(NSPoint *)currentDeg to:(NSPoint)targetDeg degToUnits:(NSAffineTransform **)degToUnits
+- (instancetype)initFrom:(NSPoint *)currentDeg degToUnits:(NSAffineTransform **)degToUnits samplePerMS:(long)samplePeriodMS;
+- (instancetype)initFrom:(NSPoint *)currentDeg to:(NSPoint)targetDeg degToUnits:(NSAffineTransform **)degToUnits
                                 samplePerMS:(long)samplePeriodMS;
 - (void)initParametersFrom:(NSPoint *)currentDeg to:(NSPoint)targetDeg degToUnits:(NSAffineTransform **)degToUnits
                samplePerMS:(long)samplePeriodMS;

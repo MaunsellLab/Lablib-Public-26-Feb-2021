@@ -59,7 +59,7 @@
     [self writeMessage:@"RUN\r"];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     NSMutableDictionary *defaultSettings;
 

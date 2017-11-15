@@ -38,7 +38,7 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
                 forKey:trialWindowZoomKey];
 }
 
-- (id)init {
+- (instancetype)init {
 
     if ((self = [super initWithWindowNibName:@"RFXTController"]) != nil) {
  		[self setShouldCascadeWindows:NO];

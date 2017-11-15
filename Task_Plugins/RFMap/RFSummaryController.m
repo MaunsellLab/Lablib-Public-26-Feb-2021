@@ -63,7 +63,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     [super dealloc];
 }
     
-- (id)init {
+- (instancetype)init {
 
     NSRect maxScrollRect;
 	double timeNow, timeStored;

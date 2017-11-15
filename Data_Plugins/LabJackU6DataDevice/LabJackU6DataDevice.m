@@ -228,7 +228,7 @@ long ELTrialStartTimeMS;
     [self digitalOutputBits:(digitalOutputBits | bits)];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
         digitalOutputBits = 0;

@@ -30,7 +30,7 @@ NSString *windowZoomKey = @"WindowZoom";
 	[super dealloc];
 }
 
-- (id)initWithWindowNibName:(NSString *)nibName defaults:(NSUserDefaults *)taskDefaults;
+- (instancetype)initWithWindowNibName:(NSString *)nibName defaults:(NSUserDefaults *)taskDefaults;
 {
    if ((self = [super initWithWindowNibName:nibName]) != nil) {
 		viewName = nibName;

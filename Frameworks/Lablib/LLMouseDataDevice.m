@@ -53,7 +53,7 @@ static	LLMouseDataSettings	*mouseSettings;
 	}
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	long channel;
 	NSString *defaultsPath;

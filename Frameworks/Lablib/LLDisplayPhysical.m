@@ -143,7 +143,7 @@ NSString *LLWidthMMKey = @"LL Width MM";
 	[self writeParameters:displayIndex];		// Try to write the new values
 }
 
-- (id)init {
+- (instancetype)init {
 
     if ((self = [super initWithWindowNibName:@"LLDisplaySettings"])) {
         [self setWindowFrameAutosaveName:@"LLDisplaySettings"];

@@ -23,7 +23,7 @@
     return [NSNumber class];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init])) {
 		multiplier = 100.0;

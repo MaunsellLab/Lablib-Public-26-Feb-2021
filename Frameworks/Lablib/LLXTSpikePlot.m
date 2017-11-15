@@ -62,7 +62,7 @@
 	[spikeLock unlock];
 }
 
-- (id)init {
+- (instancetype)init {
 
 	if ((self = [super init]) != nil) {
         spikeTimes = [[NSMutableArray alloc] init];

@@ -355,7 +355,7 @@ static long	ITCCount = 0;
 // ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive 
 // value at the next read, but a steady level can also produce a series of positive values.
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
 		[self doInitializationWithDevice:ITCCount++];
@@ -365,7 +365,7 @@ static long	ITCCount = 0;
 
 // Do the initialize with a particular ITC-18 device, rather than the default
 
-- (id)initWithDevice:(long)requestedNum;
+- (instancetype)initWithDevice:(long)requestedNum;
 {
 	if ((self = [super init]) != nil) {
 		deviceNum = requestedNum;

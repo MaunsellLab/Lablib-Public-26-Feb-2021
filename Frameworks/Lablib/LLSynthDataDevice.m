@@ -172,7 +172,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
    }
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	long channel;
 	NSString *defaultsPath;

@@ -35,7 +35,7 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 	[NSApp stopModal];
 }
 
-- (id)initWithDefaults:(NSUserDefaults *)theDefaults;
+- (instancetype)initWithDefaults:(NSUserDefaults *)theDefaults;
 {
     if ((self =  [super initWithWindowNibName:@"LLPluginController"]) != nil) {
 		defaults = theDefaults;

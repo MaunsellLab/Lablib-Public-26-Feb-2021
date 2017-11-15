@@ -223,7 +223,7 @@ float stencilRadiusDeg = FLT_MAX;
 	}
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	LLMultiplierTransformer *transformPC;
 	long index;

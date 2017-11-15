@@ -9,7 +9,7 @@
 
 @implementation LabJackU6Settings
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self =  [super initWithWindowNibName:@"LabJackU6Settings"])) {
 		[self window];					// Force window to load

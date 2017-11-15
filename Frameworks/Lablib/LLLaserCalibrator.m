@@ -82,7 +82,7 @@ NSString *mWKey = @"mW";
 	*pMW = [number floatValue] * [taskDefaults floatForKey:LLLaserCalibratorAttenuationKey];
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	NSString *defaultsPath;
 	NSDictionary *defaultsDict;

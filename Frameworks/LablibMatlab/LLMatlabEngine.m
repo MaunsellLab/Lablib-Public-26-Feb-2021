@@ -72,7 +72,7 @@ Engine  *pEngine;
     [super dealloc];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     NSMutableDictionary *defaultSettings;
     NSString *outputStr;

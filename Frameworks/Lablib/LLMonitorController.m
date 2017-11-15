@@ -58,7 +58,7 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 	[super dealloc];
 }
 
-- (id)init {
+- (instancetype)init {
 	
     if ((self =  [super initWithWindowNibName:@"LLMonitorController"]) != nil) {
         [self setWindowFrameAutosaveName:@"LLMonitorController"];

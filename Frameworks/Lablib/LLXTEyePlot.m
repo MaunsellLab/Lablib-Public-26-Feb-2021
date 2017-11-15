@@ -115,7 +115,7 @@
     fixWindowWidth = width;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	if ((self = [super init]) != nil) {
         sampleRectsDeg = [[NSMutableArray alloc] init];

@@ -25,7 +25,7 @@ NSString *LLPTUAPerVKey = @"LLPTUAPerV";
 
 @implementation LLPulseTrain 
 
-- (id)init
+- (instancetype)init
 {
 	NSString *defaultsPath;
     NSDictionary *defaultsDict;

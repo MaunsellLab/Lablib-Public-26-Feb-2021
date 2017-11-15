@@ -686,7 +686,7 @@ f) LLNullDataDevice
 					
 g) LLRandomDots
 
-	created			- (id)initWithDisplay:(DisplayParam)newDisplay;
+	created			- (instancetype)initWithDisplay:(DisplayParam)newDisplay;
 
 					This is to allow the display parameter to be initialized with the init.
 					This is the preferred initialization, because display must be set for

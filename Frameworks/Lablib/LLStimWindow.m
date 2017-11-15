@@ -154,7 +154,7 @@
 	[self unlock];
 }
 
-- (id)initWithDisplayIndex:(long)dIndex contentRect:(NSRect)cRect;
+- (instancetype)initWithDisplayIndex:(long)dIndex contentRect:(NSRect)cRect;
 {
     NSRect dRect;
     NSSize stimWindowSize;

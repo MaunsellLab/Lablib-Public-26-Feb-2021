@@ -106,7 +106,7 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 	return fixSpot;
 }
 
-- (id)init;
+- (instancetype)init;
 {
 	long index;
 

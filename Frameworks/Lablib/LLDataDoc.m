@@ -518,7 +518,7 @@ This variant accepts only events definitions that include data definitions.
     lastRead += numBytes;
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super init])) {
         data = [[NSMutableData alloc] initWithCapacity:kLLInitialBufferSize];

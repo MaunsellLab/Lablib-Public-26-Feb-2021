@@ -40,7 +40,7 @@ typedef uint32_t *NIDAQTask;
 - (BOOL)doTrain:(Float64 *)train numSamples:(long)trainSamples outputRateHz:(float)outputRateHz
         digitalTrigger:(BOOL)digitalTrigger triggerChannelName:(NSString *)channelName autoStart:(BOOL)autoStart
         waitTimeS:(float)waitTimeS;
-- (id)initWithSocket:(LLSockets *)theSocket;
+- (instancetype)initWithSocket:(LLSockets *)theSocket;
 - (BOOL)isDone;
 - (BOOL)sendDictionary:(NSMutableDictionary *)dict;
 - (BOOL)setMaxVolts:(float)maxV minVolts:(float)minV forChannelName:(NSString *)channelName;
