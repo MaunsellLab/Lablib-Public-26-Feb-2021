@@ -25,32 +25,32 @@
 
 - (instancetype)init;
 {
-	if ((self = [super init])) {
-		multiplier = 100.0;
-	}
-	return self;
+    if ((self = [super init])) {
+        multiplier = 100.0;
+    }
+    return self;
 }
-		 
+         
 - (id)reverseTransformedValue:(id)value;
 {
-	float outputValue;
-	
+    float outputValue;
+    
     if (value == nil) {
-		return nil;
-	}
+        return nil;
+    }
     
 // Attempt to get a reasonable value from the value object.
 
     if ([value respondsToSelector: @selector(floatValue)]) {
-        outputValue = [value floatValue];			  // handles NSString and NSNumber
+        outputValue = [value floatValue];              // handles NSString and NSNumber
     } 
-	else {
+    else {
         [NSException raise: NSInternalInconsistencyException
-				format: @"LLMultiplierTransformer: Value (%@) does not respond to -floatValue.",
-				[value class]];
-		return nil;
+                format: @"LLMultiplierTransformer: Value (%@) does not respond to -floatValue.",
+                [value class]];
+        return nil;
     }
-    return [NSNumber numberWithFloat:outputValue / multiplier];
+    return @(outputValue / multiplier);
 }
 
 - (id)transformedValue:(id)value;
@@ -58,23 +58,23 @@
     float inputValue;
 
     if (value == nil) {
-		return nil;
-	}
+        return nil;
+    }
 
 // Attempt to get a reasonable value from the value object.
 
     if ([value respondsToSelector: @selector(floatValue)]) {
-        inputValue = [value floatValue];		 // handles NSString and NSNumber
+        inputValue = [value floatValue];         // handles NSString and NSNumber
     } else {
         [NSException raise: NSInternalInconsistencyException
-				format: @"LLMultiplierTransformer: Value (%@) does not respond to -floatValue.",
-			[value class]];
-		return nil;
+                format: @"LLMultiplierTransformer: Value (%@) does not respond to -floatValue.",
+            [value class]];
+        return nil;
     }
     
 // Compute the steps per octave from the factor
 
-    return [NSNumber numberWithFloat:inputValue * multiplier];
+    return @(inputValue * multiplier);
 }
 
 @end

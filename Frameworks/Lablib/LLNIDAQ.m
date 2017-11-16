@@ -107,7 +107,7 @@
         [calibrator[channel] release];
     }
     calibrator[channel] = [[LLPowerCalibrator alloc] initFromFile:url];
-    if ([calibrator[channel] calibrated]) {
+    if (calibrator[channel].calibrated) {
         [analogOutput setMaxVolts:[calibrator[channel] maximumV] minVolts:[calibrator[channel] minimumV]
                       forChannelName:channelNames[channel]];
         return YES;
@@ -198,7 +198,7 @@
     Float64 outputV[kMinSamples * kActiveChannels];        // min 2 samples per channel
     
     for (sample  = 0; sample < numSamples; sample++) {
-        outputV[sample] = [calibrator[channel] calibrated] ? [calibrator[channel] voltageForMW:powerMW] : powerMW;
+        outputV[sample] = calibrator[channel].calibrated ? [calibrator[channel] voltageForMW:powerMW] : powerMW;
     }
 
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:kMinSamples];

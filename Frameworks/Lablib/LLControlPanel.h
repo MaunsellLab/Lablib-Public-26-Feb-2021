@@ -12,18 +12,17 @@ extern NSString *LLResetButtonKey;
 
 @interface LLControlPanel : NSWindowController <NSWindowDelegate> {
 
-	IBOutlet NSTextField	*fileNameDisplay;
-	long					originalHeightPix;
-	IBOutlet NSButton		*resetButton;
-	long					taskMode;
-	IBOutlet NSButton		*taskModeButton;
+    IBOutlet NSTextField    *fileNameDisplay;
+    long                    originalHeightPix;
+    IBOutlet NSButton        *resetButton;
+    long                    taskMode;
+    IBOutlet NSButton        *taskModeButton;
 }
 
 - (void)displayFileName:(NSString *)fileName;
 - (void)displayText:(NSString *)text;
 - (void)setResetButtonEnabled:(long)state;
-- (void)setTaskMode:(long)mode;
-- (long)taskMode;
+@property (NS_NONATOMIC_IOSONLY) long taskMode;
 
 - (IBAction)doTaskMode:(id)sender;
 - (IBAction)doJuice:(id)sender;

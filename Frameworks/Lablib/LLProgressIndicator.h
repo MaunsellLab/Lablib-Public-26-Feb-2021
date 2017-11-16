@@ -8,16 +8,16 @@
 
 @interface LLProgressIndicator : NSWindowController {
 
-	BOOL			cancelled;
-	NSTimeInterval	nextTime;
-	
-	IBOutlet NSProgressIndicator	*indicator;
-	IBOutlet NSTextField			*message;
+    BOOL            cancelled;
+    NSTimeInterval    nextTime;
+    
+    IBOutlet NSProgressIndicator    *indicator;
+    IBOutlet NSTextField            *message;
 }
 
-- (BOOL)cancelled;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL cancelled;
 - (void)close;
-- (BOOL)needsUpdate;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL needsUpdate;
 - (void)setDoubleValue:(double)doubleValue;
 - (void)setIndeterminate:(BOOL)flag;
 - (void)setMaxValue:(double)newMaxValue;

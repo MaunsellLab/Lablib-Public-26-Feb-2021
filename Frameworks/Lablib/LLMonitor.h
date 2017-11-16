@@ -13,9 +13,9 @@ extern NSString *LLMonitorUpdated;
 
 @protocol LLMonitor <NSObject>
 
-- (NSString *)IDString;
-- (BOOL)isConfigurable;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *IDString;
+@property (NS_NONATOMIC_IOSONLY, getter=isConfigurable, readonly) BOOL configurable;
 - (void)configure;
-- (NSAttributedString *)report;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSAttributedString *report;
 
 @end

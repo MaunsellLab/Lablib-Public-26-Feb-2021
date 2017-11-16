@@ -9,46 +9,46 @@
 #import "LLDisplayUtilities.h"
 //#import "LLDisplayEDID.h"
 
-#define kPI          		(atan(1) * 4)
-#define k2PI         		(atan(1) * 4 * 2)
+#define kPI                  (atan(1) * 4)
+#define k2PI                 (atan(1) * 4 * 2)
 #define kRadiansPerDeg      (kPI / 180.0)
-#define kDegPerRadian		(180.0 / kPI)
+#define kDegPerRadian        (180.0 / kPI)
 
 typedef struct {
-	float rtc;
-	float gcb;
-	float gtc;
-	float bcb;
+    float rtc;
+    float gcb;
+    float gtc;
+    float bcb;
 } kdlTransform;
 
 typedef struct {
-	double      frameRateHz;		// the following entries are read from the device
-	long        pixelBits;	
-	long        widthPix;
-	long        heightPix;
-	RGBDouble   CIEx;				// the following entries are read from system-wide settings
-	RGBDouble   CIEy;
-	double      distanceMM;
-	double      widthMM;
-	double      heightMM;
+    double      frameRateHz;        // the following entries are read from the device
+    long        pixelBits;    
+    long        widthPix;
+    long        heightPix;
+    RGBDouble   CIEx;                // the following entries are read from system-wide settings
+    RGBDouble   CIEy;
+    double      distanceMM;
+    double      widthMM;
+    double      heightMM;
 } DisplayParam;
 
 typedef struct {
-	long    widthPix;
-	long    heightPix;
-	long    pixelBits;
-	float   frameRateHz;
+    long    widthPix;
+    long    heightPix;
+    long    pixelBits;
+    float   frameRateHz;
 } DisplayModeParam;
 
 @interface LLDisplays : NSObject { 
  
 @protected
-	LLDisplayPhysical		*displayPhysical;
-	DisplayParam			displayParam[kMaxDisplay];
-	CGDirectDisplayID 		displayIDs[kMaxDisplay];
-//	LLDisplayEDID			*EDID[kMaxDisplay];
-	kdlTransform			kdlConstants[kMaxDisplay];
-	CGDisplayCount 			numDisplays;
+    LLDisplayPhysical        *displayPhysical;
+    DisplayParam            displayParam[kMaxDisplay];
+    CGDirectDisplayID         displayIDs[kMaxDisplay];
+//    LLDisplayEDID            *EDID[kMaxDisplay];
+    kdlTransform            kdlConstants[kMaxDisplay];
+    CGDisplayCount             numDisplays;
 }
 
 + (NSString *)displayNameUsingID:(CGDirectDisplayID)displayID;
@@ -76,7 +76,7 @@ typedef struct {
 - (void)loadDisplayParameters:(long)displayIndex;
 - (float)lowestSpatialFreqCPD:(long)displayIndex;
 - (RGBDouble)luminanceToRGB:(long)displayIndex;
-- (short)numDisplays;
+@property (NS_NONATOMIC_IOSONLY, readonly) short numDisplays;
 - (long)pixelBits:(long)displayIndex;
 //- (BOOL)releaseDisplay:(CGDisplayCount)displayIndex;
 - (RGBDouble)RGB:(long)displayIndex kdlTheta:(double)kdlTheta kdlPhi:(double)kdlPhi;

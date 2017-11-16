@@ -10,7 +10,7 @@
 #import "LLStandardFileNames.h"
 #import "LLSystemUtil.h"
 
-#define	kDefaultThreadingThreshold	8192
+#define    kDefaultThreadingThreshold    8192
 
 static BOOL warned = NO;
 
@@ -27,99 +27,98 @@ static BOOL warned = NO;
 
 - (BOOL)createDataFile;
 {
-	NSDictionary *attr;
-	NSString *dirPath;
-	NSFileManager *manager;
-	NSSavePanel *savePanel;
+    NSDictionary *attr;
+    NSString *dirPath;
+    NSFileManager *manager;
+    NSSavePanel *savePanel;
     NSURL *fileURL;
 
-	manager = [NSFileManager defaultManager];
-	
+    manager = [NSFileManager defaultManager];
+    
 // First find or create the default data dir
 
-	if (useDefaultDir) {
-		if ((dirPath = [LLStandardFileNames defaultDirPath]) == nil) {
-			useDefaultDir = NO;
-		}
-//		fileName = [LLStandardFileNames defaultFileName];
-	}
-	else {
-		dirPath = nil;
-//		fileName = [[NSUserDefaults standardUserDefaults] stringForKey:LLLastFileNameKey];
-	}
-	
+    if (useDefaultDir) {
+        if ((dirPath = [LLStandardFileNames defaultDirPath]) == nil) {
+            useDefaultDir = NO;
+        }
+//        fileName = [LLStandardFileNames defaultFileName];
+    }
+    else {
+        dirPath = nil;
+//        fileName = [[NSUserDefaults standardUserDefaults] stringForKey:LLLastFileNameKey];
+    }
+    
 // Run the save panel to get the user's input
 
-	savePanel = [NSSavePanel savePanel];
-	[savePanel setTitle:NSLocalizedString(@"Save Data", @"Save Data on Save Panel")];
-	[savePanel setAllowedFileTypes:[LLStandardFileNames allowedFileTypes]];
-	if ([savePanel runModal] != NSModalResponseOK) {
-		return NO;
-	}
-	
+    savePanel = [NSSavePanel savePanel];
+    [savePanel setTitle:NSLocalizedString(@"Save Data", @"Save Data on Save Panel")];
+    savePanel.allowedFileTypes = [LLStandardFileNames allowedFileTypes];
+    if ([savePanel runModal] != NSModalResponseOK) {
+        return NO;
+    }
+    
 // Create the file
 
-	fileURL = [savePanel URL];
-	filePath = [fileURL path];
-	[filePath retain]; 
-	if ([manager fileExistsAtPath:filePath]) {
-		[manager removeItemAtPath:filePath error:NULL];
-	}
-	attr = [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithUnsignedLong:LLDataFileCreator], NSFileHFSCreatorCode, 
-				[NSNumber numberWithUnsignedLong:LLDataFileType], NSFileHFSTypeCode, nil];
-	if (![[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:attr]) {
+    fileURL = savePanel.URL;
+    filePath = fileURL.path;
+    [filePath retain]; 
+    if ([manager fileExistsAtPath:filePath]) {
+        [manager removeItemAtPath:filePath error:NULL];
+    }
+    attr = @{NSFileHFSCreatorCode: [NSNumber numberWithUnsignedLong:LLDataFileCreator], 
+                NSFileHFSTypeCode: [NSNumber numberWithUnsignedLong:LLDataFileType]};
+    if (![[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:attr]) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
                             [NSString stringWithFormat:@"Unable to create file %@", filePath]];
         filePath = nil;
-		return NO;
-	}
-	[[NSUserDefaults standardUserDefaults] setObject:[[filePath pathComponents] lastObject] 
-						forKey:LLLastFileNameKey];
+        return NO;
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:filePath.pathComponents.lastObject 
+                        forKey:LLLastFileNameKey];
 
-	dataFileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
-	[dataFileHandle retain];
-	[dataFileHandle writeData:[self dataFileHeaderData]];
-	
-	[self clearEvents];						// flush all the events in the buffer
+    dataFileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+    [dataFileHandle retain];
+    [dataFileHandle writeData:[self dataFileHeaderData]];
+    
+    [self clearEvents];                        // flush all the events in the buffer
 
-	return YES;
+    return YES;
 }
 
 // Clear all known event definitions
 
 - (BOOL)clearEventDefinitions;
 {
-	if (dataFileHandle != nil) {
-		return NO;
-	}
+    if (dataFileHandle != nil) {
+        return NO;
+    }
     [eventLock lock];
-	[eventDict removeAllObjects];
-	[eventsByCode removeAllObjects];
-	[data setLength:0];
-	lastRead = [data length];
-	dataDefinitions = NO;
+    [eventDict removeAllObjects];
+    [eventsByCode removeAllObjects];
+    data.length = 0;
+    lastRead = data.length;
+    dataDefinitions = NO;
     [eventLock unlock];
-	return YES;
+    return YES;
 }
 
 // Discard all the events in the buffer
 
 - (void)clearEvents;
 {
-	[eventLock lock];
-	[data setLength:0];
-	lastRead = [data length];
-	[eventLock unlock];
+    [eventLock lock];
+    data.length = 0;
+    lastRead = data.length;
+    [eventLock unlock];
 }
 
 - (void)closeDataFile;
 {
-	[dataFileHandle closeFile];
-	[dataFileHandle release];
-	[filePath release];
-	filePath = nil;
-	dataFileHandle = nil;
+    [dataFileHandle closeFile];
+    [dataFileHandle release];
+    [filePath release];
+    filePath = nil;
+    dataFileHandle = nil;
 }
 
 // Write the header that goes into every data file.  The headerString provides information about whether the binary
@@ -127,64 +126,64 @@ static BOOL warned = NO;
 
 - (NSData *)dataFileHeaderData;
 {
-	unsigned char stringLength;
-	long index, events, dataBytes;
-	LLDataEventDef *eventDef;
-	NSString *headerString, *dateString;
-	NSMutableData *headerData;
-//	NSCalendarDate *today;
+    unsigned char stringLength;
+    long index, events, dataBytes;
+    LLDataEventDef *eventDef;
+    NSString *headerString, *dateString;
+    NSMutableData *headerData;
+//    NSCalendarDate *today;
 
-	headerData = [[[NSMutableData alloc] init] autorelease];
+    headerData = [[[NSMutableData alloc] init] autorelease];
 #ifdef __LP64__
     if (!dataDefinitions) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
                         @"Data definitions are required in 64-bit mode"];
         exit(0);
     }
-	headerString = [NSString stringWithFormat:@"\007\005006.3"];
+    headerString = [NSString stringWithFormat:@"\007\005006.3"];
 #else
-	headerString = [NSString stringWithFormat:@"\007\005006.%1d", (dataDefinitions) ? 2 : 0];
+    headerString = [NSString stringWithFormat:@"\007\005006.%1d", (dataDefinitions) ? 2 : 0];
 #endif
-	[headerData appendBytes:[headerString cStringUsingEncoding:NSUTF8StringEncoding]
-                    length:strlen([headerString cStringUsingEncoding:NSUTF8StringEncoding])];	// format specifier
-	events = [eventsByCode count];
-	[headerData appendBytes:&events length:sizeof(events)];						// number of events defined
+    [headerData appendBytes:[headerString cStringUsingEncoding:NSUTF8StringEncoding]
+                    length:strlen([headerString cStringUsingEncoding:NSUTF8StringEncoding])];    // format specifier
+    events = eventsByCode.count;
+    [headerData appendBytes:&events length:sizeof(events)];                        // number of events defined
 
 // Write the event descriptions.  Each description consists of its name in pascal string format, and
 // the number of data bytes as a long int.  If there are data definitions, these are written
 // immediately after these entries
  
-	for (index = 0; index < events; index++)	{
-		eventDef = [eventsByCode objectAtIndex:index];
-		stringLength = [[eventDef name] lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-		[headerData appendBytes:&stringLength length:sizeof(stringLength)];		// bytes in char name
-		[headerData appendBytes:[[eventDef name] cStringUsingEncoding:NSUTF8StringEncoding] length:stringLength];	// name bytes
-		dataBytes = [eventDef dataBytes];										// can be negative
-		[headerData appendBytes:&dataBytes length:sizeof(dataBytes)];			// data bytes
-		[headerData appendData:[eventDef dataDefinition]];
-	}
+    for (index = 0; index < events; index++)    {
+        eventDef = eventsByCode[index];
+        stringLength = [[eventDef name] lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        [headerData appendBytes:&stringLength length:sizeof(stringLength)];        // bytes in char name
+        [headerData appendBytes:[[eventDef name] cStringUsingEncoding:NSUTF8StringEncoding] length:stringLength];    // name bytes
+        dataBytes = [eventDef dataBytes];                                        // can be negative
+        [headerData appendBytes:&dataBytes length:sizeof(dataBytes)];            // data bytes
+        [headerData appendData:[eventDef dataDefinition]];
+    }
 
 // Write the date and time as strings
-	
-//	today = [NSCalendarDate calendarDate];
-//	dateString = [today descriptionWithCalendarFormat:@"%B %d, %Y"];
+    
+//    today = [NSCalendarDate calendarDate];
+//    dateString = [today descriptionWithCalendarFormat:@"%B %d, %Y"];
     dateString = [LLSystemUtil formattedDateString:[NSDate date] format:@"MMMM dd, yyyy"];
-	stringLength = [dateString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-	[headerData appendBytes:&stringLength length:sizeof(stringLength)];			// number of bytes in char name
-	[headerData appendBytes:[dateString cStringUsingEncoding:NSUTF8StringEncoding] length:stringLength];			// name bytes
+    stringLength = [dateString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    [headerData appendBytes:&stringLength length:sizeof(stringLength)];            // number of bytes in char name
+    [headerData appendBytes:[dateString cStringUsingEncoding:NSUTF8StringEncoding] length:stringLength];            // name bytes
 
-//	dateString = [today descriptionWithCalendarFormat:@"%H:%M:%S"];
+//    dateString = [today descriptionWithCalendarFormat:@"%H:%M:%S"];
     dateString = [LLSystemUtil formattedDateString:[NSDate date] format:@"HH:mm:ss"];
-	stringLength = [dateString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-	[headerData appendBytes:&stringLength length:sizeof(stringLength)];			// number of bytes in char name
-	[headerData appendBytes:[dateString cStringUsingEncoding:NSUTF8StringEncoding] length:stringLength];			// name bytes
-	
-	return headerData;
+    stringLength = [dateString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    [headerData appendBytes:&stringLength length:sizeof(stringLength)];            // number of bytes in char name
+    [headerData appendBytes:[dateString cStringUsingEncoding:NSUTF8StringEncoding] length:stringLength];            // name bytes
+    
+    return headerData;
 }
 
 - (void) dealloc {
 
-	[data release];
+    [data release];
     [eventDict release];
     [eventsByCode release];
     [eventLock release];
@@ -204,31 +203,31 @@ are its code (event codes are integers that increase from 0), and the number of 
 - (BOOL)defineEvents:(EventDef *)eventDefs number:(unsigned long)numEvents;
 {
     short index;
-	EventDef *pDef;
-	LLDataEventDef *dataEventDef;
+    EventDef *pDef;
+    LLDataEventDef *dataEventDef;
 
-	if (numEvents < 1) {
-		return YES;
-	}
-	if ([eventsByCode count] > 0 && eventsHaveDataDefs) {
+    if (numEvents < 1) {
+        return YES;
+    }
+    if (eventsByCode.count > 0 && eventsHaveDataDefs) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
                 @"Attempting to mix events with and without data definitions."];
-		exit(0);
-	}
-	eventsHaveDataDefs = NO;
+        exit(0);
+    }
+    eventsHaveDataDefs = NO;
     [eventLock lock];
     for (index = 0; index < numEvents; index++) {
-		pDef = &eventDefs[index];
-        if ([eventDict objectForKey:pDef->name] != nil) {
+        pDef = &eventDefs[index];
+        if (eventDict[pDef->name] != nil) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:[NSString stringWithFormat:
                 @"Attempt to define event \"%@\" more than once (ignored).", pDef->name]];
         }
-		else {
-			dataEventDef = [[[LLDataEventDef alloc] initWithCode:[eventsByCode count]
-				name:pDef->name dataBytes:pDef->dataBytes] autorelease];
-			[eventsByCode addObject:dataEventDef];
-			[eventDict setObject:dataEventDef forKey:pDef->name];
-		}
+        else {
+            dataEventDef = [[[LLDataEventDef alloc] initWithCode:eventsByCode.count
+                name:pDef->name dataBytes:pDef->dataBytes] autorelease];
+            [eventsByCode addObject:dataEventDef];
+            eventDict[pDef->name] = dataEventDef;
+        }
     }
     [eventLock unlock];
     return YES;
@@ -245,39 +244,39 @@ This variant accepts only events definitions that include data definitions.
 - (BOOL)defineEvents:(EventDefinition *)eventDefs count:(unsigned long)numEvents;
 {
     short index;
-	EventDefinition *pDef;
-	LLDataEventDef *dataEventDef;
+    EventDefinition *pDef;
+    LLDataEventDef *dataEventDef;
    
-	if (numEvents < 1) {
-		return YES;
-	}
-	if ([eventsByCode count] > 0 && !eventsHaveDataDefs) {
+    if (numEvents < 1) {
+        return YES;
+    }
+    if (eventsByCode.count > 0 && !eventsHaveDataDefs) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
                         @"Attempting to mix events with and without data definitions."];
-		exit(0);
-	}
-	eventsHaveDataDefs = YES;
+        exit(0);
+    }
+    eventsHaveDataDefs = YES;
     [eventLock lock];
     for (index = 0; index < numEvents; index++) {
-		pDef = &eventDefs[index];
-		if ([eventDict objectForKey:pDef->name] != nil) {
+        pDef = &eventDefs[index];
+        if (eventDict[pDef->name] != nil) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:[NSString stringWithFormat:
                 @"Attempt to define event \"%@\" more than once (ignored).", pDef->name]];
             continue;
-		}
+        }
         if ([pDef->definition.typeName isEqualToString:@"struct"] && (pDef->definition.contents->typeName == nil)) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc"
                     informativeText:[NSString stringWithFormat:
                     @"Attempt to define event \"%@\" with \"struct\" data that is nil (ignored)", pDef->name]];
             continue;
         }
-        dataEventDef = [[[LLDataEventDef alloc] initWithCode:[eventsByCode count]
+        dataEventDef = [[[LLDataEventDef alloc] initWithCode:eventsByCode.count
                 name:pDef->name elementBytes:pDef->elementBytes
                 dataDefinition:&pDef->definition] autorelease];
         [eventsByCode addObject:dataEventDef];
-        [eventDict setObject:dataEventDef forKey:pDef->name];
+        eventDict[pDef->name] = dataEventDef;
     }
-	dataDefinitions = YES;
+    dataDefinitions = YES;
     [eventLock unlock];
     return YES;
 }
@@ -286,36 +285,36 @@ This variant accepts only events definitions that include data definitions.
 
 - (LLDataEventDef *)eventDefForCode:(long)eventCode;
 {
-    return [eventsByCode objectAtIndex:eventCode];
+    return eventsByCode[eventCode];
 }
 
 // Return event with a given name
 
 - (LLDataEventDef *)eventNamed:(NSString *)eventName;
 {
-    return [eventDict objectForKey:eventName];
+    return eventDict[eventName];
 }
 
 // Write one data event into the event buffer
 
 - (void) eventToBuffer:(unsigned long)code dataPtr:(void *)pData bytes:(unsigned long)lengthBytes
-					writeLength:(BOOL)writeLength;
+                    writeLength:(BOOL)writeLength;
 {
     unsigned long eventTimeMS;
     unsigned char charCode;
     unsigned short shortCode;
     unsigned long numEvents;
-	NSMutableData *eventData;
-	
-//	eventTimeMS = UnsignedWideToUInt64(AbsoluteDeltaToNanoseconds(UpTime(), startTime)) / 1000000.0;
-	eventTimeMS = -[startDate timeIntervalSinceNow] * 1000.0;
-	eventData = [[NSMutableData alloc] init];
+    NSMutableData *eventData;
+    
+//    eventTimeMS = UnsignedWideToUInt64(AbsoluteDeltaToNanoseconds(UpTime(), startTime)) / 1000000.0;
+    eventTimeMS = -startDate.timeIntervalSinceNow * 1000.0;
+    eventData = [[NSMutableData alloc] init];
 
 // Start the event with the code for the event.  The number of bytes used depends
 // on the number of events defined.
 
-	numEvents = [eventDict count];
-    if (numEvents < 0x100) {					// Bytes for the event code
+    numEvents = eventDict.count;
+    if (numEvents < 0x100) {                    // Bytes for the event code
         charCode = code;
         [eventData appendBytes:(void *)&charCode length:sizeof(charCode)];
     }
@@ -330,33 +329,33 @@ This variant accepts only events definitions that include data definitions.
 // On variable length events, the length of the data must be inserted.
 // NB: The length might be zero, so we must write the length in all cases
 
-	if (writeLength) {
-		[eventData appendBytes:&lengthBytes length:sizeof(unsigned long)];
-	}
-	
+    if (writeLength) {
+        [eventData appendBytes:&lengthBytes length:sizeof(unsigned long)];
+    }
+    
 // If there are data, write the data.  
 
     if (lengthBytes > 0) {
         [eventData appendBytes:pData length:lengthBytes];
     }
-	[eventData appendBytes:(void *)&eventTimeMS length:sizeof(unsigned long)];
+    [eventData appendBytes:(void *)&eventTimeMS length:sizeof(unsigned long)];
 
 // If the eventData is big, we use a separate thread to put it into the buffer.  Otherwise
 // insert it into the buffer(s) in line here. 
 
-	if (lengthBytes >= threadingThreshold) {
-		[NSThread detachNewThreadSelector:@selector(threadedEventToBuffer:) toTarget:self withObject:eventData];
-		// Don't release eventData; it will be released by threadedEventToBuffer
-	}
-	else {
-		[eventLock lock];
-		[data appendData:eventData];
-		if (dataFileHandle != nil) {
-			[dataFileHandle writeData:eventData];
-		}
-		[eventLock unlock];
-		[eventData release];
-	}
+    if (lengthBytes >= threadingThreshold) {
+        [NSThread detachNewThreadSelector:@selector(threadedEventToBuffer:) toTarget:self withObject:eventData];
+        // Don't release eventData; it will be released by threadedEventToBuffer
+    }
+    else {
+        [eventLock lock];
+        [data appendData:eventData];
+        if (dataFileHandle != nil) {
+            [dataFileHandle writeData:eventData];
+        }
+        [eventLock unlock];
+        [eventData release];
+    }
 }
 
 - (void)dispatchEvents;
@@ -364,27 +363,27 @@ This variant accepts only events definitions that include data definitions.
     unsigned char charCode;
     unsigned short shortCode;
     unsigned long eventCode, numBytes, numEvents, obs, eTime;
-	long dataBytes;
+    long dataBytes;
     NSData *eventData;
     NSNumber *eventTime;
-	LLDataEventDef *eventDef;
+    LLDataEventDef *eventDef;
     id anObserver;
-	NSAutoreleasePool *threadPool;
-	NSDate *nextRelease;
+    NSAutoreleasePool *threadPool;
+    NSDate *nextRelease;
     SEL methodSelector;
 
 // Initialize and get the start time for this schedule
 
     threadPool = [[NSAutoreleasePool alloc] init];
-	nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
+    nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
     
     for (; data != nil; ) {
-		[eventLock lock];											// Lock before check starts
-		if (lastRead < [data length]) {								// Undispatched event?
+        [eventLock lock];                                            // Lock before check starts
+        if (lastRead < data.length) {                                // Undispatched event?
 
 // Get the event code from the buffer
 
-            numEvents = [eventDict count];							// Get event code
+            numEvents = eventDict.count;                            // Get event code
             if (numEvents < 0x100) {
                 [self getEventBytes:(void *)&charCode length:sizeof(charCode)];
                 eventCode = charCode;
@@ -399,25 +398,25 @@ This variant accepts only events definitions that include data definitions.
 
 // Use the code to get the description of the event (name, number of bytes)
 
-			eventDef = [eventsByCode objectAtIndex:eventCode];
-			if ([eventDef code] != eventCode) {
+            eventDef = eventsByCode[eventCode];
+            if ([eventDef code] != eventCode) {
                 [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
                     [NSString stringWithFormat:@"dispatchEvents: Event \"%@\" code mismatch (%ld v. %ld).",
                     [eventDef name], [eventDef code], eventCode]];
-				exit(0);
-			}
+                exit(0);
+            }
 
 // Get the event data from the buffer, if this event has data
 
-			dataBytes = [eventDef dataBytes];
+            dataBytes = [eventDef dataBytes];
             if (dataBytes == 0) {
                eventData = nil;
             }
             else {
                 if (dataBytes > 0) {
-                    numBytes = dataBytes;							// Fixed length data, get length
+                    numBytes = dataBytes;                            // Fixed length data, get length
                 }
-                else {												// Variable length data, get length
+                else {                                                // Variable length data, get length
                     [self getEventBytes:(void *)&numBytes length:sizeof(unsigned long)];
                 }
                 eventData = [data subdataWithRange:NSMakeRange(lastRead, numBytes)];
@@ -428,15 +427,15 @@ This variant accepts only events definitions that include data definitions.
 // Get the event time
 
             [self getEventBytes:&eTime length:sizeof(unsigned long)];
-            eventTime = [NSNumber numberWithUnsignedLong:eTime];
+            eventTime = @(eTime);
             [eventTime retain];
-            [eventLock unlock];										// Free lock while we dispatch data bytes
+            [eventLock unlock];                                        // Free lock while we dispatch data bytes
             
             // Dispatch the event to all observers that accept it
 
             methodSelector = NSSelectorFromString([NSString stringWithFormat:@"%@:eventTime:", [eventDef name]]);
-            for (obs = 0; obs < [observerArray count]; obs++) {
-                anObserver = [observerArray objectAtIndex:obs];
+            for (obs = 0; obs < observerArray.count; obs++) {
+                anObserver = observerArray[obs];
                 if ([anObserver respondsToSelector:methodSelector]) {
                     [anObserver performSelector:methodSelector withObject:eventData withObject:eventTime];
                 }
@@ -445,40 +444,40 @@ This variant accepts only events definitions that include data definitions.
 // Clean up this event, then go look for more
 
             [eventTime release];
-			[eventData release];
+            [eventData release];
         }        
-        else {														// No events left, sleep
-			if (!retainEvents) {                                    // If we're not retaining events, clear the buffer
-                [data setLength:0];                                 // Not safe to use clearEvents, because events
-                lastRead = [data length];                           // might get posted between the unlock and lock.
-			}
+        else {                                                        // No events left, sleep
+            if (!retainEvents) {                                    // If we're not retaining events, clear the buffer
+                data.length = 0;                                 // Not safe to use clearEvents, because events
+                lastRead = data.length;                           // might get posted between the unlock and lock.
+            }
             [eventLock unlock];
-			[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
-			if ([nextRelease timeIntervalSinceNow] < 0.0) {
-				[nextRelease release];
-				nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
-				[threadPool release];
-				threadPool = [[NSAutoreleasePool alloc] init];
-			}
-		}
-	}
-	[nextRelease release];
+            [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
+            if (nextRelease.timeIntervalSinceNow < 0.0) {
+                [nextRelease release];
+                nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
+                [threadPool release];
+                threadPool = [[NSAutoreleasePool alloc] init];
+            }
+        }
+    }
+    [nextRelease release];
     [threadPool release];
 }
 
 - (NSString *)fileName { 
 
-	if (filePath == nil) {
-		return nil;
-	}
-	else {
-		return [[filePath pathComponents] lastObject];
-	}
+    if (filePath == nil) {
+        return nil;
+    }
+    else {
+        return filePath.pathComponents.lastObject;
+    }
 } 
 
 - (NSString *)filePath {
 
-	return filePath;
+    return filePath;
 }
 
 // Check all views in an NSView hiearchy for those that respond to a particular selector.
@@ -496,15 +495,15 @@ This variant accepts only events definitions that include data definitions.
     if ([view respondsToSelector:selector]) {
         [responders addObject:view];
     }
-    if ([view subviews] != nil) {
-        for (v = 0; v < [[view subviews] count]; v++) {
-        	returnArray = [self findViews:[[view subviews] objectAtIndex:v] respondingToSelector:selector];
+    if (view.subviews != nil) {
+        for (v = 0; v < view.subviews.count; v++) {
+            returnArray = [self findViews:view.subviews[v] respondingToSelector:selector];
             if (returnArray != nil) {
                 [responders addObjectsFromArray:returnArray];
             }
         }
     }
-    returnArray = ([responders count] > 0) ? [NSArray arrayWithArray:responders] : nil;
+    returnArray = (responders.count > 0) ? [NSArray arrayWithArray:responders] : nil;
     [responders release];
     return returnArray;
 }
@@ -522,17 +521,17 @@ This variant accepts only events definitions that include data definitions.
 {
     if ((self = [super init])) {
         data = [[NSMutableData alloc] initWithCapacity:kLLInitialBufferSize];
-        lastRead = [data length];
+        lastRead = data.length;
         eventDict = [[NSMutableDictionary alloc] init];
         eventsByCode = [[NSMutableArray alloc] init];
         eventLock = [[NSLock alloc] init];
         observerLock = [[NSLock alloc] init];
         observerArray = [[NSMutableArray alloc] init];
-		useDefaultDir = YES;
+        useDefaultDir = YES;
         retainEvents = NO;                          // flush event buffer whenever possible
-		threadingThreshold = kDefaultThreadingThreshold;
-//		startTime = UpTime();
-		startDate = [[NSDate date] retain];
+        threadingThreshold = kDefaultThreadingThreshold;
+//        startTime = UpTime();
+        startDate = [[NSDate date] retain];
         [NSThread detachNewThreadSelector:@selector(dispatchEvents) toTarget:self withObject:nil];
     }
     return self;
@@ -540,16 +539,16 @@ This variant accepts only events definitions that include data definitions.
 
 - (long)numEvents;
 {
-    return [eventDict count];
+    return eventDict.count;
 }
 
 - (void) putEvent:(NSString *)eventKey;
 {
-	LLDataEventDef *eventDef;
+    LLDataEventDef *eventDef;
 
 // Extract the event from the event dictionary
 
-    if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
+    if ((eventDef = eventDict[eventKey]) == nil) {
         if (!warned) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
                 [NSString stringWithFormat:@"putEvent: Attempt to putEvent for \"%@\", which has not been defined (no further warning will be issued).",
@@ -568,12 +567,12 @@ This variant accepts only events definitions that include data definitions.
 
 - (void) putEvent:(NSString *)eventKey withData:(void *)pData;
 {
-	LLDataEventDef *eventDef;
-	long dataBytes;
+    LLDataEventDef *eventDef;
+    long dataBytes;
 
 // Extract the event from the event dictionary
 
-    if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
+    if ((eventDef = eventDict[eventKey]) == nil) {
         if (!warned) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:[NSString stringWithFormat:
                  @"putEvent: Attempt to putEvent for \"%@\", which has not been defined (no further warning will be issued).",
@@ -582,7 +581,7 @@ This variant accepts only events definitions that include data definitions.
         }
         return;
     }
-	dataBytes = [eventDef dataBytes];
+    dataBytes = [eventDef dataBytes];
     if (dataBytes <= 0) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
             [NSString stringWithFormat:
@@ -594,47 +593,47 @@ This variant accepts only events definitions that include data definitions.
 
 - (void)putEvent:(NSString *)eventKey withData:(char *)pData count:(long)count {
 
-	LLDataEventDef *eventDef;
-	
-	if (count <= 0) {
-		return;
-	}
-	
+    LLDataEventDef *eventDef;
+    
+    if (count <= 0) {
+        return;
+    }
+    
 // Extract the event from the event dictionary
 
-    if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
+    if ((eventDef = eventDict[eventKey]) == nil) {
         return;
     }
     if ([eventDef dataBytes] > 0) {
-        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+        [LLSystemUtil runAlertPanelWithMessageText:self.className
             informativeText:[NSString stringWithFormat:
             @"putEvent: Event \"%@\" is defined to have data of fixed length and takes no count argument.", eventKey]];
         return;
     }
     [self eventToBuffer:[eventDef code] dataPtr:(char *)pData 
-							bytes:(count * [eventDef elementBytes]) writeLength:YES];
+                            bytes:(count * [eventDef elementBytes]) writeLength:YES];
 }
 
 - (void)putEvent:(NSString *)eventKey withData:(char *)pData lengthBytes:(long)length;
 {
-	LLDataEventDef *eventDef;
-	
-	if (length <= 0) {
-		return;
-	}
+    LLDataEventDef *eventDef;
+    
+    if (length <= 0) {
+        return;
+    }
 
 // Extract the event from the event dictionary
 
-    if ((eventDef = [eventDict objectForKey:eventKey]) == nil) {
+    if ((eventDef = eventDict[eventKey]) == nil) {
         if (!warned) {
-            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+            [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
                 @"putEvent: Attempt to putEvent for \"%@\", which has not been defined (no further warning will be issued)", eventKey]];
             warned = YES;
             return;
         }
     }
     if ([eventDef dataBytes] > 0) {
-        [LLSystemUtil runAlertPanelWithMessageText:[self className]
+        [LLSystemUtil runAlertPanelWithMessageText:self.className
             informativeText:[NSString stringWithFormat:
             @"putEvent: Event \"%@\" is defined to have data of fixed length and takes no length argument.", eventKey]];
         return;
@@ -651,17 +650,17 @@ This variant accepts only events definitions that include data definitions.
 
 - (void)setRetainEvents:(BOOL)state;
 {
-	retainEvents = state;
+    retainEvents = state;
 }
 
 - (void)setThreadingThreshold:(unsigned long)threshold;
 {
-	threadingThreshold = threshold;
+    threadingThreshold = threshold;
 }
 
 - (void)setUseDefaultDataDirectory:(BOOL)state;
 {
-	useDefaultDir = state;
+    useDefaultDir = state;
 }
 
 // Very large events take a long time to compose and send to the data event buffer.  We thread them out so
@@ -669,16 +668,16 @@ This variant accepts only events definitions that include data definitions.
 
 - (void)threadedEventToBuffer:(NSData *)eventData;
 {
-	NSAutoreleasePool *threadPool= [[NSAutoreleasePool alloc] init];
-	
-	[eventLock lock];
-	[data appendData:eventData];
-	if (dataFileHandle != nil) {
-		[dataFileHandle writeData:eventData];
-	}
-	[eventLock unlock];
-	[eventData release];			// eventData is not release by eventToBuffer
-	[threadPool release];
-}	
+    NSAutoreleasePool *threadPool= [[NSAutoreleasePool alloc] init];
+    
+    [eventLock lock];
+    [data appendData:eventData];
+    if (dataFileHandle != nil) {
+        [dataFileHandle writeData:eventData];
+    }
+    [eventLock unlock];
+    [eventData release];            // eventData is not release by eventToBuffer
+    [threadPool release];
+}    
 
 @end

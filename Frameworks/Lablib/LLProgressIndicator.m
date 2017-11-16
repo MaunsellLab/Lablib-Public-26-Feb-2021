@@ -9,78 +9,78 @@
 #import "LLProgressIndicator.h"
 #import "LLSystemUtil.h"
 
-#define kUpdateIntervalMS	100
+#define kUpdateIntervalMS    100
 
 @implementation LLProgressIndicator
 
 - (IBAction)cancel:(id)sender;
 {
-	cancelled = YES;
+    cancelled = YES;
 }
 
 - (BOOL)cancelled;
 {
-	return cancelled;
+    return cancelled;
 }
 
 - (void)close;
 {
-	[[self window] close];
+    [self.window close];
 }
 
 - (instancetype)init;
 {
     if ((self = [super initWithWindowNibName:@"LLProgressIndicator"]) != nil) {
-        [self setWindowFrameAutosaveName:@"LLProgressIndicator"];
-		[self window];
-	}
+        self.windowFrameAutosaveName = @"LLProgressIndicator";
+        [self window];
+    }
     return self;
 }
 
 - (BOOL)needsUpdate;
 {
-	if (nextTime == 0 || [LLSystemUtil timeIsPast:nextTime]) {
-		nextTime = [LLSystemUtil timeFromNow:kUpdateIntervalMS];
-		return YES;
-	}
-	else {
-		return NO;
-	}
+    if (nextTime == 0 || [LLSystemUtil timeIsPast:nextTime]) {
+        nextTime = [LLSystemUtil timeFromNow:kUpdateIntervalMS];
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 - (void)setDoubleValue:(double)doubleValue;
 {
-	[indicator setDoubleValue:doubleValue];
+    indicator.doubleValue = doubleValue;
 }
 
 - (void)setIndeterminate:(BOOL)flag;
 {
-	[indicator setIndeterminate:flag];
+    indicator.indeterminate = flag;
 }
 
 - (void)setMaxValue:(double)newMaxValue;
 {
-	[indicator setMaxValue:newMaxValue];
+    indicator.maxValue = newMaxValue;
 }
 
 - (void)setMinValue:(double)newMinValue;
 {
-	[indicator setMinValue:newMinValue];
+    indicator.minValue = newMinValue;
 }
 
 - (void)setText:(NSString *)string;
 {
-	[message setStringValue:string];
+    message.stringValue = string;
 }
 
 - (void)setTitle:(NSString *)string;
 {
-	[[self window] setTitle:string];
+    self.window.title = string;
 }
 
 - (void)windowDidLoad;
 {
-	[indicator setIndeterminate:NO];
+    [indicator setIndeterminate:NO];
 }
 
 @end

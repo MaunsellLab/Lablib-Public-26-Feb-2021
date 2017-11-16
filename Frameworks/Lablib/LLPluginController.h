@@ -6,30 +6,30 @@
 //  Copyright 2005. All rights reserved.
 //
 
-#define	kUseLLDataDevices
+#define    kUseLLDataDevices
 
 #ifdef kUseLLDataDevices
-#define kLLPluginVersion	4200
+#define kLLPluginVersion    4200
 #else
-#define kLLPluginVersion	4201
+#define kLLPluginVersion    4201
 #endif
 
 @interface LLPluginController : NSWindowController {
    
-	NSUserDefaults			*defaults;
-	NSMutableArray			*enabled;
-	NSMutableArray			*loadedPlugins;
-	NSMutableArray			*validTaskPlugins;
+    NSUserDefaults            *defaults;
+    NSMutableArray            *enabled;
+    NSMutableArray            *loadedPlugins;
+    NSMutableArray            *validTaskPlugins;
 
-	IBOutlet NSTableView	*pluginTable;
+    IBOutlet NSTableView    *pluginTable;
 }
 
 - (instancetype)initWithDefaults:(NSUserDefaults *)theDefaults;
 - (void)loadPlugins;
 - (void)loadPluginsForApplication:(NSString *)appName;
-- (NSArray *)loadedPlugins;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *loadedPlugins;
 - (void)loadOrUnloadPlugins;
-- (long)numberOfValidPlugins;
+@property (NS_NONATOMIC_IOSONLY, readonly) long numberOfValidPlugins;
 - (void)runDialog;
 
 - (IBAction)dialogDone:(id)sender;

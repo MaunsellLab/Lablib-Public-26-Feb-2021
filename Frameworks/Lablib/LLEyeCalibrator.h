@@ -9,43 +9,43 @@
 #import "LLEyeWindow.h"
 #import "LLSVDSolver.h"
 
-#define kLLEyeCalibratorOffsets 		4
+#define kLLEyeCalibratorOffsets         4
 
 extern NSString *LLFixCalAzimuthDegKey;
 extern NSString *LLFixCalElevationDegKey;
 extern NSString *LLFixCalOffsetDegKey;
 
 typedef struct {
-	float					offsetSizeDeg;							// size of the total fixation point offset
-	NSPoint					currentOffsetDeg;						// total offset of the current test position
-	NSPoint					targetDeg[kLLEyeCalibratorOffsets];		// total offset of each target position
-	NSPoint					actualUnits[kLLEyeCalibratorOffsets];	// total offset of running average of positions
-	NSAffineTransformStruct	calibration;							// current calibration structure
+    float                    offsetSizeDeg;                            // size of the total fixation point offset
+    NSPoint                    currentOffsetDeg;                        // total offset of the current test position
+    NSPoint                    targetDeg[kLLEyeCalibratorOffsets];        // total offset of each target position
+    NSPoint                    actualUnits[kLLEyeCalibratorOffsets];    // total offset of running average of positions
+    NSAffineTransformStruct    calibration;                            // current calibration structure
 } LLEyeCalibrationData;
 
 @interface LLEyeCalibrator : NSWindowController {
 
-	NSAffineTransformStruct currentCalibration;				// calibration with offset
-	NSAffineTransform		*degToUnits;
-	LLEyeCalibrationData	data;
+    NSAffineTransformStruct currentCalibration;                // calibration with offset
+    NSAffineTransform        *degToUnits;
+    LLEyeCalibrationData    data;
     NSString                *keyPrefix;
-	NSAffineTransformStruct offsetCalibration;
-	NSPoint					offsetDeg[kLLEyeCalibratorOffsets];
-	long					offsetIndex;
-	NSPoint					offsetUnits[kLLEyeCalibratorOffsets];
-	BOOL					positionDone[kLLEyeCalibratorOffsets];
-	long					positionsDone;
-	LLSVDSolver				*SVDSolver;
-	NSUserDefaults			*taskDefaults;
-	NSAffineTransform		*unitsToDeg;	
+    NSAffineTransformStruct offsetCalibration;
+    NSPoint                    offsetDeg[kLLEyeCalibratorOffsets];
+    long                    offsetIndex;
+    NSPoint                    offsetUnits[kLLEyeCalibratorOffsets];
+    BOOL                    positionDone[kLLEyeCalibratorOffsets];
+    long                    positionsDone;
+    LLSVDSolver                *SVDSolver;
+    NSUserDefaults            *taskDefaults;
+    NSAffineTransform        *unitsToDeg;    
 }
 
 + (NSBezierPath *)bezierPathForCalibration:(LLEyeCalibrationData)cal;
 
-- (NSAffineTransformStruct)calibration;
-- (LLEyeCalibrationData *)calibrationData;
-- (float)calibrationOffsetDeg;
-- (NSPoint)calibrationOffsetPointDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSAffineTransformStruct calibration;
+@property (NS_NONATOMIC_IOSONLY, readonly) LLEyeCalibrationData *calibrationData;
+@property (NS_NONATOMIC_IOSONLY) float calibrationOffsetDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint calibrationOffsetPointDeg;
 - (void)computeTransformFromOffsets;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint;
 - (void)initFinish;
@@ -53,13 +53,12 @@ typedef struct {
 - (NSString *)keyFor:(NSString *)keyType;
 - (void)loadOffsets;
 - (void)loadTransforms;
-- (long)nextCalibrationPosition;
-- (NSPoint)offsetDeg;
-- (long)offsetIndex;
-- (NSAffineTransformStruct)readCalibration;
+@property (NS_NONATOMIC_IOSONLY, readonly) long nextCalibrationPosition;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint offsetDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) long offsetIndex;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSAffineTransformStruct readCalibration;
 - (void)readDefaults;
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
-- (void)setCalibrationOffsetDeg:(float)newOffset;
 - (void)setCalibrationPosition:(long)index;
 - (void)setFixAzimuthDeg:(float)newAzimuthDeg elevationDeg:(float)newElevationDeg;
 - (void)setKeyPrefix:(NSString *)newKey;

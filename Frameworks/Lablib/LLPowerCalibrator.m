@@ -25,7 +25,7 @@
         free(volts);
         volts = nil;
     }
-	[super dealloc];
+    [super dealloc];
 }
 
 - (instancetype)initFromFile:(NSURL *)fileURL;
@@ -34,11 +34,11 @@
     NSError *error;
 
     if ((self = [super initWithWindowNibName:@"LLPowerCalibrator"]) != nil) {
-        [self setWindowFrameAutosaveName:@"LLPowerCalibrator"];
-        fileContents = [NSString stringWithContentsOfFile:[fileURL path] encoding:NSUTF8StringEncoding error:&error];
+        self.windowFrameAutosaveName = @"LLPowerCalibrator";
+        fileContents = [NSString stringWithContentsOfFile:fileURL.path encoding:NSUTF8StringEncoding error:&error];
         if (fileContents == nil) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLPowerCalibrator"
-                informativeText:[NSString stringWithFormat:@"Failed to find calibration file %@.", [fileURL path]]];
+                informativeText:[NSString stringWithFormat:@"Failed to find calibration file %@.", fileURL.path]];
             calibrated = NO;
             return self;
         }
@@ -53,9 +53,9 @@
     NSError *error;
 
     if ((self = [super initWithWindowNibName:@"LLPowerCalibrator"]) != nil) {
-        [self setWindowFrameAutosaveName:@"LLPowerCalibrator"];
+        self.windowFrameAutosaveName = @"LLPowerCalibrator";
         path = [NSString stringWithFormat:@"/Library/Application Support/%@/Calibrations/%@.txt",
-                [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension], fileName];
+                [NSBundle mainBundle].bundlePath.lastPathComponent.stringByDeletingPathExtension, fileName];
         fileContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
         if (fileContents == nil) {
             NSLog(@"LLPowerCalibrator: Failed to find calibration file %@. Continuing uncalibrated.", path);
@@ -77,11 +77,11 @@
 
     array = [fileContents componentsSeparatedByString:@"\n"];
     if (array != nil) {
-        arrayLength = [array count];
+        arrayLength = array.count;
         mWatts = malloc(sizeof(float) * arrayLength);
         volts = malloc(sizeof(float) * arrayLength);
         for (index = entries = 0; index < arrayLength; index++) {
-            c = [[array objectAtIndex:index] cStringUsingEncoding:NSUTF8StringEncoding];
+            c = [array[index] cStringUsingEncoding:NSUTF8StringEncoding];
             f1 = strtof(c, &strEnd1);
             if (strEnd1 != c) {
                 f2 = strtof(strEnd1, &strEnd2);

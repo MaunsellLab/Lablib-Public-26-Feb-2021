@@ -16,6 +16,6 @@
 @protocol LLDataReader <NSObject>
 
 - (BOOL)dataBytes:(Ptr)buffer length:(long)numBytes;
-- (NSString *)dataString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *dataString;
 
 @end

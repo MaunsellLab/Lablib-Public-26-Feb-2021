@@ -9,17 +9,15 @@
 
 @interface LLTaskStatus : NSObject {
 
-	BOOL		dataFileOpen;
-	long		mode;
+    BOOL        dataFileOpen;
+    long        mode;
 }
 
-- (BOOL)dataFileOpen;
-- (BOOL)isEnding;
-- (BOOL)isIdle;
-- (BOOL)isStopping;
-- (long)mode;
-- (void)setDataFileOpen:(BOOL)state;
-- (void)setMode:(long)newMode;
-- (long)status;
+@property (NS_NONATOMIC_IOSONLY) BOOL dataFileOpen;
+@property (NS_NONATOMIC_IOSONLY, getter=isEnding, readonly) BOOL ending;
+@property (NS_NONATOMIC_IOSONLY, getter=isIdle, readonly) BOOL idle;
+@property (NS_NONATOMIC_IOSONLY, getter=isStopping, readonly) BOOL stopping;
+@property (NS_NONATOMIC_IOSONLY) long mode;
+@property (NS_NONATOMIC_IOSONLY, readonly) long status;
 
 @end

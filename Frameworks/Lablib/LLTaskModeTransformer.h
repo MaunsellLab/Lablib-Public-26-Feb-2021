@@ -9,14 +9,13 @@
 // An LLTaskModeTransformer can be set to perform several different
 // transformations  on the value stored by LLTaskMode.
 
-typedef enum  {kLLTaskModeIdle,				// Return BOOL for task mode is idle
-		kLLTaskModeIdleAndNoFile,	// Return BOOL for idle and no data file open
-		kLLTaskModeNoFile}			// Return BOOL for no data file open
-LLTaskModeFlag;
+typedef NS_ENUM(unsigned int, LLTaskModeFlag) {kLLTaskModeIdle,                // Return BOOL for task mode is idle
+        kLLTaskModeIdleAndNoFile,    // Return BOOL for idle and no data file open
+        kLLTaskModeNoFile};
 
 @interface LLTaskModeTransformer:NSValueTransformer {
 
-	long type;
+    long type;
 }
 
 - (void)setTransformerType:(long)newType;

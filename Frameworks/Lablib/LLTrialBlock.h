@@ -9,30 +9,29 @@
 @interface LLTrialBlock : NSObject {
 
 @protected
-	long			blocks;				// number of blocks to do
-	long			blocksDone;			// number of blocks completed
-	long			currentTrialIndex;
-	long			triesCount;
-	long			trialsPerBlock;
-	long			trialsRemainingCurrentBlock;
-	long			*trials;
+    long            blocks;                // number of blocks to do
+    long            blocksDone;            // number of blocks completed
+    long            currentTrialIndex;
+    long            triesCount;
+    long            trialsPerBlock;
+    long            trialsRemainingCurrentBlock;
+    long            *trials;
 }
 
-- (long)blocks;
-- (long)blocksDone;
-- (long)blocksRemaining;
+@property (NS_NONATOMIC_IOSONLY) long blocks;
+@property (NS_NONATOMIC_IOSONLY, readonly) long blocksDone;
+@property (NS_NONATOMIC_IOSONLY, readonly) long blocksRemaining;
 - (void)countCurrentTrial:(BOOL)correct;
-- (long)currentTrialIndex;
+@property (NS_NONATOMIC_IOSONLY, readonly) long currentTrialIndex;
 - (instancetype)initWithTrialCount:(long)trialNum triesCount:(long)repeats blockCount:(long)blockCount;
 - (void)newBlock;
-- (long)nextTrialIndex;
+@property (NS_NONATOMIC_IOSONLY, readonly) long nextTrialIndex;
 - (void)reset;
-- (void)setBlocks:(long)count;
 - (void)setTrialCount:(long)count;
 - (void)setTriesCount:(long)count;
-- (long)trialsDoneCurrentBlock;
-- (long)trialsPerBlock;
-- (long)trialsRemaining;
-- (long)trialsRemainingCurrentBlock;
+@property (NS_NONATOMIC_IOSONLY, readonly) long trialsDoneCurrentBlock;
+@property (NS_NONATOMIC_IOSONLY, readonly) long trialsPerBlock;
+@property (NS_NONATOMIC_IOSONLY, readonly) long trialsRemaining;
+@property (NS_NONATOMIC_IOSONLY, readonly) long trialsRemainingCurrentBlock;
 
 @end

@@ -9,31 +9,31 @@
  *
  */
 
-#define kMaxChannels		16
-typedef enum {kVoltagePulses = 0, kCurrentPulses, kPulseTypes} PulseTypes;
+#define kMaxChannels        16
+typedef NS_ENUM(unsigned int, PulseTypes) {kVoltagePulses = 0, kCurrentPulses, kPulseTypes};
 
 typedef struct {
-	long	pulseType;
-	float   amplitude;					// amplitude in uA or V.
-	long	DAChannel;
-	BOOL	doPulseMarkers;
-	BOOL	doGate;
-	long	durationMS;
-	float   frequencyHZ;
-	float   fullRangeV;
-	long	gateBit;
-	long	gatePorchMS;				// time that gates leads and trails stimulus
-	BOOL	pulseBiphasic;
-	long	pulseMarkerBit;
-	long	pulseWidthUS;
-	float   UAPerV;
+    long    pulseType;
+    float   amplitude;                    // amplitude in uA or V.
+    long    DAChannel;
+    BOOL    doPulseMarkers;
+    BOOL    doGate;
+    long    durationMS;
+    float   frequencyHZ;
+    float   fullRangeV;
+    long    gateBit;
+    long    gatePorchMS;                // time that gates leads and trails stimulus
+    BOOL    pulseBiphasic;
+    long    pulseMarkerBit;
+    long    pulseWidthUS;
+    float   UAPerV;
 } PulseTrainData;
 
 @protocol LLPulseTrainDevice <NSObject>
 
-- (NSData **)sampleData;
-- (BOOL)samplesReady;
-- (float)samplePeriodUS;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSData **sampleData;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL samplesReady;
+@property (NS_NONATOMIC_IOSONLY, readonly) float samplePeriodUS;
 - (BOOL)setTrainArray:(NSArray *)trainArray;
 - (BOOL)setTrainParameters:(PulseTrainData *)pTrain;
 - (void)stimulate;

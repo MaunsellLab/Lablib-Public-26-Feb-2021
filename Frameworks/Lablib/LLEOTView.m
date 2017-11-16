@@ -15,7 +15,7 @@
 - (instancetype)initWithFrame:(NSRect)frame {
 
     if ((self = [super initWithFrame:frame]) != nil) {
-		eotTypes = kEOTTypes;
+        eotTypes = kEOTTypes;
     }
     return self;
 }
@@ -25,7 +25,7 @@
     long index, total, subtotal;
     NSRect r;
     
-    r = [self bounds];
+    r = self.bounds;
     NSEraseRect(r);
     if (pEOTData == NULL) {
         return;
@@ -52,7 +52,7 @@
 
 - (BOOL)isOpaque;
 {
-	return YES;
+    return YES;
 }
 
 - (void)setData:(long *)pData;
@@ -62,7 +62,7 @@
 
 - (void)setEOTTypes:(long)types;
 {
-	eotTypes = types;
+    eotTypes = types;
 }
 
 @end

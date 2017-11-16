@@ -12,63 +12,63 @@
 
 - (long)channel;
 {
-	return channel;
+    return channel;
 }
 
 - (void)dealloc;
 {
-	[name release];
-	[super dealloc];
+    [name release];
+    [super dealloc];
 }
 
 - (NSString *)description;
 {
-	return [NSString stringWithFormat:@"%@: name %@; device %ld; channel %ld; type %ld; groupIndex %ld", 
-		[self class], name, device, channel, type, groupIndex];
+    return [NSString stringWithFormat:@"%@: name %@; device %ld; channel %ld; type %ld; groupIndex %ld", 
+        [self class], name, device, channel, type, groupIndex];
 }
 
 - (long)device;
 {
-	return device;
+    return device;
 }
 
 - (long)groupIndex;
 {
-	return groupIndex;
+    return groupIndex;
 }
 
 - (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
-			type:(long)theType groupIndex:(long)index;
+            type:(long)theType groupIndex:(long)index;
 {
-	if (self = [super init]) {
-		[theName retain];
-		name = theName;
-		device = theDevice;
-		channel = theChannel;
-		type = theType;
-		groupIndex = index;
-	}
-	return self;
+    if (self = [super init]) {
+        [theName retain];
+        name = theName;
+        device = theDevice;
+        channel = theChannel;
+        type = theType;
+        groupIndex = index;
+    }
+    return self;
 }
 
 - (NSString *)name;
 {
-	return name;
+    return name;
 }
 
 - (void)setChannel:(NSNumber *)newChannel;
 {
-	channel = [newChannel intValue];
+    channel = newChannel.intValue;
 }
 
 - (void)setDevice:(NSNumber *)newDevice;
 {
-	device = [newDevice intValue];
+    device = newDevice.intValue;
 }
 
 - (long)type;
 {
-	return type;
+    return type;
 }
 
 @end

@@ -12,17 +12,17 @@
 
 - (void)addEOT:(short)eotCode {
 
-	long index;
+    long index;
 
-	if (counter < bins) {
-		EOTHistory[counter++] = eotCode;
-	}
-	else {
-		for(index = 0; index < (bins - 1); index++) {
-			EOTHistory[index] = EOTHistory[index + 1];
-		}
-		EOTHistory[bins - 1] = eotCode;
-	}
+    if (counter < bins) {
+        EOTHistory[counter++] = eotCode;
+    }
+    else {
+        for(index = 0; index < (bins - 1); index++) {
+            EOTHistory[index] = EOTHistory[index + 1];
+        }
+        EOTHistory[bins - 1] = eotCode;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setNeedsDisplay:YES];
     });
@@ -31,29 +31,29 @@
 - (void)drawRect:(NSRect)rect {
 
     long index;
-	float binWidth, binOffset;
+    float binWidth, binOffset;
     NSRect r;
     
-    r = [self bounds];
+    r = self.bounds;
     NSEraseRect(r);
-	if (counter > 0) {
-		binWidth = NSWidth(r) / bins;
-		binOffset = NSMinX(r) + (bins - counter) * binWidth; 
-		for (index = 0; index < counter; index++) {
-			[[LLStandardDataEvents eotColor:EOTHistory[index]] set];
-			[NSBezierPath fillRect:NSMakeRect(binOffset, NSMinY(r), 
-				binOffset + binWidth, NSMaxY(r))];
-			binOffset += binWidth;
-		}
-		[[NSColor blackColor] set];
-		[NSBezierPath strokeRect:r];
-	}
+    if (counter > 0) {
+        binWidth = NSWidth(r) / bins;
+        binOffset = NSMinX(r) + (bins - counter) * binWidth; 
+        for (index = 0; index < counter; index++) {
+            [[LLStandardDataEvents eotColor:EOTHistory[index]] set];
+            [NSBezierPath fillRect:NSMakeRect(binOffset, NSMinY(r), 
+                binOffset + binWidth, NSMaxY(r))];
+            binOffset += binWidth;
+        }
+        [[NSColor blackColor] set];
+        [NSBezierPath strokeRect:r];
+    }
 }
 
 - (instancetype)initWithFrame:(NSRect)frame {
 
     if ((self = [super initWithFrame:frame]) != nil) {
-		[self setBins:50];
+        [self setBins:50];
     }
     return self;
 }
@@ -62,18 +62,18 @@
 
 - (BOOL)isOpaque;
 {
-	return YES;
+    return YES;
 }
 
 - (void)reset {
 
-	counter = 0;
+    counter = 0;
 }
 
 - (void)setBins:(long)newBins {
 
-	bins = MIN(newBins, kLLEOTHistMaxBins);
-	counter = MIN(bins, counter);
+    bins = MIN(newBins, kLLEOTHistMaxBins);
+    counter = MIN(bins, counter);
 }
 
 @end

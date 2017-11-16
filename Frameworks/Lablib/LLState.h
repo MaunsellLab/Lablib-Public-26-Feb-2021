@@ -8,11 +8,11 @@
 
 @interface LLState : NSObject {
 
-	BOOL warned;
+    BOOL warned;
 }
 
 - (void)stateAction;
-- (NSString *)name;
-- (LLState *)nextState;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLState *nextState;
 
 @end

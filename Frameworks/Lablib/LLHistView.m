@@ -16,8 +16,8 @@
     long index;
     XHistAxisMark mark;
     
-    for (index = 0; index < [marks count]; index++) {
-        [[marks objectAtIndex:index] getValue:&mark];
+    for (index = 0; index < marks.count; index++) {
+        [marks[index] getValue:&mark];
         [mark.color release];
     }
     [marks removeAllObjects];
@@ -45,7 +45,7 @@
     NSRect b, b1;
     NSBezierPath *dataPath;  
 
-    if (hidden) {				 // do nothing if the histogram is not on scren
+    if (hidden) {                 // do nothing if the histogram is not on scren
         return;
     }
     xAxisMin = (useXDisplayValues) ? xMinDisplayValue : 0;
@@ -61,7 +61,7 @@
 
 // Clear and highlight the bounds
 
-    b = [self bounds];
+    b = self.bounds;
     [[NSColor whiteColor] set];
     [NSBezierPath fillRect:b];
 
@@ -78,8 +78,8 @@
 // Draw any marked regions
     
     [scale setXOrigin:xAxisMin width:xAxisMax - xAxisMin];
-    for (index = 0; index < [marks count]; index++) {
-        [[marks objectAtIndex:index] getValue:&mark];
+    for (index = 0; index < marks.count; index++) {
+        [marks[index] getValue:&mark];
         yOriginPix = [scale scaledY:0] + ((mark.yPix < 0) ? mark.yPix : 0);
         [mark.color set];
         [NSBezierPath fillRect:NSMakeRect([scale scaledX:MAX(mark.xMin, xAxisMin)], 
@@ -92,30 +92,30 @@
 
     [scale setXOrigin:0 width:plotBins];
     dataPath = [[NSBezierPath alloc] init];
-	maxBin = 0;
-	for (hist = 0; hist < [dataArray count]; hist++) {
-		[dataPath moveToPoint:[scale scaledPoint:NSMakePoint(0, 0)]];
-		binSum = bin = 0.0;
-		pData = [[dataArray objectAtIndex:hist] pointerValue];
-		yUnit = [[yUnitArray objectAtIndex:hist] doubleValue];
-		for (index = 0; index < dataLength; index++, pData++) {
-			binSum += *pData;
-			if (index + 1 == (bin + 1) * dataLength / plotBins) {
-				binSum = binSum * yUnit / ((sumWhenBinning) ? 1.0 : (dataLength / plotBins));
-				[dataPath lineToPoint:[scale scaledPoint:NSMakePoint(bin, binSum)]];
-				[dataPath lineToPoint:[scale scaledPoint:NSMakePoint(++bin, binSum)]];
-				maxBin = MAX(maxBin, binSum);
-				binSum = 0.0;
-			}
-		}
-		[dataPath lineToPoint:[scale scaledPoint:NSMakePoint(bin, 0)]];
-		[dataPath closePath];
-		[(NSColor *)[colorArray objectAtIndex:hist] set]; 
-		if ([[enableArray objectAtIndex:hist] boolValue]) {			// do the rest for maxBin
-			[dataPath fill];
-		}
-		[dataPath removeAllPoints];
-	}
+    maxBin = 0;
+    for (hist = 0; hist < dataArray.count; hist++) {
+        [dataPath moveToPoint:[scale scaledPoint:NSMakePoint(0, 0)]];
+        binSum = bin = 0.0;
+        pData = [dataArray[hist] pointerValue];
+        yUnit = [yUnitArray[hist] doubleValue];
+        for (index = 0; index < dataLength; index++, pData++) {
+            binSum += *pData;
+            if (index + 1 == (bin + 1) * dataLength / plotBins) {
+                binSum = binSum * yUnit / ((sumWhenBinning) ? 1.0 : (dataLength / plotBins));
+                [dataPath lineToPoint:[scale scaledPoint:NSMakePoint(bin, binSum)]];
+                [dataPath lineToPoint:[scale scaledPoint:NSMakePoint(++bin, binSum)]];
+                maxBin = MAX(maxBin, binSum);
+                binSum = 0.0;
+            }
+        }
+        [dataPath lineToPoint:[scale scaledPoint:NSMakePoint(bin, 0)]];
+        [dataPath closePath];
+        [(NSColor *)colorArray[hist] set]; 
+        if ([enableArray[hist] boolValue]) {            // do the rest for maxBin
+            [dataPath fill];
+        }
+        [dataPath removeAllPoints];
+    }
     [dataPath release];
 
 // Draw the axes
@@ -131,9 +131,9 @@
         
 // Draw the title
 
-	[LLViewUtilities drawString:title 
+    [LLViewUtilities drawString:title 
         centerAndBottomAtPoint:NSMakePoint([scale scaledX:(xAxisMin + xAxisMax) / 2.0],
-        [self bounds].size.height - textLineHeightPix - 3) rotation:0.0 withAttributes:nil];
+        self.bounds.size.height - textLineHeightPix - 3) rotation:0.0 withAttributes:nil];
 
 // Announce our maximum value.  
 
@@ -155,11 +155,11 @@
 
 - (void)disableAll;
 {
-	long index;
-	
-	for (index = 0; index < [enableArray count]; index++) {
-		[enableArray replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:NO]];
-	}
+    long index;
+    
+    for (index = 0; index < enableArray.count; index++) {
+        enableArray[index] = @NO;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setNeedsDisplay:YES];
     });
@@ -167,11 +167,11 @@
 
 - (void)enableAll;
 {
-	long index;
-	
-	for (index = 0; index < [enableArray count]; index++) {
-		[enableArray replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:YES]];
-	}
+    long index;
+    
+    for (index = 0; index < enableArray.count; index++) {
+        enableArray[index] = @YES;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setNeedsDisplay:YES];
     });
@@ -196,7 +196,7 @@
 
         mark.xMin = xMin;
         mark.xMax = xMax;
-        mark.yPix = [self bounds].size.height - bottomMarginPix - topMarginPix;
+        mark.yPix = self.bounds.size.height - bottomMarginPix - topMarginPix;
         mark.color = color;
         [color retain];
         [marks addObject:[NSValue value:&mark withObjCType:@encode(XHistAxisMark)]];
@@ -205,11 +205,11 @@
 
 - (void) handleScaleChange:(NSNotification *)note;
 {
-	if (!hidden) {
+    if (!hidden) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setNeedsDisplay:YES];
         });
-	}
+    }
 }
 
 - (void) hide:(BOOL)state {
@@ -219,7 +219,7 @@
 
 - (void) initializeHistViewWithScale:(LLViewScale *)plotScale;
 {
-	NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
     // setScale: requires that textLineHeightPix be set before it is called
 
@@ -227,17 +227,17 @@
     [self setScale:(plotScale != nil) ? plotScale : [[[LLViewScale alloc] init] autorelease]];
 
     colorArray = [[NSMutableArray alloc] init];
-	dataArray = [[NSMutableArray alloc] init];
-	enableArray = [[NSMutableArray alloc] init];
-	marks = [[NSMutableArray alloc] init];
-	yUnitArray = [[NSMutableArray alloc] init];
+    dataArray = [[NSMutableArray alloc] init];
+    enableArray = [[NSMutableArray alloc] init];
+    marks = [[NSMutableArray alloc] init];
+    yUnitArray = [[NSMutableArray alloc] init];
     [self setPlotBins:kDefaultBins];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleScaleChange:)
             name:@"LLYScaleChanged" object:scale];
     autoBinWidth = sumWhenBinning = YES;
     xTickSpacing = [scale xMax];
-	xTickLabelSpacing = 1.0;
-	[scale setAutoAdjustYMin:NO];
+    xTickLabelSpacing = 1.0;
+    [scale setAutoAdjustYMin:NO];
 }
 
 - (instancetype)initWithFrame:(NSRect)frame;
@@ -248,7 +248,7 @@
     return self;
 }
 
-- (id) initWithFrame:(NSRect)frame scaling:(LLViewScale *)plotScale;
+- (instancetype) initWithFrame:(NSRect)frame scaling:(LLViewScale *)plotScale;
 {
     if ((self = [super initWithFrame:frame]) != nil) {
         [self initializeHistViewWithScale:plotScale];
@@ -256,9 +256,9 @@
     return self;
 }
 
-- (BOOL)isOpaque;							// Overwrite isOpaque to improve performance
+- (BOOL)isOpaque;                            // Overwrite isOpaque to improve performance
 {
-	return YES;
+    return YES;
 }
 
 // For a double click, enable all plots.  Otherwise, if more than one plot is active, make
@@ -266,32 +266,31 @@
 
 - (void)mouseDown:(NSEvent *)theEvent;
 {
-	long index, numEnabled, firstIndex;
-	
-	if ([enableArray count] < 2) {
-		return;
-	}
-	if ([theEvent clickCount] > 1) {
-		[self enableAll];
-	}
-	else {
-		for (index = numEnabled = 0, firstIndex = -1; index < [enableArray count]; index++) {
-			if ([[enableArray objectAtIndex:index] boolValue]) {
-				firstIndex = (firstIndex < 0) ? index : firstIndex;
-				if (++numEnabled > 1) {
-					break;
-				}
-			}
-		}
-		[self disableAll];
-		if (numEnabled > 1) {
-			[enableArray replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
-		}
-		else {
-			[enableArray replaceObjectAtIndex:((firstIndex + 1) % [enableArray count])
-									withObject:[NSNumber numberWithBool:YES]];
-		}
-	}
+    long index, numEnabled, firstIndex;
+    
+    if (enableArray.count < 2) {
+        return;
+    }
+    if (theEvent.clickCount > 1) {
+        [self enableAll];
+    }
+    else {
+        for (index = numEnabled = 0, firstIndex = -1; index < enableArray.count; index++) {
+            if ([enableArray[index] boolValue]) {
+                firstIndex = (firstIndex < 0) ? index : firstIndex;
+                if (++numEnabled > 1) {
+                    break;
+                }
+            }
+        }
+        [self disableAll];
+        if (numEnabled > 1) {
+            enableArray[0] = @YES;
+        }
+        else {
+            enableArray[((firstIndex + 1) % enableArray.count)] = @YES;
+        }
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setNeedsDisplay:YES];
     });
@@ -309,12 +308,12 @@
 
 - (void)setData:(double *)histData length:(long)histLength color:(NSColor *)color {
 
-	[dataArray addObject:[NSValue valueWithPointer:histData]];
-	[yUnitArray addObject:[NSNumber numberWithDouble:[scale yMax]]];
-	[enableArray addObject:[NSNumber numberWithBool:YES]];
+    [dataArray addObject:[NSValue valueWithPointer:histData]];
+    [yUnitArray addObject:[NSNumber numberWithDouble:[scale yMax]]];
+    [enableArray addObject:@YES];
     [self setDataLength:histLength];
     if (color != nil) {
-		[colorArray addObject:color];
+        [colorArray addObject:color];
     }
     else {
         [colorArray addObject:[NSColor colorWithDeviceRed:0.0 green:0.0 blue:1.0 alpha:0.8]];
@@ -323,12 +322,12 @@
 
 - (void)setData:(double *)histData length:(long)histLength color:(NSColor *)color yUnit:(double)histUnit
 {
-	[dataArray addObject:[NSValue valueWithPointer:histData]];
-	[yUnitArray addObject:[NSNumber numberWithDouble:histUnit]];
-	[enableArray addObject:[NSNumber numberWithBool:YES]];
+    [dataArray addObject:[NSValue valueWithPointer:histData]];
+    [yUnitArray addObject:@(histUnit)];
+    [enableArray addObject:@YES];
     [self setDataLength:histLength];
     if (color != nil) {
-		[colorArray addObject:color];
+        [colorArray addObject:color];
     }
     else {
         [colorArray addObject:[NSColor colorWithDeviceRed:0.0 green:0.0 blue:1.0 alpha:0.8]];
@@ -346,14 +345,14 @@
 
     xMaxDisplayValue = xMax;
     xMinDisplayValue = xMin;
-    useXDisplayValues = YES;						
+    useXDisplayValues = YES;                        
 }
 
 - (void) setDisplayYMin:(float)yMin yMax:(float)yMax{
 
     yMaxDisplayValue = yMax;
     yMinDisplayValue = yMin;
-    useYDisplayValues = YES;						
+    useYDisplayValues = YES;                        
 }
 
 - (void)setScale:(LLViewScale *)newScale;
@@ -362,10 +361,10 @@
     NSRect b;
     
     [newScale retain];
-	[scale release];
+    [scale release];
     scale = newScale;
 
-    b = [self bounds];
+    b = self.bounds;
     plotWidthPix = b.size.width - leftMarginPix - kRightMarginPix;
     plotHeightPix = b.size.height - bottomMarginPix - topMarginPix;
     [scale setViewRectForScale:NSMakeRect(leftMarginPix, bottomMarginPix, plotWidthPix, plotHeightPix)];
@@ -422,17 +421,17 @@
 
 - (void) setYUnit:(double)unitValue;
 {
-	long index;
-	 NSNumber *yUnit = [NSNumber numberWithDouble:unitValue];
-	
-	for (index = 0; index < [yUnitArray count]; index++) {
-		[yUnitArray replaceObjectAtIndex:index withObject:yUnit];
-	}
+    long index;
+     NSNumber *yUnit = @(unitValue);
+    
+    for (index = 0; index < yUnitArray.count; index++) {
+        yUnitArray[index] = yUnit;
+    }
 }
 
 - (void) setYUnit:(double)unitValue index:(long)index;
 {
-	[yUnitArray replaceObjectAtIndex:index withObject:[NSNumber numberWithDouble:unitValue]];
+    yUnitArray[index] = @(unitValue);
 }
 
 @end

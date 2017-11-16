@@ -4,32 +4,32 @@
 //
 //  Created by Geoff Ghose on 5/16/05.
 //  Copyright 2005. All rights reserved.
-//	A subclass of the LLGabor object where a noise texture replaces a cycle texture.
+//    A subclass of the LLGabor object where a noise texture replaces a cycle texture.
 
 #import "LLGabor.h"
 
 typedef struct {
-	double orientationDegBand;
-	double spatialFreqBandOct;
-	double noiseAzimuthDeg;
-	double noiseElevationDeg;
-	double motionSpeed;
-	double motionDir;
-	long   seed;
+    double orientationDegBand;
+    double spatialFreqBandOct;
+    double noiseAzimuthDeg;
+    double noiseElevationDeg;
+    double motionSpeed;
+    double motionDir;
+    long   seed;
 } Noise;
 
-typedef enum {kWhiteNoise, kOneOverFNoise, kGaussianNoise} NoiseType;
+typedef NS_ENUM(unsigned int, NoiseType) {kWhiteNoise, kOneOverFNoise, kGaussianNoise};
 
-#define	kNoisePix (1 << 9)
+#define    kNoisePix (1 << 9)
 #define kNoisePos (kKdlPhi + 1)
 
 @interface LLNoise : LLGabor {
-	Noise		baseNoise, displayListNoise, drawNoise;				
-	float		*freq;
-	GLubyte		noiseImage[kNoisePix][kNoisePix];
-	GLuint		noiseTexture;
-	long		noiseType;
-	float		rfact[kNoisePix][kNoisePix];
+    Noise        baseNoise, displayListNoise, drawNoise;                
+    float        *freq;
+    GLubyte        noiseImage[kNoisePix][kNoisePix];
+    GLuint        noiseTexture;
+    long        noiseType;
+    float        rfact[kNoisePix][kNoisePix];
 }
 
 - (void) draw;
@@ -37,7 +37,7 @@ typedef enum {kWhiteNoise, kOneOverFNoise, kGaussianNoise} NoiseType;
 - (void) drawTexturesGL;
 - (void)makeDisplayLists;
 - (void)makeNoiseTexture;
-- (Noise *)noiseData;
+- (Noise *)noiseData NS_RETURNS_INNER_POINTER;
 - (void)restore;
 - (void)setFrame:(NSNumber *)frameObject;
 - (void)setMotionDir:(double)motionDir;

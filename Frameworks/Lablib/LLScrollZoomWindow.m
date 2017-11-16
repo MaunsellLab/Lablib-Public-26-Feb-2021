@@ -19,151 +19,151 @@ NSString *windowZoomKey = @"WindowZoom";
     
     zoomValue = [[sender selectedCell] tag];
     [self setScaleFactor:zoomValue / 100.0];
-    [defaults setObject:[NSNumber numberWithInt:(int)zoomValue]
+    [defaults setObject:@((int)zoomValue)
                 forKey:[NSString stringWithFormat:@"%@%@", viewName, windowZoomKey]];
 }
 
 - (void)dealloc;
 {
-	[viewName release];
-	[defaults release];
-	[super dealloc];
+    [viewName release];
+    [defaults release];
+    [super dealloc];
 }
 
 - (instancetype)initWithWindowNibName:(NSString *)nibName defaults:(NSUserDefaults *)taskDefaults;
 {
    if ((self = [super initWithWindowNibName:nibName]) != nil) {
-		viewName = nibName;
-		[viewName retain];
-		defaults = taskDefaults;
-		[defaults retain];
- 		[self setShouldCascadeWindows:NO];
-        [self window];							// Force the window to load now
-	}
-	return self;
+        viewName = nibName;
+        [viewName retain];
+        defaults = taskDefaults;
+        [defaults retain];
+        [self setShouldCascadeWindows:NO];
+        [self window];                            // Force the window to load now
+    }
+    return self;
 }
 
 - (void) positionZoomButton;
 {
     NSRect scrollerRect, buttonRect;
     
-    scrollerRect = [[scrollView horizontalScroller] frame];
-    scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
+    scrollerRect = scrollView.horizontalScroller.frame;
+    scrollerRect.size.width = scrollView.frame.size.width - scrollerRect.size.height - 8;
     NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
-    [[scrollView horizontalScroller] setFrame:scrollerRect];
-    [[scrollView horizontalScroller] setNeedsDisplay:YES];
-    buttonRect.origin.y += buttonRect.size.height;				// Offset because the clipRect is flipped
-    buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
-    [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
+    scrollView.horizontalScroller.frame = scrollerRect;
+    [scrollView.horizontalScroller setNeedsDisplay:YES];
+    buttonRect.origin.y += buttonRect.size.height;                // Offset because the clipRect is flipped
+    buttonRect.origin = [self.window.contentView convertPoint:buttonRect.origin fromView:scrollView];
+    zoomButton.frame = NSInsetRect(buttonRect, 1.0, 1.0);
     [zoomButton setNeedsDisplay:YES];
 }
 
 - (void)setBaseMaxContentSize:(NSSize)newSize;
 {
-	baseMaxContentSize = newSize;
-	[self setWindowMaxSize];
+    baseMaxContentSize = newSize;
+    [self setWindowMaxSize];
 }
 
 - (void)setScaleFactor:(float)newFactor;
 {
     float delta, scaleFactor;
   
-	scaleFactor = (baseMaxContentSize.width / [[scrollView contentView] bounds].size.width) /
-			(baseMaxContentSize.width / [[scrollView contentView] frame].size.width);
+    scaleFactor = (baseMaxContentSize.width / scrollView.contentView.bounds.size.width) /
+            (baseMaxContentSize.width / scrollView.contentView.frame.size.width);
     if (scaleFactor != newFactor) {
         delta = newFactor / scaleFactor;
-		[[scrollView contentView] scaleUnitSquareToSize:NSMakeSize(delta, delta)];
+        [scrollView.contentView scaleUnitSquareToSize:NSMakeSize(delta, delta)];
         [self positionZoomButton];
         [scrollView display];
-		[self setWindowMaxSize];
-	}
+        [self setWindowMaxSize];
+    }
 }
 
 // Limit the maximum size of the window.  
   
 - (void)setWindowMaxSize;
 {
-	float scaleFactor;
+    float scaleFactor;
     NSSize maxContentSize, maxSize;
-	NSWindow *window;
+    NSWindow *window;
     NSScroller *hScroller, *vScroller;
     NSRect scrollFrameRect, windowFrameRect, frame;
 
-	scaleFactor = (baseMaxContentSize.width / [[scrollView contentView] bounds].size.width) /
-			(baseMaxContentSize.width / [[scrollView contentView] frame].size.width);
-	maxContentSize.width = baseMaxContentSize.width * scaleFactor;
-	maxContentSize.height = baseMaxContentSize.height * scaleFactor;
-	scrollFrameRect.origin = NSMakePoint(0, 0);
+    scaleFactor = (baseMaxContentSize.width / scrollView.contentView.bounds.size.width) /
+            (baseMaxContentSize.width / scrollView.contentView.frame.size.width);
+    maxContentSize.width = baseMaxContentSize.width * scaleFactor;
+    maxContentSize.height = baseMaxContentSize.height * scaleFactor;
+    scrollFrameRect.origin = NSMakePoint(0, 0);
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-    hScroller = [scrollView horizontalScroller];
-    vScroller = [scrollView verticalScroller];
+    hScroller = scrollView.horizontalScroller;
+    vScroller = scrollView.verticalScroller;
     scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
                     horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class] 
-                    borderType:[scrollView borderType]
-                    controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+                    borderType:scrollView.borderType
+                    controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
 #else
     scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
                     hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
-#endif	
-	window = [self window];
-	windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect styleMask:[window styleMask]];
-	[window setMaxSize:windowFrameRect.size];
-	frame = [window frame];
-	maxSize = [window maxSize];
-//	if (maxSize.width < frame.size.width || maxSize.height < frame.size.height) {
-		[window setFrame:NSMakeRect(frame.origin.x, frame.origin.y, maxSize.width, maxSize.height) 
-					display:YES];
-//	}
+#endif    
+    window = self.window;
+    windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect styleMask:window.styleMask];
+    window.maxSize = windowFrameRect.size;
+    frame = window.frame;
+    maxSize = window.maxSize;
+//    if (maxSize.width < frame.size.width || maxSize.height < frame.size.height) {
+        [window setFrame:NSMakeRect(frame.origin.x, frame.origin.y, maxSize.width, maxSize.height) 
+                    display:YES];
+//    }
 }
 
 // Subclassed must call this from within their -windowDidLoad method ([super windowDidLoad])
 
 - (void)windowDidLoad;
 {
-	long index, defaultZoom;
-	NSRect maxScrollRect;
+    long index, defaultZoom;
+    NSRect maxScrollRect;
     NSScroller *hScroller, *vScroller;
-	
-	[self setWindowFrameAutosaveName:viewName];
-	[[self window] setDelegate:self];
-	maxScrollRect = [NSWindow contentRectForFrameRect:
-		NSMakeRect(0, 0, [[self window] maxSize].width, [[self window] maxSize].height)
-		styleMask:[[self window] styleMask]];
+    
+    self.windowFrameAutosaveName = viewName;
+    self.window.delegate = self;
+    maxScrollRect = [NSWindow contentRectForFrameRect:
+        NSMakeRect(0, 0, self.window.maxSize.width, self.window.maxSize.height)
+        styleMask:self.window.styleMask];
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-    hScroller = [scrollView horizontalScroller];
-    vScroller = [scrollView verticalScroller];
+    hScroller = scrollView.horizontalScroller;
+    vScroller = scrollView.verticalScroller;
     baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
                                 horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
-                                borderType:[scrollView borderType]
-                                controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+                                borderType:scrollView.borderType
+                                controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
 #else
     baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
                                          hasHorizontalScroller:YES hasVerticalScroller:YES
                                                     borderType:[scrollView borderType]];
 #endif
-    [[zoomButton cell] setBordered:NO];
-    [[zoomButton cell] setBezeled:YES];
-    [[zoomButton cell] setFont:[NSFont labelFontOfSize:10.0]];
+    [zoomButton.cell setBordered:NO];
+    [zoomButton.cell setBezeled:YES];
+    zoomButton.cell.font = [NSFont labelFontOfSize:10.0];
     defaultZoom = [defaults integerForKey:[NSString stringWithFormat:@"%@%@", viewName, windowZoomKey]];
-	if (defaultZoom <= 0) {
-		defaultZoom = 100;
-	}
-    for (index = 0; index < [[zoomButton itemArray] count]; index++) {
-        if ([[zoomButton itemAtIndex:index] tag] == defaultZoom) {
+    if (defaultZoom <= 0) {
+        defaultZoom = 100;
+    }
+    for (index = 0; index < zoomButton.itemArray.count; index++) {
+        if ([zoomButton itemAtIndex:index].tag == defaultZoom) {
             [zoomButton selectItemAtIndex:index];
             break;
         }
     }
-	if (defaultZoom != 100.0) {
-	    [self setScaleFactor:defaultZoom / 100.0];
-	}
-    [self positionZoomButton];								// position zoom must be after visible
-	[[self window] setFrameUsingName:viewName];				// needed when opened a second time
+    if (defaultZoom != 100.0) {
+        [self setScaleFactor:defaultZoom / 100.0];
+    }
+    [self positionZoomButton];                                // position zoom must be after visible
+    [self.window setFrameUsingName:viewName];                // needed when opened a second time
     if ([defaults boolForKey:[NSString stringWithFormat:@"%@%@", viewName, windowVisibleKey]]) {
-        [[self window] makeKeyAndOrderFront:self];
+        [self.window makeKeyAndOrderFront:self];
     }
     else {
-        [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+        [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     }
 }
 
@@ -171,8 +171,8 @@ NSString *windowZoomKey = @"WindowZoom";
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification;
 {
-	[defaults setObject:[NSNumber numberWithBool:YES] 
-		forKey:[NSString stringWithFormat:@"%@%@", viewName, windowVisibleKey]];
+    [defaults setObject:@YES
+        forKey:[NSString stringWithFormat:@"%@%@", viewName, windowVisibleKey]];
 }
 
 // We use a delegate method to detect when the window has resized, and 
@@ -180,15 +180,15 @@ NSString *windowZoomKey = @"WindowZoom";
 
 - (void) windowDidResize:(NSNotification *)aNotification;
 {
-	[self positionZoomButton];
+    [self positionZoomButton];
 }
 
 - (BOOL) windowShouldClose:(NSNotification *)aNotification;
 {
-    [[self window] orderOut:self];
-    [defaults setObject:[NSNumber numberWithBool:NO] 
+    [self.window orderOut:self];
+    [defaults setObject:@NO
                 forKey:[NSString stringWithFormat:@"%@%@", viewName, windowVisibleKey]];
-    [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+    [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     return NO;
 }
 

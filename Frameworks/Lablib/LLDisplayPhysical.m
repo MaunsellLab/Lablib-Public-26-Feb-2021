@@ -11,7 +11,7 @@
 #import "LLDisplays.h"
 #import "LLSystemUtil.h"
 
-#define kMMPerInch		25.40
+#define kMMPerInch        25.40
 
 NSString *LLDistanceMMKey = @"LL Distance MM";
 NSString *LLRedCIExKey = @"LL RedCIEx";
@@ -22,176 +22,176 @@ NSString *LLBlueCIExKey = @"LL BlueCIEx";
 NSString *LLBlueCIEyKey = @"LL BlueCIEy";
 NSString *LLHeightMMKey = @"LL Height MM";
 NSString *LLWidthMMKey = @"LL Width MM";
-		
+        
 @implementation LLDisplayPhysical
 
 - (IBAction)changeDistance:(id)sender {
 
-	currentParam.distanceMM = [distanceField floatValue] * kMMPerInch;
+    currentParam.distanceMM = distanceField.floatValue * kMMPerInch;
 }
 
 - (IBAction)changeHeightInch:(id)sender {
 
-	currentParam.heightMM = [heightInchField floatValue] * kMMPerInch;
-//	currentParam.vPixPerMM = currentParam.heightPix / currentParam.heightMM;	
+    currentParam.heightMM = heightInchField.floatValue * kMMPerInch;
+//    currentParam.vPixPerMM = currentParam.heightPix / currentParam.heightMM;    
 }
 
 - (IBAction)changeWidthInch:(id)sender {
 
-	currentParam.widthMM = [widthInchField floatValue] * kMMPerInch;
-//	currentParam.hPixPerMM = currentParam.widthPix / currentParam.widthMM;
+    currentParam.widthMM = widthInchField.floatValue * kMMPerInch;
+//    currentParam.hPixPerMM = currentParam.widthPix / currentParam.widthMM;
 }
 
 - (IBAction)changeRedX:(id)sender {
-	currentParam.CIEx.red = [redXField floatValue];
-	[self showColors];
+    currentParam.CIEx.red = redXField.floatValue;
+    [self showColors];
 }
 
 - (IBAction)changeRedY:(id)sender {
-	currentParam.CIEy.red = [redYField floatValue];
-	[self showColors];
+    currentParam.CIEy.red = redYField.floatValue;
+    [self showColors];
 }
 
 - (IBAction)changeGreenX:(id)sender {
-	currentParam.CIEx.green = [greenXField floatValue];
-	[self showColors];
+    currentParam.CIEx.green = greenXField.floatValue;
+    [self showColors];
 }
 
 - (IBAction)changeGreenY:(id)sender {
-	currentParam.CIEy.green = [greenYField floatValue];
-	[self showColors];
+    currentParam.CIEy.green = greenYField.floatValue;
+    [self showColors];
 }
 
 - (IBAction)changeBlueX:(id)sender {
-	currentParam.CIEx.blue = [blueXField floatValue];
-	[self showColors];
+    currentParam.CIEx.blue = blueXField.floatValue;
+    [self showColors];
 }
 
 - (IBAction)changeBlueY:(id)sender {
-	currentParam.CIEy.blue = [blueYField floatValue];
-	[self showColors];
+    currentParam.CIEy.blue = blueYField.floatValue;
+    [self showColors];
 }
 
 // Return settings for the physical state of a display
 
 - (DisplayPhysicalParam *)displayParameters:(long)displayIndex;
 {
-	NSString *displayDescription;
+    NSString *displayDescription;
 
 // readParameters will do all the work if there are defaults to be found.  If there are
 // no defaults established, then we need to 1) write default values to the disk, and 2)
 // run the settings dialog so that the user is aware that there were no defaults and has
 // a chance to modify them.
 
-	if (![self readParameters:displayIndex] && !initialized[displayIndex]) {
-		displayDescription = (displayIndex == 0) ? @"Main Display" :
-				[NSString stringWithFormat:@"Display %ld", displayIndex];
+    if (![self readParameters:displayIndex] && !initialized[displayIndex]) {
+        displayDescription = (displayIndex == 0) ? @"Main Display" :
+                [NSString stringWithFormat:@"Display %ld", displayIndex];
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:[NSString stringWithFormat:
                 @"No display calibration information found for \"%@\" (%@).  \
                 You may provide calibration information in the dialog that will appear next.",
                 [LLDisplays displayNameUsingIndex:displayIndex], displayDescription]];
-		displayParam[displayIndex].distanceMM = 500;
-		displayParam[displayIndex].heightMM = 300;
-		displayParam[displayIndex].widthMM = 400;
-		displayParam[displayIndex].CIEx.red = 0.617;
-		displayParam[displayIndex].CIEx.green = 0.299;
-		displayParam[displayIndex].CIEx.blue = 0.151;
-		displayParam[displayIndex].CIEy.red = 0.340;
-		displayParam[displayIndex].CIEy.green = 0.601;
-		displayParam[displayIndex].CIEy.blue = 0.082;
-		initialized[displayIndex] = YES;
-		[self doSettingsPanel:displayIndex];				// run settings dialog
-	}
-	initialized[displayIndex] = YES;
-	return &displayParam[displayIndex];
+        displayParam[displayIndex].distanceMM = 500;
+        displayParam[displayIndex].heightMM = 300;
+        displayParam[displayIndex].widthMM = 400;
+        displayParam[displayIndex].CIEx.red = 0.617;
+        displayParam[displayIndex].CIEx.green = 0.299;
+        displayParam[displayIndex].CIEx.blue = 0.151;
+        displayParam[displayIndex].CIEy.red = 0.340;
+        displayParam[displayIndex].CIEy.green = 0.601;
+        displayParam[displayIndex].CIEy.blue = 0.082;
+        initialized[displayIndex] = YES;
+        [self doSettingsPanel:displayIndex];                // run settings dialog
+    }
+    initialized[displayIndex] = YES;
+    return &displayParam[displayIndex];
 }
 
 - (void)doSettingsPanel:(long)displayIndex;
 {
-	NSString *domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, displayIndex];
+    NSString *domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, displayIndex];
 
-	currentParam = displayParam[displayIndex];
-	if (!initialized[displayIndex]) {
-		[self displayParameters:displayIndex];
-	}
-	if (!permissionChecked) {
-		[self writeDomain:domainName key:LLDistanceMMKey doublePtr:&currentParam.distanceMM];
-		if (!CFPreferencesAppSynchronize((CFStringRef)domainName)) {
+    currentParam = displayParam[displayIndex];
+    if (!initialized[displayIndex]) {
+        [self displayParameters:displayIndex];
+    }
+    if (!permissionChecked) {
+        [self writeDomain:domainName key:LLDistanceMMKey doublePtr:&currentParam.distanceMM];
+        if (!CFPreferencesAppSynchronize((CFStringRef)domainName)) {
             [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
              @"You do not have permission to write calibration \
              values on this machine.  Your values will last only while this program runs."];
         }
-		permissionChecked = YES;
-	}
-	[distanceField setFloatValue:currentParam.distanceMM / kMMPerInch];
-	[redXField setFloatValue:currentParam.CIEx.red];
-	[redYField setFloatValue:currentParam.CIEy.red];
-	[greenXField setFloatValue:currentParam.CIEx.green];
-	[greenYField setFloatValue:currentParam.CIEy.green];
-	[blueXField setFloatValue:currentParam.CIEx.blue];
-	[blueYField setFloatValue:currentParam.CIEy.blue];
-	[heightInchField setFloatValue:currentParam.heightMM / kMMPerInch];
-	[widthInchField setFloatValue:currentParam.widthMM / kMMPerInch];
-	[self showColors];
-	
-	[[self window] setTitle:[LLDisplays displayNameUsingIndex:displayIndex]];
-	[NSApp runModalForWindow:[self window]];
-    [[self window] orderOut:self];
+        permissionChecked = YES;
+    }
+    distanceField.floatValue = currentParam.distanceMM / kMMPerInch;
+    redXField.floatValue = currentParam.CIEx.red;
+    redYField.floatValue = currentParam.CIEy.red;
+    greenXField.floatValue = currentParam.CIEx.green;
+    greenYField.floatValue = currentParam.CIEy.green;
+    blueXField.floatValue = currentParam.CIEx.blue;
+    blueYField.floatValue = currentParam.CIEy.blue;
+    heightInchField.floatValue = currentParam.heightMM / kMMPerInch;
+    widthInchField.floatValue = currentParam.widthMM / kMMPerInch;
+    [self showColors];
+    
+    self.window.title = [LLDisplays displayNameUsingIndex:displayIndex];
+    [NSApp runModalForWindow:self.window];
+    [self.window orderOut:self];
 
-	displayParam[displayIndex] = currentParam;
-	
-	[self writeParameters:displayIndex];		// Try to write the new values
+    displayParam[displayIndex] = currentParam;
+    
+    [self writeParameters:displayIndex];        // Try to write the new values
 }
 
 - (instancetype)init {
 
     if ((self = [super initWithWindowNibName:@"LLDisplaySettings"])) {
-        [self setWindowFrameAutosaveName:@"LLDisplaySettings"];
-		[self window];					// Force window to load
-	}   
+        self.windowFrameAutosaveName = @"LLDisplaySettings";
+        [self window];                    // Force window to load
+    }   
     return self;
 }
 
 - (IBAction)ok:(id)sender {
         
-	[NSApp stopModal];
+    [NSApp stopModal];
 }
 
 - (RGBDouble)maxColor:(RGBDouble)inColor {
 
-	RGBDouble tempColor, luminanceWeight;
-	double max, gamma;
-	 
+    RGBDouble tempColor, luminanceWeight;
+    double max, gamma;
+     
 // The following are typical luminance ratio and gamma values for flat-screen displays.
 // The will very from monitor to monitor but are only used to roughly display the cardinal colors
 //in the Display Settings Panel
 
-	luminanceWeight.red = 5.9;
-	luminanceWeight.green = 6.9;
-	luminanceWeight.blue = 1.0;
-	gamma = 1.8;							// typical gamma
+    luminanceWeight.red = 5.9;
+    luminanceWeight.green = 6.9;
+    luminanceWeight.blue = 1.0;
+    gamma = 1.8;                            // typical gamma
 
-	tempColor = inColor;
-	tempColor.red /= luminanceWeight.red;
-	tempColor.green /= luminanceWeight.green;
-	tempColor.blue /= luminanceWeight.blue;
-	max = MAX(tempColor.red, MAX(tempColor.green, tempColor.blue));
-	tempColor.red = pow(tempColor.red / max, 1.0 / gamma);
-	tempColor.green = pow(tempColor.green / max, 1.0 / gamma);
-	tempColor.blue = pow(tempColor.blue / max, 1.0 / gamma);
-	return tempColor;
+    tempColor = inColor;
+    tempColor.red /= luminanceWeight.red;
+    tempColor.green /= luminanceWeight.green;
+    tempColor.blue /= luminanceWeight.blue;
+    max = MAX(tempColor.red, MAX(tempColor.green, tempColor.blue));
+    tempColor.red = pow(tempColor.red / max, 1.0 / gamma);
+    tempColor.green = pow(tempColor.green / max, 1.0 / gamma);
+    tempColor.blue = pow(tempColor.blue / max, 1.0 / gamma);
+    return tempColor;
 }
 
 - (BOOL)readDomain:(NSString *)domainName key:(NSString *)keyName doublePtr:(double *)pValue {
-	
-	CFNumberRef sysDictRef = CFPreferencesCopyValue((CFStringRef)keyName, (CFStringRef)domainName, 
-									kCFPreferencesCurrentUser, kCFPreferencesCurrentApplication);
-	if (sysDictRef == nil) {
-		return NO;
-	}
-	CFNumberGetValue(sysDictRef, kCFNumberDoubleType, pValue);
-	CFRelease(sysDictRef);
-	return YES;
+    
+    CFNumberRef sysDictRef = CFPreferencesCopyValue((CFStringRef)keyName, (CFStringRef)domainName, 
+                                    kCFPreferencesCurrentUser, kCFPreferencesCurrentApplication);
+    if (sysDictRef == nil) {
+        return NO;
+    }
+    CFNumberGetValue(sysDictRef, kCFNumberDoubleType, pValue);
+    CFRelease(sysDictRef);
+    return YES;
 }
 
 /*
@@ -207,64 +207,64 @@ NSString *LLWidthMMKey = @"LL Width MM";
 
 - (BOOL)readParameters:(long)index {
 
-	NSString *domainName;
-	DisplayPhysicalParam *pDP = &displayParam[index];
-		
-	domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, index];
-	
-	if (![self readDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM]) {
-		return NO;
-	}
-	[self readDomain:domainName key:LLHeightMMKey doublePtr:&pDP->heightMM];
-	[self readDomain:domainName key:LLWidthMMKey doublePtr:&pDP->widthMM];
-	[self readDomain:domainName key:LLRedCIExKey doublePtr:&pDP->CIEx.red];
-	[self readDomain:domainName key:LLRedCIEyKey doublePtr:&pDP->CIEy.red];
-	[self readDomain:domainName key:LLGreenCIExKey doublePtr:&pDP->CIEx.green];
-	[self readDomain:domainName key:LLGreenCIEyKey doublePtr:&pDP->CIEy.green];
-	[self readDomain:domainName key:LLBlueCIExKey doublePtr:&pDP->CIEx.blue];
-	[self readDomain:domainName key:LLBlueCIEyKey doublePtr:&pDP->CIEy.blue];
-	return YES;
+    NSString *domainName;
+    DisplayPhysicalParam *pDP = &displayParam[index];
+        
+    domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, index];
+    
+    if (![self readDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM]) {
+        return NO;
+    }
+    [self readDomain:domainName key:LLHeightMMKey doublePtr:&pDP->heightMM];
+    [self readDomain:domainName key:LLWidthMMKey doublePtr:&pDP->widthMM];
+    [self readDomain:domainName key:LLRedCIExKey doublePtr:&pDP->CIEx.red];
+    [self readDomain:domainName key:LLRedCIEyKey doublePtr:&pDP->CIEy.red];
+    [self readDomain:domainName key:LLGreenCIExKey doublePtr:&pDP->CIEx.green];
+    [self readDomain:domainName key:LLGreenCIEyKey doublePtr:&pDP->CIEy.green];
+    [self readDomain:domainName key:LLBlueCIExKey doublePtr:&pDP->CIEx.blue];
+    [self readDomain:domainName key:LLBlueCIEyKey doublePtr:&pDP->CIEy.blue];
+    return YES;
 }
 
 - (void)showColors;
 {
-	ColorPatches	colorWells;
-	
-	colorWells = computeKdlColors(currentParam.CIEx, currentParam.CIEy);
-	colorWells.cardinalGreen = [self maxColor:colorWells.cardinalGreen];
-	colorWells.cardinalYellow = [self maxColor:colorWells.cardinalYellow];
-	colorWells.equalEnergy = [self maxColor:colorWells.equalEnergy];
-	[cardinalGreenPatch setColor:[NSColor colorWithCalibratedRed:colorWells.cardinalGreen.red 
-		green:colorWells.cardinalGreen.green blue:colorWells.cardinalGreen.blue alpha:1.0]];
-	[cardinalYellowPatch setColor:[NSColor colorWithCalibratedRed:colorWells.cardinalYellow.red 
-		green:colorWells.cardinalYellow.green blue:colorWells.cardinalYellow.blue alpha:1.0]];
-	[equalEnergyPatch setColor:[NSColor colorWithCalibratedRed:colorWells.equalEnergy.red 
-		green:colorWells.equalEnergy.green blue:colorWells.equalEnergy.blue alpha:1.0]];
+    ColorPatches    colorWells;
+    
+    colorWells = computeKdlColors(currentParam.CIEx, currentParam.CIEy);
+    colorWells.cardinalGreen = [self maxColor:colorWells.cardinalGreen];
+    colorWells.cardinalYellow = [self maxColor:colorWells.cardinalYellow];
+    colorWells.equalEnergy = [self maxColor:colorWells.equalEnergy];
+    cardinalGreenPatch.color = [NSColor colorWithCalibratedRed:colorWells.cardinalGreen.red 
+        green:colorWells.cardinalGreen.green blue:colorWells.cardinalGreen.blue alpha:1.0];
+    cardinalYellowPatch.color = [NSColor colorWithCalibratedRed:colorWells.cardinalYellow.red 
+        green:colorWells.cardinalYellow.green blue:colorWells.cardinalYellow.blue alpha:1.0];
+    equalEnergyPatch.color = [NSColor colorWithCalibratedRed:colorWells.equalEnergy.red 
+        green:colorWells.equalEnergy.green blue:colorWells.equalEnergy.blue alpha:1.0];
 }
 
 - (void)writeDomain:(NSString *)domainName key:(NSString *)keyName doublePtr:(double *)pValue;
 {
     CFNumberRef pNumber = CFNumberCreate(NULL, kCFNumberDoubleType, pValue);
-	CFPreferencesSetValue((CFStringRef)keyName, pNumber,
-		(CFStringRef)domainName, kCFPreferencesCurrentUser, kCFPreferencesCurrentApplication);
+    CFPreferencesSetValue((CFStringRef)keyName, pNumber,
+        (CFStringRef)domainName, kCFPreferencesCurrentUser, kCFPreferencesCurrentApplication);
     CFRelease(pNumber);
 }
 
 - (void)writeParameters:(long)index {
 
-	DisplayPhysicalParam *pDP = &displayParam[index];
-	NSString *domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, index];
+    DisplayPhysicalParam *pDP = &displayParam[index];
+    NSString *domainName = [NSString stringWithFormat:@"%@%ld", kLLScreenDomainName, index];
 
-	[self writeDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM];
-	[self writeDomain:domainName key:LLHeightMMKey doublePtr:&pDP->heightMM];
-	[self writeDomain:domainName key:LLWidthMMKey doublePtr:&pDP->widthMM];
-	[self writeDomain:domainName key:LLRedCIExKey doublePtr:&pDP->CIEx.red];
-	[self writeDomain:domainName key:LLRedCIEyKey doublePtr:&pDP->CIEy.red];
-	[self writeDomain:domainName key:LLGreenCIExKey doublePtr:&pDP->CIEx.green];
-	[self writeDomain:domainName key:LLGreenCIEyKey doublePtr:&pDP->CIEy.green];
-	[self writeDomain:domainName key:LLBlueCIExKey doublePtr:&pDP->CIEx.blue];
-	[self writeDomain:domainName key:LLBlueCIEyKey doublePtr:&pDP->CIEy.blue];
-	CFPreferencesAppSynchronize((CFStringRef)domainName);
+    [self writeDomain:domainName key:LLDistanceMMKey doublePtr:&pDP->distanceMM];
+    [self writeDomain:domainName key:LLHeightMMKey doublePtr:&pDP->heightMM];
+    [self writeDomain:domainName key:LLWidthMMKey doublePtr:&pDP->widthMM];
+    [self writeDomain:domainName key:LLRedCIExKey doublePtr:&pDP->CIEx.red];
+    [self writeDomain:domainName key:LLRedCIEyKey doublePtr:&pDP->CIEy.red];
+    [self writeDomain:domainName key:LLGreenCIExKey doublePtr:&pDP->CIEx.green];
+    [self writeDomain:domainName key:LLGreenCIEyKey doublePtr:&pDP->CIEy.green];
+    [self writeDomain:domainName key:LLBlueCIExKey doublePtr:&pDP->CIEx.blue];
+    [self writeDomain:domainName key:LLBlueCIEyKey doublePtr:&pDP->CIEy.blue];
+    CFPreferencesAppSynchronize((CFStringRef)domainName);
 }
 
 @end

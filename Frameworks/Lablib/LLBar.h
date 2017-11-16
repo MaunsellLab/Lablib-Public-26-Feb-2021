@@ -21,15 +21,13 @@ extern NSString *LLBarWidthDegKey;
 
 @interface LLBar : LLVisualStimulus {
 
-	float		lengthDeg;
-	float		widthDeg;
+    float        lengthDeg;
+    float        widthDeg;
 }
 
-- (float)lengthDeg;
-- (void)setLengthDeg:(float)length;
+@property (NS_NONATOMIC_IOSONLY) float lengthDeg;
 - (void)setOrientationDeg:(float)newOri;
-- (void)setWidthDeg:(float)width;
-- (float)widthDeg;
+@property (NS_NONATOMIC_IOSONLY) float widthDeg;
 
 @end
 

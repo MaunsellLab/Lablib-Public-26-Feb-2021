@@ -45,12 +45,12 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 
 - (float)azimuthDeg;
 {
-	return azimuthDeg;
+    return azimuthDeg;
 }
 
 - (NSColor *)backColor;
 {
-	return backColor;
+    return backColor;
 }
 
 // The binding will simply fail if the keys have not been registered with in user defaults.  Compulsive users
@@ -59,45 +59,37 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 
 - (void)bindValuesToKeysWithPrefix:(NSString *)newPrefix;
 {
-	NSEnumerator *enumerator;
-	NSString *key, *prefixedKey;
-	
-	[self unbindValues];
+    NSEnumerator *enumerator;
+    NSString *key, *prefixedKey;
+    
+    [self unbindValues];
 
-	[newPrefix retain];
-	[taskPrefix release];
-	taskPrefix = newPrefix;
-	[prefix release];
-	prefix = [[NSString stringWithFormat:@"%@%@", taskPrefix, stimPrefix] retain];
+    [newPrefix retain];
+    [taskPrefix release];
+    taskPrefix = newPrefix;
+    [prefix release];
+    prefix = [[NSString stringWithFormat:@"%@%@", taskPrefix, stimPrefix] retain];
 
-	enumerator = [keys objectEnumerator];
-	while ((key = [enumerator nextObject]) != nil) {
-		prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
-		if ([[NSUserDefaults standardUserDefaults] objectForKey:prefixedKey] == nil) {
-			[[NSUserDefaults standardUserDefaults] setFloat:0.0 forKey:prefixedKey];
-			NSLog(@"Registering value for %@", prefixedKey);
-		}
-		[self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
-				withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] options:nil];
-	}
-	key = LLForeColorKey;
-	prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
-	[self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
-				withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] 
-				options:[NSDictionary dictionaryWithObjects:
-				[NSArray arrayWithObjects:NSUnarchiveFromDataTransformerName,
-				[NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0], nil]
-				forKeys:[NSArray arrayWithObjects:
-				@"NSValueTransformerName", NSNullPlaceholderBindingOption, nil]]];
-	key = LLBackColorKey;
-	prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
-	[self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
-				withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] 
-				options:[NSDictionary dictionaryWithObjects:
-				[NSArray arrayWithObjects:NSUnarchiveFromDataTransformerName,
-				[NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0], nil]
-				forKeys:[NSArray arrayWithObjects:
-				@"NSValueTransformerName", NSNullPlaceholderBindingOption, nil]]];
+    enumerator = [keys objectEnumerator];
+    while ((key = [enumerator nextObject]) != nil) {
+        prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:prefixedKey] == nil) {
+            [[NSUserDefaults standardUserDefaults] setFloat:0.0 forKey:prefixedKey];
+            NSLog(@"Registering value for %@", prefixedKey);
+        }
+        [self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
+                withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] options:nil];
+    }
+    key = LLForeColorKey;
+    prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
+    [self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
+                withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] 
+                options:@{@"NSValueTransformerName": NSUnarchiveFromDataTransformerName, NSNullPlaceholderBindingOption: [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0]}];
+    key = LLBackColorKey;
+    prefixedKey = [LLTextUtil capitalize:key prefix:prefix];
+    [self bind:key toObject:[NSUserDefaultsController sharedUserDefaultsController] 
+                withKeyPath:[NSString stringWithFormat:@"values.%@", prefixedKey] 
+                options:@{@"NSValueTransformerName": NSUnarchiveFromDataTransformerName, NSNullPlaceholderBindingOption: [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0]}];
 }
 
 - (void)dealloc;
@@ -107,34 +99,34 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 // -unbindValues will also do the job of releasing prefix and taskPrefix, so we don't nee
 // to do that here.
 
-	[self unbindValues];
-	
-	[displays release];
-	[stimPrefix release];
-	[foreColor release];
-	[backColor release];
-	[keys release];
+    [self unbindValues];
+    
+    [displays release];
+    [stimPrefix release];
+    [foreColor release];
+    [backColor release];
+    [keys release];
     [topLevelObjects release];
-	[super dealloc];
+    [super dealloc];
 }
 
 - (NSString *)description;
 {
-	return [NSString stringWithFormat:@"(0x%x) state: %s azi: %.1f ele: %.1f rad: %.1f dir %.1f",
-		(unsigned int)self, (state ? "\"On\"" : "\"Off\""), azimuthDeg, elevationDeg, radiusDeg, directionDeg];
+    return [NSString stringWithFormat:@"(0x%x) state: %s azi: %.1f ele: %.1f rad: %.1f dir %.1f",
+        (unsigned int)self, (state ? "\"On\"" : "\"Off\""), azimuthDeg, elevationDeg, radiusDeg, directionDeg];
 }
 
 // We need this to adhere to the LLVisualStimulus protocol, but return zero because we have no direction
 
 - (float)directionDeg;
 {
-	return directionDeg;
+    return directionDeg;
 }
 
 - (void)directSetAzimuthDeg:(float)aziDeg elevationDeg:(float)eleDeg;
 {
-	azimuthDeg = aziDeg;
-	elevationDeg = eleDeg;
+    azimuthDeg = aziDeg;
+    elevationDeg = eleDeg;
 }
 
 // Overwrite this method if you want to do a setFrame that is not key-value compliant
@@ -142,164 +134,164 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 
 - (void)directSetFrame:(NSNumber *)frameNumber;
 {
-	[self setFrame:frameNumber];
+    [self setFrame:frameNumber];
 }
 
 - (void)directSetDirectionDeg:(float)newDirection;
 {
-	while (newDirection < 0) {							// direction must be positive
-		newDirection += 360.0;
-	}
-	directionDeg = newDirection;
+    while (newDirection < 0) {                            // direction must be positive
+        newDirection += 360.0;
+    }
+    directionDeg = newDirection;
 }
 
 - (void)directSetRadiusDeg:(float)newRadius;
 {
-	radiusDeg = newRadius;
+    radiusDeg = newRadius;
 }
 
 // The draw function must be overridden by subclassed.  It assumes than an OpenGL context has already 
 // been properly set up.
 
 - (void)draw;
-{	
+{    
 }
 
 - (float)elevationDeg;
 {
-	return elevationDeg;
+    return elevationDeg;
 }
 
 - (NSColor *)foreColor;
 {
-	return foreColor;
+    return foreColor;
 }
 
 - (instancetype)init;
-{	
-	if ((self = [super init]) != nil) {
-		keys = [[NSMutableArray alloc] initWithObjects:LLAzimuthDegKey, LLDirectionDegKey, LLElevationDegKey, 
-				LLKdlPhiDegKey, LLKdlThetaDegKey, LLRadiusDegKey, nil];
+{    
+    if ((self = [super init]) != nil) {
+        keys = [[NSMutableArray alloc] initWithObjects:LLAzimuthDegKey, LLDirectionDegKey, LLElevationDegKey, 
+                LLKdlPhiDegKey, LLKdlThetaDegKey, LLRadiusDegKey, nil];
         
         // Create the fore and back colors, coercing them because they default to the simplest space that can hold them
         
-		foreColor = [[[NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0] 
+        foreColor = [[[NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0] 
                      colorUsingColorSpaceName:NSCalibratedRGBColorSpace] retain];
-		backColor = [[[NSColor colorWithCalibratedRed:0.5 green:0.5 blue:0.5 alpha:1.0] 
+        backColor = [[[NSColor colorWithCalibratedRed:0.5 green:0.5 blue:0.5 alpha:1.0] 
                      colorUsingColorSpaceName:NSCalibratedRGBColorSpace] retain];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (float)kdlThetaDeg;
 {
-	return kdlThetaDeg;
+    return kdlThetaDeg;
 }
 
 - (float)kdlPhiDeg;
 {
-	return kdlPhiDeg;
+    return kdlPhiDeg;
 }
 
 - (float)radiusDeg;
 {
-	return radiusDeg;
+    return radiusDeg;
 }
 
 - (void)removeKeyFromBinding:(NSString *)key;
 {
-	long index = [keys indexOfObjectIdenticalTo:key];
-	
-	if (index == NSNotFound) {
-		NSLog(@"LLVisualStimulus: removeKeyFromBinding failed to find key %@ in keys", key);
-	}
-	else {
-		[self unbindValues];
-		[keys removeObjectAtIndex:index];
-	}
+    long index = [keys indexOfObjectIdenticalTo:key];
+    
+    if (index == NSNotFound) {
+        NSLog(@"LLVisualStimulus: removeKeyFromBinding failed to find key %@ in keys", key);
+    }
+    else {
+        [self unbindValues];
+        [keys removeObjectAtIndex:index];
+    }
 }
 
 - (void)removeKeysFromBinding:(NSArray *)removeKeys;
 {
-	NSString *key;
-	NSEnumerator *enumerator = [removeKeys objectEnumerator];
-	while ((key = [enumerator nextObject])) {
-		[self removeKeyFromBinding:key];
-	}
+    NSString *key;
+    NSEnumerator *enumerator = [removeKeys objectEnumerator];
+    while ((key = [enumerator nextObject])) {
+        [self removeKeyFromBinding:key];
+    }
 }
 
 - (void)runSettingsDialog;
 {
-	if (dialogWindow == nil) {
-		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLVisualStimulus"
+    if (dialogWindow == nil) {
+        [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLVisualStimulus"
                                         owner:self topLevelObjects:&topLevelObjects];
         [topLevelObjects retain];
-		if (taskPrefix != nil) {
-			[dialogWindow setTitle:[NSString stringWithFormat:@"%@ Visual Stimulus", taskPrefix]];
-		}
-	}
-	[dialogWindow makeKeyAndOrderFront:self];
+        if (taskPrefix != nil) {
+            dialogWindow.title = [NSString stringWithFormat:@"%@ Visual Stimulus", taskPrefix];
+        }
+    }
+    [dialogWindow makeKeyAndOrderFront:self];
 }
 
 - (void)setAzimuthDeg:(float)azimuth;
 {
-	azimuthDeg = azimuth;
-	[self updateFloatDefault:azimuthDeg key:LLAzimuthDegKey];
+    azimuthDeg = azimuth;
+    [self updateFloatDefault:azimuthDeg key:LLAzimuthDegKey];
 }
 
 - (void)setAzimuthDeg:(float)aziDeg elevationDeg:(float)eleDeg;
 {
-	[self setAzimuthDeg:aziDeg];
-	[self setElevationDeg:eleDeg];
+    [self setAzimuthDeg:aziDeg];
+    [self setElevationDeg:eleDeg];
 }
 
 - (void)setBackColor:(NSColor *)newColor;
 {
-	[newColor retain];
-	[backColor release];
-	backColor = newColor;
-	if (prefix != nil) {
-		[[NSUserDefaults standardUserDefaults] 
-				setObject:[NSArchiver archivedDataWithRootObject:backColor] 
-				forKey:[LLTextUtil capitalize:LLBackColorKey prefix:prefix]];
-	}
+    [newColor retain];
+    [backColor release];
+    backColor = newColor;
+    if (prefix != nil) {
+        [[NSUserDefaults standardUserDefaults] 
+                setObject:[NSArchiver archivedDataWithRootObject:backColor] 
+                forKey:[LLTextUtil capitalize:LLBackColorKey prefix:prefix]];
+    }
 }
 
 - (void)setBackOnRed:(float)red green:(float)green blue:(float)blue;
 {
-	[self setBackColor:[NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
+    [self setBackColor:[NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
 }
 
 - (void)setDirectionDeg:(float)newDirection;
 {
-	[self directSetDirectionDeg:newDirection];
-	[self updateFloatDefault:directionDeg key:LLDirectionDegKey];
+    [self directSetDirectionDeg:newDirection];
+    [self updateFloatDefault:directionDeg key:LLDirectionDegKey];
 }
 
 - (void)setDisplays:(LLDisplays *)newDisplays displayIndex:(long)index;
 {
-	[newDisplays retain];
-	[displays release];
+    [newDisplays retain];
+    [displays release];
     displays = newDisplays;
-	displayIndex = index;
+    displayIndex = index;
 }
 
 - (void)setElevationDeg:(float)elevation;
 {
-	elevationDeg = elevation;
-	[self updateFloatDefault:elevationDeg key:LLElevationDegKey];
+    elevationDeg = elevation;
+    [self updateFloatDefault:elevationDeg key:LLElevationDegKey];
 }
 
 - (void)setForeColor:(NSColor *)newColor;
 {
-	[newColor retain];
-	[foreColor release];
-	foreColor = newColor;
-	if (prefix != nil) {
-		[[NSUserDefaults standardUserDefaults] 
-				setObject:[NSArchiver archivedDataWithRootObject:foreColor] 
-				forKey:[LLTextUtil capitalize:LLForeColorKey prefix:prefix]];
-	}
+    [newColor retain];
+    [foreColor release];
+    foreColor = newColor;
+    if (prefix != nil) {
+        [[NSUserDefaults standardUserDefaults] 
+                setObject:[NSArchiver archivedDataWithRootObject:foreColor] 
+                forKey:[LLTextUtil capitalize:LLForeColorKey prefix:prefix]];
+    }
 }
 
 - (void)setFrame:(NSNumber *)frameNumber;
@@ -308,71 +300,71 @@ NSString *LLRadiusDegKey = @"radiusDeg";
 
 - (void)setForeOnRed:(float)red green:(float)green blue:(float)blue;
 {
-	[self setForeColor:[NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
+    [self setForeColor:[NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
 }
 
 - (void)setKdlThetaDeg:(float)newKdltheta;
 {
     kdlThetaDeg = newKdltheta;
-	[self updateFloatDefault:kdlThetaDeg key:LLKdlThetaDegKey];
+    [self updateFloatDefault:kdlThetaDeg key:LLKdlThetaDegKey];
 }
 
 - (void)setKdlPhiDeg:(float)newKdlphi;
 {
     kdlPhiDeg = newKdlphi;
-	[self updateFloatDefault:kdlPhiDeg key:LLKdlPhiDegKey];
+    [self updateFloatDefault:kdlPhiDeg key:LLKdlPhiDegKey];
 }
 
 - (void)setRadiusDeg:(float)newRadius;
 {
-	radiusDeg = newRadius;
-	[self updateFloatDefault:radiusDeg key:LLRadiusDegKey];
+    radiusDeg = newRadius;
+    [self updateFloatDefault:radiusDeg key:LLRadiusDegKey];
 }
 
 - (void)setState:(long)newState;
 {
-	state = newState;
+    state = newState;
 }
 
 - (long)state;
 {
-	return state;
+    return state;
 }
 
 - (void)unbindValues;
 {
-	NSEnumerator *enumerator;
-	NSString *key;
-	
-	if (prefix != nil) {
-		enumerator = [keys objectEnumerator];
-		while ((key = [enumerator nextObject]) != nil) {
-			[self unbind:key];
-		}
-		[self unbind:LLForeColorKey];
-		[self unbind:LLBackColorKey];
-		[prefix release];
-		[taskPrefix release];
-		prefix = taskPrefix = nil;
-	}
+    NSEnumerator *enumerator;
+    NSString *key;
+    
+    if (prefix != nil) {
+        enumerator = [keys objectEnumerator];
+        while ((key = [enumerator nextObject]) != nil) {
+            [self unbind:key];
+        }
+        [self unbind:LLForeColorKey];
+        [self unbind:LLBackColorKey];
+        [prefix release];
+        [taskPrefix release];
+        prefix = taskPrefix = nil;
+    }
 }
 
 - (void)updateFloatDefault:(float)value key:(NSString *)key;
 {
-	if (prefix != nil && !setUnderway) {
-		setUnderway = YES;
-		[[NSUserDefaults standardUserDefaults] setFloat:value forKey:[LLTextUtil capitalize:key prefix:prefix]];
-		setUnderway = NO;
-	}
+    if (prefix != nil && !setUnderway) {
+        setUnderway = YES;
+        [[NSUserDefaults standardUserDefaults] setFloat:value forKey:[LLTextUtil capitalize:key prefix:prefix]];
+        setUnderway = NO;
+    }
 }
 
 - (void)updateIntegerDefault:(long)value key:(NSString *)key;
 {
-	if (prefix != nil && !setUnderway) {
-		setUnderway = YES;
-		[[NSUserDefaults standardUserDefaults] setInteger:value forKey:[LLTextUtil capitalize:key prefix:prefix]];
-		setUnderway = NO;
-	}
+    if (prefix != nil && !setUnderway) {
+        setUnderway = YES;
+        [[NSUserDefaults standardUserDefaults] setInteger:value forKey:[LLTextUtil capitalize:key prefix:prefix]];
+        setUnderway = NO;
+    }
 }
 
 @end

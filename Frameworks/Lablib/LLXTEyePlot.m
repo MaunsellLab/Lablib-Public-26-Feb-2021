@@ -8,9 +8,9 @@
 
 #import "LLXTEyePlot.h"
 
-#define kStrokeFactor	0.50
-#define kFillFactor 	0.05
-#define kPurgePeriod	100
+#define kStrokeFactor    0.50
+#define kFillFactor     0.05
+#define kPurgePeriod    100
 
 @implementation LLXTEyePlot
 
@@ -18,26 +18,26 @@
 {
     unsigned long index, limitTime;
 
-	[eyeLock lock];
+    [eyeLock lock];
 
 // Clear out any old events every so often
 
-	if (((++purgeCount % kPurgePeriod) == 0) && [sampleRectsDeg count] > 0) {
-		limitTime = [[sampleRectsDeg lastObject] pointValue].y - durationS * 1000.0;
-		for (index = 0; index < [sampleRectsDeg count]; index++) {
-			if ([[sampleRectsDeg objectAtIndex:index] pointValue].y >= limitTime) {
-				break;
-			}
-		}
-		if (index > 0) {
-			[sampleRectsDeg removeObjectsInRange:NSMakeRange(0, index)];
-		}
-	}
+    if (((++purgeCount % kPurgePeriod) == 0) && sampleRectsDeg.count > 0) {
+        limitTime = [sampleRectsDeg.lastObject pointValue].y - durationS * 1000.0;
+        for (index = 0; index < sampleRectsDeg.count; index++) {
+            if ([sampleRectsDeg[index] pointValue].y >= limitTime) {
+                break;
+            }
+        }
+        if (index > 0) {
+            [sampleRectsDeg removeObjectsInRange:NSMakeRange(0, index)];
+        }
+    }
 
 // Add the new event
 
     [sampleRectsDeg addObject:[NSValue valueWithPoint:eyePoint]];
-	[eyeLock unlock];
+    [eyeLock unlock];
 }
 
 - (NSColor *)adjustedColor:(NSColor *)color factor:(float)factor;
@@ -53,16 +53,16 @@
 
 - (void)clear;
 {
-	[eyeLock lock];
+    [eyeLock lock];
     [sampleRectsDeg removeAllObjects];
-	[eyeLock unlock];
+    [eyeLock unlock];
 }
 
 - (void)dealloc;
 {
     [sampleRectsDeg release];
-	[eyeLock release];
-	[lineColor release];
+    [eyeLock release];
+    [lineColor release];
     [super dealloc];
 }
 
@@ -75,30 +75,30 @@
     NSPoint p;
     NSBezierPath *path;
     
-	[eyeLock lock];
-	
+    [eyeLock lock];
+    
 // Draw the eye positions
 
-    if ([sampleRectsDeg count] >= 2) {
+    if (sampleRectsDeg.count >= 2) {
         path = [[NSBezierPath alloc] init];
-        p = [scale scaledPoint:[[sampleRectsDeg objectAtIndex:0] pointValue]];
+        p = [scale scaledPoint:[sampleRectsDeg[0] pointValue]];
         [path moveToPoint:p];
-        for (index = 1; index < [sampleRectsDeg count]; index++) {
-            p = [scale scaledPoint:[[sampleRectsDeg objectAtIndex:index] pointValue]];
+        for (index = 1; index < sampleRectsDeg.count; index++) {
+            p = [scale scaledPoint:[sampleRectsDeg[index] pointValue]];
             [path lineToPoint:p];
         }
         [lineColor set];
         [path stroke];
         [path release];
     }
-	[eyeLock unlock];
+    [eyeLock unlock];
 }
 
 - (void)drawWindow;
 {
     NSRect r;
 
-	[eyeLock lock];
+    [eyeLock lock];
     if (fixWindowWidth > 0) {
         r = [scale scaledRect:NSMakeRect(fixWindowOrigin, [scale yOrigin], fixWindowWidth, [scale height])];
         [windowFillColor set];
@@ -106,7 +106,7 @@
         [windowStrokeColor set];
         [NSBezierPath strokeRect:r];
     }
-	[eyeLock unlock];
+    [eyeLock unlock];
 }
 
 - (void)setEyeWindowOrigin:(float)origin width:(float)width;
@@ -117,25 +117,25 @@
 
 - (instancetype)init;
 {
-	if ((self = [super init]) != nil) {
+    if ((self = [super init]) != nil) {
         sampleRectsDeg = [[NSMutableArray alloc] init];
         eyeLock = [[NSLock alloc] init];
         [self setLineColor:[NSColor blueColor]];
-		durationS = 5;								// ??? This should be handled better
-	}
-	return self;
+        durationS = 5;                                // ??? This should be handled better
+    }
+    return self;
 }
 
 - (void)setDurationS:(NSNumber *)durS;
 {
-    durationS = [durS floatValue];
+    durationS = durS.floatValue;
 }
 
 - (void)setLineColor:(NSColor *)color;
 {
-	if (color == lineColor) {
-		return;
-	}
+    if (color == lineColor) {
+        return;
+    }
     [color retain];
     if (lineColor != nil) {
         [lineColor release];
@@ -151,11 +151,11 @@
 
 - (void)setScale:(LLViewScale *)scaling;
 {
-	if (scaling == scale) {
-		return;
-	}
+    if (scaling == scale) {
+        return;
+    }
     [scaling retain];
-	[scale release];
+    [scale release];
     scale = scaling;
 }
 

@@ -10,24 +10,24 @@
 
 @interface LLDataDevice : NSObject {
 
-	id				controller;
-	BOOL			dataEnabled;
-	BOOL			deviceEnabled;
-	BOOL			devicePresent;
-	short			deviceIndex;
-	unsigned long	digitalInputBits;
-	unsigned long	sampleChannels;
-	unsigned long	timestampChannels;
-	NSMutableArray	*samplePeriodMS;
-	NSMutableArray  *timestampPeriodMS;
+    id                controller;
+    BOOL            dataEnabled;
+    BOOL            deviceEnabled;
+    BOOL            devicePresent;
+    short            deviceIndex;
+    unsigned long    digitalInputBits;
+    unsigned long    sampleChannels;
+    unsigned long    timestampChannels;
+    NSMutableArray    *samplePeriodMS;
+    NSMutableArray  *timestampPeriodMS;
 }
 
 - (void)configure;
 - (BOOL)dataEnabled;
 - (BOOL)deviceEnabled;
-- (short)deviceIndex;
-- (BOOL)devicePresent;
-- (unsigned short)digitalInputBits;
+@property (NS_NONATOMIC_IOSONLY) short deviceIndex;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL devicePresent;
+@property (NS_NONATOMIC_IOSONLY, readonly) unsigned short digitalInputBits;
 - (void)digitalOutputBits:(unsigned long)bits;
 - (void)digitalOutputBitsOff:(unsigned long)bits;
 - (void)digitalOutputBitsOn:(unsigned long)bits;
@@ -40,23 +40,22 @@
 - (void)enableSampleChannels:(NSNumber *)bitPattern;
 - (void)enableTimestampChannel:(long)channel;
 - (void)enableTimestampChannels:(NSNumber *)bitPattern;
-- (NSString *)name;
-- (long)sampleChannels;
-- (NSData **)sampleData;
-- (NSArray *)samplePeriodMS;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
+@property (NS_NONATOMIC_IOSONLY, readonly) long sampleChannels;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSData **sampleData;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *samplePeriodMS;
 - (float)samplePeriodMSForChannel:(long)channel;
 - (void)setController:(id)theController;
 - (void)setDataEnabled:(NSNumber *)state;
 - (void)setDeviceEnabled:(NSNumber *)state;
-- (void)setDeviceIndex:(short)index;
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 - (BOOL)setTimestampPeriodMS:(float)newPeriodMS channel:(long)channel;
 - (BOOL)setTimestampTicksPerMS:(long)newTicksPerMS channel:(long)channel;
-- (BOOL)shouldCreateAnotherDevice;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL shouldCreateAnotherDevice;
 - (void)startDevice;
 - (void)stopDevice;
-- (long)timestampChannels;
-- (NSData **)timestampData;
+@property (NS_NONATOMIC_IOSONLY, readonly) long timestampChannels;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSData **timestampData;
 - (float)timestampPeriodMSForChannel:(long)channel;
 - (long)timestampTicksPerMSForChannel:(long)channel;
 

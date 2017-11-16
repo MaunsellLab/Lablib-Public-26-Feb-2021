@@ -7,7 +7,7 @@
 //
 
 #ifndef kEyes
-typedef enum {kLeftEye, kRightEye} WhichEye;
+typedef NS_ENUM(unsigned int, WhichEye) {kLeftEye, kRightEye};
 #define kEyes   (kRightEye + 1)
 #endif
 
@@ -17,13 +17,13 @@ typedef enum {kLeftEye, kRightEye} WhichEye;
 @protected
 
     NSSize  accelPerSample[kEyes];
-    long	accelSteps[kEyes];
-	NSPoint	currentPosition[kEyes];
-    long 	decelSteps[kEyes];
-    NSSize	stepSize[kEyes];
+    long    accelSteps[kEyes];
+    NSPoint    currentPosition[kEyes];
+    long     decelSteps[kEyes];
+    NSSize    stepSize[kEyes];
 }
 
-- (BOOL)done;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL done;
 - (instancetype)initFrom:(NSPoint *)currentDeg degToUnits:(NSAffineTransform **)degToUnits samplePerMS:(long)samplePeriodMS;
 - (instancetype)initFrom:(NSPoint *)currentDeg to:(NSPoint)targetDeg degToUnits:(NSAffineTransform **)degToUnits
                                 samplePerMS:(long)samplePeriodMS;

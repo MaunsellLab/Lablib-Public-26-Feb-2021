@@ -26,8 +26,8 @@
 - (void)dealloc {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-	[plotColors release];
-	[plotValues release];
+    [plotColors release];
+    [plotValues release];
     [scale release];
     [defaultColors release];
     [title release];
@@ -47,23 +47,23 @@
         return;
     }
 
-	// Clear and highlight the bounds
+    // Clear and highlight the bounds
 
-    b = [self bounds];
+    b = self.bounds;
     [[NSColor whiteColor] set];
     [NSBezierPath fillRect:b];
     
 // Set up the scaling for the plot.  We plot within a region of the view that leaves a fraction of the plotting
 // space (kExtraSpaceFraction) empty on either side.  For drawing the plots, we need to set up a scaling that
 // will put all the points (plotXPoints and plotYPoints) in that space
-	
+    
     xAxisMin = (xMinValue != xMaxValue) ? xMinValue : 0;
     xAxisMax = (xMinValue != xMaxValue) ? xMaxValue : MAX(plotXPoints - 1, 0);
     yAxisMin = (yMinValue != yMaxValue) ? yMinValue : [scale yMin];
     yAxisMax = (yMinValue != yMaxValue) ? yMaxValue : [scale yMax];
     [scale setXOrigin:-(plotXPoints) * kExtraSpaceFraction
                 width:((plotXPoints) * (1 + 2 * kExtraSpaceFraction))];
-		[scale setYOrigin:-(plotYPoints) * kExtraSpaceFraction
+        [scale setYOrigin:-(plotYPoints) * kExtraSpaceFraction
                     height:((plotYPoints) * (1 + 2 * kExtraSpaceFraction))];
 
 // Plot heat map
@@ -72,9 +72,9 @@
     minValue = FLT_MAX;
     maxValue = FLT_MIN;
     for (aziIndex = 0; aziIndex < plotXPoints; aziIndex++) {        // go through to find min and max
-        elevationValues = [plotValues objectAtIndex:aziIndex];
+        elevationValues = plotValues[aziIndex];
         for (eleIndex = 0; eleIndex < plotYPoints; eleIndex++) {
-            dist = [elevationValues objectAtIndex:eleIndex];
+            dist = elevationValues[eleIndex];
             minN = MIN(minN, [dist n]);
             if ([dist n] == 0) {
                 continue;
@@ -88,10 +88,10 @@
     cellRect = NSMakeRect(1.0, 1.0, [scale scaledXInc:1.025], [scale scaledYInc:1.025]);
     for (aziIndex = 0; aziIndex < plotXPoints; aziIndex++) {
         cellRect.origin.x = [scale scaledX:aziIndex] - 0.5;
-        elevationValues = [plotValues objectAtIndex:aziIndex];
+        elevationValues = plotValues[aziIndex];
         for (eleIndex = 0; eleIndex < plotYPoints; eleIndex++) {
             cellRect.origin.y = [scale scaledY:eleIndex] - 0.5;
-            dist = [elevationValues objectAtIndex:eleIndex];
+            dist = elevationValues[eleIndex];
             if ([dist n] == 0) {        // empty cells get marked with an X
                 [[NSColor colorWithCalibratedRed:0.80 green:0.80 blue:0.80 alpha:1.0] set];
                 [NSBezierPath strokeLineFromPoint:NSMakePoint(cellRect.origin.x, cellRect.origin.y)
@@ -127,9 +127,9 @@
         
 // Draw the title
 
-	[LLViewUtilities drawString:title 
+    [LLViewUtilities drawString:title 
         centerAndBottomAtPoint:NSMakePoint([scale scaledX:(xAxisMin + xAxisMax) / 2.0],
-        [self bounds].size.height - textLineHeightPix) rotation:0.0 withAttributes:nil];
+        self.bounds.size.height - textLineHeightPix) rotation:0.0 withAttributes:nil];
 }
 
 // Handler for change in y max or min on scaling
@@ -139,7 +139,7 @@
     [self setNeedsDisplay:YES];
 }
 
-- (id) initWithFrame:(NSRect)frame;
+- (instancetype) initWithFrame:(NSRect)frame;
 {
     if ( self = [super initWithFrame:frame]) {
         [self initializeWithScale:nil];
@@ -147,7 +147,7 @@
     return self;
 }
 
-- (id) initWithFrame:(NSRect)frame scaling:(LLViewScale *)plotScale;
+- (instancetype) initWithFrame:(NSRect)frame scaling:(LLViewScale *)plotScale;
 {    
     if (self = [super initWithFrame:frame]) {
         [self initializeWithScale:plotScale];
@@ -157,7 +157,7 @@
 
 - (void) initializeWithScale:(LLViewScale *)plotScale;
 {
-	NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
         
     textLineHeightPix = [layoutManager defaultLineHeightForFont:[NSFont userFontOfSize:0]];
     if (plotScale == nil) {
@@ -168,8 +168,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleScaleChange:)
             name:@"LLYScaleChanged" object:scale];
     xTickSpacing = 1.0;
-	yTickSpacing = 1.0;
-	[scale setAutoAdjustYMin:NO];
+    yTickSpacing = 1.0;
+    [scale setAutoAdjustYMin:NO];
     plotColors = [[NSMutableArray alloc] init];
     plotValues = [[NSMutableArray alloc] init];
 }
@@ -178,7 +178,7 @@
 
 - (BOOL)isOpaque;
 {
-	return YES;
+    return YES;
 }
 
 // For a double click, enable all plots.  Otherwise, if more than one plot is active, make
@@ -188,7 +188,7 @@
 {
     
     // ??? Eventually we'll want this to toggle between min-max and zero-max plotting
-	[self setNeedsDisplay:YES];
+    [self setNeedsDisplay:YES];
 }
 
 - (LLViewScale *)scale;
@@ -206,7 +206,7 @@
         [scale release];
     }
     scale = newScale;
-    b = [self bounds];
+    b = self.bounds;
     plotWidthPix = b.size.width - leftMarginPix - kRightMarginPix;
     plotHeightPix = b.size.height - bottomMarginPix - topMarginPix;
     [scale setViewRectForScale:NSMakeRect(leftMarginPix, bottomMarginPix, plotWidthPix, plotHeightPix)];

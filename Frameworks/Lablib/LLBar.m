@@ -22,72 +22,72 @@ NSString *LLBarWidthDegKey = @"widthDeg";
 @implementation LLBar
 
 - (void)draw;
-{	
-	float halfWidthDeg = lengthDeg / 2.0;
-	float halfHeightDeg = widthDeg / 2.0;
+{    
+    float halfWidthDeg = lengthDeg / 2.0;
+    float halfHeightDeg = widthDeg / 2.0;
 
-	glPushMatrix();
-	glTranslatef(azimuthDeg, elevationDeg, 0.0);
-	glRotatef(directionDeg, 0.0, 0.0, 1.0);
-	glBegin(GL_QUADS);
-	glColor3f([foreColor redComponent], [foreColor greenComponent], [foreColor blueComponent]);
-	glVertex2f(-halfWidthDeg, -halfHeightDeg);
-	glVertex2f(halfWidthDeg, -halfHeightDeg);
-	glVertex2f(halfWidthDeg, halfHeightDeg);
-	glVertex2f(-halfWidthDeg, halfHeightDeg);
-	glEnd();
-	glPopMatrix();
+    glPushMatrix();
+    glTranslatef(azimuthDeg, elevationDeg, 0.0);
+    glRotatef(directionDeg, 0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
+    glColor3f(foreColor.redComponent, foreColor.greenComponent, foreColor.blueComponent);
+    glVertex2f(-halfWidthDeg, -halfHeightDeg);
+    glVertex2f(halfWidthDeg, -halfHeightDeg);
+    glVertex2f(halfWidthDeg, halfHeightDeg);
+    glVertex2f(-halfWidthDeg, halfHeightDeg);
+    glEnd();
+    glPopMatrix();
 }
 
 - (instancetype)init;
 {
     if ((self = [super init]) != nil) {
-		directionDeg = 45.0;
-		glClearColor(0.5, 0.5, 0.5, 1.0);					// set the background color
-		glShadeModel(GL_FLAT);								// flat shading
-		stimPrefix = @"Bar";								// make our keys different from other LLVisualStimuli
-		[keys addObjectsFromArray:[NSArray arrayWithObjects:LLBarLengthDegKey, LLBarWidthDegKey, nil]];	
-	
+        directionDeg = 45.0;
+        glClearColor(0.5, 0.5, 0.5, 1.0);                    // set the background color
+        glShadeModel(GL_FLAT);                                // flat shading
+        stimPrefix = @"Bar";                                // make our keys different from other LLVisualStimuli
+        [keys addObjectsFromArray:@[LLBarLengthDegKey, LLBarWidthDegKey]];    
+    
 // Provide convenient access to keys declared in LLVisualStimulus
 
-		LLBarAzimuthDegKey = LLAzimuthDegKey;
-		LLBarBackColorKey = LLBackColorKey;
-		LLBarDirectionDegKey = LLDirectionDegKey;
-		LLBarElevationDegKey = LLElevationDegKey;
-		LLBarForeColorKey = LLForeColorKey;
-		LLBarKdlThetaDegKey = LLKdlThetaDegKey;
-		LLBarKdlPhiDegKey = LLKdlPhiDegKey;
-		LLBarRadiusDegKey = LLRadiusDegKey;
-	}
+        LLBarAzimuthDegKey = LLAzimuthDegKey;
+        LLBarBackColorKey = LLBackColorKey;
+        LLBarDirectionDegKey = LLDirectionDegKey;
+        LLBarElevationDegKey = LLElevationDegKey;
+        LLBarForeColorKey = LLForeColorKey;
+        LLBarKdlThetaDegKey = LLKdlThetaDegKey;
+        LLBarKdlPhiDegKey = LLKdlPhiDegKey;
+        LLBarRadiusDegKey = LLRadiusDegKey;
+    }
     return self; 
 }
 
 - (float)lengthDeg;
 {
-	return lengthDeg;
+    return lengthDeg;
 }
 
 - (float)orientationDeg;
 {
-	return directionDeg;
+    return directionDeg;
 }
 
 - (void)runSettingsDialog;
 {
-	if (dialogWindow == nil) {
-		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLBar" owner:self topLevelObjects:&topLevelObjects];
+    if (dialogWindow == nil) {
+        [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLBar" owner:self topLevelObjects:&topLevelObjects];
         [topLevelObjects retain];
-		if (taskPrefix != nil) {
-			[dialogWindow setTitle:[NSString stringWithFormat:@"%@ Bar", taskPrefix]];
-		}
-	}
-	[dialogWindow makeKeyAndOrderFront:self];
+        if (taskPrefix != nil) {
+            dialogWindow.title = [NSString stringWithFormat:@"%@ Bar", taskPrefix];
+        }
+    }
+    [dialogWindow makeKeyAndOrderFront:self];
 }
 
 - (void)setLengthDeg:(float)length;
 {
     lengthDeg = length;
-	[self updateFloatDefault:lengthDeg key:LLBarLengthDegKey];
+    [self updateFloatDefault:lengthDeg key:LLBarLengthDegKey];
 }
 
 - (void)setOrientationDeg:(float)newOri;
@@ -98,12 +98,12 @@ NSString *LLBarWidthDegKey = @"widthDeg";
 - (void)setWidthDeg:(float)width;
 {
     widthDeg = width;
-	[self updateFloatDefault:widthDeg key:LLBarWidthDegKey];
+    [self updateFloatDefault:widthDeg key:LLBarWidthDegKey];
 }
 
 - (float)widthDeg;
 {
-	return widthDeg;
+    return widthDeg;
 }
 
 @end

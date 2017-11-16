@@ -25,8 +25,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     NSMutableDictionary *dict;
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"configureTimingSampleClock", @"command",
-            taskName, @"taskName", [NSNumber numberWithDouble:outputRateHz], @"outputRateHz", mode, @"mode",
-            [NSNumber numberWithLong:count], @"samplesPerChannel", nil];
+            taskName, @"taskName", @(outputRateHz), @"outputRateHz", mode, @"mode",
+            @(count), @"samplesPerChannel", nil];
     return [self sendDictionary:dict];
 }
 
@@ -58,7 +58,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kAnalogOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"%@ AOTask %ld", [[socket rigID] capitalizedString], taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@ AOTask %ld", [socket rigID].capitalizedString, taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createAOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
@@ -74,7 +74,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kDigitalOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"%@ DOTask %ld", [[socket rigID] capitalizedString], taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@ DOTask %ld", [socket rigID].capitalizedString, taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createDOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
@@ -89,12 +89,12 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"createChannel", @"command",
             taskName, @"taskName", channelName, @"channelName", nil];
-    for (channel = 0; channel < [channelNames count]; channel++) {
-        if ([channelName isEqualToString:[channelNames objectAtIndex:channel]]) {
+    for (channel = 0; channel < channelNames.count; channel++) {
+        if ([channelName isEqualToString:channelNames[channel]]) {
             break;
         }
     }
-    if (channel >= [channelNames count]) {
+    if (channel >= channelNames.count) {
         [channelNames addObject:channelName];
     }
     return [self sendDictionary:dict];
@@ -118,21 +118,21 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createVoltageChannel", @"command",
             taskName, @"taskName", channelName, @"channelName",
-            [NSNumber numberWithFloat:maxV], @"maximumV", [NSNumber numberWithFloat:minV], @"minimumV",
+            @(maxV), @"maximumV", @(minV), @"minimumV",
             nil];
-    for (channel = 0; channel < [channelNames count]; channel++) {
-        if ([channelName isEqualToString:[channelNames objectAtIndex:channel]]) {
+    for (channel = 0; channel < channelNames.count; channel++) {
+        if ([channelName isEqualToString:channelNames[channel]]) {
             break;
         }
     }
-    if (channel >= [channelNames count]) {
+    if (channel >= channelNames.count) {
         [channelNames addObject:channelName];
-        [channelMaxV addObject:[NSNumber numberWithFloat:maxV]];
-        [channelMinV addObject:[NSNumber numberWithFloat:minV]];
+        [channelMaxV addObject:@(maxV)];
+        [channelMinV addObject:@(minV)];
     }
     else {
-        [channelMaxV replaceObjectAtIndex:channel withObject:[NSNumber numberWithFloat:maxV]];
-        [channelMinV replaceObjectAtIndex:channel withObject:[NSNumber numberWithFloat:minV]];
+        channelMaxV[channel] = @(maxV);
+        channelMinV[channel] = @(minV);
     }
     if (firstTime) {
         originalTimeoutS = [socket timeoutS];
@@ -192,10 +192,10 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"doTrain", @"command", taskName, @"taskName",
             sendArray, @"outArray",
             [NSNumber numberWithDouble:outputRateHz], @"outputRateHz",
-            [NSNumber numberWithBool:autoStart], @"autoStart",
-            [NSNumber numberWithBool:digitalTrigger], @"digitalTrigger",
+            @(autoStart), @"autoStart",
+            @(digitalTrigger), @"digitalTrigger",
             channelName, @"channelName",
-            [NSNumber numberWithFloat:waitTimeS], @"waitTimeS",
+            @(waitTimeS), @"waitTimeS",
             nil];
     return [self sendDictionary:dict];
 
@@ -224,8 +224,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     if (returnDict == nil) {
         return NO;
     }
-    if ([[returnDict objectForKey:@"success"] boolValue]) {
-        return ([[returnDict objectForKey:@"isDone"] boolValue]);
+    if ([returnDict[@"success"] boolValue]) {
+        return ([returnDict[@"isDone"] boolValue]);
     }
     return NO;
 }
@@ -242,27 +242,27 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     if (returnDict == nil) {
         return NO;
     }
-    if ([[returnDict objectForKey:@"success"] boolValue]) {
+    if ([returnDict[@"success"] boolValue]) {
         return YES;
     }
     // We've gotten an error.  Check whether our AO/AI-Task has been lost.
     if (retries == 0) {                         // task recreation is recursive, so we want to prevent endless loops
         retries++;
-        message = [returnDict objectForKey:@"errorMessage"];
+        message = returnDict[@"errorMessage"];
         if ([message hasPrefix:[NSString stringWithFormat:@"no task named \"%@\"", taskName]]) {
             switch (taskType) {
                 case (kAnalogOutputType):
                     [self createAOTask];            // try to recreate a new task
-                    for (channel = 0; channel < [channelNames count]; channel++) {
-                        [self createVoltageChannelWithName:[channelNames objectAtIndex:channel]
-                                                  maxVolts:[[channelMaxV objectAtIndex:channel] floatValue]
-                                                  minVolts:[[channelMinV objectAtIndex:channel] floatValue]];
+                    for (channel = 0; channel < channelNames.count; channel++) {
+                        [self createVoltageChannelWithName:channelNames[channel]
+                                                  maxVolts:[channelMaxV[channel] floatValue]
+                                                  minVolts:[channelMinV[channel] floatValue]];
                     }
                     break;
                 case (kDigitalOutputType):
                     [self createDOTask];            // try to recreate a new task
-                    for (channel = 0; channel < [channelNames count]; channel++) {
-                        [self createChannelWithName:[channelNames objectAtIndex:channel]];
+                    for (channel = 0; channel < channelNames.count; channel++) {
+                        [self createChannelWithName:channelNames[channel]];
                     }
                     break;
                 case (kAnalogInputType):
@@ -281,8 +281,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     NSMutableDictionary *dict;
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"setChannelMaxMin", @"command", taskName, @"taskName",
-            channelName, @"channelName", [NSNumber numberWithFloat:maxV], @"maxVolts",
-            [NSNumber numberWithFloat:minV], @"minVolts",
+            channelName, @"channelName", @(maxV), @"maxVolts",
+            @(minV), @"minVolts",
             nil];
     return [self sendDictionary:dict];
 }
@@ -308,7 +308,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     NSMutableDictionary *dict;
 
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"waitUntilDone", @"command", taskName, @"taskName",
-                [NSNumber numberWithFloat:timeoutS], @"timeoutS", nil];
+                @(timeoutS), @"timeoutS", nil];
     return [self sendDictionary:dict];
 }
 
@@ -327,7 +327,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     sendArray = [NSArray arrayWithArray:array];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"writeArray", @"command", taskName, @"taskName",
-            [NSNumber numberWithBool:autoStart], @"autoStart", sendArray, @"outArray",
+            @(autoStart), @"autoStart", sendArray, @"outArray",
             [NSNumber numberWithFloat:timeoutS], @"timeoutS", nil];
     [array release];
     return [self sendDictionary:dict];;

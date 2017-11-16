@@ -27,37 +27,37 @@ NSString *LLPTUAPerVKey = @"LLPTUAPerV";
 
 - (instancetype)init
 {
-	NSString *defaultsPath;
+    NSString *defaultsPath;
     NSDictionary *defaultsDict;
-	
-	if ((self = [super initWithWindowNibName:@"LLPulseTrain"])) {
-		defaultsPath = [[NSBundle bundleForClass:[LLPulseTrain class]] 
-						pathForResource:@"LLPulseTrain" ofType:@"plist"];
-		defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDict];
+    
+    if ((self = [super initWithWindowNibName:@"LLPulseTrain"])) {
+        defaultsPath = [[NSBundle bundleForClass:[LLPulseTrain class]] 
+                        pathForResource:@"LLPulseTrain" ofType:@"plist"];
+        defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDict];
     }
     return self;
 }
 
 - (PulseTrainData *)trainData {
 
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	pulseTrain.amplitude = [defaults floatForKey:LLPTAmplitudeKey];
-	pulseTrain.DAChannel = [defaults integerForKey:LLPTDAChannelKey];
-	pulseTrain.doPulseMarkers = [defaults integerForKey:LLPTMarkerPulsesKey];
-	pulseTrain.doGate = [defaults integerForKey:LLPTGateKey];
-	pulseTrain.durationMS = [defaults integerForKey:LLPTDurationMSKey];
-	pulseTrain.frequencyHZ = [defaults floatForKey:LLPTFrequencyHzKey]; 
-	pulseTrain.gateBit = [defaults integerForKey:LLPTGateBitKey];
-	pulseTrain.pulseMarkerBit = [defaults integerForKey:LLPTMarkPulseBitKey];
-	pulseTrain.pulseBiphasic = [defaults integerForKey:LLPTPulseBiphasicKey];
-	pulseTrain.pulseType = [defaults integerForKey:LLPTPulseTypeKey];
-	pulseTrain.pulseWidthUS = [defaults integerForKey:LLPTPulseWidthUSKey]; 
-	pulseTrain.fullRangeV = [defaults floatForKey:LLPTVoltageRangeKey]; 
-	pulseTrain.UAPerV = [defaults floatForKey:LLPTUAPerVKey];
-	
-	return &pulseTrain;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    pulseTrain.amplitude = [defaults floatForKey:LLPTAmplitudeKey];
+    pulseTrain.DAChannel = [defaults integerForKey:LLPTDAChannelKey];
+    pulseTrain.doPulseMarkers = [defaults integerForKey:LLPTMarkerPulsesKey];
+    pulseTrain.doGate = [defaults integerForKey:LLPTGateKey];
+    pulseTrain.durationMS = [defaults integerForKey:LLPTDurationMSKey];
+    pulseTrain.frequencyHZ = [defaults floatForKey:LLPTFrequencyHzKey]; 
+    pulseTrain.gateBit = [defaults integerForKey:LLPTGateBitKey];
+    pulseTrain.pulseMarkerBit = [defaults integerForKey:LLPTMarkPulseBitKey];
+    pulseTrain.pulseBiphasic = [defaults integerForKey:LLPTPulseBiphasicKey];
+    pulseTrain.pulseType = [defaults integerForKey:LLPTPulseTypeKey];
+    pulseTrain.pulseWidthUS = [defaults integerForKey:LLPTPulseWidthUSKey]; 
+    pulseTrain.fullRangeV = [defaults floatForKey:LLPTVoltageRangeKey]; 
+    pulseTrain.UAPerV = [defaults floatForKey:LLPTUAPerVKey];
+    
+    return &pulseTrain;
 }
 
 @end
