@@ -10,29 +10,29 @@
 #import "LLITCMonitorSettings.h"
 #import <Lablib/LLMonitor.h>
 
-extern NSString	*doWarnDriftKey;
-extern NSString	*driftLimitKey;
+extern NSString    *doWarnDriftKey;
+extern NSString    *driftLimitKey;
 
 typedef struct {
-	short 	ADMaxValues[kLLITC18ADChannels];
-	short 	ADMinValues[kLLITC18ADChannels];
-	double	cumulativeTimeMS;							// duration of sequence based on CPU clock
-	long	samples;									// number of sample sets collected
-    double	samplePeriodMS;								// period for one sample set
-    long	instructions;								// number of sampling instructions completed
-    double	instructionPeriodMS;						// period for one instruction
-	long 	sequences;
-	long	timestampCount[kLLITC18DigitalBits];
+    short     ADMaxValues[kLLITC18ADChannels];
+    short     ADMinValues[kLLITC18ADChannels];
+    double    cumulativeTimeMS;                            // duration of sequence based on CPU clock
+    long    samples;                                    // number of sample sets collected
+    double    samplePeriodMS;                                // period for one sample set
+    long    instructions;                                // number of sampling instructions completed
+    double    instructionPeriodMS;                        // period for one instruction
+    long     sequences;
+    long    timestampCount[kLLITC18DigitalBits];
 } ITCMonitorValues;
 
 @interface  LLITCMonitor : NSObject <LLMonitor> {
 @private
-	BOOL 					alarmActive;
-	ITCMonitorValues 		cumulative;
-	NSString 				*descriptionString;				// First line in report
-	NSString 				*IDString;						// Short string for menu entry
-	ITCMonitorValues 		previous;
-	LLITCMonitorSettings	*settings;
+    BOOL                     alarmActive;
+    ITCMonitorValues         cumulative;
+    NSString                 *descriptionString;                // First line in report
+    NSString                 *IDString;                        // Short string for menu entry
+    ITCMonitorValues         previous;
+    LLITCMonitorSettings    *settings;
 }
 
 - (void)doAlarm:(NSString *)message;
@@ -40,7 +40,7 @@ typedef struct {
 - (instancetype)initWithID:(NSString *)ID description:(NSString *)description;
 - (void)resetCounters;
 - (void)sequenceValues:(ITCMonitorValues)current;
-- (BOOL)success;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL success;
 - (NSString *)valueString:(ITCMonitorValues *)pValues;
 - (NSString *)uniqueKey:(NSString *)commonKey;
 
