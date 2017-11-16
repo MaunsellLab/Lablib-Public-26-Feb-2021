@@ -26,10 +26,10 @@
 
     task = plugin;
 
-    numEvents = [[task dataDoc] numEvents];
+    numEvents = task.dataDoc.numEvents;
     trialStartTime = -1;
-    eventDef = [[task dataDoc] eventNamed:kTrialStartEventName];
-    trialStartEventCode = [eventDef code];
+    eventDef = [task.dataDoc eventNamed:kTrialStartEventName];
+    trialStartEventCode = eventDef.code;
     trialEventCounts = calloc(numEvents, sizeof(long));             // count of each event in current trial
 
     // Make a dictionary, bundledEvents, for all the events that are to be bundled as samples or timestamps.
@@ -40,8 +40,8 @@
     bundledString = [[NSMutableString alloc] init];
     bundledEvents = [[NSMutableDictionary alloc] init];
     for (event = 0; event < numEvents; event++) {
-        eventDef = [[task dataDoc] eventDefForCode:event];
-        eventName = [eventDef name];
+        eventDef = [task.dataDoc eventDefForCode:event];
+        eventName = eventDef.name;
         for (index = 0; bundledEventPrefixes[index] != nil; index++) {
             if ([eventName hasPrefix:bundledEventPrefixes[index]]) {
                 for (stop = 0; bundledEventStops[stop] != nil; stop++) {
@@ -51,18 +51,18 @@
                     }
                 }
                 if (bundledEventStops[stop] == nil) {
-                    [bundledEvents setObject:[[[NSMutableString alloc] init] autorelease] forKey:eventName];
+                    bundledEvents[eventName] = [[[NSMutableString alloc] init] autorelease];
                 }
                 break;
             }
         }
     }
 
-    engine = [task matlabEngine];
-    [engine addMatlabPathForPlugin:[plugin name]];
+    engine = task.matlabEngine;
+    [engine addMatlabPathForPlugin:plugin.name];
     [engine evalString:matlabInitScriptCommand];
     [self loadMatlabWorkspace];
-    [[task dataDoc] addObserver:self];
+    [task.dataDoc addObserver:self];
 }
 
 - (void)checkMatlabDataPath:(NSString *)dirName;
@@ -130,7 +130,7 @@
                        [eventString substringWithRange:NSMakeRange(0, leftBracketRange.location)],
                        subscript + 1,
                        [eventString substringWithRange:NSMakeRange(rightBracketRange.location + 1,
-                       ([eventString length] - rightBracketRange.location - 1))]];
+                       (eventString.length - rightBracketRange.location - 1))]];
     }
     if (convertedString == nil) {
         convertedString = [NSMutableString stringWithString:eventString];
@@ -142,7 +142,7 @@
 {
     [self saveMatlabWorkspace];
     [engine evalString:@"clear all; close all;"];
-    [[task dataDoc] removeObserver:self];
+    [task.dataDoc removeObserver:self];
     free(trialEventCounts);
     [bundledEvents release];
     [bundledString release];
@@ -169,7 +169,7 @@
         subjectNumber = number;
         dateFormatter = [[NSDateFormatter alloc] init];
         fileManager = [[NSFileManager alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        dateFormatter.dateFormat = @"yyyy-MM-dd";
         [self checkMatlabDataPath:nil];
         [self checkMatlabDataPath:@"MatFiles"];
         [self checkMatlabDataPath:@"PDFs"];
@@ -262,21 +262,21 @@
     if (stringRange.length > 0) {
         eventName = [eventName substringToIndex:stringRange.location];
     }
-    eventDef = [[task dataDoc] eventNamed:eventName];
+    eventDef = [task.dataDoc eventNamed:eventName];
     theEvent.data = eventData;
-    theEvent.time = [eventTime unsignedLongValue];
+    theEvent.time = eventTime.unsignedLongValue;
     theEvent.trialTime = (trialStartTime == -1) ? -1 : theEvent.time - trialStartTime;
 
     // trialStart is always used as the boundary between trials. We write all the buffered values out, and then clear
     // buffers to start the next trial.
 
-    if ([eventDef code] == trialStartEventCode) {
+    if (eventDef.code == trialStartEventCode) {
         [self writeBundledData];                                // write out buffered data
         for (e = 0; e < numEvents; e++) {
             trialEventCounts[e] = 0;
         }
         trialNum++;
-        trialStartTime = [eventTime unsignedLongValue];
+        trialStartTime = eventTime.unsignedLongValue;
         eventString = [self convertToMatlabString:
                        [NSString stringWithFormat:@"trials(%ld).trialStartTime = %ld;", trialNum, trialStartTime]];
         [engine evalString:eventString];
@@ -294,13 +294,13 @@
     //  formatted data values.  We append these to the appropriate string.  Later, at the next trialStart
     //  event, we will use this string to create a Matlab command to make an array, using -writeBundledDataToMatlab.
 
-    else if ((bufferString = [bundledEvents objectForKey:eventDef.name]) != nil) {  //
-        if (trialNum > 0) {										// no bundled events before first trial
+    else if ((bufferString = bundledEvents[eventDef.name]) != nil) {  //
+        if (trialNum > 0) {                                        // no bundled events before first trial
             if ((dataString = [eventDef eventDataElementsAsString:&theEvent]) != nil) {
                 [bufferString appendString:dataString];
             }
             else if (!warned) {
-                [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
+                [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:
                     [NSString stringWithFormat:
                      @"processEventNamed: Can't bundle data of type\"%@\", doing nothing.", eventDef.name]];
                 warned = YES;
@@ -313,20 +313,20 @@
     // in one trial, so those are rejected.
 
     else {
-        if ((trialEventCounts[eventDef.code] == 0) || ![eventDef isStringData]) {
+        if ((trialEventCounts[eventDef.code] == 0) || !eventDef.stringData) {
             suffix = (trialEventCounts[eventDef.code] == 0 || [prefix hasPrefix:@"file"] )
                     ? nil : [NSString stringWithFormat:@"(%ld)",trialEventCounts[eventDef.code] + 1];
             eventStrings = [eventDef eventDataAsStrings:&theEvent prefix:nil suffix:suffix];
             eventString = [NSMutableString stringWithString:@""];
-            for (string = 0; string < [eventStrings count]; string++) {
+            for (string = 0; string < eventStrings.count; string++) {
                 [eventString appendString:[self convertToMatlabString:
-                               [NSString stringWithFormat:@"%@%@;%@", prefix, [eventStrings objectAtIndex:string],
-                               (string < [eventStrings count] - 1) ? @"\n" : @""]]];
+                               [NSString stringWithFormat:@"%@%@;%@", prefix, eventStrings[string],
+                               (string < eventStrings.count - 1) ? @"\n" : @""]]];
             }
             [engine evalString:eventString];
         }
         else if (!multiStringWarned) {
-            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText: [NSString stringWithFormat:
+            [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText: [NSString stringWithFormat:
                     @"processEventNamed: Can't handle multiple string events (\"%@\") within a trial", eventDef.name]];
             multiStringWarned = YES;
         }
@@ -389,26 +389,26 @@
     prefix = [NSString stringWithFormat:@"trials(%ld).", trialNum];
     enumerator = [bundledEvents keyEnumerator];
     while ((key = [enumerator nextObject])) {
-        bundleString = [bundledEvents objectForKey:key];
-        if ([bundleString length] != 0) {
+        bundleString = bundledEvents[key];
+        if (bundleString.length != 0) {
             valueStrings = [bundleString componentsSeparatedByString:@","];
-            values = [valueStrings count] - 1;				// extra "," leaves blank string at end
-            def = [[task dataDoc] eventNamed:key];			// get event definition
-            matlabString = [NSMutableString stringWithFormat:@"%@%@ = [", prefix, [def name]];
+            values = valueStrings.count - 1;                // extra "," leaves blank string at end
+            def = [task.dataDoc eventNamed:key];            // get event definition
+            matlabString = [NSMutableString stringWithFormat:@"%@%@ = [", prefix, def.name];
             for (v = 0; v < values; v++) {
-                [matlabString appendString:[NSString stringWithFormat:@"%@ ", [valueStrings objectAtIndex:v]]];
-                if (((v % 2000) == 0) && (v > 0)) {			// command too long for poor old Matlab
+                [matlabString appendString:[NSString stringWithFormat:@"%@ ", valueStrings[v]]];
+                if (((v % 2000) == 0) && (v > 0)) {            // command too long for poor old Matlab
                     [matlabString appendString:[NSString stringWithFormat:@"];\n%@%@ = [%@%@ ",
-                                                prefix, [def name], prefix, [def name]]];
+                                                prefix, def.name, prefix, def.name]];
                 }
-                if (((v % 25) == 0) && (v > 0)) {			// line too long for poor old Matlab
+                if (((v % 25) == 0) && (v > 0)) {            // line too long for poor old Matlab
                     [matlabString appendString:[NSString stringWithFormat:@" ...\n"]];
                 }
             }
-            [matlabString appendString:@"];\n"];				// terminate Matlab command
+            [matlabString appendString:@"];\n"];                // terminate Matlab command
             [engine evalString:matlabString];
             [bundleString setString:@""];
-            [bundledEvents setObject:bundleString forKey:key];           // clear for the next trial;
+            bundledEvents[key] = bundleString;           // clear for the next trial;
         }
     }
 }

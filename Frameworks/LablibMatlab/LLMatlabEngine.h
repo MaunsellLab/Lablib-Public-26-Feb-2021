@@ -24,7 +24,7 @@
 - (void)addMatlabPathForApp;
 - (void)addMatlabPathForPlugin:(NSString *)pluginName;
 - (void)close;
-- (void *)engine;
+@property (NS_NONATOMIC_IOSONLY, readonly) void *engine;
 - (NSString *)evalString:(NSString *)string;
 - (NSString *)evalString:(NSString *)string postResult:(BOOL)post;
 - (void)post:(NSAttributedString *)attrStr;
