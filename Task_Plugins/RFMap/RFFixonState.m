@@ -14,12 +14,12 @@
 - (void)stateAction;
 {
     [[stimuli fixSpot] setState:YES];
-    [[task synthDataDevice] setEyeTargetOn:NSMakePoint(0, 0)];
-	expireTime = [LLSystemUtil timeFromNow:[[NSUserDefaults standardUserDefaults] 
-											integerForKey:RFAcquireMSKey]];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
-		[[NSSound soundNamed:kFixOnSound] play];
-	}
+    [task.synthDataDevice setEyeTargetOn:NSMakePoint(0, 0)];
+    expireTime = [LLSystemUtil timeFromNow:[[NSUserDefaults standardUserDefaults] 
+                                            integerForKey:RFAcquireMSKey]];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
+        [[NSSound soundNamed:kFixOnSound] play];
+    }
 }
 
 - (NSString *)name;
@@ -29,24 +29,24 @@
 
 - (LLState *)nextState;
 {
-	if ([task mode] == kTaskIdle) {
-		eotCode = kEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];
-	}
-	//if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] ||
-	//						[fixWindow inWindowDeg:[task currentEyeDeg]])  {
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey]) {
-        return [[task stateSystem] stateNamed:@"Fixate"];
+    if (task.mode == kTaskIdle) {
+        eotCode = kEOTQuit;
+        return [task.stateSystem stateNamed:@"Endtrial"];
+    }
+    //if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] ||
+    //                        [fixWindow inWindowDeg:[task currentEyeDeg]])  {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey]) {
+        return [task.stateSystem stateNamed:@"Fixate"];
     }
     else if ([RFUtilities inWindow:fixWindow])  {
-        return [[task stateSystem] stateNamed:@"Fixate"];
+        return [task.stateSystem stateNamed:@"Fixate"];
     }
-	if ([LLSystemUtil timeIsPast:expireTime]) {
-		eotCode = kEOTIgnored;
-		return [[task stateSystem] stateNamed:@"Endtrial"];
-	}
-	else {
-		return nil;
+    if ([LLSystemUtil timeIsPast:expireTime]) {
+        eotCode = kEOTIgnored;
+        return [task.stateSystem stateNamed:@"Endtrial"];
+    }
+    else {
+        return nil;
     }
 }
 

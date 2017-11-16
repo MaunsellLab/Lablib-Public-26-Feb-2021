@@ -12,7 +12,7 @@
 
 - (void)stateAction {
 
-    [[task dataController] setDataEnabled:[NSNumber numberWithBool:NO]];
+    [task.dataController setDataEnabled:@NO];
 }
 
 - (NSString *)name {
@@ -22,13 +22,13 @@
 
 - (LLState *)nextState;
 {
-	if ([task mode] == kTaskEnding) {
-		return [[task stateSystem] stateNamed:@"Stop"];
+    if (task.mode == kTaskEnding) {
+        return [task.stateSystem stateNamed:@"Stop"];
     }
-	if ([task mode] != kTaskIdle) {
-		return [[task stateSystem] stateNamed:@"Intertrial"];
+    if (task.mode != kTaskIdle) {
+        return [task.stateSystem stateNamed:@"Intertrial"];
     }
-	else {
+    else {
         return nil;
     }
 }

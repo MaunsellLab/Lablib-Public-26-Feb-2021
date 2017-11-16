@@ -11,7 +11,7 @@
 
 NSString *FTEyeToUseKey = @"FTEyeToUse";
 
-typedef enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular} FTEyeToUse;
+typedef NS_ENUM(unsigned int, FTEyeToUse) {kUseLeftEye = 0, kUseRightEye, kUseBinocular};
 
 @implementation FTUtilities
 
@@ -22,14 +22,14 @@ typedef enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular} FTEyeToUse;
     switch ([[NSUserDefaults standardUserDefaults] integerForKey:FTEyeToUseKey]) {
         case kUseLeftEye:
         default:
-            inWindow = [window inWindowDeg:([task currentEyesDeg])[kLeftEye]];
+            inWindow = [window inWindowDeg:(task.currentEyesDeg)[kLeftEye]];
             break;
         case kUseRightEye:
-            inWindow = [window inWindowDeg:([task currentEyesDeg])[kRightEye]];
+            inWindow = [window inWindowDeg:(task.currentEyesDeg)[kRightEye]];
             break;
         case kUseBinocular:
-            inWindow = [window inWindowDeg:([task currentEyesDeg])[kLeftEye]] && 
-            [window inWindowDeg:([task currentEyesDeg])[kRightEye]];
+            inWindow = [window inWindowDeg:(task.currentEyesDeg)[kLeftEye]] && 
+            [window inWindowDeg:(task.currentEyesDeg)[kRightEye]];
             break;
     }
     return inWindow;

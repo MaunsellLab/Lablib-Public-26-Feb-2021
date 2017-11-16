@@ -10,39 +10,39 @@
 #import "RFMapStimuli.h"
 #import "RFStateSystem.h"
 
-typedef enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel} RFChannel;
-typedef enum {kBarStimulus = 0, kGaborStimulus, kDotsStimulus, kPlaidStimulus, kStimTypes} RFStimulus;
-typedef enum {kBehaviorAlways = 0, kBehaviorRunning, kBehaviorFixating} RFBehavior;
-typedef enum {kAzimuthElevation = 0, kEccentricityAngle} RFCoordinate;
+typedef NS_ENUM(unsigned int, RFChannel) {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
+typedef NS_ENUM(unsigned int, RFStimulus) {kBarStimulus = 0, kGaborStimulus, kDotsStimulus, kPlaidStimulus, kStimTypes};
+typedef NS_ENUM(unsigned int, RFBehavior) {kBehaviorAlways = 0, kBehaviorRunning, kBehaviorFixating};
+typedef NS_ENUM(unsigned int, RFCoordinate) {kAzimuthElevation = 0, kEccentricityAngle};
 
-#define 	kLeverBit				(0x0001 << kLeverChannel)
-#define		kRewardBit				0x0001
-#define		kSpikeChannels			2
-#define		kSamplePeriodMS			5
-#define		kSamplePeriodS			(kSamplePeriodMS / 1000.0)
-#define		kTimestampTickMS		1
+#define     kLeverBit                (0x0001 << kLeverChannel)
+#define        kRewardBit                0x0001
+#define        kSpikeChannels            2
+#define        kSamplePeriodMS            5
+#define        kSamplePeriodS            (kSamplePeriodMS / 1000.0)
+#define        kTimestampTickMS        1
 
-#define 	kMaxLevels				8
+#define     kMaxLevels                8
 
 typedef struct {
-	long	levels;				// number of active stimulus levels
-	float   maxValue;			// maximum stimulus value
-	float   factor;				// factor between values
+    long    levels;                // number of active stimulus levels
+    float   maxValue;            // maximum stimulus value
+    float   factor;                // factor between values
 } StimParams;
 
 typedef struct {
-	float   azimuthDeg;	
-	float   elevationDeg;
+    float   azimuthDeg;    
+    float   elevationDeg;
 } StimCenter;
 
-extern LLTaskPlugIn			*task;
+extern LLTaskPlugIn            *task;
 
-#ifndef	NoGlobals
+#ifndef    NoGlobals
 
-extern RFBehavior			behaviorMode;
-extern BOOL					resetFlag;
-extern LLScheduleController	*scheduler;
-extern RFMapStimuli			*stimuli;
+extern RFBehavior            behaviorMode;
+extern BOOL                    resetFlag;
+extern LLScheduleController    *scheduler;
+extern RFMapStimuli            *stimuli;
 
 // Preferences keys
 

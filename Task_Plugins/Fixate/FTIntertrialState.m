@@ -12,10 +12,10 @@
 
 - (void)stateAction {
 
-	expireTime = [LLSystemUtil timeFromNow:
-			[[NSUserDefaults standardUserDefaults] integerForKey:FTIntertrialMSKey]];
-	eotCode = kEOTCorrect;			// Default eot code is correct
-	
+    expireTime = [LLSystemUtil timeFromNow:
+            [[NSUserDefaults standardUserDefaults] integerForKey:FTIntertrialMSKey]];
+    eotCode = kEOTCorrect;            // Default eot code is correct
+    
 // update the fixtation and response windows
 
     [fixWindow setWidthAndHeightDeg:[[NSUserDefaults standardUserDefaults] floatForKey:FTFixWindowWidthDegKey]];
@@ -28,12 +28,12 @@
 
 - (LLState *)nextState {
 
-    if ([task mode] == kTaskStopping) {
+    if (task.mode == kTaskStopping) {
         eotCode = kEOTQuit;
-        return [[task stateSystem] stateNamed:@"Endtrial"];
+        return [task.stateSystem stateNamed:@"Endtrial"];
     }
     else if ([LLSystemUtil timeIsPast:expireTime]) {
-        return [[task stateSystem] stateNamed:@"Starttrial"];
+        return [task.stateSystem stateNamed:@"Starttrial"];
     }
     return nil;
 }

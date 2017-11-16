@@ -9,18 +9,18 @@
 
 #import "FTStimuli.h"
 
-#define	kRewardBit				0x0001
-typedef enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel} FTChannel;
+#define    kRewardBit                0x0001
+typedef NS_ENUM(unsigned int, FTChannel) {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
 
 // ??? These should be removed
 
-#define 	kLeverBit				(0x0001 << kLeverChannel)
-#define		kRewardBit				0x0001
-#define		kSpikeChannels			2						// One channels spikes, one channel stim pulses
-#define		kSamplePeriodMS			5
-#define		kSamplePeriodS			(kSamplePeriodMS / 1000.0)
-#define		kTimestampTickMS		1
-#define		kMaxHists				8
+#define     kLeverBit                (0x0001 << kLeverChannel)
+#define        kRewardBit                0x0001
+#define        kSpikeChannels            2                        // One channels spikes, one channel stim pulses
+#define        kSamplePeriodMS            5
+#define        kSamplePeriodS            (kSamplePeriodMS / 1000.0)
+#define        kTimestampTickMS        1
+#define        kMaxHists                8
 
 extern NSString *FTAcquireMSKey;
 extern NSString *FTDoFixateKey;
@@ -34,6 +34,6 @@ extern NSString *FTFixBackColorKey;
 extern NSString *FTFixForeColorKey;
 extern NSString *FTTaskModeKey;
 
-extern LLTaskPlugIn				*task;
-extern LLScheduleController		*scheduler;
-extern FTStimuli				*stimuli;
+extern LLTaskPlugIn                *task;
+extern LLScheduleController        *scheduler;
+extern FTStimuli                *stimuli;

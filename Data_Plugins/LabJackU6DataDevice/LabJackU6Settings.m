@@ -12,20 +12,20 @@
 - (instancetype)init;
 {
     if ((self =  [super initWithWindowNibName:@"LabJackU6Settings"])) {
-		[self window];					// Force window to load
-	}
+        [self window];                    // Force window to load
+    }
     return self;
 }
 
 - (IBAction)ok:(id)sender;
 {
-	[NSApp stopModal];
+    [NSApp stopModal];
 }
 
 - (void)runPanel;
 {
-	[NSApp runModalForWindow:[self window]];
-    [[self window] orderOut:self];
+    [NSApp runModalForWindow:self.window];
+    [self.window orderOut:self];
 }
 
 @end

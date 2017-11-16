@@ -13,27 +13,27 @@
 
 @interface RFMap:LLTaskPlugIn {
 
-	NSMenuItem				*actionsMenuItem;
-	LLControlPanel			*controlPanel;
-    NSPoint					currentEyesUnits[kEyes];
-	NSTimer					*displayTimer;
-    RFEyeXYController		*eyeXYController;				// Eye position display
-	float					originalFixOffsetDeg;			// holds incoming fix offset
+    NSMenuItem                *actionsMenuItem;
+    LLControlPanel            *controlPanel;
+    NSPoint                    currentEyesUnits[kEyes];
+    NSTimer                    *displayTimer;
+    RFEyeXYController        *eyeXYController;                // Eye position display
+    float                    originalFixOffsetDeg;            // holds incoming fix offset
     LLSettingsController    *settingsController;
-    NSMenuItem				*settingsMenuItem;
-    RFSummaryController		*summaryController;
+    NSMenuItem                *settingsMenuItem;
+    RFSummaryController        *summaryController;
     NSArray                 *topLevelObjects;
-    NSWindowController 		*xtController;
+    NSWindowController         *xtController;
 
-    IBOutlet NSMenu			*settingsMenu;
-    IBOutlet NSMenu			*actionsMenu;
-	IBOutlet NSMenuItem		*runStopMenuItem;
+    IBOutlet NSMenu            *settingsMenu;
+    IBOutlet NSMenu            *actionsMenu;
+    IBOutlet NSMenuItem        *runStopMenuItem;
 }
 
 - (void)dataCollect:(NSTimer *)timer;
 - (void)displayPosition:(NSTimer*)theTimer;
 - (void)doJuiceOff;
-- (RFMapStimuli *)stimuli;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) RFMapStimuli *stimuli;
 
 - (IBAction)doFixSettings:(id)sender;
 - (IBAction)doStimSettings:(id)sender;

@@ -12,8 +12,8 @@
 
 - (void)stateAction {
 
-	behaviorMode = kBehaviorAlways;
-    [[task dataController] setDataEnabled:[NSNumber numberWithBool:NO]];
+    behaviorMode = kBehaviorAlways;
+    [task.dataController setDataEnabled:@NO];
 }
 
 - (NSString *)name {
@@ -23,13 +23,13 @@
 
 - (LLState *)nextState {
 
-	if ([task mode] == kTaskEnding) {
-		return [[task stateSystem] stateNamed:@"stop"];
+    if (task.mode == kTaskEnding) {
+        return [task.stateSystem stateNamed:@"stop"];
     }
-	if ([task mode] == kTaskRunning) {
-		return [[task stateSystem] stateNamed:@"Intertrial"];
+    if (task.mode == kTaskRunning) {
+        return [task.stateSystem stateNamed:@"Intertrial"];
     }
-	else {
+    else {
         return nil;
     }
 }

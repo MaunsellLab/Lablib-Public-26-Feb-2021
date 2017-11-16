@@ -21,7 +21,7 @@
 
 - (LLState *)nextState {
 
-	return [[task stateSystem] stateNamed:@"Idle"];
+    return [task.stateSystem stateNamed:@"Idle"];
 }
 
 @end

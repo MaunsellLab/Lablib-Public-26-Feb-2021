@@ -19,13 +19,13 @@
 #import "RFStarttrialState.h"
 #import "RFStopState.h"
 
-long 					eotCode;			// End Of Trial code
-BOOL 					fixated;
-LLEyeWindow				*fixWindow;
-BOOL					hadLeverDown;
-BOOL					leverIsDown;
-RFStateSystem			*stateSystem;
-TrialDesc				trial;
+long                     eotCode;            // End Of Trial code
+BOOL                     fixated;
+LLEyeWindow                *fixWindow;
+BOOL                    hadLeverDown;
+BOOL                    leverIsDown;
+RFStateSystem            *stateSystem;
+TrialDesc                trial;
 
 @implementation RFStateSystem
 
@@ -41,35 +41,35 @@ TrialDesc				trial;
 
 // create & initialize the state system's states
 
-		[self addState:[[[RFBlockedState alloc] init] autorelease]];
-		[self addState:[[[RFEndtrialState alloc] init] autorelease]];
-		[self addState:[[[RFFixonState alloc] init] autorelease]];
-		[self addState:[[[RFIdleState alloc] init] autorelease]];
-		[self addState:[[[RFIntertrialState alloc] init] autorelease]];
-		[self addState:[[[RFFixateState alloc] init] autorelease]];
-		[self addState:[[[RFStartState alloc] init] autorelease]];
-		[self addState:[[[RFStarttrialState alloc] init] autorelease]];
-		[self addState:[[[RFStopState alloc] init] autorelease]];
-		[self setStartState:[self stateNamed:@"Start"] andStopState:[self stateNamed:@"Stop"]];	
-		[controller setLogging:NO];
-		
-		fixWindow = [[LLEyeWindow alloc] init];
-		[fixWindow setWidthAndHeightDeg:[[NSUserDefaults standardUserDefaults] floatForKey:RFFixWindowWidthDegKey]];
+        [self addState:[[[RFBlockedState alloc] init] autorelease]];
+        [self addState:[[[RFEndtrialState alloc] init] autorelease]];
+        [self addState:[[[RFFixonState alloc] init] autorelease]];
+        [self addState:[[[RFIdleState alloc] init] autorelease]];
+        [self addState:[[[RFIntertrialState alloc] init] autorelease]];
+        [self addState:[[[RFFixateState alloc] init] autorelease]];
+        [self addState:[[[RFStartState alloc] init] autorelease]];
+        [self addState:[[[RFStarttrialState alloc] init] autorelease]];
+        [self addState:[[[RFStopState alloc] init] autorelease]];
+        [self setStartState:[self stateNamed:@"Start"] andStopState:[self stateNamed:@"Stop"]];    
+        [controller setLogging:NO];
+        
+        fixWindow = [[LLEyeWindow alloc] init];
+        [fixWindow setWidthAndHeightDeg:[[NSUserDefaults standardUserDefaults] floatForKey:RFFixWindowWidthDegKey]];
     }
     return self;
 }
 
 - (BOOL) running {
 
-    return [controller running];
+    return controller.running;
 }
 
-- (BOOL) startWithCheckIntervalMS:(double)checkMS {			// start the system running
+- (BOOL) startWithCheckIntervalMS:(double)checkMS {            // start the system running
 
     return [controller startWithCheckIntervalMS:checkMS];
 }
 
-- (void) stop {										// stop the system
+- (void) stop {                                        // stop the system
 
     [controller stop];
 }
@@ -82,13 +82,13 @@ TrialDesc				trial;
 - (void) stimulusType:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
     long stimType;
-	static long lastStimType = -1;
-	
+    static long lastStimType = -1;
+    
     [eventData getBytes:&stimType length:sizeof(long)];
 //    [eventData getBytes:&stimType];
     if (stimType != lastStimType) {
         lastStimType = stimType;
-	}
+    }
 }
 
 @end
