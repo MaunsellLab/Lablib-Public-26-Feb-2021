@@ -3,18 +3,18 @@
 
 @implementation DefView
 
-#define kButtonMarginPix	3
+#define kButtonMarginPix    3
 #define kXLimitPix          512
 
-#define buttonOuterWidthPix	([document lineHeightPix] - 2 * kButtonMarginPix)
-#define xTextOffsetPix		(buttonOuterWidthPix + 2 * kButtonMarginPix)
+#define buttonOuterWidthPix    ([document lineHeightPix] - 2 * kButtonMarginPix)
+#define xTextOffsetPix        (buttonOuterWidthPix + 2 * kButtonMarginPix)
 #define yLimitPix           (numEvents * [document lineHeightPix])
 
 - (void)dealloc;
 {
-	free(enabled);
-	free(enabledTemp);
-	[super dealloc];
+    free(enabled);
+    free(enabledTemp);
+    [super dealloc];
 }
 
 - (IBAction)disableAllEvents:(id)sender
@@ -34,7 +34,7 @@
     NSBezierPath *button;
     NSAffineTransform *buttonTranslate = [[NSAffineTransform alloc] init];
 
-    [[NSColor whiteColor] set];					// Erase the rectangle
+    [[NSColor whiteColor] set];                    // Erase the rectangle
     [NSBezierPath fillRect:rect];
     [[NSColor blackColor] set];    
     topLine = rect.origin.y / [document lineHeightPix];
@@ -42,19 +42,19 @@
     button = [NSBezierPath bezierPathWithOvalInRect:
                 NSMakeRect(kButtonMarginPix, topLine * [document lineHeightPix] + kButtonMarginPix + kButtonMarginPix / 2, 
                 buttonOuterWidthPix, buttonOuterWidthPix)];
-    [buttonTranslate translateXBy:0 yBy:[document lineHeightPix]];		// For tranlating button path
+    [buttonTranslate translateXBy:0 yBy:[document lineHeightPix]];        // For tranlating button path
      
-    for (line = topLine; line <= MIN(bottomLine, numEvents - 1); line++) {		// Draw each line
+    for (line = topLine; line <= MIN(bottomLine, numEvents - 1); line++) {        // Draw each line
 
 // Draw the enabled button 
 
-        if (enabled[line]) {					// Make event as enabled or unselected
+        if (enabled[line]) {                    // Make event as enabled or unselected
             [[NSColor lightGrayColor] set];
             [button fill];
             [[NSColor blackColor] set];
         }
         [button stroke];
-        button = [buttonTranslate transformBezierPath:button];	// Tranlate path for next line
+        button = [buttonTranslate transformBezierPath:button];    // Tranlate path for next line
 
 // Draw the event description text
 
@@ -88,7 +88,7 @@
 {
     long index;
     NSPoint downPoint;
-    NSPoint p = [event locationInWindow];
+    NSPoint p = event.locationInWindow;
     
     for (index = 0; index < numEvents; index++) {
         enabledTemp[index] = enabled[index];
@@ -107,7 +107,7 @@
     long index, selectedLine;
     NSPoint downPoint;
 
-    NSPoint p = [event locationInWindow];
+    NSPoint p = event.locationInWindow;
     downPoint = [self convertPoint:p fromView:nil];
     selectedLine = (long)(downPoint.y / [document lineHeightPix]);
     
@@ -134,12 +134,12 @@
     long index;
     
     numEvents = count;
-	enabled = (BOOL *)malloc(numEvents * sizeof(BOOL));
-	enabledTemp = (BOOL *)malloc(numEvents * sizeof(BOOL));
+    enabled = (BOOL *)malloc(numEvents * sizeof(BOOL));
+    enabledTemp = (BOOL *)malloc(numEvents * sizeof(BOOL));
     for (index = 0; index < numEvents; index++) {
         enabled[index] = YES;
     }
-    [self setFrame:NSMakeRect(0, 0, kXLimitPix, yLimitPix)];
+    self.frame = NSMakeRect(0, 0, kXLimitPix, yLimitPix);
     [self setNeedsDisplay:YES];
 }
 

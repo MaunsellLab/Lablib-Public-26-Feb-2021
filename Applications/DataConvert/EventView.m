@@ -3,15 +3,15 @@
 
 @implementation EventView
 
-#define kXLimitPix 	2048
-#define kXMarginPix	2
+#define kXLimitPix     2048
+#define kXMarginPix    2
 
 - (void)centerViewOnLine:(long)line
 {
     float newYOriginPix;
     NSSize scrollSize;
 
-    scrollSize = [[self enclosingScrollView] contentSize];
+    scrollSize = self.enclosingScrollView.contentSize;
     newYOriginPix = line * lineHeightPix - scrollSize.height / 2;
     if (newYOriginPix < 0) {
         newYOriginPix = 0;
@@ -45,8 +45,8 @@
 {
     NSPoint downPoint;
     
-    downPoint = [self convertPoint:[event locationInWindow] fromView:nil];
-    [document eventSelectionChanged:(long)(downPoint.y / [document lineHeightPix]) clickCount:[event clickCount]];
+    downPoint = [self convertPoint:event.locationInWindow fromView:nil];
+    [document eventSelectionChanged:(long)(downPoint.y / [document lineHeightPix]) clickCount:event.clickCount];
 }
 
 - (void)setDisplayableLines:(long)displayableLines;
@@ -54,7 +54,7 @@
     lines = displayableLines;
     lineHeightPix = [document lineHeightPix];
     lineDescenderPix = [document lineDescenderPix];
-    [self setFrame:NSMakeRect(0, 0, kXLimitPix, (long)(lines * lineHeightPix - 1))];
+    self.frame = NSMakeRect(0, 0, kXLimitPix, (long)(lines * lineHeightPix - 1));
     [self setNeedsDisplay:YES];
 }
 @end

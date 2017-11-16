@@ -3,19 +3,19 @@
 
 @implementation HexView
 
-#define kXLimitPix 	600
-#define kXMarginPix	2
+#define kXLimitPix     600
+#define kXMarginPix    2
 
-static double 	lineDescenderPix;
-static double 	lineHeightPix;
-static long	lines = 0; 
+static double     lineDescenderPix;
+static double     lineHeightPix;
+static long    lines = 0; 
 
 - (void)centerViewOnLine:(long)line
 {
     float newYOriginPix;
     NSSize scrollSize;
     
-    scrollSize = [[self enclosingScrollView] contentSize];
+    scrollSize = self.enclosingScrollView.contentSize;
     newYOriginPix = line * lineHeightPix - scrollSize.height / 2;
     if (newYOriginPix < 0) {
         newYOriginPix = 0;
@@ -49,9 +49,9 @@ static long	lines = 0;
 {
     NSPoint downPoint;
 
-    downPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+    downPoint = [self convertPoint:event.locationInWindow fromView:nil];
     [document hexSelectionChanged:(long)(downPoint.y / [document lineHeightPix]) xPix:downPoint.x
-              clickCount:[event clickCount]]; 
+              clickCount:event.clickCount]; 
 }
 
 - (void)setDisplayableLines:(long)displayableLines;
@@ -59,7 +59,7 @@ static long	lines = 0;
     lines = displayableLines;
     lineHeightPix = [document lineHeightPix];
     lineDescenderPix = [document lineDescenderPix];
-    [self setFrame:NSMakeRect(0, 0, kXLimitPix, (long)(lines * lineHeightPix - 1))];
+    self.frame = NSMakeRect(0, 0, kXLimitPix, (long)(lines * lineHeightPix - 1));
     [self setNeedsDisplay:YES];
 }
 
