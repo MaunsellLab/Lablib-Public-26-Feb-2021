@@ -354,7 +354,7 @@ them.
     NSMutableString *bufferString;
     NSString *eventName, *eventString, *prefix, *suffix, *headerString, *bundleString;
     NSModalSession session;
-    NSAutoreleasePool *autoreleasePool;
+//    NSAutoreleasePool *autoreleasePool;
     BOOL warned = NO;
     long trialEndEventCode = [self eventCodeForEventName:@"trialEnd"];
     long trialStartEventCode = [self eventCodeForEventName:@"trialStart"];
@@ -438,104 +438,106 @@ them.
     [progress setMaxValue:fileData.length];
     [progress setText:@"Converting to Matlab"];
     [progress showWindow:self];
-    autoreleasePool = [[NSAutoreleasePool alloc] init];
-    session = [NSApp beginModalSessionForWindow:progress.window];
-    aborted = NO;
+//    autoreleasePool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
+        session = [NSApp beginModalSessionForWindow:progress.window];
+        aborted = NO;
 
-// Read events sequentially, putting some events immediately, buffering others until trial boundaries
+    // Read events sequentially, putting some events immediately, buffering others until trial boundaries
 
-    while (dataIndex < fileData.length) {
-        if ((pEvent = [self readEvent]) == nil) {                    // disabled events come back nil
-            continue;
-        }
-        
-// Process the event
-
-        if (pEvent->code == fileEndEventCode) {        // don't convert fileEnd
-            continue;
-        }
-
-// trialStart is the boundary between trials.  We write all the buffered values out, and then clear
-// buffers to start the next trial.
-
-        if (pEvent->code == trialStartEventCode) {
-            [self writeBuffersToMatlab:data prefix:prefix];    // write out the data we have buffered & clear buffers
-            for (event = 0; event < numEvents; event++) {
-                eventTrialCounts[event] = 0;
-            }
-            [prefix release];
-            prefix = [[NSString alloc] initWithFormat:@"trials(%ld).", ++trial];
-            eventString = [NSString stringWithFormat:@"%@trialStartTime = %ld;\n", prefix, pEvent->time];
-            [self appendMatlabString:eventString toData:data];
-            pMultiEvents = multiTrialEvents;                    // at first trialStart, start using multi trial
-            continue;
-        }
-        
-// If this is a bundled event, bundle it.  -eventDataElementsAsString returns a space-separated list of 
-// formatted data values.  We append these to the appropriate string.  Later, at the next trialStart
-// event, we will use this string to create a Matlab command to make an array, using -writeBuffersToMatlab.
-
-        if ((bufferString = bundledEvents[pEvent->name]) != nil) {
-            if (trialCount > 0) {                                        // no bundled events before first trial
-                eventDef = eventsByCode[pEvent->code];
-                if ((bundleString = [eventDef eventDataElementsAsString:pEvent]) != nil) {
-                    [bufferString appendString:bundleString];
-                }
-                else {
-                    if (!warned) {
-                        [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:
-                            [NSString stringWithFormat:
-                            @"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.", pEvent->name]];
-                        warned = YES;
-                    }
-                }
+        while (dataIndex < fileData.length) {
+            if ((pEvent = [self readEvent]) == nil) {                    // disabled events come back nil
                 continue;
             }
-        }
-        
-// If it is not a special case, handle it in the standard way, which will differ depending on whether
-// there is more than one instance of this event per trial
 
-        eventDef = eventsByCode[pEvent->code];
-        if (!pMultiEvents[pEvent->code]) {
-            suffix = nil;
-        }
-        else if ([eventDef isStringData]) {
-            suffix = [NSString stringWithFormat:@"{%ld}", eventTrialCounts[pEvent->code] + 1];
-        }
-        else {
-            suffix = [NSString stringWithFormat:@"(%ld)", eventTrialCounts[pEvent->code] + 1];
-        }
-        eventStrings = [eventDef eventDataAsStrings:pEvent prefix:nil suffix:suffix];
-        for (string = 0; string < eventStrings.count; string++) {
-            eventString = [NSString stringWithFormat:@"%@%@;\n", prefix, eventStrings[string]];
-            [self appendMatlabString:eventString toData:data];
-        }
+    // Process the event
 
-// If this is a timed event, write the time (in addition to the event with the data)
-
-        if (timedEvents[pEvent->code]) {
-            [self appendMatlabString:[self eventTimeAsString:pEvent prefix:prefix suffix:suffix] toData:data];
-        }
-        eventTrialCounts[pEvent->code]++;
-    
-// Run the modal session frequently enough to handle the window events
-
-        if ([progress needsUpdate]) {
-            [progress setDoubleValue:dataIndex];                // set progress bar
-            if (([NSApp runModalSession:session] != NSModalResponseContinue) || [progress cancelled]) {
-                aborted = YES;
-                break;
+            if (pEvent->code == fileEndEventCode) {        // don't convert fileEnd
+                continue;
             }
-            [autoreleasePool release];                                // flush autorelease objects
-            autoreleasePool = [[NSAutoreleasePool alloc] init];
+
+    // trialStart is the boundary between trials.  We write all the buffered values out, and then clear
+    // buffers to start the next trial.
+
+            if (pEvent->code == trialStartEventCode) {
+                [self writeBuffersToMatlab:data prefix:prefix];    // write out the data we have buffered & clear buffers
+                for (event = 0; event < numEvents; event++) {
+                    eventTrialCounts[event] = 0;
+                }
+                [prefix release];
+                prefix = [[NSString alloc] initWithFormat:@"trials(%ld).", ++trial];
+                eventString = [NSString stringWithFormat:@"%@trialStartTime = %ld;\n", prefix, pEvent->time];
+                [self appendMatlabString:eventString toData:data];
+                pMultiEvents = multiTrialEvents;                    // at first trialStart, start using multi trial
+                continue;
+            }
+
+    // If this is a bundled event, bundle it.  -eventDataElementsAsString returns a space-separated list of
+    // formatted data values.  We append these to the appropriate string.  Later, at the next trialStart
+    // event, we will use this string to create a Matlab command to make an array, using -writeBuffersToMatlab.
+
+            if ((bufferString = bundledEvents[pEvent->name]) != nil) {
+                if (trialCount > 0) {                                        // no bundled events before first trial
+                    eventDef = eventsByCode[pEvent->code];
+                    if ((bundleString = [eventDef eventDataElementsAsString:pEvent]) != nil) {
+                        [bufferString appendString:bundleString];
+                    }
+                    else {
+                        if (!warned) {
+                            [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:
+                                [NSString stringWithFormat:
+                                @"eventsAsMatlabString: Can't bundle data of type\"%@\", doing nothing.", pEvent->name]];
+                            warned = YES;
+                        }
+                    }
+                    continue;
+                }
+            }
+
+    // If it is not a special case, handle it in the standard way, which will differ depending on whether
+    // there is more than one instance of this event per trial
+
+            eventDef = eventsByCode[pEvent->code];
+            if (!pMultiEvents[pEvent->code]) {
+                suffix = nil;
+            }
+            else if ([eventDef isStringData]) {
+                suffix = [NSString stringWithFormat:@"{%ld}", eventTrialCounts[pEvent->code] + 1];
+            }
+            else {
+                suffix = [NSString stringWithFormat:@"(%ld)", eventTrialCounts[pEvent->code] + 1];
+            }
+            eventStrings = [eventDef eventDataAsStrings:pEvent prefix:nil suffix:suffix];
+            for (string = 0; string < eventStrings.count; string++) {
+                eventString = [NSString stringWithFormat:@"%@%@;\n", prefix, eventStrings[string]];
+                [self appendMatlabString:eventString toData:data];
+            }
+
+    // If this is a timed event, write the time (in addition to the event with the data)
+
+            if (timedEvents[pEvent->code]) {
+                [self appendMatlabString:[self eventTimeAsString:pEvent prefix:prefix suffix:suffix] toData:data];
+            }
+            eventTrialCounts[pEvent->code]++;
+
+    // Run the modal session frequently enough to handle the window events
+
+            if ([progress needsUpdate]) {
+                [progress setDoubleValue:dataIndex];                // set progress bar
+                if (([NSApp runModalSession:session] != NSModalResponseContinue) || [progress cancelled]) {
+                    aborted = YES;
+                    break;
+                }
+//                [autoreleasePool release];                                // flush autorelease objects
+//                autoreleasePool = [[NSAutoreleasePool alloc] init];
+            }
         }
+        [self writeBuffersToMatlab:data prefix:prefix];            // write out remaining data we have buffered
+        [self rewind];
+        [NSApp endModalSession:session];
+        [progress close];
     }
-    [self writeBuffersToMatlab:data prefix:prefix];            // write out remaining data we have buffered
-    [self rewind];
-    [NSApp endModalSession:session];
-    [progress close];
-    [autoreleasePool release];                                // flush autorelease objects
+//    [autoreleasePool release];                                // flush autorelease objects
     [prefix release];
     [progress release];
     [bundledEvents release];

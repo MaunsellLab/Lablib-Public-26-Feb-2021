@@ -368,101 +368,102 @@ This variant accepts only events definitions that include data definitions.
     NSNumber *eventTime;
     LLDataEventDef *eventDef;
     id anObserver;
-    NSAutoreleasePool *threadPool;
-    NSDate *nextRelease;
+//    NSAutoreleasePool *threadPool;
+//    NSDate *nextRelease;
     SEL methodSelector;
 
 // Initialize and get the start time for this schedule
 
-    threadPool = [[NSAutoreleasePool alloc] init];
-    nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
-    
-    for (; data != nil; ) {
-        [eventLock lock];                                            // Lock before check starts
-        if (lastRead < data.length) {                                // Undispatched event?
+//    threadPool = [[NSAutoreleasePool alloc] init];
+//    nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
+    @autoreleasepool {
+        for (; data != nil; ) {
+            [eventLock lock];                                            // Lock before check starts
+            if (lastRead < data.length) {                                // Undispatched event?
 
-// Get the event code from the buffer
+    // Get the event code from the buffer
 
-            numEvents = eventDict.count;                            // Get event code
-            if (numEvents < 0x100) {
-                [self getEventBytes:(void *)&charCode length:sizeof(charCode)];
-                eventCode = charCode;
-            }
-            else  if (numEvents < 0x10000) {
-                [self getEventBytes:(void *)&shortCode length:sizeof(shortCode)];
-                eventCode = shortCode;
-            }
-            else {
-                [self getEventBytes:(void *)&eventCode length:sizeof(eventCode)];
-            }
-
-// Use the code to get the description of the event (name, number of bytes)
-
-            eventDef = eventsByCode[eventCode];
-            if ([eventDef code] != eventCode) {
-                [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
-                    [NSString stringWithFormat:@"dispatchEvents: Event \"%@\" code mismatch (%ld v. %ld).",
-                    [eventDef name], [eventDef code], eventCode]];
-                exit(0);
-            }
-
-// Get the event data from the buffer, if this event has data
-
-            dataBytes = [eventDef dataBytes];
-            if (dataBytes == 0) {
-               eventData = nil;
-            }
-            else {
-                if (dataBytes > 0) {
-                    numBytes = dataBytes;                            // Fixed length data, get length
+                numEvents = eventDict.count;                            // Get event code
+                if (numEvents < 0x100) {
+                    [self getEventBytes:(void *)&charCode length:sizeof(charCode)];
+                    eventCode = charCode;
                 }
-                else {                                                // Variable length data, get length
-                    [self getEventBytes:(void *)&numBytes length:sizeof(unsigned long)];
+                else  if (numEvents < 0x10000) {
+                    [self getEventBytes:(void *)&shortCode length:sizeof(shortCode)];
+                    eventCode = shortCode;
                 }
-                eventData = [data subdataWithRange:NSMakeRange(lastRead, numBytes)];
-                [eventData retain];
-                lastRead += numBytes;
-            }
-
-// Get the event time
-
-            [self getEventBytes:&eTime length:sizeof(unsigned long)];
-            eventTime = @(eTime);
-            [eventTime retain];
-            [eventLock unlock];                                        // Free lock while we dispatch data bytes
-            
-            // Dispatch the event to all observers that accept it
-
-            methodSelector = NSSelectorFromString([NSString stringWithFormat:@"%@:eventTime:", [eventDef name]]);
-            for (obs = 0; obs < observerArray.count; obs++) {
-                anObserver = observerArray[obs];
-                if ([anObserver respondsToSelector:methodSelector]) {
-                    [anObserver performSelector:methodSelector withObject:eventData withObject:eventTime];
+                else {
+                    [self getEventBytes:(void *)&eventCode length:sizeof(eventCode)];
                 }
-            }
 
-// Clean up this event, then go look for more
+    // Use the code to get the description of the event (name, number of bytes)
 
-            [eventTime release];
-            [eventData release];
-        }        
-        else {                                                        // No events left, sleep
-            if (!retainEvents) {                                    // If we're not retaining events, clear the buffer
-                data.length = 0;                                 // Not safe to use clearEvents, because events
-                lastRead = data.length;                           // might get posted between the unlock and lock.
+                eventDef = eventsByCode[eventCode];
+                if ([eventDef code] != eventCode) {
+                    [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDoc" informativeText:
+                        [NSString stringWithFormat:@"dispatchEvents: Event \"%@\" code mismatch (%ld v. %ld).",
+                        [eventDef name], [eventDef code], eventCode]];
+                    exit(0);
+                }
+
+    // Get the event data from the buffer, if this event has data
+
+                dataBytes = [eventDef dataBytes];
+                if (dataBytes == 0) {
+                   eventData = nil;
+                }
+                else {
+                    if (dataBytes > 0) {
+                        numBytes = dataBytes;                            // Fixed length data, get length
+                    }
+                    else {                                                // Variable length data, get length
+                        [self getEventBytes:(void *)&numBytes length:sizeof(unsigned long)];
+                    }
+                    eventData = [data subdataWithRange:NSMakeRange(lastRead, numBytes)];
+                    [eventData retain];
+                    lastRead += numBytes;
+                }
+
+    // Get the event time
+
+                [self getEventBytes:&eTime length:sizeof(unsigned long)];
+                eventTime = @(eTime);
+                [eventTime retain];
+                [eventLock unlock];                                        // Free lock while we dispatch data bytes
+
+                // Dispatch the event to all observers that accept it
+
+                methodSelector = NSSelectorFromString([NSString stringWithFormat:@"%@:eventTime:", [eventDef name]]);
+                for (obs = 0; obs < observerArray.count; obs++) {
+                    anObserver = observerArray[obs];
+                    if ([anObserver respondsToSelector:methodSelector]) {
+                        [anObserver performSelector:methodSelector withObject:eventData withObject:eventTime];
+                    }
+                }
+
+    // Clean up this event, then go look for more
+
+                [eventTime release];
+                [eventData release];
             }
-            [eventLock unlock];
-            [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
-            if (nextRelease.timeIntervalSinceNow < 0.0) {
-                [nextRelease release];
-                nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
-                [threadPool release];
-                threadPool = [[NSAutoreleasePool alloc] init];
+            else {                                                        // No events left, sleep
+                if (!retainEvents) {                                    // If we're not retaining events, clear the buffer
+                    data.length = 0;                                 // Not safe to use clearEvents, because events
+                    lastRead = data.length;                           // might get posted between the unlock and lock.
+                }
+                [eventLock unlock];
+                [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
+//                if (nextRelease.timeIntervalSinceNow < 0.0) {
+//                    [nextRelease release];
+//                    nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
+//                    [threadPool release];
+//                    threadPool = [[NSAutoreleasePool alloc] init];
+//                }
             }
         }
     }
-    [nextRelease release];
-    [threadPool release];
+//    [nextRelease release];
+//    [threadPool release];
 }
 
 - (NSString *)fileName { 
@@ -668,16 +669,18 @@ This variant accepts only events definitions that include data definitions.
 
 - (void)threadedEventToBuffer:(NSData *)eventData;
 {
-    NSAutoreleasePool *threadPool= [[NSAutoreleasePool alloc] init];
-    
-    [eventLock lock];
-    [data appendData:eventData];
-    if (dataFileHandle != nil) {
-        [dataFileHandle writeData:eventData];
+//    NSAutoreleasePool *threadPool= [[NSAutoreleasePool alloc] init];
+
+    @autoreleasepool {
+        [eventLock lock];
+        [data appendData:eventData];
+        if (dataFileHandle != nil) {
+            [dataFileHandle writeData:eventData];
+        }
+        [eventLock unlock];
+        [eventData release];            // eventData is not release by eventToBuffer
     }
-    [eventLock unlock];
-    [eventData release];            // eventData is not release by eventToBuffer
-    [threadPool release];
-}    
+//    [threadPool release];
+}
 
 @end

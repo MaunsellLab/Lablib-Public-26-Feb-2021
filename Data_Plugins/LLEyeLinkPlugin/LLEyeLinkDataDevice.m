@@ -172,46 +172,48 @@ void handler(int signal) {
     int index = 0;
     short sample = 0;
     ISAMPLE oldSample, newSample;
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    oldSample.time = 0;
-    pollThread = [NSThread currentThread];
-    
-    while (YES) {
-        if (shouldKillThread) {
-            [pool release];
-            pollThread = nil;
-            [NSThread exit];
-        }
-        while ((index = eyelink_get_sample(&newSample))) {
-            if (index && (newSample.time != oldSample.time)) {
-                [dataLock lock];
-                if (!firstTrialSample) {
-                    ELTrialStartTimeMS = eyelink_tracker_msec();
-                    NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
-                    NSLog(@"EyeLink Sample Time stamp: %u", newSample.time);
-                    NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
-                    NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
-                    firstTrialSample = YES;
-                }
-                sample = (short)(newSample.gx[RIGHT_EYE]);
-                [rXData appendBytes:&sample length:sizeof(sample)];
-                sample = (short)(-newSample.gy[RIGHT_EYE]);
-                [rYData appendBytes:&sample length:sizeof(sample)];
-                sample = (short)(newSample.pa[RIGHT_EYE]);
-                [rPData appendBytes:&sample length:sizeof(sample)];                
-                sample = (short)(newSample.gx[LEFT_EYE]);
-                [lXData appendBytes:&sample length:sizeof(sample)];
-                sample = (short)(-newSample.gy[LEFT_EYE]);
-                [lYData appendBytes:&sample length:sizeof(sample)];
-                sample = (short)(newSample.pa[LEFT_EYE]);
-                [lPData appendBytes:&sample length:sizeof(sample)];
-                values.samples++;
-                [dataLock unlock];
-                oldSample = newSample;
+    @autoreleasepool {
+        oldSample.time = 0;
+        pollThread = [NSThread currentThread];
+
+        while (YES) {
+            if (shouldKillThread) {
+    //            [pool release];
+                pollThread = nil;
+                [NSThread exit];
             }
+            while ((index = eyelink_get_sample(&newSample))) {
+                if (index && (newSample.time != oldSample.time)) {
+                    [dataLock lock];
+                    if (!firstTrialSample) {
+                        ELTrialStartTimeMS = eyelink_tracker_msec();
+                        NSLog(@"Current eyeLink time: %li",ELTrialStartTimeMS);
+                        NSLog(@"EyeLink Sample Time stamp: %u", newSample.time);
+                        NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
+                        NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
+                        firstTrialSample = YES;
+                    }
+                    sample = (short)(newSample.gx[RIGHT_EYE]);
+                    [rXData appendBytes:&sample length:sizeof(sample)];
+                    sample = (short)(-newSample.gy[RIGHT_EYE]);
+                    [rYData appendBytes:&sample length:sizeof(sample)];
+                    sample = (short)(newSample.pa[RIGHT_EYE]);
+                    [rPData appendBytes:&sample length:sizeof(sample)];
+                    sample = (short)(newSample.gx[LEFT_EYE]);
+                    [lXData appendBytes:&sample length:sizeof(sample)];
+                    sample = (short)(-newSample.gy[LEFT_EYE]);
+                    [lYData appendBytes:&sample length:sizeof(sample)];
+                    sample = (short)(newSample.pa[LEFT_EYE]);
+                    [lPData appendBytes:&sample length:sizeof(sample)];
+                    values.samples++;
+                    [dataLock unlock];
+                    oldSample = newSample;
+                }
+            }
+            usleep(20000);                                        // sleep 20 ms
         }
-        usleep(20000);                                        // sleep 20 ms
     }
 }
 

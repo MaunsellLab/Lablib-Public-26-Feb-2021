@@ -250,7 +250,7 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
     long index, startGridDeg, stopGridDeg, gridDeg;
     float gridSpacingDeg, lineLength;
     BOOL modeValid,mouseValid;
-    NSAutoreleasePool *threadPool;
+//    NSAutoreleasePool *threadPool;
     NSPoint stimCenterDeg;
     NSRect stimRectDeg;
      Rect shieldRect = {-500, -500, 500, 500};
@@ -258,162 +258,164 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
     long frame = 0;
     BOOL cursorHidden = NO;
 
-    threadPool = [[NSAutoreleasePool alloc] init];        // create a threadPool for this thread
-    stimulusOn = YES;
-    
-    if (task.stimWindow.fullscreen) {
-        bounds = [displays displayBounds:displayIndex];
-        shieldRect.top = NSMaxY(bounds);
-        shieldRect.left = NSMinX(bounds);
-        shieldRect.bottom = NSMinY(bounds);
-        shieldRect.right = NSMaxX(bounds);
-    }
+    @autoreleasepool {
+//    threadPool = [[NSAutoreleasePool alloc] init];        // create a threadPool for this thread
+        stimulusOn = YES;
 
-// Set up the calibration, including the offset then present the stimulus sequence
-
-     gabor.temporalModulation = kDrifting;
-    gabor.temporalModulationParam = kSPhase;
-
-// We better have a dots movie ready to go in case someone switches from something else to dots midstimulus
-
-//    if (stimType == kDotsStimulus) {
-        [task.stimWindow lock];
-        [dots makeMovie:5000];
-        [task.stimWindow unlock];
-//    }
-    [monitor reset]; 
-    while (!stopStimulus) {
-    
-// If the cursor has moved onto or off of the display, update its visibility
-
-        if (!cursorHidden && task.stimWindow.mouseInside) {
-            CGDisplayHideCursor(kCGDirectMainDisplay);
-            cursorHidden = YES;
+        if (task.stimWindow.fullscreen) {
+            bounds = [displays displayBounds:displayIndex];
+            shieldRect.top = NSMaxY(bounds);
+            shieldRect.left = NSMinX(bounds);
+            shieldRect.bottom = NSMinY(bounds);
+            shieldRect.right = NSMaxX(bounds);
         }
-        else if (cursorHidden && !task.stimWindow.mouseInside) {
-            CGDisplayShowCursor(kCGDirectMainDisplay);
-            cursorHidden = NO;
-        }
-        [task.stimWindow lock];
-        task.stimWindow.scaleOffsetDeg = task.eyeCalibrator.offsetDeg;
-        [task.stimWindow scaleDisplay];
-        stimCenterDeg = task.stimWindow.mouseLocationDeg;
-        glClearColor(kMidGray, kMidGray, kMidGray, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
 
-// Display the grid
+    // Set up the calibration, including the offset then present the stimulus sequence
 
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoGridKey]) {
-            stimRectDeg = task.stimWindow.displayRectDeg;
-            gridSpacingDeg = [[NSUserDefaults standardUserDefaults] floatForKey:RFGridSpacingDegKey];
-            glPushMatrix();
-            glColor3f(kGridGray, kGridGray, kGridGray);
-            glLineWidth(1.0);
-            switch ([[NSUserDefaults standardUserDefaults] boolForKey:RFDisplayUnitsKey]) {
-            case kAzimuthElevation:
-                glBegin(GL_LINES);
-                startGridDeg = (long)(NSMinX(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
-                stopGridDeg = (long)(NSMaxX(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
-                for (gridDeg = startGridDeg; gridDeg <= stopGridDeg; gridDeg += gridSpacingDeg) {
-                    glVertex2f(gridDeg, NSMinY(stimRectDeg));
-                    glVertex2f(gridDeg, NSMaxY(stimRectDeg));
-                }
-                startGridDeg = (long)(NSMinY(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
-                stopGridDeg = (long)(NSMaxY(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
-                for (gridDeg = startGridDeg; gridDeg <= stopGridDeg; gridDeg += gridSpacingDeg) {
-                    glVertex2f(NSMinX(stimRectDeg), gridDeg);
-                    glVertex2f(NSMaxX(stimRectDeg), gridDeg);
-                }
-                glEnd();
-                break;
-            case kEccentricityAngle:
-                lineLength = 2.0 * NSWidth(stimRectDeg);
-                for (gridDeg = 30; gridDeg < 360; gridDeg += 30) {
+         gabor.temporalModulation = kDrifting;
+        gabor.temporalModulationParam = kSPhase;
+
+    // We better have a dots movie ready to go in case someone switches from something else to dots midstimulus
+
+    //    if (stimType == kDotsStimulus) {
+            [task.stimWindow lock];
+            [dots makeMovie:5000];
+            [task.stimWindow unlock];
+    //    }
+        [monitor reset];
+        while (!stopStimulus) {
+
+    // If the cursor has moved onto or off of the display, update its visibility
+
+            if (!cursorHidden && task.stimWindow.mouseInside) {
+                CGDisplayHideCursor(kCGDirectMainDisplay);
+                cursorHidden = YES;
+            }
+            else if (cursorHidden && !task.stimWindow.mouseInside) {
+                CGDisplayShowCursor(kCGDirectMainDisplay);
+                cursorHidden = NO;
+            }
+            [task.stimWindow lock];
+            task.stimWindow.scaleOffsetDeg = task.eyeCalibrator.offsetDeg;
+            [task.stimWindow scaleDisplay];
+            stimCenterDeg = task.stimWindow.mouseLocationDeg;
+            glClearColor(kMidGray, kMidGray, kMidGray, 0);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+    // Display the grid
+
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoGridKey]) {
+                stimRectDeg = task.stimWindow.displayRectDeg;
+                gridSpacingDeg = [[NSUserDefaults standardUserDefaults] floatForKey:RFGridSpacingDegKey];
+                glPushMatrix();
+                glColor3f(kGridGray, kGridGray, kGridGray);
+                glLineWidth(1.0);
+                switch ([[NSUserDefaults standardUserDefaults] boolForKey:RFDisplayUnitsKey]) {
+                case kAzimuthElevation:
                     glBegin(GL_LINES);
-                    glVertex2f(0, 0);
-                    glVertex2f(lineLength * cos(gridDeg * kRadiansPerDeg), 
-                                lineLength * sin(gridDeg * kRadiansPerDeg));
-                    glEnd();
-                }
-                stopGridDeg = MAX(fabs(NSMaxY(stimRectDeg)), fabs(NSMinY(stimRectDeg)));
-                stopGridDeg = MAX(stopGridDeg, fabs(NSMinX(stimRectDeg)));
-                stopGridDeg = MAX(stopGridDeg, fabs(NSMaxX(stimRectDeg))) * 1.5;
-                stopGridDeg = (long)(stopGridDeg / gridSpacingDeg) * gridSpacingDeg;
-                for (gridDeg = gridSpacingDeg; gridDeg <= stopGridDeg; gridDeg += gridSpacingDeg) {
-                    glBegin(GL_LINE_LOOP);
-                    for (index = 0; index < kCircleSteps; index++) {
-                        glVertex2f(rotationCos[index] * gridDeg, rotationSin[index] * gridDeg);
+                    startGridDeg = (long)(NSMinX(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
+                    stopGridDeg = (long)(NSMaxX(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
+                    for (gridDeg = startGridDeg; gridDeg <= stopGridDeg; gridDeg += gridSpacingDeg) {
+                        glVertex2f(gridDeg, NSMinY(stimRectDeg));
+                        glVertex2f(gridDeg, NSMaxY(stimRectDeg));
+                    }
+                    startGridDeg = (long)(NSMinY(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
+                    stopGridDeg = (long)(NSMaxY(stimRectDeg) / gridSpacingDeg) * gridSpacingDeg;
+                    for (gridDeg = startGridDeg; gridDeg <= stopGridDeg; gridDeg += gridSpacingDeg) {
+                        glVertex2f(NSMinX(stimRectDeg), gridDeg);
+                        glVertex2f(NSMaxX(stimRectDeg), gridDeg);
                     }
                     glEnd();
+                    break;
+                case kEccentricityAngle:
+                    lineLength = 2.0 * NSWidth(stimRectDeg);
+                    for (gridDeg = 30; gridDeg < 360; gridDeg += 30) {
+                        glBegin(GL_LINES);
+                        glVertex2f(0, 0);
+                        glVertex2f(lineLength * cos(gridDeg * kRadiansPerDeg),
+                                    lineLength * sin(gridDeg * kRadiansPerDeg));
+                        glEnd();
+                    }
+                    stopGridDeg = MAX(fabs(NSMaxY(stimRectDeg)), fabs(NSMinY(stimRectDeg)));
+                    stopGridDeg = MAX(stopGridDeg, fabs(NSMinX(stimRectDeg)));
+                    stopGridDeg = MAX(stopGridDeg, fabs(NSMaxX(stimRectDeg))) * 1.5;
+                    stopGridDeg = (long)(stopGridDeg / gridSpacingDeg) * gridSpacingDeg;
+                    for (gridDeg = gridSpacingDeg; gridDeg <= stopGridDeg; gridDeg += gridSpacingDeg) {
+                        glBegin(GL_LINE_LOOP);
+                        for (index = 0; index < kCircleSteps; index++) {
+                            glVertex2f(rotationCos[index] * gridDeg, rotationSin[index] * gridDeg);
+                        }
+                        glEnd();
+                    }
+                    break;
                 }
-                break;
+                glLineWidth(2.0);
+                glBegin(GL_LINES);
+                glVertex2f(0, NSMinY(stimRectDeg));
+                glVertex2f(0, NSMaxY(stimRectDeg));
+                glVertex2f(NSMinX(stimRectDeg), 0);
+                glVertex2f(NSMaxX(stimRectDeg), 0);
+                glEnd();
+                glLineWidth(1.0);
+                glPopMatrix();
             }
-            glLineWidth(2.0);
-            glBegin(GL_LINES);
-            glVertex2f(0, NSMinY(stimRectDeg));
-            glVertex2f(0, NSMaxY(stimRectDeg));
-            glVertex2f(NSMinX(stimRectDeg), 0);
-            glVertex2f(NSMaxX(stimRectDeg), 0);
-            glEnd();
-            glLineWidth(1.0);
-            glPopMatrix();
-        }
-        
-// Only display if we are in the correct behavioral state and mouse button enabling is correct.
 
-        modeValid = (behaviorMode >= displayMode);
-        mouseValid = (mouseButtonDown || !doMouseGate);
-        if (modeValid && mouseValid) {
-            switch (stimType) {
-            case kGaborStimulus:
-                [gabor directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
-                [gabor setFrame:@(frame)];
-                [gabor draw];
-                break;
-            case kBarStimulus:
-                [bar directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
-                [bar draw];
-                break;
-            case kDotsStimulus:
-                [dots directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
-                [dots setFrame:@(frame % dots.movieFrames)];
-                [dots draw];
-                break;
-            case kPlaidStimulus:
-                [plaid directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
-                [plaid setFrame:@(frame)];
-                [plaid draw];
-                break;
-                default:
-                break;
+    // Only display if we are in the correct behavioral state and mouse button enabling is correct.
+
+            modeValid = (behaviorMode >= displayMode);
+            mouseValid = (mouseButtonDown || !doMouseGate);
+            if (modeValid && mouseValid) {
+                switch (stimType) {
+                case kGaborStimulus:
+                    [gabor directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
+                    [gabor setFrame:@(frame)];
+                    [gabor draw];
+                    break;
+                case kBarStimulus:
+                    [bar directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
+                    [bar draw];
+                    break;
+                case kDotsStimulus:
+                    [dots directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
+                    [dots setFrame:@(frame % dots.movieFrames)];
+                    [dots draw];
+                    break;
+                case kPlaidStimulus:
+                    [plaid directSetAzimuthDeg:stimCenterDeg.x elevationDeg:stimCenterDeg.y];
+                    [plaid setFrame:@(frame)];
+                    [plaid draw];
+                    break;
+                    default:
+                    break;
+                }
             }
+            [fixSpot draw];
+            [[NSOpenGLContext currentContext] flushBuffer];
+            [task.stimWindow unlock];
+            glFinish();
+            [monitor recordEvent];
+            frame++;
         }
-        [fixSpot draw];
+
+        [monitor reset];
+
+        // Clear the display and leave the back buffer cleared
+
+        [task.stimWindow lock];
+        glClear(GL_COLOR_BUFFER_BIT);
         [[NSOpenGLContext currentContext] flushBuffer];
-        [task.stimWindow unlock];
         glFinish();
-        [monitor recordEvent];
-        frame++;
+        [task.stimWindow unlock];
+        [task.dataDoc putEvent:@"stimulusOff" withData:&frame];
+
+    // The temporal counterphase might have changed some settings.  We restore these here.
+
+        if (cursorHidden) {
+            CGDisplayShowCursor(kCGDirectMainDisplay);
+        }
+        stimulusOn = NO;
     }
-
-    [monitor reset];
-
-    // Clear the display and leave the back buffer cleared
-
-    [task.stimWindow lock];
-    glClear(GL_COLOR_BUFFER_BIT);
-    [[NSOpenGLContext currentContext] flushBuffer];
-    glFinish();
-    [task.stimWindow unlock];
-    [task.dataDoc putEvent:@"stimulusOff" withData:&frame];
-
-// The temporal counterphase might have changed some settings.  We restore these here.
-
-    if (cursorHidden) {
-        CGDisplayShowCursor(kCGDirectMainDisplay);
-    }
-    stimulusOn = NO;
-    [threadPool release];
+//    [threadPool release];
 }
 
 - (BOOL)stimulusOn;

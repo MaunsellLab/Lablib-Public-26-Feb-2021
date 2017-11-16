@@ -558,50 +558,22 @@ long ELTrialStartTimeMS;
 
 - (void)pollSamples;
 {
-//    int index = 0;
-//    short sample = 0;
+//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-//    ISAMPLE oldSample, newSample;
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-//    oldSample.time = 0;
-    pollThread = [NSThread currentThread];
-    while (YES) {
-        if (shouldKillPolling) {
-            [pool release];
-            pollThread = nil;
-            [NSThread exit];
+    @autoreleasepool {
+        pollThread = [NSThread currentThread];
+        while (YES) {
+            if (shouldKillPolling) {
+    //            [pool release];
+                pollThread = nil;
+                [NSThread exit];
+            }
+            [dataLock lock];
+            [self readLeverDI:&lever1 lever2:&lever2];
+            values.samples++;
+            [dataLock unlock];
+            usleep(kUpdatePeriodUS);                                        // sleep 15 ms
         }
-//        while ((index = eyelink_get_sample(&newSample))) {
-//            if (index && (newSample.time != oldSample.time)) {
-        [dataLock lock];
-        [self readLeverDI:&lever1 lever2:&lever2];
-//                if (!firstTrialSample) {
-//                    ELTrialStartTimeMS = eyelink_tracker_msec();
-//                    NSLog(@"Current LabJackU6 time: %li",ELTrialStartTimeMS);
-//                    NSLog(@"LabJackU6 Sample Time stamp: %u", newSample.time);
-//                    NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
-//                    NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
-//                    firstTrialSample = YES;
-//                }
-//                sample = (short)(newSample.gx[RIGHT_EYE]);
-//                [rXData appendBytes:&sample length:sizeof(sample)];
-//                sample = (short)(-newSample.gy[RIGHT_EYE]);
-//                [rYData appendBytes:&sample length:sizeof(sample)];
-//                sample = (short)(newSample.pa[RIGHT_EYE]);
-//                [rPData appendBytes:&sample length:sizeof(sample)];                
-//                sample = (short)(newSample.gx[LEFT_EYE]);
-//                [lXData appendBytes:&sample length:sizeof(sample)];
-//                sample = (short)(-newSample.gy[LEFT_EYE]);
-//                [lYData appendBytes:&sample length:sizeof(sample)];
-//                sample = (short)(newSample.pa[LEFT_EYE]);
-//                [lPData appendBytes:&sample length:sizeof(sample)];
-                values.samples++;
-                [dataLock unlock];
-//                oldSample = newSample;
-//            }
-//        }
-        usleep(kUpdatePeriodUS);                                        // sleep 15 ms
     }
 }
 

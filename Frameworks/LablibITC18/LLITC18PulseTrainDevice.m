@@ -397,46 +397,48 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     short index, *samples, *pSamples, *channelSamples[ITC18_NUMBEROFDACOUTPUTS];
     long sets, set;
     int available;
-    NSAutoreleasePool *threadPool = [[NSAutoreleasePool alloc] init];        // create a threadPool for this thread
+//    NSAutoreleasePool *threadPool = [[NSAutoreleasePool alloc] init];        // create a threadPool for this thread
 
-    sets = bufferLength / (channels + 1);                                        // number of sample sets in stim
-    samples = malloc(sizeof(short) * bufferLength);
-    for (index = 0; index < channels; index++) {
-        channelSamples[index] = malloc(sizeof(short) * sets);
-    }
-
-// When a sequence is started, the first three entries in the FIFO are garbage.  They should be thrown out.  
-    
-    while ((available = [self getAvailable]) < kGarbageLength + 1) {
-        usleep(1000);
-    }
-    [deviceLock lock];            // Wait here for the lock, then check time again
-    ITC18_ReadFIFO(itc, kGarbageLength, samples);
-    [deviceLock unlock];
-    
-// Wait for the stimulus to be over.
-    
-    while ((available = [self getAvailable]) < bufferLength) {
-        usleep(10000);
-    }
-
-// When all the samples are available, read them and unpack them
-    
-    [deviceLock lock];            // Wait here for the lock, then check time again
-    ITC18_ReadFIFO(itc, (int)bufferLength, samples);                            // read all available sets
-    [deviceLock unlock];
-    for (set = 0; set < sets; set++) {                                    // process each set
-        pSamples = &samples[(channels + 1) * set];                        // point to start of a set
-        for (index = 0; index < channels; index++) {                    // for every channel
-            channelSamples[index][set] = *pSamples++;
+    @autoreleasepool {
+        sets = bufferLength / (channels + 1);                                        // number of sample sets in stim
+        samples = malloc(sizeof(short) * bufferLength);
+        for (index = 0; index < channels; index++) {
+            channelSamples[index] = malloc(sizeof(short) * sets);
         }
+
+    // When a sequence is started, the first three entries in the FIFO are garbage.  They should be thrown out.
+
+        while ((available = [self getAvailable]) < kGarbageLength + 1) {
+            usleep(1000);
+        }
+        [deviceLock lock];            // Wait here for the lock, then check time again
+        ITC18_ReadFIFO(itc, kGarbageLength, samples);
+        [deviceLock unlock];
+
+    // Wait for the stimulus to be over.
+
+        while ((available = [self getAvailable]) < bufferLength) {
+            usleep(10000);
+        }
+
+    // When all the samples are available, read them and unpack them
+
+        [deviceLock lock];            // Wait here for the lock, then check time again
+        ITC18_ReadFIFO(itc, (int)bufferLength, samples);                            // read all available sets
+        [deviceLock unlock];
+        for (set = 0; set < sets; set++) {                                    // process each set
+            pSamples = &samples[(channels + 1) * set];                        // point to start of a set
+            for (index = 0; index < channels; index++) {                    // for every channel
+                channelSamples[index][set] = *pSamples++;
+            }
+        }
+        for (index = 0; index < channels; index++) {
+            [inputSamples[index] release];                                  // release samples from previous stim cycle
+            inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
+        }
+        samplesReady = YES;                                                 // flag that the input is all read in
+//        [threadPool release];
     }
-    for (index = 0; index < channels; index++) {
-        [inputSamples[index] release];                                  // release samples from previous stim cycle
-        inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
-    }
-    samplesReady = YES;                                                 // flag that the input is all read in
-    [threadPool release];
 }
 
 - (NSData **)sampleData;

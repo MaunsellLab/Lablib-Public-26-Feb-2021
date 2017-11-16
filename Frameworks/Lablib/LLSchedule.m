@@ -46,87 +46,89 @@
 - (void)run {
 
     unsigned long index;
-    NSDate *targetDate, *tempDate, *nextRelease;
+    NSDate *targetDate, *tempDate;
     double latencyS;
-    NSAutoreleasePool *threadPool;
+//    NSAutoreleasePool *threadPool;
 
 // Initialize and get the start time for this schedule
 
-    threadPool = [[NSAutoreleasePool alloc] init];
-    nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
-    maximum = -1000000;
-    minimum = 1000000;
-    n = sum = sumsq = 0;
-    startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
-//    [startDate retain];
+//    threadPool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
+//        nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
+        maximum = -1000000;
+        minimum = 1000000;
+        n = sum = sumsq = 0;
+        startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+    //    [startDate retain];
 
-// If there is a delay before the first execution, delay here
+    // If there is a delay before the first execution, delay here
 
-    if (delayS > 0) {
-        targetDate = [startDate dateByAddingTimeInterval:delayS];
-        if (targetDate.timeIntervalSinceNow > 0) {
-            [NSThread sleepUntilDate:targetDate];
+        if (delayS > 0) {
+            targetDate = [startDate dateByAddingTimeInterval:delayS];
+            if (targetDate.timeIntervalSinceNow > 0) {
+                [NSThread sleepUntilDate:targetDate];
+            }
+            latencyS = -targetDate.timeIntervalSinceNow;
+            n++;
+            sum += latencyS;
+            sumsq += latencyS * latencyS;
+            maximum = MAX(maximum, latencyS);
+            minimum = MIN(minimum, latencyS);
         }
-        latencyS = -targetDate.timeIntervalSinceNow;
-        n++;
-        sum += latencyS;
-        sumsq += latencyS * latencyS;
-        maximum = MAX(maximum, latencyS);
-        minimum = MIN(minimum, latencyS);
-    }
-    
-    for (index = 0; index < count || count == 0; index++) {
-        function(target, selector, object);            // Run the function one time
-        
-// If it is not yet time for the next execution, make the thread sleep
 
-        targetDate = [startDate dateByAddingTimeInterval:(delayS + (index + 1) * periodS)];
-        if (targetDate.timeIntervalSinceNow > 0) {
-            [NSThread sleepUntilDate:targetDate];
-            if (nextRelease.timeIntervalSinceNow < 0.0) {
-                [threadPool release];
-                threadPool = [[NSAutoreleasePool alloc] init];
-                nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
+        for (index = 0; index < count || count == 0; index++) {
+            function(target, selector, object);            // Run the function one time
+
+    // If it is not yet time for the next execution, make the thread sleep
+
+            targetDate = [startDate dateByAddingTimeInterval:(delayS + (index + 1) * periodS)];
+            if (targetDate.timeIntervalSinceNow > 0) {
+                [NSThread sleepUntilDate:targetDate];
+//                if (nextRelease.timeIntervalSinceNow < 0.0) {
+//                    [threadPool release];
+//                    threadPool = [[NSAutoreleasePool alloc] init];
+//                    nextRelease = [NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntS];
+//                }
+            }
+            latencyS = -targetDate.timeIntervalSinceNow;
+
+    // If we are allowed to drop runs, and we are behind, skip the missed runs
+
+            if (dropOutOK) {
+                while (latencyS >= periodS) {
+                    index++;
+                    latencyS -= periodS;
+                }
+            }
+            n++;
+            sum += latencyS;
+            sumsq += latencyS * latencyS;
+            maximum = MAX(maximum, latencyS);
+            minimum = MIN(minimum, latencyS);
+
+    // If it is time to update the statistics, do that now
+
+            [self updateStats:false];
+
+    // Check for index overflow
+
+            if (index == ULONG_MAX) {
+                tempDate = [startDate dateByAddingTimeInterval:index * periodS];
+                [startDate release];
+                startDate = tempDate;
+                [startDate retain];
+                index = 0;
+            }
+            if (abortFlag) {
+                break;
             }
         }
-        latencyS = -targetDate.timeIntervalSinceNow;
 
-// If we are allowed to drop runs, and we are behind, skip the missed runs
-
-        if (dropOutOK) {
-            while (latencyS >= periodS) {
-                index++;
-                latencyS -= periodS;
-            }
-        }
-        n++;
-        sum += latencyS;
-        sumsq += latencyS * latencyS;
-        maximum = MAX(maximum, latencyS);
-        minimum = MIN(minimum, latencyS);
-        
-// If it is time to update the statistics, do that now
-
-        [self updateStats:false];
-
-// Check for index overflow
-
-        if (index == ULONG_MAX) {
-            tempDate = [startDate dateByAddingTimeInterval:index * periodS];
-            [startDate release];
-            startDate = tempDate;
-            [startDate retain];
-            index = 0;
-        }
-        if (abortFlag) {
-            break;
-        }
+        [self updateStats:true];
+        [startDate release];
+        [controller scheduleCompleted:self];
     }
-
-    [self updateStats:true];
-    [startDate release];
-    [controller scheduleCompleted:self];
-    [threadPool release];
+//    [threadPool release];
 }
 
 // Pass the statistics back to the schedule controller.  If the mustUpdate flag is set,
