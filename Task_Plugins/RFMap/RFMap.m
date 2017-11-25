@@ -85,7 +85,7 @@ LLTaskPlugIn    *task = nil;
 { 
     NSMenu *mainMenu = NSApp.mainMenu;
     
-    if (active) {
+    if (self.active) {
         return;
     }
 // Insert Actions and Settings menus into menu bar
@@ -104,37 +104,37 @@ LLTaskPlugIn    *task = nil;
     
 // Create on-line display windows
 
-    [dataDoc defineEvents:[LLStandardDataEvents eventsWithDataDefs] count:[LLStandardDataEvents countOfEventsWithDataDefs]];
-    [task.dataDoc defineEvents:RFEvents count:(sizeof(RFEvents) / sizeof(EventDefinition))];
+    [self.dataDoc defineEvents:[LLStandardDataEvents eventsWithDataDefs] count:[LLStandardDataEvents countOfEventsWithDataDefs]];
+    [task.self.dataDoc defineEvents:RFEvents count:(sizeof(RFEvents) / sizeof(EventDefinition))];
 
     [controlPanel.window orderFront:self];
     
     eyeXYController = [[RFEyeXYController alloc] init];
-    [task.dataDoc addObserver:eyeXYController];
+    [task.self.dataDoc addObserver:eyeXYController];
 
     summaryController = [[RFSummaryController alloc] init];
-    [task.dataDoc addObserver:summaryController];
+    [task.self.dataDoc addObserver:summaryController];
  
     xtController = [[RFXTController alloc] init];
-    [task.dataDoc addObserver:xtController];
+    [task.self.dataDoc addObserver:xtController];
     
     // Set up the data collector to handle our data types
-    //[dataController assignGroupedSampleData:eyeDataAssignment groupCount:2];
-    [dataController assignSampleData:eyeRXDataAssignment];
-    [dataController assignSampleData:eyeRYDataAssignment];
-    [dataController assignSampleData:eyeRPDataAssignment];
-    [dataController assignSampleData:eyeLXDataAssignment];
-    [dataController assignSampleData:eyeLYDataAssignment];
-    [dataController assignSampleData:eyeLPDataAssignment];
+    //[self.dataController assignGroupedSampleData:eyeDataAssignment groupCount:2];
+    [self.dataController assignSampleData:eyeRXDataAssignment];
+    [self.dataController assignSampleData:eyeRYDataAssignment];
+    [self.dataController assignSampleData:eyeRPDataAssignment];
+    [self.dataController assignSampleData:eyeLXDataAssignment];
+    [self.dataController assignSampleData:eyeLYDataAssignment];
+    [self.dataController assignSampleData:eyeLPDataAssignment];
     
-    [dataController assignTimestampData:VBLDataAssignment];
-    [dataController assignTimestampData:spikeDataAssignment];
-    [dataController assignDigitalInputDevice:@"Synthetic"];
-    [dataController assignDigitalOutputDevice:@"Synthetic"];
+    [self.dataController assignTimestampData:VBLDataAssignment];
+    [self.dataController assignTimestampData:spikeDataAssignment];
+    [self.dataController assignDigitalInputDevice:@"Synthetic"];
+    [self.dataController assignDigitalOutputDevice:@"Synthetic"];
     collectorTimer = [NSTimer scheduledTimerWithTimeInterval:kSamplePeriodS target:self 
             selector:@selector(dataCollect:) userInfo:nil repeats:YES];
 
-    [task.dataDoc addObserver:stateSystem];
+    [task.self.dataDoc addObserver:stateSystem];
     [stateSystem startWithCheckIntervalMS:5];                // Start the experiment state system
     
 // Most users want the fixation spot to hold still during RFMap, so we set it to zero 
@@ -148,7 +148,7 @@ LLTaskPlugIn    *task = nil;
     displayTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:kPositionUpdateS target:self 
             selector:@selector(displayPosition:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:displayTimer forMode:NSDefaultRunLoopMode];
-    active = YES;
+    self.active = YES;
 }
 
 // The following function is called after the nib has finished loading.  It is the correct
@@ -176,54 +176,54 @@ LLTaskPlugIn    *task = nil;
     NSData *data;
     //short *pEyeData;
     
-    //if ((data = [dataController dataOfType:@"eyeData"]) != nil) {
-    //    [dataDoc putEvent:@"eyeData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+    //if ((data = [self.dataController dataOfType:@"eyeData"]) != nil) {
+    //    [self.dataDoc putEvent:@"eyeData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
     //    pEyeData = (short *)([data bytes] + [data length] - 2 * sizeof(short));
     //    currentEyeDeg = [[task eyeCalibrator] degPointFromUnitPoint:NSMakePoint(pEyeData[0], pEyeData[1])];
     //}
     
-    if ((data = [dataController dataOfType:@"eyeLXData"]) != nil) {
-        [dataDoc putEvent:@"eyeLXData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"eyeLXData"]) != nil) {
+        [self.dataDoc putEvent:@"eyeLXData" withData:(Ptr)data.bytes lengthBytes:data.length];
         currentEyesUnits[kLeftEye].x = *(short *)(data.bytes + data.length - sizeof(short));
     }
-    if ((data = [dataController dataOfType:@"eyeLYData"]) != nil) {
-        [dataDoc putEvent:@"eyeLYData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"eyeLYData"]) != nil) {
+        [self.dataDoc putEvent:@"eyeLYData" withData:(Ptr)data.bytes lengthBytes:data.length];
         currentEyesUnits[kLeftEye].y = *(short *)(data.bytes + data.length - sizeof(short));
         currentEyesDeg[kLeftEye] = [task.eyeCalibrator degPointFromUnitPoint:currentEyesUnits[kLeftEye] forEye:kLeftEye];
     }
-    if ((data = [dataController dataOfType:@"eyeLPData"]) != nil) {
-        [dataDoc putEvent:@"eyeLPData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"eyeLPData"]) != nil) {
+        [self.dataDoc putEvent:@"eyeLPData" withData:(Ptr)data.bytes lengthBytes:data.length];
     }
-    if ((data = [dataController dataOfType:@"eyeRXData"]) != nil) {
-        [dataDoc putEvent:@"eyeRXData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"eyeRXData"]) != nil) {
+        [self.dataDoc putEvent:@"eyeRXData" withData:(Ptr)data.bytes lengthBytes:data.length];
         currentEyesUnits[kRightEye].x = *(short *)(data.bytes + data.length - sizeof(short));
     }
-    if ((data = [dataController dataOfType:@"eyeRYData"]) != nil) {
-        [dataDoc putEvent:@"eyeRYData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"eyeRYData"]) != nil) {
+        [self.dataDoc putEvent:@"eyeRYData" withData:(Ptr)data.bytes lengthBytes:data.length];
         currentEyesUnits[kRightEye].y = *(short *)(data.bytes + data.length - sizeof(short));
         currentEyesDeg[kRightEye] = [task.eyeCalibrator degPointFromUnitPoint:currentEyesUnits[kRightEye]
                                                                          forEye:kRightEye];
     }
-    if ((data = [dataController dataOfType:@"eyeRPData"]) != nil) {
-        [dataDoc putEvent:@"eyeRPData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"eyeRPData"]) != nil) {
+        [self.dataDoc putEvent:@"eyeRPData" withData:(Ptr)data.bytes lengthBytes:data.length];
     }
-    if ((data = [dataController dataOfType:@"VBLData"]) != nil) {
-        [dataDoc putEvent:@"VBLData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"VBLData"]) != nil) {
+        [self.dataDoc putEvent:@"VBLData" withData:(Ptr)data.bytes lengthBytes:data.length];
     }
-    if ((data = [dataController dataOfType:@"spikeData"]) != nil) {
-        [dataDoc putEvent:@"spikeData" withData:(Ptr)data.bytes lengthBytes:data.length];
+    if ((data = [self.dataController dataOfType:@"spikeData"]) != nil) {
+        [self.dataDoc putEvent:@"spikeData" withData:(Ptr)data.bytes lengthBytes:data.length];
     }
 }
 
 - (void)deactivate:(id)sender;
 {
-    if (!active) {
+    if (!self.active) {
         return;
     }
     
 // Stop data collection
 
-    [dataController setDataEnabled:@NO];
+    [self.dataController setDataEnabled:@NO];
     [collectorTimer invalidate];
     [displayTimer invalidate];
     [displayTimer release];
@@ -233,11 +233,11 @@ LLTaskPlugIn    *task = nil;
     [stateSystem stop];
     while (stateSystem.running) {};
 
-    [task.dataDoc removeObserver:stateSystem];
-    [task.dataDoc removeObserver:eyeXYController];
-    [task.dataDoc removeObserver:summaryController];
-    [task.dataDoc removeObserver:xtController];
-    [task.dataDoc clearEventDefinitions];
+    [task.self.dataDoc removeObserver:stateSystem];
+    [task.self.dataDoc removeObserver:eyeXYController];
+    [task.self.dataDoc removeObserver:summaryController];
+    [task.self.dataDoc removeObserver:xtController];
+    [task.self.dataDoc clearEventDefinitions];
 
 // Remove Actions and Settings menus from menu bar
      
@@ -261,13 +261,13 @@ LLTaskPlugIn    *task = nil;
     [stimuli releaseStimuli];
     [stimuli release];
     [self.settingsController extractSettings];
-    active = NO;
+    self.active = NO;
 }
 
 - (void)dealloc;
 {
     while (stateSystem.running) {};        // wait for state system to stop, then release it
-    [task.dataDoc removeObserver:stateSystem];
+    [task.self.dataDoc removeObserver:stateSystem];
     [stateSystem release];
     [actionsMenuItem release];
     [settingsMenuItem release];
@@ -325,7 +325,7 @@ LLTaskPlugIn    *task = nil;
     NSSound *juiceSound;
     
     juiceMS = [[NSUserDefaults standardUserDefaults] integerForKey:RFRewardMSKey];
-    [task.dataController digitalOutputBitsOff:kRewardBit];
+    [task.self.dataController digitalOutputBitsOff:kRewardBit];
     [scheduler schedule:@selector(doJuiceOff) toTarget:self withObject:nil delayMS:juiceMS];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
         juiceSound = [NSSound soundNamed:@"Correct"];
@@ -338,7 +338,7 @@ LLTaskPlugIn    *task = nil;
 
 - (void)doJuiceOff;
 {
-    [task.dataController digitalOutputBitsOn:kRewardBit];
+    [task.self.dataController digitalOutputBitsOn:kRewardBit];
 }
 
 - (IBAction)doReset:(id)sender;
@@ -504,7 +504,7 @@ LLTaskPlugIn    *task = nil;
     taskStatus.mode = newMode;
     [[NSUserDefaults standardUserDefaults] setInteger:newMode forKey:RFTaskStatusKey];
     controlPanel.taskMode = taskStatus.mode;
-    [task.dataDoc putEvent:@"taskMode" withData:&newMode];
+    [task.self.dataDoc putEvent:@"taskMode" withData:&newMode];
     switch (taskStatus.mode) {
     case kTaskRunning:
     case kTaskStopping:
@@ -525,7 +525,7 @@ LLTaskPlugIn    *task = nil;
     if (taskStatus.dataFileOpen != state) {
         taskStatus.dataFileOpen = state;
         if (taskStatus.dataFileOpen) {
-            [controlPanel displayFileName:task.dataDoc.filePath.lastPathComponent.stringByDeletingPathExtension];
+            [controlPanel displayFileName:task.self.dataDoc.filePath.lastPathComponent.stringByDeletingPathExtension];
             [controlPanel setResetButtonEnabled:NO];
         }
         else {

@@ -17,16 +17,7 @@
 
 - (void)activate;
 {
-}
-
-- (BOOL)active;
-{
-    return active;
-}
-
-- (LLDataDoc *)dataDoc;
-{
-    return dataDoc;
+    self.active = YES;
 }
 
 - (NSTimer *)collectorTimer;
@@ -44,33 +35,24 @@
     return currentEyesDeg;
 }
 
-- (LLDataDeviceController *)dataController;
-{
-    return dataController;
-}
-
 - (void)deactivate:(id)sender;
 {
+    self.active = NO;
 }
 
 - (void)dealloc;
 {
     [monkeySoundDict release];
     [mouseSoundDict release];
-    [dataDoc release];
+    [self.dataDoc release];
     [defaults release];
     [eyeCalibrator release];
     [stimWindow release];
     [synthDataDevice release];
     [lastDataCollectionDate release];
     [settingsController release];
-    [host release];
+    [self.host release];
     [super dealloc];
-}
-
-- (NSString *)defaultDataFolder;
-{
-    return [NSString stringWithFormat:@"/Users/Shared/Data/%@", self.name];
 }
 
 - (LLUserDefaults *)defaults;
@@ -213,18 +195,6 @@
     return displayMode;
 }
 
-- (void)setDataDocument:(LLDataDoc *)doc;
-{
-    [dataDoc release];
-    dataDoc = doc;
-    [dataDoc retain];
-}
-
-- (void)setDataDeviceController:(LLDataDeviceController *)controller;
-{
-    dataController = controller;
-}
-
 - (void)setDefaults:(LLUserDefaults *)newDefaults;
 {
     [defaults release];
@@ -237,13 +207,6 @@
     [eyeCalibrator release];
     eyeCalibrator = calibrator;
     [eyeCalibrator retain];
-}
-
-- (void)setHost:(id)newHost;
-{
-    [host release];
-    host = newHost;
-    [host retain];
 }
 
 - (void)setInitialized:(BOOL)state;

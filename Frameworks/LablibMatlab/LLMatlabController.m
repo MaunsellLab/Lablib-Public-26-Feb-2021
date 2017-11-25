@@ -9,12 +9,11 @@
 #import <Lablib/LLSystemUtil.h>
 
 #define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
-//#define kMatlabTrialNumKey          [NSString stringWithFormat:@"%@TrialNum%ld", matFileName, subjectNumber]
 #define kTrialStartEventName        @"trialStart"
 
 @implementation LLMatlabController : NSObject
 
-// The task need to have defined all the task events with the dataDoc before the Matlab controller is activated
+// The task must have defined all the task events with the dataDoc before the Matlab controller is activated
 
 - (void)activate:(LLTaskPlugIn *)plugin;
 {
@@ -57,7 +56,6 @@
             }
         }
     }
-
     engine = task.matlabEngine;
     [engine addMatlabPathForPlugin:plugin.name];
     [engine evalString:matlabInitScriptCommand];
@@ -352,7 +350,6 @@
     [self checkMatlabDataPath:@"PDFs"];
     path = [NSString stringWithFormat:@"%@%ld/PDFs/%@", kMatlabDataPath, subjectNumber,
             [dateFormatter stringFromDate:[NSDate date]]];
-    //    [engine evalString:[NSString stringWithFormat:@"print('%@', '-dpdf')", path]];
     [engine evalString:[NSString stringWithFormat:@"saveFigureAsPDF(1, '%@')", path]];
 }
 
@@ -365,7 +362,6 @@
     path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
             [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"save '%@'", path]];
-//    [[task defaults] setObject:[NSNumber numberWithLong:trialNum] forKey:kMatlabTrialNumKey];
 }
 
 /*
@@ -384,7 +380,6 @@
     NSString *key, *prefix;
     NSArray *valueStrings;
     NSMutableString *bundleString, *matlabString;
-
 
     prefix = [NSString stringWithFormat:@"trials(%ld).", trialNum];
     enumerator = [bundledEvents keyEnumerator];
@@ -412,21 +407,5 @@
         }
     }
 }
-
-//===============================================================================================================
-//
-// The following are methods supporting LLDataEvents.  They are called by virtue of making the LLMatlabController
-// an event observer when we activate (addObserver:self).
-//
-//===============================================================================================================
-// File events.  These are typically declared once, at the start of running, or at a reset
-//
-
-
-
-
-//===============================================================================================================
-// Trial events.  These are typically declared every trial, at the start of running, or at a reset
-//
 
 @end

@@ -5,15 +5,14 @@
 // This controller is set to be a delegate for the application.
 //
 //  Created by John Maunsell on Fri Apr 11 2003.
-//  Copyright (c) 2005-2012. All rights reserved.
-//
+//  Copyright (c) 2003-2012. All rights reserved.
 
 #import "Knot.h" 
 #import "KNAppController.h"
 #import "KNSummaryController.h"
-#import <LablibITC18/LLITC18DataDevice.h>
-#import <Foundation/NSDebug.h>
-#import <ExceptionHandling/NSExceptionHandler.h>
+//#import <LablibITC18/LLITC18DataDevice.h>
+//#import <Foundation/NSDebug.h>
+//#import <ExceptionHandling/NSExceptionHandler.h>
 
 char *idString = "Knot Version 2.2";
 
@@ -28,7 +27,6 @@ char *idString = "Knot Version 2.2";
 #define kUseNE500PumpKey    @"KNUseNE500Pump"
 #define kUseSocketKey       @"KNUseSocket"
 #define kWritingDataFile    @"KNWritingDataFile"
-
 
 @implementation KNAppController
 
@@ -75,15 +73,6 @@ char *idString = "Knot Version 2.2";
             withKeyPath:[NSString stringWithFormat:@"values.%@", self.currentDataKey]
             options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
             forKey:@"NSContinuouslyUpdatesValue"]];
-//        if ([currentTask respondsToSelector:prefSelector]) {
-//            pluginPrefMenuItem.title = [NSString stringWithFormat:@"%@ Preferences…", currentTask.name];
-//            pluginPrefMenuItem.target = currentTask;
-//            pluginPrefMenuItem.action = prefSelector;
-//            pluginPrefMenuItem.hidden = NO;
-//        }
-//        else {
-//            pluginPrefMenuItem.hidden = YES;
-//        }
         NSLog(@"Activating task %@", currentTask.name);
         [stimWindow setDisplayMode:currentTask.requestedDisplayMode];
         [currentTask activate];
@@ -219,7 +208,7 @@ char *idString = "Knot Version 2.2";
 {
     long c, displayIndex;
     NSSize stimWindowSize;
-    LLDisplays    *displays;
+    LLDisplays *displays;
     NSRect dRect;
     NSURL *calibrationURL;
 
@@ -326,9 +315,9 @@ char *idString = "Knot Version 2.2";
             if (!task.initialized) {
                 [task setHost:self];
                 task.defaults = defaults;
-                [task setDataDeviceController:dataDeviceController];
+                task.dataController = dataDeviceController;
                 task.synthDataDevice = synthDataDevice;
-                [task setDataDocument:dataDoc];
+                task.dataDoc = dataDoc;
                 task.eyeCalibrator = eyeCalibration;
                 task.matlabEngine = matlabEngine;
                 task.monitorController = monitorController;
@@ -529,7 +518,6 @@ char *idString = "Knot Version 2.2";
     transformer = [[[LLTaskStatusTransformer alloc] init] autorelease];
     [transformer setTransformerType:kLLTaskStatusNoFile];
     [NSValueTransformer setValueTransformer:transformer forName:@"TaskStatusNoFileTransformer"];
-
     return self;
 }
 
@@ -544,8 +532,7 @@ char *idString = "Knot Version 2.2";
     NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleExecutable"];
 
     [bundlePaths addObjectsFromArray:[LLSystemUtil allBundlesWithExtension:@"plugin" 
-            appSubPath:[NSString stringWithFormat:@"Application Support/%@/Plugins",
-            appName]]];
+            appSubPath:[NSString stringWithFormat:@"Application Support/%@/Plugins", appName]]];
     enumerator = [bundlePaths objectEnumerator];
     while ((currPath = [enumerator nextObject])) {
         if ((currBundle = [NSBundle bundleWithPath:currPath]) != nil) {
@@ -723,7 +710,6 @@ char *idString = "Knot Version 2.2";
 {
     [rewardPump showWindow:self];
 }
-
 
 // Disable certain menu items according to task state
 

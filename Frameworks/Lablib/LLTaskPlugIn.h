@@ -38,16 +38,12 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 
 @interface LLTaskPlugIn : NSObject {
 
-    BOOL                    active;
     NSTimer                 *collectorTimer;
     NSPoint                 currentEyeDeg;
     NSPoint                 currentEyesDeg[kEyes];
-    LLDataDoc               *dataDoc;
-    LLDataDeviceController  *dataController;
     LLUserDefaults          *defaults;
     DisplayModeParam        displayMode;
     LLBinocCalibrator       *eyeCalibrator;
-    id                      host;
     BOOL                    initialized;
     NSDate                  *lastDataCollectionDate;
     BOOL                    leverDown;
@@ -63,20 +59,20 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
     LLStimWindow            *stimWindow;
     LLSynthDataDevice       *synthDataDevice;
     LLTaskStatus            *taskStatus;
-//    BOOL                    writingDataFile;
 }
 
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL active;
+@property (NS_NONATOMIC_IOSONLY) BOOL active;
 @property (NS_NONATOMIC_IOSONLY, readonly, strong) NSTimer *collectorTimer;
 @property (NS_NONATOMIC_IOSONLY, readonly) NSPoint currentEyeDeg;
 @property (NS_NONATOMIC_IOSONLY, readonly) NSPoint *currentEyesDeg;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLDataDeviceController *dataController;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLDataDoc *dataDoc;
-@property (NS_NONATOMIC_IOSONLY, strong) LLUserDefaults *defaults;
+@property (NS_NONATOMIC_IOSONLY, strong) LLDataDeviceController *dataController;
+@property (NS_NONATOMIC_IOSONLY, retain) LLDataDoc *dataDoc;
+@property (NS_NONATOMIC_IOSONLY, retain) LLUserDefaults *defaults;
 @property (NS_NONATOMIC_IOSONLY, strong) LLBinocCalibrator *eyeCalibrator;
 @property (NS_NONATOMIC_IOSONLY, readonly, strong) LLEyeCalibrator *eyeLeftCalibrator;
 @property (NS_NONATOMIC_IOSONLY, readonly, strong) LLEyeCalibrator *eyeRightCalibrator;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL handlesEvents;
+@property (NS_NONATOMIC_IOSONLY, retain) id host;
 @property (NS_NONATOMIC_IOSONLY) BOOL initialized;
 @property (NS_NONATOMIC_IOSONLY, copy) NSDate *lastDataCollectionDate;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL leverDown;
@@ -97,14 +93,10 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 
 - (void)activate;
 - (IBAction)deactivate:(id)sender;
-- (NSString *)defaultDataFolder;
 - (IBAction)doRunStop:(id)sender;
 - (BOOL)handleEvent:(NSEvent *)theEvent;
 - (void)initializationDidFinish;
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
-- (void)setDataDeviceController:(LLDataDeviceController *)controller;
-- (void)setDataDocument:(LLDataDoc *)doc;
-- (void)setHost:(id)newHost;
 - (void)stopSoundFileNamed:(NSString *)soundFileName;
 - (void)stopSoundNamed:(NSString *)soundName;
 
