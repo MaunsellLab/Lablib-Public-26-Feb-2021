@@ -24,6 +24,8 @@
 	}\
 }
 
+#import <Lablib/NSString+ShellExecution.h>
+
 #import <Lablib/LLBar.h>
 #import <Lablib/LLBinocCalibrator.h>
 #import <Lablib/LLBinomDist.h>

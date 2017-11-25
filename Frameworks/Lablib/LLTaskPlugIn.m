@@ -68,6 +68,11 @@
     [super dealloc];
 }
 
+- (NSString *)defaultDataFolder;
+{
+    return [NSString stringWithFormat:@"/Users/Shared/Data/%@", self.name];
+}
+
 - (LLUserDefaults *)defaults;
 {
     return defaults;
@@ -131,7 +136,10 @@
                            @"5C", @"stimon", @"5C", @"stimoff", @"Wrong", @"wrong", nil];
         mouseSoundDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"MouseWrong", @"broke",
                           @"MouseCorrect", @"correct", @"MouseFailed", @"failed", @"MouseWaitForLever", @"fixon",
-                          @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong", @"wrong", nil];
+                          @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong",
+                          @"wrong", nil];
+        self.writingDataFile = NO;
+        self.name = @"Unnamed Task PlugIn";
     }
     return self;
 }
@@ -168,11 +176,6 @@
 - (LLMonitorController *)monitorController;
 {
     return monitorController;
-}
-
-- (NSString *)name; 
-{
-    return @"Unnamed Task PlugIn";
 }
 
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
@@ -295,11 +298,6 @@
     [synthDataDevice retain];
 }
 
-- (void)setWritingDataFile:(BOOL)state;
-{
-    writingDataFile = state;
-}
-
 - (LLSockets *)socket;
 {
     return socket;
@@ -347,11 +345,6 @@
 - (LLSynthDataDevice *)synthDataDevice;
 {
     return synthDataDevice;
-}
-
-- (BOOL)writingDataFile;
-{
-    return writingDataFile;
 }
 
 @end

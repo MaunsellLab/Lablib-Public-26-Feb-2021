@@ -66,8 +66,8 @@ LLTaskPlugIn    *task = nil;
     
 // Load settings and create and clear the stimulus
 
-    [settingsController loadSettings];
-    [settingsController registerDefaults ];
+    [self.settingsController loadSettings];
+    [self.settingsController registerDefaults];
     stimuli = [[FTStimuli alloc] init];
     [stimuli erase];
     
@@ -200,7 +200,7 @@ LLTaskPlugIn    *task = nil;
     [controlPanel.window close];
 
     [stimuli release];
-    [settingsController extractSettings];
+    [self.settingsController extractSettings];
     active = NO;
 }
 
@@ -215,7 +215,7 @@ LLTaskPlugIn    *task = nil;
     [scheduler release];
     [controlPanel release];
     [topLevelObjects release];
-    [settingsController release];
+    [self.settingsController release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self]; 
 
@@ -272,7 +272,7 @@ LLTaskPlugIn    *task = nil;
 - (IBAction)doSettings:(id)sender;
 {
     [stimuli release];
-    [settingsController selectSettings];
+    [self.settingsController selectSettings];
     stimuli = [[FTStimuli alloc] init];
 }
 
@@ -291,7 +291,8 @@ LLTaskPlugIn    *task = nil;
 
     taskStatus = [[LLTaskStatus alloc] init];
     taskStatus.mode = kTaskIdle;
-    settingsController = [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"FT"];
+    self.settingsController =
+                [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"FT"];
 
 // Load the items in the nib
 

@@ -63,8 +63,27 @@ char *idString = "Knot Version 2.2";
 
 - (void)activateCurrentTask; 
 {
+//    SEL prefSelector = NSSelectorFromString(@"doPreferences");
+
     if (currentTask != nil) {
         [taskMenu itemWithTitle:currentTask.name].state = NSOnState;
+        self.currentDataKey = [NSString stringWithFormat:@"KNDataFolder%@", currentTask.name];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:self.currentDataKey] == nil) {
+            [self doPluginDefaultData:self];
+        }
+        [pluginDefaultDataText bind:@"value" toObject:[NSUserDefaultsController sharedUserDefaultsController]
+            withKeyPath:[NSString stringWithFormat:@"values.%@", self.currentDataKey]
+            options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
+            forKey:@"NSContinuouslyUpdatesValue"]];
+//        if ([currentTask respondsToSelector:prefSelector]) {
+//            pluginPrefMenuItem.title = [NSString stringWithFormat:@"%@ Preferences…", currentTask.name];
+//            pluginPrefMenuItem.target = currentTask;
+//            pluginPrefMenuItem.action = prefSelector;
+//            pluginPrefMenuItem.hidden = NO;
+//        }
+//        else {
+//            pluginPrefMenuItem.hidden = YES;
+//        }
         NSLog(@"Activating task %@", currentTask.name);
         [stimWindow setDisplayMode:currentTask.requestedDisplayMode];
         [currentTask activate];
@@ -425,6 +444,14 @@ char *idString = "Knot Version 2.2";
     [pluginController runDialog];                            // modify active tasks
     [self configurePlugins];
     [self activateCurrentTask];
+}
+
+// Respond to the button for setting the default plugin data file
+
+- (IBAction)doPluginDefaultData:(id)sender;
+{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"/Users/Shared/Data/%@/",
+                                                                        currentTask.name] forKey:self.currentDataKey];
 }
 
 - (IBAction)doPreviousTask:(id)sender;

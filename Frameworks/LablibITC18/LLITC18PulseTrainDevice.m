@@ -169,6 +169,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     weOwnITC = FALSE;
     return self;
 }
+
 // Open and initialize the ITC18
 
 - (BOOL)open:(long)deviceNum;

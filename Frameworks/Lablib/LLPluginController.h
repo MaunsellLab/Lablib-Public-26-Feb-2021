@@ -24,14 +24,14 @@
     IBOutlet NSTableView    *pluginTable;
 }
 
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *loadedPlugins;
+@property (NS_NONATOMIC_IOSONLY, readonly) long numberOfValidPlugins;
+
 - (instancetype)initWithDefaults:(NSUserDefaults *)theDefaults;
 - (void)loadPlugins;
 - (void)loadPluginsForApplication:(NSString *)appName;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *loadedPlugins;
 - (void)loadOrUnloadPlugins;
-@property (NS_NONATOMIC_IOSONLY, readonly) long numberOfValidPlugins;
 - (void)runDialog;
-
 - (IBAction)dialogDone:(id)sender;
 
 @end

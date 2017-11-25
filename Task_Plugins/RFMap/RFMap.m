@@ -94,10 +94,9 @@ LLTaskPlugIn    *task = nil;
     [mainMenu insertItem:settingsMenuItem atIndex:([mainMenu indexOfItemWithTitle:@"Tasks"] + 1)];
 
 // Load settings and create and clear the stimulus
-    [settingsController loadSettings];
-    [settingsController registerDefaults];
+    [self.settingsController loadSettings];
+    [self.settingsController registerDefaults];
 
-    
 // Erase the stimulus display
 
     stimuli = [[RFMapStimuli alloc] init];
@@ -261,7 +260,7 @@ LLTaskPlugIn    *task = nil;
     task.eyeCalibrator.calibrationOffsetDeg = originalFixOffsetDeg;
     [stimuli releaseStimuli];
     [stimuli release];
-    [settingsController extractSettings];
+    [self.settingsController extractSettings];
     active = NO;
 }
 
@@ -355,7 +354,7 @@ LLTaskPlugIn    *task = nil;
         while ([stimuli stimulusOn]) {};
     }
     [stimuli releaseStimuli];
-    [settingsController selectSettings];
+    [self.settingsController selectSettings];
     [stimuli initializeStimuli];
     if (wasOn) {
         [stimuli startStimulus];
@@ -440,7 +439,8 @@ LLTaskPlugIn    *task = nil;
     LLMultiplierTransformer *transformer;
     
     task = self;
-    settingsController = [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"RF"];
+    self.settingsController =
+                [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"RF"];
 
 // Set up the value transformers that are needed for some of the key bindings
 

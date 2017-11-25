@@ -12,19 +12,19 @@
 
 @interface Fixate : LLTaskPlugIn {
 
-    NSMenuItem                *actionsMenuItem;
-    LLControlPanel            *controlPanel;
-    NSPoint                    currentEyesUnits[kEyes];
-    FTEyeXYController        *eyeXYController;                // Eye position display
-    LLSettingsController    *settingsController;
-    NSMenuItem                *settingsMenuItem;
-    NSWindowController         *summaryController;
-    NSWindowController         *xtController;
+    NSMenuItem              *actionsMenuItem;
+    LLControlPanel          *controlPanel;
+    NSPoint                 currentEyesUnits[kEyes];
+    FTEyeXYController       *eyeXYController;                // Eye position display
+//    LLSettingsController    *settingsController;
+    NSMenuItem              *settingsMenuItem;
+    NSWindowController      *summaryController;
+    NSWindowController      *xtController;
     NSArray                 *topLevelObjects;
     
-    IBOutlet NSMenu            *settingsMenu;
-    IBOutlet NSMenu            *actionsMenu;
-    IBOutlet NSMenuItem        *runStopMenuItem;
+    IBOutlet NSMenu         *settingsMenu;
+    IBOutlet NSMenu         *actionsMenu;
+    IBOutlet NSMenuItem     *runStopMenuItem;
 }
 
 - (void)dataCollect:(NSTimer *)timer;

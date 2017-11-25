@@ -149,6 +149,8 @@
 		69CEA76806711F74009CEDDA /* LLStimulusTrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEA76606711F74009CEDDA /* LLStimulusTrain.m */; };
 		69D69E8C1E11EB55005317AA /* LLSockets.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D69E8A1E11EB55005317AA /* LLSockets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69D69E8D1E11EB55005317AA /* LLSockets.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D69E8B1E11EB55005317AA /* LLSockets.m */; };
+		69D754C71FC8DC7400A64848 /* NSString+ShellExecution.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D754C51FC8DC7400A64848 /* NSString+ShellExecution.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69D754C81FC8DC7400A64848 /* NSString+ShellExecution.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D754C61FC8DC7400A64848 /* NSString+ShellExecution.m */; };
 		69DCC8DB0737CE3800FE4CE8 /* LLEOTHistoryView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCC8D90737CE3800FE4CE8 /* LLEOTHistoryView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69DCC8DC0737CE3800FE4CE8 /* LLEOTHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DCC8DA0737CE3800FE4CE8 /* LLEOTHistoryView.m */; };
 		69DCCC06073AE8C600FE4CE8 /* LLBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 69DCCC04073AE8C600FE4CE8 /* LLBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -461,6 +463,8 @@
 		69D29127048E871C00F95509 /* LLStandardFileNames.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLStandardFileNames.m; sourceTree = "<group>"; };
 		69D69E8A1E11EB55005317AA /* LLSockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSockets.h; sourceTree = "<group>"; };
 		69D69E8B1E11EB55005317AA /* LLSockets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSockets.m; sourceTree = "<group>"; };
+		69D754C51FC8DC7400A64848 /* NSString+ShellExecution.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+ShellExecution.h"; sourceTree = "<group>"; };
+		69D754C61FC8DC7400A64848 /* NSString+ShellExecution.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+ShellExecution.m"; sourceTree = "<group>"; };
 		69DCC8D90737CE3800FE4CE8 /* LLEOTHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLEOTHistoryView.h; sourceTree = "<group>"; };
 		69DCC8DA0737CE3800FE4CE8 /* LLEOTHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLEOTHistoryView.m; sourceTree = "<group>"; };
 		69DCCC04073AE8C600FE4CE8 /* LLBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLBar.h; sourceTree = "<group>"; };
@@ -538,6 +542,7 @@
 				6970BC271F9508170058CE60 /* External Configurations */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Headers */,
+				69D754C91FC8E11A00A64848 /* Categories */,
 				694879EC0486A7F400FE06D7 /* Protocols */,
 				69897A62099B898B001EE2DA /* Plists */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -917,6 +922,15 @@
 			name = "XT Views";
 			sourceTree = "<group>";
 		};
+		69D754C91FC8E11A00A64848 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				69D754C51FC8DC7400A64848 /* NSString+ShellExecution.h */,
+				69D754C61FC8DC7400A64848 /* NSString+ShellExecution.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		69DCCC0A073AEAD800FE4CE8 /* Visual Stimuli */ = {
 			isa = PBXGroup;
 			children = (
@@ -1039,6 +1053,7 @@
 				69F8D4A709D9B76300DF2F63 /* LLProgressIndicator.h in Headers */,
 				6974579E0A83A5BF00D6783B /* LLSVDSolver.h in Headers */,
 				691C42300B25E87500DA5103 /* LLStateSystem.h in Headers */,
+				69D754C71FC8DC7400A64848 /* NSString+ShellExecution.h in Headers */,
 				696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */,
 				69671AD20BA498BC00AA136E /* LLNumberMatchTransformer.h in Headers */,
 				69671B170BA49DB100AA136E /* LLNumberNonMatchTransformer.h in Headers */,
@@ -1228,6 +1243,7 @@
 				6980E8DA08E8A905004E3772 /* LLDataDevice.m in Sources */,
 				6980E97D08E8BE77004E3772 /* LLSynthDataDevice.m in Sources */,
 				6980E9DA08E8C193004E3772 /* LLSynthDataSettings.m in Sources */,
+				69D754C81FC8DC7400A64848 /* NSString+ShellExecution.m in Sources */,
 				6904B0A508EF39C700437691 /* LLDataDeviceController.m in Sources */,
 				6912F8330918FD8B009B1CD1 /* LLMouseDataDevice.m in Sources */,
 				6912F8A80919029C009B1CD1 /* LLMouseDataSettings.m in Sources */,

@@ -70,90 +70,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "LLMouseDataDevice.bundle"
-               BlueprintName = "LLMouseDataDevice"
-               ReferencedContainer = "container:Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "LLSynthDataDevice.bundle"
-               BlueprintName = "LLSynthDataDevice"
-               ReferencedContainer = "container:Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
-               BuildableName = "LablibEyeLink.bundle"
-               BlueprintName = "LablibEyeLink Plugin"
-               ReferencedContainer = "container:Plugins/LablibEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
-               BuildableName = "LabJackU6DataDevice.plugin"
-               BlueprintName = "LabJackU6 Plugin"
-               ReferencedContainer = "container:Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6933B3A80784BBE2006963FA"
-               BuildableName = "RFMap.bundle"
-               BlueprintName = "RFMap"
-               ReferencedContainer = "container:Plugins/RFMap/RFMap.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "FixateTask.plugin"
-               BlueprintName = "Fixate"
-               ReferencedContainer = "container:Plugins/Fixate/Fixate.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "69F36A7205670A9A009AED51"
                BuildableName = "Knot.app"
                BlueprintName = "Knot"
@@ -174,12 +90,97 @@
                ReferencedContainer = "container:Applications/DataConvert/DataConvert.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
+               BuildableName = "Fixate.plugin"
+               BlueprintName = "Fixate"
+               ReferencedContainer = "container:Task_Plugins/Fixate/Fixate.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
+               BuildableName = "LLMouseDataDevice.plugin"
+               BlueprintName = "LLMouseDataDevice"
+               ReferencedContainer = "container:Data_Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
+               BuildableName = "LLSynthDataDevice.plugin"
+               BlueprintName = "LLSynthDataDevice"
+               ReferencedContainer = "container:Data_Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
+               BuildableName = "LabJackU6DataDevice.plugin"
+               BlueprintName = "LabJackU6 Plugin"
+               ReferencedContainer = "container:Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
+               BuildableName = "LablibEyeLink.plugin"
+               BlueprintName = "LablibEyeLink Plugin"
+               ReferencedContainer = "container:Data_Plugins/LLEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6933B3A80784BBE2006963FA"
+               BuildableName = "RFMap.plugin"
+               BlueprintName = "RFMap"
+               ReferencedContainer = "container:Task_Plugins/RFMap/RFMap.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Development"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -199,6 +200,7 @@
       buildConfiguration = "Development"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
