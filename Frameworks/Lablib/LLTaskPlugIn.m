@@ -10,11 +10,11 @@
 
 @implementation LLTaskPlugIn
 
-@synthesize nidaq;
-@synthesize rewardPump;
-@synthesize trialStartTimeS;
-@synthesize settingsController;
-
+//@synthesize nidaq;
+//@synthesize rewardPump;
+//@synthesize trialStartTimeS;
+//@synthesize settingsController;
+//
 - (void)activate;
 {
     self.active = YES;
@@ -30,21 +30,15 @@
     [monkeySoundDict release];
     [mouseSoundDict release];
     [self.dataDoc release];
-//    [defaults release];
     [eyeCalibrator release];
     [stimWindow release];
     [synthDataDevice release];
     [lastDataCollectionDate release];
-    [settingsController release];
+    [self.settingsController release];
     [self.host release];
     [super dealloc];
 }
 
-//- (LLUserDefaults *)defaults;
-//{
-//    return defaults;
-//}
-//
 - (IBAction)doRunStop:(id)sender;
 {
     long newMode;
@@ -63,7 +57,6 @@
     }
     [self setMode:newMode];
 }
-
 
 - (LLBinocCalibrator *)eyeCalibrator;
 {
@@ -111,11 +104,6 @@
     return self;
 }
 
-- (BOOL)initialized;
-{
-    return initialized;
-}
-
 - (void)initializationDidFinish;
 {
 }
@@ -123,16 +111,6 @@
 - (NSDate *)lastDataCollectionDate;
 {
     return lastDataCollectionDate;
-}
-
-- (BOOL)leverDown;
-{
-    return leverDown;
-}
-
-- (LLMatlabEngine *)matlabEngine;
-{
-    return matlabEngine;
 }
 
 - (long)mode;
@@ -180,23 +158,11 @@
     return displayMode;
 }
 
-//- (void)setDefaults:(LLUserDefaults *)newDefaults;
-//{
-//    [defaults release];
-//    defaults = newDefaults;
-//    [defaults retain];
-//}
-//
 - (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
 {
     [eyeCalibrator release];
     eyeCalibrator = calibrator;
     [eyeCalibrator retain];
-}
-
-- (void)setInitialized:(BOOL)state;
-{
-    initialized = state;
 }
 
 - (void)setLastDataCollectionDate:(NSDate *)newDate;
@@ -206,13 +172,6 @@
     theDate = lastDataCollectionDate;
     lastDataCollectionDate = [newDate retain];
     [theDate release];
-}
-
-- (void)setMatlabEngine:(LLMatlabEngine *)newEngine;
-{
-    [matlabEngine release];
-    matlabEngine = newEngine;
-    [matlabEngine retain];
 }
 
 - (void)setMode:(long)newMode;

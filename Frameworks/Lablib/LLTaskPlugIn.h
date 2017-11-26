@@ -38,19 +38,15 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 
 @interface LLTaskPlugIn : NSObject {
 
-//    LLUserDefaults          *defaults;
     DisplayModeParam        displayMode;
     LLBinocCalibrator       *eyeCalibrator;
-    BOOL                    initialized;
     NSDate                  *lastDataCollectionDate;
-    BOOL                    leverDown;
-    LLMatlabEngine          *matlabEngine;
     long                    mode;
     NSDictionary            *monkeySoundDict;
     LLMonitorController     *monitorController;
     NSDictionary            *mouseSoundDict;
-    LLNIDAQ                 *nidaq;
-    LLNE500Pump             *rewardPump;
+//    LLNIDAQ                 *nidaq;
+//    LLNE500Pump             *rewardPump;
     LLSockets               *socket;
     LLStateSystem           *stateSystem;
     LLStimWindow            *stimWindow;
@@ -72,13 +68,12 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, retain) id host;
 @property (NS_NONATOMIC_IOSONLY) BOOL initialized;
 @property (NS_NONATOMIC_IOSONLY, copy) NSDate *lastDataCollectionDate;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL leverDown;
+@property (NS_NONATOMIC_IOSONLY) BOOL leverDown;
 @property (NS_NONATOMIC_IOSONLY, strong) LLMatlabEngine *matlabEngine;
 @property (NS_NONATOMIC_IOSONLY) long mode;
 @property (NS_NONATOMIC_IOSONLY, strong) LLMonitorController *monitorController;
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *name;
 @property (NS_NONATOMIC_IOSONLY, assign) LLNIDAQ *nidaq;
-@property (NS_NONATOMIC_IOSONLY, readonly) DisplayModeParam requestedDisplayMode;
 @property (NS_NONATOMIC_IOSONLY, assign) LLNE500Pump *rewardPump;
 @property (NS_NONATOMIC_IOSONLY, retain) LLSettingsController *settingsController;
 @property (NS_NONATOMIC_IOSONLY, strong) LLSockets *socket;
@@ -94,6 +89,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 - (BOOL)handleEvent:(NSEvent *)theEvent;
 - (void)initializationDidFinish;
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
+- (DisplayModeParam)requestedDisplayMode;
 - (void)stopSoundFileNamed:(NSString *)soundFileName;
 - (void)stopSoundNamed:(NSString *)soundName;
 

@@ -7,7 +7,6 @@
 
 #import "LLDisplayPhysical.h"
 #import "LLDisplayUtilities.h"
-//#import "LLDisplayEDID.h"
 
 #define kPI                  (atan(1) * 4)
 #define k2PI                 (atan(1) * 4 * 2)
