@@ -38,10 +38,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 
 @interface LLTaskPlugIn : NSObject {
 
-//    NSTimer                 *collectorTimer;
-    NSPoint                 currentEyeDeg;
-    NSPoint                 currentEyesDeg[kEyes];
-    LLUserDefaults          *defaults;
+//    LLUserDefaults          *defaults;
     DisplayModeParam        displayMode;
     LLBinocCalibrator       *eyeCalibrator;
     BOOL                    initialized;
@@ -63,7 +60,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 
 @property (NS_NONATOMIC_IOSONLY) BOOL active;
 @property (NS_NONATOMIC_IOSONLY, retain) NSTimer *collectorTimer;
-@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint currentEyeDeg;
+@property (NS_NONATOMIC_IOSONLY) NSPoint currentEyeDeg;
 @property (NS_NONATOMIC_IOSONLY, readonly) NSPoint *currentEyesDeg;
 @property (NS_NONATOMIC_IOSONLY, strong) LLDataDeviceController *dataController;
 @property (NS_NONATOMIC_IOSONLY, retain) LLDataDoc *dataDoc;

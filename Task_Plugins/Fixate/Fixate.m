@@ -141,7 +141,7 @@ LLTaskPlugIn    *task = nil;
     if ((data = [self.dataController dataOfType:@"eyeLYData"]) != nil) {
         [self.dataDoc putEvent:@"eyeLYData" withData:(Ptr)data.bytes lengthBytes:data.length];
         currentEyesUnits[kLeftEye].y = *(short *)(data.bytes + data.length - sizeof(short));
-        currentEyesDeg[kLeftEye] = [task.eyeCalibrator degPointFromUnitPoint:currentEyesUnits[kLeftEye] forEye:kLeftEye];
+        self.currentEyesDeg[kLeftEye] = [task.eyeCalibrator degPointFromUnitPoint:currentEyesUnits[kLeftEye] forEye:kLeftEye];
     }
     if ((data = [self.dataController dataOfType:@"eyeLPData"]) != nil) {
         [self.dataDoc putEvent:@"eyeLPData" withData:(Ptr)data.bytes lengthBytes:data.length];
@@ -153,7 +153,7 @@ LLTaskPlugIn    *task = nil;
     if ((data = [self.dataController dataOfType:@"eyeRYData"]) != nil) {
         [self.dataDoc putEvent:@"eyeRYData" withData:(Ptr)data.bytes lengthBytes:data.length];
         currentEyesUnits[kRightEye].y = *(short *)(data.bytes + data.length - sizeof(short));
-        currentEyesDeg[kRightEye] = [task.eyeCalibrator degPointFromUnitPoint:currentEyesUnits[kRightEye]
+        self.currentEyesDeg[kRightEye] = [task.eyeCalibrator degPointFromUnitPoint:currentEyesUnits[kRightEye]
                                                                          forEye:kRightEye];
     }
     if ((data = [self.dataController dataOfType:@"eyeRPData"]) != nil) {

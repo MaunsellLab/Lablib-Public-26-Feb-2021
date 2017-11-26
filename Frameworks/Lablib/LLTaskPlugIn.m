@@ -20,21 +20,6 @@
     self.active = YES;
 }
 
-//- (NSTimer *)collectorTimer;
-//{
-//    return collectorTimer;
-//}
-//
-- (NSPoint)currentEyeDeg;
-{
-    return currentEyeDeg;
-}
-
-- (NSPoint *)currentEyesDeg;
-{
-    return currentEyesDeg;
-}
-
 - (void)deactivate:(id)sender;
 {
     self.active = NO;
@@ -45,7 +30,7 @@
     [monkeySoundDict release];
     [mouseSoundDict release];
     [self.dataDoc release];
-    [defaults release];
+//    [defaults release];
     [eyeCalibrator release];
     [stimWindow release];
     [synthDataDevice release];
@@ -55,11 +40,11 @@
     [super dealloc];
 }
 
-- (LLUserDefaults *)defaults;
-{
-    return defaults;
-}
-
+//- (LLUserDefaults *)defaults;
+//{
+//    return defaults;
+//}
+//
 - (IBAction)doRunStop:(id)sender;
 {
     long newMode;
@@ -164,8 +149,8 @@
 {
     NSString *soundFileName;
 
-    if ([defaults boolForKey:key]) {
-        switch ([defaults integerForKey:@"KNSoundTypeSelection"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:key]) {
+        switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"KNSoundTypeSelection"]) {
             case kMonkeySounds:
                 soundFileName = monkeySoundDict[soundName.lowercaseString];
                 break;
@@ -195,13 +180,13 @@
     return displayMode;
 }
 
-- (void)setDefaults:(LLUserDefaults *)newDefaults;
-{
-    [defaults release];
-    defaults = newDefaults;
-    [defaults retain];
-}
-
+//- (void)setDefaults:(LLUserDefaults *)newDefaults;
+//{
+//    [defaults release];
+//    defaults = newDefaults;
+//    [defaults retain];
+//}
+//
 - (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
 {
     [eyeCalibrator release];
@@ -289,7 +274,7 @@
 {
     NSString *soundFileName;
 
-    switch ([defaults integerForKey:@"KNSoundTypeSelection"]) {
+    switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"KNSoundTypeSelection"]) {
         case kMonkeySounds:
             soundFileName = monkeySoundDict[soundName.lowercaseString];
             break;
