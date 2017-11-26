@@ -313,7 +313,7 @@ char *idString = "Knot Version 2.2";
         for (index = 0; index < taskPlugIns.count; index++) {
             task = taskPlugIns[index];
             if (!task.initialized) {
-                [task setHost:self];
+                task.host = self;
                 task.defaults = defaults;
                 task.dataController = dataDeviceController;
                 task.synthDataDevice = synthDataDevice;

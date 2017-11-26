@@ -8,7 +8,7 @@
 #import "LLMatlabController.h"
 #import <Lablib/LLSystemUtil.h>
 
-#define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
+//#define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
 #define kTrialStartEventName        @"trialStart"
 
 @implementation LLMatlabController : NSObject
@@ -24,7 +24,6 @@
     NSString *bundledEventStops[] = {@"calibration", @"zero", @"window", @"eyeCal", @"Break", nil};
 
     task = plugin;
-
     numEvents = task.dataDoc.numEvents;
     trialStartTime = -1;
     eventDef = [task.dataDoc eventNamed:kTrialStartEventName];
@@ -59,6 +58,7 @@
     engine = task.matlabEngine;
     [engine addMatlabPathForPlugin:plugin.name];
     [engine evalString:matlabInitScriptCommand];
+    [self checkMatlabDataPath:nil];
     [self loadMatlabWorkspace];
     [task.dataDoc addObserver:self];
 }
@@ -70,10 +70,10 @@
     NSString *path;
 
     if (dirName == nil) {
-        path = [NSString stringWithFormat:@"%@%ld", kMatlabDataPath, subjectNumber];
+        path = [self dataPathWithSubject:subjectNumber subFolder:nil];
     }
     else {
-        path = [NSString stringWithFormat:@"%@%ld/%@", kMatlabDataPath, subjectNumber, dirName];
+        path = [self dataPathWithSubject:subjectNumber subFolder:dirName];
     }
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     if (!exists) {                                              // guarantee that the directory will be there
@@ -136,6 +136,19 @@
     return convertedString;
 }
 
+- (NSString *)dataPathWithSubject:(long)subjectNumber subFolder:(NSString *)subDir;
+{
+    NSString *dataPath, *dataFolder;
+
+    dataFolder = [[NSUserDefaults standardUserDefaults] objectForKey:[[task host]
+                                                        performSelector:NSSelectorFromString(@"currentDataKey")]];
+    dataPath = [NSString stringWithFormat:@"%@%@%ld/%@", dataFolder,
+                ([dataFolder characterAtIndex:[dataFolder length] - 1] != '/') ? @"/" : @"",
+                subjectNumber,
+                (subDir != nil) ? subDir : @""];
+    return dataPath;
+}
+
 - (void)deactivate;
 {
     [self saveMatlabWorkspace];
@@ -163,14 +176,11 @@
         matFileName = [fileName retain];
         matlabScriptCommand = [[NSString alloc] initWithFormat:@"dParams = %@(dParams, file, trials);", matFileName];
         matlabInitScriptCommand = [[NSString alloc]
-                        initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
+                                   initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
         subjectNumber = number;
         dateFormatter = [[NSDateFormatter alloc] init];
         fileManager = [[NSFileManager alloc] init];
         dateFormatter.dateFormat = @"yyyy-MM-dd";
-        [self checkMatlabDataPath:nil];
-        [self checkMatlabDataPath:@"MatFiles"];
-        [self checkMatlabDataPath:@"PDFs"];
     }
     return self;
 }
@@ -184,7 +194,8 @@
     NSString *path, *replyString;
 
     [self checkMatlabDataPath:@"MatFiles"];
-    path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
+
+    path = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     [engine evalString:matlabInitScriptCommand];                       // clear the current Matlab workspace
@@ -192,18 +203,14 @@
     if (exists && !isDir) {
         [engine evalString:[NSString stringWithFormat:@"load '%@'", path]];
         replyString = [engine evalString:@"length(trials)" postResult:NO];
-//        NSLog(@"loadMatlabWorkspace: length(trials) query: %@", replyString);
         stringRange = [replyString rangeOfString:@">> ans ="];
         if (stringRange.location != NSNotFound) {
-//            NSLog(@"loadMatlabWorkspace: contains answer string");
             replyString = [replyString substringFromIndex:stringRange.location + stringRange.length];
-//            NSLog(@"loadMatlabWorkspace: reduced query response: %@", replyString);
             aScanner = [NSScanner scannerWithString:replyString];
             [aScanner scanInteger:&trialNum];
         }
         [engine evalString:matlabScriptCommand];
     }
-//    NSLog(@"loadMatlabWorkspace: trialNum: %ld", trialNum);
     [engine evalString:@"file.startTimeVec = now;"];                    // reset time base for this subject
     for (e = 0; e < numEvents; e++) {                                   // clear any trial event counts;
         trialEventCounts[e] = 0;
@@ -216,7 +223,7 @@
     BOOL exists, isDir;
     NSString *path;
 
-    path = [NSString stringWithFormat:@"%@%ld/MatFiles", kMatlabDataPath, subjectNumber];
+    path = [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"];
     [fileManager fileExistsAtPath:path isDirectory:&isDir];
     path = [path stringByAppendingString:[NSString stringWithFormat:@"/%@.mat", [dateFormatter stringFromDate:[NSDate date]]]];
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
@@ -231,8 +238,8 @@
         NSLog(@"MatlabController: openMatlabDataFile, no subject number specified");
         return nil;
     }
-    fileName = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
-                [dateFormatter stringFromDate:[NSDate date]]];
+    fileName = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
+            [dateFormatter stringFromDate:[NSDate date]]];
     return fileName;
 }
 
@@ -348,7 +355,7 @@
     NSString *path;
 
     [self checkMatlabDataPath:@"PDFs"];
-    path = [NSString stringWithFormat:@"%@%ld/PDFs/%@", kMatlabDataPath, subjectNumber,
+    path = [NSString stringWithFormat:@"%@/%@.pdf", [self dataPathWithSubject:subjectNumber subFolder:@"PDFs"],
             [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"saveFigureAsPDF(1, '%@')", path]];
 }
@@ -359,7 +366,7 @@
     NSString *path;
 
     [self checkMatlabDataPath:@"MatFiles"];
-    path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
+    path = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"save '%@'", path]];
 }

@@ -20,11 +20,11 @@
     self.active = YES;
 }
 
-- (NSTimer *)collectorTimer;
-{
-    return collectorTimer;
-}
-
+//- (NSTimer *)collectorTimer;
+//{
+//    return collectorTimer;
+//}
+//
 - (NSPoint)currentEyeDeg;
 {
     return currentEyeDeg;

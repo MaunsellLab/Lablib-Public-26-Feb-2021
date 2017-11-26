@@ -102,7 +102,7 @@ LLTaskPlugIn    *task = nil;
     [self.dataController assignDigitalInputDevice:@"Synthetic"];
     [self.dataController assignDigitalOutputDevice:@"Synthetic"];
 
-    collectorTimer = [NSTimer scheduledTimerWithTimeInterval:kSamplePeriodS target:self 
+    self.collectorTimer = [NSTimer scheduledTimerWithTimeInterval:kSamplePeriodS target:self
             selector:@selector(dataCollect:) userInfo:nil repeats:YES];
 
     [self.dataDoc addObserver:stateSystem];
@@ -177,7 +177,7 @@ LLTaskPlugIn    *task = nil;
 
     [self.dataController setDataEnabled:@NO];
     [stateSystem stop];
-    [collectorTimer invalidate];
+    [self.collectorTimer invalidate];
     [self.dataDoc removeObserver:stateSystem];
     [self.dataDoc removeObserver:eyeXYController];
     [self.dataDoc removeObserver:summaryController];

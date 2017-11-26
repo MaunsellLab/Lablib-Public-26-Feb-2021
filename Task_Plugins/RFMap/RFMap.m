@@ -131,7 +131,7 @@ LLTaskPlugIn    *task = nil;
     [self.dataController assignTimestampData:spikeDataAssignment];
     [self.dataController assignDigitalInputDevice:@"Synthetic"];
     [self.dataController assignDigitalOutputDevice:@"Synthetic"];
-    collectorTimer = [NSTimer scheduledTimerWithTimeInterval:kSamplePeriodS target:self 
+    self.collectorTimer = [NSTimer scheduledTimerWithTimeInterval:kSamplePeriodS target:self
             selector:@selector(dataCollect:) userInfo:nil repeats:YES];
 
     [task.self.dataDoc addObserver:stateSystem];
@@ -224,7 +224,7 @@ LLTaskPlugIn    *task = nil;
 // Stop data collection
 
     [self.dataController setDataEnabled:@NO];
-    [collectorTimer invalidate];
+    [self.collectorTimer invalidate];
     [displayTimer invalidate];
     [displayTimer release];
     

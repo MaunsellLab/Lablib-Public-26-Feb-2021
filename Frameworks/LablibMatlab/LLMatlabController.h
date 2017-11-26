@@ -29,14 +29,15 @@
     long                trialStartTime;
 }
 
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL loadMatlabWorkspace;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *matlabFileName;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL matlabFileExists;
+
 - (void)activate:(LLTaskPlugIn *)plugin;
 - (void)checkMatlabDataPath:(NSString *)dirName;
 - (NSMutableString *)convertToMatlabString:(NSString *)eventString;
 - (void)deactivate;
 - (instancetype)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL loadMatlabWorkspace;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *matlabFileName;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL matlabFileExists;
 - (void)processEventNamed:(NSString *)eventName eventData:(NSData *)data eventTime:(NSNumber *)time prefix:(NSString *)prefix;
 - (void)processFileEventNamed:(NSString *)eventName eventData:(NSData *)data eventTime:(NSNumber *)time;
 - (void)processTrialEventNamed:(NSString *)eventName eventData:(NSData *)data eventTime:(NSNumber *)time;
