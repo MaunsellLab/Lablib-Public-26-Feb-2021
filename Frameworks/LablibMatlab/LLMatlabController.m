@@ -56,11 +56,13 @@
         }
     }
     engine = task.matlabEngine;
-    [engine addMatlabPathForPlugin:plugin.name];
-    [engine evalString:matlabInitScriptCommand];
-    [self checkMatlabDataPath:nil];
-    [self loadMatlabWorkspace];
-    [task.dataDoc addObserver:self];
+    if (engine != nil) {
+        [engine addMatlabPathForPlugin:plugin.name];
+        [engine evalString:matlabInitScriptCommand];
+        [self checkMatlabDataPath:nil];
+        [self loadMatlabWorkspace];
+        [task.dataDoc addObserver:self];
+    }
 }
 
 - (void)checkMatlabDataPath:(NSString *)dirName;
@@ -151,9 +153,11 @@
 
 - (void)deactivate;
 {
-    [self saveMatlabWorkspace];
-    [engine evalString:@"clear all; close all;"];
-    [task.dataDoc removeObserver:self];
+    if (engine != nil) {
+        [self saveMatlabWorkspace];
+        [engine evalString:@"clear all; close all;"];
+        [task.dataDoc removeObserver:self];
+    }
     free(trialEventCounts);
     [bundledEvents release];
     [bundledString release];

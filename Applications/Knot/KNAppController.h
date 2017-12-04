@@ -6,6 +6,7 @@
 //  Copyright (c) 2003-2017. All rights reserved.
 //
 #import <Appkit/NSApplication.h>
+#import <Lablib/LLGitController.h>
 #import "KNSummaryController.h"
 #import "LLMatlabEngine.h"
 
@@ -40,6 +41,7 @@
 }
 
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *currentDataKey;
+@property (NS_NONATOMIC_IOSONLY, retain) LLGitController *gitController;
 
 - (void)activateCurrentTask;
 - (void)configurePlugins;

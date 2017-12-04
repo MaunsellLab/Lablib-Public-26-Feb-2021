@@ -10,11 +10,6 @@
 
 @implementation LLTaskPlugIn
 
-//@synthesize nidaq;
-//@synthesize rewardPump;
-//@synthesize trialStartTimeS;
-//@synthesize settingsController;
-//
 - (void)activate;
 {
     self.active = YES;
@@ -99,6 +94,7 @@
                           @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong",
                           @"wrong", nil];
         self.writingDataFile = NO;
+        self.usesGit = NO;
         self.name = @"Unnamed Task PlugIn";
     }
     return self;

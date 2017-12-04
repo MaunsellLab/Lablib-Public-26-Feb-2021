@@ -61,8 +61,6 @@ char *idString = "Knot Version 2.2";
 
 - (void)activateCurrentTask; 
 {
-//    SEL prefSelector = NSSelectorFromString(@"doPreferences");
-
     if (currentTask != nil) {
         [taskMenu itemWithTitle:currentTask.name].state = NSOnState;
         self.currentDataKey = [NSString stringWithFormat:@"KNDataFolder%@", currentTask.name];
@@ -75,6 +73,7 @@ char *idString = "Knot Version 2.2";
             forKey:@"NSContinuouslyUpdatesValue"]];
         NSLog(@"Activating task %@", currentTask.name);
         [stimWindow setDisplayMode:currentTask.requestedDisplayMode];
+        [self.gitController updateRepository:currentTask];
         [currentTask activate];
         [self postDataParamEvents];
         [defaults setObject:currentTask.name forKey:kActiveTaskName];
@@ -324,7 +323,7 @@ char *idString = "Knot Version 2.2";
                 task.nidaq = nidaq;
                 task.rewardPump = rewardPump;
                 task.stimWindow = stimWindow;
-                [task initializationDidFinish];
+                [task initializationDidFinish];                 // allow plugin to set it variables
                 [task setInitialized:YES];
             }
             [taskMenu addItemWithTitle:task.name action:@selector(doTaskMenu:)
@@ -383,6 +382,7 @@ char *idString = "Knot Version 2.2";
                 }
             }
         }
+        [self.gitController updateRepository:currentTask];
         currentTask = nil;
     }
 }
@@ -505,11 +505,9 @@ char *idString = "Knot Version 2.2";
 
 // Set up the value transformers that are needed for some of the key bindings used by tasks
 
-    [NSValueTransformer setValueTransformer:
-                [[[LLTaskStatusImageTransformer alloc] init] autorelease] 
+    [NSValueTransformer setValueTransformer: [[[LLTaskStatusImageTransformer alloc] init] autorelease]
                 forName:@"TaskStatusImageTransformer"];
-    [NSValueTransformer setValueTransformer:
-                [[[LLTaskStatusTitleTransformer alloc] init] autorelease] 
+    [NSValueTransformer setValueTransformer: [[[LLTaskStatusTitleTransformer alloc] init] autorelease]
                 forName:@"TaskStatusTitleTransformer"];
     transformer = [[[LLTaskStatusTransformer alloc] init] autorelease];
     [transformer setTransformerType:kLLTaskStatusIdleAndNoFile];
@@ -518,6 +516,9 @@ char *idString = "Knot Version 2.2";
     transformer = [[[LLTaskStatusTransformer alloc] init] autorelease];
     [transformer setTransformerType:kLLTaskStatusNoFile];
     [NSValueTransformer setValueTransformer:transformer forName:@"TaskStatusNoFileTransformer"];
+
+    self.gitController = [[LLGitController alloc] init];
+    
     return self;
 }
 

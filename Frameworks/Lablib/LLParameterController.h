@@ -24,7 +24,6 @@ typedef union {
     unsigned long        unsignedLongParam;
     float                floatParam;
     double                doubleParam;
-//    long double            longDoubleParam;
     long long            longLongParam;
     unsigned long long  unsignedLongLongParam;
     unsigned char        *ptr;

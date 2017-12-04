@@ -45,8 +45,6 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
     NSDictionary            *monkeySoundDict;
     LLMonitorController     *monitorController;
     NSDictionary            *mouseSoundDict;
-//    LLNIDAQ                 *nidaq;
-//    LLNE500Pump             *rewardPump;
     LLSockets               *socket;
     LLStateSystem           *stateSystem;
     LLStimWindow            *stimWindow;
@@ -81,6 +79,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, strong) LLStimWindow *stimWindow;
 @property (NS_NONATOMIC_IOSONLY, strong) LLSynthDataDevice *synthDataDevice;
 @property (NS_NONATOMIC_IOSONLY, assign) double trialStartTimeS;
+@property (NS_NONATOMIC_IOSONLY) BOOL usesGit;
 @property (NS_NONATOMIC_IOSONLY) BOOL writingDataFile;
 
 - (void)activate;

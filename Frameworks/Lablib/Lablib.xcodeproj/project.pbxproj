@@ -246,6 +246,8 @@
 		69F36D120567EA9E009AED51 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69E9F6FF043D260E00F95509 /* OpenGL.framework */; };
 		69F8D4A709D9B76300DF2F63 /* LLProgressIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 69F8D4A509D9B76200DF2F63 /* LLProgressIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F8D4A809D9B76300DF2F63 /* LLProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 69F8D4A609D9B76300DF2F63 /* LLProgressIndicator.m */; };
+		69FAC43A1FD4BBE200148EB1 /* LLGitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FAC4391FD4BBE200148EB1 /* LLGitController.m */; };
+		69FAC43C1FD4BC0900148EB1 /* LLGitController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FAC43B1FD4BC0900148EB1 /* LLGitController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FB5517078B84AA00AC42FA /* LLUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5515078B84AA00AC42FA /* LLUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FB5518078B84AA00AC42FA /* LLUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FB5516078B84AA00AC42FA /* LLUserDefaults.m */; };
 		69FB5572095DA531006F86F9 /* LLNullDataDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB5570095DA531006F86F9 /* LLNullDataDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -503,6 +505,8 @@
 		69F2CF2604D4914800F95507 /* LLSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLSettingsController.m; sourceTree = "<group>"; };
 		69F8D4A509D9B76200DF2F63 /* LLProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLProgressIndicator.h; sourceTree = "<group>"; };
 		69F8D4A609D9B76300DF2F63 /* LLProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLProgressIndicator.m; sourceTree = "<group>"; };
+		69FAC4391FD4BBE200148EB1 /* LLGitController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LLGitController.m; sourceTree = "<group>"; };
+		69FAC43B1FD4BC0900148EB1 /* LLGitController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LLGitController.h; sourceTree = "<group>"; };
 		69FB5515078B84AA00AC42FA /* LLUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLUserDefaults.h; sourceTree = "<group>"; };
 		69FB5516078B84AA00AC42FA /* LLUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLUserDefaults.m; sourceTree = "<group>"; };
 		69FB5570095DA531006F86F9 /* LLNullDataDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNullDataDevice.h; sourceTree = "<group>"; };
@@ -716,6 +720,8 @@
 				69C0944D0BDA3B4E00DB7DE8 /* LLDistributions */,
 				695C06D3064BDEA600809DAA /* LLDefaultAboutBox.h */,
 				695C06D4064BDEA600809DAA /* LLDefaultAboutBox.m */,
+				69FAC43B1FD4BC0900148EB1 /* LLGitController.h */,
+				69FAC4391FD4BBE200148EB1 /* LLGitController.m */,
 				696FEDD10B7B854A002D6D54 /* LLMathUtil.h */,
 				696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */,
 				69113E8006BDDF63008A141B /* LLParameterController.h */,
@@ -986,6 +992,7 @@
 				69F36CBE0567EA5D009AED51 /* LLPlotColors.h in Headers */,
 				69F36CBF0567EA5D009AED51 /* LLPlotView.h in Headers */,
 				69F36CC00567EA5D009AED51 /* LLSchedule.h in Headers */,
+				69FAC43C1FD4BC0900148EB1 /* LLGitController.h in Headers */,
 				69F36CC10567EA5D009AED51 /* LLScheduleController.h in Headers */,
 				69F36CC20567EA5D009AED51 /* LLSettingsController.h in Headers */,
 				69F36CC30567EA5D009AED51 /* LLSmoothHist.h in Headers */,
@@ -1252,6 +1259,7 @@
 				6905D24D0966EDB2009C96F6 /* LLPluginController.m in Sources */,
 				69BDCF0A098C09B500578E91 /* LLScrollZoomWindow.m in Sources */,
 				69E3EE2A1EEB1CE600C45A61 /* LLPluginDefaults.m in Sources */,
+				69FAC43A1FD4BBE200148EB1 /* LLGitController.m in Sources */,
 				69897B6D099BA633001EE2DA /* LLDataUtil.m in Sources */,
 				695C167709B15D090021A27D /* LLVisualStimulus.m in Sources */,
 				6953194B09B6227E00EC15C7 /* LLOldGabor.m in Sources */,
