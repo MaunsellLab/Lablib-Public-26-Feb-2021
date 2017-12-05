@@ -18,7 +18,7 @@
 
 - (void)addAllFiles;
 - (void)commit;
-- (NSString *)gitStatus:(NSString *)taskName;
+- (NSString *)status:(NSString *)taskName;
 - (void)updateRepository:(LLTaskPlugIn *)task;
 
 @end

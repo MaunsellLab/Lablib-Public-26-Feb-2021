@@ -5,6 +5,12 @@
 //  Created by John Maunsell on 12/3/17.
 //
 
+/*
+ Git is deleting from respository.  I probably need to stop using git commit -a.  Should do git add -a and then git commit?
+
+ */
+
+
 #import "LLGitController.h"
 #import "NSString+ShellExecution.h"
 
@@ -28,7 +34,7 @@
     NSLog(@"%@", output);
 }
 
-- (NSString *)gitStatus:(NSString *)taskName;
+- (NSString *)status:(NSString *)taskName;
 {
     NSString *gitCommand;
     NSString *workTree = [NSString stringWithFormat:@"/Users/Shared/Data/%@", taskName];
@@ -39,13 +45,21 @@
     return output;
 }
 
+- (void)pull;
+{
+    NSString *output;
+
+    NSLog(@"Pulling repository");
+    output = [[NSString stringWithFormat:@"%@ pull", self.commandPreamble] runAsCommand];
+    NSLog(@"%@", output);
+}
+
 - (void)push;
 {
     NSString *output;
 
     NSLog(@"Pushing repository");
-    output = [[NSString stringWithFormat:@"%@ push", self.commandPreamble]
-              runAsCommand];
+    output = [[NSString stringWithFormat:@"%@ push", self.commandPreamble] runAsCommand];
     NSLog(@"%@", output);
 }
 
@@ -56,14 +70,30 @@
     if (!task.usesGit) {
         return;
     }
-    status = [self gitStatus:task.name];
+    status = [self status:task.name];
     NSLog(@"%@", status);
-    if ([status containsString:@"Untracked files:"]) {
+    if ([status containsString:@"use \"git pull\" to merge the remote branch"]) {
+        NSLog(@"LLGitController: pull %@", task.name);
+        [self pull];
+        status = [self status:task.name];
+        NSLog(@"%@", status);
+    }
+    if ([status containsString:@"Untracked files:"] || [status containsString:@"Changes not staged for commit:"]) {
+        NSLog(@"LLGitController: adding, committing, pulling and pushing %@", task.name);
         [self addAllFiles];
         [self commit];
+        [self pull];
+        [self push];
+        status = [self status:task.name];
+        NSLog(@"%@", status);
     }
     else if (![status containsString:@"Your branch is up-to-date with 'origin/master'."]) {
-        [self push];
+        NSLog(@"LLGitController: pull %@", task.name);
+        [self pull];
+        NSLog(@"%@", [self status:task.name]);
+    }
+    else {
+        NSLog(@"LLGitController: %@ is clean and up to date", task.name);
     }
 }
 
