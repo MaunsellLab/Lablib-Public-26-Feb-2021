@@ -14,6 +14,11 @@ any dialog containing entries from the NSUserDefaults should be closed before ca
 this dialog, because their contents will be stale after any changes.  Because these
 routines can change the contents of NSUserDefaults, anything that displays values from
 NSUserDefaults (e.g., dialogs) should be loaded fresh each time they appear.
+
+The way we switch preferences in and out is by loading and removing them from the application
+defaults domain.  We could add and remove domains, but the problem with this is that when
+defaults are written they always go into the application domain.  That means that nothing
+is saved into any additional domain (settings file) that we try to maintain.
 */
 
 #import "LLSettingsController.h"
@@ -142,31 +147,30 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 
 - (BOOL)extractSettings;
 {
-//    NSString *key, *windowFramePrefix;
-//    NSMutableDictionary *knotDict, *settingsDict;
-//    NSEnumerator *enumerator;
-//    id theObject;
-
-    [[NSUserDefaults standardUserDefaults] removeSuiteNamed:settingsDomain];
-
-
-//    knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
-//                                            persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
-//    settingsDict = [[NSMutableDictionary alloc] init];
-//    enumerator = [knotDict keyEnumerator];
-//    windowFramePrefix = [NSString stringWithFormat:@"NSWindow Frame %@", prefix];
-//    for (key in enumerator) {
-//        if ([key hasPrefix:prefix] || [key hasPrefix:windowFramePrefix]) {
-//            theObject = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-//            if (theObject != nil) {
-//                settingsDict[key] = theObject;
-//                [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
-//            }
-//        }
-//    }
-//    [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:settingsDomain];
-//    [[NSUserDefaults standardUserDefaults] synchronize];        // write any changes to disk
-//    [settingsDict release];
+    NSString *key, *windowFramePrefix;
+    NSMutableDictionary *knotDict, *settingsDict;
+    NSEnumerator *enumerator;
+    id theObject;
+//
+//    [[NSUserDefaults standardUserDefaults] removeSuiteNamed:settingsDomain];
+//
+    [[NSUserDefaults standardUserDefaults] synchronize];        // write any changes to disk
+    knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
+                                            persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
+    settingsDict = [[NSMutableDictionary alloc] init];
+    enumerator = [knotDict keyEnumerator];
+    windowFramePrefix = [NSString stringWithFormat:@"NSWindow Frame %@", prefix];
+    for (key in enumerator) {
+        if ([key hasPrefix:prefix] || [key hasPrefix:windowFramePrefix]) {
+            theObject = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+            if (theObject != nil) {
+                settingsDict[key] = theObject;
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+            }
+        }
+    }
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:settingsDict forName:settingsDomain];
+    [settingsDict release];
     return YES;
 }
 
@@ -226,10 +230,10 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 - (BOOL)loadSettings;
 {
     long subjectNumber;
-    NSString *key;
-    NSArray *allKeys;
-    NSEnumerator *enumerator;
-    NSDictionary *pluginDict;
+//    NSString *key;
+//    NSArray *allKeys;
+//    NSEnumerator *enumerator;
+    NSDictionary *pluginDict, *settingsDict;
     NSMutableDictionary *knotDict;
 
     if ((pluginDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:baseDomain]) == nil) {
@@ -246,29 +250,25 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
             [self createNewSettingsFile];
         }
         settingsDomain = [self pathToDomain:settingsFileNames[0]];
-        [[NSUserDefaults standardUserDefaults] setPersistentDomain:@{kActiveSettings:settingsDomain} forName:baseDomain];
+        [[NSUserDefaults standardUserDefaults] setPersistentDomain:@{kActiveSettings:settingsDomain}
+                                                    forName:baseDomain];
     }
     [settingsDomain retain];
-
-    // There's a lot of scruff left over in the Knot preferences from all the previous versions and runs.  Clear
-    // out any lingering entries in the Knot preferences that have our prefix.
-
-//    settingsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:settingsDomain];
-
+    settingsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:settingsDomain];
     knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
-                                            persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
-    allKeys = [knotDict allKeys];
-    enumerator = [allKeys objectEnumerator];
-    while (key = [enumerator nextObject]) {
-        if ([key hasPrefix:prefix]) {
-            [knotDict removeObjectForKey:key];
-        }
-    }
-    [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict
-                                            forName:[NSBundle mainBundle].bundleIdentifier];
-//    [knotDict addEntriesFromDictionary:settingsDict];
-//    [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict forName:[NSBundle mainBundle].bundleIdentifier];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
+                                                    persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
+//    allKeys = [knotDict allKeys];
+//    enumerator = [allKeys objectEnumerator];
+//    while (key = [enumerator nextObject]) {
+//        if ([key hasPrefix:prefix]) {
+//            [knotDict removeObjectForKey:key];
+//        }
+//    }
+//    [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict
+//                                            forName:[NSBundle mainBundle].bundleIdentifier];
+    [knotDict addEntriesFromDictionary:settingsDict];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict forName:[NSBundle mainBundle].bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
     NSLog(@"Adding domain named %@", settingsDomain);
     [[NSUserDefaults standardUserDefaults] addSuiteNamed:settingsDomain];
