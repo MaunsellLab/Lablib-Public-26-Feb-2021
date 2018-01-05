@@ -4,9 +4,12 @@
 //
 //  Created by John Maunsell on 3/13/17.
 //
-
-// I don't know.  Maybe the AO output and AO input are the way to go.  Could have them speak to the socket directly,
-// using a socket lock.  That would be pretty safe.
+// NB: The behavior of NIDAQ autostart, start and triggers is a little counterintuitive.  Start and autostart
+// apply to the task.  Nothing will ever happen with input or output until a task has been started with either a start
+// (a programmatic call to the start() function) or an autostart, which starts the task when the setup is made.
+// The start or autostart will begin the output/acqusition immediately, UNLESS a digital or analog trigger has been
+// specified.  In that case, the trigger will begin the output/acquisiton.  Note that a digital or analog trigger will
+// do nothing if the task has not been started by a start() or autostart.
 
 #import "LLNIDAQ.h"
 #import "LLNIDAQTask.h"
