@@ -22,6 +22,8 @@
 		691C42310B25E87500DA5103 /* LLStateSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 691C405A0B25E87400DA5103 /* LLStateSystem.m */; };
 		69272CAF1E7773A40000D718 /* LLNIDAQ.h in Headers */ = {isa = PBXBuildFile; fileRef = 69272CAD1E7773A40000D718 /* LLNIDAQ.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69272CB01E7773A50000D718 /* LLNIDAQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 69272CAE1E7773A40000D718 /* LLNIDAQ.m */; };
+		692F1F1C20027D6300D8ED72 /* LLObserverKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 692F1F1A20027D6200D8ED72 /* LLObserverKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		692F1F1D20027D6300D8ED72 /* LLObserverKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 692F1F1B20027D6200D8ED72 /* LLObserverKeys.m */; };
 		69300EEE13B919970044BBA5 /* LLEyeCalibrator.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */; };
 		693248E8067116A800FAC2FE /* LLStimTrainDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 693248E7067116A800FAC2FE /* LLStimTrainDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69366665139E66B9000508B6 /* ResetButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 69366664139E66B9000508B6 /* ResetButton.tif */; };
@@ -281,6 +283,8 @@
 		692A86CF0480FA4200F95509 /* LLXTStimPlot.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLXTStimPlot.m; sourceTree = "<group>"; };
 		692A86D6048136C600F95509 /* LLXTSpikePlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTSpikePlot.h; sourceTree = "<group>"; };
 		692A86D7048136C600F95509 /* LLXTSpikePlot.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLXTSpikePlot.m; sourceTree = "<group>"; };
+		692F1F1A20027D6200D8ED72 /* LLObserverKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLObserverKeys.h; sourceTree = "<group>"; };
+		692F1F1B20027D6200D8ED72 /* LLObserverKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLObserverKeys.m; sourceTree = "<group>"; };
 		69300EED13B919970044BBA5 /* LLEyeCalibrator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LLEyeCalibrator.plist; sourceTree = "<group>"; };
 		693248E7067116A800FAC2FE /* LLStimTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLStimTrainDevice.h; sourceTree = "<group>"; };
 		693404F006264E290062C155 /* Lablib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lablib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -724,6 +728,8 @@
 				69FAC4391FD4BBE200148EB1 /* LLGitController.m */,
 				696FEDD10B7B854A002D6D54 /* LLMathUtil.h */,
 				696FEDD70B7B86E1002D6D54 /* LLMathUtil.m */,
+				692F1F1A20027D6200D8ED72 /* LLObserverKeys.h */,
+				692F1F1B20027D6200D8ED72 /* LLObserverKeys.m */,
 				69113E8006BDDF63008A141B /* LLParameterController.h */,
 				69113E8106BDDF63008A141B /* LLParameterController.m */,
 				69F8D4A509D9B76200DF2F63 /* LLProgressIndicator.h */,
@@ -998,6 +1004,7 @@
 				69F36CC30567EA5D009AED51 /* LLSmoothHist.h in Headers */,
 				69F36CC40567EA5D009AED51 /* LLSounds.h in Headers */,
 				69F36CC60567EA5D009AED51 /* LLStandardFileNames.h in Headers */,
+				692F1F1C20027D6300D8ED72 /* LLObserverKeys.h in Headers */,
 				69F36CC70567EA5D009AED51 /* LLState.h in Headers */,
 				69F36CC80567EA5D009AED51 /* LLStateSystemController.h in Headers */,
 				69F36CC90567EA5D009AED51 /* LLNormDist.h in Headers */,
@@ -1233,6 +1240,7 @@
 				696BA2541E8352CE00AF4862 /* LLPowerCalibrator.m in Sources */,
 				69819B460704F9AD0075BDF4 /* LLStatValues.m in Sources */,
 				69DCC8DC0737CE3800FE4CE8 /* LLEOTHistoryView.m in Sources */,
+				692F1F1D20027D6300D8ED72 /* LLObserverKeys.m in Sources */,
 				69DCCC07073AE8C600FE4CE8 /* LLBar.m in Sources */,
 				69CCB7EF0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m in Sources */,
 				69AE7130077515DF0025DAE4 /* LLMultiplierTransformer.m in Sources */,

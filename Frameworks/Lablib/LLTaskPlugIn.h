@@ -12,6 +12,7 @@
 #import "LLDataDeviceController.h"
 #import "LLMatlabEngine.h"
 #import "LLMonitorController.h"
+#import "LLObserverKeys.h"
 #import "LLNE500Pump.h"
 #import "LLNIDAQ.h"
 #import "LLSettingsController.h"
@@ -72,7 +73,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, strong) LLMonitorController *monitorController;
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *name;
 @property (NS_NONATOMIC_IOSONLY, assign) LLNIDAQ *nidaq;
-@property (NS_NONATOMIC_IOSONLY, retain) NSLock *observerLock;
+@property (NS_NONATOMIC_IOSONLY, retain) LLObserverKeys *observerKeys;
 @property (NS_NONATOMIC_IOSONLY, assign) LLNE500Pump *rewardPump;
 @property (NS_NONATOMIC_IOSONLY, retain) LLSettingsController *settingsController;
 @property (NS_NONATOMIC_IOSONLY, strong) LLSockets *socket;
