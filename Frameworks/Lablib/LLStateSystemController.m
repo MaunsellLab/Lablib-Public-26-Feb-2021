@@ -46,12 +46,6 @@
                 if (stopFlag) {                            // command to terminate the system
                     break;
                 }
-//                if (nextRelease.timeIntervalSinceNow < 0.0) {
-//                    [nextRelease release];
-//                    nextRelease = [[NSDate dateWithTimeIntervalSinceNow:kAutoreleaseIntervalS] retain];
-//                    [threadPool release];
-//                    threadPool = [[NSAutoreleasePool alloc] init];
-//                }
             }
             if (stopFlag) {                                // if we were terminated, run stop action function
                 [stopState stateAction];                     // run the stop state action

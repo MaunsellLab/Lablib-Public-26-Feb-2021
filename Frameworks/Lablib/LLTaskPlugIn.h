@@ -27,14 +27,14 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
     kMouseSounds
 };
 
-#define     kBrokeSound     @"200Hz100msSq"     //Different sound for wrong and broke trials
-#define     kCorrectSound   @"Correct"
-#define     kFailedSound    @"Wrong"
-#define     kFixOnSound     @"6C"
-#define     kFixateSound    @"7G"
-#define     kStimOnSound    @"5C"
-#define     kStimOffSound   @"5C"
-#define     kWrongSound     @"Wrong"
+#define kBrokeSound     @"200Hz100msSq"     //Different sound for wrong and broke trials
+#define kCorrectSound   @"Correct"
+#define kFailedSound    @"Wrong"
+#define kFixOnSound     @"6C"
+#define kFixateSound    @"7G"
+#define kStimOnSound    @"5C"
+#define kStimOffSound   @"5C"
+#define kWrongSound     @"Wrong"
 
 @interface LLTaskPlugIn : NSObject {
 
@@ -72,6 +72,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, strong) LLMonitorController *monitorController;
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *name;
 @property (NS_NONATOMIC_IOSONLY, assign) LLNIDAQ *nidaq;
+@property (NS_NONATOMIC_IOSONLY, retain) NSLock *observerLock;
 @property (NS_NONATOMIC_IOSONLY, assign) LLNE500Pump *rewardPump;
 @property (NS_NONATOMIC_IOSONLY, retain) LLSettingsController *settingsController;
 @property (NS_NONATOMIC_IOSONLY, strong) LLSockets *socket;

@@ -270,8 +270,8 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict forName:[NSBundle mainBundle].bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    NSLog(@"Adding domain named %@", settingsDomain);
-    [[NSUserDefaults standardUserDefaults] addSuiteNamed:settingsDomain];
+//    NSLog(@"Adding domain named %@", settingsDomain);
+//    [[NSUserDefaults standardUserDefaults] addSuiteNamed:settingsDomain];
     // If there is a subject number, check whether the run times should be reset.
 
     subjectNumber = [[NSUserDefaults standardUserDefaults] integerForKey:
