@@ -161,9 +161,11 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             itc = dataDevice.itc;
             dataDevice.itc = nil;                              // clear dataDevice.itc to stop it from using ITC18
             itcExists = (itc != nil);
-            [deviceLock lock];
-            FIFOSize = ITC18_GetFIFOSize(itc);
-            [deviceLock unlock];
+            if (itcExists) {
+                [deviceLock lock];
+                FIFOSize = ITC18_GetFIFOSize(itc);
+                [deviceLock unlock];
+            }
         }
     }
     weOwnITC = FALSE;

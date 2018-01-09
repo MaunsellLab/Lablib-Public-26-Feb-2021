@@ -25,11 +25,15 @@
     [monkeySoundDict release];
     [mouseSoundDict release];
     [self.dataDoc release];
-    [eyeCalibrator release];
+    [self.eyeCalibrator release];
+    [self.eyeLeftCalibrator release];
+    [self.eyeRightCalibrator release];
+    free(self.currentEyesDeg);
     [stimWindow release];
     [synthDataDevice release];
     [lastDataCollectionDate release];
     [self.settingsController release];
+    [self.observerKeys release];
     [self.host release];
     [super dealloc];
 }
@@ -53,20 +57,20 @@
     [self setMode:newMode];
 }
 
-- (LLBinocCalibrator *)eyeCalibrator;
-{
-    return eyeCalibrator;
-}
+//- (LLBinocCalibrator *)eyeCalibrator;
+//{
+//    return eyeCalibrator;
+//}
 
-- (LLEyeCalibrator *)eyeLeftCalibrator;
-{
-    return [eyeCalibrator calibratorForEye:kLeftEye];
-}
-
-- (LLEyeCalibrator *)eyeRightCalibrator;
-{
-    return [eyeCalibrator calibratorForEye:kRightEye];
-}
+//- (LLEyeCalibrator *)eyeLeftCalibrator;
+//{
+//    return [eyeCalibrator calibratorForEye:kLeftEye];
+//}
+//
+//- (LLEyeCalibrator *)eyeRightCalibrator;
+//{
+//    return [eyeCalibrator calibratorForEye:kRightEye];
+//}
 
 // Overwrite this method to handle OS events.  It should return YES if it consumes the event,
 // and must return NO otherwise;
@@ -96,6 +100,8 @@
         self.writingDataFile = NO;
         self.usesGit = NO;
         self.name = @"Unnamed Task PlugIn";
+        self.observerKeys = [[LLObserverKeys alloc] init];
+        self.currentEyesDeg = malloc(2 * sizeof(NSPoint));
     }
     return self;
 }
@@ -154,13 +160,13 @@
     return displayMode;
 }
 
-- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
-{
-    [eyeCalibrator release];
-    eyeCalibrator = calibrator;
-    [eyeCalibrator retain];
-}
-
+//- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
+//{
+//    [eyeCalibrator release];
+//    eyeCalibrator = calibrator;
+//    [eyeCalibrator retain];
+//}
+//
 - (void)setLastDataCollectionDate:(NSDate *)newDate;
 {
     NSDate *theDate;

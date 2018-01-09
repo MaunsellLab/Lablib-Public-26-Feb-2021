@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @interface LLTaskPlugIn : NSObject {
 
     DisplayModeParam        displayMode;
-    LLBinocCalibrator       *eyeCalibrator;
+//    LLBinocCalibrator       *eyeCalibrator;
     NSDate                  *lastDataCollectionDate;
     long                    mode;
     NSDictionary            *monkeySoundDict;
@@ -56,13 +56,13 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY) BOOL active;
 @property (NS_NONATOMIC_IOSONLY, retain) NSTimer *collectorTimer;
 @property (NS_NONATOMIC_IOSONLY) NSPoint currentEyeDeg;
-@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint *currentEyesDeg;
+@property (NS_NONATOMIC_IOSONLY) NSPoint *currentEyesDeg;
 @property (NS_NONATOMIC_IOSONLY, strong) LLDataDeviceController *dataController;
 @property (NS_NONATOMIC_IOSONLY, retain) LLDataDoc *dataDoc;
 @property (NS_NONATOMIC_IOSONLY, retain) LLUserDefaults *defaults;
 @property (NS_NONATOMIC_IOSONLY, strong) LLBinocCalibrator *eyeCalibrator;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLEyeCalibrator *eyeLeftCalibrator;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLEyeCalibrator *eyeRightCalibrator;
+@property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeLeftCalibrator;
+@property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeRightCalibrator;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL handlesEvents;
 @property (NS_NONATOMIC_IOSONLY, retain) id host;
 @property (NS_NONATOMIC_IOSONLY) BOOL initialized;
