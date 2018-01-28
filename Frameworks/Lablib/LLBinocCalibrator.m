@@ -56,7 +56,7 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
 
 - (float)calibrationOffsetDeg;
 {
-    return [taskDefaults floatForKey:LLFixCalOffsetDegKey];
+    return [[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalOffsetDegKey];
 }
 
 - (NSPoint)calibrationOffsetPointDeg;
@@ -77,7 +77,7 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
 
 - (void)dealloc;
 {
-    [taskDefaults release];
+//    [taskDefaults release];
     [calibrators[kLeftEye] release];
     [calibrators[kRightEye] release];
     [super dealloc];
@@ -113,8 +113,8 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
         defaultsPath = [[NSBundle bundleForClass:[LLEyeCalibrator class]] pathForResource:@"LLBinocCalibrator" 
                                                                                    ofType:@"plist"];
         defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-        taskDefaults = [[NSUserDefaults standardUserDefaults] retain];
-        [taskDefaults registerDefaults:defaultsDict];
+//        taskDefaults = [[NSUserDefaults standardUserDefaults] retain];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDict];
         
         [self loadOffsets];
         for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
@@ -138,8 +138,8 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
         defaultsPath = [[NSBundle bundleForClass:[LLEyeCalibrator class]] pathForResource:@"LLBinocCalibrator" 
                                                                                    ofType:@"plist"];
         defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-        taskDefaults = [[NSUserDefaults standardUserDefaults] retain];
-        [taskDefaults registerDefaults:defaultsDict];
+//        taskDefaults = [[NSUserDefaults standardUserDefaults] retain];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDict];
         
         [self loadOffsets];
         for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
@@ -163,9 +163,9 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
     
     // Load the offset values.  The fixation azimuth and elevation offsets are added in here 
     
-    azimuthDeg = [taskDefaults floatForKey:LLFixCalAzimuthDegKey];
-    elevationDeg = [taskDefaults floatForKey:LLFixCalElevationDegKey];
-    halfCalOffsetDeg = [taskDefaults floatForKey:LLFixCalOffsetDegKey] / 2.0;
+    azimuthDeg = [[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalAzimuthDegKey];
+    elevationDeg = [[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalElevationDegKey];
+    halfCalOffsetDeg = [[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalOffsetDegKey] / 2.0;
     
     offsetIndex = -1;
     for (index = 0; index < kLLEyeCalibratorOffsets; index++) {
@@ -174,12 +174,12 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
     }    
 }
 
+// Choose a new offset to test
+
 - (long)nextCalibrationPosition;
 {
     long index;
-    
-    // Choose a new offset to test
-    
+
     if (positionsDone < kLLEyeCalibratorOffsets) {
         index = offsetIndex;
         do {
@@ -200,7 +200,7 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
     // If we have completed a block of positions, we need to update the calibration before moving on
     
     if (positionsDone >= kLLEyeCalibratorOffsets) {
-        halfOffsetDeg = [taskDefaults floatForKey:LLFixCalOffsetDegKey] / 2.0;
+        halfOffsetDeg = [[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalOffsetDegKey] / 2.0;
         if (halfOffsetDeg > 0) {                                // avoid degenerate case
             [calibrators[kLeftEye] computeTransformFromOffsets];
             [calibrators[kRightEye] computeTransformFromOffsets];
@@ -216,16 +216,16 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
     return offsetIndex;
 }
 
-// Return the total offset, including both the calibration offset and the azimuth/elevation offset.  If the
-// calibration offset is zero (or we haven't yet assigned a calibration offset), this is just the fix offset.
+// Return the total offset, including both the calibration offset and the fixation point offset.  If the
+// calibration offset is zero (or we haven't yet assigned a calibration offset), this is just the fixation offset.
 // If there is a fixation offset, then we return the value from offsetDeg[], which already includes the fix offset
 // and the calibration offset.
 
 - (NSPoint)offsetDeg;
 {
-    if ((offsetIndex < 0) || ([taskDefaults floatForKey:LLFixCalOffsetDegKey] <= 0)) {
-        return NSMakePoint([taskDefaults floatForKey:LLFixCalAzimuthDegKey], 
-                    [taskDefaults floatForKey:LLFixCalElevationDegKey]);
+    if ((offsetIndex < 0) || ([[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalOffsetDegKey] <= 0)) {
+        return NSMakePoint([[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalAzimuthDegKey],
+                    [[NSUserDefaults standardUserDefaults] floatForKey:LLFixCalElevationDegKey]);
     }
     else {
         return NSMakePoint(offsetDeg[offsetIndex].x, offsetDeg[offsetIndex].y);
@@ -237,7 +237,7 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
     return offsetIndex;
 }
 
-// The values in the dialog window have changed.  We reload the calibration transforms, and 
+// The values in the dialog window have changed. We reload the calibration transforms, and 
 // reset the positions that we are testing.
 
 - (IBAction)parametersChanged:(id)sender;
@@ -257,23 +257,23 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
  
 - (void)setCalibrationOffsetDeg:(float)newOffset;
 {
-    [taskDefaults setFloat:newOffset forKey:LLFixCalOffsetDegKey];
+    [[NSUserDefaults standardUserDefaults] setFloat:newOffset forKey:LLFixCalOffsetDegKey];
     [self parametersChanged:self];
 }
 
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
 {
-    [taskDefaults release];
-    taskDefaults = newDefaults;
-    [taskDefaults retain];
-    [calibrators[kLeftEye] setDefaults:newDefaults];
-    [calibrators[kRightEye] setDefaults:newDefaults];
+//    [taskDefaults release];
+//    taskDefaults = newDefaults;
+//    [taskDefaults retain];
+    [calibrators[kLeftEye] setDefaults:[NSUserDefaults standardUserDefaults]];
+    [calibrators[kRightEye] setDefaults:[NSUserDefaults standardUserDefaults]];
 }
 
 - (void)setFixAzimuthDeg:(float)newAzimuthDeg elevationDeg:(float)newElevationDeg;
 {
-    [taskDefaults setFloat:newAzimuthDeg forKey:LLFixCalAzimuthDegKey];
-    [taskDefaults setFloat:newElevationDeg forKey:LLFixCalElevationDegKey];
+    [[NSUserDefaults standardUserDefaults] setFloat:newAzimuthDeg forKey:LLFixCalAzimuthDegKey];
+    [[NSUserDefaults standardUserDefaults] setFloat:newElevationDeg forKey:LLFixCalElevationDegKey];
     [self parametersChanged:self];
 }
 
@@ -334,6 +334,10 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
 - (void)updateCalibration:(NSPoint)pointDeg forEye:(long)eyeIndex;
 {
     [calibrators[eyeIndex] updateCalibration:pointDeg];
+    if (!positionDone[offsetIndex]) {
+        positionDone[offsetIndex] = YES;
+        positionsDone++;
+    }
 }
 
 - (void)updateLeftCalibration:(NSPoint)pointLDeg rightCalibration:(NSPoint)pointRDeg;

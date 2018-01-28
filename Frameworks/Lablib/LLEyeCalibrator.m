@@ -272,7 +272,6 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 
 - (void)loadOffsets;
 {
-    
     long index;
     float halfCalOffsetDeg;                // half of the offset used for calibration, in degrees
     float azimuthDeg, elevationDeg;
@@ -282,7 +281,6 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
     azimuthDeg = [taskDefaults floatForKey:LLFixCalAzimuthDegKey];
     elevationDeg = [taskDefaults floatForKey:LLFixCalElevationDegKey];
     halfCalOffsetDeg = [taskDefaults floatForKey:LLFixCalOffsetDegKey] / 2.0;
-
     for (index = 0; index < kLLEyeCalibratorOffsets; index++) {
         offsetDeg[index].x = ((index % 2) ? azimuthDeg + halfCalOffsetDeg : azimuthDeg - halfCalOffsetDeg);
         offsetDeg[index].y = ((index / 2) ? elevationDeg - halfCalOffsetDeg : elevationDeg + halfCalOffsetDeg);
@@ -294,14 +292,12 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
 
 - (void)loadTransforms;
 {
-    
     if (currentCalibration.m11 * currentCalibration.m22 - currentCalibration.m12 * currentCalibration.m21 == 0) {
         NSLog(@"LLEyeCalibrator +bezierPathForCalibration: attempting to invert non-invertable transform");
         NSLog(@"M11: %f, M22 %f, M12: %f, M21: %f", currentCalibration.m11, currentCalibration.m22,
               currentCalibration.m12, currentCalibration.m21);
         currentCalibration.m12 += 0.000001;
     }
-    
     unitsToDeg.transformStruct = currentCalibration;
     degToUnits.transformStruct = currentCalibration;
     [degToUnits invert];
@@ -331,10 +327,10 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
     while (positionDone[offsetIndex]) {
         offsetIndex = (offsetIndex + 1) % kLLEyeCalibratorOffsets;
     }
-    currentCalibration = [self readCalibration];
-    currentCalibration.tX -= offsetDeg[offsetIndex].x;
+    currentCalibration = [self readCalibration];                            // get calibration from user defaults
+    currentCalibration.tX -= offsetDeg[offsetIndex].x;                      // apply offset
     currentCalibration.tY -= offsetDeg[offsetIndex].y;
-    [self loadTransforms];
+    [self loadTransforms];                                                  // load the transforms
     return offsetIndex;
 }
 
@@ -378,6 +374,8 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
     [self loadOffsets];
 }
 
+// Read the calibration from user defaults
+
 - (NSAffineTransformStruct)readCalibration;
 {
     NSAffineTransformStruct calibration;
@@ -401,13 +399,9 @@ A = YX+= Y Xt (X Xt)^-1, where Xt is X transposed.
     if (currentCalibration.m22 == 0) {
         currentCalibration.m22 = kDefaultScaleFactor;
     }
+    // We have to first load the transforms without the fixation window offset, so that we can use that transform
+    // to compute the fixation window offset. Once the offset is calculated, we load the full transform.
     [self loadTransforms];
-
-// Set the calibration structure for the transforms.  We have to first set it
-// without the fixation window offset, so that we can use it to compute the
-// fixation window offset.  Once the offset is calculated, we load the 
-// full transform.
-
     [self loadOffsets];
 }
 

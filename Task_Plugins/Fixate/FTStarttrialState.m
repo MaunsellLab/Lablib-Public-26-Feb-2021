@@ -18,7 +18,7 @@
 
 // Prepare structures describing the fixation and response windows;
     
-    fixWindowData.index = task.eyeCalibrator.nextCalibrationPosition;
+    fixWindowData.index = [task.eyeCalibrator nextCalibrationPosition];
     [task.synthDataDevice setOffsetDeg:task.eyeCalibrator.calibrationOffsetPointDeg];            // keep synth data on offset fixation
     fixWindowData.windowDeg = fixWindow.rectDeg;
     fixWindowData.windowUnits = [task.eyeCalibrator unitRectFromDegRect:fixWindowData.windowDeg];

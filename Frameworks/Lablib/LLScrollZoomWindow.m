@@ -83,36 +83,47 @@ NSString *windowZoomKey = @"WindowZoom";
   
 - (void)setWindowMaxSize;
 {
-    float scaleFactor;
-    NSSize maxContentSize, maxSize;
+    NSSize maxSize;
     NSWindow *window;
-    NSScroller *hScroller, *vScroller;
-    NSRect scrollFrameRect, windowFrameRect, frame;
+    NSRect frame;
+    __block NSSize maxContentSize;
+    __block float scaleFactor;
+    __block NSScroller *hScroller, *vScroller;
+    __block NSRect scrollFrameRect, windowFrameRect;
 
-    scaleFactor = (baseMaxContentSize.width / scrollView.contentView.bounds.size.width) /
+    dispatch_async(dispatch_get_main_queue(), ^{
+        scaleFactor = (baseMaxContentSize.width / scrollView.contentView.bounds.size.width) /
             (baseMaxContentSize.width / scrollView.contentView.frame.size.width);
-    maxContentSize.width = baseMaxContentSize.width * scaleFactor;
-    maxContentSize.height = baseMaxContentSize.height * scaleFactor;
+        maxContentSize.width = baseMaxContentSize.width * scaleFactor;
+        maxContentSize.height = baseMaxContentSize.height * scaleFactor;
+    });
     scrollFrameRect.origin = NSMakePoint(0, 0);
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-    hScroller = scrollView.horizontalScroller;
-    vScroller = scrollView.verticalScroller;
-    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
-                    horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class] 
-                    borderType:scrollView.borderType
-                    controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        hScroller = scrollView.horizontalScroller;
+        vScroller = scrollView.verticalScroller;
+        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                                borderType:scrollView.borderType
+                                controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
+    });
 #else
-    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize 
+    dispatch_async(dispatch_get_main_queue(), ^{
+    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
                     hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
+    });
 #endif    
     window = self.window;
-    windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect styleMask:window.styleMask];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect styleMask:window.styleMask];
+    });
     window.maxSize = windowFrameRect.size;
     frame = window.frame;
     maxSize = window.maxSize;
 //    if (maxSize.width < frame.size.width || maxSize.height < frame.size.height) {
-        [window setFrame:NSMakeRect(frame.origin.x, frame.origin.y, maxSize.width, maxSize.height) 
-                    display:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+       [window setFrame:NSMakeRect(frame.origin.x, frame.origin.y, maxSize.width, maxSize.height) display:YES];
+    });
 //    }
 }
 

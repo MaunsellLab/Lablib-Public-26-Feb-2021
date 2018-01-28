@@ -21,28 +21,28 @@ typedef NS_ENUM(unsigned int, kWhichEye) {kLeftEye, kRightEye};
     NSAffineTransformStruct currentCalibration;                // calibration with offset
     LLEyeCalibrationData    data;
     NSAffineTransformStruct offsetCalibration;
-    NSPoint                    offsetDeg[kLLEyeCalibratorOffsets];
+    NSPoint                 offsetDeg[kLLEyeCalibratorOffsets];
     long                    offsetIndex;
     BOOL                    positionDone[kLLEyeCalibratorOffsets];
     long                    positionsDone;
-    NSUserDefaults            *taskDefaults;
 }
 
 @property (NS_NONATOMIC_IOSONLY, readonly) NSAffineTransformStruct calibration;
-- (NSAffineTransformStruct)calibrationForEye:(long)eyeIndex;
 @property (NS_NONATOMIC_IOSONLY, readonly) LLEyeCalibrationData *calibrationData;
-- (LLEyeCalibrationData *)calibrationDataForEye:(long)eyeIndex NS_RETURNS_INNER_POINTER;
 @property (NS_NONATOMIC_IOSONLY) float calibrationOffsetDeg;
 @property (NS_NONATOMIC_IOSONLY, readonly) NSPoint calibrationOffsetPointDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint offsetDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) long offsetIndex;
+
+- (NSAffineTransformStruct)calibrationForEye:(long)eyeIndex;
+- (LLEyeCalibrationData *)calibrationDataForEye:(long)eyeIndex NS_RETURNS_INNER_POINTER;
 - (LLEyeCalibrator *)calibratorForEye:(long)eyeIndex;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint forEye:(long)eyeIndex;
 - (instancetype)initWithKeyPrefix:(NSString *)prefix;
 - (void)loadOffsets;
-@property (NS_NONATOMIC_IOSONLY, readonly) long nextCalibrationPosition;
+- (long)nextCalibrationPosition;
 - (long)nextCalibrationPosition:(long)offsetIndex;
-@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint offsetDeg;
-@property (NS_NONATOMIC_IOSONLY, readonly) long offsetIndex;
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
 - (void)setFixAzimuthDeg:(float)newAzimuthDeg elevationDeg:(float)newElevationDeg;
 - (NSPoint)unitPointFromDegPoint:(NSPoint)degPoint;
