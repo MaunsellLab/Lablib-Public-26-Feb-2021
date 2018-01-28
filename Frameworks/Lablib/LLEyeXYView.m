@@ -30,8 +30,7 @@
 - (void)addSample:(NSPoint)samplePointDeg forEye:(long)eyeIndex;
 {
     NSRect rectDeg;
-//    static long counter;
-    
+
     rectDeg = NSMakeRect(samplePointDeg.x - dotSizeDeg / 2.0, samplePointDeg.y - dotSizeDeg / 2.0,
         dotSizeDeg, dotSizeDeg);
     [sampleLock lock];
@@ -39,20 +38,26 @@
     [sampleLock unlock];
     if (!((sampleCount[eyeIndex]++) % oneInN)) {
         if (drawOnlyDirtyRect) {
-            if ([NSThread isMainThread]) {
-               [self setNeedsDisplayInRect:[self pixRectFromDegRect:rectDeg]];
-            }
-            else {
-                [self performSelectorOnMainThread:@selector(setNeedsDisplayInRect) withObject:nil waitUntilDone:NO];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setNeedsDisplayInRect:[self pixRectFromDegRect:rectDeg]];
+            });
+//            if ([NSThread isMainThread]) {
+//               [self setNeedsDisplayInRect:[self pixRectFromDegRect:rectDeg]];
+//            }
+//            else {
+//                [self performSelectorOnMainThread:@selector(setNeedsDisplayInRect) withObject:nil waitUntilDone:NO];
+//            }
         }
         else {
-            if ([NSThread isMainThread]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self setNeedsDisplay:YES];
-            }
-            else {
-                [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
-            }
+            });
+//            if ([NSThread isMainThread]) {
+//                [self setNeedsDisplay:YES];
+//            }
+//            else {
+//                [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+//            }
         }
     }
 }
@@ -351,16 +356,16 @@
     doGrid = state;
 }
 
-- (void)setNeedsDisplay;
-{
-    [self setNeedsDisplay:YES];
-}
-
-- (void)setNeedsDisplayInRect;
-{
-    [self setNeedsDisplayInRect:dirtyRectPix];
-}
-
+//- (void)setNeedsDisplay;
+//{
+//    [self setNeedsDisplay:YES];
+//}
+//
+//- (void)setNeedsDisplayInRect;
+//{
+//    [self setNeedsDisplayInRect:dirtyRectPix];
+//}
+//
 - (void)setOneInN:(CGFloat)n;
 {
     oneInN = n;

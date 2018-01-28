@@ -20,27 +20,27 @@ typedef NS_ENUM(unsigned int, LLWhichEye) {kLeftEye, kRightEye};
 
 @interface LLEyeXYView:NSView {
 
-    NSColor            *backgroundColor;
-    NSRect            dirtyRectPix;
+    NSColor         *backgroundColor;
+    NSRect          dirtyRectPix;
     BOOL            doDotFade;
     BOOL            doGrid;
     BOOL            doTicks;
-    CGFloat            dotSizeDeg;
-    NSMutableArray    *drawables;
+    CGFloat         dotSizeDeg;
+    NSMutableArray  *drawables;
     BOOL            drawOnlyDirtyRect;
-    NSColor            *eyeColor[kEyes];
-    NSMutableArray    *eyeWindows;
-    NSColor            *gridColor;
-    CGFloat            gridDeg;
+    NSColor         *eyeColor[kEyes];
+    NSMutableArray  *eyeWindows;
+    NSColor         *gridColor;
+    CGFloat         gridDeg;
     long            oneInN;
-    NSMutableArray    *paths;
-    NSColor            *pointColors[kEyes][kMaxSamplesDisplay];
+    NSMutableArray  *paths;
+    NSColor         *pointColors[kEyes][kMaxSamplesDisplay];
     long            sampleCount[kEyes];
-    NSLock            *sampleLock;
+    NSLock          *sampleLock;
     NSMutableArray  *sampleRectsDeg[kEyes];
     long            samplesToSave;
     NSRect          theBounds;
-    CGFloat            tickDeg;
+    CGFloat         tickDeg;
 }
 
 - (void)addDrawable:(id <LLDrawable>)drawable;

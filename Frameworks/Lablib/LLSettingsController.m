@@ -151,9 +151,7 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     NSMutableDictionary *knotDict, *settingsDict;
     NSEnumerator *enumerator;
     id theObject;
-//
-//    [[NSUserDefaults standardUserDefaults] removeSuiteNamed:settingsDomain];
-//
+
     [[NSUserDefaults standardUserDefaults] synchronize];        // write any changes to disk
     knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
                                             persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
