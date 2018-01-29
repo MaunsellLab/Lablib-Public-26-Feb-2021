@@ -22,10 +22,10 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
         [monitorMenu removeAllItems];
     }
     if ([monitorMenu indexOfItemWithTitle:[monitor IDString]] != -1) {
-        [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
-                @"Attempting to add monitor \"%@|' a second time. (You are probably failing to remove it when the plugin is deallocated.)",
-                [monitor IDString]]];
-        exit(0);
+        [self removeMonitorWithID:[monitor IDString]];
+//        [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
+//                @"Attempting to add monitor \"%@|'a second time. The first version has been removed.",
+//                [monitor IDString]]];
     }
     [monitorMenu insertItemWithTitle:[monitor IDString] atIndex:monitors.count];
     [monitors addObject:monitor];

@@ -18,13 +18,13 @@
    
     NSUserDefaults            *defaults;
     NSMutableArray            *enabled;
-    NSMutableArray            *loadedPlugins;
+//    NSMutableArray            *loadedPlugins;
     NSMutableArray            *validTaskPlugins;
 
     IBOutlet NSTableView    *pluginTable;
 }
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *loadedPlugins;
+@property (NS_NONATOMIC_IOSONLY, retain) NSMutableArray *loadedPlugins;
 @property (NS_NONATOMIC_IOSONLY, readonly) long numberOfValidPlugins;
 
 - (instancetype)initWithDefaults:(NSUserDefaults *)theDefaults;

@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
     NSDate                  *lastDataCollectionDate;
     long                    mode;
     NSDictionary            *monkeySoundDict;
-    LLMonitorController     *monitorController;
+//    LLMonitorController     *monitorController;
     NSDictionary            *mouseSoundDict;
     LLSockets               *socket;
     LLStateSystem           *stateSystem;

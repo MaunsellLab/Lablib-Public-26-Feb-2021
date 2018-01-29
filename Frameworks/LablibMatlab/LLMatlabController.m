@@ -138,7 +138,7 @@
     return convertedString;
 }
 
-- (NSString *)dataPathWithSubject:(long)subjectNumber subFolder:(NSString *)subDir;
+- (NSString *)dataPathWithSubject:(long)subjectNum subFolder:(NSString *)subDir;
 {
     NSString *dataPath, *dataFolder;
 
@@ -146,7 +146,7 @@
                                                         performSelector:NSSelectorFromString(@"currentDataKey")]];
     dataPath = [NSString stringWithFormat:@"%@%@%ld/%@", dataFolder,
                 ([dataFolder characterAtIndex:[dataFolder length] - 1] != '/') ? @"/" : @"",
-                subjectNumber,
+                subjectNum,
                 (subDir != nil) ? subDir : @""];
     return dataPath;
 }

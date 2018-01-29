@@ -24,7 +24,7 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 - (void)dealloc;
 {
     [defaults release];
-    [loadedPlugins release];
+    [self.loadedPlugins release];
     [validTaskPlugins release];
     [enabled release];
     [super dealloc];
@@ -41,7 +41,7 @@ NSString *pluginDisableKey = @"LLPluginDisable";
         defaults = theDefaults;
         [defaults retain];
         validTaskPlugins = [[NSMutableArray alloc] init];
-        loadedPlugins = [[NSMutableArray alloc] init];
+        self.loadedPlugins = [[NSMutableArray alloc] init];
         enabled = [[NSMutableArray alloc] init];
     }
     return self;
@@ -126,10 +126,10 @@ NSString *pluginDisableKey = @"LLPluginDisable";
     [self loadOrUnloadPlugins];
 }
 
-- (NSArray *)loadedPlugins;
-{
-    return loadedPlugins;
-}
+//- (NSArray *)loadedPlugins;
+//{
+//    return loadedPlugins;
+//}
 
 // The NSArray loadedPlugins is the only thing retaining our plugins.  We want to
 // discard it and rebuild it because this rebuilding is an easy way to keep the
@@ -165,8 +165,8 @@ NSString *pluginDisableKey = @"LLPluginDisable";
                         objCType:@encode(PluginDesc)];
         }
     }
-    [loadedPlugins removeAllObjects];
-    [loadedPlugins addObjectsFromArray:temp];
+    [self.loadedPlugins removeAllObjects];
+    [self.loadedPlugins addObjectsFromArray:temp];
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;

@@ -120,10 +120,10 @@
     return mode;
 }
 
-- (LLMonitorController *)monitorController;
-{
-    return monitorController;
-}
+//- (LLMonitorController *)monitorController;
+//{
+//    return monitorController;
+//}
 
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
 {
@@ -181,10 +181,10 @@
     mode = newMode;
 }
 
-- (void)setMonitorController:(LLMonitorController *)controller;
-{
-    monitorController = controller;
-}
+//- (void)setMonitorController:(LLMonitorController *)controller;
+//{
+//    monitorController = controller;
+//}
 
 - (void)setSocket:(LLSockets *)newSocket;
 {
