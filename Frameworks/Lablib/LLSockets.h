@@ -31,11 +31,10 @@
 }
 
 - (void)closeStreams;
-- (BOOL)openStreams;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL openStreams;
 - (void)postToConsole:(NSString *)str textColor:(NSColor *)textColor;
-- (NSString *)rigID;
-- (void)setTimeoutS:(double)newTimeoutS;
-- (double)timeoutS;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *rigID;
+@property (NS_NONATOMIC_IOSONLY) double timeoutS;
 - (NSMutableDictionary *)writeDictionary:(NSMutableDictionary *)dict;
 
 @end

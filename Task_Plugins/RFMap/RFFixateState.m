@@ -13,19 +13,19 @@
 
 - (void)stateAction {
 
-	behaviorMode = kBehaviorFixating;
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey]) {				// fixation required && fixated
-		[[task dataDoc] putEvent:@"fixate"];
-		[scheduler schedule:@selector(updateCalibration) toTarget:self withObject:nil
-				delayMS:1000.0];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
-			[[NSSound soundNamed:kFixateSound] play];
-		}
-	}
-	
-	// Randomization needed in here ???
-	
-	expireTime = [LLSystemUtil timeFromNow:[[NSUserDefaults standardUserDefaults] integerForKey:RFMeanFixateMSKey]];
+    behaviorMode = kBehaviorFixating;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey]) {                // fixation required && fixated
+        [task.dataDoc putEvent:@"fixate"];
+        [scheduler schedule:@selector(updateCalibration) toTarget:self withObject:nil
+                delayMS:1000.0];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoSoundsKey]) {
+            [[NSSound soundNamed:kFixateSound] play];
+        }
+    }
+    
+    // Randomization needed in here ???
+    
+    expireTime = [LLSystemUtil timeFromNow:[[NSUserDefaults standardUserDefaults] integerForKey:RFMeanFixateMSKey]];
 }
 
 - (NSString *)name {
@@ -35,31 +35,31 @@
 
 - (LLState *)nextState {
 
-	if ([task mode] == kTaskIdle) {
-		eotCode = kEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];
-	}
-	//if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] && ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+    if (task.mode == kTaskIdle) {
+        eotCode = kEOTQuit;
+        return [task.stateSystem stateNamed:@"Endtrial"];
+    }
+    //if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] && ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:RFDoFixateKey] &&
         ![RFUtilities inWindow:fixWindow]) {
-		eotCode = kEOTBroke;
-		return [[task stateSystem] stateNamed:@"Endtrial"];
-	}
-	if ([LLSystemUtil timeIsPast:expireTime]) {
-		eotCode = kEOTCorrect;
-		return [[task stateSystem] stateNamed:@"Endtrial"];
-	}
-	return nil;
+        eotCode = kEOTBroke;
+        return [task.stateSystem stateNamed:@"Endtrial"];
+    }
+    if ([LLSystemUtil timeIsPast:expireTime]) {
+        eotCode = kEOTCorrect;
+        return [task.stateSystem stateNamed:@"Endtrial"];
+    }
+    return nil;
 }
 
 - (void)updateCalibration {
 
-	//if ([fixWindow inWindowDeg:[task currentEyeDeg]]) {
-	//	[[task eyeCalibrator] updateCalibration:[task currentEyeDeg]];
+    //if ([fixWindow inWindowDeg:[task currentEyeDeg]]) {
+    //    [[task eyeCalibrator] updateCalibration:[task currentEyeDeg]];
     if ([RFUtilities inWindow:fixWindow]) {
-        [[task eyeCalibrator] updateLeftCalibration:([task currentEyesDeg])[kLeftEye]
-                                   rightCalibration:([task currentEyesDeg])[kRightEye]];
-	}
+        [task.eyeCalibrator updateLeftCalibration:(task.currentEyesDeg)[kLeftEye]
+                                   rightCalibration:(task.currentEyesDeg)[kRightEye]];
+    }
 }
 
 @end

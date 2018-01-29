@@ -13,11 +13,11 @@
 
 - (void)stateAction {
 
-	long lValue = 0;
-	
-	putParameterEvents();
-    [[task dataDoc] putEvent:@"reset" withData:&lValue];
-	[stimuli startStimulus];
+    long lValue = 0;
+    
+    putParameterEvents();
+    [task.dataDoc putEvent:@"reset" withData:&lValue];
+    [stimuli startStimulus];
 }
 
 - (NSString *)name {
@@ -27,7 +27,7 @@
 
 - (LLState *)nextState {
 
-	return [[task stateSystem] stateNamed:@"Idle"];
+    return [task.stateSystem stateNamed:@"Idle"];
 }
 
 @end

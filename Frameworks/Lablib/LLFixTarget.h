@@ -8,7 +8,7 @@
 
 #import "LLVisualStimulus.h"
 
-typedef enum {kLLCircle, kLLSquare, kLLDiamond, kLLCross, kLLShapes} LLTargetShape;
+typedef NS_ENUM(unsigned int, LLTargetShape) {kLLCircle, kLLSquare, kLLDiamond, kLLCross, kLLShapes};
 
 extern NSString *LLFixAzimuthDegKey;
 extern NSString *LLFixBackColorKey;
@@ -24,20 +24,16 @@ extern NSString *LLFixShapeKey;
 
 @interface LLFixTarget : LLVisualStimulus {
 
-	float		innerRadiusDeg;
-	long		shape;
+    float        innerRadiusDeg;
+    long        shape;
 }
 
 - (void)drawCircleWithRadius:(float)radiusDeg;
 - (void)drawRectWithWidthDeg:(float)widthDeg lengthDeg:(float)lengthDeg;
-- (NSColor *)fixTargetColor;
-- (float)innerRadiusDeg;
-- (float)outerRadiusDeg;
-- (void)setFixTargetColor:(NSColor *)newColor;
-- (void)setInnerRadiusDeg:(float)radiusDeg;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *fixTargetColor;
+@property (NS_NONATOMIC_IOSONLY) float innerRadiusDeg;
+@property (NS_NONATOMIC_IOSONLY) float outerRadiusDeg;
 - (void)setOnRed:(float)red green:(float)green blue:(float)blue;
-- (void)setOuterRadiusDeg:(float)radiusDeg;
-- (void)setShape:(long)shape;
-- (long)shape;
+@property (NS_NONATOMIC_IOSONLY) long shape;
 
 @end

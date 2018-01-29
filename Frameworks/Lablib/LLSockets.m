@@ -108,12 +108,12 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     [self closeStreams];
     [deviceNameDict release];
     [streamsLock release];
-    [[NSUserDefaults standardUserDefaults] setBool:[[self window] isVisible] forKey:kLLSocketsWindowVisibleKey];
+    [[NSUserDefaults standardUserDefaults] setBool:self.window.visible forKey:kLLSocketsWindowVisibleKey];
     [topLevelObjects release];
     [super dealloc];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     NSMutableDictionary *defaultSettings;
 
@@ -121,30 +121,31 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
         return nil;
     }
     defaultSettings = [[NSMutableDictionary alloc] init];
-    [defaultSettings setObject:@"http://127.0.0.1" forKey:kLLSocketsHostKey];
-    [defaultSettings setObject:@"rig0" forKey:kLLSocketsRigIDKey];
-    [defaultSettings setObject:[NSNumber numberWithInt:9990] forKey:kLLSocketsPortKey];
-    [defaultSettings setObject:[NSNumber numberWithBool:NO] forKey:kLLSocketsVerboseKey];
+    defaultSettings[kLLSocketsHostKey] = @"http://127.0.0.1";
+    defaultSettings[kLLSocketsRigIDKey] = @"rig0";
+    defaultSettings[kLLSocketsPortKey] = @9990;
+    defaultSettings[kLLSocketsVerboseKey] = @NO;
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
 
+    
+    NSLog(@"LLSockets: keyValue: %@", [[NSUserDefaults standardUserDefaults] objectForKey:kLLSocketsRigIDKey]);
+    
     timeoutS = kLLSocketsMinTimeoutS;
-    deviceNameDict = [[NSDictionary dictionaryWithObjectsAndKeys:
-                @"LaserControllerX", @"rig 1",
-                @"LaserControllerXRig2", @"rig 2",
-                @"LaserControllerXRig3", @"rig 3",
-                @"LaserControllerXRig4", @"rig 4",
-                @"LEDdaq", @"rig2P",
-                @"LEDdaq", @"rig 2P",
-                nil] retain];
+    deviceNameDict = [@{@"rig 1": @"LaserControllerX",
+                @"rig 2": @"LaserControllerXRig2",
+                @"rig 3": @"LaserControllerXRig3",
+                @"rig 4": @"LaserControllerXRig4",
+                @"rig2p": @"LEDdaq",
+                @"rig 2p": @"LEDdaq"} retain];
 
     streamsLock = [[NSLock alloc] init];
 
-    if ([self window] == nil) {
+    if (self.window == nil) {
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLSockets" owner:self topLevelObjects:&topLevelObjects];
         [topLevelObjects retain];
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsWindowVisibleKey] || YES) {
-            [[self window] makeKeyAndOrderFront:self];
+            [self.window makeKeyAndOrderFront:self];
         }
     }
     [self postToConsole:@"LLSockets initialized\n" textColor:[NSColor blackColor]];
@@ -162,15 +163,15 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     int port = (int)[[NSUserDefaults standardUserDefaults] integerForKey:kLLSocketsPortKey];
     
     [streamsLock lock];
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)[url host], port, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)url.host, port, &readStream, &writeStream);
     inputStream = (NSInputStream *)readStream;
     outputStream = (NSOutputStream *)writeStream;
     [inputStream retain];
     [outputStream retain];
     CFRelease(readStream);
     CFRelease(writeStream);
-    [inputStream setDelegate:self];
-    [outputStream setDelegate:self];
+    inputStream.delegate = self;
+    outputStream.delegate = self;
     [self performSelector:@selector(scheduleInCurrentThread:) onThread:[[self class] networkThread]
                withObject:inputStream waitUntilDone:YES];
     [self performSelector:@selector(scheduleInCurrentThread:) onThread:[[self class] networkThread]
@@ -184,14 +185,14 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
 
 - (void)post:(NSAttributedString *)attrStr;
 {
-    [[consoleView textStorage] appendAttributedString:attrStr];
-    [consoleView scrollRangeToVisible:NSMakeRange([[consoleView textStorage] length], 0)];
+    [consoleView.textStorage appendAttributedString:attrStr];
+    [consoleView scrollRangeToVisible:NSMakeRange(consoleView.textStorage.length, 0)];
 }
 
 - (void)postToConsole:(NSString *)str textColor:(NSColor *)theColor;
 {
     NSAttributedString *attrStr;
-    NSDictionary *attr = [NSDictionary dictionaryWithObject:theColor forKey:NSForegroundColorAttributeName];
+    NSDictionary *attr = @{NSForegroundColorAttributeName: theColor};
     
     attrStr = [[NSAttributedString alloc] initWithString:str attributes:attr];
     [self performSelectorOnMainThread:@selector(post:) withObject:attrStr waitUntilDone:NO];
@@ -205,7 +206,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
 
 - (NSString *)rigID;
 {
-    return [[[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey] lowercaseString];
+    return [[NSUserDefaults standardUserDefaults] stringForKey:kLLSocketsRigIDKey].lowercaseString;
 }
 
 - (void)scheduleInCurrentThread:(NSStream *)stream;
@@ -235,7 +236,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
         case NSStreamEventHasBytesAvailable:
             if (stream == inputStream) {
                 JSONData = [[NSMutableData alloc] init];
-                while ([inputStream hasBytesAvailable]) {
+                while (inputStream.hasBytesAvailable) {
                     lengthBytes = [(NSInputStream *)stream read:readBuffer maxLength:kReadBufferSize];
                     if (lengthBytes > 0) {
                         index = 0;
@@ -255,9 +256,9 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
                         }
                     }
                     else if (lengthBytes < 0) {
-                        if ([inputStream.streamError code] != 0) {
-                                NSLog(@"LLSockets: error %ld reading data %@", [inputStream.streamError code],
-                                      [inputStream.streamError localizedDescription]);
+                        if ((inputStream.streamError).code != 0) {
+                                NSLog(@"LLSockets: error %ld reading data %@", (inputStream.streamError).code,
+                                      (inputStream.streamError).localizedDescription);
                         }
                     }
                     if (bytesRead == bytesToRead) {
@@ -327,15 +328,15 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     // to the PC.  It is added to every dictionary that is sent to the PC
 
     rigID = [self rigID];
-    deviceName = [deviceNameDict objectForKey:[rigID lowercaseString]];
+    deviceName = deviceNameDict[rigID.lowercaseString];
     if (deviceName == nil) {
         [self postToConsole:[NSString stringWithFormat:@"%@ is an unknown  rig ID\n", rigID]
                   textColor:[NSColor redColor]];
         return nil;
     }
-    [dict setObject:deviceName forKey:@"deviceName"];
+    dict[@"deviceName"] = deviceName;
     JSONData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    JSONLength = (uint32_t)[JSONData length];
+    JSONLength = (uint32_t)JSONData.length;
     bufferLength = JSONLength + sizeof(uint32_t);
     pBuffer = (uint8_t *)malloc(bufferLength);
     *(uint32_t *)pBuffer = JSONLength;
@@ -351,8 +352,8 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
                 [self postToConsole:@" Giving up\n" textColor:[NSColor redColor]];
                 return nil;
             }
-            if ((retries == 0) && ![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
+            if ((retries == 0) && !self.window.visible) {
+                [self.window makeKeyAndOrderFront:self];
             }
             [self postToConsole:@"Timed out waiting for open output stream, retrying\n" textColor:[NSColor redColor]];
             retries++;
@@ -375,11 +376,11 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
             totalWritten += writtenBytes;
         }
         else {
-            error = [outputStream streamError];
+            error = outputStream.streamError;
             [self postToConsole:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
                                  error.code, error.localizedDescription] textColor:[NSColor redColor]];
-            if (![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
+            if (!self.window.visible) {
+                [self.window makeKeyAndOrderFront:self];
             }
             [self closeStreams];
             return nil;
@@ -398,8 +399,8 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
                             JSONLength, bytesRead, (long)(thisTimeoutS * 1000.0)] textColor:[NSColor redColor]];
                 return nil;
             }
-            if ((retries == 0) && ![[self window] isVisible]) {
-                [[self window] makeKeyAndOrderFront:self];
+            if ((retries == 0) && !self.window.visible) {
+                [self.window makeKeyAndOrderFront:self];
             }
             [self postToConsole:
                             [NSString stringWithFormat:@"Sent %d bytes, read %ld before timeout (%ld ms), retrying\n",
@@ -412,10 +413,10 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     }
     endTime = [LLSystemUtil getTimeS];
     [self postToConsole:[NSString stringWithFormat:@"Sent %d bytes, received %ld bytes (%.1f ms) %@ %@\n",
-            JSONLength, bytesRead, 1000.0 * (endTime - startTime), [dict objectForKey:@"command"],
+            JSONLength, bytesRead, 1000.0 * (endTime - startTime), dict[@"command"],
             retries > 0 ? @"(successful retry)" : @""]
             textColor:(bytesRead > 0) ? [NSColor blackColor] : [NSColor redColor]];
-    success = [[responseDict objectForKey:@"success"] boolValue];
+    success = [responseDict[@"success"] boolValue];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLSocketsVerboseKey]) {
         [self postToConsole:[NSString stringWithFormat:@"%@\n", dict] textColor:[NSColor blackColor]];
         if (success) {
@@ -423,17 +424,17 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
         }
         else {
             [self postToConsole:[NSString stringWithFormat:@"   Received: %@\n",
-                    [responseDict objectForKey:@"errorMessage"]] textColor:[NSColor redColor]];
+                    responseDict[@"errorMessage"]] textColor:[NSColor redColor]];
         }
     }
     else if (!success) {
-        if ([responseDict objectForKey:@"errorMessage"] != nil) {
+        if (responseDict[@"errorMessage"] != nil) {
             [self postToConsole:[NSString stringWithFormat:@"   Received: %@\n",
-                                 [responseDict objectForKey:@"errorMessage"]] textColor:[NSColor redColor]];
+                                 responseDict[@"errorMessage"]] textColor:[NSColor redColor]];
         }
         else {
             [self postToConsole:
-                    [NSString stringWithFormat:@"\"%@\" failed with no message\n", [dict objectForKey:@"command"]]
+                    [NSString stringWithFormat:@"\"%@\" failed with no message\n", dict[@"command"]]
                     textColor:[NSColor redColor]];
         }
     }

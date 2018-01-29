@@ -18,31 +18,31 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
     if (monitor == nil) {                       // do nothing if the monitor isn't valid
         return;
     }
-	if ([monitors count] == 0) {
-		[monitorMenu removeAllItems];
-	}
-	if ([monitorMenu indexOfItemWithTitle:[monitor IDString]] != -1) {
-        [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
+    if (monitors.count == 0) {
+        [monitorMenu removeAllItems];
+    }
+    if ([monitorMenu indexOfItemWithTitle:[monitor IDString]] != -1) {
+        [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
                 @"Attempting to add monitor \"%@|' a second time. (You are probably failing to remove it when the plugin is deallocated.)",
                 [monitor IDString]]];
-		exit(0);
-	}
-	[monitorMenu insertItemWithTitle:[monitor IDString] atIndex:[monitors count]];
-	[monitors addObject:monitor];
+        exit(0);
+    }
+    [monitorMenu insertItemWithTitle:[monitor IDString] atIndex:monitors.count];
+    [monitors addObject:monitor];
 }
 
 // Respond to a new monitor being selected from the pop-up menu
 
 - (IBAction)changeMonitor:(id)sender {
 
-	[self refresh:self];
+    [self refresh:self];
 }
 
 - (IBAction)configureMonitor:(id)sender {
 
-	if ([[monitors objectAtIndex:[monitorMenu indexOfSelectedItem]] isConfigurable]) {
-		[[monitors objectAtIndex:[monitorMenu indexOfSelectedItem]] configure];
-	}
+    if ([monitors[monitorMenu.indexOfSelectedItem] isConfigurable]) {
+        [monitors[monitorMenu.indexOfSelectedItem] configure];
+    }
 }
 
 - (IBAction)freeze:(id)sender {
@@ -53,57 +53,57 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 
 - (void)dealloc {
 
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[monitors release];
-	[super dealloc];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [monitors release];
+    [super dealloc];
 }
 
-- (id)init {
-	
+- (instancetype)init {
+    
     if ((self =  [super initWithWindowNibName:@"LLMonitorController"]) != nil) {
-        [self setWindowFrameAutosaveName:@"LLMonitorController"];
-		[self window];
-		monitors = [[NSMutableArray alloc] init];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-				selector:@selector(monitorUpdated:) name:LLMonitorUpdated object:nil];
-	} 
-	return self;
+        self.windowFrameAutosaveName = @"LLMonitorController";
+        [self window];
+        monitors = [[NSMutableArray alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(monitorUpdated:) name:LLMonitorUpdated object:nil];
+    } 
+    return self;
 }
-	
+    
 // Get new reports from the selected monitor
 
 - (IBAction)refresh:(id)sender {
 
-	NSAttributedString *textString;
-	id <LLMonitor> monitor;
-	NSString *datestr;
-	
-	if (([monitors count] > 0) && [[monitors objectAtIndex:[monitorMenu indexOfSelectedItem]] isConfigurable]) {
-		[configureButton setEnabled:YES];
-	}
-	else {
-		[configureButton setEnabled:NO];
-	}
-    datestr = [LLSystemUtil formattedDateString:[NSDate date] format:@"Updated %H:%M:%S %d %b %Y"]; 								// Update the header field
-//	datestr = [[NSCalendarDate calendarDate] 								// Update the header field
-//				descriptionWithCalendarFormat:@"Updated %H:%M:%S %d %b %Y"];
-	[headerField setStringValue:datestr];
-	if ([monitors count] == 0) {											// No monitors yet
+    NSAttributedString *textString;
+    id <LLMonitor> monitor;
+    NSString *datestr;
+    
+    if ((monitors.count > 0) && [monitors[monitorMenu.indexOfSelectedItem] isConfigurable]) {
+        [configureButton setEnabled:YES];
+    }
+    else {
+        [configureButton setEnabled:NO];
+    }
+    datestr = [LLSystemUtil formattedDateString:[NSDate date] format:@"Updated %H:%M:%S %d %b %Y"];                                 // Update the header field
+//    datestr = [[NSCalendarDate calendarDate]                                 // Update the header field
+//                descriptionWithCalendarFormat:@"Updated %H:%M:%S %d %b %Y"];
+    headerField.stringValue = datestr;
+    if (monitors.count == 0) {                                            // No monitors yet
         textString = [[NSAttributedString alloc] initWithString:@"\n\n(No monitors have been assigned)"];
         [textString autorelease];
-	}
-	else {
-		monitor = [monitors objectAtIndex:[monitorMenu indexOfSelectedItem]];
-		textString = [monitor report];
-	}
-    [[text textStorage] setAttributedString:textString]; 
+    }
+    else {
+        monitor = monitors[monitorMenu.indexOfSelectedItem];
+        textString = [monitor report];
+    }
+    [text.textStorage setAttributedString:textString]; 
 }
 
 - (void)monitorUpdated:(NSNotification *)notification;
 {
-    id<LLMonitor> monitor = [notification object];
+    id<LLMonitor> monitor = notification.object;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (!frozen && (monitor == [monitors objectAtIndex:[monitorMenu indexOfSelectedItem]])) {
+        if (!frozen && (monitor == monitors[monitorMenu.indexOfSelectedItem])) {
             [self refresh:self];
         }
     });
@@ -111,16 +111,16 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 
 - (void)removeMonitorWithID:(NSString *)IDString;
 {
-	NSEnumerator *enumerator = [monitors objectEnumerator];
-	id <LLMonitor> monitor;
-	
-	while (monitor = [enumerator nextObject]) {
-		if ([[monitor IDString] isEqualToString:IDString]) {
-			[monitorMenu removeItemWithTitle:IDString];
-			[monitors removeObject:monitor];
-			break;
-		}
-	}
+    NSEnumerator *enumerator = [monitors objectEnumerator];
+    id <LLMonitor> monitor;
+    
+    while (monitor = [enumerator nextObject]) {
+        if ([[monitor IDString] isEqualToString:IDString]) {
+            [monitorMenu removeItemWithTitle:IDString];
+            [monitors removeObject:monitor];
+            break;
+        }
+    }
 }
 
 - (BOOL) shouldCascadeWindows {
@@ -130,13 +130,13 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
 
 - (IBAction)showWindow:(id)sender {
 
-	BOOL valid = [monitors count] > 0;
-	
-	[monitorMenu setEnabled:valid];
-	[freezeButton setEnabled:valid];
-	[refreshButton setEnabled:valid];
-	[self refresh:self];
-	[super showWindow:sender];
+    BOOL valid = monitors.count > 0;
+    
+    monitorMenu.enabled = valid;
+    freezeButton.enabled = valid;
+    refreshButton.enabled = valid;
+    [self refresh:self];
+    [super showWindow:sender];
 }
 
 @end

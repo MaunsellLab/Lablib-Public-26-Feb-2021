@@ -519,7 +519,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	return 0L;
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self =  [super initWithWindowNibName:@"LLDataDeviceController"]) != nil) {
 		[self window];									// force window so we can init its contents
@@ -885,3 +885,4 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 }
 
 @end
+

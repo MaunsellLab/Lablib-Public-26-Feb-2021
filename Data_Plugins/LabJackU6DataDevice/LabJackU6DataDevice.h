@@ -12,37 +12,37 @@
 //#define LJU6_DITASK_WARN_SLOP_US     50000
 //#define LJU6_DITASK_FAIL_SLOP_US     50000
 
-typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel, kLabJackU6Channels} LabJackU6Channel;
+typedef NS_ENUM(unsigned int, LabJackU6Channel) {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel, kLabJackU6Channels};
 
 @interface LabJackU6DataDevice : LLDataDevice {
 
     unsigned long           digitalOutputBits;
     BOOL                    doingDealloc;
-    int						eye_used;
-	double					nextSampleTimeS;
+    int                        eye_used;
+    double                    nextSampleTimeS;
     HANDLE                  ljHandle;
-	double					LabJackU6SamplePeriodS;
-	double					sampleTimeS;
-	double					monitorStartTimeS;
-	double					lastReadDataTimeS;
+    double                    LabJackU6SamplePeriodS;
+    double                    sampleTimeS;
+    double                    monitorStartTimeS;
+    double                    lastReadDataTimeS;
     long                    laserTrigger;
     BOOL                    lever1;
     BOOL                    lever2;
     long                    lever1Solenoid;
     long                    lever2Solenoid;
-	BOOL					justStartedLabJackU6;
+    BOOL                    justStartedLabJackU6;
     long                    pulseOn;
     long                    pulseDuration;
-	NSMutableData			*sampleData[kLabJackU6Channels];
+    NSMutableData            *sampleData[kLabJackU6Channels];
     BOOL                    shouldKillPolling;
     long                    strobedDigitalWord;
-	NSMutableData			*lXData, *lYData, *lPData;
-	NSMutableData			*rXData, *rYData, *rPData;
-	NSLock					*dataLock;
-	NSLock					*deviceLock;
-	NSThread				*pollThread;
-	LabJackU6Monitor		*monitor;
-	LabJackU6MonitorValues	values;
+    NSMutableData            *lXData, *lYData, *lPData;
+    NSMutableData            *rXData, *rYData, *rPData;
+    NSLock                    *dataLock;
+    NSLock                    *deviceLock;
+    NSThread                *pollThread;
+    LabJackU6Monitor        *monitor;
+    LabJackU6MonitorValues    values;
 }
 
 - (BOOL)readLeverDI:(BOOL *)outLever1 lever2:(BOOL *)outLever2;
@@ -50,9 +50,9 @@ typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kL
 
 - (void)disableSampleChannels:(NSNumber *)bitPattern;
 - (void)enableSampleChannels:(NSNumber *)bitPattern;
-- (NSString *)name;
-- (long)sampleChannels;
-- (NSData **)sampleData;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
+@property (NS_NONATOMIC_IOSONLY, readonly) long sampleChannels;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSData **sampleData;
 - (float)samplePeriodMSForChannel:(long)channel;
 - (void)setDataEnabled:(NSNumber *)state;
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;

@@ -12,37 +12,37 @@
 #import "LLXTSpikePlot.h"
 #import "LLXTStimPlot.h"
 
-#define kEyePlots			2
-#define kSpikePlots			2
+#define kEyePlots            2
+#define kSpikePlots            2
 
 @interface LLXTView : NSView {
 
-    double			durationMS;
-    LLXTEventPlot	*eventPlot;
-	LLXTEyePlot		*eyePlots[kEyePlots];
-    float			eyeWindowOrigin;
-    float			eyeWindowWidth;
-    float			eyeWindowWidthFactor;
-    BOOL			freeze;
-    LLXTEyePlot		*hEyePlot;
-    long			lastEventTimeMS;
-    long			lastTimePlottedMS;
-    long			lastScrollTimeMS;
-    NSColor			*majorGridColor;
-    NSColor			*minorGridColor;
-    long			sampleBaseTimeMS;
-    long			sampleCount[kEyePlots];
-    float			samplePeriodMS;
-    LLViewScale		*scale;
-    long			spikeChannels;
-	LLXTSpikePlot	*spikePlots[kSpikePlots];
-    float			spikePeriodMS;
-    long			spikeTimeBaseMS;
-    LLXTStimPlot	*stimPlot;
-    long			timeOffsetMS;
-    NSTimer			*timer;
-    LLXTEyePlot		*vEyePlot;
-    NSMutableArray	*xtPlots;					// A list of all the XT plots in the view
+    double            durationMS;
+    LLXTEventPlot    *eventPlot;
+    LLXTEyePlot        *eyePlots[kEyePlots];
+    float            eyeWindowOrigin;
+    float            eyeWindowWidth;
+    float            eyeWindowWidthFactor;
+    BOOL            freeze;
+    LLXTEyePlot        *hEyePlot;
+    long            lastEventTimeMS;
+    long            lastTimePlottedMS;
+    long            lastScrollTimeMS;
+    NSColor            *majorGridColor;
+    NSColor            *minorGridColor;
+    long            sampleBaseTimeMS;
+    long            sampleCount[kEyePlots];
+    float            samplePeriodMS;
+    LLViewScale        *scale;
+    long            spikeChannels;
+    LLXTSpikePlot    *spikePlots[kSpikePlots];
+    float            spikePeriodMS;
+    long            spikeTimeBaseMS;
+    LLXTStimPlot    *stimPlot;
+    long            timeOffsetMS;
+    NSTimer            *timer;
+    LLXTEyePlot        *vEyePlot;
+    NSMutableArray    *xtPlots;                    // A list of all the XT plots in the view
 }
 
 - (void)eventName:(NSString *)name eventTime:(NSNumber *)time;
@@ -61,7 +61,7 @@
 - (void)spikeChannel:(short)channel time:(long)time;
 - (void) spikeZeroTimeMS:(long)zeroTimeMS;
 - (void)stimulusBarColor:(NSColor *)color eventTime:(NSNumber *)time;
-- (NSSize)sizePix;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSSize sizePix;
 - (void)updateEventTime:(long)timeMS;
 
 @end

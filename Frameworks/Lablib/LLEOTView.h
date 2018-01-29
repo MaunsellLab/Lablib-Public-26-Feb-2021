@@ -12,6 +12,7 @@
 	long	eotTypes;
 }
 
+- (instancetype)initWithFrame:(NSRect)frame;
 - (void)setData:(long *)pData;
 - (void)setEOTTypes:(long)types;
 

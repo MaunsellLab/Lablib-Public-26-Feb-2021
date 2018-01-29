@@ -14,72 +14,72 @@ NSString *LLTaskModeChange = @"LLTaskModeChange";
 
 - (BOOL)dataFileOpen;
 {
-	return dataFileOpen;
+    return dataFileOpen;
 }
 
 - (void)dealloc;
 {
-	[key release];
-	[super dealloc];
+    [key release];
+    [super dealloc];
 }
 
-- (id)init;
+- (instancetype)init;
 {
-	if ((self = [super init]) != nil) {
-		mode = kTaskIdle;
-		dataFileOpen = NO;
-	}
-	return self;
+    if ((self = [super init]) != nil) {
+        mode = kTaskIdle;
+        dataFileOpen = NO;
+    }
+    return self;
 }
 
 - (BOOL)isEnding;
 {
-	
-	return (mode >= kTaskEnding);
+    
+    return (mode >= kTaskEnding);
 }
 
 - (BOOL)isIdle;
 {
-	return (mode == kTaskIdle);
+    return (mode == kTaskIdle);
 }
 
 - (BOOL)isStopping;
 {
-	return (mode == kTaskStopping);
+    return (mode == kTaskStopping);
 }
 
 - (long)mode;
 {
-	return mode;
+    return mode;
 }
 
 - (void)setDataFileOpen:(BOOL)state;
 {
-	dataFileOpen = state;
-	[self setDefaults];
+    dataFileOpen = state;
+    [self setDefaults];
 }
 
 - (void)setDefaults;
 {
-	long value;
-	
-	if (key != nil) {
-		NSLog(@"LLTaskMode setDefaults using key %@", key);
-		NSLog(@"  current value is %ld", 
-				(long)[[NSUserDefaults standardUserDefaults] integerForKey:key]);
-		value = ((mode & kLLTaskModeMask) | 
-					((dataFileOpen) ? kLLFileOpenMask : 0));
-		NSLog(@"  setting to %ld", value);
-		[[NSUserDefaults standardUserDefaults] setInteger:value forKey:key];
-		NSLog(@"  done");
-	}
+    long value;
+    
+    if (key != nil) {
+        NSLog(@"LLTaskMode setDefaults using key %@", key);
+        NSLog(@"  current value is %ld", 
+                (long)[[NSUserDefaults standardUserDefaults] integerForKey:key]);
+        value = ((mode & kLLTaskModeMask) | 
+                    ((dataFileOpen) ? kLLFileOpenMask : 0));
+        NSLog(@"  setting to %ld", value);
+        [[NSUserDefaults standardUserDefaults] setInteger:value forKey:key];
+        NSLog(@"  done");
+    }
 }
 
 - (void)setMode:(long)newMode;
 {
-	mode = newMode;
-	[[NSNotificationCenter defaultCenter] postNotificationName:LLTaskModeChange object:[NSNumber numberWithLong:mode]];
-	[self setDefaults];
+    mode = newMode;
+    [[NSNotificationCenter defaultCenter] postNotificationName:LLTaskModeChange object:@(mode)];
+    [self setDefaults];
 }
 
 @end

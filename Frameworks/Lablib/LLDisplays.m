@@ -22,29 +22,29 @@ NSString *LLFrameRateKey = @"LL Frame Rate Hz";
 
 + (NSString *)displayNameUsingID:(CGDirectDisplayID)displayID;
 {
-//	NSDictionary *displayDictionary, *productNamesDictionary;
-//	io_service_t service;
-//	NSString *displayName = nil;
+//    NSDictionary *displayDictionary, *productNamesDictionary;
+//    io_service_t service;
+//    NSString *displayName = nil;
 //
-//	service = CGDisplayIOServicePort(displayID);
-//	displayDictionary = (NSDictionary *)IODisplayCreateInfoDictionary(service, kIODisplayOnlyPreferredName);
-//	if (displayDictionary != nil) {
-//		productNamesDictionary = [displayDictionary valueForKey:@kDisplayProductName];
-//		if (productNamesDictionary != nil) {
-//			displayName = [[productNamesDictionary allValues] objectAtIndex:0];
-//		}
-//	}
-//	return (displayName != nil) ? displayName : @"Unknown Display";
+//    service = CGDisplayIOServicePort(displayID);
+//    displayDictionary = (NSDictionary *)IODisplayCreateInfoDictionary(service, kIODisplayOnlyPreferredName);
+//    if (displayDictionary != nil) {
+//        productNamesDictionary = [displayDictionary valueForKey:@kDisplayProductName];
+//        if (productNamesDictionary != nil) {
+//            displayName = [[productNamesDictionary allValues] objectAtIndex:0];
+//        }
+//    }
+//    return (displayName != nil) ? displayName : @"Unknown Display";
     return @"Unknown Display Name";
 }
 
 + (NSString *)displayNameUsingIndex:(long)displayIndex;
 {
-	CGDirectDisplayID IDs[kMaxDisplay];
-	CGDisplayCount displayCount;
-	
-	CGGetActiveDisplayList(kMaxDisplay, IDs, &displayCount);
-	return [LLDisplays displayNameUsingID:IDs[displayIndex]];
+    CGDirectDisplayID IDs[kMaxDisplay];
+    CGDisplayCount displayCount;
+    
+    CGGetActiveDisplayList(kMaxDisplay, IDs, &displayCount);
+    return [LLDisplays displayNameUsingID:IDs[displayIndex]];
 }
 
 struct screenMode {
@@ -61,7 +61,7 @@ struct screenMode {
 //    
 //// Get a copy of the current display mode
 //    
-//	CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(displayID);
+//    CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(displayID);
 //    
 //// Loop through all display modes to determine the closest match.
 //// CGDisplayBestModeForParameters is deprecated on 10.6 so we will emulate it's behavior
@@ -70,12 +70,12 @@ struct screenMode {
 //// If still no match is found, just use the current mode.
 //
 //    CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
-//    for (index = 0; index < CFArrayGetCount(allModes); index++)	{
-//		mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
-//		if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
-//			continue;
+//    for (index = 0; index < CFArrayGetCount(allModes); index++)    {
+//        mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
+//        if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
+//            continue;
 //        }
-//		if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
+//        if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
 //            if (CGDisplayModeGetRefreshRate(mode) == pDP->frameRateHz) {
 //                displayMode = mode;
 //                break;
@@ -86,14 +86,14 @@ struct screenMode {
 //                    displayMode = mode;
 //                }
 //            }
-//		}
-//	}
+//        }
+//    }
 //    CFRelease(allModes);
 //    if (displayMode == NULL) {
 //        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
 //                 [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
 //                 pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
-//		exit(0);
+//        exit(0);
 //    }
 //    return displayMode;
 //}
@@ -117,38 +117,38 @@ struct screenMode {
 //    CFRelease(mode);
 //    return bpp;
     
-//	CFStringRef pixEnc = CGDisplayModeCopyPixelEncoding(mode);
-//	if (CFStringCompare(pixEnc, CFSTR(IO32BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
-//		depth = 32;
+//    CFStringRef pixEnc = CGDisplayModeCopyPixelEncoding(mode);
+//    if (CFStringCompare(pixEnc, CFSTR(IO32BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+//        depth = 32;
 //    }
-//	else if(CFStringCompare(pixEnc, CFSTR(IO16BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
-//		depth = 16;
+//    else if(CFStringCompare(pixEnc, CFSTR(IO16BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+//        depth = 16;
 //    }
-//	else if(CFStringCompare(pixEnc, CFSTR(IO8BitIndexedPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
-//		depth = 8;
+//    else if(CFStringCompare(pixEnc, CFSTR(IO8BitIndexedPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo) {
+//        depth = 8;
 //    }
-//	return depth;
+//    return depth;
 }
 
 - (void)computeKdlConstants:(long)displayIndex {
 
-	ColorPatches calibratedColor;
-	
-	calibratedColor = computeKdlColors(displayParam[displayIndex].CIEx, displayParam[displayIndex].CIEy);
-	kdlConstants[displayIndex].rtc = (calibratedColor.equalEnergy.red - calibratedColor.cardinalYellow.red) /
-										calibratedColor.equalEnergy.red;
-	kdlConstants[displayIndex].gcb = (calibratedColor.equalEnergy.green - calibratedColor.cardinalGreen.green) /
-										calibratedColor.equalEnergy.green;
-	kdlConstants[displayIndex].gtc = (calibratedColor.equalEnergy.green - calibratedColor.cardinalYellow.green) /
-										calibratedColor.equalEnergy.green;
-	kdlConstants[displayIndex].bcb = (calibratedColor.equalEnergy.blue - calibratedColor.cardinalGreen.blue) /
-										calibratedColor.equalEnergy.blue;
+    ColorPatches calibratedColor;
+    
+    calibratedColor = computeKdlColors(displayParam[displayIndex].CIEx, displayParam[displayIndex].CIEy);
+    kdlConstants[displayIndex].rtc = (calibratedColor.equalEnergy.red - calibratedColor.cardinalYellow.red) /
+                                        calibratedColor.equalEnergy.red;
+    kdlConstants[displayIndex].gcb = (calibratedColor.equalEnergy.green - calibratedColor.cardinalGreen.green) /
+                                        calibratedColor.equalEnergy.green;
+    kdlConstants[displayIndex].gtc = (calibratedColor.equalEnergy.green - calibratedColor.cardinalYellow.green) /
+                                        calibratedColor.equalEnergy.green;
+    kdlConstants[displayIndex].bcb = (calibratedColor.equalEnergy.blue - calibratedColor.cardinalGreen.blue) /
+                                        calibratedColor.equalEnergy.blue;
 }
 
 - (void)dealloc {
 
-	[displayPhysical release];
-	[super dealloc];
+    [displayPhysical release];
+    [super dealloc];
 }
 
 // Report the displayBounds as reported by Core Graphics.  The origin is taken as the upper left corner
@@ -176,7 +176,7 @@ struct screenMode {
         return NSMakeRect(0, 0, 0, 0);
     }
     rect = CGDisplayBounds(displayIDs[displayIndex]);
-	rect.origin.y = [[NSScreen mainScreen] frame].size.height - rect.origin.y - rect.size.height;
+    rect.origin.y = [NSScreen mainScreen].frame.size.height - rect.origin.y - rect.size.height;
     return NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 }
 
@@ -184,26 +184,26 @@ struct screenMode {
 
 - (DisplayParam)displayParameters:(long)displayIndex;
 {
-	return displayParam[displayIndex];
+    return displayParam[displayIndex];
 }
 
 - (NSSize)displaySizeDeg:(long)displayIndex {
-	
-	return NSMakeSize(atan2(displayParam[displayIndex].widthMM / 2.0, 
-				displayParam[displayIndex].distanceMM) * kDegPerRadian * 2.0,
-				atan2(displayParam[displayIndex].heightMM / 2.0, 
-				displayParam[displayIndex].distanceMM) * kDegPerRadian * 2.0);
+    
+    return NSMakeSize(atan2(displayParam[displayIndex].widthMM / 2.0, 
+                displayParam[displayIndex].distanceMM) * kDegPerRadian * 2.0,
+                atan2(displayParam[displayIndex].heightMM / 2.0, 
+                displayParam[displayIndex].distanceMM) * kDegPerRadian * 2.0);
 }
 
 - (double)distanceMM:(long)displayIndex {
 
-	return displayParam[displayIndex].distanceMM;
+    return displayParam[displayIndex].distanceMM;
 }
 
 - (void)doSettingsPanel:(long)displayIndex {
 
-	[displayPhysical doSettingsPanel:displayIndex];
-	[self updatePhysicalParam:[displayPhysical displayParameters:displayIndex] displayIndex:displayIndex];
+    [displayPhysical doSettingsPanel:displayIndex];
+    [self updatePhysicalParam:[displayPhysical displayParameters:displayIndex] displayIndex:displayIndex];
 }
 
 - (void)dumpCurrentDisplayMode:(CGDisplayCount)displayIndex;
@@ -212,7 +212,7 @@ struct screenMode {
 
     if (displayIndex < numDisplays) {
         theRef = CGDisplayCopyDisplayMode(displayIDs[displayIndex]);
-		[self dumpDisplayModeValues:theRef];
+        [self dumpDisplayModeValues:theRef];
         CFRelease(theRef);
     }
 }
@@ -224,11 +224,11 @@ struct screenMode {
     CFIndex modes;
     
     if (displayIndex < numDisplays) {
-		display_modes = CGDisplayCopyAllDisplayModes(displayIDs[displayIndex], NULL);
-		modes = CFArrayGetCount(display_modes);
-		for (index = 0; index < modes; index++) {
-			[self dumpDisplayModeValues:(CGDisplayModeRef)CFArrayGetValueAtIndex(display_modes, index)];
-		}
+        display_modes = CGDisplayCopyAllDisplayModes(displayIDs[displayIndex], NULL);
+        modes = CFArrayGetCount(display_modes);
+        for (index = 0; index < modes; index++) {
+            [self dumpDisplayModeValues:(CGDisplayModeRef)CFArrayGetValueAtIndex(display_modes, index)];
+        }
         CFRelease(display_modes);
     }
 }
@@ -242,7 +242,7 @@ struct screenMode {
 
 - (float)frameRateHz:(long)displayIndex;
 {
-	return displayParam[displayIndex].frameRateHz;
+    return displayParam[displayIndex].frameRateHz;
 }
 
 - (long)getValue:(CFDictionaryRef)dictionary forKey:(CFStringRef)key {
@@ -270,36 +270,36 @@ struct screenMode {
 
 - (double)heightMM:(long)displayIndex {
 
-	return displayParam[displayIndex].heightMM;
+    return displayParam[displayIndex].heightMM;
 }
-	
+    
 - (long)heightPix:(long)displayIndex {
 
-	return displayParam[displayIndex].heightPix;
+    return displayParam[displayIndex].heightPix;
 }
 
 - (void)hideCursor:(long)displayIndex {
-	
-	CGDisplayHideCursor(displayIDs[displayIndex]);
+    
+    CGDisplayHideCursor(displayIDs[displayIndex]);
 }
 
 - (float)highestSpatialFreqCPD:(long)displayIndex;
 {
-	return (displayParam[displayIndex].widthPix / [self displaySizeDeg:displayIndex].width / 2.0);
+    return (displayParam[displayIndex].widthPix / [self displaySizeDeg:displayIndex].width / 2.0);
 }
 
-- (id)init {
+- (instancetype)init {
 
-	long index;
-	
+    long index;
+    
     if ((self = [super init]) != nil) {
-		displayPhysical = [[LLDisplayPhysical alloc] init];
-		CGGetActiveDisplayList(kMaxDisplay, displayIDs, &numDisplays);
-		for (index = 0; index < numDisplays; index++) {
-//			EDID[index] = [[LLDisplayEDID alloc] initWithDisplayID:displayIDs[index]];
-			[self loadDisplayParameters:index];
-		}
-	}
+        displayPhysical = [[LLDisplayPhysical alloc] init];
+        CGGetActiveDisplayList(kMaxDisplay, displayIDs, &numDisplays);
+        for (index = 0; index < numDisplays; index++) {
+//            EDID[index] = [[LLDisplayEDID alloc] initWithDisplayID:displayIDs[index]];
+            [self loadDisplayParameters:index];
+        }
+    }
     return self;
 }
 
@@ -307,14 +307,14 @@ struct screenMode {
 // for providing calibrated color values
 
 - (void)loadDisplayParameters:(long)displayIndex;
-{	
-//	io_connect_t displayPort;
-//	CFDictionaryRef displayModeDict;
-//	CFDictionaryRef displayDict;
-	CGDirectDisplayID displayID = displayIDs[displayIndex];
+{    
+//    io_connect_t displayPort;
+//    CFDictionaryRef displayModeDict;
+//    CFDictionaryRef displayDict;
+    CGDirectDisplayID displayID = displayIDs[displayIndex];
     CGDisplayModeRef displayMode;
-	DisplayParam *pDP = &displayParam[displayIndex];
-	
+    DisplayParam *pDP = &displayParam[displayIndex];
+    
 // Some display parameters are values that the controller determines, such
 // as frame rate and pixel width.  These are read from the hardware.
 
@@ -324,31 +324,31 @@ struct screenMode {
     pDP->frameRateHz = CGDisplayModeGetRefreshRate(displayMode);
     pDP->pixelBits = [self bitsPerPixelForMode:displayMode];
     CFRelease(displayMode);
-	if (pDP->frameRateHz <= 0.0) {
-		pDP->frameRateHz = 60.0;
-		NSLog(@"Device for displayIndex %ld not reporting frame rate. Assuming 60 Hz", displayIndex);
-	}
-	NSLog(@"Device %ld frameRate %f", displayIndex, pDP->frameRateHz);
+    if (pDP->frameRateHz <= 0.0) {
+        pDP->frameRateHz = 60.0;
+        NSLog(@"Device for displayIndex %ld not reporting frame rate. Assuming 60 Hz", displayIndex);
+    }
+    NSLog(@"Device %ld frameRate %f", displayIndex, pDP->frameRateHz);
     
 /*     pDP->pixelBits = [self getValue:displayModeDict forKey:kCGDisplayBitsPerPixel];
      pDP->frameRateHz = [self getValue:displayModeDict forKey:kCGDisplayRefreshRate];
      displayPort = CGDisplayIOServicePort(displayID);
-	if (displayPort != MACH_PORT_NULL) {
-		displayDict = IODisplayCreateInfoDictionary(displayPort, 0);
-		if (displayDict != NULL) {
-//			pDP->widthPix = [self getValue:displayModeDict forKey:kCGDisplayWidth];
-//			pDP->heightPix = [self getValue:displayModeDict forKey:kCGDisplayHeight];
-			CFRelease(displayDict);
-		}
-	} */
+    if (displayPort != MACH_PORT_NULL) {
+        displayDict = IODisplayCreateInfoDictionary(displayPort, 0);
+        if (displayDict != NULL) {
+//            pDP->widthPix = [self getValue:displayModeDict forKey:kCGDisplayWidth];
+//            pDP->heightPix = [self getValue:displayModeDict forKey:kCGDisplayHeight];
+            CFRelease(displayDict);
+        }
+    } */
     
     
-	[self updatePhysicalParam:[displayPhysical displayParameters:displayIndex] displayIndex:displayIndex];
+    [self updatePhysicalParam:[displayPhysical displayParameters:displayIndex] displayIndex:displayIndex];
 }
 
 - (float)lowestSpatialFreqCPD:(long)displayIndex;
 {
-	return (1.0 / [self displaySizeDeg:displayIndex].width);
+    return (1.0 / [self displaySizeDeg:displayIndex].width);
 }
 
 - (short)numDisplays {
@@ -358,7 +358,7 @@ struct screenMode {
 
 - (long)pixelBits:(long)displayIndex {
 
-	return displayParam[displayIndex].pixelBits;
+    return displayParam[displayIndex].pixelBits;
 }
 
 - (u_int32_t)openGLDisplayID:(CGDisplayCount)displayIndex {
@@ -382,7 +382,7 @@ struct screenMode {
     tc *= sin(kRadiansPerDeg * kdlPhi);
     rgb.red = (lum + cb + kdlConstants[displayIndex].rtc * tc) / sqrt(2.0);
     rgb.green = (lum + cb * kdlConstants[displayIndex].gcb + tc * 
-						kdlConstants[displayIndex].gtc) / sqrt(2.0);
+                        kdlConstants[displayIndex].gtc) / sqrt(2.0);
     rgb.blue = (lum + cb * kdlConstants[displayIndex].bcb + tc) / sqrt(2.0);
     return rgb;
 }
@@ -393,7 +393,7 @@ struct screenMode {
 }
 
 - (BOOL)setDisplayMode:(long)displayIndex size:(CGSize)size bitDepth:(size_t)pixelBits frameRate:(CGRefreshRate)hz;
-{				
+{                
     long index;
     CGDisplayModeRef mode = NULL;
     float bestDifference = FLT_MAX;
@@ -428,7 +428,7 @@ struct screenMode {
     // If still no match is found, just use the current mode.
 
     CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
-    for (index = 0; index < CFArrayGetCount(allModes); index++)	{
+    for (index = 0; index < CFArrayGetCount(allModes); index++)    {
         mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
         if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
             continue;
@@ -459,41 +459,41 @@ struct screenMode {
     }
     status = CGDisplaySetDisplayMode(displayIDs[displayIndex], displayMode, NULL);
     CFRelease(displayMode);
-	[self loadDisplayParameters:displayIndex];
+    [self loadDisplayParameters:displayIndex];
     return (status == CGDisplayNoErr);
 }
 
 - (void)showCursor:(long)displayIndex {
-	
-	CGDisplayShowCursor(displayIDs[displayIndex]);
+    
+    CGDisplayShowCursor(displayIDs[displayIndex]);
 }
 
 // Show the dialog for changing display settings. 
 
 - (void)showDisplayParametersPanel:(long)displayIndex {
 
-	[self doSettingsPanel:displayIndex];
+    [self doSettingsPanel:displayIndex];
 }
 
 - (double)widthMM:(long)displayIndex {
 
-	return displayParam[displayIndex].widthMM;
+    return displayParam[displayIndex].widthMM;
 }
 
 - (long)widthPix:(long)displayIndex;
 {
-	return displayParam[displayIndex].widthPix;
+    return displayParam[displayIndex].widthPix;
 }
 
 - (void)updatePhysicalParam:(DisplayPhysicalParam *)pDP displayIndex:(long)displayIndex {
 
-	displayParam[displayIndex].CIEx = pDP->CIEx;
-	displayParam[displayIndex].CIEy = pDP->CIEy;
-	displayParam[displayIndex].distanceMM = pDP->distanceMM;
-	displayParam[displayIndex].widthMM = pDP->widthMM;
-	displayParam[displayIndex].heightMM = pDP->heightMM;	
+    displayParam[displayIndex].CIEx = pDP->CIEx;
+    displayParam[displayIndex].CIEy = pDP->CIEy;
+    displayParam[displayIndex].distanceMM = pDP->distanceMM;
+    displayParam[displayIndex].widthMM = pDP->widthMM;
+    displayParam[displayIndex].heightMM = pDP->heightMM;    
 
-	[self computeKdlConstants:displayIndex];		// update the kdl constants for the new entries
+    [self computeKdlConstants:displayIndex];        // update the kdl constants for the new entries
 }
 
 @end

@@ -18,43 +18,43 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 
     double eyelinkSampleTimeMS, CPUMS, driftParts;
     NSString *messageString;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     SEL selector = NSSelectorFromString(@"doAlarm:");
     
     if (![defaults boolForKey:[self uniqueKey:doWarnDriftKey]] || previous.sequences < 1) {
         return;
     }
-	
-	CPUMS = previous.cumulativeTimeMS;
-	eyelinkSampleTimeMS = previous.samples * previous.samplePeriodMS;
     
-	driftParts = ((eyelinkSampleTimeMS + CPUMS) / 2)/(CPUMS - eyelinkSampleTimeMS);
+    CPUMS = previous.cumulativeTimeMS;
+    eyelinkSampleTimeMS = previous.samples * previous.samplePeriodMS;
+    
+    driftParts = ((eyelinkSampleTimeMS + CPUMS) / 2)/(CPUMS - eyelinkSampleTimeMS);
     if (fabs(driftParts) < [defaults integerForKey:[self uniqueKey:driftLimitKey]]) {
-		NSLog(@"Warning: EyeLink clock drift is %d:%.0f relative to computer.", 
-					driftParts >= 0 ? 1 : -1, driftParts);
-		NSLog(@"previous.samples: %ld", previous.samples);
-		NSLog(@"previous.samplePeriodMS: %f", previous.samplePeriodMS);
-		NSLog(@"previous.sequences: %ld", previous.sequences);
-		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
-        if (!alarmActive && ![[settings window] isVisible]) {
+        NSLog(@"Warning: EyeLink clock drift is %d:%.0f relative to computer.", 
+                    driftParts >= 0 ? 1 : -1, driftParts);
+        NSLog(@"previous.samples: %ld", previous.samples);
+        NSLog(@"previous.samplePeriodMS: %f", previous.samplePeriodMS);
+        NSLog(@"previous.sequences: %ld", previous.sequences);
+        NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
+        if (!alarmActive && !settings.window.visible) {
             messageString = [NSString stringWithFormat:@"Warning: EyeLink clock drift is %d:%.0f relative to computer.",
                              driftParts >= 0 ? 1 : -1, driftParts];
             [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
         }
-	}
+    }
 }
 
 - (void)configure {
 
-	[settings showWindow:self];
+    [settings showWindow:self];
 }
 
 - (void)dealloc {
 
-	[descriptionString release];
-	[IDString release];
-	[settings release];
-	[super dealloc];
+    [descriptionString release];
+    [IDString release];
+    [settings release];
+    [super dealloc];
 }
 
 - (void)doAlarm:(NSString *)message;
@@ -63,32 +63,32 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
     
     alarmActive = YES;
     theAlert = [[NSAlert alloc] init];
-    [theAlert setMessageText:[NSString stringWithFormat:@"LLEyeLinkMonitor (%@)", [self IDString]]];
+    theAlert.messageText = [NSString stringWithFormat:@"LLEyeLinkMonitor (%@)", self.IDString];
     [theAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
     [theAlert addButtonWithTitle:NSLocalizedString(@"Disarm Alarm", @"Disarm Hardware Alarm")];
     [theAlert addButtonWithTitle:NSLocalizedString(@"Change Settings", @"Change Hardware Alarm Settings")];
-    [theAlert setInformativeText:message];
-	switch ([theAlert runModal]) {
-	case NSAlertSecondButtonReturn:						// disarm alarms
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
-		break;
-	case NSAlertThirdButtonReturn:
-		[self configure];								// configure alarms
-		break;
-	case NSAlertFirstButtonReturn:						// OK button, do nothing
-	default:
-		break;
-	}
-	alarmActive = NO;
+    theAlert.informativeText = message;
+    switch ([theAlert runModal]) {
+    case NSAlertSecondButtonReturn:                        // disarm alarms
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
+        break;
+    case NSAlertThirdButtonReturn:
+        [self configure];                                // configure alarms
+        break;
+    case NSAlertFirstButtonReturn:                        // OK button, do nothing
+    default:
+        break;
+    }
+    alarmActive = NO;
     [theAlert release];
 }
 
 - (NSString *)IDString {
 
-	return IDString;
+    return IDString;
 }
 
-- (id)initWithID:(NSString *)ID description:(NSString *)description {
+- (instancetype)initWithID:(NSString *)ID description:(NSString *)description {
 
     NSMutableDictionary *defaultSettings;
 
@@ -96,68 +96,68 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 
 // ID must be set up before doing the default settings
 
-		[ID retain];
-		IDString = ID;
-		[description retain];
-		descriptionString = description;
+        [ID retain];
+        IDString = ID;
+        [description retain];
+        descriptionString = description;
 
 // Set up all the default settings
 
-		defaultSettings = [[NSMutableDictionary alloc] init];
-		[defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:[self uniqueKey:doWarnDriftKey]];
-		[defaultSettings setObject:[NSNumber numberWithInt:100] forKey:[self uniqueKey:driftLimitKey]];
-		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
-		[defaultSettings release];
+        defaultSettings = [[NSMutableDictionary alloc] init];
+        defaultSettings[[self uniqueKey:doWarnDriftKey]] = @YES;
+        defaultSettings[[self uniqueKey:driftLimitKey]] = @100;
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
+        [defaultSettings release];
 
 // Default settings should be done before initializing values
 
-		settings = [[LLEyeLinkMonitorSettings alloc] initWithID:IDString monitor:self];
-		[self initValues:&cumulative];
-	}
+        settings = [[LLEyeLinkMonitorSettings alloc] initWithID:IDString monitor:self];
+        [self initValues:&cumulative];
+    }
     return self;
 }
 
 - (void)initValues:(EyeLinkMonitorValues *)pValues;
 {
- 	pValues->samples = pValues->sequences = 0;
+     pValues->samples = pValues->sequences = 0;
     pValues->cumulativeTimeMS = 0.0;
 }
 
 - (BOOL)isConfigurable {
 
-	return YES;
+    return YES;
 }
 
 - (NSAttributedString *)report {
 
-	NSMutableString *textString;
+    NSMutableString *textString;
     NSDictionary *attr;
 
-	textString = [[[NSMutableString alloc] initWithString:descriptionString] autorelease];
+    textString = [[[NSMutableString alloc] initWithString:descriptionString] autorelease];
 
-	if (cumulative.sequences == 0) {
-		[textString appendString:@"\n\n(No data sequences have been compiled)"];
-	}
-	else {
-		[textString appendString:[NSString stringWithFormat:@"\n\n%ld sampling sequences completed\n\n", 
-			cumulative.sequences]];
-		if (previous.samples > 0) {
-			[textString appendString:@"Last Sequence:\n\n"];
-			[textString appendString:[self valueString:&previous]];
-		}
-		[textString appendString:@"All Sequences:\n\n"];
-		[textString appendString:[self valueString:&cumulative]];
-	}
+    if (cumulative.sequences == 0) {
+        [textString appendString:@"\n\n(No data sequences have been compiled)"];
+    }
+    else {
+        [textString appendString:[NSString stringWithFormat:@"\n\n%ld sampling sequences completed\n\n", 
+            cumulative.sequences]];
+        if (previous.samples > 0) {
+            [textString appendString:@"Last Sequence:\n\n"];
+            [textString appendString:[self valueString:&previous]];
+        }
+        [textString appendString:@"All Sequences:\n\n"];
+        [textString appendString:[self valueString:&cumulative]];
+    }
     attr = [[[NSDictionary alloc] initWithObjectsAndKeys:
                     [NSFont userFixedPitchFontOfSize:10], NSFontAttributeName,
                     nil] autorelease];
-	return [[[NSAttributedString alloc] initWithString:textString attributes:attr] autorelease];
+    return [[[NSAttributedString alloc] initWithString:textString attributes:attr] autorelease];
 }
 
 - (void)resetCounters {
 
     [self initValues:&cumulative];
-	[[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
 }
 
 - (NSString *)valueString:(EyeLinkMonitorValues *)pValues {
@@ -166,12 +166,12 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
     NSMutableString *string = [[[NSMutableString alloc] init] autorelease];
     
     CPUMS = pValues->cumulativeTimeMS;
-	eyelinkSampleTimeMS = pValues->samples * pValues->samplePeriodMS;
+    eyelinkSampleTimeMS = pValues->samples * pValues->samplePeriodMS;
     [string appendString:[NSString stringWithFormat:
                 @" Did %.0f ms of samples in %.0f ms (%.1f ms difference, 1:%.0f; ", 
                 eyelinkSampleTimeMS, CPUMS, CPUMS - eyelinkSampleTimeMS, ((eyelinkSampleTimeMS + CPUMS) / 2) /
                 (CPUMS - eyelinkSampleTimeMS)]];
-	[string appendString:[NSString stringWithFormat:
+    [string appendString:[NSString stringWithFormat:
                 @"%.3f-%.3f ms period)\n\n Channel:", 
                 pValues->cumulativeTimeMS / (pValues->samples + pValues->sequences), 
                 pValues->cumulativeTimeMS / pValues->samples]];
@@ -190,21 +190,21 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 
 - (void)sequenceValues:(EyeLinkMonitorValues)current;
 {
-	previous = current;									// Save for the report
+    previous = current;                                    // Save for the report
     cumulative.samplePeriodMS = current.samplePeriodMS;
      
-	cumulative.sequences += current.sequences;
-	cumulative.cumulativeTimeMS += current.cumulativeTimeMS;
-	cumulative.samples += current.samples;
+    cumulative.sequences += current.sequences;
+    cumulative.cumulativeTimeMS += current.cumulativeTimeMS;
+    cumulative.samples += current.samples;
     
 
-//	for (index = 0; index < kLLITC18ADChannels; index++) {
-//		cumulative.ADMaxValues[index] = MAX(cumulative.ADMaxValues[index], current.ADMaxValues[index]);
-//		cumulative.ADMinValues[index] = MIN(cumulative.ADMinValues[index], current.ADMinValues[index]);
-//	}
+//    for (index = 0; index < kLLITC18ADChannels; index++) {
+//        cumulative.ADMaxValues[index] = MAX(cumulative.ADMaxValues[index], current.ADMaxValues[index]);
+//        cumulative.ADMinValues[index] = MIN(cumulative.ADMinValues[index], current.ADMinValues[index]);
+//    }
 
-	[self checkWarnings];
-	[[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
+    [self checkWarnings];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
 }
 
 // Because there may be many instances of some objects, we save using keys that are made
@@ -212,7 +212,7 @@ NSString *driftLimitKey = @"LL EyeLink Drift Limit";
 
 - (NSString *)uniqueKey:(NSString *)commonKey {
 
-	return [NSString stringWithFormat:@"%@ %@", IDString, commonKey]; 
+    return [NSString stringWithFormat:@"%@ %@", IDString, commonKey]; 
 }
 
 @end

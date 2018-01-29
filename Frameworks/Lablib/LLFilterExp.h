@@ -7,17 +7,16 @@
 //
 
 @interface LLFilterExp : NSObject {
-	
-	long	dataBytes;
-	double	filterValue;
-	double	stepWeight;
+    
+    long    dataBytes;
+    double    filterValue;
+    double    stepWeight;
 
 }
 
 - (NSData *)filteredValues:(NSData *)inData;
 - (void)reset;
 - (void)setDataBytes:(long)newDataBytes;
-- (void)setStepWeight:(double)newWeight;
-- (double)stepWeight;
+@property (NS_NONATOMIC_IOSONLY) double stepWeight;
 
 @end

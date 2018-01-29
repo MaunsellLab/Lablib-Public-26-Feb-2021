@@ -51,8 +51,6 @@
 		695EFEF41AC6243800D9D458 /* RFSpikeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEEE1AC6243800D9D458 /* RFSpikeController.xib */; };
 		695EFEF51AC6243800D9D458 /* RFSummaryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEEF1AC6243800D9D458 /* RFSummaryController.xib */; };
 		695EFEF61AC6243800D9D458 /* RFXTController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695EFEF01AC6243800D9D458 /* RFXTController.xib */; };
-		696A9CCB1F954D9300C6527B /* AllTaskPlugins.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CCA1F954D9300C6527B /* AllTaskPlugins.xcconfig */; };
-		696A9CCD1F954DA000C6527B /* AllProjects.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 696A9CCC1F954DA000C6527B /* AllProjects.xcconfig */; };
 		69CEB7A107999A7000C79781 /* RF.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEB7A007999A7000C79781 /* RF.h */; };
 		69CEB7A907999A7D00C79781 /* RFMap_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEB7A807999A7D00C79781 /* RFMap_Prefix.h */; };
 		69FB5C35078EE91700AC42FA /* RFMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 6933AFC5078459D1006963FA /* RFMap.h */; };
@@ -329,7 +327,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 69B8D128088DABDB002FCFD4 /* Build configuration list for PBXProject "RFMap" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -355,11 +353,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				696A9CCD1F954DA000C6527B /* AllProjects.xcconfig in Resources */,
 				695EFEF31AC6243800D9D458 /* RFMap.xib in Resources */,
 				6933B51E0784BCE6006963FA /* InfoPlist.strings in Resources */,
 				695EFEF61AC6243800D9D458 /* RFXTController.xib in Resources */,
-				696A9CCB1F954D9300C6527B /* AllTaskPlugins.xcconfig in Resources */,
 				695EFEF51AC6243800D9D458 /* RFSummaryController.xib in Resources */,
 				695EFEF21AC6243800D9D458 /* RFEyeXYController.xib in Resources */,
 				695EFEF11AC6243800D9D458 /* RFBehaviorController.xib in Resources */,

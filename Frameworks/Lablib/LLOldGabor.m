@@ -13,15 +13,15 @@
 //
 // Gabor rendering (see draw):
 // 1. One-dimension cycles (sine, triangle, & square), a 2-D Gaussian, and a 2-D circular aperture are
-//		computed (make* methods) in [LLGabor init].
+//        computed (make* methods) in [LLGabor init].
 // 2. The 1-D cycle (sine, triangle or square) is mapped along RGB color space 
-//		[LLGabor updateCycleTexture]oldCycleTexture
+//        [LLGabor updateCycleTexture]oldCycleTexture
 // 3. A circular drawing mask is defined according to the radius
-//		[LLGabor drawCircularStencil]
+//        [LLGabor drawCircularStencil]
 // 4. This cycle is applied to 2-D space using spatial phase, frequency and position 
-//		[LLGabor drawTextures]
+//        [LLGabor drawTextures]
 // 5. The Gaussian envelope is applied according to the desired sigma 
-//		and position [LLGabor drawTextures].
+//        and position [LLGabor drawTextures].
 
 // To maximize performance the components of the gabor can be encapsulated in an OpenGL
 // display lists by the method makeDisplayLists. makeDisplayLists would typically be called
@@ -96,24 +96,24 @@
 #import "LLOldGabor.h"
 #import "LLTextUtil.h"
 
-#define glMultiTexCoord2f	glMultiTexCoord2fARB
-#define glMultiTexCoord2fv	glMultiTexCoord2fvARB
-#define glActiveTexture		glActiveTextureARB
-#define kCyclePix			256						// must be a power of 2
-#define kGaussianImagePix   256						// must be a power of 2
+#define glMultiTexCoord2f    glMultiTexCoord2fARB
+#define glMultiTexCoord2fv    glMultiTexCoord2fvARB
+#define glActiveTexture        glActiveTextureARB
+#define kCyclePix            256                        // must be a power of 2
+#define kGaussianImagePix   256                        // must be a power of 2
 
 // The following are declared as class variables, because the same textures can be used to 
 // draw all the instances of LLGabor.  lastGabor keeps track of the texture variables
 // of the last Gabor that was drawn.
 
-GLuint 	oldCycleTexture = 0;
-GLuint 	oldGaussianTexture = 0;
-static OldGabor	lastGabor = {};
-static GLubyte	sinImage[kCyclePix];
-static GLubyte	triImage[kCyclePix];
-static GLubyte	squareImage[kCyclePix];
-static GLuint	circleList;
-GLint	oldNumTextureUnits=0;
+GLuint     oldCycleTexture = 0;
+GLuint     oldGaussianTexture = 0;
+static OldGabor    lastGabor = {};
+static GLubyte    sinImage[kCyclePix];
+static GLubyte    triImage[kCyclePix];
+static GLubyte    squareImage[kCyclePix];
+static GLuint    circleList;
+GLint    oldNumTextureUnits=0;
 static NSString *azimuthDegKey = @"azimuthDeg";
 static NSString *contrastKey = @"contrast";
 static NSString *elevationDegKey = @"elevationDeg";
@@ -133,44 +133,44 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 @implementation LLOldGabor
 - (double)azimuthDeg;
 {
-	return gabor.azimuthDeg;
+    return gabor.azimuthDeg;
 }
 - (double)contrast;
 {
-	return gabor.contrast;
+    return gabor.contrast;
 }
 
 - (void)bindValuesToKeysWithPrefix:(NSString *)newPrefix;
 {
-	NSEnumerator *enumerator;
-	NSString *key;
-	
-	[self unbindValues];
-	prefix = newPrefix;
-	[prefix retain];
-	
-	enumerator = [keys objectEnumerator];
-	while ((key = [enumerator nextObject]) != nil) {
-		[self bind:key 
-				toObject:[NSUserDefaultsController sharedUserDefaultsController] 
-				withKeyPath:[NSString stringWithFormat:@"values.%@", 
-				[LLTextUtil capitalize:key prefix:prefix]]
-				options:nil];
-	}
+    NSEnumerator *enumerator;
+    NSString *key;
+    
+    [self unbindValues];
+    prefix = newPrefix;
+    [prefix retain];
+    
+    enumerator = [keys objectEnumerator];
+    while ((key = [enumerator nextObject]) != nil) {
+        [self bind:key 
+                toObject:[NSUserDefaultsController sharedUserDefaultsController] 
+                withKeyPath:[NSString stringWithFormat:@"values.%@", 
+                [LLTextUtil capitalize:key prefix:prefix]]
+                options:nil];
+    }
 }
 
 
 - (void)dealloc {
 
-	[self unbindValues];
-	[keys release];
+    [self unbindValues];
+    [keys release];
     if (displayListNum > 0) {
         glDeleteLists(displayListNum, kDrawCircle + 1);
-	}
-	if (displays != nil) {
-		[displays release];
-	}
-	[super dealloc];
+    }
+    if (displays != nil) {
+        [displays release];
+    }
+    [super dealloc];
 } 
 
 
@@ -179,71 +179,71 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
     return[NSString stringWithFormat:@"\n\tAz = %.1f, El = %.1f\n\tOri = %.1f Cont = %.2f\n\
 \tRad = %.1f, Sig = %.1f, SF = %.1f\n\tKdl = %.1f, %.1f",
         gabor.azimuthDeg, gabor.elevationDeg, gabor.orientationDeg, gabor.contrast, gabor.radiusDeg, 
-		gabor.sigmaDeg, gabor.sf, gabor.kdlThetaDeg, gabor.kdlPhiDeg];
+        gabor.sigmaDeg, gabor.sf, gabor.kdlThetaDeg, gabor.kdlPhiDeg];
 }
 // We need this to adhere to the LLVisualStimulus protocol
 
 - (float)directionDeg;
 {
-	return gabor.orientationDeg;
+    return gabor.orientationDeg;
 }
 
 - (void) drawCircularStencil
 {
-	// only redraw stencil if necessary
-	if (gabor.radiusDeg != lastGabor.radiusDeg || gabor.elevationDeg != lastGabor.elevationDeg
-		|| gabor.azimuthDeg != lastGabor.azimuthDeg ) {
-		if (displayListNum > 0 && 
-			gabor.radiusDeg == displayListGabor.radiusDeg &&
-			gabor.azimuthDeg == displayListGabor.azimuthDeg &&
-			gabor.elevationDeg == displayListGabor.elevationDeg) {
-			glCallList(displayListNum + kDrawCircle);		// use display list if valid one exists
-		}
-		else {
-			[self drawCircularStencilGL];					// else draw in immediate mode
-		}
-	}
+    // only redraw stencil if necessary
+    if (gabor.radiusDeg != lastGabor.radiusDeg || gabor.elevationDeg != lastGabor.elevationDeg
+        || gabor.azimuthDeg != lastGabor.azimuthDeg ) {
+        if (displayListNum > 0 && 
+            gabor.radiusDeg == displayListGabor.radiusDeg &&
+            gabor.azimuthDeg == displayListGabor.azimuthDeg &&
+            gabor.elevationDeg == displayListGabor.elevationDeg) {
+            glCallList(displayListNum + kDrawCircle);        // use display list if valid one exists
+        }
+        else {
+            [self drawCircularStencilGL];                    // else draw in immediate mode
+        }
+    }
 }
 
 - (void)draw;
 {
     [self updateCycleTexture];
-	[self drawCircularStencil];
-	[self drawTextures];
-	lastGabor=gabor;
+    [self drawCircularStencil];
+    [self drawTextures];
+    lastGabor=gabor;
 }
 
 - (void) drawCircularStencilGL
 {
-	float limitedRadiusDeg = MIN(gabor.radiusDeg, kRadiusLimitSigma * gabor.sigmaDeg);
-	glEnable(GL_STENCIL_TEST);
-	glClearStencil(0x0);
-//	glClear(GL_STENCIL_BUFFER_BIT);
-	glStencilFunc(GL_ALWAYS,0x1,0x1);
-	glStencilOp(GL_REPLACE,GL_REPLACE,GL_REPLACE);
-	glPushMatrix();
-	glTranslatef(gabor.azimuthDeg,gabor.elevationDeg,0.);
-	glScalef(limitedRadiusDeg,limitedRadiusDeg,0.);
-	glCallList(circleList);
-	glPopMatrix();
-	glDisable(GL_STENCIL_TEST);
+    float limitedRadiusDeg = MIN(gabor.radiusDeg, kRadiusLimitSigma * gabor.sigmaDeg);
+    glEnable(GL_STENCIL_TEST);
+    glClearStencil(0x0);
+//    glClear(GL_STENCIL_BUFFER_BIT);
+    glStencilFunc(GL_ALWAYS,0x1,0x1);
+    glStencilOp(GL_REPLACE,GL_REPLACE,GL_REPLACE);
+    glPushMatrix();
+    glTranslatef(gabor.azimuthDeg,gabor.elevationDeg,0.);
+    glScalef(limitedRadiusDeg,limitedRadiusDeg,0.);
+    glCallList(circleList);
+    glPopMatrix();
+    glDisable(GL_STENCIL_TEST);
 }
 
 - (void) drawTextures {
 
     if (displayListNum > 0 &&
-		gabor.azimuthDeg == displayListGabor.azimuthDeg &&
+        gabor.azimuthDeg == displayListGabor.azimuthDeg &&
         gabor.elevationDeg == displayListGabor.elevationDeg &&
-		gabor.radiusDeg == displayListGabor.radiusDeg &&
+        gabor.radiusDeg == displayListGabor.radiusDeg &&
         gabor.sigmaDeg == displayListGabor.sigmaDeg &&
         gabor.sf == displayListGabor.sf &&
         gabor.sPhaseDeg == displayListGabor.sPhaseDeg &&
         gabor.orientationDeg == displayListGabor.orientationDeg) {
-			glCallList(displayListNum + kDrawTextures);			// use display list if valid one exists
-	}
+            glCallList(displayListNum + kDrawTextures);            // use display list if valid one exists
+    }
     else {
-        [self drawTexturesGL];									// else draw in immediate mode
-	}
+        [self drawTexturesGL];                                    // else draw in immediate mode
+    }
 }
 
 - (void)drawTexturesGL {
@@ -252,101 +252,101 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
     short i;
     double radiusPeriods, sinRadius, cosRadius, phaseOffset, orientationRad, limitedRadiusDeg;
      
-	limitedRadiusDeg = MIN(gabor.radiusDeg, kRadiusLimitSigma * gabor.sigmaDeg);
+    limitedRadiusDeg = MIN(gabor.radiusDeg, kRadiusLimitSigma * gabor.sigmaDeg);
     radiusPeriods = limitedRadiusDeg * gabor.sf;
-	orientationRad = gabor.orientationDeg * kRadiansPerDeg;
+    orientationRad = gabor.orientationDeg * kRadiansPerDeg;
     sinRadius = radiusPeriods * sin(orientationRad);
     cosRadius = radiusPeriods * cos(orientationRad);
     phaseOffset = gabor.sPhaseDeg / 360.0;
     corner = limitedRadiusDeg / gabor.sigmaDeg / (kRadiusLimitSigma * 2.00);
-    for (i = 0; i < 4; i++) {					// vertices of the complete gabor
-		x=(float)((i / 2) * 2 - 1);
-		y=(float)((((i + 1) / 2) % 2) * 2 - 1);
-		vertices[i*2]=gabor.azimuthDeg+x*limitedRadiusDeg;
-		vertices[i*2+1]=gabor.elevationDeg+y*limitedRadiusDeg;
-		phases[i]=phaseOffset+x*cosRadius+y*sinRadius;
+    for (i = 0; i < 4; i++) {                    // vertices of the complete gabor
+        x=(float)((i / 2) * 2 - 1);
+        y=(float)((((i + 1) / 2) % 2) * 2 - 1);
+        vertices[i*2]=gabor.azimuthDeg+x*limitedRadiusDeg;
+        vertices[i*2+1]=gabor.elevationDeg+y*limitedRadiusDeg;
+        phases[i]=phaseOffset+x*cosRadius+y*sinRadius;
         texCorners[i] = 0.5 + (((i % 4) / 2) * 2 - 1) * corner;
     }
-	texCorners[4]=texCorners[0];
+    texCorners[4]=texCorners[0];
 
 // Bind each texture to a texture unit
 
-    glActiveTexture(GL_TEXTURE0_ARB);				// activate texture unit 0 and cycle texture 
-    glEnable(GL_TEXTURE_1D);						
+    glActiveTexture(GL_TEXTURE0_ARB);                // activate texture unit 0 and cycle texture 
+    glEnable(GL_TEXTURE_1D);                        
     glBindTexture(GL_TEXTURE_1D, oldCycleTexture);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); // replace mode
 
-    glActiveTexture(GL_TEXTURE1_ARB);				// activate texture unit 1 and gaussian texture
+    glActiveTexture(GL_TEXTURE1_ARB);                // activate texture unit 1 and gaussian texture
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, oldGaussianTexture);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);   // decal mode
-	
-	
+    
+    
 // Assign the vertex coordinate to each of the textures
-	glEnable(GL_STENCIL_TEST);
-	glStencilFunc(GL_EQUAL,0x1,0x1);
-	glStencilOp(GL_KEEP,GL_KEEP,GL_KEEP);
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_EQUAL,0x1,0x1);
+    glStencilOp(GL_KEEP,GL_KEEP,GL_KEEP);
     
     glBegin(GL_QUADS);
-	for(i=0;i<4;i++) {
-		glMultiTexCoord1f(GL_TEXTURE0_ARB, phases[i]); 
-		glMultiTexCoord2fv(GL_TEXTURE1_ARB, &texCorners[i]);
-				
-		glVertex2fv(&vertices[i*2]);
-	}
+    for(i=0;i<4;i++) {
+        glMultiTexCoord1f(GL_TEXTURE0_ARB, phases[i]); 
+        glMultiTexCoord2fv(GL_TEXTURE1_ARB, &texCorners[i]);
+                
+        glVertex2fv(&vertices[i*2]);
+    }
     glEnd();
     
     glActiveTexture(GL_TEXTURE1_ARB);
     glDisable(GL_TEXTURE_2D);
     glActiveTexture(GL_TEXTURE0_ARB);
     glDisable(GL_TEXTURE_1D);
-	
-	glDisable(GL_STENCIL_TEST);
+    
+    glDisable(GL_STENCIL_TEST);
 }
 
 - (OldGabor *)gaborData {
-	
-	return &gabor;
+    
+    return &gabor;
 }
 
-- (id)init {
+- (instancetype)init {
 
-	GLuint	allTextures[2] = {};
-	
+    GLuint    allTextures[2] = {};
+    
     if ((self = [super init]) != nil) {
-		keys = [[NSArray arrayWithObjects:azimuthDegKey, contrastKey, elevationDegKey, kdlThetaDegKey, 
-				kdlPhiDegKey, orientationDegKey, radiusDegKey, spatialFreqCPDKey, sigmaDegKey, 
-				spatialModulationTypeKey, spatialPhaseDegKey, temporalFreqHzKey,
-				temporalModulationTypeKey, temporalModulationParamKey, temporalPhaseDegKey, nil] retain];
-		gabor.contrast = 1.0;									// default gabor parameters
-		gabor.orientationDeg = 45.0;
-		gabor.radiusDeg = 4.0;
-		gabor.sPhaseDeg = 0.0;
-		gabor.sf = 2.0;
-		gabor.tf = 0.0;
-		gabor.sigmaDeg = 0.5;
-		gabor.radiusDeg = 1.5;
-		gabor.sModulation = kSineModulation;
-		gabor.tModulation = kCounterPhase;
-		gabor.tModulationParam = kSPhase;
-			
-		displayListNum = 0;										// no display lists yet
-		glClearColor(0.5, 0.5, 0.5, 1.0);						// set the background color
-		glShadeModel(GL_FLAT);									// flat shading
-		if(!oldNumTextureUnits)
-			glGetIntegerv(GL_MAX_TEXTURE_UNITS, &oldNumTextureUnits);
+        keys = [@[azimuthDegKey, contrastKey, elevationDegKey, kdlThetaDegKey, 
+                kdlPhiDegKey, orientationDegKey, radiusDegKey, spatialFreqCPDKey, sigmaDegKey, 
+                spatialModulationTypeKey, spatialPhaseDegKey, temporalFreqHzKey,
+                temporalModulationTypeKey, temporalModulationParamKey, temporalPhaseDegKey] retain];
+        gabor.contrast = 1.0;                                    // default gabor parameters
+        gabor.orientationDeg = 45.0;
+        gabor.radiusDeg = 4.0;
+        gabor.sPhaseDeg = 0.0;
+        gabor.sf = 2.0;
+        gabor.tf = 0.0;
+        gabor.sigmaDeg = 0.5;
+        gabor.radiusDeg = 1.5;
+        gabor.sModulation = kSineModulation;
+        gabor.tModulation = kCounterPhase;
+        gabor.tModulationParam = kSPhase;
+            
+        displayListNum = 0;                                        // no display lists yet
+        glClearColor(0.5, 0.5, 0.5, 1.0);                        // set the background color
+        glShadeModel(GL_FLAT);                                    // flat shading
+        if(!oldNumTextureUnits)
+            glGetIntegerv(GL_MAX_TEXTURE_UNITS, &oldNumTextureUnits);
 
 // only need to generate textures once for all gabors
 
-		if (!oldCycleTexture) {
-			glGenTextures(2, allTextures);
-			oldCycleTexture = allTextures[0];
-			oldGaussianTexture = allTextures[1];
-			[self makeCycleTexture];
-			[self makeGaussianTexture];
-			[self makeCircle];
-		}
-	}
+        if (!oldCycleTexture) {
+            glGenTextures(2, allTextures);
+            oldCycleTexture = allTextures[0];
+            oldGaussianTexture = allTextures[1];
+            [self makeCycleTexture];
+            [self makeGaussianTexture];
+            [self makeCircle];
+        }
+    }
     return self; 
 }
 
@@ -359,22 +359,22 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
     
     for (x = 0; x < kCyclePix; x++) {
         c = (GLubyte)(sin(k2PI / kCyclePix * x) * 127.0 + 127.0);
-		sinImage[x] = (GLubyte)c;
-	}
+        sinImage[x] = (GLubyte)c;
+    }
     for (x = 0; x < kCyclePix; x++) {
         if (x < kCyclePix / 2) {
             squareImage[x] = 0;
         }
         else {
             squareImage[x] = 255;
-		}
+        }
     }
     for (x = 0; x <= kCyclePix / 4; x++) {
         triImage[x] = triImage[kCyclePix / 2 - x] = (float)x / (kCyclePix / 4) * 127.0 + 127.0;
         triImage[kCyclePix / 2 + x] = 255 - triImage[x];
         if (x > 0) {
-			triImage[kCyclePix - x] = triImage[kCyclePix / 2 + x];
-		}
+            triImage[kCyclePix - x] = triImage[kCyclePix / 2 + x];
+        }
     }         
     glEnable(GL_TEXTURE_1D);
     glBindTexture(GL_TEXTURE_1D, oldCycleTexture);
@@ -382,47 +382,47 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB, kCyclePix, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, sinImage);
+    glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB, kCyclePix, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, sinImage);
     glDisable(GL_TEXTURE_1D);     
 }
 
 - (void)makeDisplayLists {
 
     displayListGabor = gabor;
-	[self store];
+    [self store];
     
 // if no display lists then generate, otherwise overwrite
 
     if (displayListNum == 0) {
-		displayListNum = glGenLists(kDrawTypes);
-	}
-    glNewList(displayListNum + kDrawColor, GL_COMPILE);				// compile drawlist for color
+        displayListNum = glGenLists(kDrawTypes);
+    }
+    glNewList(displayListNum + kDrawColor, GL_COMPILE);                // compile drawlist for color
     [self updateCycleTextureGL];
     glEndList();
-    glNewList(displayListNum + kDrawTextures, GL_COMPILE);			// compile drawlist for textures
+    glNewList(displayListNum + kDrawTextures, GL_COMPILE);            // compile drawlist for textures
     [self drawTexturesGL];
     glEndList();
-    glNewList(displayListNum + kDrawCircle, GL_COMPILE);			// compile drawlist for circle
+    glNewList(displayListNum + kDrawCircle, GL_COMPILE);            // compile drawlist for circle
     [self drawCircularStencilGL];
     glEndList();
 }
 
 // Make a circular polygon
 - (void)makeCircle {
-	int i;
-	int sections=40; //number of triangles to use to estimate a circle
-	
-	circleList=glGenLists(1);
-	glNewList(circleList,GL_COMPILE);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(0., 0.); // origin
-	for(i = 0; i <= sections;i++) { 
-		glVertex2f(cos(i * 2 * M_PI / sections), 
-				   sin(i * 2 * M_PI / sections));
-	}
-	glEnd();
-	glEndList();
-}	
+    int i;
+    int sections=40; //number of triangles to use to estimate a circle
+    
+    circleList=glGenLists(1);
+    glNewList(circleList,GL_COMPILE);
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(0., 0.); // origin
+    for(i = 0; i <= sections;i++) { 
+        glVertex2f(cos(i * 2 * M_PI / sections), 
+                   sin(i * 2 * M_PI / sections));
+    }
+    glEnd();
+    glEndList();
+}    
 // Make a Gaussian texture that will give the Gaussian contrast profile to the Gabor
 
 - (void)makeGaussianTexture {
@@ -431,11 +431,11 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
     long x, xc, y, halfWidth, squared, sigma, term1;
     short xside, yside;
     double g;
-	
+    
     halfWidth = kGaussianImagePix / 2;
-	sigma = halfWidth / kRadiusLimitSigma;
-	term1 = -2 * sigma * sigma;
-	for (x = 0; x < halfWidth; x++) {
+    sigma = halfWidth / kRadiusLimitSigma;
+    term1 = -2 * sigma * sigma;
+    for (x = 0; x < halfWidth; x++) {
         for (xside = -1; xside < 2; xside += 2) {
             xc = halfWidth + x * xside;
             for (y = 0; y < halfWidth; y++) {
@@ -443,10 +443,10 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
                 g = exp((double)squared / (double)term1);    
                 for (yside = -1; yside < 2; yside += 2) {
                     gaussianImage[xc][halfWidth + y * yside] = 1 - g;
-				}
+                }
             }
         }
-        squared = halfWidth * halfWidth + x * x;		// clean up the edges
+        squared = halfWidth * halfWidth + x * x;        // clean up the edges
         g = exp((double)squared/(double)term1);
         for (xside = -1; xside < 2; xside += 2) {
             gaussianImage[0][halfWidth + x * xside] = 1 - g;
@@ -454,23 +454,23 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
         }
     }
             
-	glBindTexture(GL_TEXTURE_2D, oldNumTextureUnits);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
-	
-	glPixelTransferf(GL_RED_BIAS, 0.5);
-	glPixelTransferf(GL_GREEN_BIAS, 0.5);
-	glPixelTransferf(GL_BLUE_BIAS, 0.5);
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
-	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kGaussianImagePix, kGaussianImagePix, 
-	                 0, GL_ALPHA, GL_FLOAT, gaussianImage);
+    glBindTexture(GL_TEXTURE_2D, oldNumTextureUnits);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
+    
+    glPixelTransferf(GL_RED_BIAS, 0.5);
+    glPixelTransferf(GL_GREEN_BIAS, 0.5);
+    glPixelTransferf(GL_BLUE_BIAS, 0.5);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kGaussianImagePix, kGaussianImagePix, 
+                     0, GL_ALPHA, GL_FLOAT, gaussianImage);
 }
 
 - (void)restore {
 
-	gabor = baseGabor;
+    gabor = baseGabor;
 }
 
 - (void)setAzimuthDeg:(double)aziDeg {
@@ -486,18 +486,18 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 
 - (void)setContrast:(double)newContrast {
 
-	newContrast = MIN(newContrast, 1.0);
+    newContrast = MIN(newContrast, 1.0);
     gabor.contrast = newContrast;
 }
 
 - (void)setDisplays:(LLDisplays *)newDisplays displayIndex:(long)index {
-	
-	[newDisplays retain];
-	if (displays != nil) {
-		[displays release];
-	}
+    
+    [newDisplays retain];
+    if (displays != nil) {
+        [displays release];
+    }
     displays = newDisplays;
-	displayIndex = index;
+    displayIndex = index;
 }
 
 - (void)setElevationDeg:(double)eleDeg {
@@ -510,16 +510,16 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 - (void)setFrame:(NSNumber *)frameNumber {
 
     long framesPerHalfCycle, cycles, frame;
-	float frameRateHz;
+    float frameRateHz;
     double *currentPhase = &gabor.sPhaseDeg;
-		
-	frame = [frameNumber longValue];
-	if(displays==nil)
-		frameRateHz=60.;
-	else
-		frameRateHz = [displays frameRateHz:displayIndex];
+        
+    frame = frameNumber.longValue;
+    if(displays==nil)
+        frameRateHz=60.;
+    else
+        frameRateHz = [displays frameRateHz:displayIndex];
     if (gabor.tf > 0.0 && frameRateHz > 0.0) {
-		framesPerHalfCycle = frameRateHz / gabor.tf / 2.0;
+        framesPerHalfCycle = frameRateHz / gabor.tf / 2.0;
         switch (gabor.tModulationParam) {
             case kDirection:
                 currentPhase = &gabor.orientationDeg;
@@ -531,7 +531,7 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
                 currentPhase = &gabor.kdlPhiDeg;
                 break;
             case kSPhase:
-			default:
+            default:
                 currentPhase = &gabor.sPhaseDeg;
                 break;
         }
@@ -542,20 +542,20 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
             case kRandom:
                 if ((frame % framesPerHalfCycle) == 0) {
                     *currentPhase = (rand() % 360);
-				}
+                }
                 break;
             case kCounterPhase:
-			default:
-			/*
+            default:
+            /*
                 if (frame > 0 && ((frame % framesPerHalfCycle) == 0)) {
                     *currentPhase += 180.0;
-				}
+                }
                 gabor.contrast = baseGabor.contrast * 
-						fabs(sin(frame / (double)framesPerHalfCycle * kPI + gabor.tPhaseDeg * kRadiansPerDeg));
-			*/
-				gabor.contrast=baseGabor.contrast *
-						sin(frame / (double)framesPerHalfCycle * kPI + gabor.tPhaseDeg * kRadiansPerDeg);
-				break;
+                        fabs(sin(frame / (double)framesPerHalfCycle * kPI + gabor.tPhaseDeg * kRadiansPerDeg));
+            */
+                gabor.contrast=baseGabor.contrast *
+                        sin(frame / (double)framesPerHalfCycle * kPI + gabor.tPhaseDeg * kRadiansPerDeg);
+                break;
         }
     }
     cycles = floor(*currentPhase / 360.0);
@@ -563,7 +563,7 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 }    
 - (void)setGaborData:(OldGabor)newGabor {
 
-	gabor=newGabor;
+    gabor=newGabor;
 }
 
 
@@ -639,7 +639,7 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 
 - (void)setTemporalFreqHz:(double)newTF {
 
-	gabor.tf = newTF;
+    gabor.tf = newTF;
 }
 
 - (void)setTMod:(short)newTMod {
@@ -674,72 +674,72 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 
 - (void)store {
 
-	baseGabor = gabor;
+    baseGabor = gabor;
 }
 - (double)temporalFreqHz;
 {
-	return gabor.tf;
+    return gabor.tf;
 }
 
 - (short)temporalModulationType;
 {
-	return gabor.tModulation;
+    return gabor.tModulation;
 }
 
 - (short)temporalModulationParam;
 {
-	return gabor.tModulationParam;
+    return gabor.tModulationParam;
 }
 
 - (double)temporalPhaseDeg;
 {
-	return gabor.tPhaseDeg;
+    return gabor.tPhaseDeg;
 }
 
 - (void)unbindValues;
 {
-	NSEnumerator *enumerator;
-	NSString *key;
-	
-	if (prefix != nil) {
-		enumerator = [keys objectEnumerator];
-		while ((key = [enumerator nextObject]) != nil) {
-			[self unbind:key];
-		}
-		[prefix release];
-		prefix = nil;
-	}
+    NSEnumerator *enumerator;
+    NSString *key;
+    
+    if (prefix != nil) {
+        enumerator = [keys objectEnumerator];
+        while ((key = [enumerator nextObject]) != nil) {
+            [self unbind:key];
+        }
+        [prefix release];
+        prefix = nil;
+    }
 }
 
 // Only change the 1D cycle texture if necessary. For example, drifting gratings won't require a change.
-	
+    
 - (void)updateCycleTexture;
 {
-	if (gabor.contrast != lastGabor.contrast || gabor.kdlThetaDeg != lastGabor.kdlThetaDeg ||
-					gabor.kdlPhiDeg != lastGabor.kdlPhiDeg || 
-					gabor.sModulation != lastGabor.sModulation) {
-		if (displayListNum > 0 && 
-				gabor.contrast == displayListGabor.contrast &&
-				gabor.kdlThetaDeg == displayListGabor.kdlThetaDeg &&
-				gabor.kdlPhiDeg == displayListGabor.kdlPhiDeg &&
-				gabor.sModulation == displayListGabor.sModulation) {
-			glCallList(displayListNum + kDrawColor);					// use display list if valid one exists
-		}
-		else {
-			[self updateCycleTextureGL];								// else draw in immediate mode
-		}
-	}
+    if (gabor.contrast != lastGabor.contrast || gabor.kdlThetaDeg != lastGabor.kdlThetaDeg ||
+                    gabor.kdlPhiDeg != lastGabor.kdlPhiDeg || 
+                    gabor.sModulation != lastGabor.sModulation) {
+        if (displayListNum > 0 && 
+                gabor.contrast == displayListGabor.contrast &&
+                gabor.kdlThetaDeg == displayListGabor.kdlThetaDeg &&
+                gabor.kdlPhiDeg == displayListGabor.kdlPhiDeg &&
+                gabor.sModulation == displayListGabor.sModulation) {
+            glCallList(displayListNum + kDrawColor);                    // use display list if valid one exists
+        }
+        else {
+            [self updateCycleTextureGL];                                // else draw in immediate mode
+        }
+    }
 }
 
 
 - (void)updateCycleTextureGL;
 {
     RGBDouble rgb;
-	
-	if (displays == nil) {
-		return;
-	}
-	rgb = [displays RGB:displayIndex kdlTheta:gabor.kdlThetaDeg kdlPhi:gabor.kdlPhiDeg];
+    
+    if (displays == nil) {
+        return;
+    }
+    rgb = [displays RGB:displayIndex kdlTheta:gabor.kdlThetaDeg kdlPhi:gabor.kdlPhiDeg];
     rgb.red *= gabor.contrast;
     rgb.green *= gabor.contrast;
     rgb.blue *= gabor.contrast;
@@ -747,24 +747,24 @@ static NSString *temporalPhaseDegKey = @"temporalPhaseDeg";
 // convert RGBColor [-1 1] to OpenGL RGB [0 1] 
 
     glEnable(GL_TEXTURE_1D);
-    glBindTexture(GL_TEXTURE_1D, oldCycleTexture);	
+    glBindTexture(GL_TEXTURE_1D, oldCycleTexture);    
     glPixelTransferf(GL_RED_BIAS, 0.5 - rgb.red / 2.0);
     glPixelTransferf(GL_GREEN_BIAS,0.5 - rgb.green / 2.0);
     glPixelTransferf(GL_BLUE_BIAS, 0.5 - rgb.blue / 2.0);
     glPixelTransferf(GL_RED_SCALE, rgb.red);
     glPixelTransferf(GL_GREEN_SCALE, rgb.green);
     glPixelTransferf(GL_BLUE_SCALE, rgb.blue);
-	
+    
     switch (gabor.sModulation) {
         case kSquareModulation:
-			glTexSubImage1D(GL_TEXTURE_1D, 0, 0, kCyclePix, GL_LUMINANCE, GL_UNSIGNED_BYTE, squareImage);
+            glTexSubImage1D(GL_TEXTURE_1D, 0, 0, kCyclePix, GL_LUMINANCE, GL_UNSIGNED_BYTE, squareImage);
             break;
         case kTriangleModulation:
-			glTexSubImage1D(GL_TEXTURE_1D, 0, 0, kCyclePix, GL_LUMINANCE, GL_UNSIGNED_BYTE, triImage);
+            glTexSubImage1D(GL_TEXTURE_1D, 0, 0, kCyclePix, GL_LUMINANCE, GL_UNSIGNED_BYTE, triImage);
             break;
         case kSineModulation:
-		default:
-			glTexSubImage1D(GL_TEXTURE_1D, 0, 0, kCyclePix, GL_LUMINANCE, GL_UNSIGNED_BYTE, sinImage);
+        default:
+            glTexSubImage1D(GL_TEXTURE_1D, 0, 0, kCyclePix, GL_LUMINANCE, GL_UNSIGNED_BYTE, sinImage);
             break;
     }   
     glDisable(GL_TEXTURE_1D);     

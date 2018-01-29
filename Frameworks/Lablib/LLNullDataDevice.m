@@ -29,7 +29,7 @@
 {
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super init]) != nil) {
 		[samplePeriodMS addObject:[NSNumber numberWithFloat:kLLNullSamplePeriodMS]];

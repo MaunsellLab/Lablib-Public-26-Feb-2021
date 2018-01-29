@@ -18,11 +18,11 @@
 #import "FTStarttrialState.h"
 #import "FTStopState.h" 
 
-long 					eotCode;			// End Of Trial code
-BOOL 					fixated;
-LLEyeWindow				*fixWindow;
-FTStateSystem				*stateSystem;
-TrialDesc				trial;
+long                     eotCode;            // End Of Trial code
+BOOL                     fixated;
+LLEyeWindow                *fixWindow;
+FTStateSystem                *stateSystem;
+TrialDesc                trial;
 
 @implementation FTStateSystem
 
@@ -32,27 +32,27 @@ TrialDesc				trial;
     [super dealloc];
 }
 
-- (id)init {
+- (instancetype)init {
 
     if ((self = [super init]) != nil) {
 
 // create & initialize the state system's states
 
-		[self addState:[[[FTBlockedState alloc] init] autorelease]];
-		[self addState:[[[FTEndtrialState alloc] init] autorelease]];
-		[self addState:[[[FTFixateState alloc] init] autorelease]];
-		[self addState:[[[FTFixonState alloc] init] autorelease]];
-		[self addState:[[[FTIdleState alloc] init] autorelease]];
-		[self addState:[[[FTIntertrialState alloc] init] autorelease]];
-		[self addState:[[[FTStartState alloc] init] autorelease]];
-		[self addState:[[[FTStarttrialState alloc] init] autorelease]];
-		[self addState:[[[FTStopState alloc] init] autorelease]];
-		[self setStartState:[self stateNamed:@"Start"] andStopState:[self stateNamed:@"Stop"]];
-//		[controller setLogging:YES];
-			
-		fixWindow = [[LLEyeWindow alloc] init];
-		[fixWindow setWidthAndHeightDeg:[[NSUserDefaults standardUserDefaults] 
-			floatForKey:FTFixWindowWidthDegKey]];
+        [self addState:[[[FTBlockedState alloc] init] autorelease]];
+        [self addState:[[[FTEndtrialState alloc] init] autorelease]];
+        [self addState:[[[FTFixateState alloc] init] autorelease]];
+        [self addState:[[[FTFixonState alloc] init] autorelease]];
+        [self addState:[[[FTIdleState alloc] init] autorelease]];
+        [self addState:[[[FTIntertrialState alloc] init] autorelease]];
+        [self addState:[[[FTStartState alloc] init] autorelease]];
+        [self addState:[[[FTStarttrialState alloc] init] autorelease]];
+        [self addState:[[[FTStopState alloc] init] autorelease]];
+        [self setStartState:[self stateNamed:@"Start"] andStopState:[self stateNamed:@"Stop"]];
+//        [controller setLogging:YES];
+            
+        fixWindow = [[LLEyeWindow alloc] init];
+        [fixWindow setWidthAndHeightDeg:[[NSUserDefaults standardUserDefaults] 
+            floatForKey:FTFixWindowWidthDegKey]];
 
 // Initialize the trialBlock that keeps track of trials and blocks
 
@@ -62,15 +62,15 @@ TrialDesc				trial;
 
 - (BOOL) running {
 
-    return [controller running];
+    return controller.running;
 }
 
-- (BOOL)startWithCheckIntervalMS:(double)checkMS {			// start the system running
+- (BOOL)startWithCheckIntervalMS:(double)checkMS {            // start the system running
 
     return [controller startWithCheckIntervalMS:checkMS];
 }
 
-- (void) stop {										// stop the system
+- (void) stop {                                        // stop the system
 
     [controller stop];
 }
@@ -82,7 +82,7 @@ TrialDesc				trial;
 // The indirect way of calling reset in the end trial state is used to avoid a circularity
 // in header files refrences.
 
-//	[endtrial performSelector:@selector(reset)];
+//    [endtrial performSelector:@selector(reset)];
 }
 
 @end

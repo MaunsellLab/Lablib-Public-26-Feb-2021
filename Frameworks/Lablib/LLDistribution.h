@@ -9,23 +9,23 @@
  *
  */
 
-typedef enum {kStandardError, kConfidence95} LLErrorBarType;
+typedef NS_ENUM(unsigned int, LLErrorBarType) {kStandardError, kConfidence95};
 
-#define kConfidence68		kStandardError
-#define k68ErrorCriterion	((1.0 - 0.6826) / 2.0)
+#define kConfidence68        kStandardError
+#define k68ErrorCriterion    ((1.0 - 0.6826) / 2.0)
 
 @protocol LLDistribution
 
 - (void)addValue:(double)value;
 - (void)clear;
-- (double)lowerError;
-- (double)mean;
-- (double)n;
-- (double)se;
+@property (NS_NONATOMIC_IOSONLY, readonly) double lowerError;
+@property (NS_NONATOMIC_IOSONLY, readonly) double mean;
+@property (NS_NONATOMIC_IOSONLY, readonly) double n;
+@property (NS_NONATOMIC_IOSONLY, readonly) double se;
 - (void)setErrorType:(long)errorType;
-- (double)std;
+@property (NS_NONATOMIC_IOSONLY, readonly) double std;
 - (void)subtractValue:(double)value;
-- (double)upperError;
-- (double)var;
+@property (NS_NONATOMIC_IOSONLY, readonly) double upperError;
+@property (NS_NONATOMIC_IOSONLY, readonly) double var;
 
 @end

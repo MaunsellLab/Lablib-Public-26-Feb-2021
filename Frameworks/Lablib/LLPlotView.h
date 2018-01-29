@@ -9,51 +9,51 @@
 #import "LLPlotColors.h"
 #import "LLViewScale.h"
 
-#define kHighlightPix		1
-#define kLLMarginPix			2
-#define kLabelExtraPix		15						// Extra margin for x tick labels
-#define kShadowPix			1
-#define kXAxisExtraSpace	0.5
-#define kExtraSpaceFraction	0.05
+#define kHighlightPix        1
+#define kLLMarginPix            2
+#define kLabelExtraPix        15                        // Extra margin for x tick labels
+#define kShadowPix            1
+#define kXAxisExtraSpace    0.5
+#define kExtraSpaceFraction    0.05
 
-#define topMarginPix		(kHighlightPix + kLLMarginPix + textLineHeightPix)
-#define leftMarginPix		(kHighlightPix + kLLMarginPix + 2 * textLineHeightPix + kTickHeightPix)
-#define kRightMarginPix		(kShadowPix + kHighlightPix + kLLMarginPix + kLabelExtraPix)
-#define bottomMarginPix		(kShadowPix + kHighlightPix + kLLMarginPix + 2 * textLineHeightPix + kTickHeightPix)
+#define topMarginPix        (kHighlightPix + kLLMarginPix + textLineHeightPix)
+#define leftMarginPix        (kHighlightPix + kLLMarginPix + 2 * textLineHeightPix + kTickHeightPix)
+#define kRightMarginPix        (kShadowPix + kHighlightPix + kLLMarginPix + kLabelExtraPix)
+#define bottomMarginPix        (kShadowPix + kHighlightPix + kLLMarginPix + 2 * textLineHeightPix + kTickHeightPix)
 
 typedef struct {
-    float	minValue;
-    float	maxValue;
+    float    minValue;
+    float    maxValue;
     NSColor *color;
 } AxisHighlight;
 
 @interface LLPlotView : NSView {
 @protected
-    long				dataPoints;					// length of data array
-    LLPlotColors		*defaultColors;
-    NSMutableArray		*enable;
-    BOOL				highlightPlot;				// draw a box around the entire plot
-    float				maxBin;						// value of largest plotting bin
-    NSMutableArray		*plotColors;
-    NSMutableArray		*plotValues;
-    long 				plotPoints;					// number of points to plot
-    LLViewScale			*scale;						// Leave the scaling accessible
-    NSString			*title;
-    float				textLineHeightPix;
-    BOOL				useXDisplayValues;
-    BOOL				useYDisplayValues;
-    NSString			*xAxisLabel;
-    AxisHighlight 		xHighlight;
-    float				xMaxDisplayValue;			// Values written on the axes
-    float				xMinDisplayValue;
-    NSArray				*xTickLabels;
-    float				xTickSpacing;
-    NSString			*yAxisLabel;						
-    AxisHighlight 		yHighlight;
-    float				yMaxDisplayValue;						
-    float				yMinDisplayValue;						
-    NSArray				*yTickLabels;
-    float				yTickSpacing;
+    long                dataPoints;                    // length of data array
+    LLPlotColors        *defaultColors;
+    NSMutableArray        *enable;
+    BOOL                highlightPlot;                // draw a box around the entire plot
+    float                maxBin;                        // value of largest plotting bin
+    NSMutableArray        *plotColors;
+    NSMutableArray        *plotValues;
+    long                 plotPoints;                    // number of points to plot
+    LLViewScale            *scale;                        // Leave the scaling accessible
+    NSString            *title;
+    float                textLineHeightPix;
+    BOOL                useXDisplayValues;
+    BOOL                useYDisplayValues;
+    NSString            *xAxisLabel;
+    AxisHighlight         xHighlight;
+    float                xMaxDisplayValue;            // Values written on the axes
+    float                xMinDisplayValue;
+    NSArray                *xTickLabels;
+    float                xTickSpacing;
+    NSString            *yAxisLabel;                        
+    AxisHighlight         yHighlight;
+    float                yMaxDisplayValue;                        
+    float                yMinDisplayValue;                        
+    NSArray                *yTickLabels;
+    float                yTickSpacing;
 }
 
 - (void)addPlot:(NSArray *)values plotColor:(NSColor *)color;
@@ -61,10 +61,10 @@ typedef struct {
 - (void)enableAll;
 - (void)handleScaleChange:(NSNotification *)note;
 - (void)initializeWithScale:(LLViewScale *)plotScale;
-- (id) initWithFrame:(NSRect)frame; 
-- (id) initWithFrame:(NSRect)frame scaling:(LLViewScale *)histScale;
-- (long)points;
-- (LLViewScale *)scale;
+- (instancetype) initWithFrame:(NSRect)frame; 
+- (instancetype) initWithFrame:(NSRect)frame scaling:(LLViewScale *)histScale;
+@property (NS_NONATOMIC_IOSONLY) long points;
+@property (NS_NONATOMIC_IOSONLY, strong) LLViewScale *scale;
 - (void)setColor:(NSColor *)newColor forPlot:(long)plotIndex;
 - (void)setHighlightPlot:(BOOL)state;
 - (void)setHighlightXRangeColor:(NSColor *)color; 
@@ -72,8 +72,6 @@ typedef struct {
 - (void)setHighlightYRangeColor:(NSColor *)color; 
 - (void)setHighlightYRangeFrom:(float)minValue to:(float)maxValue;
 - (void)setNeedsDisplayOnMainThread:(BOOL)state;
-- (void)setPoints:(long)binsToPlot;
-- (void)setScale:(LLViewScale *)newScale;
 - (void)setTitle:(NSString *)string;
 - (void)setXAxisLabel:(NSString *)label;
 - (void)setXAxisTickLabels:(NSArray *)tickLabelArray;
@@ -83,7 +81,7 @@ typedef struct {
 - (void)setYAxisTickLabels:(NSArray *)tickLabelArray;
 - (void)setYAxisTickSpacing:(float)spacing;
 - (void)setYMin:(float)yMin yMax:(float)yMax;
-- (float)xMaxDisplayValue;
-- (float)xMinDisplayValue;
+@property (NS_NONATOMIC_IOSONLY, readonly) float xMaxDisplayValue;
+@property (NS_NONATOMIC_IOSONLY, readonly) float xMinDisplayValue;
 
 @end

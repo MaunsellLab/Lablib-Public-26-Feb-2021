@@ -10,24 +10,24 @@
 
 @interface LLEyeWindow:NSObject {
 
-    float 	azimuthDeg;
-	NSColor	*fillColor;
+    float     azimuthDeg;
+    NSColor    *fillColor;
     NSColor *plotColor;
-    float	elevationDeg;
-    float	radiusDeg;
-    NSRect	rectDeg;
-	NSColor	*strokeColor;
+    float    elevationDeg;
+    float    radiusDeg;
+    NSRect    rectDeg;
+    NSColor    *strokeColor;
 }
 
 - (float)azimuthDeg;
-- (NSPoint)centerDeg;
-- (NSColor *)color;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint centerDeg;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *color;
 - (float)elevationDeg;
 - (float)heightDeg;
 - (BOOL)inWindowDeg:(NSPoint)pointDeg;
-- (NSPoint)originDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint originDeg;
 - (float)radiusDeg;
-- (NSRect)rectDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSRect rectDeg;
 - (void)setAzimuthDeg:(double)azimuth elevationDeg:(double)elevation;
 - (void)setAzimuthDeg:(double)azimuth;
 - (void)setElevationDeg:(double)elevation;
@@ -37,8 +37,7 @@
 - (void)setWidthAndHeightDeg:(double)value;
 - (void)setWidthDeg:(double)width;
 - (void)setWidthDeg:(double)width heightDeg:(double)height;
-- (void)setColor:(NSColor *)color;
-- (NSSize)sizeDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSSize sizeDeg;
 - (float)widthDeg;
 
 @end

@@ -17,33 +17,33 @@
 
 - (void)addNumber:(NSValue *)newNumber;
 {
-	[numbers addObject:newNumber];
+    [numbers addObject:newNumber];
 }
 
 - (void)dealloc;
 {
-	[numbers release];
-	[super dealloc];
+    [numbers release];
+    [super dealloc];
 }
 
-- (id)init;
+- (instancetype)init;
 {
-	if (self = [super init]) {
-		numbers = [[NSMutableArray alloc] init];
-	}
-	return self;
+    if (self = [super init]) {
+        numbers = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 - (id)transformedValue:(id)number;
 {
-	long index;
-	
-	for (index = 0; index < [numbers count]; index++) {
-		if ([number compare:[numbers objectAtIndex:index]] == NSOrderedSame) {
-			return [NSNumber numberWithBool:YES];
-		}
-	}
-	return [NSNumber numberWithBool:NO];
+    long index;
+    
+    for (index = 0; index < numbers.count; index++) {
+        if ([number compare:numbers[index]] == NSOrderedSame) {
+            return @YES;
+        }
+    }
+    return @NO;
 }
 
 @end

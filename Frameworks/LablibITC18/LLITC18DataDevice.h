@@ -9,38 +9,38 @@
 #import <Lablib/LLDataDevice.h>
 #import "LLITCMonitor.h"
 
-#define kMaxInstructions 			12
-#define kMinSampleBuffer			8192
+#define kMaxInstructions             12
+#define kMinSampleBuffer            8192
 
 @interface LLITC18DataDevice : LLDataDevice {
 
-    NSLock				*deviceLock;
-	long				deviceNum;
-	unsigned long		digitalOutputWord;
-	BOOL				justStartedITC18;
-	int					instructions[kMaxInstructions];
-	double				ITCSamplePeriodS;
-	long				ITCTicksPerInstruction;
-	double				lastReadDataTimeS;
-	LLITCMonitor		*monitor;
-	double				monitorStartTimeS; 
-	double				nextSampleTimeS[kLLITC18ADChannels];
-	long				numInstructions;
-	short				*samples;
-	NSMutableData		*sampleData[kLLITC18ADChannels];
-	NSLock				*sampleLock;
-	NSData				*sampleResults[kLLITC18ADChannels];
-	double				sampleTimeS;
-	unsigned short		timestampActiveBits;
-	NSMutableData		*timestampData[kLLITC18DigitalBits];
-	NSLock				*timestampLock;
-	NSData				*timestampResults[kLLITC18DigitalBits];
-	double				timestampTickS[kLLITC18DigitalBits];
+    NSLock                *deviceLock;
+    long                deviceNum;
+    unsigned long        digitalOutputWord;
+    BOOL                justStartedITC18;
+    int                    instructions[kMaxInstructions];
+    double                ITCSamplePeriodS;
+    long                ITCTicksPerInstruction;
+    double                lastReadDataTimeS;
+    LLITCMonitor        *monitor;
+    double                monitorStartTimeS; 
+    double                nextSampleTimeS[kLLITC18ADChannels];
+    long                numInstructions;
+    short                *samples;
+    NSMutableData        *sampleData[kLLITC18ADChannels];
+    NSLock                *sampleLock;
+    NSData                *sampleResults[kLLITC18ADChannels];
+    double                sampleTimeS;
+    unsigned short        timestampActiveBits;
+    NSMutableData        *timestampData[kLLITC18DigitalBits];
+    NSLock                *timestampLock;
+    NSData                *timestampResults[kLLITC18DigitalBits];
+    double                timestampTickS[kLLITC18DigitalBits];
     NSArray             *topLevelObjects;
-	BOOL				USB18;
-    ITCMonitorValues	values;
+    BOOL                USB18;
+    ITCMonitorValues    values;
 
-	IBOutlet NSWindow 	*settingsWindow;
+    IBOutlet NSWindow     *settingsWindow;
 }
 
 @property (nonatomic, assign) Ptr itc;;
@@ -49,11 +49,11 @@
 
 - (void)allocateSampleBuffer:(short **)ppBuffer size:(long)sizeInShorts;
 - (void)closeITC18;
-- (int)getAvailable;
-- (id)initWithDevice:(long)deviceNum;
-- (Ptr)itc;
+@property (NS_NONATOMIC_IOSONLY, getter=getAvailable, readonly) int available;
+- (instancetype)initWithDevice:(long)deviceNum;
+- (Ptr)itc NS_RETURNS_INNER_POINTER;
 - (void)loadInstructions;
-- (id <LLMonitor>)monitor;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id<LLMonitor> monitor;
 - (BOOL)openITC18:(long)deviceNum;
 - (void)readData;
 

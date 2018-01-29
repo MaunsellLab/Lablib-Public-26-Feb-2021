@@ -23,9 +23,9 @@ extern NSString *LLPTUAPerVKey;
 
 @interface LLPulseTrain : NSWindowController {
 
-	PulseTrainData	pulseTrain;
+    PulseTrainData    pulseTrain;
 }
 
-- (PulseTrainData *)trainData;
+@property (NS_NONATOMIC_IOSONLY, readonly) PulseTrainData *trainData;
 
 @end

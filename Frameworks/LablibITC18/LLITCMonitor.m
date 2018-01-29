@@ -24,65 +24,65 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
         ITCMS = previous.instructions * previous.instructionPeriodMS;
         CPUMS = previous.cumulativeTimeMS;
         driftParts = ((ITCMS + CPUMS) / 2)/(CPUMS - ITCMS);
-		NSLog(@"Warning: ITC clock drift is %@1 tick per %.0f relative to computer.", 
-					driftParts >= 0 ? @"+" : @"-", fabs(driftParts));
-		NSLog(@"previous.sequences: %ld", previous.sequences);
-		NSLog(@"previous.instructions: %ld", previous.instructions);
-		NSLog(@"previous.instructionPeriodMS: %f", previous.instructionPeriodMS);
-		NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
-        if (!alarmActive && ![[settings window] isVisible]) {
+        NSLog(@"Warning: ITC clock drift is %@1 tick per %.0f relative to computer.", 
+                    driftParts >= 0 ? @"+" : @"-", fabs(driftParts));
+        NSLog(@"previous.sequences: %ld", previous.sequences);
+        NSLog(@"previous.instructions: %ld", previous.instructions);
+        NSLog(@"previous.instructionPeriodMS: %f", previous.instructionPeriodMS);
+        NSLog(@"previous.cumulativeTimeMS: %f", previous.cumulativeTimeMS);
+        if (!alarmActive && !settings.window.visible) {
             messageString = [NSString stringWithFormat:
                              @"Warning: ITC clock drift is %@1 tick per %.0f relative to computer.",
                              driftParts >= 0 ? @"+" : @"-", fabs(driftParts)];
             [self performSelectorOnMainThread:selector withObject:messageString waitUntilDone:NO];
         }
-	}
+    }
 }
 
 - (void)configure {
 
-	[settings showWindow:self];
+    [settings showWindow:self];
 }
 
 - (void)dealloc {
 
-	[descriptionString release];
-	[IDString release];
-	[settings release];
-	[super dealloc];
+    [descriptionString release];
+    [IDString release];
+    [settings release];
+    [super dealloc];
 }
 
 - (void)doAlarm:(NSString *)message;
 {
     NSAlert *theAlert = [[NSAlert alloc] init];
     
-	alarmActive = YES;
-    [theAlert setMessageText:[NSString stringWithFormat:@"LLITCMonitor (%@)", [self IDString]]];
+    alarmActive = YES;
+    theAlert.messageText = [NSString stringWithFormat:@"LLITCMonitor (%@)", self.IDString];
     [theAlert addButtonWithTitle:NSLocalizedString(@"OK", @"OK")];
     [theAlert addButtonWithTitle:NSLocalizedString(@"Disarm Alarm", @"Disarm Hardware Alarm")];
     [theAlert addButtonWithTitle:NSLocalizedString(@"Change Settings", @"Change Hardware Alarm Settings")];
-    [theAlert setInformativeText:message];
-	switch ([theAlert runModal]) {
-        case NSAlertSecondButtonReturn:						// disarm alarms
+    theAlert.informativeText = message;
+    switch ([theAlert runModal]) {
+        case NSAlertSecondButtonReturn:                        // disarm alarms
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[self uniqueKey:doWarnDriftKey]];
             break;
         case NSAlertThirdButtonReturn:
-            [self configure];								// configure alarms
+            [self configure];                                // configure alarms
             break;
-        case NSAlertFirstButtonReturn:						// OK button, do nothing
+        case NSAlertFirstButtonReturn:                        // OK button, do nothing
         default:
             break;
-	}
-	alarmActive = NO;
+    }
+    alarmActive = NO;
     [theAlert release];
 }
 
 - (NSString *)IDString {
 
-	return IDString;
+    return IDString;
 }
 
-- (id)initWithID:(NSString *)ID description:(NSString *)description {
+- (instancetype)initWithID:(NSString *)ID description:(NSString *)description {
 
     NSMutableDictionary *defaultSettings;
 
@@ -90,77 +90,77 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 
 // ID must be set up before doing the default settings
 
-		[ID retain];
-		IDString = ID;
-		[description retain];
-		descriptionString = description;
+        [ID retain];
+        IDString = ID;
+        [description retain];
+        descriptionString = description;
 
 // Set up all the default settings
 
-		defaultSettings = [[NSMutableDictionary alloc] init];
-		[defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:[self uniqueKey:doWarnDriftKey]];
-		[defaultSettings setObject:[NSNumber numberWithInt:100] forKey:[self uniqueKey:driftLimitKey]];
-		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
-		[defaultSettings release];
+        defaultSettings = [[NSMutableDictionary alloc] init];
+        defaultSettings[[self uniqueKey:doWarnDriftKey]] = @YES;
+        defaultSettings[[self uniqueKey:driftLimitKey]] = @100;
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
+        [defaultSettings release];
 
 // Default settings should be done before initializing values
 
-		settings = [[LLITCMonitorSettings alloc] initWithID:IDString monitor:self];
-		[self initValues:&cumulative];
-	}
+        settings = [[LLITCMonitorSettings alloc] initWithID:IDString monitor:self];
+        [self initValues:&cumulative];
+    }
     return self;
 }
 
 - (void)initValues:(ITCMonitorValues *)pValues {
 
-	long index;
-	
-	pValues->samples = pValues->instructions = pValues->sequences = 0;
+    long index;
+    
+    pValues->samples = pValues->instructions = pValues->sequences = 0;
     pValues->cumulativeTimeMS = 0.0;
-	for (index = 0; index < kLLITC18DigitalBits; index++) {
-		pValues->timestampCount[index] = 0;
-	}
-	for (index = 0; index < kLLITC18ADChannels; index++) {
-		pValues->ADMaxValues[index] = SHRT_MIN;
-		pValues->ADMinValues[index] = SHRT_MAX;
-	}
+    for (index = 0; index < kLLITC18DigitalBits; index++) {
+        pValues->timestampCount[index] = 0;
+    }
+    for (index = 0; index < kLLITC18ADChannels; index++) {
+        pValues->ADMaxValues[index] = SHRT_MIN;
+        pValues->ADMinValues[index] = SHRT_MAX;
+    }
 }
 
 - (BOOL)isConfigurable {
 
-	return YES;
+    return YES;
 }
 
 - (NSAttributedString *)report {
 
-	NSMutableString *textString;
+    NSMutableString *textString;
     NSDictionary *attr;
 
-	textString = [[[NSMutableString alloc] initWithString:descriptionString] autorelease];
+    textString = [[[NSMutableString alloc] initWithString:descriptionString] autorelease];
 
-	if (cumulative.sequences == 0) {
-		[textString appendString:@"\n\n(No data sequences have been compiled)"];
-	}
-	else {
-		[textString appendString:[NSString stringWithFormat:@"\n\n%ld sampling sequences completed\n\n", 
-			cumulative.sequences]];
-		if (previous.samples > 0) {
-			[textString appendString:@"Last Sequence:\n\n"];
-			[textString appendString:[self valueString:&previous]];
-		}
-		[textString appendString:@"All Sequences:\n\n"];
-		[textString appendString:[self valueString:&cumulative]];
-	}
+    if (cumulative.sequences == 0) {
+        [textString appendString:@"\n\n(No data sequences have been compiled)"];
+    }
+    else {
+        [textString appendString:[NSString stringWithFormat:@"\n\n%ld sampling sequences completed\n\n", 
+            cumulative.sequences]];
+        if (previous.samples > 0) {
+            [textString appendString:@"Last Sequence:\n\n"];
+            [textString appendString:[self valueString:&previous]];
+        }
+        [textString appendString:@"All Sequences:\n\n"];
+        [textString appendString:[self valueString:&cumulative]];
+    }
     attr = [[[NSDictionary alloc] initWithObjectsAndKeys:
                     [NSFont userFixedPitchFontOfSize:10], NSFontAttributeName,
                     nil] autorelease];
-	return [[[NSAttributedString alloc] initWithString:textString attributes:attr] autorelease];
+    return [[[NSAttributedString alloc] initWithString:textString attributes:attr] autorelease];
 }
 
 - (void)resetCounters {
 
     [self initValues:&cumulative];
-	[[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
 }
 
 - (NSString *)valueString:(ITCMonitorValues *)pValues {
@@ -171,10 +171,10 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
     
     ITCMS = pValues->instructions * pValues->instructionPeriodMS;
     CPUMS = pValues->cumulativeTimeMS;
-	[string appendString:[NSString stringWithFormat:
+    [string appendString:[NSString stringWithFormat:
                 @" Did %.0f ms of samples in %.0f ms (%.1f ms difference, 1:%.0f; ", 
                 ITCMS, CPUMS, CPUMS - ITCMS, ((ITCMS + CPUMS) / 2)/(CPUMS - ITCMS)]];
-	[string appendString:[NSString stringWithFormat:
+    [string appendString:[NSString stringWithFormat:
                 @"%.3f-%.3f ms period)\n\n Channel:", 
                 pValues->cumulativeTimeMS / (pValues->samples + pValues->sequences), 
                 pValues->cumulativeTimeMS / pValues->samples]];
@@ -208,25 +208,25 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 
     long index;
     
-	previous = current;									// Save for the report
+    previous = current;                                    // Save for the report
     cumulative.samplePeriodMS = current.samplePeriodMS;
     cumulative.instructionPeriodMS = current.instructionPeriodMS;
     
-	cumulative.sequences += current.sequences;
-	cumulative.cumulativeTimeMS += current.cumulativeTimeMS;
-	cumulative.samples += current.samples;
+    cumulative.sequences += current.sequences;
+    cumulative.cumulativeTimeMS += current.cumulativeTimeMS;
+    cumulative.samples += current.samples;
     cumulative.instructions += current.instructions;
     
-	for (index = 0; index < kLLITC18DigitalBits; index++) {
-		cumulative.timestampCount[index] += current.timestampCount[index];
-	}
-	for (index = 0; index < kLLITC18ADChannels; index++) {
-		cumulative.ADMaxValues[index] = MAX(cumulative.ADMaxValues[index], current.ADMaxValues[index]);
-		cumulative.ADMinValues[index] = MIN(cumulative.ADMinValues[index], current.ADMinValues[index]);
-	}
+    for (index = 0; index < kLLITC18DigitalBits; index++) {
+        cumulative.timestampCount[index] += current.timestampCount[index];
+    }
+    for (index = 0; index < kLLITC18ADChannels; index++) {
+        cumulative.ADMaxValues[index] = MAX(cumulative.ADMaxValues[index], current.ADMaxValues[index]);
+        cumulative.ADMinValues[index] = MIN(cumulative.ADMinValues[index], current.ADMinValues[index]);
+    }
 
-	[self checkWarnings];
-	[[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
+    [self checkWarnings];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LLMonitorUpdated object:self];
 }
 
 - (BOOL)success;
@@ -247,7 +247,7 @@ NSString *driftLimitKey = @"LL ITC Drift Limit";
 
 - (NSString *)uniqueKey:(NSString *)commonKey {
 
-	return [NSString stringWithFormat:@"%@ %@", IDString, commonKey]; 
+    return [NSString stringWithFormat:@"%@ %@", IDString, commonKey]; 
 }
 
 @end

@@ -11,7 +11,7 @@
 
 NSString *RFEyeToUseKey = @"RFEyeToUse";
 
-typedef enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular} RFEyeToUse;
+typedef NS_ENUM(unsigned int, RFEyeToUse) {kUseLeftEye = 0, kUseRightEye, kUseBinocular};
 
 @implementation RFUtilities
 
@@ -22,14 +22,14 @@ typedef enum {kUseLeftEye = 0, kUseRightEye, kUseBinocular} RFEyeToUse;
     switch ([[NSUserDefaults standardUserDefaults] integerForKey:RFEyeToUseKey]) {
         case kUseLeftEye:
         default:
-            inWindow = [window inWindowDeg:([task currentEyesDeg])[kLeftEye]];
+            inWindow = [window inWindowDeg:(task.currentEyesDeg)[kLeftEye]];
             break;
         case kUseRightEye:
-            inWindow = [window inWindowDeg:([task currentEyesDeg])[kRightEye]];
+            inWindow = [window inWindowDeg:(task.currentEyesDeg)[kRightEye]];
             break;
         case kUseBinocular:
-            inWindow = [window inWindowDeg:([task currentEyesDeg])[kLeftEye]] &&
-            [window inWindowDeg:([task currentEyesDeg])[kRightEye]];
+            inWindow = [window inWindowDeg:(task.currentEyesDeg)[kLeftEye]] &&
+            [window inWindowDeg:(task.currentEyesDeg)[kRightEye]];
             break;
     }
     return inWindow;

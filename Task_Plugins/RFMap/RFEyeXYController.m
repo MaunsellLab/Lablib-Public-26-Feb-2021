@@ -13,9 +13,9 @@
 #import "RF.h"
 #import "RFEyeXYController.h"
 
-#define kCircleRadiusDeg	0.15
-#define kCrossArmDeg		0.25
-#define kLineWidthDeg		0.02
+#define kCircleRadiusDeg    0.15
+#define kCrossArmDeg        0.25
+#define kLineWidthDeg        0.02
 
 NSString *RFEyeXYAutosaveKey = @"RFEyeXYWindow";
 NSString *RFEyeXYDoDotFadeKey = @"RFEyeXYDoDotFade";
@@ -52,29 +52,29 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 - (void)deactivate;
 {
-	[eyePlot removeDrawable:self];			// Remove ourselves, lowering our retainCount;
-	[self close];							// clean up
+    [eyePlot removeDrawable:self];            // Remove ourselves, lowering our retainCount;
+    [self close];                            // clean up
 }
 
 - (void) dealloc;
 {
     long eyeIndex;
     NSRect r;
-	
+    
     //NSString *autosaveName = [[self window] frameAutosaveName];
     //r = [eyePlot visibleRect];
-	//[[NSUserDefaults standardUserDefaults] setFloat:r.origin.x forKey:RFEyeXYHScrollKey];
-	//[[NSUserDefaults standardUserDefaults] setFloat:r.origin.y forKey:RFEyeXYVScrollKey];
-	//if (autosaveName != nil) {
-	//	[[self window] saveFrameUsingName:autosaveName];
-	//}
-	//[fixWindowColor release];
-	//[calColor release];
-	//[unitsToDeg release];
-	//[degToUnits release];
-	//[calBezierPath release];
+    //[[NSUserDefaults standardUserDefaults] setFloat:r.origin.x forKey:RFEyeXYHScrollKey];
+    //[[NSUserDefaults standardUserDefaults] setFloat:r.origin.y forKey:RFEyeXYVScrollKey];
+    //if (autosaveName != nil) {
+    //    [[self window] saveFrameUsingName:autosaveName];
+    //}
+    //[fixWindowColor release];
+    //[calColor release];
+    //[unitsToDeg release];
+    //[degToUnits release];
+    //[calBezierPath release];
     
-    r = [eyePlot visibleRect];
+    r = eyePlot.visibleRect;
     [[NSUserDefaults standardUserDefaults] setFloat:r.origin.x forKey:RFEyeXYHScrollKey];
     [[NSUserDefaults standardUserDefaults] setFloat:r.origin.y forKey:RFEyeXYVScrollKey];
     [fixWindowColor release];
@@ -90,10 +90,10 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 }
 
 - (IBAction) doOptions:(id)sender {
-	
+    
 //    [NSApp beginSheet:optionsSheet modalForWindow:[self window] modalDelegate:self
 //       didEndSelector:nil contextInfo:nil];
-    [[self window] beginSheet:optionsSheet completionHandler:nil];
+    [self.window beginSheet:optionsSheet completionHandler:nil];
 }
 
 // Because we have added ourself as an LLDrawable to the eyePlot, this draw method
@@ -108,21 +108,21 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
      //if (NSPointInRect(currentEyeDeg, eyeWindowRectDeg)) {
      if (inWindow) {
-		[[fixWindowColor highlightWithLevel:0.90] set];
-		[NSBezierPath fillRect:eyeWindowRectDeg];
-	}
-	[fixWindowColor set];
-	[NSBezierPath setDefaultLineWidth:defaultLineWidth * 4.0];
-	[NSBezierPath strokeRect:eyeWindowRectDeg];
+        [[fixWindowColor highlightWithLevel:0.90] set];
+        [NSBezierPath fillRect:eyeWindowRectDeg];
+    }
+    [fixWindowColor set];
+    [NSBezierPath setDefaultLineWidth:defaultLineWidth * 4.0];
+    [NSBezierPath strokeRect:eyeWindowRectDeg];
 
    // Draw the calibration for the fixation window
 
-	if ([[NSUserDefaults standardUserDefaults] integerForKey:RFEyeXYDoDrawCalKey]) {
-		//[calColor set];
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:RFEyeXYDoDrawCalKey]) {
+        //[calColor set];
         //[calBezierPath stroke];
-        [[eyePlot eyeLColor] set];
+        [eyePlot.eyeLColor set];
         [calBezierPath[kLeftEye] stroke];
-        [[eyePlot eyeRColor] set];
+        [eyePlot.eyeRColor set];
         [calBezierPath[kRightEye] stroke];
      }
 }
@@ -133,23 +133,21 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
     [NSApp endSheet:optionsSheet returnCode:1];
    }
 
-- (id) init;
+- (instancetype) init;
 {
     if ((self = [super initWithWindowNibName:@"RFEyeXYController"]) != nil) {
-		[self setShouldCascadeWindows:NO];
-		[self setWindowFrameAutosaveName:RFEyeXYAutosaveKey];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:
-                                                                 [NSArchiver archivedDataWithRootObject:[NSColor blueColor]] forKey:RFEyeXYEyeColorKey]];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:
-                                                                 [NSArchiver archivedDataWithRootObject:[NSColor redColor]] forKey:RFEyeXYEyeColorKey]];
+        [self setShouldCascadeWindows:NO];
+        self.windowFrameAutosaveName = RFEyeXYAutosaveKey;
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{RFEyeXYEyeColorKey: [NSArchiver archivedDataWithRootObject:[NSColor blueColor]]}];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{RFEyeXYEyeColorKey: [NSArchiver archivedDataWithRootObject:[NSColor redColor]]}];
         eyeXSamples[kLeftEye] = [[NSMutableData alloc] init];
         eyeYSamples[kLeftEye] = [[NSMutableData alloc] init];
         eyeXSamples[kRightEye] = [[NSMutableData alloc] init];
         eyeYSamples[kRightEye] = [[NSMutableData alloc] init];
         sampleLock = [[NSLock alloc] init];
         [self setShouldCascadeWindows:NO];
-        [self setWindowFrameAutosaveName:@"RFXYAutosave"];
-        [self window];							// Force the window to load now
+        self.windowFrameAutosaveName = @"RFXYAutosave";
+        [self window];                            // Force the window to load now
     }
     return self;
 }
@@ -168,7 +166,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
             if (pairs != nil) {
                 enumerator = [pairs objectEnumerator];
                 while (value = [enumerator nextObject]) {
-                    currentEyeDeg[eyeIndex] = [unitsToDeg[eyeIndex] transformPoint:[value pointValue]];
+                    currentEyeDeg[eyeIndex] = [unitsToDeg[eyeIndex] transformPoint:value.pointValue];
                     [eyePlot addSample:currentEyeDeg[eyeIndex] forEye:eyeIndex];
                 }
             }
@@ -187,7 +185,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
     
     - (void)setEyePlotValues;
     {
-        [eyePlot setDotSizeDeg:[[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYDotSizeDegKey]];
+        eyePlot.dotSizeDeg = [[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYDotSizeDegKey];
         [eyePlot setDotFade:[[NSUserDefaults standardUserDefaults] boolForKey:RFEyeXYDoDotFadeKey]];
         [eyePlot setEyeColor:[NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:RFEyeXYEyeColorKey]]
                       forEye:kLeftEye];
@@ -208,12 +206,12 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 - (void) setScaleFactor:(double)factor;
 {
-	float currentFactor, applyFactor;
+    float currentFactor, applyFactor;
   
-	currentFactor = [eyePlot bounds].size.width / [[eyePlot superview] bounds].size.width;
-	applyFactor = MAX(1, factor) / currentFactor;
-	[[scrollView contentView] scaleUnitSquareToSize:NSMakeSize(applyFactor, applyFactor)];
-	[self centerDisplay:self];
+    currentFactor = eyePlot.bounds.size.width / eyePlot.superview.bounds.size.width;
+    applyFactor = MAX(1, factor) / currentFactor;
+    [scrollView.contentView scaleUnitSquareToSize:NSMakeSize(applyFactor, applyFactor)];
+    [self centerDisplay:self];
 }
 
 - (void)updateEyeCalibration:(long)eyeIndex eventData:(NSData *)eventData;
@@ -222,8 +220,8 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
     
     [eventData getBytes:&cal length:sizeof(LLEyeCalibrationData)];
     
-    [unitsToDeg[eyeIndex] setTransformStruct:cal.calibration];
-    [degToUnits[eyeIndex] setTransformStruct:cal.calibration];
+    unitsToDeg[eyeIndex].transformStruct = cal.calibration;
+    degToUnits[eyeIndex].transformStruct = cal.calibration;
     [degToUnits[eyeIndex] invert];
     
     [calBezierPath[eyeIndex] autorelease];
@@ -233,7 +231,7 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification;
 {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES]  forKey:RFEyeXYWindowVisibleKey];
+    [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:RFEyeXYWindowVisibleKey];
 }
 
 
@@ -241,45 +239,45 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 - (void) windowDidLoad;
 {
-//	NSString *key;
-//	NSEnumerator *enumerator;
-//	NSArray *keyArray = [NSArray arrayWithObjects:
-//			RFEyeXYDoGridKey, RFEyeXYDoTicksKey, RFEyeXYSamplesToSaveKey, RFEyeXYDotSizeDegKey,
-//			RFEyeXYGridDegKey, RFEyeXYTickDegKey, RFEyeXYDoDotFadeKey, RFEyeXYOneInNKey,
-//			nil];
+//    NSString *key;
+//    NSEnumerator *enumerator;
+//    NSArray *keyArray = [NSArray arrayWithObjects:
+//            RFEyeXYDoGridKey, RFEyeXYDoTicksKey, RFEyeXYSamplesToSaveKey, RFEyeXYDotSizeDegKey,
+//            RFEyeXYGridDegKey, RFEyeXYTickDegKey, RFEyeXYDoDotFadeKey, RFEyeXYOneInNKey,
+//            nil];
 //
 // Register defaults and bind the LLEyeXYView values to our keys
 //
-//	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:
-//		[NSArchiver archivedDataWithRootObject:[NSColor blueColor]] forKey:RFEyeXYEyeColorKey]];
+//    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:
+//        [NSArchiver archivedDataWithRootObject:[NSColor blueColor]] forKey:RFEyeXYEyeColorKey]];
 //
-//	enumerator = [keyArray objectEnumerator];
-//	while ((key = [enumerator nextObject]) != nil) {
-//		[eyePlot bind:[LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RFEyeXY"]
-//			toObject:[NSUserDefaultsController sharedUserDefaultsController]
-//			withKeyPath:[NSString stringWithFormat:@"values.%@", key]
-//			options:nil];
-//	}
-//	[eyePlot bind:@"eyeColor"
-//		toObject:[NSUserDefaultsController sharedUserDefaultsController]
-//		withKeyPath:@"values.RFEyeXYEyeColor"
-//		options:[NSDictionary dictionaryWithObject:@"NSUnarchiveFromData"
-//		forKey:@"NSValueTransformerName"]];
+//    enumerator = [keyArray objectEnumerator];
+//    while ((key = [enumerator nextObject]) != nil) {
+//        [eyePlot bind:[LLTextUtil stripPrefixAndDecapitalize:key prefix:@"RFEyeXY"]
+//            toObject:[NSUserDefaultsController sharedUserDefaultsController]
+//            withKeyPath:[NSString stringWithFormat:@"values.%@", key]
+//            options:nil];
+//    }
+//    [eyePlot bind:@"eyeColor"
+//        toObject:[NSUserDefaultsController sharedUserDefaultsController]
+//        withKeyPath:@"values.RFEyeXYEyeColor"
+//        options:[NSDictionary dictionaryWithObject:@"NSUnarchiveFromData"
+//        forKey:@"NSValueTransformerName"]];
 //
-//	calBezierPath = [[NSBezierPath alloc] init];
+//    calBezierPath = [[NSBezierPath alloc] init];
 //   calColor = [[NSColor colorWithDeviceRed:0.60 green:0.45 blue:0.15 alpha:1.0] retain];
 //    fixWindowColor = [[NSColor colorWithDeviceRed:0.00 green:0.00 blue:1.00 alpha:1.0] retain];
-//	unitsToDeg = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-//	degToUnits = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
-//	[slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYMagKey]];
+//    unitsToDeg = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+//    degToUnits = [[NSAffineTransform alloc] initWithTransform:[NSAffineTransform transform]];
+//    [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYMagKey]];
 //    [self setScaleFactor:[[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYMagKey]];
-//	[eyePlot setDrawOnlyDirtyRect:YES];
+//    [eyePlot setDrawOnlyDirtyRect:YES];
 //    [eyePlot addDrawable:self];
-//	[self changeZoom:slider];
-//	[eyePlot scrollPoint:NSMakePoint([[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYHScrollKey],
+//    [self changeZoom:slider];
+//    [eyePlot scrollPoint:NSMakePoint([[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYHScrollKey],
 //            [[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYVScrollKey])];
-	
-//	[[self window] setFrameUsingName:RFEyeXYAutosaveKey];			// Needed when opened a second time
+    
+//    [[self window] setFrameUsingName:RFEyeXYAutosaveKey];            // Needed when opened a second time
 //    if ([[NSUserDefaults standardUserDefaults] boolForKey:RFEyeXYWindowVisibleKey]) {
 //        [[self window] makeKeyAndOrderFront:self];
 //    }
@@ -302,12 +300,12 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
     [eyePlot scrollPoint:NSMakePoint([[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYHScrollKey],
                                      [[NSUserDefaults standardUserDefaults] floatForKey:RFEyeXYVScrollKey])];
     
-    [[self window] setFrameUsingName:@"RFXYAutosave"];			// Needed when opened a second time
+    [self.window setFrameUsingName:@"RFXYAutosave"];            // Needed when opened a second time
     if ([[NSUserDefaults standardUserDefaults] boolForKey:RFEyeXYWindowVisibleKey]) {
-        [[self window] makeKeyAndOrderFront:self];
+        [self.window makeKeyAndOrderFront:self];
     }
     else {
-        [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+        [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     }
     [scrollView setPostsBoundsChangedNotifications:YES];
     [super windowDidLoad];
@@ -315,9 +313,9 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 - (BOOL)windowShouldClose:(NSNotification *)aNotification;
 {
-    [[self window] orderOut:self];
+    [self.window orderOut:self];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RFEyeXYWindowVisibleKey];
-    [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+    [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     return NO;
 }
 
@@ -368,10 +366,10 @@ NSString *RFEyeXYOneInNKey = @"RFEyeXYOneInN";
 
 - (void)eyeWindow:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
-	FixWindowData fixWindowData;
+    FixWindowData fixWindowData;
     
     [eventData getBytes:&fixWindowData length:sizeof(FixWindowData)];
-	eyeWindowRectDeg = fixWindowData.windowDeg;
+    eyeWindowRectDeg = fixWindowData.windowDeg;
     dispatch_async(dispatch_get_main_queue(), ^{
         [eyePlot setNeedsDisplay:YES];
     });

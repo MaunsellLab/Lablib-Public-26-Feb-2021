@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="KNAppController">
             <connections>
-                <outlet property="calibration0Text" destination="8pa-uy-xw8" id="pW9-Op-Qxh"/>
-                <outlet property="calibration1Text" destination="Yc3-33-vxN" id="N84-bN-8vK"/>
+                <outlet property="calibration0Text" destination="CAk-lQ-gf2" id="0A5-s2-nhM"/>
+                <outlet property="calibration1Text" destination="qvj-ny-VD5" id="pNT-HI-ghT"/>
                 <outlet property="dockMenu" destination="875" id="879"/>
+                <outlet property="pluginDefaultDataText" destination="Yc3-33-vxN" id="6r7-4q-msy"/>
                 <outlet property="preferencesDialog" destination="808" id="Rul-pv-P7K"/>
                 <outlet property="recordDontRecordMenuItem" destination="215" id="865"/>
                 <outlet property="soundTypeMenu" destination="omX-MJ-pcA" id="vZl-c8-ivk"/>
@@ -34,7 +35,7 @@
                             <menuItem isSeparatorItem="YES" id="194">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Preferences..." id="129">
+                            <menuItem title="Knot Preferences..." id="129">
                                 <connections>
                                     <action selector="makeKeyAndOrderFront:" target="808" id="812"/>
                                 </connections>
@@ -282,20 +283,21 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="-251" y="-80"/>
         </menu>
         <userDefaultsController representsSharedInstance="YES" id="498" userLabel="Shared Defaults"/>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="PrefWindow" animationBehavior="default" id="808" userLabel="Preferences" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="71" y="617" width="435" height="309"/>
+            <rect key="contentRect" x="71" y="617" width="435" height="315"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" misplaced="YES" id="809">
-                <rect key="frame" x="0.0" y="0.0" width="435" height="309"/>
+                <rect key="frame" x="0.0" y="0.0" width="435" height="315"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button toolTip="Create Data Files in /Data and its Subdirectories" misplaced="YES" id="807">
-                        <rect key="frame" x="18" y="273" width="190" height="18"/>
+                        <rect key="frame" x="18" y="279" width="190" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use Default Data Directory" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="870">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -306,7 +308,7 @@
                         </connections>
                     </button>
                     <button toolTip="Create Data Files in /Data and its Subdirectories" misplaced="YES" id="kPb-lX-008">
-                        <rect key="frame" x="18" y="253" width="190" height="18"/>
+                        <rect key="frame" x="18" y="259" width="190" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use Socket" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Cpd-Xr-VFL">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -317,7 +319,7 @@
                         </connections>
                     </button>
                     <button toolTip="Create Data Files in /Data and its Subdirectories" misplaced="YES" id="2jN-cW-PjK">
-                        <rect key="frame" x="18" y="233" width="190" height="18"/>
+                        <rect key="frame" x="18" y="239" width="190" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Terminate Socket on Exit" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="hk0-c7-r5k">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -328,7 +330,7 @@
                         </connections>
                     </button>
                     <button toolTip="Create Data Files in /Data and its Subdirectories" misplaced="YES" id="H6O-Yj-USS">
-                        <rect key="frame" x="18" y="213" width="190" height="18"/>
+                        <rect key="frame" x="287" y="279" width="96" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use Matlab" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="GAL-vZ-OJn">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -339,7 +341,7 @@
                         </connections>
                     </button>
                     <button toolTip="Create Data Files in /Data and its Subdirectories" misplaced="YES" id="0w4-Hk-LgB">
-                        <rect key="frame" x="18" y="193" width="190" height="18"/>
+                        <rect key="frame" x="287" y="259" width="130" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use NE500 Pump" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1kf-7o-TeY">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -350,7 +352,7 @@
                         </connections>
                     </button>
                     <button toolTip="Create Data Files in /Data and its Subdirectories" misplaced="YES" id="bfS-oZ-EwC">
-                        <rect key="frame" x="18" y="173" width="190" height="18"/>
+                        <rect key="frame" x="287" y="239" width="96" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use EyeLink" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Rv4-ed-SN9">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -361,7 +363,7 @@
                         </connections>
                     </button>
                     <popUpButton verticalHuggingPriority="750" misplaced="YES" id="omX-MJ-pcA">
-                        <rect key="frame" x="18" y="134" width="139" height="26"/>
+                        <rect key="frame" x="279" y="205" width="139" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Monkey Sounds" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Veg-pc-urB" id="8bv-n3-VbT">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -377,51 +379,81 @@
                             <binding destination="498" name="selectedIndex" keyPath="values.KNSoundTypeSelection" id="hs2-tT-fem"/>
                         </connections>
                     </popUpButton>
-                    <box misplaced="YES" title="NIDAQ Calibration Files" id="gaK-He-nxz">
-                        <rect key="frame" x="17" y="16" width="406" height="104"/>
+                    <box misplaced="YES" title="Plugin Data Respository" id="gaK-He-nxz">
+                        <rect key="frame" x="17" y="130" width="401" height="70"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="aKI-pg-bhU">
-                            <rect key="frame" x="2" y="2" width="402" height="87"/>
+                            <rect key="frame" x="2" y="2" width="397" height="53"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" id="8pa-uy-xw8">
-                                    <rect key="frame" x="18" y="47" width="303" height="21"/>
+                                <textField toolTip="Folder containing data repository" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" id="Yc3-33-vxN">
+                                    <rect key="frame" x="18" y="16" width="303" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="AO0 Calibration File" id="ylh-as-RGQ">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" id="Yc3-33-vxN">
-                                    <rect key="frame" x="18" y="18" width="303" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="AO1 Calibration File" id="yuo-du-388">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" alignment="left" title="/Users/Shared/Data/Plugin/" id="yuo-du-388">
                                         <font key="font" metaFont="smallSystem"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <button verticalHuggingPriority="750" misplaced="YES" id="2r9-ZM-HzP">
-                                    <rect key="frame" x="332" y="52" width="50" height="17"/>
+                                    <rect key="frame" x="332" y="21" width="50" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="roundRect" title="Select" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3nz-HZ-LbD">
+                                    <buttonCell key="cell" type="roundRect" title="Default" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3nz-HZ-LbD">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
                                     </buttonCell>
                                     <connections>
-                                        <action selector="doAO0CalibrationBrowse:" target="-2" id="UCC-Ao-LSU"/>
+                                        <action selector="doPluginDefaultData:" target="-2" id="Jmu-FQ-5ra"/>
                                     </connections>
                                 </button>
-                                <button verticalHuggingPriority="750" misplaced="YES" id="FVc-sS-e25">
-                                    <rect key="frame" x="332" y="23" width="50" height="17"/>
+                            </subviews>
+                        </view>
+                    </box>
+                    <box misplaced="YES" title="NIDAQ Calibration Files" id="4dA-yq-ssU">
+                        <rect key="frame" x="17" y="16" width="401" height="104"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="TJN-d1-GAQ">
+                            <rect key="frame" x="2" y="2" width="397" height="87"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="CAk-lQ-gf2">
+                                    <rect key="frame" x="18" y="47" width="303" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="AO0 Calibration File" id="hBg-4m-vC2">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="qvj-ny-VD5">
+                                    <rect key="frame" x="18" y="18" width="303" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="AO1 Calibration File" id="O6E-nC-FnS">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <button verticalHuggingPriority="750" id="s43-4a-jok">
+                                    <rect key="frame" x="332" y="52" width="50" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="roundRect" title="Select" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8Q7-q7-kZf">
+                                    <buttonCell key="cell" type="roundRect" title="Select" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4Aj-AS-EC9">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="miniSystem"/>
                                     </buttonCell>
                                     <connections>
-                                        <action selector="doAO1CalibrationBrowse:" target="-2" id="RJE-it-CWp"/>
+                                        <action selector="doAO0CalibrationBrowse:" target="-2" id="mfO-EU-6Zs"/>
+                                    </connections>
+                                </button>
+                                <button verticalHuggingPriority="750" id="mV8-Gm-LOf">
+                                    <rect key="frame" x="332" y="23" width="50" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="roundRect" title="Select" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7my-rZ-bsW">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="miniSystem"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="doAO1CalibrationBrowse:" target="-2" id="rAR-3B-5yY"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -429,7 +461,7 @@
                     </box>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-172.5" y="-329.5"/>
+            <point key="canvasLocation" x="-172.5" y="-326.5"/>
         </window>
         <menu id="875" userLabel="DockMenu">
             <items>

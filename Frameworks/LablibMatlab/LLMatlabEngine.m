@@ -28,22 +28,22 @@ Engine  *pEngine;
 {
     NSString *appMatlabString;
 
-    appMatlabString = [NSString stringWithFormat:@"addpath('%@/Matlab/')", [[NSBundle mainBundle] resourcePath]];
-    engEvalString(pEngine, [appMatlabString UTF8String]);
+    appMatlabString = [NSString stringWithFormat:@"addpath('%@/Matlab/')", [NSBundle mainBundle].resourcePath];
+    engEvalString(pEngine, appMatlabString.UTF8String);
 }
 
 - (void)addMatlabPathForPlugin:(NSString *)pluginName;
 {
     NSEnumerator *enumerator;
     NSString *matlabPath;
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
+    NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleExecutable"];
     NSMutableArray *bundlePaths = [NSMutableArray arrayWithArray:[LLSystemUtil allBundlesWithExtension:@"plugin"
                                                                                             appSubPath:[NSString stringWithFormat:@"Application Support/%@/Plugins", appName]]];
     enumerator = [bundlePaths objectEnumerator];
     while ((matlabPath = [enumerator nextObject])) {
         if ([matlabPath containsString:pluginName]) {
             matlabPath = [matlabPath stringByAppendingString:@"/Contents/Resources/Matlab/"];
-            engEvalString(pEngine, [[NSString stringWithFormat:@"addpath('%@')", matlabPath] UTF8String]);
+            engEvalString(pEngine, [NSString stringWithFormat:@"addpath('%@')", matlabPath].UTF8String);
             break;
         }
     }
@@ -67,12 +67,12 @@ Engine  *pEngine;
     [attrBlack release];
     [attrBlue release];
     [attrRed release];
-    [[NSUserDefaults standardUserDefaults] setBool:[[self window] isVisible] forKey:kLLMatlabWindowVisibleKey];
+    [[NSUserDefaults standardUserDefaults] setBool:self.window.visible forKey:kLLMatlabWindowVisibleKey];
     [topLevelObjects release];
     [super dealloc];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     NSMutableDictionary *defaultSettings;
     NSString *outputStr;
@@ -82,17 +82,17 @@ Engine  *pEngine;
     }
     if (pEngine == nil) {
         defaultSettings = [[NSMutableDictionary alloc] init];
-        [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoCommandsKey];
-        [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoResponsesKey];
-        [defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:kLLMatlabDoErrorsKey];
+        defaultSettings[kLLMatlabDoCommandsKey] = @YES;
+        defaultSettings[kLLMatlabDoResponsesKey] = @YES;
+        defaultSettings[kLLMatlabDoErrorsKey] = @YES;
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
         [defaultSettings release];
 
-        attrBlack = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+        attrBlack = @{NSForegroundColorAttributeName: [NSColor blackColor]};
         [attrBlack retain];
-        attrBlue = [NSDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+        attrBlue = @{NSForegroundColorAttributeName: [NSColor blueColor]};
         [attrBlue retain];
-        attrRed = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+        attrRed = @{NSForegroundColorAttributeName: [NSColor redColor]};
         [attrRed retain];
 
         engineLock = [[NSLock alloc] init];
@@ -100,7 +100,7 @@ Engine  *pEngine;
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLMatlabEngine" owner:self topLevelObjects:&topLevelObjects];
         [topLevelObjects retain];
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLMatlabWindowVisibleKey] || YES) {
-            [[self window] makeKeyAndOrderFront:self];
+            [self.window makeKeyAndOrderFront:self];
         }
 
         NSLog(@"LLMatlabEngine: Launching Matlab");
@@ -116,7 +116,7 @@ Engine  *pEngine;
         
         engEvalString(pEngine, "builtin('version')");
         if (strlen(outputBuffer) > 0) {
-            outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
+            outputStr = [@(outputBuffer)   // prettify: remove '\n's and '  's
                          stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             outputStr = [outputStr stringByReplacingOccurrencesOfString:@">> ans =" withString:@""];
             [self preparePosting:[NSString stringWithFormat:@"Matlab Version %@\n", outputStr]
@@ -165,12 +165,12 @@ Engine  *pEngine;
                   "display(ex.message),"
                   "end",
                   string, formatting];
-    engEvalString(pEngine, [commandStr UTF8String]);
+    engEvalString(pEngine, commandStr.UTF8String);
     [engineLock unlock];
     
     [self preparePosting:[string stringByAppendingString:@"\n"] enabledKey:kLLMatlabDoCommandsKey];
     if (strlen(outputBuffer) > 0) {
-        outputStr = [[NSString stringWithUTF8String:outputBuffer]   // prettify: remove '\n's and '  's
+        outputStr = [@(outputBuffer)   // prettify: remove '\n's and '  's
                         stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
         outputStr = [outputStr stringByReplacingOccurrencesOfString:@"  " withString:@" "];
         outputStr = [outputStr stringByReplacingOccurrencesOfString:@"jhrmNEWLINE" withString:@"\n\t"];
@@ -200,8 +200,8 @@ Engine  *pEngine;
 
 - (void)post:(NSAttributedString *)attrStr;
 {
-    [[consoleView textStorage] appendAttributedString:attrStr];
-    [consoleView scrollRangeToVisible:NSMakeRange([[consoleView textStorage] length], 0)];
+    [consoleView.textStorage appendAttributedString:attrStr];
+    [consoleView scrollRangeToVisible:NSMakeRange(consoleView.textStorage.length, 0)];
 }
 
 - (void)preparePosting:(NSString *)string enabledKey:(NSString *)key

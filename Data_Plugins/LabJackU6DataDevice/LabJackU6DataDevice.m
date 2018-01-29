@@ -77,7 +77,7 @@ long ELTrialStartTimeMS;
 
 + (NSInteger)version;
 {
-	return kLLPluginVersion;
+    return kLLPluginVersion;
 }
 
 - (void)configure;
@@ -122,11 +122,11 @@ long ELTrialStartTimeMS;
     usleep(10000);                              // wait 10 ms for it to go down
     ljHandle = NULL;
     [deviceLock unlock];
-//	[dataLock unlock];
-	[dataLock release];
-	[deviceLock release];
-	[monitor release];
-	[super dealloc];
+//    [dataLock unlock];
+    [dataLock release];
+    [deviceLock release];
+    [monitor release];
+    [super dealloc];
 }
 
 - (void)debounceState:(BOOL *)thisState lastState:(BOOL *)lastState lastTimeS:(double *)lastTransitionTimeS;
@@ -228,16 +228,16 @@ long ELTrialStartTimeMS;
     [self digitalOutputBits:(digitalOutputBits | bits)];
 }
 
-- (id)init;
+- (instancetype)init;
 {
-	if ((self = [super init]) != nil) {
+    if ((self = [super init]) != nil) {
         digitalOutputBits = 0;
         pollThread = nil;
-		deviceEnabled =  dataEnabled =  devicePresent = NO;
-		LabJackU6SamplePeriodS = 0.002;
-			
-		dataLock = [[NSLock alloc] init];
-		deviceLock = [[NSLock alloc] init];
+        deviceEnabled =  dataEnabled =  devicePresent = NO;
+        LabJackU6SamplePeriodS = 0.002;
+            
+        dataLock = [[NSLock alloc] init];
+        deviceLock = [[NSLock alloc] init];
 
         deviceEnabled = NO;
         ljHandle = (void *)openUSBConnection(-1);                           // Open first available U6 on USB
@@ -268,7 +268,7 @@ long ELTrialStartTimeMS;
         if (![self ljU6WriteDO:LJU6_STROBE_FIO state:strobedDigitalWord]) {
             return self;
         }
-//		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * LabJackU6SamplePeriodS;
+//        nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] * LabJackU6SamplePeriodS;
     }
     return self;
 }
@@ -453,7 +453,7 @@ long ELTrialStartTimeMS;
 
 - (id <LLMonitor>)monitor;
 {
-	return monitor;
+    return monitor;
 }
 
 - (void)disableSampleChannels:(NSNumber *)bitPattern;
@@ -461,13 +461,13 @@ long ELTrialStartTimeMS;
     if (ljHandle == NULL) {
         return;
     }
-	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) {
+    if (bitPattern.unsignedLongValue >= (0x01 << (samplePeriodMS.count + 1))) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6DataDevice" informativeText:[NSString stringWithFormat:
                 @"Request to disable non-existent channel for device %@ (only %lu channels)",
-                [self name], (unsigned long)[samplePeriodMS count]]];
-		exit(0);
-	}
-	sampleChannels &= ~[bitPattern unsignedLongValue];
+                [self name], (unsigned long)samplePeriodMS.count]];
+        exit(0);
+    }
+    sampleChannels &= ~bitPattern.unsignedLongValue;
 }
 
 - (void)enableSampleChannels:(NSNumber *)bitPattern;
@@ -475,18 +475,18 @@ long ELTrialStartTimeMS;
     if (ljHandle == NULL) {
         return;
     }
-	if ([bitPattern unsignedLongValue] >= (0x01 << ([samplePeriodMS count] + 1))) {
+    if (bitPattern.unsignedLongValue >= (0x01 << (samplePeriodMS.count + 1))) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6DataDevice" informativeText:[NSString stringWithFormat:
                @"Request to enable non-existent channel for device %@ (only %lu channels)",
-               [self name], (unsigned long)[samplePeriodMS count]]];
-		exit(0);
-	}
-	sampleChannels |= [bitPattern unsignedLongValue];
+               [self name], (unsigned long)samplePeriodMS.count]];
+        exit(0);
+    }
+    sampleChannels |= bitPattern.unsignedLongValue;
 }
 
 - (NSString *)name;
 {
-	return @"LabJackU6";
+    return @"LabJackU6";
 }
 
 - (BOOL)readLeverDI:(BOOL *)outLever1 lever2:(BOOL *)outLever2;
@@ -510,7 +510,7 @@ long ELTrialStartTimeMS;
     if ([self ljU6ReadPorts:&fioState EIOState:&eioState CIOState:&cioState] < 0) {
         [deviceLock unlock];
         NSLog(@"LabJackDataDevice readLeverDI: error reading DI, stopping IO ");
-        [self setDataEnabled:[NSNumber numberWithBool:NO]];  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
+        [self setDataEnabled:@NO];  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
         return NO;
     }
     elapsedTimeS = [LLSystemUtil getTimeS] - startTimeS;
@@ -539,13 +539,13 @@ long ELTrialStartTimeMS;
     if (ljHandle == NULL) {
         return 0;
     }
-	if (channel >= [samplePeriodMS count]) {
+    if (channel >= samplePeriodMS.count) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6DataDevice" informativeText:[NSString stringWithFormat:
                @"Requested sample period %ld of %lu for device %@",
-               channel, (unsigned long)[samplePeriodMS count], [self name]]];
-		exit(0);
-	}
-	return [[samplePeriodMS objectAtIndex:channel] floatValue];
+               channel, (unsigned long)samplePeriodMS.count, [self name]]];
+        exit(0);
+    }
+    return [samplePeriodMS[channel] floatValue];
 }
 
 - (long)sampleChannels;
@@ -553,114 +553,86 @@ long ELTrialStartTimeMS;
     if (ljHandle == NULL) {
         return 0;
     }
-	return [samplePeriodMS count];
+    return samplePeriodMS.count;
 }
 
 - (void)pollSamples;
 {
-//	int index = 0;
-//	short sample = 0;
+//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-//	ISAMPLE oldSample, newSample;
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-//	oldSample.time = 0;
-	pollThread = [NSThread currentThread];
-	while (YES) {
-		if (shouldKillPolling) {
-			[pool release];
-			pollThread = nil;
-			[NSThread exit];
-		}
-//		while ((index = eyelink_get_sample(&newSample))) {
-//			if (index && (newSample.time != oldSample.time)) {
-        [dataLock lock];
-        [self readLeverDI:&lever1 lever2:&lever2];
-//                if (!firstTrialSample) {
-//                    ELTrialStartTimeMS = eyelink_tracker_msec();
-//                    NSLog(@"Current LabJackU6 time: %li",ELTrialStartTimeMS);
-//                    NSLog(@"LabJackU6 Sample Time stamp: %u", newSample.time);
-//                    NSLog(@"Difference: %li",ELTrialStartTimeMS-newSample.time);
-//                    NSLog(@"Number of samples in EL buffer: %i",eyelink_data_count(1,0));
-//                    firstTrialSample = YES;
-//                }
-//				sample = (short)(newSample.gx[RIGHT_EYE]);
-//				[rXData appendBytes:&sample length:sizeof(sample)];
-//				sample = (short)(-newSample.gy[RIGHT_EYE]);
-//				[rYData appendBytes:&sample length:sizeof(sample)];
-//				sample = (short)(newSample.pa[RIGHT_EYE]);
-//				[rPData appendBytes:&sample length:sizeof(sample)];				
-//                sample = (short)(newSample.gx[LEFT_EYE]);
-//				[lXData appendBytes:&sample length:sizeof(sample)];
-//				sample = (short)(-newSample.gy[LEFT_EYE]);
-//				[lYData appendBytes:&sample length:sizeof(sample)];
-//				sample = (short)(newSample.pa[LEFT_EYE]);
-//				[lPData appendBytes:&sample length:sizeof(sample)];
-				values.samples++;
-				[dataLock unlock];
-//				oldSample = newSample;
-//			}
-//		}
-		usleep(kUpdatePeriodUS);										// sleep 15 ms
-	}
+    @autoreleasepool {
+        pollThread = [NSThread currentThread];
+        while (YES) {
+            if (shouldKillPolling) {
+    //            [pool release];
+                pollThread = nil;
+                [NSThread exit];
+            }
+            [dataLock lock];
+            [self readLeverDI:&lever1 lever2:&lever2];
+            values.samples++;
+            [dataLock unlock];
+            usleep(kUpdatePeriodUS);                                        // sleep 15 ms
+        }
+    }
 }
 
 - (NSData **)sampleData;
 {
-//	short index;
+//    short index;
 //    NSMutableData *samples;
-//	NSArray *sampleArray;
+//    NSArray *sampleArray;
     
     // Lock, then copy pointers to the sample data
-	
+    
     if (ljHandle == NULL) {
         return nil;
     }
     
-//	[dataLock lock];
+//    [dataLock lock];
 //    sampleArray = [NSArray arrayWithObjects:lXData, lYData, lPData, rXData, rYData, rPData, nil];
-//	
-//	//Now alloc/init new data instances and swap those in
-//	//(For performance reasons, it might be worthwhile to preallocate two sets of these, and swap them in and out)
+//    
+//    //Now alloc/init new data instances and swap those in
+//    //(For performance reasons, it might be worthwhile to preallocate two sets of these, and swap them in and out)
 //
-//	lXData = [[NSMutableData alloc] init];
-//	lYData = [[NSMutableData alloc] init];
-//	lPData = [[NSMutableData alloc] init];
-//	rXData = [[NSMutableData alloc] init];
-//	rYData = [[NSMutableData alloc] init];
-//	rPData = [[NSMutableData alloc] init];
-//	
+//    lXData = [[NSMutableData alloc] init];
+//    lYData = [[NSMutableData alloc] init];
+//    lPData = [[NSMutableData alloc] init];
+//    rXData = [[NSMutableData alloc] init];
+//    rYData = [[NSMutableData alloc] init];
+//    rPData = [[NSMutableData alloc] init];
+//    
 //    [dataLock unlock];
-//	
+//    
 //// Bundle the data pointers into an array.  If the channel is disabled, nil is returned.  If the 
 //// data length is zero, nil is returned.
 //
-//	for (index = 0; index < kLabJackU6Channels; index++) {
+//    for (index = 0; index < kLabJackU6Channels; index++) {
 //        samples = [sampleArray objectAtIndex:index];
-//		if (!(sampleChannels & (0x1 << index))) {                   // disabled channel
-//			sampleData[index] = nil;                                // not enabled or no samples
+//        if (!(sampleChannels & (0x1 << index))) {                   // disabled channel
+//            sampleData[index] = nil;                                // not enabled or no samples
 //        }
 //        else if ([samples length] == 0) {                           // no data samples
-//			sampleData[index] = nil;                                // not enabled or no samples
-//		}
+//            sampleData[index] = nil;                                // not enabled or no samples
+//        }
 //        else {
 //            sampleData[index] = samples;
 //        }
 //        [samples autorelease];
-//	}
-	return sampleData;
+//    }
+    return sampleData;
 }
 
 // This is the method is typically called at the start and end of every trial to toggle data collection.
 
 - (void)setDataEnabled:(NSNumber *)state;
 {
-//	long maxSamplingRateHz = 1000;
-	
+//    long maxSamplingRateHz = 1000;
+    
     if (ljHandle == NULL) {
         return;
     }
-	if ([state boolValue] && !dataEnabled) {						// toggle from OFF to ON
+    if (state.boolValue && !dataEnabled) {                        // toggle from OFF to ON
         [self setupU6PortsAndRestartIfDead];                        // check on hardware, restart if needed.
         [deviceLock lock];
         if (pollThread == nil) {
@@ -668,30 +640,30 @@ long ELTrialStartTimeMS;
             [NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
         }
 
-//        if (maxSamplingRateHz != 0) {							    // no channels enabled
-//			sampleTimeS = LabJackU6SamplePeriodS;					// one period complete on first sample
-//			justStartedLabJackU6 = YES;
-//			[monitor initValues:&values];
-//			values.samplePeriodMS = LabJackU6SamplePeriodS * 1000.0;
-//			monitorStartTimeS = [LLSystemUtil getTimeS];
-//			lastReadDataTimeS = 0;
+//        if (maxSamplingRateHz != 0) {                                // no channels enabled
+//            sampleTimeS = LabJackU6SamplePeriodS;                    // one period complete on first sample
+//            justStartedLabJackU6 = YES;
+//            [monitor initValues:&values];
+//            values.samplePeriodMS = LabJackU6SamplePeriodS * 1000.0;
+//            monitorStartTimeS = [LLSystemUtil getTimeS];
+//            lastReadDataTimeS = 0;
 //            firstTrialSample = NO;
-//		}
-		dataEnabled = YES;
+//        }
+        dataEnabled = YES;
         [deviceLock unlock];
-	} 
-	else if (![state boolValue] && dataEnabled) {					// toggle from ON to OFF
+    } 
+    else if (!state.boolValue && dataEnabled) {                    // toggle from ON to OFF
                                                                     //        [deviceLock lock]; // shouldn't need to lock -- just setting flag.
         shouldKillPolling = YES;
         while (pollThread != nil) {
             usleep(100);
         }
 //        [deviceLock unlock];
-		values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
-		lastReadDataTimeS = 0;
+        values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
+        lastReadDataTimeS = 0;
         values.sequences = 1;
-		[monitor sequenceValues:values];
-		dataEnabled = NO;
+        [monitor sequenceValues:values];
+        dataEnabled = NO;
     }
 }
 
@@ -700,15 +672,14 @@ long ELTrialStartTimeMS;
     if (ljHandle == NULL) {
         return NO;
     }
-	if (channel >= [samplePeriodMS count]) {
+    if (channel >= samplePeriodMS.count) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LabJackU6DataDevice" informativeText:[NSString stringWithFormat:
                    @"Attempt to set sample period %ld of %lu for device %@",
-                   channel, (unsigned long)[samplePeriodMS count], [self name]]];
-		exit(0);
-	}
-	[samplePeriodMS replaceObjectAtIndex:channel 
-					withObject:[NSNumber numberWithFloat:newPeriodMS]];
-	return YES;
+                   channel, (unsigned long)samplePeriodMS.count, [self name]]];
+        exit(0);
+    }
+    samplePeriodMS[channel] = @(newPeriodMS);
+    return YES;
 }
 
 - (BOOL)setupU6PortsAndRestartIfDead;

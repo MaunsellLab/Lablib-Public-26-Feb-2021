@@ -13,32 +13,32 @@
 
 - (IBAction)changeDoWarnDrift:(id)sender {
 
-	[[NSUserDefaults standardUserDefaults] setInteger:[sender intValue]
-				forKey:[self uniqueKey:doWarnDriftKey]];
+    [[NSUserDefaults standardUserDefaults] setInteger:[sender intValue]
+                forKey:[self uniqueKey:doWarnDriftKey]];
 }
 
 - (IBAction)changeDriftLimit:(id)sender {
 
-	[[NSUserDefaults standardUserDefaults] setInteger:[sender intValue] 
-				forKey:[self uniqueKey:driftLimitKey]];
+    [[NSUserDefaults standardUserDefaults] setInteger:[sender intValue] 
+                forKey:[self uniqueKey:driftLimitKey]];
 }
 
 - (void)dealloc {
 
-	[IDString release];
-	[super dealloc];
+    [IDString release];
+    [super dealloc];
 }
 
-- (id)initWithID:(NSString *)ID monitor:(id)monitorID {
+- (instancetype)initWithID:(NSString *)ID monitor:(id)monitorID {
 
-	if ((self = [super initWithWindowNibName:@"LLITCMonitorSettings"]) != Nil) {
-		[ID retain];
-		IDString = ID;
+    if ((self = [super initWithWindowNibName:@"LLITCMonitorSettings"]) != Nil) {
+        [ID retain];
+        IDString = ID;
         monitor = monitorID;
-		[[self window] setTitle:IDString]; 			// Force window to load now
-        [self setWindowFrameAutosaveName:[self uniqueKey:@"LLITCMonitorSettings"]];
-	}
-	return self;
+        self.window.title = IDString;             // Force window to load now
+        self.windowFrameAutosaveName = [self uniqueKey:@"LLITCMonitorSettings"];
+    }
+    return self;
 }
 
 - (IBAction)resetCounters:(id)sender {
@@ -48,11 +48,11 @@
 
 - (void)showWindow:(id)sender {
 
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [warnDriftButton setIntValue:(int)[defaults integerForKey:[self uniqueKey:doWarnDriftKey]]];
-    [driftLimitField setIntValue:(int)[defaults integerForKey:[self uniqueKey:driftLimitKey]]];
-	[super showWindow:sender];
+    warnDriftButton.intValue = (int)[defaults integerForKey:[self uniqueKey:doWarnDriftKey]];
+    driftLimitField.intValue = (int)[defaults integerForKey:[self uniqueKey:driftLimitKey]];
+    [super showWindow:sender];
 }
 
 // Because there may be many instances of some objects, we save using keys that are made
@@ -60,7 +60,7 @@
 
 - (NSString *)uniqueKey:(NSString *)commonKey {
 
-	return [NSString stringWithFormat:@"%@ %@", IDString, commonKey]; 
+    return [NSString stringWithFormat:@"%@ %@", IDString, commonKey]; 
 }
 
 

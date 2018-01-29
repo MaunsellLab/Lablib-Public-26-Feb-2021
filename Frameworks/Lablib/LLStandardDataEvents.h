@@ -9,64 +9,64 @@
 #import "LLDataDoc.h" 
 
 #define kLLEyeWindowEventDesc \
-{{@"long",	@"index", 1, offsetof(FixWindowData, index)},\
-{@"CGFloat",	@"windowDeg.origin.x", 1, offsetof(FixWindowData, windowDeg.origin.x)},\
-{@"CGFloat",	@"windowDeg.origin.y", 1, offsetof(FixWindowData, windowDeg.origin.y)},\
-{@"CGFloat",	@"windowDeg.size.width", 1, offsetof(FixWindowData, windowDeg.size.width)},\
-{@"CGFloat",	@"windowDeg.size.height", 1, offsetof(FixWindowData, windowDeg.size.height)},\
-{@"CGFloat",	@"windowUnits.origin.x", 1, offsetof(FixWindowData, windowUnits.origin.x)},\
-{@"CGFloat",	@"windowUnits.origin.y", 1, offsetof(FixWindowData, windowUnits.origin.y)},\
-{@"CGFloat",	@"windowUnits.size.width", 1, offsetof(FixWindowData, windowUnits.size.width)},\
-{@"CGFloat",	@"windowUnits.size.height", 1, offsetof(FixWindowData, windowUnits.size.height)},\
+{{@"long",    @"index", 1, offsetof(FixWindowData, index)},\
+{@"CGFloat",    @"windowDeg.origin.x", 1, offsetof(FixWindowData, windowDeg.origin.x)},\
+{@"CGFloat",    @"windowDeg.origin.y", 1, offsetof(FixWindowData, windowDeg.origin.y)},\
+{@"CGFloat",    @"windowDeg.size.width", 1, offsetof(FixWindowData, windowDeg.size.width)},\
+{@"CGFloat",    @"windowDeg.size.height", 1, offsetof(FixWindowData, windowDeg.size.height)},\
+{@"CGFloat",    @"windowUnits.origin.x", 1, offsetof(FixWindowData, windowUnits.origin.x)},\
+{@"CGFloat",    @"windowUnits.origin.y", 1, offsetof(FixWindowData, windowUnits.origin.y)},\
+{@"CGFloat",    @"windowUnits.size.width", 1, offsetof(FixWindowData, windowUnits.size.width)},\
+{@"CGFloat",    @"windowUnits.size.height", 1, offsetof(FixWindowData, windowUnits.size.height)},\
 {nil}}
 
 typedef struct {
-	short channel;								// spike channel
-    long time;									// spike time
+    short channel;                                // spike channel
+    long time;                                    // spike time
 } TimestampData;
 
-typedef struct {	
-	short channel;								// spike channel
-    short data;									// channel data
+typedef struct {    
+    short channel;                                // spike channel
+    short data;                                    // channel data
 } ADData;
 
-typedef struct {	
-	short device;								// data device index
-	short channel;								// spike channel
-    long time;									// spike time
+typedef struct {    
+    short device;                                // data device index
+    short channel;                                // spike channel
+    long time;                                    // spike time
 } DeviceTimestampData;
 
-typedef struct {	
-	short device;								// data device index
-	short channel;								// spike channel
-    short data;									// channel data
+typedef struct {    
+    short device;                                // data device index
+    short channel;                                // spike channel
+    short data;                                    // channel data
 } DeviceADData;
 
-typedef struct {	
-	short device;								// data device index
-	short channel;								// data channel
-    long count;									// number of samples or timestamps
+typedef struct {    
+    short device;                                // data device index
+    short channel;                                // data channel
+    long count;                                    // number of samples or timestamps
 } DeviceDataHeader;
 
 typedef struct {
-    long	index;								// window id
-	NSRect	windowDeg;							// window in degrees
-    NSRect	windowUnits;						// window in A/D eye units
+    long    index;                                // window id
+    NSRect    windowDeg;                            // window in degrees
+    NSRect    windowUnits;                        // window in A/D eye units
 } FixWindowData;
 
-#define kLLEyeXChannel			0
-#define kLLEyeYChannel			1
+#define kLLEyeXChannel            0
+#define kLLEyeYChannel            1
 
-typedef enum {kEOTCorrect = 0, kEOTWrong, kEOTFailed, kEOTBroke, kEOTIgnored, kEOTQuit, kEOTTypes} EOTType;
-typedef enum {kCertifyVideoBit = 0, kCertifyDataBit, kCertifyTypes} CertifyType;
-typedef enum {kTaskIdle, kTaskStopping, kTaskRunning, kTaskEnding, kTaskQuitting, kTaskModes} TaskMode;
+typedef NS_ENUM(unsigned int, EOTType) {kEOTCorrect = 0, kEOTWrong, kEOTFailed, kEOTBroke, kEOTIgnored, kEOTQuit, kEOTTypes};
+typedef NS_ENUM(unsigned int, CertifyType) {kCertifyVideoBit = 0, kCertifyDataBit, kCertifyTypes};
+typedef NS_ENUM(unsigned int, TaskMode) {kTaskIdle, kTaskStopping, kTaskRunning, kTaskEnding, kTaskQuitting, kTaskModes};
 
 #define kLLFileOpen     0
-#define kLLFileOpenBit	4
-#define kLLFileOpenMask	(0x00000001 << kLLFileOpenBit)
-#define kLLTaskModeMask	0x0000000f
+#define kLLFileOpenBit    4
+#define kLLFileOpenMask    (0x00000001 << kLLFileOpenBit)
+#define kLLTaskModeMask    0x0000000f
 
-#define kGuns			3
+#define kGuns            3
 
 @interface LLStandardDataEvents : NSObject {
 

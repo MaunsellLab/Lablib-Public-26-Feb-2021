@@ -28,7 +28,7 @@
 }
 
 - (IBAction)changeZoom:(id)sender;
--(id)initWithDefaults:(LLUserDefaults *)userDefaults;
+-(instancetype)initWithDefaults:(LLUserDefaults *)userDefaults;
 - (NSDictionary *)makeAttributesForFont:(NSFont *)font alignment:(NSTextAlignment)align tailIndex:(float)indent;
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)percentTableColumn:(NSTableColumn *)tableColumn row:(long)row;

@@ -40,7 +40,7 @@ static float p68Upper[kLimit][kLimit + 1];					// cutoff n for 0.68 dist by [n][
 // We fill lookup tables with the cutoff probabilities associated with a statistic criterion
 // and a given number of samples and hits.  These entries are read by upperLimit and lowerLimit
 
--(id)init {
+-(instancetype)init {
 
 	long nn, xx, x, p;
 	double baseProb, prob, probSum, logP, logOneMinusP, factorial[kLimit];

@@ -10,67 +10,32 @@
 
 @implementation LLTaskPlugIn
 
-@synthesize nidaq;
-@synthesize rewardPump;
-@synthesize trialStartTimeS;
-@synthesize settingsController;
-
 - (void)activate;
 {
-}
-
-- (BOOL)active;
-{
-	return active;
-}
-
-- (LLDataDoc *)dataDoc;
-{
-	return dataDoc;
-}
-
-- (NSTimer *)collectorTimer;
-{
-	return collectorTimer;
-}
-
-- (NSPoint)currentEyeDeg;
-{
-	return currentEyeDeg;
-}
-
-- (NSPoint *)currentEyesDeg;
-{
-	return currentEyesDeg;
-}
-
-- (LLDataDeviceController *)dataController;
-{
-	return dataController;
+    self.active = YES;
 }
 
 - (void)deactivate:(id)sender;
 {
+    self.active = NO;
 }
 
 - (void)dealloc;
 {
     [monkeySoundDict release];
     [mouseSoundDict release];
-	[dataDoc release];
-	[defaults release];
-	[eyeCalibrator release];
+    [self.dataDoc release];
+    [self.eyeCalibrator release];
+    [self.eyeLeftCalibrator release];
+    [self.eyeRightCalibrator release];
+    free(self.currentEyesDeg);
     [stimWindow release];
-	[synthDataDevice release];
+    [synthDataDevice release];
     [lastDataCollectionDate release];
-    [settingsController release];
-	[host release];
-	[super dealloc];
-}
-
-- (LLUserDefaults *)defaults;
-{
-	return defaults;
+    [self.settingsController release];
+    [self.observerKeys release];
+    [self.host release];
+    [super dealloc];
 }
 
 - (IBAction)doRunStop:(id)sender;
@@ -92,38 +57,37 @@
     [self setMode:newMode];
 }
 
+//- (LLBinocCalibrator *)eyeCalibrator;
+//{
+//    return eyeCalibrator;
+//}
 
-- (LLBinocCalibrator *)eyeCalibrator;
-{
-    return eyeCalibrator;
-}
-
-- (LLEyeCalibrator *)eyeLeftCalibrator;
-{
-    return [eyeCalibrator calibratorForEye:kLeftEye];
-}
-
-- (LLEyeCalibrator *)eyeRightCalibrator;
-{
-    return [eyeCalibrator calibratorForEye:kRightEye];
-}
+//- (LLEyeCalibrator *)eyeLeftCalibrator;
+//{
+//    return [eyeCalibrator calibratorForEye:kLeftEye];
+//}
+//
+//- (LLEyeCalibrator *)eyeRightCalibrator;
+//{
+//    return [eyeCalibrator calibratorForEye:kRightEye];
+//}
 
 // Overwrite this method to handle OS events.  It should return YES if it consumes the event,
 // and must return NO otherwise;
 
 - (BOOL)handleEvent:(NSEvent *)theEvent;
 {
-	return NO;
+    return NO;
 }
 
 // Overwrite this method to return YES if your plugin wants to receive OS events
 
 - (BOOL)handlesEvents;
 {
-	return NO;
+    return NO;
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if ((self = [super init])) {
         monkeySoundDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"200Hz100msSq", @"broke",
@@ -131,14 +95,15 @@
                            @"5C", @"stimon", @"5C", @"stimoff", @"Wrong", @"wrong", nil];
         mouseSoundDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"MouseWrong", @"broke",
                           @"MouseCorrect", @"correct", @"MouseFailed", @"failed", @"MouseWaitForLever", @"fixon",
-                          @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong", @"wrong", nil];
+                          @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong",
+                          @"wrong", nil];
+        self.writingDataFile = NO;
+        self.usesGit = NO;
+        self.name = @"Unnamed Task PlugIn";
+        self.observerKeys = [[LLObserverKeys alloc] init];
+        self.currentEyesDeg = malloc(2 * sizeof(NSPoint));
     }
     return self;
-}
-
-- (BOOL)initialized;
-{
-	return initialized;
 }
 
 - (void)initializationDidFinish;
@@ -150,42 +115,27 @@
     return lastDataCollectionDate;
 }
 
-- (BOOL)leverDown;
-{
-    return leverDown;
-}
-
-- (LLMatlabEngine *)matlabEngine;
-{
-    return matlabEngine;
-}
-
 - (long)mode;
 {
-	return mode;
+    return mode;
 }
 
 - (LLMonitorController *)monitorController;
 {
-	return monitorController;
-}
-
-- (NSString *)name; 
-{
-	return @"Unnamed Task PlugIn";
+    return monitorController;
 }
 
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
 {
     NSString *soundFileName;
 
-    if ([defaults boolForKey:key]) {
-        switch ([defaults integerForKey:@"KNSoundTypeSelection"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:key]) {
+        switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"KNSoundTypeSelection"]) {
             case kMonkeySounds:
-                soundFileName = [monkeySoundDict objectForKey:[soundName lowercaseString]];
+                soundFileName = monkeySoundDict[soundName.lowercaseString];
                 break;
             case kMouseSounds:
-                soundFileName = [mouseSoundDict objectForKey:[soundName lowercaseString]];
+                soundFileName = mouseSoundDict[soundName.lowercaseString];
                 break;
             default:
                 soundFileName = nil;
@@ -203,51 +153,20 @@
 
 - (DisplayModeParam)requestedDisplayMode;
 {
-	displayMode.widthPix = 0;								// 0 signifies, don't care: video is left unchanged
-	displayMode.heightPix = 0;
-	displayMode.pixelBits = 0;
-	displayMode.frameRateHz = 0;
-	return displayMode;
+    displayMode.widthPix = 0;                                // 0 signifies, don't care: video is left unchanged
+    displayMode.heightPix = 0;
+    displayMode.pixelBits = 0;
+    displayMode.frameRateHz = 0;
+    return displayMode;
 }
 
-- (void)setDataDocument:(LLDataDoc *)doc;
-{
-	[dataDoc release];
-	dataDoc = doc;
-	[dataDoc retain];
-}
-
-- (void)setDataDeviceController:(LLDataDeviceController *)controller;
-{
-	dataController = controller;
-}
-
-- (void)setDefaults:(LLUserDefaults *)newDefaults;
-{
-	[defaults release];
-	defaults = newDefaults;
-	[defaults retain];
-}
-
-- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
-{
-	[eyeCalibrator release];
-	eyeCalibrator = calibrator;
-	[eyeCalibrator retain];
-}
-
-- (void)setHost:(id)newHost;
-{
-	[host release];
-	host = newHost;
-	[host retain];
-}
-
-- (void)setInitialized:(BOOL)state;
-{
-	initialized = state;
-}
-
+//- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
+//{
+//    [eyeCalibrator release];
+//    eyeCalibrator = calibrator;
+//    [eyeCalibrator retain];
+//}
+//
 - (void)setLastDataCollectionDate:(NSDate *)newDate;
 {
     NSDate *theDate;
@@ -257,21 +176,14 @@
     [theDate release];
 }
 
-- (void)setMatlabEngine:(LLMatlabEngine *)newEngine;
-{
-    [matlabEngine release];
-    matlabEngine = newEngine;
-    [matlabEngine retain];
-}
-
 - (void)setMode:(long)newMode;
 {
-	mode = newMode;
+    mode = newMode;
 }
 
 - (void)setMonitorController:(LLMonitorController *)controller;
 {
-	monitorController = controller;
+    monitorController = controller;
 }
 
 - (void)setSocket:(LLSockets *)newSocket;
@@ -283,21 +195,16 @@
 
 - (void)setStimWindow:(LLStimWindow *)newStimWindow;
 {
-	[stimWindow release];
-	stimWindow = newStimWindow;
-	[stimWindow retain];
+    [stimWindow release];
+    stimWindow = newStimWindow;
+    [stimWindow retain];
 }
 
 - (void)setSynthDataDevice:(LLSynthDataDevice *)device;
 {
-	[synthDataDevice release];
-	synthDataDevice = device;
-	[synthDataDevice retain];
-}
-
-- (void)setWritingDataFile:(BOOL)state;
-{
-	writingDataFile = state;
+    [synthDataDevice release];
+    synthDataDevice = device;
+    [synthDataDevice retain];
 }
 
 - (LLSockets *)socket;
@@ -307,19 +214,19 @@
 
 - (LLStateSystem *)stateSystem;
 {
-	return stateSystem;
+    return stateSystem;
 }
 
 - (LLStimWindow *)stimWindow;
 {
-	return stimWindow;
+    return stimWindow;
 }
 
 - (void)stopSoundFileNamed:(NSString *)soundFileName;
 {
     NSSound *sound = [NSSound soundNamed:soundFileName];
 
-    if ([sound isPlaying]) {
+    if (sound.playing) {
         [sound stop];
     }
 }
@@ -328,13 +235,13 @@
 {
     NSString *soundFileName;
 
-    switch ([defaults integerForKey:@"KNSoundTypeSelection"]) {
+    switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"KNSoundTypeSelection"]) {
         case kMonkeySounds:
-            soundFileName = [monkeySoundDict objectForKey:[soundName lowercaseString]];
+            soundFileName = monkeySoundDict[soundName.lowercaseString];
             break;
         case kMouseSounds:
             NSLog(@"Mouse Sounds");
-            soundFileName = [mouseSoundDict objectForKey:[soundName lowercaseString]];
+            soundFileName = mouseSoundDict[soundName.lowercaseString];
             break;
         default:
             NSLog(@"LLTaskPlugin: playSoundNamed: unrecognized sounds type");
@@ -346,12 +253,7 @@
 
 - (LLSynthDataDevice *)synthDataDevice;
 {
-	return synthDataDevice;
-}
-
-- (BOOL)writingDataFile;
-{
-	return writingDataFile;
+    return synthDataDevice;
 }
 
 @end

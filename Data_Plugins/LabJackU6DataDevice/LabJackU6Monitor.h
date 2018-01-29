@@ -30,7 +30,7 @@ typedef struct {
 
 - (void)doAlarm:(NSString *)message;
 - (void)initValues:(LabJackU6MonitorValues *)pValues;
-- (id)initWithID:(NSString *)ID description:(NSString *)description;
+- (instancetype)initWithID:(NSString *)ID description:(NSString *)description;
 - (void)resetCounters;
 - (void)sequenceValues:(LabJackU6MonitorValues)current;
 - (NSString *)valueString:(LabJackU6MonitorValues *)pValues;

@@ -42,7 +42,7 @@
 {
     [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forKeyPath:@"values.LLNE500DiameterMM"];
     [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forKeyPath:@"values.LLNE500ULPerM"];
-    [[NSUserDefaults standardUserDefaults] setBool:[[self window] isVisible] forKey:kLLNE500WindowVisibleKey];
+    [[NSUserDefaults standardUserDefaults] setBool:self.window.visible forKey:kLLNE500WindowVisibleKey];
     [errorDict release];
     [statusDict release];
     [streamsLock release];
@@ -59,7 +59,7 @@
     [self writeMessage:@"RUN\r"];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     NSMutableDictionary *defaultSettings;
 
@@ -70,10 +70,10 @@
     // Register default settings
 
     defaultSettings = [[NSMutableDictionary alloc] init];
-    [defaultSettings setObject:[NSNumber numberWithInt:4.0] forKey:kLLNE500DiameterMMKey];
-    [defaultSettings setObject:@"10.1.1.1" forKey:kLLNE500HostKey];
-    [defaultSettings setObject:[NSNumber numberWithInt:600.0] forKey:kLLNE500ULPerMKey];
-    [defaultSettings setObject:[NSNumber numberWithInt:100] forKey:kLLNE500PortKey];
+    defaultSettings[kLLNE500DiameterMMKey] = [NSNumber numberWithInt:4.0];
+    defaultSettings[kLLNE500HostKey] = @"10.1.1.1";
+    defaultSettings[kLLNE500ULPerMKey] = [NSNumber numberWithInt:600.0];
+    defaultSettings[kLLNE500PortKey] = @100;
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
     [defaultSettings release];
     
@@ -88,11 +88,11 @@
                  @"(safe mode communication timeout)\n", @"?T", @"(pump program error)\n", @"?E",
                  @"(settings out of range)\n", @"?O", nil];
 
-    if ([self window] == nil) {
+    if (self.window == nil) {
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLNE500Pump" owner:self topLevelObjects:&topLevelObjects];
         [topLevelObjects retain];
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLNE500WindowVisibleKey] || YES) {
-            [[self window] makeKeyAndOrderFront:self];
+            [self.window makeKeyAndOrderFront:self];
         }
     }
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.LLNE500DiameterMM"
@@ -111,7 +111,7 @@
 {
     NSString *key;
 
-    key = [keyPath pathExtension];
+    key = keyPath.pathExtension;
     if ([key isEqualTo:kLLNE500DiameterMMKey]) {
         [self writeMessage:[NSString stringWithFormat:@"DIA %5.1f\r",
                             [[NSUserDefaults standardUserDefaults] floatForKey:kLLNE500DiameterMMKey]]];
@@ -138,7 +138,7 @@
     [streams.out retain];
     [streams.in open];
     [streams.out open];
-    while ((status = [streams.in streamStatus]) == NSStreamStatusOpening) {
+    while ((status = streams.in.streamStatus) == NSStreamStatusOpening) {
         if ([LLSystemUtil getTimeS] - startTime > kLLNE500TimeOutS) {
             [self postInfo:@"openStreams: Timeout error on input stream opening\n" textColor:[NSColor redColor]];
             [self closeStreams];
@@ -146,25 +146,25 @@
         }
         usleep(5000);
     }
-    if ([streams.in streamStatus] == NSStreamStatusError) {
+    if (streams.in.streamStatus == NSStreamStatusError) {
         [self closeStreams];
         [self postInfo:@"openStreams: Error opening input stream\n" textColor:[NSColor redColor]];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
+        if (!self.window.visible) {
+            [self.window makeKeyAndOrderFront:self];
         }
         return NO;
     }
-    while ((status = [streams.in streamStatus]) != NSStreamStatusOpen) {};
-    while ((status = [streams.out streamStatus]) == NSStreamStatusOpening) {};
+    while ((status = streams.in.streamStatus) != NSStreamStatusOpen) {};
+    while ((status = streams.out.streamStatus) == NSStreamStatusOpening) {};
     if (status == NSStreamStatusError) {
         [self postInfo:@"openStreams: error opening output stream\n" textColor:[NSColor redColor]];
         [streams.in close];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
+        if (!self.window.visible) {
+            [self.window makeKeyAndOrderFront:self];
         }
         return NO;
     }
-    while ((status = [streams.out streamStatus]) != NSStreamStatusOpen) {};
+    while ((status = streams.out.streamStatus) != NSStreamStatusOpen) {};
     return YES;
 }
 
@@ -172,8 +172,8 @@
 
 - (void)post:(NSAttributedString *)attrStr;
 {
-    [[consoleView textStorage] appendAttributedString:attrStr];
-    [consoleView scrollRangeToVisible:NSMakeRange([[consoleView textStorage] length], 0)];
+    [consoleView.textStorage appendAttributedString:attrStr];
+    [consoleView scrollRangeToVisible:NSMakeRange(consoleView.textStorage.length, 0)];
 }
 
 // Post a message about the results of an exchange with the pump
@@ -184,17 +184,17 @@
     NSMutableAttributedString *attrStr;
     NSDictionary *attr;
 
-    attr = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+    attr = @{NSForegroundColorAttributeName: [NSColor blackColor]};
 
     attrStr = [[NSMutableAttributedString alloc] initWithString:message attributes:attr];
-    [attrStr replaceCharactersInRange:NSMakeRange([attrStr length] - 1, 1) withString:@": "];
+    [attrStr replaceCharactersInRange:NSMakeRange(attrStr.length - 1, 1) withString:@": "];
     if (pBuffer[0] != 2 || pBuffer[length - 1] != 3) {  // look for <STX> and <ETX> that start and end TX.
-        attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+        attr = @{NSForegroundColorAttributeName: [NSColor redColor]};
         [attrStr appendAttributedString:[[[NSAttributedString alloc] initWithString:@"Reply missing <STX> or <ETX>\n"
                     attributes:attr] autorelease]];
     }
     else if (strncmp((char *)&pBuffer[1], "00", 2) != 0) {  // should always get the default pump address, "00"
-        attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+        attr = @{NSForegroundColorAttributeName: [NSColor redColor]};
         [attrStr appendAttributedString:[[[NSAttributedString alloc]
                     initWithString:[NSString stringWithFormat:@"Wrong pump address: %c%c\n", pBuffer[1], pBuffer[2]]
                     attributes:attr] autorelease]];
@@ -202,22 +202,22 @@
     else {
         pBuffer[length - 1] = '\0';                         // null terminate the string
         if (pBuffer[3] != '?') {
-            statusString = [statusDict objectForKey:[NSString stringWithFormat:@"%c", pBuffer[3]]];
+            statusString = statusDict[[NSString stringWithFormat:@"%c", pBuffer[3]]];
             statusString = (statusString == nil) ? @"(unrecognized status code)\n" : statusString;
             if (length == 5) {                                  // only the pump state character
-                attr = [NSDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+                attr = @{NSForegroundColorAttributeName: [NSColor blueColor]};
                 [attrStr appendAttributedString:[[[NSAttributedString alloc] initWithString:statusString
                         attributes:attr] autorelease]];
             }
             else if (pBuffer[4] != '?') {                       // state character plus additional data, no error
-                attr = [NSDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+                attr = @{NSForegroundColorAttributeName: [NSColor blueColor]};
                 [attrStr appendAttributedString:[[[NSAttributedString alloc]
                         initWithString:[NSString stringWithFormat:@"%s %@", &pBuffer[4], statusString]
                         attributes:attr] autorelease]];
             }
             else {
-                attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
-                errorString = [errorDict objectForKey:[NSString stringWithFormat:@"%s", &pBuffer[4]]];
+                attr = @{NSForegroundColorAttributeName: [NSColor redColor]};
+                errorString = errorDict[[NSString stringWithFormat:@"%s", &pBuffer[4]]];
                 if (errorString == nil) {
                     errorString = [NSString stringWithFormat:@"(unrecognized error code: %s)\n", &pBuffer[4]];
                 }
@@ -235,7 +235,7 @@
 - (void)postInfo:(NSString *)str textColor:(NSColor *)theColor;
 {
     NSAttributedString *attrStr;
-    NSDictionary *attr = [NSDictionary dictionaryWithObject:theColor forKey:NSForegroundColorAttributeName];
+    NSDictionary *attr = @{NSForegroundColorAttributeName: theColor};
 
     attrStr = [[NSAttributedString alloc] initWithString:str attributes:attr];
     [self performSelectorOnMainThread:@selector(post:) withObject:attrStr waitUntilDone:NO];
@@ -272,11 +272,11 @@
     bufferLength = (uint32_t)strlen(cString);
     result = [streams.out write:(uint8_t *)cString maxLength:bufferLength];     // write to pump
     if (result != bufferLength) {
-        error = [streams.out streamError];
+        error = streams.out.streamError;
         [self postInfo:[NSString stringWithFormat:@"Output stream error (%ld): %@\n",
                              error.code, error.localizedDescription] textColor:[NSColor redColor]];
-        if (![[self window] isVisible]) {
-            [[self window] makeKeyAndOrderFront:self];
+        if (!self.window.visible) {
+            [self.window makeKeyAndOrderFront:self];
         }
         [self closeStreams];
         previousUL = -1;
@@ -286,7 +286,7 @@
         return exists;
     }
     startTime = [LLSystemUtil getTimeS];
-    while (![streams.in hasBytesAvailable]) {                                   // get pump response
+    while (!streams.in.hasBytesAvailable) {                                   // get pump response
         if ([LLSystemUtil getTimeS] - startTime > kLLNE500TimeOutS) {
             [self postInfo:@"Timeout error on response\n" textColor:[NSColor redColor]];
             [self closeStreams];

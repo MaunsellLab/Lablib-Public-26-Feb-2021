@@ -72,37 +72,37 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)configure {
 
-	if (synthSettings == nil) {
-		synthSettings = [[LLSynthDataSettings alloc] init];
-	}
-	[synthSettings runPanel];
-	[self loadAffineTransforms];
+    if (synthSettings == nil) {
+        synthSettings = [[LLSynthDataSettings alloc] init];
+    }
+    [synthSettings runPanel];
+    [self loadAffineTransforms];
 }
 
 - (void)dealloc;
 {
-	[synthSettings release];
-	[eyeCalibrator release];
-	[degToUnits[kLeftEye] release];
-	[degToUnits[kRightEye] release];
+    [synthSettings release];
+    [eyeCalibrator release];
+    [degToUnits[kLeftEye] release];
+    [degToUnits[kRightEye] release];
     [super dealloc];
 }
 
 - (unsigned short)digitalInputBits;
 {
     double timeNow, noChangeProb, deltaS;
-	long leverBit;
-	double spontLeverUpPerS, spontLeverDownPerS;
+    long leverBit;
+    double spontLeverUpPerS, spontLeverDownPerS;
     
-	if ((leverBit = [defaults integerForKey:LLSynthLeverBitKey]) < 0) {
-		return 0x0000;
-	}
-	leverBit = (0x1 << leverBit);
-	timeNow = [LLSystemUtil getTimeS];
+    if ((leverBit = [defaults integerForKey:LLSynthLeverBitKey]) < 0) {
+        return 0x0000;
+    }
+    leverBit = (0x1 << leverBit);
+    timeNow = [LLSystemUtil getTimeS];
 
 // Time to put the lever down
 
-	if (leverDownTimeS > 0 && timeNow > leverDownTimeS && !(digitalInputBits & leverBit)) {
+    if (leverDownTimeS > 0 && timeNow > leverDownTimeS && !(digitalInputBits & leverBit)) {
         digitalInputBits |= leverBit;
         lastLeverDownTimeS = leverDownTimeS;
         leverDownTimeS = lastSpontUpCheckTimeS = 0;
@@ -110,7 +110,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
     
 // Time to put the lever up
 
-	if (leverUpTimeS > 0 && timeNow > leverUpTimeS && (digitalInputBits & leverBit)) {
+    if (leverUpTimeS > 0 && timeNow > leverUpTimeS && (digitalInputBits & leverBit)) {
         digitalInputBits &= ~leverBit;
         lastLeverUpTimeS = leverUpTimeS;
         leverUpTimeS = lastSpontDownCheckTimeS = 0;
@@ -119,7 +119,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 // Spontaneous lever up?
 
     if (digitalInputBits & leverBit) {
-		spontLeverUpPerS = [defaults floatForKey:LLSynthLeverUpKey];
+        spontLeverUpPerS = [defaults floatForKey:LLSynthLeverUpKey];
         if (spontLeverUpPerS > 0 && lastSpontUpCheckTimeS > 0) {
             deltaS = timeNow - lastSpontUpCheckTimeS;
             noChangeProb = exp(deltaS * log(1.0 - spontLeverUpPerS)); 
@@ -134,7 +134,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 // Spontaneous lever down?
 
     else {
-		spontLeverDownPerS = [defaults floatForKey:LLSynthLeverDownKey];
+        spontLeverDownPerS = [defaults floatForKey:LLSynthLeverDownKey];
         if (spontLeverDownPerS > 0 && lastSpontDownCheckTimeS > 0) {
             deltaS = timeNow - lastSpontDownCheckTimeS;
             noChangeProb = exp(deltaS * log(1.0 - spontLeverDownPerS)); 
@@ -145,16 +145,16 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         }
         lastSpontDownCheckTimeS = timeNow;
     }
-	return digitalInputBits;
+    return digitalInputBits;
 }
 
 - (void)doLeverDown;
 {
-	float leverLatencyS, randomLatencyS;
-	
+    float leverLatencyS, randomLatencyS;
+    
     if ((rand() % 1000) > [defaults integerForKey:LLSynthLeverIgnoreKey] * 1000.0) {
-		leverLatencyS = [defaults integerForKey:LLSynthLeverLatencyKey] / 1000.0;
-		randomLatencyS = (leverLatencyS + ((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
+        leverLatencyS = [defaults integerForKey:LLSynthLeverLatencyKey] / 1000.0;
+        randomLatencyS = (leverLatencyS + ((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
         leverDownTimeS = [LLSystemUtil getTimeS] + randomLatencyS;
         leverUpTimeS = 0;
     }
@@ -162,39 +162,39 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)doLeverUp;
 {
-	float leverLatencyS, randomLatencyS;
-	
+    float leverLatencyS, randomLatencyS;
+    
     if ((rand() % 1000) > [defaults integerForKey:LLSynthLeverIgnoreKey] * 1000.0) {
- 		leverLatencyS = [defaults integerForKey:LLSynthLeverLatencyKey] / 1000.0;
-		randomLatencyS = (leverLatencyS + ((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
+         leverLatencyS = [defaults integerForKey:LLSynthLeverLatencyKey] / 1000.0;
+        randomLatencyS = (leverLatencyS + ((rand() % 1000) * kLeverJitter * leverLatencyS) / 1000.0);
         leverUpTimeS = [LLSystemUtil getTimeS] + randomLatencyS;
         leverDownTimeS = 0;
    }
 }
 
-- (id)init;
+- (instancetype)init;
 {
-	long channel;
-	NSString *defaultsPath;
+    long channel;
+    NSString *defaultsPath;
     NSDictionary *defaultsDict;
 
     if ((self = [super init]) != nil) {
         spikeRateHz = 0.0;
         eyeCalibrator = [[LLEyeCalibrator alloc] init];
-		degToUnits[kLeftEye] = [[NSAffineTransform alloc] init];
-		degToUnits[kRightEye] = [[NSAffineTransform alloc] init];
-		defaultsPath = [[NSBundle bundleForClass:[LLSynthDataDevice class]] pathForResource:@"LLSynthDataDevice" ofType:@"plist"];
-		defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-		defaults = [NSUserDefaults standardUserDefaults];
-		[defaults registerDefaults:defaultsDict];
-		[self loadAffineTransforms];
-		for (channel = 0; channel < kLLSynthADChannels; channel++)  {
-			[samplePeriodMS addObject:[NSNumber numberWithFloat:kLLSynthSamplePeriodMS]];
-		}
-		for (channel = 0; channel < kLLSynthDigitalBits; channel++)  {
-			[timestampPeriodMS addObject:[NSNumber numberWithFloat:kLLSynthTimestampPeriodMS]];
-		}
-		devicePresent = YES;
+        degToUnits[kLeftEye] = [[NSAffineTransform alloc] init];
+        degToUnits[kRightEye] = [[NSAffineTransform alloc] init];
+        defaultsPath = [[NSBundle bundleForClass:[LLSynthDataDevice class]] pathForResource:@"LLSynthDataDevice" ofType:@"plist"];
+        defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+        defaults = [NSUserDefaults standardUserDefaults];
+        [defaults registerDefaults:defaultsDict];
+        [self loadAffineTransforms];
+        for (channel = 0; channel < kLLSynthADChannels; channel++)  {
+            [samplePeriodMS addObject:[NSNumber numberWithFloat:kLLSynthSamplePeriodMS]];
+        }
+        for (channel = 0; channel < kLLSynthDigitalBits; channel++)  {
+            [timestampPeriodMS addObject:[NSNumber numberWithFloat:kLLSynthTimestampPeriodMS]];
+        }
+        devicePresent = YES;
     }
     return self;
 }
@@ -210,37 +210,37 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)loadAffineTransforms;
 {
-	transform[kLeftEye].m11 = [defaults floatForKey:LLSynthLM11Key];
-	transform[kLeftEye].m12 = [defaults floatForKey:LLSynthLM12Key];
-	transform[kLeftEye].m21 = [defaults floatForKey:LLSynthLM21Key];
-	transform[kLeftEye].m22 = [defaults floatForKey:LLSynthLM22Key];
-	transform[kLeftEye].tX = [defaults floatForKey:LLSynthLTXKey];
-	transform[kLeftEye].tY = [defaults floatForKey:LLSynthLTYKey];
-	[degToUnits[kLeftEye] setTransformStruct:transform[kLeftEye]];
-	[degToUnits[kLeftEye] invert];
+    transform[kLeftEye].m11 = [defaults floatForKey:LLSynthLM11Key];
+    transform[kLeftEye].m12 = [defaults floatForKey:LLSynthLM12Key];
+    transform[kLeftEye].m21 = [defaults floatForKey:LLSynthLM21Key];
+    transform[kLeftEye].m22 = [defaults floatForKey:LLSynthLM22Key];
+    transform[kLeftEye].tX = [defaults floatForKey:LLSynthLTXKey];
+    transform[kLeftEye].tY = [defaults floatForKey:LLSynthLTYKey];
+    degToUnits[kLeftEye].transformStruct = transform[kLeftEye];
+    [degToUnits[kLeftEye] invert];
     
-	transform[kRightEye].m11 = [defaults floatForKey:LLSynthRM11Key];
-	transform[kRightEye].m12 = [defaults floatForKey:LLSynthRM12Key];
-	transform[kRightEye].m21 = [defaults floatForKey:LLSynthRM21Key];
-	transform[kRightEye].m22 = [defaults floatForKey:LLSynthRM22Key];
-	transform[kRightEye].tX = [defaults floatForKey:LLSynthRTXKey];
-	transform[kRightEye].tY = [defaults floatForKey:LLSynthRTYKey];
-	[degToUnits[kRightEye] setTransformStruct:transform[kRightEye]];
-	[degToUnits[kRightEye] invert];
+    transform[kRightEye].m11 = [defaults floatForKey:LLSynthRM11Key];
+    transform[kRightEye].m12 = [defaults floatForKey:LLSynthRM12Key];
+    transform[kRightEye].m21 = [defaults floatForKey:LLSynthRM21Key];
+    transform[kRightEye].m22 = [defaults floatForKey:LLSynthRM22Key];
+    transform[kRightEye].tX = [defaults floatForKey:LLSynthRTXKey];
+    transform[kRightEye].tY = [defaults floatForKey:LLSynthRTYKey];
+    degToUnits[kRightEye].transformStruct = transform[kRightEye];
+    [degToUnits[kRightEye] invert];
 }
 
 - (NSString *)name
 {
-	return @"Synthetic";
+    return @"Synthetic";
 }
 
 - (void)setDataEnabled:(NSNumber *)state;
 {
-	if ([state boolValue] && !dataEnabled) {
-		nextSampleTimeS = nextSpikeTimeS = nextVBLTimeS = 
-					lastSpikeTimeS = timestampRefS = [LLSystemUtil getTimeS];
-	}
-	dataEnabled = [state boolValue];
+    if (state.boolValue && !dataEnabled) {
+        nextSampleTimeS = nextSpikeTimeS = nextVBLTimeS = 
+                    lastSpikeTimeS = timestampRefS = [LLSystemUtil getTimeS];
+    }
+    dataEnabled = state.boolValue;
 }
 
 // We only return data for two channels: x and y eye position.  They can be 
@@ -249,33 +249,33 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (NSData **)sampleData;
 {
-	short sample, index, eyeIndex;
-	double fixNoiseDeg, timeNowS;
-	NSSize fixNoiseEye;
-	DeviceADData theSample;							// struct for holding a sample
+    short sample, index, eyeIndex;
+    double fixNoiseDeg, timeNowS;
+    NSSize fixNoiseEye;
+    DeviceADData theSample;                            // struct for holding a sample
     NSMutableData *xData, *yData, *eyePData[kEyes], *eyeXData[kEyes], *eyeYData[kEyes];
     
     static short pupilValue = 3750.0;
     static short pupilNoise = 0;
     static long pupilCount = 0;
-	
-    if (!dataEnabled) {								// no data being collected
+    
+    if (!dataEnabled) {                                // no data being collected
         return nil;
     }
-	timeNowS = [LLSystemUtil getTimeS];
+    timeNowS = [LLSystemUtil getTimeS];
 
 // Pick up all the data available from both channels and store them in NSData objects
 
-	xData = [NSMutableData dataWithLength:0];
-	yData = [NSMutableData dataWithLength:0];
+    xData = [NSMutableData dataWithLength:0];
+    yData = [NSMutableData dataWithLength:0];
     for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
         eyeXData[eyeIndex] = [NSMutableData dataWithLength:0];
         eyeYData[eyeIndex] = [NSMutableData dataWithLength:0];
         eyePData[eyeIndex] = [NSMutableData dataWithLength:0];
     }
-	theSample.device = deviceIndex;
-	while (timeNowS >= nextSampleTimeS) {
-		[self updateEyePositions:nextSampleTimeS];
+    theSample.device = deviceIndex;
+    while (timeNowS >= nextSampleTimeS) {
+        [self updateEyePositions:nextSampleTimeS];
         fixNoiseDeg = [defaults floatForKey:LLSynthEyeNoiseKey];
         if ((++pupilCount % 100) == 0) {
             pupilNoise = (rand() % 2500);
@@ -303,17 +303,17 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
             sample = MIN(SHRT_MAX, MAX(SHRT_MIN, 2500 + pupilValue));
             [eyePData[eyeIndex] appendBytes:&sample length:sizeof(pupilValue)];
         }
-		nextSampleTimeS += [[samplePeriodMS objectAtIndex:0] floatValue] / 1000.0;
-	}
+        nextSampleTimeS += [samplePeriodMS[0] floatValue] / 1000.0;
+    }
 
 // Bundle the data into an array.  If the channel is disabled, nil is returned.  If the 
 // data length is zero, nil is returned.
 
-	for (index = 0; index < kLLSynthADChannels; index++) {
-		if (!(sampleChannels & (0x1 << index)) || [xData length] == 0) {
-			sampleData[index] = nil;
-			continue;
-		}
+    for (index = 0; index < kLLSynthADChannels; index++) {
+        if (!(sampleChannels & (0x1 << index)) || xData.length == 0) {
+            sampleData[index] = nil;
+            continue;
+        }
         switch (index) {
             case kXChannel:
                 sampleData[index] = xData;
@@ -342,8 +342,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
             default:
                 break;
         }
-	}
-	return sampleData;
+    }
+    return sampleData;
 }
 
 - (void)setEyeTargetOff;
@@ -353,7 +353,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)setEyeTargetOn:(NSPoint)target;
 {
-	if (rand() % 1000 > [defaults floatForKey:LLSynthEyeIgnoreKey] * 1000.0) {
+    if (rand() % 1000 > [defaults floatForKey:LLSynthEyeIgnoreKey] * 1000.0) {
         eyeTargetDeg = target;
         eyeTargetPresent = YES;
     }
@@ -366,7 +366,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)setNextSaccadeTimeS:(double)nextTimeS;
 {
-	nextSaccadeTimeS = nextTimeS;
+    nextSaccadeTimeS = nextTimeS;
 }
 
 // The offsetDeg is applied after all transforms are made.  This is useful for keeping
@@ -374,34 +374,34 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)setOffsetDeg:(NSPoint)newOffset;
 {
-	offsetDeg = newOffset;
+    offsetDeg = newOffset;
 }
 
 // We can change the sample period, but all sample channels must have the sample sample period
 
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
-	if (channel >= [samplePeriodMS count]) {
+    if (channel >= samplePeriodMS.count) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDevice" informativeText:
         [NSString stringWithFormat:@"Attempt to set sample period %ld of %lu for device %@",
-                        channel, (unsigned long)[samplePeriodMS count], [self name]]];
-		exit(0);
-	}
-	[samplePeriodMS removeAllObjects];
-	for (channel = 0; channel < kLLSynthADChannels; channel++) {
-		[samplePeriodMS addObject:[NSNumber numberWithFloat:newPeriodMS]];
-	}
-	return YES;
+                        channel, (unsigned long)samplePeriodMS.count, [self name]]];
+        exit(0);
+    }
+    [samplePeriodMS removeAllObjects];
+    for (channel = 0; channel < kLLSynthADChannels; channel++) {
+        [samplePeriodMS addObject:@(newPeriodMS)];
+    }
+    return YES;
 }
 
 - (void)setSpikePeriodic;
 {
-	[defaults setBool:NO forKey:LLSynthSpikesRandomKey];
+    [defaults setBool:NO forKey:LLSynthSpikesRandomKey];
 }
 
 - (void)setSpikeRandom;
 {
-	[defaults setBool:YES forKey:LLSynthSpikesRandomKey];
+    [defaults setBool:YES forKey:LLSynthSpikesRandomKey];
 }
 
 - (void)setSpikeRateHz:(double)rate atTime:(double)changeTimeS {
@@ -413,112 +413,112 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)spikeData;
 {
-	short timestamp;
+    short timestamp;
     long  channel, theChannel, inverseProb, VBLBit, ticksPerMS, activeChannels, c;
-	long channels[kLLSynthDigitalBits];
+    long channels[kLLSynthDigitalBits];
     double timeNowS, channelRateHz, lastChannelTimeS, channelNextRateTimeS;
-	NSArray *activeSpikes;
-		
+    NSArray *activeSpikes;
+        
     timeNowS = [LLSystemUtil getTimeS];
     if (spikeRateHz == 0) {
         if (![self checkSpikeRateChange:timeNowS]) {
             return;
         }
     }
-	activeSpikes = [defaults arrayForKey:LLSynthActiveSpikeChannelsKey];
-	if ([activeSpikes count] == 0) {
-		return;
-	}
-	VBLBit = [defaults integerForKey:LLSynthVBLKey];
+    activeSpikes = [defaults arrayForKey:LLSynthActiveSpikeChannelsKey];
+    if (activeSpikes.count == 0) {
+        return;
+    }
+    VBLBit = [defaults integerForKey:LLSynthVBLKey];
 
 // Load an array with a list of all the spike channels that are both active and
 // enabled (and not the VBL channel
 
-	for (channel = activeChannels = 0; channel < kLLSynthDigitalBits; channel++) {
-		if (channel != VBLBit && (timestampChannels & (0x1 << channel)) != 0) {
-			for (c = 0; c < [activeSpikes count]; c++) {
-				if ([[activeSpikes objectAtIndex:c] intValue] == channel) {
-					channels[activeChannels++] = channel;
-					timestampData[channel] = [NSMutableData dataWithLength:0];
-					break;
-				}
-			}
-		}
-	}
-	if (activeChannels == 0) {
-		return;
-	}
-	
+    for (channel = activeChannels = 0; channel < kLLSynthDigitalBits; channel++) {
+        if (channel != VBLBit && (timestampChannels & (0x1 << channel)) != 0) {
+            for (c = 0; c < activeSpikes.count; c++) {
+                if ([activeSpikes[c] intValue] == channel) {
+                    channels[activeChannels++] = channel;
+                    timestampData[channel] = [NSMutableData dataWithLength:0];
+                    break;
+                }
+            }
+        }
+    }
+    if (activeChannels == 0) {
+        return;
+    }
+    
 // For periodic spiking, return a spike for each active channel for each rate period 
 
     if (![defaults boolForKey:LLSynthSpikesRandomKey]) {
-        if (timeNowS < nextSpikeTimeS) {		// if no spikes, check for rate change
+        if (timeNowS < nextSpikeTimeS) {        // if no spikes, check for rate change
             if (![self checkSpikeRateChange:timeNowS]) {
                 return;
             }
         }
-        if (timeNowS < nextSpikeTimeS) {		// check again after rate change
+        if (timeNowS < nextSpikeTimeS) {        // check again after rate change
             return;
         }
-		while (timeNowS >= nextSpikeTimeS) {
-			for (channel = 0; channel < activeChannels; channel++) {
-				theChannel = channels[channel];
-				timestamp = (nextSpikeTimeS - timestampRefS) * 
-								(1000.0 / [[timestampPeriodMS objectAtIndex:theChannel] floatValue]);
-				[timestampData[theChannel] appendBytes:&timestamp length:sizeof(short)];
-			}
-			nextSpikeTimeS += 1.0 / spikeRateHz;
-			[self checkSpikeRateChange:nextSpikeTimeS];	// check whether spike time increment changes rate
-		}
+        while (timeNowS >= nextSpikeTimeS) {
+            for (channel = 0; channel < activeChannels; channel++) {
+                theChannel = channels[channel];
+                timestamp = (nextSpikeTimeS - timestampRefS) * 
+                                (1000.0 / [timestampPeriodMS[theChannel] floatValue]);
+                [timestampData[theChannel] appendBytes:&timestamp length:sizeof(short)];
+            }
+            nextSpikeTimeS += 1.0 / spikeRateHz;
+            [self checkSpikeRateChange:nextSpikeTimeS];    // check whether spike time increment changes rate
+        }
     }
 
 // For random spikes, spikes at random times at the appropriate rate
 
-	else {
-		for (channel = 0; channel < activeChannels; channel++) {
-			theChannel = channels[channel];
-			ticksPerMS = (1.0 / [[timestampPeriodMS objectAtIndex:theChannel] floatValue]);
-			channelRateHz = spikeRateHz;
-			channelNextRateTimeS = nextRateTimeS;
-			inverseProb = 1000.0 * ticksPerMS / channelRateHz;
-			for (lastChannelTimeS = lastSpikeTimeS; lastChannelTimeS < timeNowS; 
-									lastChannelTimeS += 0.001 / ticksPerMS) {
-				if (channelNextRateTimeS > 0 && lastChannelTimeS > channelNextRateTimeS) {		// check for rate change
-					channelRateHz = nextSpikeRateHz;
-					inverseProb = 1000.0 * ticksPerMS / channelRateHz;
-					channelNextRateTimeS = -1;
-				}
-				if ((rand() % inverseProb) == 0) {
-					timestamp = (lastChannelTimeS - timestampRefS) * 1000.0 * ticksPerMS;
-					[timestampData[theChannel] appendBytes:&timestamp length:sizeof(short)];
-				}
-			}
-		}
-		lastSpikeTimeS = timeNowS;												// update spike time
-		if (nextRateTimeS > 0 && nextSpikeTimeS > nextRateTimeS) {				// update spike rate
-			spikeRateHz = nextSpikeRateHz;	
-			nextRateTimeS = -1;
-		}
-	}
+    else {
+        for (channel = 0; channel < activeChannels; channel++) {
+            theChannel = channels[channel];
+            ticksPerMS = (1.0 / [timestampPeriodMS[theChannel] floatValue]);
+            channelRateHz = spikeRateHz;
+            channelNextRateTimeS = nextRateTimeS;
+            inverseProb = 1000.0 * ticksPerMS / channelRateHz;
+            for (lastChannelTimeS = lastSpikeTimeS; lastChannelTimeS < timeNowS; 
+                                    lastChannelTimeS += 0.001 / ticksPerMS) {
+                if (channelNextRateTimeS > 0 && lastChannelTimeS > channelNextRateTimeS) {        // check for rate change
+                    channelRateHz = nextSpikeRateHz;
+                    inverseProb = 1000.0 * ticksPerMS / channelRateHz;
+                    channelNextRateTimeS = -1;
+                }
+                if ((rand() % inverseProb) == 0) {
+                    timestamp = (lastChannelTimeS - timestampRefS) * 1000.0 * ticksPerMS;
+                    [timestampData[theChannel] appendBytes:&timestamp length:sizeof(short)];
+                }
+            }
+        }
+        lastSpikeTimeS = timeNowS;                                                // update spike time
+        if (nextRateTimeS > 0 && nextSpikeTimeS > nextRateTimeS) {                // update spike rate
+            spikeRateHz = nextSpikeRateHz;    
+            nextRateTimeS = -1;
+        }
+    }
 }
 
 - (NSData **)timestampData;
 {
-	long channel;
-	
-    if (!dataEnabled) {							// do nothing if data is not enabled
+    long channel;
+    
+    if (!dataEnabled) {                            // do nothing if data is not enabled
         return nil;
     }
-	if (timestampChannels == 0) {
-		nextSpikeTimeS = lastSpikeTimeS = nextVBLTimeS = [LLSystemUtil getTimeS];
-		return nil;
-	}
-	for (channel = 0; channel < kLLSynthDigitalBits; channel++) {
-		timestampData[channel] = nil;
-	}
-	[self spikeData];
-	[self VBLData];
-	return timestampData;
+    if (timestampChannels == 0) {
+        nextSpikeTimeS = lastSpikeTimeS = nextVBLTimeS = [LLSystemUtil getTimeS];
+        return nil;
+    }
+    for (channel = 0; channel < kLLSynthDigitalBits; channel++) {
+        timestampData[channel] = nil;
+    }
+    [self spikeData];
+    [self VBLData];
+    return timestampData;
 }
 
 - (void)updateEyePositions:(double)timeNowS;
@@ -526,9 +526,9 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
     long eyeIndex;
     BOOL fixate;
     NSPoint eyePositionDeg[kEyes];
-	float eyeSamplePeriodMS;
+    float eyeSamplePeriodMS;
     double deltaS, noChangeProb, spontBreaksPerS;
-	    
+        
 // If we are in the middle of the saccade, do the next step of for the saccade
     
     if (saccade != nil) {
@@ -545,7 +545,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
     else if (timeNowS > nextSaccadeTimeS) {
         if (eyeTargetPresent) {
             fixate = YES;
-			spontBreaksPerS =[defaults floatForKey:LLSynthEyeBreakKey];
+            spontBreaksPerS =[defaults floatForKey:LLSynthEyeBreakKey];
             if (spontBreaksPerS > 0 && lastSpontBreakCheckTimeS > 0) {
                 deltaS = timeNowS - lastSpontBreakCheckTimeS;
                 noChangeProb = exp(deltaS * log(1.0 - spontBreaksPerS)); 
@@ -556,7 +556,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         else {
             fixate = NO;
         }
-        eyeSamplePeriodMS = [[samplePeriodMS objectAtIndex:0] floatValue];
+        eyeSamplePeriodMS = [samplePeriodMS[0] floatValue];
         for (eyeIndex = kLeftEye; eyeIndex < kEyes; eyeIndex++) {
             [degToUnits[eyeIndex] invert];
             eyePositionDeg[eyeIndex] = [degToUnits[eyeIndex] transformPoint:eyePosition[eyeIndex]];
@@ -578,30 +578,30 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 - (void)VBLData;
 {
-	short timestamp, VBLChannel;
-	long ticksPerS;
+    short timestamp, VBLChannel;
+    long ticksPerS;
     float VBLRateHz;
-	double timeNow;
-		
-	VBLRateHz = [defaults floatForKey:LLSynthVBLRateKey];
+    double timeNow;
+        
+    VBLRateHz = [defaults floatForKey:LLSynthVBLRateKey];
     if (VBLRateHz == 0) {
-		return;
-	}
-	timeNow = [LLSystemUtil getTimeS];
-	if (timeNow < nextVBLTimeS) {
-		return;
-	}
-	VBLChannel = [defaults integerForKey:LLSynthVBLKey];
-	if ((timestampChannels & (0x1 << VBLChannel)) == 0) {
-		return;
-	}
-	ticksPerS = (1000.0 / [[timestampPeriodMS objectAtIndex:VBLChannel] longValue]);
-	timestampData[VBLChannel] = [NSMutableData dataWithLength:0];
-	while (timeNow >= nextVBLTimeS) {
-		timestamp = (nextVBLTimeS - timestampRefS) * ticksPerS;
-		[timestampData[VBLChannel] appendBytes:&timestamp length:sizeof(short)];
-		nextVBLTimeS += 1.0 / VBLRateHz;
-	}
+        return;
+    }
+    timeNow = [LLSystemUtil getTimeS];
+    if (timeNow < nextVBLTimeS) {
+        return;
+    }
+    VBLChannel = [defaults integerForKey:LLSynthVBLKey];
+    if ((timestampChannels & (0x1 << VBLChannel)) == 0) {
+        return;
+    }
+    ticksPerS = (1000.0 / [timestampPeriodMS[VBLChannel] longValue]);
+    timestampData[VBLChannel] = [NSMutableData dataWithLength:0];
+    while (timeNow >= nextVBLTimeS) {
+        timestamp = (nextVBLTimeS - timestampRefS) * ticksPerS;
+        [timestampData[VBLChannel] appendBytes:&timestamp length:sizeof(short)];
+        nextVBLTimeS += 1.0 / VBLRateHz;
+    }
 }
 
 @end

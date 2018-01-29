@@ -76,68 +76,68 @@ NSString *LLSTUAPerVKey = @"Stim Train uA Per V";
     [[NSUserDefaults standardUserDefaults] setFloat:[sender floatValue] forKey:LLSTUAPerVKey];
 } 
 
-- (id)init {
+- (instancetype)init {
 
     NSMutableDictionary *defaultSettings;
 
     if ((self = [super initWithWindowNibName:@"LLStimulusTrain"])) {
-	
-		defaultSettings = [NSMutableDictionary dictionary];
-		[defaultSettings setObject:[NSNumber numberWithFloat:1.0] forKey:LLSTAmplitudeKey];
-		[defaultSettings setObject:[NSNumber numberWithInt:250] forKey:LLSTDurationKey];
-		[defaultSettings setObject:[NSNumber numberWithFloat:200.0] forKey:LLSTFrequencyKey];
-		[defaultSettings setObject:[NSNumber numberWithInt:200] forKey:LLSTPulseWidthKey];
-		[defaultSettings setObject:[NSNumber numberWithFloat:10.0] forKey:LLSTVoltageRangeKey];
-		[defaultSettings setObject:[NSNumber numberWithInt:0] forKey:LLSTDAChannelKey];
-		[defaultSettings setObject:[NSNumber numberWithInt:0] forKey:LLSTMarkPulseBitKey];
-		[defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:LLSTMarkerPulsesKey];
-		[defaultSettings setObject:[NSNumber numberWithInt:1] forKey:LLSTGateBitKey];
-		[defaultSettings setObject:[NSNumber numberWithBool:YES] forKey:LLSTGateKey];
-		[defaultSettings setObject:[NSNumber numberWithFloat:1.0] forKey:LLSTUAPerVKey];
-		[defaultSettings setObject:[NSNumber numberWithFloat:10.24] forKey:LLSTVoltageRangeKey];
-		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
-	}
-	return self;
+    
+        defaultSettings = [NSMutableDictionary dictionary];
+        defaultSettings[LLSTAmplitudeKey] = @1.0f;
+        defaultSettings[LLSTDurationKey] = @250;
+        defaultSettings[LLSTFrequencyKey] = @200.0f;
+        defaultSettings[LLSTPulseWidthKey] = @200;
+        defaultSettings[LLSTVoltageRangeKey] = @10.0f;
+        defaultSettings[LLSTDAChannelKey] = @0;
+        defaultSettings[LLSTMarkPulseBitKey] = @0;
+        defaultSettings[LLSTMarkerPulsesKey] = @YES;
+        defaultSettings[LLSTGateBitKey] = @1;
+        defaultSettings[LLSTGateKey] = @YES;
+        defaultSettings[LLSTUAPerVKey] = @1.0f;
+        defaultSettings[LLSTVoltageRangeKey] = @10.24f;
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettings];
+    }
+    return self;
 }
 
 - (StimTrainData *)trainData {
 
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	stimTrain.amplitudeUA = [defaults floatForKey:LLSTAmplitudeKey];
-	stimTrain.DAChannel = [defaults integerForKey:LLSTDAChannelKey];
-	stimTrain.doPulseMarkers = [defaults integerForKey:LLSTMarkerPulsesKey];
-	stimTrain.doGate = [defaults integerForKey:LLSTGateKey];
-	stimTrain.durationMS = [defaults integerForKey:LLSTDurationKey];
-	stimTrain.frequencyHZ = [defaults floatForKey:LLSTFrequencyKey]; 
-	stimTrain.gateBit = [defaults integerForKey:LLSTGateBitKey];
-	stimTrain.pulseMarkerBit = [defaults integerForKey:LLSTMarkPulseBitKey];
-	stimTrain.pulseWidthUS = [defaults integerForKey:LLSTPulseWidthKey]; 
-	stimTrain.fullRangeV = [defaults floatForKey:LLSTVoltageRangeKey]; 
-	stimTrain.UAPerV = [defaults floatForKey:LLSTUAPerVKey];
-	
-	return &stimTrain;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    stimTrain.amplitudeUA = [defaults floatForKey:LLSTAmplitudeKey];
+    stimTrain.DAChannel = [defaults integerForKey:LLSTDAChannelKey];
+    stimTrain.doPulseMarkers = [defaults integerForKey:LLSTMarkerPulsesKey];
+    stimTrain.doGate = [defaults integerForKey:LLSTGateKey];
+    stimTrain.durationMS = [defaults integerForKey:LLSTDurationKey];
+    stimTrain.frequencyHZ = [defaults floatForKey:LLSTFrequencyKey]; 
+    stimTrain.gateBit = [defaults integerForKey:LLSTGateBitKey];
+    stimTrain.pulseMarkerBit = [defaults integerForKey:LLSTMarkPulseBitKey];
+    stimTrain.pulseWidthUS = [defaults integerForKey:LLSTPulseWidthKey]; 
+    stimTrain.fullRangeV = [defaults floatForKey:LLSTVoltageRangeKey]; 
+    stimTrain.UAPerV = [defaults floatForKey:LLSTUAPerVKey];
+    
+    return &stimTrain;
 }
 
 - (void)loadDialogEntries {
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [amplitudeField setFloatValue:[defaults floatForKey:LLSTAmplitudeKey]];
-    [DAChannelField setIntValue:(int)[defaults integerForKey:LLSTDAChannelKey]];
-    [durationField setIntValue:(int)[defaults integerForKey:LLSTDurationKey]];
-    [frequencyField setFloatValue:[defaults floatForKey:LLSTFrequencyKey]];
-    [gateCheckBox setIntValue:(int)[defaults integerForKey:LLSTGateKey]];
-    [gateBitField setIntValue:(int)[defaults integerForKey:LLSTGateBitKey]];
-    [markerBitField setIntValue:(int)[defaults integerForKey:LLSTMarkPulseBitKey]];
-    [pulsesCheckBox setIntValue:(int)[defaults integerForKey:LLSTMarkerPulsesKey]];
-    [pulseWidthField setIntValue:(int)[defaults integerForKey:LLSTPulseWidthKey]];
-    [uAPerVField setFloatValue:[defaults floatForKey:LLSTUAPerVKey]];
+    amplitudeField.floatValue = [defaults floatForKey:LLSTAmplitudeKey];
+    DAChannelField.intValue = (int)[defaults integerForKey:LLSTDAChannelKey];
+    durationField.intValue = (int)[defaults integerForKey:LLSTDurationKey];
+    frequencyField.floatValue = [defaults floatForKey:LLSTFrequencyKey];
+    gateCheckBox.intValue = (int)[defaults integerForKey:LLSTGateKey];
+    gateBitField.intValue = (int)[defaults integerForKey:LLSTGateBitKey];
+    markerBitField.intValue = (int)[defaults integerForKey:LLSTMarkPulseBitKey];
+    pulsesCheckBox.intValue = (int)[defaults integerForKey:LLSTMarkerPulsesKey];
+    pulseWidthField.intValue = (int)[defaults integerForKey:LLSTPulseWidthKey];
+    uAPerVField.floatValue = [defaults floatForKey:LLSTUAPerVKey];
 }
 
 - (void)windowDidLoad {
 
-	[self loadDialogEntries];
+    [self loadDialogEntries];
 }
 
 

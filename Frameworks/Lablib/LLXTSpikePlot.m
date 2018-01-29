@@ -15,7 +15,7 @@
 {
     [spikeLock lock];
     [spikeTimes addObject:time];
-	[spikeLock unlock];
+    [spikeLock unlock];
 }
 
 - (void)dealloc {
@@ -31,24 +31,24 @@
     unsigned long index, limitTimeMS;
     
     [[NSColor blueColor] set];
-	[spikeLock lock];
-	
+    [spikeLock lock];
+    
 // Remove any expired spikes
 
-	limitTimeMS = [[spikeTimes lastObject] longValue] - durationS * 1000.0;
-	for (index = 0; index < [spikeTimes count]; index++) {
-		if ([[spikeTimes objectAtIndex:index] longValue] >= limitTimeMS) {
-			break;
-		}
-	}
-	if (index > 0) {
-		[spikeTimes removeObjectsInRange:NSMakeRange(0, index)];
-	}
+    limitTimeMS = [spikeTimes.lastObject longValue] - durationS * 1000.0;
+    for (index = 0; index < spikeTimes.count; index++) {
+        if ([spikeTimes[index] longValue] >= limitTimeMS) {
+            break;
+        }
+    }
+    if (index > 0) {
+        [spikeTimes removeObjectsInRange:NSMakeRange(0, index)];
+    }
 
 // Draw the spikes
 
-    for (index = 0; index < [spikeTimes count]; index++) {
-        time = [scale scaledY:[[spikeTimes objectAtIndex:index] longValue]];
+    for (index = 0; index < spikeTimes.count; index++) {
+        time = [scale scaledY:[spikeTimes[index] longValue]];
         [NSBezierPath strokeLineFromPoint:NSMakePoint([scale scaledX:0.0], time)
                 toPoint:NSMakePoint([scale scaledX:1.0], time)];
    }
@@ -57,23 +57,23 @@
 
 - (void)clear {
 
-	[spikeLock lock];
+    [spikeLock lock];
     [spikeTimes removeAllObjects];
-	[spikeLock unlock];
+    [spikeLock unlock];
 }
 
-- (id)init {
+- (instancetype)init {
 
-	if ((self = [super init]) != nil) {
+    if ((self = [super init]) != nil) {
         spikeTimes = [[NSMutableArray alloc] init];
         spikeLock = [[NSLock alloc] init];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void)setDurationS:(NSNumber *)durS {
 
-    durationS = [durS floatValue];
+    durationS = durS.floatValue;
 }
 
 - (void)setScale:(LLViewScale *)scaling {

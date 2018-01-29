@@ -4,9 +4,12 @@
 //
 //  Created by John Maunsell on 3/13/17.
 //
-
-// I don't know.  Maybe the AO output and AO input are the way to go.  Could have them speak to the socket directly,
-// using a socket lock.  That would be pretty safe.
+// NB: The behavior of NIDAQ autostart, start and triggers is a little counterintuitive.  Start and autostart
+// apply to the task.  Nothing will ever happen with input or output until a task has been started with either a start
+// (a programmatic call to the start() function) or an autostart, which starts the task when the setup is made.
+// The start or autostart will begin the output/acqusition immediately, UNLESS a digital or analog trigger has been
+// specified.  In that case, the trigger will begin the output/acquisiton.  Note that a digital or analog trigger will
+// do nothing if the task has not been started by a start() or autostart.
 
 #import "LLNIDAQ.h"
 #import "LLNIDAQTask.h"
@@ -70,7 +73,7 @@
     [self closeShutter];
 }
 
-- (id)initWithSocket:(LLSockets *)theSocket;
+- (instancetype)initWithSocket:(LLSockets *)theSocket;
 {
     NSString *fileName;
 
@@ -81,7 +84,7 @@
     return self;
 }
 
-- (id)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
+- (instancetype)initWithSocket:(LLSockets *)theSocket calibrationFile:(NSString *)calibrationFileName;
 {
     if ((self = [super init]) != nil) {
         [self doInitWithSocket:theSocket calibrationFileName:calibrationFileName];
@@ -107,7 +110,7 @@
         [calibrator[channel] release];
     }
     calibrator[channel] = [[LLPowerCalibrator alloc] initFromFile:url];
-    if ([calibrator[channel] calibrated]) {
+    if (calibrator[channel].calibrated) {
         [analogOutput setMaxVolts:[calibrator[channel] maximumV] minVolts:[calibrator[channel] minimumV]
                       forChannelName:channelNames[channel]];
         return YES;
@@ -144,16 +147,33 @@
 }
 
 - (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
-        duration1MS:(long)dur1MS delay1MS:(long)delay1MS autoStart:(BOOL)autoStart digitalTrigger:(BOOL)digitalTrigger;
+       duration1MS:(long)dur1MS autoStart:(BOOL)autoStart digitalTrigger:(BOOL)digitalTrigger;
+{
+    return [self pairedPulsesWithPulse0MW:pulse0MW duration0MS:dur0MS delay0MS:0 pulse1MW:pulse1MW
+      duration1MS:dur1MS delay1MS:0 autoStart:autoStart digitalTrigger:digitalTrigger];
+}
+
+- (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
+       duration1MS:(long)dur1MS delay1MS:(long)delay1MS autoStart:(BOOL)autoStart digitalTrigger:(BOOL)digitalTrigger;
+{
+    return [self pairedPulsesWithPulse0MW:pulse0MW duration0MS:dur0MS delay0MS:0 pulse1MW:pulse1MW
+                              duration1MS:dur1MS delay1MS:delay1MS autoStart:autoStart digitalTrigger:digitalTrigger];
+}
+
+// only positive delays are allowed
+
+- (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS delay0MS:(long)delay0MS pulse1MW:(float)pulse1MW
+       duration1MS:(long)dur1MS delay1MS:(long)delay1MS autoStart:(BOOL)autoStart digitalTrigger:(BOOL)digitalTrigger;
 {
     long sample;
-    long numChannelSamples, numTrainSamples, pulse0Samples, delay1Samples, pulse1Samples;
+    long numChannelSamples, numTrainSamples, pulse0Samples, delay0Samples, delay1Samples, pulse1Samples;
     Float64 off0V, off1V, pulse0V, pulse1V, *train, *pTrain;
 
     pulse0Samples = dur0MS * kSamplesPerMS;
     pulse1Samples = dur1MS * kSamplesPerMS;
+    delay0Samples = delay0MS * kSamplesPerMS;
     delay1Samples = delay1MS * kSamplesPerMS;
-    numChannelSamples = MAX(pulse0Samples, pulse1Samples + delay1Samples) + 1;
+    numChannelSamples = MAX(pulse0Samples + delay0Samples, pulse1Samples + delay1Samples) + 1;
     numTrainSamples = numChannelSamples * kActiveChannels;
     train = malloc(numTrainSamples * sizeof(Float64));
     pulse0V = [calibrator[0] voltageForMW:pulse0MW];
@@ -162,30 +182,15 @@
     off1V = [calibrator[1] voltageForMW:[calibrator[1] minimumMW]];
 
     for (sample = 0, pTrain = train; sample < numChannelSamples - 1; sample++) {
-        *pTrain++ = (sample < pulse0Samples) ? pulse0V : off0V;
+        *pTrain++ = (sample < delay0Samples) ? off0V : ((sample < delay0Samples + pulse0Samples) ? pulse0V : off0V);
         *pTrain++ = (sample < delay1Samples) ? off1V : ((sample < delay1Samples + pulse1Samples) ? pulse1V : off1V);
     }
     for ( ; sample < numChannelSamples; sample++) {
         *pTrain++ = off0V;
         *pTrain++ = off1V;
     }
-
     [analogOutput doTrain:train numSamples:numTrainSamples outputRateHz:kOutputRateHz digitalTrigger:digitalTrigger
                 triggerChannelName:kTriggerChanName autoStart:autoStart waitTimeS:0.0];
-
-//    [analogOutput stop];                                    // task must be stopped before re-arming
-//    [analogOutput alterState:@"unreserve"];                // must unreserve in case it was never started
-//    [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:numChannelSamples];
-//    if (digitalTrigger) {
-//        [analogOutput configureTriggerDigitalEdgeStart:kTriggerChanName edge:@"rising"];
-//    }
-//    else {
-//        [analogOutput configureTriggerDisableStart];
-//    }
-//    [analogOutput writeSamples:train numSamples:numTrainSamples autoStart:NO timeoutS:-1];
-//    if (digitalTrigger) {
-//        [analogOutput start];
-//    }
     return(analogOutput);
 }
 
@@ -196,7 +201,7 @@
     Float64 outputV[kMinSamples * kActiveChannels];        // min 2 samples per channel
     
     for (sample  = 0; sample < numSamples; sample++) {
-        outputV[sample] = [calibrator[channel] calibrated] ? [calibrator[channel] voltageForMW:powerMW] : powerMW;
+        outputV[sample] = calibrator[channel].calibrated ? [calibrator[channel] voltageForMW:powerMW] : powerMW;
     }
 
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:kMinSamples];

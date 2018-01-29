@@ -12,6 +12,7 @@
 #import "LLDataDeviceController.h"
 #import "LLMatlabEngine.h"
 #import "LLMonitorController.h"
+#import "LLObserverKeys.h"
 #import "LLNE500Pump.h"
 #import "LLNIDAQ.h"
 #import "LLSettingsController.h"
@@ -27,97 +28,70 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
     kMouseSounds
 };
 
-#define 	kBrokeSound		        @"200Hz100msSq"     //Different sound for wrong and broke trials
-#define 	kCorrectSound			@"Correct"
-#define 	kFailedSound		    @"Wrong"
-#define		kFixOnSound				@"6C"
-#define		kFixateSound			@"7G"
-#define		kStimOnSound			@"5C"
-#define		kStimOffSound			@"5C"
-#define 	kWrongSound             @"Wrong"
-//#define 	k200msSound		        @"200Hz200msSq"
-//#define 	k300msSound		        @"200Hz300msSq"
+#define kBrokeSound     @"200Hz100msSq"     //Different sound for wrong and broke trials
+#define kCorrectSound   @"Correct"
+#define kFailedSound    @"Wrong"
+#define kFixOnSound     @"6C"
+#define kFixateSound    @"7G"
+#define kStimOnSound    @"5C"
+#define kStimOffSound   @"5C"
+#define kWrongSound     @"Wrong"
 
 @interface LLTaskPlugIn : NSObject {
 
-	BOOL					active;
-	NSTimer					*collectorTimer;
-	NSPoint					currentEyeDeg;
-	NSPoint					currentEyesDeg[kEyes];
-	LLDataDoc				*dataDoc;
-	LLDataDeviceController	*dataController;
-	LLUserDefaults			*defaults;
-	DisplayModeParam		displayMode;
-	LLBinocCalibrator		*eyeCalibrator;
-	id						host;
-	BOOL					initialized;
+    DisplayModeParam        displayMode;
+//    LLBinocCalibrator       *eyeCalibrator;
     NSDate                  *lastDataCollectionDate;
-    BOOL                    leverDown;
-    LLMatlabEngine          *matlabEngine;
-	long					mode;
+    long                    mode;
     NSDictionary            *monkeySoundDict;
-	LLMonitorController		*monitorController;
+    LLMonitorController     *monitorController;
     NSDictionary            *mouseSoundDict;
-    LLNIDAQ                 *nidaq;
-    LLNE500Pump             *rewardPump;
     LLSockets               *socket;
-	LLStateSystem			*stateSystem;
-	LLStimWindow			*stimWindow;
-	LLSynthDataDevice		*synthDataDevice;
-    LLTaskStatus			*taskStatus;
-	BOOL					writingDataFile;
+    LLStateSystem           *stateSystem;
+    LLStimWindow            *stimWindow;
+    LLSynthDataDevice       *synthDataDevice;
+    LLTaskStatus            *taskStatus;
 }
 
-@property (nonatomic, assign) LLNIDAQ *nidaq;
-@property (nonatomic, assign) LLNE500Pump *rewardPump;
-@property (nonatomic, assign) double trialStartTimeS;
-@property (nonatomic, retain) LLSettingsController *settingsController;
+@property (NS_NONATOMIC_IOSONLY) BOOL active;
+@property (NS_NONATOMIC_IOSONLY, retain) NSTimer *collectorTimer;
+@property (NS_NONATOMIC_IOSONLY) NSPoint currentEyeDeg;
+@property (NS_NONATOMIC_IOSONLY) NSPoint *currentEyesDeg;
+@property (NS_NONATOMIC_IOSONLY, strong) LLDataDeviceController *dataController;
+@property (NS_NONATOMIC_IOSONLY, retain) LLDataDoc *dataDoc;
+@property (NS_NONATOMIC_IOSONLY, retain) LLUserDefaults *defaults;
+@property (NS_NONATOMIC_IOSONLY, strong) LLBinocCalibrator *eyeCalibrator;
+@property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeLeftCalibrator;
+@property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeRightCalibrator;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL handlesEvents;
+@property (NS_NONATOMIC_IOSONLY, retain) id host;
+@property (NS_NONATOMIC_IOSONLY) BOOL initialized;
+@property (NS_NONATOMIC_IOSONLY, copy) NSDate *lastDataCollectionDate;
+@property (NS_NONATOMIC_IOSONLY) BOOL leverDown;
+@property (NS_NONATOMIC_IOSONLY, strong) LLMatlabEngine *matlabEngine;
+@property (NS_NONATOMIC_IOSONLY) long mode;
+@property (NS_NONATOMIC_IOSONLY, strong) LLMonitorController *monitorController;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *name;
+@property (NS_NONATOMIC_IOSONLY, assign) LLNIDAQ *nidaq;
+@property (NS_NONATOMIC_IOSONLY, retain) LLObserverKeys *observerKeys;
+@property (NS_NONATOMIC_IOSONLY, assign) LLNE500Pump *rewardPump;
+@property (NS_NONATOMIC_IOSONLY, retain) LLSettingsController *settingsController;
+@property (NS_NONATOMIC_IOSONLY, strong) LLSockets *socket;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLStateSystem *stateSystem;
+@property (NS_NONATOMIC_IOSONLY, strong) LLStimWindow *stimWindow;
+@property (NS_NONATOMIC_IOSONLY, strong) LLSynthDataDevice *synthDataDevice;
+@property (NS_NONATOMIC_IOSONLY, assign) double trialStartTimeS;
+@property (NS_NONATOMIC_IOSONLY) BOOL usesGit;
+@property (NS_NONATOMIC_IOSONLY) BOOL writingDataFile;
 
 - (void)activate;
-- (BOOL)active;
-- (NSTimer *)collectorTimer;
-- (NSPoint)currentEyeDeg;
-- (NSPoint *)currentEyesDeg;
-- (LLDataDeviceController *)dataController;
-- (LLDataDoc *)dataDoc;
 - (IBAction)deactivate:(id)sender;
-- (LLUserDefaults *)defaults;
 - (IBAction)doRunStop:(id)sender;
-- (LLBinocCalibrator *)eyeCalibrator;
-- (LLEyeCalibrator *)eyeLeftCalibrator;
-- (LLEyeCalibrator *)eyeRightCalibrator;
 - (BOOL)handleEvent:(NSEvent *)theEvent;
-- (BOOL)handlesEvents;
-- (BOOL)initialized;
 - (void)initializationDidFinish;
-- (NSDate *)lastDataCollectionDate;
-- (BOOL)leverDown;
-- (LLMatlabEngine *)matlabEngine;
-- (long)mode;
-- (LLMonitorController *)monitorController;
-- (NSString *)name;
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
 - (DisplayModeParam)requestedDisplayMode;
-- (void)setDataDeviceController:(LLDataDeviceController *)controller;
-- (void)setDataDocument:(LLDataDoc *)doc;
-- (void)setDefaults:(LLUserDefaults *)newDefaults;
-- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
-- (void)setHost:(id)newHost;
-- (void)setInitialized:(BOOL)state;
-- (void)setLastDataCollectionDate:(NSDate *)newDate;
-- (void)setMatlabEngine:(LLMatlabEngine *)newEngine;
-- (void)setMode:(long)mode;
-- (void)setMonitorController:(LLMonitorController *)controller;
-- (void)setSocket:(LLSockets *)newSocket;
-- (void)setStimWindow:(LLStimWindow *)newStimWindow;
-- (void)setSynthDataDevice:(LLSynthDataDevice *)device;
-- (void)setWritingDataFile:(BOOL)state;
-- (LLSockets *)socket;
-- (LLStateSystem *)stateSystem;
-- (LLStimWindow *)stimWindow;
 - (void)stopSoundFileNamed:(NSString *)soundFileName;
 - (void)stopSoundNamed:(NSString *)soundName;
-- (LLSynthDataDevice *)synthDataDevice;
-- (BOOL)writingDataFile;
 
 @end

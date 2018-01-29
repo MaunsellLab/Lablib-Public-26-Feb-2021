@@ -29,41 +29,41 @@ signal, then we need 4 samples per spike period.  Thus the maximum effective dig
 The fastest sampling rate will be determined by the number of AD channels being sampled and whether or not digital
 inputs are being sampled. If no digital input is being sampled, the maximum rates are:
 
-Number of AD channels:				1		2		4		8
-Maximum rate (kHz):					200		100		50		25
+Number of AD channels:                1        2        4        8
+Maximum rate (kHz):                    200        100        50        25
 
 If digital inputs are being sampled, and the digital sampling rate is < 1/4 the highest AD sampling rate, the 
 following limits apply:
 
-Number of AD channels:				1		2		4		8
-Maximum rate (kHz):					100		66.6	40		22.2
+Number of AD channels:                1        2        4        8
+Maximum rate (kHz):                    100        66.6    40        22.2
 
 If digital inputs are being sampled, and the digitial sampling rate is > 1/4 the highest AD sampling rate (or 
 there is no AD sampling rate), the following limits apply:
 
-Number of AD channels:		0		1		2		4		8
-Maximum rate (kHz):			50		25		25		25		16.6
+Number of AD channels:        0        1        2        4        8
+Maximum rate (kHz):            50        25        25        25        16.6
 
 The rate of digital sampling relative to the maximum AD sampling matters because it affects how the way that sampling
 is sequenced.  If the digital sampling rate is less than 1/4 the maximum AD sampling rate, sampling is done at
 the maximum AD rate, in the following sequence:
 
-	Digital, first active AD, second active AD, ... last active AD.
-							
+    Digital, first active AD, second active AD, ... last active AD.
+                            
 Because the sampling rate is more than 4 times the requested digital sampling rate, this approach will satisfy the 
 digital oversampling requirement.  If the digital sampling rate is >=  to 1/4 the maximum AD sampling rate, then 
 sampling occurs as follows:
 
-	Digital, AD samples, Digital, AD samples, Digital, AD samples, Digital, AD samples
-							
+    Digital, AD samples, Digital, AD samples, Digital, AD samples, Digital, AD samples
+                            
 In this sequence, the four "AD samples" will include one sample of each of the active channels, plus enough
 padding to keep the number of ticks between the digital samples constant.  For example:
 
-	Digital, AD0, AD4, Digital, AD5, AD6, Digital, AD7, ADSkip, Digital, ADSkip, ADSkip
-	
+    Digital, AD0, AD4, Digital, AD5, AD6, Digital, AD7, ADSkip, Digital, ADSkip, ADSkip
+    
 or
-	Digital, AD1, Digital, AD2, Digital, ADSkip, Digital, ADSkip
-	
+    Digital, AD1, Digital, AD2, Digital, ADSkip, Digital, ADSkip
+    
 Because the maximum sampling rate changes when the number of active channels changes, whenever channels are enabled
 all requested sampling rates are checked and lowered if necessary
 */
@@ -77,27 +77,27 @@ all requested sampling rates are checked and lowered if necessary
 #import <ITC/ITC18.h>
 #pragma clang diagnostic pop
 
-#define kUseLLDataDevices							// needed for versioning
+#define kUseLLDataDevices                            // needed for versioning
 
 extern size_t malloc_size(void *ptr);
 
-#define kIsDigitalInput(i)			((instructions[i] & ITC18_INPUT_DIGITAL) && (instructions[i] != ITC18_INPUT_SKIP))
-#define kDigitalOverSample			4
-#define kDriftTimeLimitMS			0.010
-#define kDriftFractionLimit			0.001
-#define kGarbageLength				3
-#define	kReadDataIntervalS			(USB18 ? 0.005 : 0.000)
+#define kIsDigitalInput(i)            ((instructions[i] & ITC18_INPUT_DIGITAL) && (instructions[i] != ITC18_INPUT_SKIP))
+#define kDigitalOverSample            4
+#define kDriftTimeLimitMS            0.010
+#define kDriftFractionLimit            0.001
+#define kGarbageLength                3
+#define    kReadDataIntervalS            (USB18 ? 0.005 : 0.000)
 
-#define chunksAtOneTickPerInstructHz	(kLLITC18TicksPerMS * 1000.0 / numInstructions)
-#define maxSampleRateHz					(chunksAtOneTickPerInstructHz / ITC18_MINIMUM_TICKS)
-#define minSampleRateHz					(chunksAtOneTickPerInstructHz / ITC18_MAXIMUM_TICKS)
+#define chunksAtOneTickPerInstructHz    (kLLITC18TicksPerMS * 1000.0 / numInstructions)
+#define maxSampleRateHz                    (chunksAtOneTickPerInstructHz / ITC18_MINIMUM_TICKS)
+#define minSampleRateHz                    (chunksAtOneTickPerInstructHz / ITC18_MAXIMUM_TICKS)
 
 NSString *LLITC18InvertBit00Key = @"LLITC18InvertBit00";
 NSString *LLITC18InvertBit15Key = @"LLITC18InvertBit15";
 
 typedef enum {kSampleTable = 0, kTimestampTable} LLTableType;
 
-static long	ITCCount = 0;
+static long    ITCCount = 0;
 
 @implementation LLITC18DataDevice
 
@@ -107,149 +107,149 @@ static long	ITCCount = 0;
 
 //+ (void)initialize;
 //{
-//	NSString *ITCFrameworkPath, *myBundlePath;
-//	NSBundle *ITCFramework;
+//    NSString *ITCFrameworkPath, *myBundlePath;
+//    NSBundle *ITCFramework;
 //
-//	myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-//	if (![[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
-//		return;
-//	}
-//	ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
-//	ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
-//	if ([ITCFramework load]) {
-//		NSLog(@"ITC framework loaded");
-//	}
-//	else
-//	{
-//		NSLog(@"Error, ITC framework failed to load\nAborting.");
-//		exit(1);
-//	}
+//    myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
+//    if (![[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
+//        return;
+//    }
+//    ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
+//    ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
+//    if ([ITCFramework load]) {
+//        NSLog(@"ITC framework loaded");
+//    }
+//    else
+//    {
+//        NSLog(@"Error, ITC framework failed to load\nAborting.");
+//        exit(1);
+//    }
 //}
 
 + (NSInteger)version;
 {
-	return kLLPluginVersion;
+    return kLLPluginVersion;
 }
 
 - (void)allocateSampleBuffer:(short **)ppBuffer size:(long)sizeInShorts;
 {
-	if (*ppBuffer == nil) {
-		*ppBuffer = malloc(sizeof(short) * sizeInShorts);
-	}
-	else {
-		*ppBuffer = reallocf(*ppBuffer, sizeof(short) * sizeInShorts);
-	}
-	if (*ppBuffer == nil) {
+    if (*ppBuffer == nil) {
+        *ppBuffer = malloc(sizeof(short) * sizeInShorts);
+    }
+    else {
+        *ppBuffer = reallocf(*ppBuffer, sizeof(short) * sizeInShorts);
+    }
+    if (*ppBuffer == nil) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                    informativeText:@"Fatal error: Could not allocate sample memory."];
-		exit(0);
-	}
+        exit(0);
+    }
 }
 
 // Close the ITC18.  
 
 - (void)closeITC18 {
 
-	if (itc != nil) {
-		[deviceLock lock];
-		ITC18_Close(itc);
-		free(itc);
-		itc = nil;
-		[deviceLock unlock];
-	}
+    if (itc != nil) {
+        [deviceLock lock];
+        ITC18_Close(itc);
+        free(itc);
+        itc = nil;
+        [deviceLock unlock];
+    }
 }
 
 - (void)configure;
 {
-	[self setDataEnabled:[NSNumber numberWithBool:NO]];
-	[NSApp runModalForWindow:settingsWindow];
+    [self setDataEnabled:@NO];
+    [NSApp runModalForWindow:settingsWindow];
     [settingsWindow orderOut:self];
-	[self loadInstructions];
+    [self loadInstructions];
 }
 
 - (void)dealloc;
 {
-	long index;
-	
-	[self closeITC18];
-	for (index = 0; index < kLLITC18ADChannels; index++) {
-		[sampleData[index] release];
-	}
-	for (index = 0; index < kLLITC18DigitalBits; index++) {
-		[timestampData[index] release];
-	}
-	[sampleLock release];
-	[timestampLock release];
-	[monitor release];
-	[deviceLock release];
+    long index;
+    
+    [self closeITC18];
+    for (index = 0; index < kLLITC18ADChannels; index++) {
+        [sampleData[index] release];
+    }
+    for (index = 0; index < kLLITC18DigitalBits; index++) {
+        [timestampData[index] release];
+    }
+    [sampleLock release];
+    [timestampLock release];
+    [monitor release];
+    [deviceLock release];
     [topLevelObjects release];
-	[super dealloc];
+    [super dealloc];
 }
 
 - (void)digitalOutputBits:(unsigned long)bits;
 {
-	short invertBit00, invertBit15;
+    short invertBit00, invertBit15;
 
-	if (itc != nil) {
-		invertBit00 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit00Key];
-		invertBit15 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit15Key];
-		digitalOutputWord = bits;
-		if (invertBit00) {
-			digitalOutputWord ^= 0x0001;
-		}
-		if (invertBit15) {
-			digitalOutputWord ^=  0x8000;
-		}
-		[deviceLock lock];
-		ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
-		[deviceLock unlock];
-	}
+    if (itc != nil) {
+        invertBit00 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit00Key];
+        invertBit15 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit15Key];
+        digitalOutputWord = bits;
+        if (invertBit00) {
+            digitalOutputWord ^= 0x0001;
+        }
+        if (invertBit15) {
+            digitalOutputWord ^=  0x8000;
+        }
+        [deviceLock lock];
+        ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
+        [deviceLock unlock];
+    }
 }
 
 - (void)digitalOutputBitsOff:(unsigned long)bits;
 {
-	short invertBit00, invertBit15;
+    short invertBit00, invertBit15;
 
-	if (itc != nil) {
-		invertBit00 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit00Key];
-		invertBit15 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit15Key];
-		digitalOutputWord &= ~bits;
-		if (invertBit00 && (bits & 0x0001)) {
-			digitalOutputWord ^= 0x0001;
-		}
-		if (invertBit15 && (bits & 0x8000)) {
-			digitalOutputWord ^= 0x8000;
-		}
-		[deviceLock lock];
-		ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
-		[deviceLock unlock];
-	}
+    if (itc != nil) {
+        invertBit00 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit00Key];
+        invertBit15 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit15Key];
+        digitalOutputWord &= ~bits;
+        if (invertBit00 && (bits & 0x0001)) {
+            digitalOutputWord ^= 0x0001;
+        }
+        if (invertBit15 && (bits & 0x8000)) {
+            digitalOutputWord ^= 0x8000;
+        }
+        [deviceLock lock];
+        ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
+        [deviceLock unlock];
+    }
 }
 
 - (void)digitalOutputBitsOn:(unsigned long)bits;
 {
-	short invertBit00, invertBit15;
+    short invertBit00, invertBit15;
 
-	if (itc != nil) {
-		invertBit00 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit00Key];
-		invertBit15 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit15Key];
-		digitalOutputWord |= bits;
-		if (invertBit00 && (bits & 0x0001)) {
-			digitalOutputWord ^= 0x0001;
-		}
-		if (invertBit15 && (bits & 0x8000)) {
-			digitalOutputWord ^= 0x8000;
-		}
-		[deviceLock lock];
-		ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
-		[deviceLock unlock];
-	}
+    if (itc != nil) {
+        invertBit00 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit00Key];
+        invertBit15 = [[NSUserDefaults standardUserDefaults] integerForKey:LLITC18InvertBit15Key];
+        digitalOutputWord |= bits;
+        if (invertBit00 && (bits & 0x0001)) {
+            digitalOutputWord ^= 0x0001;
+        }
+        if (invertBit15 && (bits & 0x8000)) {
+            digitalOutputWord ^= 0x8000;
+        }
+        [deviceLock lock];
+        ITC18_WriteAuxiliaryDigitalOutput(itc, (int)digitalOutputWord);
+        [deviceLock unlock];
+    }
 }
 
 - (void)disableSampleChannels:(NSNumber *)bitPattern;
 {
-	[super disableSampleChannels:bitPattern];
-	[self loadInstructions];
+    [super disableSampleChannels:bitPattern];
+    [self loadInstructions];
 }
 
 // Initialization tests for the existence of the ITC, and initializes it if it is there.
@@ -259,64 +259,64 @@ static long	ITCCount = 0;
 
 - (void)doInitializationWithDevice:(long)requestedNum;
 {
-	long index; 
-	int ranges[ITC18_AD_CHANNELS];
-	long channel;
-	float period;
-	NSUserDefaults *defaults;
-	NSString *defaultsPath;
+    long index; 
+    int ranges[ITC18_AD_CHANNELS];
+    long channel;
+    float period;
+    NSUserDefaults *defaults;
+    NSString *defaultsPath;
     NSDictionary *defaultsDict;
-	NSString *sampleKey = @"LLITC18SamplePeriodMS";
-	NSString *timestampKey = @"LLITC18TimestampPeriodMS";
-	NSString *keySuffix;
+    NSString *sampleKey = @"LLITC18SamplePeriodMS";
+    NSString *timestampKey = @"LLITC18TimestampPeriodMS";
+    NSString *keySuffix;
 
-	deviceNum = (requestedNum >= 0) ? requestedNum : ITCCount;
-	NSLog(@"attempting to initialize ITC18 device %ld", deviceNum);
+    deviceNum = (requestedNum >= 0) ? requestedNum : ITCCount;
+    NSLog(@"attempting to initialize ITC18 device %ld", deviceNum);
 
 // Register default sampling values
 
-	defaultsPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"LLITC18DataDevice" ofType:@"plist"];
-	defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-	defaults = [NSUserDefaults standardUserDefaults];
-	[defaults registerDefaults:defaultsDict];
-	
+    defaultsPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"LLITC18DataDevice" ofType:@"plist"];
+    defaultsDict = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    defaults = [NSUserDefaults standardUserDefaults];
+    [defaults registerDefaults:defaultsDict];
+    
 // Initialize data buffers
 
-	for (index = 0; index < kLLITC18ADChannels; index++) {
-		sampleData[index] = [[NSMutableData alloc] initWithLength:0];
-	}
-	for (index = 0; index < kLLITC18DigitalBits; index++) {
-		timestampData[index] = [[NSMutableData alloc] initWithLength:0];
-	}
-	
+    for (index = 0; index < kLLITC18ADChannels; index++) {
+        sampleData[index] = [[NSMutableData alloc] initWithLength:0];
+    }
+    for (index = 0; index < kLLITC18DigitalBits; index++) {
+        timestampData[index] = [[NSMutableData alloc] initWithLength:0];
+    }
+    
 // Load sampling values
 
-	for (channel = 0; channel < kLLITC18ADChannels; channel++)  {
-		keySuffix = [NSString stringWithFormat:@"%1ld", channel];
-		period = [defaults floatForKey:[sampleKey stringByAppendingString:keySuffix]];
-		[samplePeriodMS addObject:[NSNumber numberWithFloat:period]];
-	}
-	for (channel = 0; channel < kLLITC18DigitalBits; channel++)  {
-		keySuffix = [NSString stringWithFormat:@"%02ld", channel];
-		period = [defaults floatForKey:[timestampKey stringByAppendingString:keySuffix]];
-		[timestampPeriodMS addObject:[NSNumber numberWithFloat:period]];
-	}
+    for (channel = 0; channel < kLLITC18ADChannels; channel++)  {
+        keySuffix = [NSString stringWithFormat:@"%1ld", channel];
+        period = [defaults floatForKey:[sampleKey stringByAppendingString:keySuffix]];
+        [samplePeriodMS addObject:@(period)];
+    }
+    for (channel = 0; channel < kLLITC18DigitalBits; channel++)  {
+        keySuffix = [NSString stringWithFormat:@"%02ld", channel];
+        period = [defaults floatForKey:[timestampKey stringByAppendingString:keySuffix]];
+        [timestampPeriodMS addObject:@(period)];
+    }
 
-	itc = nil;
-	sampleLock = [[NSLock alloc] init];
-	timestampLock = [[NSLock alloc] init];
-	deviceLock = [[NSLock alloc] init];
-	monitor = [[LLITCMonitor alloc] initWithID:[self name] description:@"Instrutech ITC-18 Lab I/O"];
-	[self allocateSampleBuffer:&samples size:kMinSampleBuffer];
-	if ([self openITC18:deviceNum]) {
-		for (index = 0; index < ITC18_AD_CHANNELS; index++) {	// Set AD voltage range
-			ranges[index] = ITC18_AD_RANGE_10V;
-		}
-		ITC18_SetRange(itc, ranges);
-		ITC18_SetDigitalInputMode(itc, YES, NO);				// latch and do not invert
-		[self loadInstructions];
-		[self digitalOutputBits:0xffff];
-	}
+    itc = nil;
+    sampleLock = [[NSLock alloc] init];
+    timestampLock = [[NSLock alloc] init];
+    deviceLock = [[NSLock alloc] init];
+    monitor = [[LLITCMonitor alloc] initWithID:self.name description:@"Instrutech ITC-18 Lab I/O"];
+    [self allocateSampleBuffer:&samples size:kMinSampleBuffer];
+    if ([self openITC18:deviceNum]) {
+        for (index = 0; index < ITC18_AD_CHANNELS; index++) {    // Set AD voltage range
+            ranges[index] = ITC18_AD_RANGE_10V;
+        }
+        ITC18_SetRange(itc, ranges);
+        ITC18_SetDigitalInputMode(itc, YES, NO);                // latch and do not invert
+        [self loadInstructions];
+        [self digitalOutputBits:0xffff];
+    }
     [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLITC18DataSettings" owner:self
                                          topLevelObjects:&topLevelObjects];
     [topLevelObjects retain];
@@ -324,30 +324,30 @@ static long	ITCCount = 0;
 
 - (void)enableSampleChannels:(NSNumber *)bitPattern;
 {
-	[super enableSampleChannels:bitPattern];
-	[self loadInstructions];
+    [super enableSampleChannels:bitPattern];
+    [self loadInstructions];
 }
 
 - (void)enableTimestampChannels:(NSNumber *)bitPattern;
 {
-	[super enableTimestampChannels:bitPattern];
-	[self loadInstructions];
+    [super enableTimestampChannels:bitPattern];
+    [self loadInstructions];
 }
 
 - (int)getAvailable;
 {
-	int available, overflow;
-	
+    int available, overflow;
+    
     if (itc == nil) {
         return 0;
     }
-	ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
-	if (overflow != 0) {
+    ITC18_GetFIFOReadAvailableOverflow(itc, &available, &overflow);
+    if (overflow != 0) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                    informativeText:@"Fatal error: FIFO overflow"];
-//		exit(0);
-	}
-	return available;
+//        exit(0);
+    }
+    return available;
 }
 
 // Initialization tests for the existence of the ITC, and initializes it if it is there.
@@ -355,23 +355,23 @@ static long	ITCCount = 0;
 // ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive 
 // value at the next read, but a steady level can also produce a series of positive values.
 
-- (id)init;
+- (instancetype)init;
 {
-	if ((self = [super init]) != nil) {
-		[self doInitializationWithDevice:ITCCount++];
-	}
-	return self;
+    if ((self = [super init]) != nil) {
+        [self doInitializationWithDevice:ITCCount++];
+    }
+    return self;
 }
 
 // Do the initialize with a particular ITC-18 device, rather than the default
 
-- (id)initWithDevice:(long)requestedNum;
+- (instancetype)initWithDevice:(long)requestedNum;
 {
-	if ((self = [super init]) != nil) {
-		deviceNum = requestedNum;
-		[self doInitializationWithDevice:deviceNum];
-	}
-	return self;
+    if ((self = [super init]) != nil) {
+        deviceNum = requestedNum;
+        [self doInitializationWithDevice:deviceNum];
+    }
+    return self;
 }
 
 //- (Ptr)itc;
@@ -387,46 +387,46 @@ static long	ITCCount = 0;
 
 - (void)loadInstructions;
 {
-	long channel, c, d;
-	long enabledADChannels, maxADRateHz, maxDigitalRateHz, ADPerDigital;
-	float channelPeriodMS;
-	int ADCommands[] = {ITC18_INPUT_AD0, ITC18_INPUT_AD1, ITC18_INPUT_AD2, ITC18_INPUT_AD3,
-						ITC18_INPUT_AD4, ITC18_INPUT_AD5, ITC18_INPUT_AD6, ITC18_INPUT_AD7};
+    long channel, c, d;
+    long enabledADChannels, maxADRateHz, maxDigitalRateHz, ADPerDigital;
+    float channelPeriodMS;
+    int ADCommands[] = {ITC18_INPUT_AD0, ITC18_INPUT_AD1, ITC18_INPUT_AD2, ITC18_INPUT_AD3,
+                        ITC18_INPUT_AD4, ITC18_INPUT_AD5, ITC18_INPUT_AD6, ITC18_INPUT_AD7};
 
 // If no channels are enabled load do-nothing instructions
-	
-	if (sampleChannels == 0 && timestampChannels == 0) {
-		for (c = 0; c < kLLITC18ADChannels; c++) {
-			instructions[c] = ITC18_INPUT_SKIP;
-		}
-		numInstructions = kLLITC18ADChannels;
-		if (itc != nil) {
-			ITC18_SetSequence(itc, (int)numInstructions, instructions);
-		}
-		return;
-	}
-	
+    
+    if (sampleChannels == 0 && timestampChannels == 0) {
+        for (c = 0; c < kLLITC18ADChannels; c++) {
+            instructions[c] = ITC18_INPUT_SKIP;
+        }
+        numInstructions = kLLITC18ADChannels;
+        if (itc != nil) {
+            ITC18_SetSequence(itc, (int)numInstructions, instructions);
+        }
+        return;
+    }
+    
 // Find the fastest AD and digital sampling rates
 
-	maxADRateHz = maxDigitalRateHz = enabledADChannels = 0;
-	if (sampleChannels > 0) {
-		for (channel = 0; channel < kLLITC18ADChannels; channel++) {
-			if (sampleChannels & (0x01 << channel)) {
-				enabledADChannels++;
-				channelPeriodMS = [[samplePeriodMS objectAtIndex:channel] floatValue];
-				maxADRateHz = MAX(round(1000.0 / channelPeriodMS), maxADRateHz);
-			}
-		}
-	}
-	if (timestampChannels > 0) {
-		for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
-			if (timestampChannels & (0x01 << channel)) {
-				channelPeriodMS = [[timestampPeriodMS objectAtIndex:channel] floatValue];
-				timestampTickS[channel] = 0.001 * channelPeriodMS;
-				maxDigitalRateHz = MAX(1000.0 / channelPeriodMS, maxDigitalRateHz);
-			}
-		}
-	}
+    maxADRateHz = maxDigitalRateHz = enabledADChannels = 0;
+    if (sampleChannels > 0) {
+        for (channel = 0; channel < kLLITC18ADChannels; channel++) {
+            if (sampleChannels & (0x01 << channel)) {
+                enabledADChannels++;
+                channelPeriodMS = [samplePeriodMS[channel] floatValue];
+                maxADRateHz = MAX(round(1000.0 / channelPeriodMS), maxADRateHz);
+            }
+        }
+    }
+    if (timestampChannels > 0) {
+        for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
+            if (timestampChannels & (0x01 << channel)) {
+                channelPeriodMS = [timestampPeriodMS[channel] floatValue];
+                timestampTickS[channel] = 0.001 * channelPeriodMS;
+                maxDigitalRateHz = MAX(1000.0 / channelPeriodMS, maxDigitalRateHz);
+            }
+        }
+    }
 
 // NB: No new values are read into the ITC until a command with the ITC18_INPUT_UPDATE bit
 // set is read.  This applies to the digital input lines as well as the AD lines.  For this
@@ -436,151 +436,151 @@ static long	ITCCount = 0;
 //  When the next digital read command goes, its update will cause the a new digital word to be read, 
 // so that any previously latched values that were updated by the Analog read command would be lost.
 
-	
+    
 // If digital sampling is not rate determining, then we simply make a chunk of data that includes 
 // one sample for each active channel
 
-	numInstructions = 0; 
+    numInstructions = 0; 
 
-	if (maxDigitalRateHz * kDigitalOverSample < maxADRateHz) {
-		if (maxDigitalRateHz > 0) {
-			instructions[numInstructions++] = ITC18_INPUT_DIGITAL;
-		}
-		for (channel = 0; channel < kLLITC18ADChannels; channel++) {
-			if (sampleChannels & (0x01 << channel)) {
-				instructions[numInstructions++] = ADCommands[channel];
-			}
-		}
-		instructions[0] |= ITC18_INPUT_UPDATE | ITC18_OUTPUT_TRIGGER;
-	}
-	
+    if (maxDigitalRateHz * kDigitalOverSample < maxADRateHz) {
+        if (maxDigitalRateHz > 0) {
+            instructions[numInstructions++] = ITC18_INPUT_DIGITAL;
+        }
+        for (channel = 0; channel < kLLITC18ADChannels; channel++) {
+            if (sampleChannels & (0x01 << channel)) {
+                instructions[numInstructions++] = ADCommands[channel];
+            }
+        }
+        instructions[0] |= ITC18_INPUT_UPDATE | ITC18_OUTPUT_TRIGGER;
+    }
+    
 // If digital sampling is rate determining, then we make a chuck that includes enough digital samples
 // to achieve the required oversampling, with the active AD channels embedded between the digital samples
 
-	else {
-		ADPerDigital = (enabledADChannels + 3) / kDigitalOverSample;
-		channel = 0;
-		for (d = 0; d < kDigitalOverSample; d++) {
-			instructions[numInstructions++] = ITC18_INPUT_DIGITAL | ITC18_INPUT_UPDATE | ITC18_OUTPUT_TRIGGER;
-			for (c = 0; c < ADPerDigital; c++) {
-				while (channel < kLLITC18ADChannels && (!(sampleChannels & (0x01 << channel)))) {
-					channel++;
-				}
-				instructions[numInstructions++] = (channel < kLLITC18ADChannels) ? ADCommands[channel] : ITC18_INPUT_SKIP;
-				channel++;
-			} 
-		}
-	}
-	if (itc != nil) {
-		ITC18_SetSequence(itc, (int)numInstructions, instructions);
-	}
-	ITCTicksPerInstruction = chunksAtOneTickPerInstructHz / MAX(maxDigitalRateHz, maxADRateHz);
-	ITCSamplePeriodS = (numInstructions * ITCTicksPerInstruction) / (kLLITC18TicksPerMS * 1000.0);
+    else {
+        ADPerDigital = (enabledADChannels + 3) / kDigitalOverSample;
+        channel = 0;
+        for (d = 0; d < kDigitalOverSample; d++) {
+            instructions[numInstructions++] = ITC18_INPUT_DIGITAL | ITC18_INPUT_UPDATE | ITC18_OUTPUT_TRIGGER;
+            for (c = 0; c < ADPerDigital; c++) {
+                while (channel < kLLITC18ADChannels && (!(sampleChannels & (0x01 << channel)))) {
+                    channel++;
+                }
+                instructions[numInstructions++] = (channel < kLLITC18ADChannels) ? ADCommands[channel] : ITC18_INPUT_SKIP;
+                channel++;
+            } 
+        }
+    }
+    if (itc != nil) {
+        ITC18_SetSequence(itc, (int)numInstructions, instructions);
+    }
+    ITCTicksPerInstruction = chunksAtOneTickPerInstructHz / MAX(maxDigitalRateHz, maxADRateHz);
+    ITCSamplePeriodS = (numInstructions * ITCTicksPerInstruction) / (kLLITC18TicksPerMS * 1000.0);
 
 // When we change the instructions, we change the maximum sampling rate.  Make sure that all the sampling
 // rates are attainable
 
-	for (channel = 0; channel <  kLLITC18ADChannels; channel++) {
-		if (![self setSamplePeriodMS:[[samplePeriodMS objectAtIndex:channel] floatValue] channel:channel]) {
-			[self setSamplePeriodMS:(1000.0 / maxSampleRateHz) channel:channel];
-		}
-	}
-	for (channel = 0; channel <  kLLITC18DigitalBits; channel++) {
-		if (![self setTimestampPeriodMS:[[timestampPeriodMS objectAtIndex:channel] floatValue] channel:channel]) {
-			[self setTimestampPeriodMS:(1000.0 / maxSampleRateHz) channel:channel];
-		}
-	}
+    for (channel = 0; channel <  kLLITC18ADChannels; channel++) {
+        if (![self setSamplePeriodMS:[samplePeriodMS[channel] floatValue] channel:channel]) {
+            [self setSamplePeriodMS:(1000.0 / maxSampleRateHz) channel:channel];
+        }
+    }
+    for (channel = 0; channel <  kLLITC18DigitalBits; channel++) {
+        if (![self setTimestampPeriodMS:[timestampPeriodMS[channel] floatValue] channel:channel]) {
+            [self setTimestampPeriodMS:(1000.0 / maxSampleRateHz) channel:channel];
+        }
+    }
 }
 
 - (id <LLMonitor>)monitor;
 {
-	return monitor;
+    return monitor;
 }
 
 - (NSString *)name;
 {
-	return ((deviceNum == 0) ? @"ITC-18" : [NSString stringWithFormat:@"ITC-18 %ld", deviceNum]);
+    return ((deviceNum == 0) ? @"ITC-18" : [NSString stringWithFormat:@"ITC-18 %ld", deviceNum]);
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 {
-    if ([tableView tag] == kSampleTable) {	
-		return kLLITC18ADChannels;
+    if (tableView.tag == kSampleTable) {    
+        return kLLITC18ADChannels;
     }
-	else if ([tableView tag] == kTimestampTable) {
-		return kLLITC18DigitalBits;
-	}
-	else {
+    else if (tableView.tag == kTimestampTable) {
+        return kLLITC18DigitalBits;
+    }
+    else {
         return 0;
     }
 }
 
 - (IBAction)ok:(id)sender;
 {
-	[NSApp stopModal];
+    [NSApp stopModal];
 }
 
 // Open and initialize the ITC18
 
 - (BOOL)openITC18:(long)devNum;
 {
-	long code;
-	long interfaceCodes[] = {0x0, USB18_CL};
+    long code;
+    long interfaceCodes[] = {0x0, USB18_CL};
 
     [deviceLock lock];
-	if (itc == nil) {						// currently opened?
-		if ((itc = malloc(ITC18_GetStructureSize())) == nil) {
-			[deviceLock unlock];
+    if (itc == nil) {                        // currently opened?
+        if ((itc = malloc(ITC18_GetStructureSize())) == nil) {
+            [deviceLock unlock];
             [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18DataDevice"
                                        informativeText:@"Failed to allocate pLocal memory."];
-			exit(0);
-		}
-	}
-	else {
+            exit(0);
+        }
+    }
+    else {
         ITC18_Close(itc);
-	}
+    }
 
 // Now the ITC is closed, and we have a valid pointer
 
-	for (code = 0, devicePresent = NO; code < sizeof(interfaceCodes) / sizeof(long); code++) {
-		NSLog(@"LLITC18DataDevice: attempting to initialize device %ld using code %ld",
-					devNum, devNum | (int)interfaceCodes[code]);
-		if (ITC18_Open(itc, (int)(devNum | interfaceCodes[code])) != noErr) {
-			continue;									// failed, try another code
-		}
+    for (code = 0, devicePresent = NO; code < sizeof(interfaceCodes) / sizeof(long); code++) {
+        NSLog(@"LLITC18DataDevice: attempting to initialize device %ld using code %ld",
+                    devNum, devNum | (int)interfaceCodes[code]);
+        if (ITC18_Open(itc, (int)(devNum | interfaceCodes[code])) != noErr) {
+            continue;                                    // failed, try another code
+        }
 
-	// the ITC has opened, now initialize it
+    // the ITC has opened, now initialize it
 
-		if (ITC18_Initialize(itc, ITC18_STANDARD) != noErr) {
-			ITC18_Close(itc);							// failed, close to try again
-		}
-		else {
-			USB18 = interfaceCodes[code] == USB18_CL;
-			devicePresent = YES;						// successful initialization
-			break;
-		}
-	}
-	if (!devicePresent) {
-		free(itc);
-		itc = nil;
-	}
-	else {
-		NSLog(@"LLITC18DataDevice: succeeded initialize device %ld using code %ld",
-					devNum, devNum | interfaceCodes[code]);
-	}
+        if (ITC18_Initialize(itc, ITC18_STANDARD) != noErr) {
+            ITC18_Close(itc);                            // failed, close to try again
+        }
+        else {
+            USB18 = interfaceCodes[code] == USB18_CL;
+            devicePresent = YES;                        // successful initialization
+            break;
+        }
+    }
+    if (!devicePresent) {
+        free(itc);
+        itc = nil;
+    }
+    else {
+        NSLog(@"LLITC18DataDevice: succeeded initialize device %ld using code %ld",
+                    devNum, devNum | interfaceCodes[code]);
+    }
     [deviceLock unlock];
-	return devicePresent;
+    return devicePresent;
 }
 
 // Read data from the ITC, appending values to the samples and timestamps buffers
 
 - (void)readData;
 {
-	short index, bitIndex, sampleChannel, *pSamples;
-	unsigned short whichBit, timestamp;
-	long sets, set;
-	BOOL bitOn;
-	int available;
+    short index, bitIndex, sampleChannel, *pSamples;
+    unsigned short whichBit, timestamp;
+    long sets, set;
+    BOOL bitOn;
+    int available;
 
     if (itc == nil) {
         return;
@@ -588,145 +588,145 @@ static long	ITCCount = 0;
 
 // Don't attempt to read if we just read a little while ago
 
-	if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {
-		return;
-	}
+    if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {
+        return;
+    }
     if (![deviceLock tryLock]) {
-		[deviceLock lock];			// Wait here for the lock, then check time again
-		if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {
-			[deviceLock unlock];
-			return;
-		}
-	}
+        [deviceLock lock];            // Wait here for the lock, then check time again
+        if (lastReadDataTimeS + kReadDataIntervalS > [LLSystemUtil getTimeS]) {
+            [deviceLock unlock];
+            return;
+        }
+    }
 
 // When a sequence is started, the first three entries in the FIFO are garbage.  They should be thrown out.  
 
-	if (justStartedITC18) {
-		available = [self getAvailable];
-		if (available < kGarbageLength + 1) {
-			lastReadDataTimeS = [LLSystemUtil getTimeS];
+    if (justStartedITC18) {
+        available = [self getAvailable];
+        if (available < kGarbageLength + 1) {
+            lastReadDataTimeS = [LLSystemUtil getTimeS];
             [deviceLock unlock];
-			return;
-		}
-		ITC18_ReadFIFO(itc, kGarbageLength, samples);
-		justStartedITC18 = NO;
-	}
+            return;
+        }
+        ITC18_ReadFIFO(itc, kGarbageLength, samples);
+        justStartedITC18 = NO;
+    }
 
 // Unloading complete cycles of samples.  We gather all complete sets in one call to
 // ITC18_ReadFIFO, and we don't check again when we are done.  This is prevent overloading
 // the USB with frequent calls, which can happen if the sample sets are small and coming
 // in at a fast rate.  We need to leave it so that they can be read in large sets. 
 
-	available = [self getAvailable];
-	if (available > numInstructions) {									// >, so ITC doesn't go empty
-		sets = available / numInstructions;								// number of complete sets available
-		if (numInstructions * sets * sizeof(short) > malloc_size(samples)) {
-			[self allocateSampleBuffer:&samples size:numInstructions * sets];
-		}
-		ITC18_ReadFIFO(itc, (int)(numInstructions * sets), samples);			// read all available sets
-		for (set = 0; set < sets; set++) {								// process each set
-			pSamples = &samples[numInstructions * set];					// point to start of set
-			for (index = sampleChannel = 0; index < numInstructions; index++) {	// for every instruction
+    available = [self getAvailable];
+    if (available > numInstructions) {                                    // >, so ITC doesn't go empty
+        sets = available / numInstructions;                                // number of complete sets available
+        if (numInstructions * sets * sizeof(short) > malloc_size(samples)) {
+            [self allocateSampleBuffer:&samples size:numInstructions * sets];
+        }
+        ITC18_ReadFIFO(itc, (int)(numInstructions * sets), samples);            // read all available sets
+        for (set = 0; set < sets; set++) {                                // process each set
+            pSamples = &samples[numInstructions * set];                    // point to start of set
+            for (index = sampleChannel = 0; index < numInstructions; index++) {    // for every instruction
 
-	// If this is a digital input word, process as a timestamp
+    // If this is a digital input word, process as a timestamp
 
-				if (kIsDigitalInput(index)) {								// digital input instruction
-					digitalInputBits = pSamples[index];						// save the digital input word
-					for (bitIndex = 0; bitIndex < kLLITC18DigitalBits; bitIndex++) { // check every bit
-						whichBit = (0x1 << bitIndex);						// get the bit pattern for one bit
-						if (whichBit & timestampChannels) {					// enabled bit?
-							bitOn = (whichBit & pSamples[index]); 			// bit on?
-							if (timestampActiveBits & whichBit) {			// was active
-								if (!bitOn) {								//  but now inactive
-									timestampActiveBits &= ~whichBit;		//  so clear flag
-								}
-							}
-							else if (bitOn) {								// active now but was not before
-								timestampActiveBits |= whichBit;			// flag channel as active
-								values.timestampCount[bitIndex]++;			// increment timestamp count
-								[timestampLock lock];						// add to timestamp buffer
-								timestamp = round(sampleTimeS / timestampTickS[bitIndex]);
-								[timestampData[bitIndex] appendBytes:&timestamp length:sizeof(unsigned short)];
-								[timestampLock unlock];
-							}
-						}
-					}
-				}
+                if (kIsDigitalInput(index)) {                                // digital input instruction
+                    digitalInputBits = pSamples[index];                        // save the digital input word
+                    for (bitIndex = 0; bitIndex < kLLITC18DigitalBits; bitIndex++) { // check every bit
+                        whichBit = (0x1 << bitIndex);                        // get the bit pattern for one bit
+                        if (whichBit & timestampChannels) {                    // enabled bit?
+                            bitOn = (whichBit & pSamples[index]);             // bit on?
+                            if (timestampActiveBits & whichBit) {            // was active
+                                if (!bitOn) {                                //  but now inactive
+                                    timestampActiveBits &= ~whichBit;        //  so clear flag
+                                }
+                            }
+                            else if (bitOn) {                                // active now but was not before
+                                timestampActiveBits |= whichBit;            // flag channel as active
+                                values.timestampCount[bitIndex]++;            // increment timestamp count
+                                [timestampLock lock];                        // add to timestamp buffer
+                                timestamp = round(sampleTimeS / timestampTickS[bitIndex]);
+                                [timestampData[bitIndex] appendBytes:&timestamp length:sizeof(unsigned short)];
+                                [timestampLock unlock];
+                            }
+                        }
+                    }
+                }
 
-	// It's AD or a skipped sample.  If this is an A/D sample, save it (if it is enabled)
+    // It's AD or a skipped sample.  If this is an A/D sample, save it (if it is enabled)
 
-				else {
-					while (sampleChannel < kLLITC18ADChannels && !(sampleChannels & (0x1 << sampleChannel))) {
-						sampleChannel++;
-					}
-					if (sampleChannel < kLLITC18ADChannels && sampleTimeS >= nextSampleTimeS[sampleChannel]) {
-						[sampleLock lock];										// add to AD sample buffer
-						[sampleData[sampleChannel] appendBytes:&pSamples[index] length:sizeof(short)];
-						nextSampleTimeS[sampleChannel] += [[samplePeriodMS objectAtIndex:sampleChannel] floatValue] / 1000.0;
-						[sampleLock unlock];									// add to AD sample buffer
-					}
-					sampleChannel++;
-				}
-			}
-			sampleTimeS += ITCSamplePeriodS;
-			values.samples++; 
-		}
-	}
-	lastReadDataTimeS = [LLSystemUtil getTimeS];
+                else {
+                    while (sampleChannel < kLLITC18ADChannels && !(sampleChannels & (0x1 << sampleChannel))) {
+                        sampleChannel++;
+                    }
+                    if (sampleChannel < kLLITC18ADChannels && sampleTimeS >= nextSampleTimeS[sampleChannel]) {
+                        [sampleLock lock];                                        // add to AD sample buffer
+                        [sampleData[sampleChannel] appendBytes:&pSamples[index] length:sizeof(short)];
+                        nextSampleTimeS[sampleChannel] += [samplePeriodMS[sampleChannel] floatValue] / 1000.0;
+                        [sampleLock unlock];                                    // add to AD sample buffer
+                    }
+                    sampleChannel++;
+                }
+            }
+            sampleTimeS += ITCSamplePeriodS;
+            values.samples++; 
+        }
+    }
+    lastReadDataTimeS = [LLSystemUtil getTimeS];
     [deviceLock unlock];
 }
 
 - (void)setDataEnabled:(NSNumber *)state;
 {
     int available;
-	long channel;
-	double channelPeriodMS;
-	long maxSamplingRateHz;
-	
-	if (itc == nil) {
-		return;
-	}
-	if ([state boolValue] && !dataEnabled) {
+    long channel;
+    double channelPeriodMS;
+    long maxSamplingRateHz;
+    
+    if (itc == nil) {
+        return;
+    }
+    if (state.boolValue && !dataEnabled) {
         [deviceLock lock];
-	
+    
 // Scan through the sample and timestamp sampling settings, finding the fastest enabled rate.
 // The rate here is the requested sampling rate.  It does not take into account the need to
 // oversample digital inputs because that is built into the instruction sequence
 
-		for (channel = maxSamplingRateHz = 0; channel < kLLITC18ADChannels; channel++) {
-			if (sampleChannels & (0x01 << channel)) {
-				channelPeriodMS = [[samplePeriodMS objectAtIndex:channel] floatValue];
-				nextSampleTimeS[channel] = channelPeriodMS / 1000.0;
-				maxSamplingRateHz = MAX(1000.0 / channelPeriodMS, maxSamplingRateHz);
-			}
-		}
-		for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
-			if (timestampChannels & (0x01 << channel)) {
-				channelPeriodMS = [[timestampPeriodMS objectAtIndex:channel] floatValue];
-				timestampTickS[channel] = 0.001 * channelPeriodMS;
-				maxSamplingRateHz = MAX(1000.0 / channelPeriodMS, maxSamplingRateHz);
-			}
-		}
-		if (maxSamplingRateHz != 0) {							// no channels enabled
-			sampleTimeS = ITCSamplePeriodS;							// one period complete on first sample
-			timestampActiveBits = 0x0;
-			justStartedITC18 = YES;
-			[monitor initValues:&values];
-			values.samplePeriodMS = ITCSamplePeriodS * 1000.0;
-			values.instructionPeriodMS = ITCSamplePeriodS / numInstructions * 1000.0;
-			ITC18_SetSamplingInterval(itc, (int)ITCTicksPerInstruction, false);
-			ITC18_StopAndInitialize(itc, YES, YES);
-			monitorStartTimeS = [LLSystemUtil getTimeS];
-			ITC18_Start(itc, NO, NO, NO, NO);		// no trigger, no output, no stopOnOverflow, (reserved)
-			dataEnabled = YES;
-			lastReadDataTimeS = 0;
-		}
+        for (channel = maxSamplingRateHz = 0; channel < kLLITC18ADChannels; channel++) {
+            if (sampleChannels & (0x01 << channel)) {
+                channelPeriodMS = [samplePeriodMS[channel] floatValue];
+                nextSampleTimeS[channel] = channelPeriodMS / 1000.0;
+                maxSamplingRateHz = MAX(1000.0 / channelPeriodMS, maxSamplingRateHz);
+            }
+        }
+        for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
+            if (timestampChannels & (0x01 << channel)) {
+                channelPeriodMS = [timestampPeriodMS[channel] floatValue];
+                timestampTickS[channel] = 0.001 * channelPeriodMS;
+                maxSamplingRateHz = MAX(1000.0 / channelPeriodMS, maxSamplingRateHz);
+            }
+        }
+        if (maxSamplingRateHz != 0) {                            // no channels enabled
+            sampleTimeS = ITCSamplePeriodS;                            // one period complete on first sample
+            timestampActiveBits = 0x0;
+            justStartedITC18 = YES;
+            [monitor initValues:&values];
+            values.samplePeriodMS = ITCSamplePeriodS * 1000.0;
+            values.instructionPeriodMS = ITCSamplePeriodS / numInstructions * 1000.0;
+            ITC18_SetSamplingInterval(itc, (int)ITCTicksPerInstruction, false);
+            ITC18_StopAndInitialize(itc, YES, YES);
+            monitorStartTimeS = [LLSystemUtil getTimeS];
+            ITC18_Start(itc, NO, NO, NO, NO);        // no trigger, no output, no stopOnOverflow, (reserved)
+            dataEnabled = YES;
+            lastReadDataTimeS = 0;
+        }
         [deviceLock unlock];
-	}
-	else if (![state boolValue] && dataEnabled) {
+    }
+    else if (!state.boolValue && dataEnabled) {
         [deviceLock lock];
-        ITC18_Stop(itc);										// stop the ITC18
-		[deviceLock unlock];
+        ITC18_Stop(itc);                                        // stop the ITC18
+        [deviceLock unlock];
         values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
        
 // Check whether the number of samples collected is what is predicted based on the elapsed time.
@@ -734,55 +734,55 @@ static long	ITCCount = 0;
 // is to drain any complete sample sets from the FIFO.  Then we see how many instructions
 // remain in the FIFO (as an incomplete sample set).
 
-		lastReadDataTimeS = 0;									// permit a FIFO read
-		[self readData];										// drain FIFO
+        lastReadDataTimeS = 0;                                    // permit a FIFO read
+        [self readData];                                        // drain FIFO
         [deviceLock lock];
-		available = [self getAvailable];
-		[deviceLock unlock];
+        available = [self getAvailable];
+        [deviceLock unlock];
         values.sequences = 1;
         values.instructions = values.samples * numInstructions + available; 
-		if (values.instructions == 0) {
-			NSLog(@" ");
-			NSLog(@"WARNING: LLITC18: values.instructions == 0");
-			NSLog(@"sequenceStartTimeS: %f", monitorStartTimeS);
-			NSLog(@"time now: %f", [LLSystemUtil getTimeS]);
-			NSLog(@"justStartedITC18: %d", justStartedITC18);
-			NSLog(@"dataEnabled: %d", dataEnabled);
-			NSLog(@"values.cumulativeTimeMS: %f", values.cumulativeTimeMS);
-			NSLog(@"values.samples: %ld", values.samples);
-			NSLog(@"values.samplePeriodMS: %f", values.samplePeriodMS);
-			NSLog(@"values.instructions: %ld", values.instructions);
-			NSLog(@"values.instructionPeriodMS: %f", values.instructionPeriodMS);
-			NSLog(@"values.sequences: %ld", values.sequences);
-			NSLog(@" ");
-		}
-		else {
-			[monitor sequenceValues:values];
-		}
-		dataEnabled = NO;
-	}
+        if (values.instructions == 0) {
+            NSLog(@" ");
+            NSLog(@"WARNING: LLITC18: values.instructions == 0");
+            NSLog(@"sequenceStartTimeS: %f", monitorStartTimeS);
+            NSLog(@"time now: %f", [LLSystemUtil getTimeS]);
+            NSLog(@"justStartedITC18: %d", justStartedITC18);
+            NSLog(@"dataEnabled: %d", dataEnabled);
+            NSLog(@"values.cumulativeTimeMS: %f", values.cumulativeTimeMS);
+            NSLog(@"values.samples: %ld", values.samples);
+            NSLog(@"values.samplePeriodMS: %f", values.samplePeriodMS);
+            NSLog(@"values.instructions: %ld", values.instructions);
+            NSLog(@"values.instructionPeriodMS: %f", values.instructionPeriodMS);
+            NSLog(@"values.sequences: %ld", values.sequences);
+            NSLog(@" ");
+        }
+        else {
+            [monitor sequenceValues:values];
+        }
+        dataEnabled = NO;
+    }
 }
 
 - (NSData **)sampleData;
 {
-	long channel;
+    long channel;
 
-	if (itc == nil) {
-		return nil;
-	}
-	[self readData];								// read data from ITC18
-	[sampleLock lock];								// check whether there are samples to return
-	for (channel = 0; channel < kLLITC18ADChannels; channel++) {
-		if ([sampleData[channel] length] > 0) {
-			sampleResults[channel] = [NSData dataWithData:sampleData[channel]];
-			[sampleData[channel] setLength:0];
-		}
-		else {
-			sampleResults[channel] = nil;
-		}
-	}
-	[sampleLock unlock];
-	return sampleResults;								// return samples
+    if (itc == nil) {
+        return nil;
+    }
+    [self readData];                                // read data from ITC18
+    [sampleLock lock];                                // check whether there are samples to return
+    for (channel = 0; channel < kLLITC18ADChannels; channel++) {
+        if (sampleData[channel].length > 0) {
+            sampleResults[channel] = [NSData dataWithData:sampleData[channel]];
+            sampleData[channel].length = 0;
+        }
+        else {
+            sampleResults[channel] = nil;
+        }
+    }
+    [sampleLock unlock];
+    return sampleResults;                                // return samples
 }
 
 // Overload the methods for changing sampling rates to make sure that the value is allowed by 
@@ -790,26 +790,26 @@ static long	ITCCount = 0;
 
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
-	float newRateHz = 1000.0 / newPeriodMS;
-	
-	if (newRateHz >= minSampleRateHz && newRateHz <= maxSampleRateHz) {
-		return [super setSamplePeriodMS:newPeriodMS channel:channel];
-	}
-	else {
-		return NO;
-	}
+    float newRateHz = 1000.0 / newPeriodMS;
+    
+    if (newRateHz >= minSampleRateHz && newRateHz <= maxSampleRateHz) {
+        return [super setSamplePeriodMS:newPeriodMS channel:channel];
+    }
+    else {
+        return NO;
+    }
 }
 
 - (BOOL)setTimestampTicksPerMS:(long)newTicksPerMS channel:(long)channel;
 {
-	float newRateHz = newTicksPerMS * 1000;
+    float newRateHz = newTicksPerMS * 1000;
 
-	if (newRateHz >= minSampleRateHz && newRateHz <= maxSampleRateHz) {
-		return [super setTimestampTicksPerMS:newTicksPerMS channel:channel];
-	}
-	else {
-		return NO;
-	}
+    if (newRateHz >= minSampleRateHz && newRateHz <= maxSampleRateHz) {
+        return [super setTimestampTicksPerMS:newTicksPerMS channel:channel];
+    }
+    else {
+        return NO;
+    }
 }
 
 // Always try to creaete a second ITC18 data device
@@ -821,94 +821,94 @@ static long	ITCCount = 0;
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
 {
-	unsigned long rows, enabledBits;
-	NSArray *valueArray;
-	
-    if ([tableView tag] == kSampleTable) {
-		rows = kLLITC18ADChannels;
-		valueArray = samplePeriodMS;
-		enabledBits = sampleChannels;
-	}
-	else if ([tableView tag] == kTimestampTable) {
-		rows = kLLITC18DigitalBits;
-		valueArray = timestampPeriodMS;
-		enabledBits = timestampChannels;
-	}
-	else {
-		return nil;
-	}
-	NSParameterAssert(row >= 0 && row < rows);
-	if ([[tableColumn identifier] isEqual:@"enabled"]) {
-		return [NSNumber numberWithBool:((enabledBits & (0x1 << row)) > 0)];
-	}
-	if ([[tableColumn identifier] isEqual:@"channel"]) {
-		return [NSNumber numberWithInt:row];
-	}
-	if ([[tableColumn identifier] isEqual:@"periodMS"]) {
-		return [valueArray objectAtIndex:row];
-	}
-	if ([[tableColumn identifier] isEqual:@"timestampPeriodMS"]) {
-		return [valueArray objectAtIndex:row];
-	}
-	return @"???";
+    unsigned long rows, enabledBits;
+    NSArray *valueArray;
+    
+    if (tableView.tag == kSampleTable) {
+        rows = kLLITC18ADChannels;
+        valueArray = samplePeriodMS;
+        enabledBits = sampleChannels;
+    }
+    else if (tableView.tag == kTimestampTable) {
+        rows = kLLITC18DigitalBits;
+        valueArray = timestampPeriodMS;
+        enabledBits = timestampChannels;
+    }
+    else {
+        return nil;
+    }
+    NSParameterAssert(row >= 0 && row < rows);
+    if ([tableColumn.identifier isEqual:@"enabled"]) {
+        return [NSNumber numberWithBool:((enabledBits & (0x1 << row)) > 0)];
+    }
+    if ([tableColumn.identifier isEqual:@"channel"]) {
+        return @(row);
+    }
+    if ([tableColumn.identifier isEqual:@"periodMS"]) {
+        return valueArray[row];
+    }
+    if ([tableColumn.identifier isEqual:@"timestampPeriodMS"]) {
+        return valueArray[row];
+    }
+    return @"???";
 }
 
 // This method is called when the user has put a new entry in the sample or timestamp tables in the
 // settings dialog.  
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject 
-					forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+                    forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 { 
-	unsigned long rows, *pBits;
-	
-    if ([aTableView tag] == kSampleTable) {
-		rows = kLLITC18ADChannels;
-		pBits = &sampleChannels;
-	}
-	else if ([aTableView tag] == kTimestampTable) {
-		rows = kLLITC18DigitalBits;
-		pBits = &timestampChannels;
-	}
-	else {
-		return;
-	}
-	NSParameterAssert(rowIndex >= 0 && rowIndex < rows);
-	if ([[aTableColumn identifier] isEqual:@"enabled"]) {
-		if ([anObject boolValue]) {
-			*pBits |= (0x01 << rowIndex);
-		}
-		else {
-			*pBits &= ~(0x01 << rowIndex);
-		}
-	}
-	else if ([[aTableColumn identifier] isEqual:@"periodMS"]) {
-		[self setSamplePeriodMS:[anObject floatValue] channel:rowIndex];
-	}
-	else if ([[aTableColumn identifier] isEqual:@"timestampPeriodMS"]) {
-		[self setTimestampPeriodMS:[anObject floatValue] channel:rowIndex];
-	}
+    unsigned long rows, *pBits;
+    
+    if (aTableView.tag == kSampleTable) {
+        rows = kLLITC18ADChannels;
+        pBits = &sampleChannels;
+    }
+    else if (aTableView.tag == kTimestampTable) {
+        rows = kLLITC18DigitalBits;
+        pBits = &timestampChannels;
+    }
+    else {
+        return;
+    }
+    NSParameterAssert(rowIndex >= 0 && rowIndex < rows);
+    if ([aTableColumn.identifier isEqual:@"enabled"]) {
+        if ([anObject boolValue]) {
+            *pBits |= (0x01 << rowIndex);
+        }
+        else {
+            *pBits &= ~(0x01 << rowIndex);
+        }
+    }
+    else if ([aTableColumn.identifier isEqual:@"periodMS"]) {
+        [self setSamplePeriodMS:[anObject floatValue] channel:rowIndex];
+    }
+    else if ([aTableColumn.identifier isEqual:@"timestampPeriodMS"]) {
+        [self setTimestampPeriodMS:[anObject floatValue] channel:rowIndex];
+    }
 }
 
 - (NSData **)timestampData;
 {
-	long channel;
-	
-	if (itc == nil) {
-		return nil;
-	}
-	[self readData];									// read data from ITC18
-	[timestampLock lock];								// check whether there are timestamps to return
-	for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
-		if ([timestampData[channel] length] > 0) {
-			timestampResults[channel] = [NSData dataWithData:timestampData[channel]];
-			[timestampData[channel] setLength:0];
-		}
-		else {
-			timestampResults[channel] = nil;
-		}
-	}
-	[timestampLock unlock];
-	return timestampResults;								// return samples
+    long channel;
+    
+    if (itc == nil) {
+        return nil;
+    }
+    [self readData];                                    // read data from ITC18
+    [timestampLock lock];                                // check whether there are timestamps to return
+    for (channel = 0; channel < kLLITC18DigitalBits; channel++) {
+        if (timestampData[channel].length > 0) {
+            timestampResults[channel] = [NSData dataWithData:timestampData[channel]];
+            timestampData[channel].length = 0;
+        }
+        else {
+            timestampResults[channel] = nil;
+        }
+    }
+    [timestampLock unlock];
+    return timestampResults;                                // return samples
 }
 
 @end

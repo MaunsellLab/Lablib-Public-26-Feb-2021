@@ -11,8 +11,8 @@
 
 //#define kITC18DAVoltageRangeV  10.24
 
-typedef enum {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel} KnotChannel;
+typedef NS_ENUM(unsigned int, KnotChannel) {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
 
-#define		kSpikeChannels			2						// One channels spikes, one channel stim pulses
-#define		kSamplePeriodMS			5
-#define		kTimestampTickMS		1
+#define        kSpikeChannels            2                        // One channels spikes, one channel stim pulses
+#define        kSamplePeriodMS            5
+#define        kTimestampTickMS        1

@@ -13,11 +13,11 @@
 
 - (void)stateAction {
 
-	behaviorMode = kBehaviorRunning;
-	expireTime = [LLSystemUtil timeFromNow:[[NSUserDefaults standardUserDefaults] integerForKey:RFIntertrialMSKey]];
-	eotCode = kEOTCorrect;			// Default eot code is correct
-	
-	trial.stimulusType = [[NSUserDefaults standardUserDefaults] integerForKey:RFStimTypeKey];
+    behaviorMode = kBehaviorRunning;
+    expireTime = [LLSystemUtil timeFromNow:[[NSUserDefaults standardUserDefaults] integerForKey:RFIntertrialMSKey]];
+    eotCode = kEOTCorrect;            // Default eot code is correct
+    
+    trial.stimulusType = [[NSUserDefaults standardUserDefaults] integerForKey:RFStimTypeKey];
 
 // update the fixtation and response windows
 
@@ -31,12 +31,12 @@
 
 - (LLState *)nextState {
 
-	if ([task mode] == kTaskStopping) {
+    if (task.mode == kTaskStopping) {
         eotCode = kEOTQuit;
-        return [[task stateSystem] stateNamed:@"Endtrial"];
+        return [task.stateSystem stateNamed:@"Endtrial"];
     }
     else if ([LLSystemUtil timeIsPast:expireTime]) {
-        return [[task stateSystem] stateNamed:@"Starttrial"];
+        return [task.stateSystem stateNamed:@"Starttrial"];
     }
     return nil;
 }

@@ -13,29 +13,29 @@
 
 - (void)stateAction {
 
-	long longValue;
-	FixWindowData fixWindowData;
+    long longValue;
+    FixWindowData fixWindowData;
 
 // Prepare structures describing the fixation and response windows;
-	
-	fixWindowData.index = [[task eyeCalibrator] nextCalibrationPosition];
-	[[task synthDataDevice] setOffsetDeg:[[task eyeCalibrator] calibrationOffsetPointDeg]];			// keep synth data on offset fixation
-    fixWindowData.windowDeg = [fixWindow rectDeg];
-    fixWindowData.windowUnits = [[task eyeCalibrator] unitRectFromDegRect:fixWindowData.windowDeg];
-	
-    [[task dataController] setDataEnabled:[NSNumber numberWithBool:NO]];
-	[[task dataController] readDataFromDevices];
-	[[task collectorTimer] fire];
-	longValue = 0;
-	[[task dataDoc] putEvent:@"trialStart" withData:&longValue];
-	longValue = kSamplePeriodMS;
-	[[task dataDoc] putEvent:@"sampleZero" withData:&longValue];
-	longValue = kTimestampTickMS;
-	[[task dataDoc] putEvent:@"spikeZero" withData:&longValue];
-    [[task dataController] setDataEnabled:[NSNumber numberWithBool:YES]];
-	[[task dataDoc] putEvent:@"eyeLeftCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kLeftEye]];
-	[[task dataDoc] putEvent:@"eyeRightCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kRightEye]];
-	[[task dataDoc] putEvent:@"eyeWindow" withData:&fixWindowData];
+    
+    fixWindowData.index = [task.eyeCalibrator nextCalibrationPosition];
+    [task.synthDataDevice setOffsetDeg:task.eyeCalibrator.calibrationOffsetPointDeg];            // keep synth data on offset fixation
+    fixWindowData.windowDeg = fixWindow.rectDeg;
+    fixWindowData.windowUnits = [task.eyeCalibrator unitRectFromDegRect:fixWindowData.windowDeg];
+    
+    [task.dataController setDataEnabled:@NO];
+    [task.dataController readDataFromDevices];
+    [task.collectorTimer fire];
+    longValue = 0;
+    [task.dataDoc putEvent:@"trialStart" withData:&longValue];
+    longValue = kSamplePeriodMS;
+    [task.dataDoc putEvent:@"sampleZero" withData:&longValue];
+    longValue = kTimestampTickMS;
+    [task.dataDoc putEvent:@"spikeZero" withData:&longValue];
+    [task.dataController setDataEnabled:@YES];
+    [task.dataDoc putEvent:@"eyeLeftCalibration" withData:[task.eyeCalibrator calibrationDataForEye:kLeftEye]];
+    [task.dataDoc putEvent:@"eyeRightCalibration" withData:[task.eyeCalibrator calibrationDataForEye:kRightEye]];
+    [task.dataDoc putEvent:@"eyeWindow" withData:&fixWindowData];
 }
 
 - (NSString *)name {
@@ -45,17 +45,17 @@
 
 - (LLState *)nextState {
 
-	if ([task mode] == kTaskIdle) {
-		eotCode = kEOTQuit;
-		return  [[task stateSystem] stateNamed:@"Endtrial"];
-	}
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey] && 
-			[FTUtilities inWindow:fixWindow]) {
-		return [[task stateSystem] stateNamed:@"Blocked"];
-	}
-	else {
-		return [[task stateSystem] stateNamed:@"Fixon"];
-	} 
+    if (task.mode == kTaskIdle) {
+        eotCode = kEOTQuit;
+        return  [task.stateSystem stateNamed:@"Endtrial"];
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey] && 
+            [FTUtilities inWindow:fixWindow]) {
+        return [task.stateSystem stateNamed:@"Blocked"];
+    }
+    else {
+        return [task.stateSystem stateNamed:@"Fixon"];
+    } 
 }
 
 @end

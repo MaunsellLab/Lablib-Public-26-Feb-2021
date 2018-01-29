@@ -9,14 +9,14 @@
 #import "LLPlotColors.h"
 
 static float colorValues[][kGuns] = {
-    {0.0, 0.0, 1.0},		// blue
-    {0.0, 0.7, 0.0},		// green
-    {0.9, 0.0, 0.0},		// red
-    {0.7, 0.0, 0.7},		// purple
-    {0.6, 0.4, 0.2},		// brown
-    {0.0, 0.0, 0.0},		// black
-    {0.5, 0.5, 0.5},		// gray
-    {1.0, 0.5, 0.0},		// orange
+    {0.0, 0.0, 1.0},        // blue
+    {0.0, 0.7, 0.0},        // green
+    {0.9, 0.0, 0.0},        // red
+    {0.7, 0.0, 0.7},        // purple
+    {0.6, 0.4, 0.2},        // brown
+    {0.0, 0.0, 0.0},        // black
+    {0.5, 0.5, 0.5},        // gray
+    {1.0, 0.5, 0.0},        // orange
 };
 
 @implementation LLPlotColors
@@ -32,7 +32,7 @@ static float colorValues[][kGuns] = {
     [super dealloc];
 }
 
--(id) init {
+-(instancetype) init {
 
     if ((self = [super init]) != nil) {
         [self initColorsWithAlpha:1.0];
@@ -40,7 +40,7 @@ static float colorValues[][kGuns] = {
     return self;
 }
 
--(id)initWithAlpha:(float)alpha {
+-(instancetype)initWithAlpha:(float)alpha {
 
     if ((self = [super init]) != nil) {
         [self initColorsWithAlpha:alpha];
@@ -67,8 +67,8 @@ static float colorValues[][kGuns] = {
 
     NSColor *theColor;
     
-    theColor = [colors objectAtIndex:nextColorIndex];
-    if (++nextColorIndex >= [colors count]) {
+    theColor = colors[nextColorIndex];
+    if (++nextColorIndex >= colors.count) {
         nextColorIndex = 0;
     }
     return theColor;

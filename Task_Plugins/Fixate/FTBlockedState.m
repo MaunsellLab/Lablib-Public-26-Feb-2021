@@ -13,10 +13,10 @@
 
 - (void)stateAction {
 
-	[[task dataDoc] putEvent:@"blocked"];
-//	schedule(&bNode, (PSCHED)&blockedTones, PRISYS - 1, 400, -1, NULL);
-	expireTime = [LLSystemUtil timeFromNow:
-			[[NSUserDefaults standardUserDefaults] integerForKey:FTAcquireMSKey]];
+    [task.dataDoc putEvent:@"blocked"];
+//    schedule(&bNode, (PSCHED)&blockedTones, PRISYS - 1, 400, -1, NULL);
+    expireTime = [LLSystemUtil timeFromNow:
+            [[NSUserDefaults standardUserDefaults] integerForKey:FTAcquireMSKey]];
 }
 
 - (NSString *)name {
@@ -26,18 +26,18 @@
 
 - (LLState *)nextState {
 
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey] || 
-						![FTUtilities inWindow:fixWindow]) {
-		return [[task stateSystem] stateNamed:@"Fixon"];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:FTDoFixateKey] || 
+                        ![FTUtilities inWindow:fixWindow]) {
+        return [task.stateSystem stateNamed:@"Fixon"];
     }
-	if ([task mode] == kTaskIdle) {
-		eotCode = kEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];
-	}
-	if ([LLSystemUtil timeIsPast:expireTime]) {
-		eotCode = kEOTIgnored;
-		return [[task stateSystem] stateNamed:@"Endtrial"];
-	}
+    if (task.mode == kTaskIdle) {
+        eotCode = kEOTQuit;
+        return [task.stateSystem stateNamed:@"Endtrial"];
+    }
+    if ([LLSystemUtil timeIsPast:expireTime]) {
+        eotCode = kEOTIgnored;
+        return [task.stateSystem stateNamed:@"Endtrial"];
+    }
     return nil; 
 }
 

@@ -14,35 +14,35 @@
 #import "LLPlotAxes.h"
 #import "LLViewUtilities.h"
 
-#define kBaseWidthPix			(kEyePlotsOriginPix + kEyeColWidthPix + kGapPix)
-#define kDefaultDurS			5.0
-#define kDefaultFactor			0.25
+#define kBaseWidthPix            (kEyePlotsOriginPix + kEyeColWidthPix + kGapPix)
+#define kDefaultDurS            5.0
+#define kDefaultFactor            0.25
 #define kGapPix                         10
-#define kMajorBright			0.85
-#define kMinorBright			0.95
+#define kMajorBright            0.85
+#define kMinorBright            0.95
 #define kPixPerS                        100
-#define kTickHeightPix			5
+#define kTickHeightPix            5
 
-#define kAxisOriginPix			(kGapPix)
-#define kAxisWidthPix			15
-#define kAxisColWidthPix		kAxisWidthPix
+#define kAxisOriginPix            (kGapPix)
+#define kAxisWidthPix            15
+#define kAxisColWidthPix        kAxisWidthPix
 
-#define kEventPlotOriginPix		(kAxisOriginPix + kAxisColWidthPix)
-#define kEventPlotWidthPix		80
-#define kEventColWidthPix		(kEventPlotWidthPix + kGapPix)
+#define kEventPlotOriginPix        (kAxisOriginPix + kAxisColWidthPix)
+#define kEventPlotWidthPix        80
+#define kEventColWidthPix        (kEventPlotWidthPix + kGapPix)
 
-#define kStimPlotOriginPix		(kEventPlotOriginPix + kEventColWidthPix)
-#define kStimPlotWidthPix		15
-#define kStimColWidthPix		(kStimPlotWidthPix + kGapPix)
+#define kStimPlotOriginPix        (kEventPlotOriginPix + kEventColWidthPix)
+#define kStimPlotWidthPix        15
+#define kStimColWidthPix        (kStimPlotWidthPix + kGapPix)
 
-#define kSpikePlotOriginPix		(kStimPlotOriginPix + kStimColWidthPix)
-#define kSpikePlotWidthPix		15
-#define kSpikeColWidthPix		(kSpikePlots * (kSpikePlotWidthPix + kGapPix))
+#define kSpikePlotOriginPix        (kStimPlotOriginPix + kStimColWidthPix)
+#define kSpikePlotWidthPix        15
+#define kSpikeColWidthPix        (kSpikePlots * (kSpikePlotWidthPix + kGapPix))
 
-#define kEyePlotsOriginPix		(kSpikePlotOriginPix + kSpikeColWidthPix)
-#define kEyePlotWidthPix		80
-#define kEyePlotOrigin(x)		(kEyePlotsOriginPix + x * (kEyePlotWidthPix + kGapPix))
-#define kEyeColWidthPix			(kEyePlots * (kEyePlotWidthPix + kGapPix))
+#define kEyePlotsOriginPix        (kSpikePlotOriginPix + kSpikeColWidthPix)
+#define kEyePlotWidthPix        80
+#define kEyePlotOrigin(x)        (kEyePlotsOriginPix + x * (kEyePlotWidthPix + kGapPix))
+#define kEyeColWidthPix            (kEyePlots * (kEyePlotWidthPix + kGapPix))
 
 @implementation LLXTView
 
@@ -54,7 +54,7 @@
 
 - (void)dealloc;
 {
-	unsigned long index;
+    unsigned long index;
 
     [timer invalidate];
     [timer release];
@@ -62,9 +62,9 @@
     [minorGridColor release];
     [scale release];
     [xtPlots release];
-	for (index = 0; index < kEyePlots; index++) {
-		[eyePlots[index] release];
-	}
+    for (index = 0; index < kEyePlots; index++) {
+        [eyePlots[index] release];
+    }
    [super dealloc];
 }
 
@@ -73,30 +73,30 @@
     long index;
     float factor, yStart, yStop, x, y;
     TickSettings ticks;
-	
+    
     NSEraseRect(rect);
-	if (lastEventTimeMS == 0) {
+    if (lastEventTimeMS == 0) {
         return;
     }
     
 // Draw the time axis
 
-	[scale setViewRectForScale:NSMakeRect(kAxisOriginPix, 0,  kAxisWidthPix,
-            [self bounds].size.height)];
+    [scale setViewRectForScale:NSMakeRect(kAxisOriginPix, 0,  kAxisWidthPix,
+            self.bounds.size.height)];
     yStart = (lastEventTimeMS - durationMS) / 1000.0;
     yStop = lastEventTimeMS / 1000.0;
-	[scale setScaleRect:NSMakeRect(0.0, yStart, 1.0, durationMS / 1000.0)];
-	[LLPlotAxes getTickLimits:&ticks spacing:1.0 fromValue:yStart toValue:yStop];
+    [scale setScaleRect:NSMakeRect(0.0, yStart, 1.0, durationMS / 1000.0)];
+    [LLPlotAxes getTickLimits:&ticks spacing:1.0 fromValue:yStart toValue:yStop];
     ticks.low--;
     ticks.high++;
-	[minorGridColor set];
+    [minorGridColor set];
     for (index = ticks.low * 10; index <= ticks.high * 10; index++) {
         if ((index % 10) == 0) {
            [majorGridColor set];
             x = [scale scaledX:1.0];
             y = [scale scaledY:index / 10.0];
             [NSBezierPath strokeLineFromPoint:NSMakePoint(x, y)
-                toPoint:NSMakePoint(NSMaxX([self bounds]) - kGapPix, y)];
+                toPoint:NSMakePoint(NSMaxX(self.bounds) - kGapPix, y)];
             [[NSColor blackColor] set];
             [NSBezierPath strokeLineFromPoint:NSMakePoint(x, y) 
                 toPoint:NSMakePoint(x - kTickHeightPix, y)];
@@ -104,18 +104,18 @@
                 drawString:[NSString stringWithFormat:@"%ld", (long)(index / 10.0) % 100] 
                 rightAndCenterAtPoint:NSMakePoint(x - kTickHeightPix, y) 
                 rotation:0.0 withAttributes:nil];
-            [minorGridColor set];				// restore for the (many) minor lines
+            [minorGridColor set];                // restore for the (many) minor lines
         }
         else {
             [NSBezierPath strokeLineFromPoint:[scale scaledPoint:NSMakePoint(1.0, index / 10.0)] 
-                toPoint:NSMakePoint(NSMaxX([self bounds]) - kGapPix, [scale scaledY:index / 10.0])];
+                toPoint:NSMakePoint(NSMaxX(self.bounds) - kGapPix, [scale scaledY:index / 10.0])];
        }
        [NSBezierPath strokeLineFromPoint:[scale scaledPoint:NSMakePoint(1.0, index / 10.0)] 
-            toPoint:NSMakePoint(NSMaxX([self bounds]) - kGapPix, [scale scaledY:index / 10.0])];
+            toPoint:NSMakePoint(NSMaxX(self.bounds) - kGapPix, [scale scaledY:index / 10.0])];
     }
     [[NSColor blackColor] set];
     [NSBezierPath strokeLineFromPoint:NSMakePoint([scale scaledX:1.0], 0) 
-            toPoint:NSMakePoint([scale scaledX:1.0], [self bounds].size.height)];
+            toPoint:NSMakePoint([scale scaledX:1.0], self.bounds.size.height)];
 
 // Draw the eye time plots.  Before calling the eyePlots, set the clipping so that eye traces are
 // restricted to the portion or our view that contains eyePlots
@@ -129,36 +129,36 @@
         [scale setScaleRect:NSMakeRect(SHRT_MIN, lastEventTimeMS - durationMS, USHRT_MAX, durationMS)];
     }
     [[NSGraphicsContext currentContext] saveGraphicsState];
-    [NSBezierPath clipRect:NSMakeRect(kEyePlotsOriginPix, 0, kEyeColWidthPix, [self bounds].size.height)];
+    [NSBezierPath clipRect:NSMakeRect(kEyePlotsOriginPix, 0, kEyeColWidthPix, self.bounds.size.height)];
     for (index = 0; index < kEyePlots; index++) {
         [scale setViewRectForScale:NSMakeRect(kEyePlotOrigin(index), 0, 
-                    kEyePlotWidthPix,  [self bounds].size.height)];
+                    kEyePlotWidthPix,  self.bounds.size.height)];
         [eyePlots[index] drawWindow];
     }
     for (index = 0; index < kEyePlots; index++) {
         [scale setViewRectForScale:NSMakeRect(kEyePlotOrigin(index), 0, 
-                    kEyePlotWidthPix,  [self bounds].size.height)];
+                    kEyePlotWidthPix,  self.bounds.size.height)];
         [eyePlots[index] drawEye];
     }
     [[NSGraphicsContext currentContext] restoreGraphicsState];
 
 // Do the event plot
 
-	[scale setViewRectForScale:NSMakeRect(kEventPlotOriginPix, 0,  kEventPlotWidthPix,
-                [self bounds].size.height)];
-	[scale setScaleRect:NSMakeRect(0.0, lastEventTimeMS - durationMS, 1.0, durationMS)];
+    [scale setViewRectForScale:NSMakeRect(kEventPlotOriginPix, 0,  kEventPlotWidthPix,
+                self.bounds.size.height)];
+    [scale setScaleRect:NSMakeRect(0.0, lastEventTimeMS - durationMS, 1.0, durationMS)];
     [eventPlot draw];
     
 // Do the stim plot
 
-	[scale setViewRectForScale:NSMakeRect(kStimPlotOriginPix, 0,  kStimPlotWidthPix,
-                [self bounds].size.height)];
+    [scale setViewRectForScale:NSMakeRect(kStimPlotOriginPix, 0,  kStimPlotWidthPix,
+                self.bounds.size.height)];
     [stimPlot draw];
     
 // Do the spike plots
 
-	[scale setViewRectForScale:NSMakeRect(kSpikePlotOriginPix, 0,  kSpikePlotWidthPix,
-                [self bounds].size.height)];
+    [scale setViewRectForScale:NSMakeRect(kSpikePlotOriginPix, 0,  kSpikePlotWidthPix,
+                self.bounds.size.height)];
     for (index = 0; index < kSpikePlots; index++) {
         [spikePlots[index] draw];
     }
@@ -166,15 +166,15 @@
 // Record the time value corresponding to the top of the plot
 
 //    lastTimePlottedMS = lastEventTimeMS;
-//	NSLog(@"LLXYView drawRect: interval %.0f    duration %.0f", 
-//		(startTimeS - lastTimeS) * 1000.0, ([LLSystemUtil getTimeS] - startTimeS) * 1000.0);
-//	lastTimeS = startTimeS;
+//    NSLog(@"LLXYView drawRect: interval %.0f    duration %.0f", 
+//        (startTimeS - lastTimeS) * 1000.0, ([LLSystemUtil getTimeS] - startTimeS) * 1000.0);
+//    lastTimeS = startTimeS;
 }
 
 - (void)eventName:(NSString *)name eventTime:(NSNumber *)time {
 
-    [eventPlot addEvent:name time:[NSNumber numberWithLong:[time longValue] - timeOffsetMS]];
-	[self updateEventTime:[time longValue] - timeOffsetMS];
+    [eventPlot addEvent:name time:@(time.longValue - timeOffsetMS)];
+    [self updateEventTime:time.longValue - timeOffsetMS];
 }
 
 - (void)eyeRect:(NSRect)rect time:(long)time;
@@ -184,9 +184,9 @@
 //    time -= timeOffsetMS;
     if (kEyePlots > 0) {
         [eyePlots[0] setEyeWindowOrigin:rect.origin.x width:rect.size.width];
-		if (kEyePlots > 1) {
-			[eyePlots[1] setEyeWindowOrigin:rect.origin.y width:rect.size.height];
-		}
+        if (kEyePlots > 1) {
+            [eyePlots[1] setEyeWindowOrigin:rect.origin.y width:rect.size.height];
+        }
     }
 }
 
@@ -195,7 +195,7 @@
     eyeWindowWidthFactor = MAX(0.01, factor);
 }
 
-- (id)initWithFrame:(NSRect)frame {
+- (instancetype)initWithFrame:(NSRect)frame {
 
     long index;
     float eyeColors[kEyePlots][4] = {
@@ -205,7 +205,7 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-        [[[self enclosingScrollView] contentView] setDrawsBackground:NO];
+        [self.enclosingScrollView.contentView setDrawsBackground:NO];
         
         [self setDurationS:kDefaultDurS];
         eyeWindowWidthFactor = kDefaultFactor;
@@ -259,7 +259,7 @@
 
 - (BOOL)isOpaque;
 {
-	return YES;
+    return YES;
 }
 
 // The offset time is critical for good displays.  All graphics points are represented by floats,
@@ -301,8 +301,8 @@
     durationMS = dur * 1000.0;
     [self setFrameSize];
     [scale setHeight:durationMS];
-	[scale setViewRectForScale:NSMakeRect(0, 0, 1, [self bounds].size.height)];
-	[xtPlots makeObjectsPerformSelector:@selector(setDurationS:) 
+    [scale setViewRectForScale:NSMakeRect(0, 0, 1, self.bounds.size.height)];
+    [xtPlots makeObjectsPerformSelector:@selector(setDurationS:) 
                                 withObject:[NSNumber numberWithFloat:dur]];
 }
 
@@ -310,10 +310,10 @@
 
     NSRect frameRect;
     
-    frameRect = [self frame];
+    frameRect = self.frame;
     frameRect.size.width = [self sizePix].width;
     frameRect.size.height = durationMS / 1000.0 * kPixPerS;
-    [self setFrame:frameRect];
+    self.frame = frameRect;
 }
 
 - (void)setSamplePeriodMS:(float)samplePerMS;
@@ -352,7 +352,7 @@
 
 - (NSSize)sizePix {
 
-    return NSMakeSize(kBaseWidthPix, [self bounds].size.height);
+    return NSMakeSize(kBaseWidthPix, self.bounds.size.height);
 }
 
 - (void)spikeChannel:(short)channel time:(long)time;
@@ -361,33 +361,33 @@
     
     spikeTimeMS = time * spikePeriodMS + spikeTimeBaseMS;
     if (channel < kSpikePlots && spikeTimeBaseMS > 0) {
-        [spikePlots[channel] addSpike:[NSNumber numberWithLong:spikeTimeMS]];
+        [spikePlots[channel] addSpike:@(spikeTimeMS)];
         [self updateEventTime:spikeTimeMS];
     }
 }
 
 - (void) spikeZeroTimeMS:(long)zeroTimeMS {
 
-	spikeTimeBaseMS = lastEventTimeMS = zeroTimeMS - timeOffsetMS;
+    spikeTimeBaseMS = lastEventTimeMS = zeroTimeMS - timeOffsetMS;
 }
 
 
 - (void)stimulusBarColor:(NSColor *)color eventTime:(NSNumber *)timeMS {
 
-	long stimulusBarTimeMS = [timeMS longValue] - timeOffsetMS;
-	
-    [stimPlot addStim:color time:[NSNumber numberWithLong:stimulusBarTimeMS]];
-	[self updateEventTime:stimulusBarTimeMS];
+    long stimulusBarTimeMS = timeMS.longValue - timeOffsetMS;
+    
+    [stimPlot addStim:color time:@(stimulusBarTimeMS)];
+    [self updateEventTime:stimulusBarTimeMS];
 }
 
 - (void)updateEventTime:(long)timeMS;
 {
-	if (!freeze) {
+    if (!freeze) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setNeedsDisplay:YES];
         });
-	}
-	lastEventTimeMS = timeMS;
+    }
+    lastEventTimeMS = timeMS;
     return;
 }
 

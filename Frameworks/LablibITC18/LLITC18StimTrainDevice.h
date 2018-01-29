@@ -34,7 +34,7 @@
 
 - (void)close;
 - (void)doInitializationWithDevice:(long)numDevice;
-- (id)initWithDevice:(long)numDevice;
+- (instancetype)initWithDevice:(long)numDevice;
 - (BOOL)open:(long)numDevice;
 
 @end

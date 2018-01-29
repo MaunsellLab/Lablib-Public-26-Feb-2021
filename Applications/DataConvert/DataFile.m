@@ -12,14 +12,14 @@
 #import "HexView.h"
 #import "PrintView.h"
 
-#define	kBytesPerLine		16
-#define kCharsPerByte		3
-#define	kEventTimeTextCols	4
-#define kHexAddressPadCols	3
-#define kTextBufferLength	256
+#define    kBytesPerLine        16
+#define kCharsPerByte        3
+#define    kEventTimeTextCols    4
+#define kHexAddressPadCols    3
+#define kTextBufferLength    256
 
-typedef enum {kPrintEvents = 0, kPrintHex} DFPrintType;
-typedef enum {kCharFormat = 0, kShortFormat, kLongFormat, kFloatFormat, kDoubleFormat} DFFormatType;
+typedef NS_ENUM(unsigned int, DFPrintType) {kPrintEvents = 0, kPrintHex};
+typedef NS_ENUM(unsigned int, DFFormatType) {kCharFormat = 0, kShortFormat, kLongFormat, kFloatFormat, kDoubleFormat};
 
 @implementation DataFile
 
@@ -27,8 +27,8 @@ NSString *LLDataType = @"Lablib data document";
 NSString *LLMatlabType = @"Lablib Matlab document";
 NSString *LLMatlabText = @"Matlab Text";
 
-static short		formatChars[] = {2, 6, 11, 3, 3};
-static PrintView	*printView;
+static short        formatChars[] = {2, 6, 11, 3, 3};
+static PrintView    *printView;
 
 // Read bytes from the data buffer, relative to the current pointer, incrementing the pointer afterward
 
@@ -55,25 +55,25 @@ static PrintView	*printView;
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError;
 {
-	if ([typeName isEqualToString:LLDataType]) {
-		return [dataReader fileData];
-	}
-	else {
-//		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
-		return nil;
-	}
+    if ([typeName isEqualToString:LLDataType]) {
+        return [dataReader fileData];
+    }
+    else {
+//        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
+        return nil;
+    }
 }
 
 - (void)dealloc
 {
-	NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
+    NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 
-	[defaultsController removeObserver:self forKeyPath:@"values.DCDataFormat"];
-	[defaultsController removeObserver:self forKeyPath:@"values.DCShowAddress"];
-	[defaultsController removeObserver:self forKeyPath:@"values.DCShowData"];
-	[defaultsController removeObserver:self forKeyPath:@"values.DCShowTime"];
-	[defaultsController removeObserver:self forKeyPath:@"values.DCShowTimeOfDay"];
-	[dataReader release];
+    [defaultsController removeObserver:self forKeyPath:@"values.DCDataFormat"];
+    [defaultsController removeObserver:self forKeyPath:@"values.DCShowAddress"];
+    [defaultsController removeObserver:self forKeyPath:@"values.DCShowData"];
+    [defaultsController removeObserver:self forKeyPath:@"values.DCShowTime"];
+    [defaultsController removeObserver:self forKeyPath:@"values.DCShowTimeOfDay"];
+    [dataReader release];
     [dataFileName release];
     [super dealloc];
 }
@@ -85,12 +85,12 @@ static PrintView	*printView;
     char textBuffer[256];
     NSAttributedString *aString;
     LLDataEventDef *eventDef = [dataReader dataEventDefWithIndex:line];
-	
+    
     sprintf(textBuffer, "%-*ld %-*s %*ld %*ld", eventIndexTextCols, line, 
-			(int)[dataReader maxEventNameLength],  [[eventDef name] cStringUsingEncoding:NSASCIIStringEncoding],
+            (int)[dataReader maxEventNameLength],  [[eventDef name] cStringUsingEncoding:NSASCIIStringEncoding],
             eventDataTextCols, [eventDef dataBytes], eventCountTextCols, [dataReader eventCounts][line]);
     aString = [[[NSAttributedString alloc] 
-            initWithString:[NSString stringWithCString:textBuffer encoding:NSASCIIStringEncoding]
+            initWithString:@(textBuffer)
             attributes:fontDefaultAttributes] autorelease];
     return aString;
 }
@@ -107,7 +107,7 @@ static PrintView	*printView;
         break;
     case kFloatFormat:
     case kDoubleFormat:
-        isEnough = (filled + 8 + formatChars[valueFormat] + 1 < bufferLength - margin);	// Using %e format for float and double
+        isEnough = (filled + 8 + formatChars[valueFormat] + 1 < bufferLength - margin);    // Using %e format for float and double
         break;
     }
     return isEnough;
@@ -140,33 +140,33 @@ static PrintView	*printView;
     long index, filled, dataFormat;
     char textBuffer[kTextBufferLength];
     char *pBuffer  = textBuffer;
-	long eventIndex;
+    long eventIndex;
     DataEvent *pEvent;
     NSDate *eventDate;
     NSDateFormatter *dateFormatter;
     
     NSMutableAttributedString *string;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	dataFormat = [defaults integerForKey:DCDataFormatKey];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    dataFormat = [defaults integerForKey:DCDataFormatKey];
     if ((pEvent = [dataReader findEventByLine:line index:&eventIndex]) == nil) {
         [LLSystemUtil runAlertPanelWithMessageText:@"DataConvert" informativeText:@"eventString: nil event returned."];
-		exit(0);
-	}
-    //	index = [pEvent->data length];		// test for valid NSData object
+        exit(0);
+    }
+    //    index = [pEvent->data length];        // test for valid NSData object
     if ([defaults boolForKey:DCShowAddressKey]) {
-    	pBuffer += sprintf(pBuffer, "0x%0*lx ", hexAddressTextCols, eventIndex);
+        pBuffer += sprintf(pBuffer, "0x%0*lx ", hexAddressTextCols, eventIndex);
     }
     if ([defaults boolForKey:DCShowTimeOfDayKey]) {
-        eventDate = [[dataReader fileDate] dateByAddingTimeInterval:(unsigned long)(pEvent->time / 1000.0)];
+        eventDate = [dataReader.fileDate dateByAddingTimeInterval:(unsigned long)(pEvent->time / 1000.0)];
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"HH:mm:ss"];
+        dateFormatter.dateFormat = @"HH:mm:ss";
         pBuffer += sprintf(pBuffer, "%s", [[dateFormatter stringFromDate:eventDate] UTF8String]);
         pBuffer += sprintf(pBuffer, ".%03ld", (unsigned long)(pEvent->time % 1000));
         [dateFormatter release];
     }
     if ([defaults boolForKey:DCShowTimeKey]) {
-		pBuffer += sprintf(pBuffer, "%*ld ", kEventTimeTextCols, pEvent->trialTime);
+        pBuffer += sprintf(pBuffer, "%*ld ", kEventTimeTextCols, pEvent->trialTime);
     }
 
 // Event name and data
@@ -189,11 +189,11 @@ static PrintView	*printView;
                 ((SpikeData *)[pEvent->data bytes])->time);
         }
         else if (([pEvent->name isEqualToString:@"trialStart"]) ||
-					([pEvent->name isEqualToString:@"trialEnd"]) ||
-					([pEvent->name isEqualToString:@"stimulusOn"]) ||
-					([pEvent->name isEqualToString:@"stimulusOff"])) {
+                    ([pEvent->name isEqualToString:@"trialEnd"]) ||
+                    ([pEvent->name isEqualToString:@"stimulusOn"]) ||
+                    ([pEvent->name isEqualToString:@"stimulusOff"])) {
             sprintf(pBuffer, "%*ld ", formatChars[kLongFormat],  *(long *)[pEvent->data bytes]);
-		}
+        }
         else if ([pEvent->name isEqualToString:@"fixWindow"]) {
             sprintf(pBuffer, "%*ld:  %*f %*f %*f %*f ",
                     formatChars[kShortFormat], ((FixWindowData *)[pEvent->data bytes])->index, 
@@ -203,11 +203,11 @@ static PrintView	*printView;
                     formatChars[kShortFormat], ((FixWindowData *)[pEvent->data bytes])->windowUnits.size.height);
         }
         else {
-            for (index = 0; index < [pEvent->data length]; ) {
+            for (index = 0; index < pEvent->data.length; ) {
                 filled = (unsigned long)pBuffer - (unsigned long)textBuffer;
                 if (![self enoughRoomInBuffer:filled format:dataFormat length:kTextBufferLength margin:8]) {
-					sprintf(pBuffer, "...");
-					break;
+                    sprintf(pBuffer, "...");
+                    break;
                 }
                 switch (dataFormat) {
                 case kCharFormat:
@@ -216,28 +216,28 @@ static PrintView	*printView;
                     index += sizeof(char);
                     break;
                 case kShortFormat:
-                    if ([pEvent->data length] - index >= sizeof(short)) {
+                    if (pEvent->data.length - index >= sizeof(short)) {
                         pBuffer += sprintf(pBuffer, "%*d ", formatChars[dataFormat],
                                 *(short *)([pEvent->data bytes] + index));
                     }
                     index += sizeof(short);
                     break;
                 case kLongFormat:
-                    if ([pEvent->data length] - index >= sizeof(long)) {
+                    if (pEvent->data.length - index >= sizeof(long)) {
                         pBuffer += sprintf(pBuffer, "%*ld ", formatChars[dataFormat],
                                 *(long *)([pEvent->data bytes] + index));
                     }
                     index += sizeof(long);
                     break;
                 case kFloatFormat:
-                    if ([pEvent->data length] - index >= sizeof(float)) {
+                    if (pEvent->data.length - index >= sizeof(float)) {
                         pBuffer += sprintf(pBuffer, "% .*e ", formatChars[dataFormat],
                                 *(float *)([pEvent->data bytes] + index));
                     }
                     index += sizeof(float);
                     break;
                 case kDoubleFormat:
-                    if ([pEvent->data length] - index >= sizeof(double)) {
+                    if (pEvent->data.length - index >= sizeof(double)) {
                         pBuffer += sprintf(pBuffer, "% .*e ", formatChars[dataFormat],
                                 *(double *)([pEvent->data bytes] + index));
                     }
@@ -248,11 +248,11 @@ static PrintView	*printView;
         }
     }
     string = [[[NSMutableAttributedString alloc]
-              initWithString:[NSString stringWithCString:textBuffer encoding:NSASCIIStringEncoding]
+              initWithString:@(textBuffer)
             attributes:fontDefaultAttributes] autorelease];
     if (line == selectedEventLine) {
         [string addAttribute:NSBackgroundColorAttributeName value:[NSColor selectedTextBackgroundColor]
-            range:NSMakeRange(0, [string length])];
+            range:NSMakeRange(0, string.length)];
     }
     return string;
 }
@@ -275,7 +275,7 @@ static PrintView	*printView;
     }
     else {
         byteSelected = newSelectionLine * kBytesPerLine + (charOnLine - addressChars) / kCharsPerByte;
-		pEvent = [dataReader findEventByIndex:byteSelected line:&eventLine];
+        pEvent = [dataReader findEventByIndex:byteSelected line:&eventLine];
         if (pEvent == nil || (eventLine == selectedEventLine && clicks < 2)) {
             selectedEventLine = selectedBytesStart = selectedEventCode = selectedBytesStop = -1;
         }
@@ -311,9 +311,9 @@ static PrintView	*printView;
 
 // Read the data
 
-    startingIndex = [dataReader dataIndex];
+    startingIndex = dataReader.dataIndex;
     [dataReader dataBytes:(Ptr)dataBytes range:NSMakeRange(line * kBytesPerLine, bytes)];
-    [dataReader setDataIndex:startingIndex];
+    dataReader.dataIndex = startingIndex;
 
 // Format the string
 
@@ -329,22 +329,22 @@ static PrintView	*printView;
     }
     pBuffer += sprintf(pBuffer, "  ["); 
     for (byte = 0; byte < kBytesPerLine; byte++) {
-		if (byte >= bytes) {
-			break;
-		}
-		if (isprint(dataBytes[byte])) {
-			pBuffer += sprintf(pBuffer, "%c", dataBytes[byte]);
-		}
-		else {
-			pBuffer += sprintf(pBuffer, "*");
-		}
+        if (byte >= bytes) {
+            break;
+        }
+        if (isprint(dataBytes[byte])) {
+            pBuffer += sprintf(pBuffer, "%c", dataBytes[byte]);
+        }
+        else {
+            pBuffer += sprintf(pBuffer, "*");
+        }
     }
     sprintf(pBuffer, "]");
 
 // Make a string to return, highling selected text or header text
 
     string = [[NSMutableAttributedString alloc] 
-              initWithString:[NSString stringWithCString:textBuffer encoding:NSASCIIStringEncoding]
+              initWithString:@(textBuffer)
               attributes:fontDefaultAttributes];
     
 // Highlight any text that is selected
@@ -384,46 +384,46 @@ static PrintView	*printView;
     NSAttributedString *Astring;
 
     Astring = [[NSAttributedString alloc] initWithString:
-			[NSString stringWithFormat:@ "  Data Format %.1f\r  created %@", 
-			[dataReader dataFormat], [[dataReader fileDate] description]]];
+            [NSString stringWithFormat:@ "  Data Format %.1f\r  created %@", 
+            dataReader.dataFormat, dataReader.fileDate.description]];
     MAstring = [[[NSMutableAttributedString alloc] init] autorelease];
     [MAstring appendAttributedString:Astring];
     [Astring release];
     return MAstring;
 }
 
-- (id)init
+- (instancetype)init
 {
     NSFont *font;
     NSUserDefaultsController *defaultsController;
-	
+    
     if ((self = [super init]) != nil) {
         
-		printMode = kPrintEvents;
-		
+        printMode = kPrintEvents;
+        
 // Set up the default font attributes
 
         font = [NSFont userFixedPitchFontOfSize:[NSFont kFontSizeToUse]];
         fontDefaultAttributes = [[NSMutableDictionary alloc] init];
-        [fontDefaultAttributes setObject:font forKey:NSFontAttributeName];
+        fontDefaultAttributes[NSFontAttributeName] = font;
         [fontDefaultAttributes retain];
         charSize = [@"X" sizeWithAttributes:fontDefaultAttributes];
-        lineDescenderPix = [font descender];				// Longest line descender in pixels
-		selectedEventLine = selectedBytesStart = selectedEventCode = selectedBytesStop = -1;
+        lineDescenderPix = font.descender;                // Longest line descender in pixels
+        selectedEventLine = selectedBytesStart = selectedEventCode = selectedBytesStop = -1;
 
 // Set up to monitor changes to the display preferences
 
-		defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
-		[defaultsController addObserver:self forKeyPath:@"values.DCDataFormat"
-						options:NSKeyValueObservingOptionNew context:nil];
-		[defaultsController addObserver:self forKeyPath:@"values.DCShowAddress"
-						options:NSKeyValueObservingOptionNew context:nil];
-		[defaultsController addObserver:self forKeyPath:@"values.DCShowData"
-						options:NSKeyValueObservingOptionNew context:nil];
-		[defaultsController addObserver:self forKeyPath:@"values.DCShowTime"
-						options:NSKeyValueObservingOptionNew context:nil];
-		[defaultsController addObserver:self forKeyPath:@"values.DCShowTimeOfDay"
-						options:NSKeyValueObservingOptionNew context:nil];
+        defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
+        [defaultsController addObserver:self forKeyPath:@"values.DCDataFormat"
+                        options:NSKeyValueObservingOptionNew context:nil];
+        [defaultsController addObserver:self forKeyPath:@"values.DCShowAddress"
+                        options:NSKeyValueObservingOptionNew context:nil];
+        [defaultsController addObserver:self forKeyPath:@"values.DCShowData"
+                        options:NSKeyValueObservingOptionNew context:nil];
+        [defaultsController addObserver:self forKeyPath:@"values.DCShowTime"
+                        options:NSKeyValueObservingOptionNew context:nil];
+        [defaultsController addObserver:self forKeyPath:@"values.DCShowTimeOfDay"
+                        options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
@@ -448,7 +448,7 @@ static PrintView	*printView;
 
 - (void)printShowingPrintPanel:(BOOL)flag
 {
-    NSPrintInfo *printInfo = [self printInfo];
+    NSPrintInfo *printInfo = self.printInfo;
     NSPrintOperation *printOp;
     NSPrintPanel *printPanel;
     
@@ -459,16 +459,16 @@ static PrintView	*printView;
         break;
     case kPrintEvents:
     default:
-        [printView printableLines:[dataReader enabledEventsInFile]];
+        [printView printableLines:dataReader.enabledEventsInFile];
         break;
     }
     printOp = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
     printPanel = [NSPrintPanel printPanel];
      //    [printOp setAccessoryView:printSelectPanel];
      //  [printPanel addAccessoryController:printSelectPanel];
-    [printOp setPrintPanel:printPanel];
-    [printOp setShowsPrintPanel:flag];
-    [printOp setShowsProgressPanel:flag];
+    printOp.printPanel = printPanel;
+    printOp.showsPrintPanel = flag;
+    printOp.showsProgressPanel = flag;
     [printOp runOperation];
     [printView release];
 }
@@ -482,7 +482,7 @@ static PrintView	*printView;
         break;
     case kPrintEvents:
     default:
-        [printView printableLines:[dataReader enabledEventsInFile]];
+        [printView printableLines:dataReader.enabledEventsInFile];
         break;
     }
 }
@@ -501,7 +501,7 @@ static PrintView	*printView;
         attribString = [self eventString:line];
         break;
     }
-    return [attribString string];
+    return attribString.string;
 //    string = [[NSString alloc] initWithString:[attribString string]];
 //    return string;
 }
@@ -510,39 +510,39 @@ static PrintView	*printView;
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	dataReader = [[LLDataFileReader alloc] init];
-	if (![dataReader readFromURL:absoluteURL ofType:typeName error:outError]) {
-		[dataReader release];
-		dataReader = nil;
-		return NO;
-	}
+    dataReader = [[LLDataFileReader alloc] init];
+    if (![dataReader readFromURL:absoluteURL ofType:typeName error:outError]) {
+        [dataReader release];
+        dataReader = nil;
+        return NO;
+    }
     dataFileName = [[NSString alloc] initWithString:
-				[[[absoluteURL path] stringByDeletingPathExtension] lastPathComponent]];
+                absoluteURL.path.stringByDeletingPathExtension.lastPathComponent];
 
 // Get the formatting values that are based on the file contents
 
-    eventIndexTextCols = log((double)[dataReader numEvents]) / log(10.0) + 1;
-	maxEventNameLength = (int)[dataReader maxEventNameLength];
-	eventCountTextCols = log([dataReader maxEventCount]) / log(10.0) + 1;
+    eventIndexTextCols = log((double)dataReader.numEvents) / log(10.0) + 1;
+    maxEventNameLength = (int)dataReader.maxEventNameLength;
+    eventCountTextCols = log(dataReader.maxEventCount) / log(10.0) + 1;
     eventDataTextCols = MAX(2, log((double)[dataReader maxEventDataBytes]) / log(10.0) + 1);
-    fileLength = [dataReader fileBytes];
-	firstDataEventIndex = [dataReader firstDataEventIndex];
+    fileLength = dataReader.fileBytes;
+    firstDataEventIndex = dataReader.firstDataEventIndex;
     for (hexAddressTextCols = 1; fileLength > (0x1L << (4 * hexAddressTextCols)); hexAddressTextCols++) {};
     hexTextLines =  fileLength / kBytesPerLine + ((fileLength % kBytesPerLine) ? 1 : 0);
-	return YES;
+    return YES;
 }
 
 - (void)setEnabledEvents:(BOOL *)array
 {
     long index, numEnabled, numEvents;
     
-	[dataReader setEnabledEvents:array];
-	numEvents = [dataReader numEvents];
+    [dataReader setEnabledEvents:array];
+    numEvents = dataReader.numEvents;
     for (index = numEnabled = 0; index < numEvents; index++) {
-		numEnabled += array[index];
+        numEnabled += array[index];
     }
-    [enableButton setEnabled:(numEnabled < numEvents)];
-    [disableButton setEnabled:(numEnabled > 0)];
+    enableButton.enabled = (numEnabled < numEvents);
+    disableButton.enabled = (numEnabled > 0);
     
 // If there is a selected event line we need to adjust for the change in enabled events
 
@@ -557,11 +557,11 @@ static PrintView	*printView;
 // If the selected type is still enabled, get the new line that it is on
 
         else {
-			[dataReader findEventByIndex:selectedBytesStart line:&selectedEventLine];
+            [dataReader findEventByIndex:selectedBytesStart line:&selectedEventLine];
         }
     }
-    [eventView setDisplayableLines:[dataReader enabledEventsInFile]];	// update event view
-    [hexView setDisplayableLines:hexTextLines];		// *** should not have to do this when first window is gone
+    [eventView setDisplayableLines:dataReader.enabledEventsInFile];    // update event view
+    [hexView setDisplayableLines:hexTextLines];        // *** should not have to do this when first window is gone
 }
 
 - (NSString *)windowNibName;
@@ -572,14 +572,14 @@ static PrintView	*printView;
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
     [super windowControllerDidLoadNib:aController];
-    [defView setNumEvents:[dataReader numEvents]];                      // Give event definition view number of events
-    [eventView setDisplayableLines:[dataReader enabledEventsInFile]];	// Give the event view number of enabled events
+    [defView setNumEvents:dataReader.numEvents];                      // Give event definition view number of events
+    [eventView setDisplayableLines:dataReader.enabledEventsInFile];    // Give the event view number of enabled events
     [hexView setDisplayableLines:hexTextLines];                         // Give the hex view number of displayable lines
 
 // We shouldn't have to do the following, but something seems to be screwed up with the Interface Builder's
 // handling of the size of a NSDrawer
 
-    [infoDrawer setContentSize:NSMakeSize(200, 200)];
+    infoDrawer.contentSize = NSMakeSize(200, 200);
     
     //   [[aController window] makeKeyAndOrderFront:self];
 }
@@ -588,29 +588,29 @@ static PrintView	*printView;
 {
     BOOL result;
     NSData *eventData;
-	NSFileWrapper *matlabFileWrapper;
+    NSFileWrapper *matlabFileWrapper;
 
-	
-	if ([typeName isEqualTo:LLDataType]) {				// do nothing if asked to save data - we don't edit
+    
+    if ([typeName isEqualTo:LLDataType]) {                // do nothing if asked to save data - we don't edit
         if (outError != NULL) {
             *outError = nil;
         }
-		return YES;
-	}
-	if (![typeName isEqualTo:LLMatlabText]) {			// we only handle Matlab text (for now)
-//		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
-		return NO;
-	}
-	if (![absoluteURL isFileURL]) {						// must be a file URL
-//		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
-		return NO;
-	}
-	if (![dataReader dataDefinitions]) {
-		NSLog(@"File %@ does not have data definitions; it cannot be automatically converted to Matlab text",
-						dataFileName);
-		return(NO);
-	}
-	eventData = [dataReader eventsAsMatlabStrings]; 
+        return YES;
+    }
+    if (![typeName isEqualTo:LLMatlabText]) {            // we only handle Matlab text (for now)
+//        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
+        return NO;
+    }
+    if (!absoluteURL.fileURL) {                        // must be a file URL
+//        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
+        return NO;
+    }
+    if (!dataReader.dataDefinitions) {
+        NSLog(@"File %@ does not have data definitions; it cannot be automatically converted to Matlab text",
+                        dataFileName);
+        return(NO);
+    }
+    eventData = dataReader.eventsAsMatlabStrings; 
     matlabFileWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:eventData];
     result = [matlabFileWrapper writeToURL:absoluteURL
             options:NSFileWrapperWritingAtomic | NSFileWrapperWritingWithNameUpdating
@@ -619,11 +619,11 @@ static PrintView	*printView;
 //        if (outError != NULL) {
 //            *outError = nil;
 //        }
-//	}
-//	else {
-//	}
-	[matlabFileWrapper release];
-	return result;
+//    }
+//    else {
+//    }
+    [matlabFileWrapper release];
+    return result;
 }
 
 @end

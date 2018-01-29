@@ -86,15 +86,6 @@
             symbolName = "_NSLockError"
             moduleName = "Foundation">
             <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "_NSLockError"
-                  moduleName = "Foundation"
-                  usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
-               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -104,13 +95,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Frameworks/Lablib/LLDataDoc.m"
-            timestampString = "519414091.596952"
+            filePath = "Frameworks/Lablib/LLOSCommand.h"
+            timestampString = "533258140.651835"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "562"
-            endingLineNumber = "562"
-            landmarkName = "-putEvent:"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "LLOSCommand"
+            landmarkType = "2">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Frameworks/Lablib/LLDataFileReader.m"
+            timestampString = "534037321.24577"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-appendMatlabString:toData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -120,13 +127,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Frameworks/Lablib/LLDataDoc.m"
-            timestampString = "519415320.59667"
+            filePath = "Frameworks/LablibMatlab/LLMatlabController.m"
+            timestampString = "534135760.120525"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "554"
-            endingLineNumber = "554"
-            landmarkName = "-putEvent:"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "-convertToMatlabString:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -136,13 +143,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Frameworks/Lablib/LLDataDoc.m"
-            timestampString = "519415331.325212"
+            filePath = "../../Users/Shared/Lablib-Plugins/OptiPulse/OPIntertrialState.m"
+            timestampString = "535682999.67723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
-            landmarkName = "-putEvent:withData:lengthBytes:"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "-selectTrial"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Users/Shared/Lablib-Plugins/SignalDetection4/SignalDetection4.m"
+            timestampString = "538871431.838473"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "513"
+            endingLineNumber = "513"
+            landmarkName = "-deactivate:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

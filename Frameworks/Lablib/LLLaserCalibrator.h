@@ -9,18 +9,18 @@
 
 @interface LLLaserCalibrator : NSWindowController <NSWindowDelegate> {
 
-	IBOutlet NSArrayController	*arrayController;
-	IBOutlet NSTableView		*calibrationTable;
-	NSArray						*sortArray;
-	NSUserDefaults				*taskDefaults;
+    IBOutlet NSArrayController    *arrayController;
+    IBOutlet NSTableView        *calibrationTable;
+    NSArray                        *sortArray;
+    NSUserDefaults                *taskDefaults;
 }
 
 - (float)calibratedValueFor:(float)inputMW;
 - (void)doDialog;
 - (void)getValuesForCalibrationIndex:(long)index voltagePtr:(float *)pV mWPtr:(float *)pMW;
 - (IBAction)insertRow:(id)sender;
-- (float)maximumMW;
-- (float)minimumMW;
+@property (NS_NONATOMIC_IOSONLY, readonly) float maximumMW;
+@property (NS_NONATOMIC_IOSONLY, readonly) float minimumMW;
 - (IBAction)ok:(id)sender;
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
 

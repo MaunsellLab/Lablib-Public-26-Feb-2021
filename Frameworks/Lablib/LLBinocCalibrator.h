@@ -9,42 +9,41 @@
 #import "LLEyeCalibrator.h"
 
 #ifndef kEyes
-typedef enum {kLeftEye, kRightEye} kWhichEye;
+typedef NS_ENUM(unsigned int, kWhichEye) {kLeftEye, kRightEye};
 #define kEyes   (kRightEye + 1)
 #endif
 
-#define kLLEyeCalibratorOffsets 		4
+#define kLLEyeCalibratorOffsets         4
 
 @interface LLBinocCalibrator : NSWindowController {
 
     LLEyeCalibrator         *calibrators[kEyes];
-	NSAffineTransformStruct currentCalibration;				// calibration with offset
-	LLEyeCalibrationData	data;
-	NSAffineTransformStruct offsetCalibration;
-	NSPoint					offsetDeg[kLLEyeCalibratorOffsets];
-	long					offsetIndex;
-	BOOL					positionDone[kLLEyeCalibratorOffsets];
-	long					positionsDone;
-	NSUserDefaults			*taskDefaults;
+    NSAffineTransformStruct currentCalibration;                // calibration with offset
+    LLEyeCalibrationData    data;
+    NSAffineTransformStruct offsetCalibration;
+    NSPoint                 offsetDeg[kLLEyeCalibratorOffsets];
+    long                    offsetIndex;
+    BOOL                    positionDone[kLLEyeCalibratorOffsets];
+    long                    positionsDone;
 }
 
-- (NSAffineTransformStruct)calibration;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSAffineTransformStruct calibration;
+@property (NS_NONATOMIC_IOSONLY, readonly) LLEyeCalibrationData *calibrationData;
+@property (NS_NONATOMIC_IOSONLY) float calibrationOffsetDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint calibrationOffsetPointDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSPoint offsetDeg;
+@property (NS_NONATOMIC_IOSONLY, readonly) long offsetIndex;
+
 - (NSAffineTransformStruct)calibrationForEye:(long)eyeIndex;
-- (LLEyeCalibrationData *)calibrationData;
-- (LLEyeCalibrationData *)calibrationDataForEye:(long)eyeIndex;
-- (float)calibrationOffsetDeg;
-- (NSPoint)calibrationOffsetPointDeg;
+- (LLEyeCalibrationData *)calibrationDataForEye:(long)eyeIndex NS_RETURNS_INNER_POINTER;
 - (LLEyeCalibrator *)calibratorForEye:(long)eyeIndex;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint;
 - (NSPoint)degPointFromUnitPoint:(NSPoint)unitPoint forEye:(long)eyeIndex;
-- (id)initWithKeyPrefix:(NSString *)prefix;
+- (instancetype)initWithKeyPrefix:(NSString *)prefix;
 - (void)loadOffsets;
 - (long)nextCalibrationPosition;
 - (long)nextCalibrationPosition:(long)offsetIndex;
-- (NSPoint)offsetDeg;
-- (long)offsetIndex;
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
-- (void)setCalibrationOffsetDeg:(float)newOffset;
 - (void)setFixAzimuthDeg:(float)newAzimuthDeg elevationDeg:(float)newElevationDeg;
 - (NSPoint)unitPointFromDegPoint:(NSPoint)degPoint;
 - (NSPoint)unitPointFromDegPoint:(NSPoint)degPoint forEye:(long)eyeIndex;

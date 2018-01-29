@@ -46,7 +46,7 @@
 	return fullscreen;
 }
 
-- (id)initWithFrame:(NSRect)frameRect displayIndex:(long)dIndex;
+- (instancetype)initWithFrame:(NSRect)frameRect displayIndex:(long)dIndex;
 {
 	NSTrackingRectTag tag;
     NSOpenGLPixelFormat *format;

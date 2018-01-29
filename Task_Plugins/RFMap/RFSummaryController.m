@@ -14,14 +14,14 @@
 #import "RF.h"
 #import "RFMapUtilityFunctions.h"
 
-#define kEOTDisplayTimeS		1.0
-#define kLastEOTTypeDisplayed   kEOTIgnored		// Count everything up to kEOTIgnored
-#define kPlotBinsDefault		10
-#define kTableRows				(kLastEOTTypeDisplayed + 6) // extra for blank rows, total, etc.
-#define	kXTickSpacing			100
+#define kEOTDisplayTimeS        1.0
+#define kLastEOTTypeDisplayed   kEOTIgnored        // Count everything up to kEOTIgnored
+#define kPlotBinsDefault        10
+#define kTableRows                (kLastEOTTypeDisplayed + 6) // extra for blank rows, total, etc.
+#define    kXTickSpacing            100
 
-typedef enum {kBlankRow0 = kLastEOTTypeDisplayed + 1, kComputerRow, kBlankRow1, kRewardsRow, kTotalRow} RFRowType;
-typedef enum {kColorColumn = 0, kEOTColumn, kDayColumn, kRecentColumn} RFColumnType;
+typedef NS_ENUM(unsigned int, RFRowType) {kBlankRow0 = kLastEOTTypeDisplayed + 1, kComputerRow, kBlankRow1, kRewardsRow, kTotalRow};
+typedef NS_ENUM(unsigned int, RFColumnType) {kColorColumn = 0, kEOTColumn, kDayColumn, kRecentColumn};
 
 NSString *RFSummaryAutosaveKey = @"RFSummaryWindow";
 NSString *RFSummaryWindowBrokeKey = @"RFSummaryWindowBroke";
@@ -43,36 +43,36 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     
     zoomValue = [[sender selectedCell] tag];
     [self setScaleFactor:zoomValue / 100.0];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:(int)zoomValue] 
+    [[NSUserDefaults standardUserDefaults] setObject:@((int)zoomValue) 
                 forKey:RFSummaryWindowZoomKey];
 }
 
 - (void)dealloc;
 {
-	[[NSUserDefaults standardUserDefaults] setFloat:[NSDate timeIntervalSinceReferenceDate] forKey:RFSummaryWindowDateKey];
-	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTBroke] forKey:RFSummaryWindowBrokeKey];
-	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTCorrect] forKey:RFSummaryWindowCorrectKey];
-	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTFailed] forKey:RFSummaryWindowFailedKey];
-	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTIgnored] forKey:RFSummaryWindowIgnoredKey];
-	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTWrong] forKey:RFSummaryWindowWrongKey];
-	[[NSUserDefaults standardUserDefaults] setInteger:dayEOTTotal forKey:RFSummaryWindowTotalKey];
-	[[NSUserDefaults standardUserDefaults] setInteger:dayComputer forKey:RFSummaryWindowComputerKey];
+    [[NSUserDefaults standardUserDefaults] setFloat:[NSDate timeIntervalSinceReferenceDate] forKey:RFSummaryWindowDateKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTBroke] forKey:RFSummaryWindowBrokeKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTCorrect] forKey:RFSummaryWindowCorrectKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTFailed] forKey:RFSummaryWindowFailedKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTIgnored] forKey:RFSummaryWindowIgnoredKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:dayEOTs[kEOTWrong] forKey:RFSummaryWindowWrongKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:dayEOTTotal forKey:RFSummaryWindowTotalKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:dayComputer forKey:RFSummaryWindowComputerKey];
     [fontAttr release];
     [labelFontAttr release];
     [leftFontAttr release];
     [super dealloc];
 }
     
-- (id)init {
+- (instancetype)init {
 
     NSRect maxScrollRect;
-	double timeNow, timeStored;
+    double timeNow, timeStored;
     NSScroller *hScroller, *vScroller;
     
     if ((self = [super initWithWindowNibName:@"RFSummaryController"]) != nil) {
- 		[self setShouldCascadeWindows:NO];
-		[self setWindowFrameAutosaveName:RFSummaryAutosaveKey];
-        [self window];							// Force the window to load now
+         [self setShouldCascadeWindows:NO];
+        self.windowFrameAutosaveName = RFSummaryAutosaveKey;
+        [self window];                            // Force the window to load now
 
         fontAttr = [self makeAttributesForFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]
                 alignment:NSTextAlignmentRight tailIndex:-12];
@@ -91,53 +91,53 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     // we will use as a reference for setting window max size when the view scaling is changed.
     
         maxScrollRect = [NSWindow contentRectForFrameRect:
-            NSMakeRect(0, 0, [[self window] maxSize].width, [[self window] maxSize].height)
-            styleMask:[[self window] styleMask]];
+            NSMakeRect(0, 0, self.window.maxSize.width, self.window.maxSize.height)
+            styleMask:self.window.styleMask];
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-        hScroller = [scrollView horizontalScroller];
-        vScroller = [scrollView verticalScroller];
+        hScroller = scrollView.horizontalScroller;
+        vScroller = scrollView.verticalScroller;
         baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
                         horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
-                        borderType:[scrollView borderType]
-                        controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+                        borderType:scrollView.borderType
+                        controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
 #else
         baseMaxContentSize = [NSScrollView contentSizeForFrameSize:maxScrollRect.size
                         hasHorizontalScroller:YES hasVerticalScroller:YES
                         borderType:[scrollView borderType]];
 #endif
         lastEOTCode = -1;
-		
-		timeStored = [[NSUserDefaults standardUserDefaults] floatForKey:RFSummaryWindowDateKey];
-		timeNow = [NSDate timeIntervalSinceReferenceDate];
-		if (timeNow - timeStored < 12 * 60 * 60) {			// Less than 12 h old?
-			dayEOTs[kEOTBroke] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowBrokeKey];
-			dayEOTs[kEOTCorrect] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowCorrectKey];
-			dayEOTs[kEOTFailed] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowFailedKey];
-			dayEOTs[kEOTIgnored] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowIgnoredKey];
-			dayEOTs[kEOTWrong] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowWrongKey];
-			dayEOTTotal = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowTotalKey];
-			dayComputer = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowComputerKey];
-		}
+        
+        timeStored = [[NSUserDefaults standardUserDefaults] floatForKey:RFSummaryWindowDateKey];
+        timeNow = [NSDate timeIntervalSinceReferenceDate];
+        if (timeNow - timeStored < 12 * 60 * 60) {            // Less than 12 h old?
+            dayEOTs[kEOTBroke] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowBrokeKey];
+            dayEOTs[kEOTCorrect] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowCorrectKey];
+            dayEOTs[kEOTFailed] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowFailedKey];
+            dayEOTs[kEOTIgnored] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowIgnoredKey];
+            dayEOTs[kEOTWrong] = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowWrongKey];
+            dayEOTTotal = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowTotalKey];
+            dayComputer = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowComputerKey];
+        }
 
-//		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:)
-//				name:NSApplicationWillTerminateNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:)
+//                name:NSApplicationWillTerminateNotification object:nil];
     }
     return self;
 }
 
 - (NSDictionary *)makeAttributesForFont:(NSFont *)font alignment:(NSTextAlignment)align tailIndex:(float)indent {
 
-	NSMutableParagraphStyle *para; 
+    NSMutableParagraphStyle *para; 
     NSMutableDictionary *attr;
     
         para = [[NSMutableParagraphStyle alloc] init];
         [para setParagraphStyle:[NSParagraphStyle defaultParagraphStyle]];
-        [para setAlignment:align];
-        [para setTailIndent:indent];
+        para.alignment = align;
+        para.tailIndent = indent;
         
         attr = [[NSMutableDictionary alloc] init];
-        [attr setObject:font forKey:NSFontAttributeName];
-        [attr setObject:para forKey:NSParagraphStyleAttributeName];
+        attr[NSFontAttributeName] = font;
+        attr[NSParagraphStyleAttributeName] = para;
         [attr autorelease];
         [para release];
         return attr;
@@ -153,31 +153,31 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
     long column;
     NSString *string;
-	NSDictionary *attr = fontAttr;
+    NSDictionary *attr = fontAttr;
  
-    if (row == kBlankRow0 || row == kBlankRow1) {		// the blank rows
+    if (row == kBlankRow0 || row == kBlankRow1) {        // the blank rows
         return @" ";
     }
-    column = [[tableColumn identifier] intValue];
+    column = tableColumn.identifier.intValue;
     switch (column) {
-		case kColorColumn:
+        case kColorColumn:
             string = @" ";
-			break;
+            break;
         case kEOTColumn:
-			attr = labelFontAttr;
+            attr = labelFontAttr;
             switch (row) {
                 case kTotalRow:
                     string = @"Total:";
                     break;
-				case kRewardsRow:
-					string = @"Rewards:";
-					break;
-				case kComputerRow:					// row for computer failures
+                case kRewardsRow:
+                    string = @"Rewards:";
+                    break;
+                case kComputerRow:                    // row for computer failures
                     string = @"Computer:";
-					break;
+                    break;
                 default:
                     string = [NSString stringWithFormat:@"%@:", 
-								[LLStandardDataEvents trialEndName:kLastEOTTypeDisplayed - row]];
+                                [LLStandardDataEvents trialEndName:kLastEOTTypeDisplayed - row]];
                     break;
             }
             break;
@@ -191,12 +191,12 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             else if (dayEOTTotal == 0) {
                 string = @" ";
             }
-			else if (row == kComputerRow) {		// row reserved for computer failures
+            else if (row == kComputerRow) {        // row reserved for computer failures
                string = [NSString stringWithFormat:@"%ld", dayComputer];
-			}
+            }
             else {
                string = [NSString stringWithFormat:@"%ld%%", 
-							(long)round(dayEOTs[kLastEOTTypeDisplayed - row] * 100.0 / dayEOTTotal)];
+                            (long)round(dayEOTs[kLastEOTTypeDisplayed - row] * 100.0 / dayEOTTotal)];
             }
             break;
        case kRecentColumn:
@@ -209,24 +209,24 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             else if (recentEOTTotal == 0) {
                 string = @" ";
             }
-			else if (row == kComputerRow) {		// row reserved for computer failures
+            else if (row == kComputerRow) {        // row reserved for computer failures
                string = [NSString stringWithFormat:@"%ld", recentComputer];
-			}
+            }
            else {
-				if (recentEOTTotal == 0) {
-					string = @"";
-				}
-				else {
-					string = [NSString stringWithFormat:@"%ld%%",
-							(long)round(recentEOTs[kLastEOTTypeDisplayed - row] * 100.0 / recentEOTTotal)];
-				}
+                if (recentEOTTotal == 0) {
+                    string = @"";
+                }
+                else {
+                    string = [NSString stringWithFormat:@"%ld%%",
+                            (long)round(recentEOTs[kLastEOTTypeDisplayed - row] * 100.0 / recentEOTTotal)];
+                }
             }
             break;
         default:
             string = @"???";
             break;
     }
-	return [[[NSAttributedString alloc] initWithString:NSLocalizedString(string, nil) attributes:attr] autorelease];
+    return [[[NSAttributedString alloc] initWithString:NSLocalizedString(string, nil) attributes:attr] autorelease];
 }
 
 - (void) positionZoomButton;
@@ -234,14 +234,14 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     dispatch_async(dispatch_get_main_queue(), ^{
         NSRect scrollerRect, buttonRect;
 
-        scrollerRect = [[scrollView horizontalScroller] frame];
-        scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
+        scrollerRect = scrollView.horizontalScroller.frame;
+        scrollerRect.size.width = scrollView.frame.size.width - scrollerRect.size.height - 8;
         NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
-        [[scrollView horizontalScroller] setFrame:scrollerRect];
-        [[scrollView horizontalScroller] setNeedsDisplay:YES];
+        scrollView.horizontalScroller.frame = scrollerRect;
+        [scrollView.horizontalScroller setNeedsDisplay:YES];
         buttonRect.origin.y += buttonRect.size.height;                // Offset because the clipRect is flipped
-        buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
-        [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
+        buttonRect.origin = [self.window.contentView convertPoint:buttonRect.origin fromView:scrollView];
+        zoomButton.frame = NSInsetRect(buttonRect, 1.0, 1.0);
         [zoomButton setNeedsDisplay:YES];
     });
 }
@@ -256,7 +256,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
   
     if (scaleFactor != factor) {
         delta = factor / scaleFactor;
-        [[scrollView contentView] scaleUnitSquareToSize:NSMakeSize(delta, delta)];
+        [scrollView.contentView scaleUnitSquareToSize:NSMakeSize(delta, delta)];
         scaleFactor = factor;
         [self positionZoomButton];
         [scrollView display];
@@ -268,19 +268,19 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
         scrollFrameRect.origin = NSMakePoint(0, 0);
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-        hScroller = [scrollView horizontalScroller];
-        vScroller = [scrollView verticalScroller];
+        hScroller = scrollView.horizontalScroller;
+        vScroller = scrollView.verticalScroller;
         scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
                         horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
-                        borderType:[scrollView borderType]
-                        controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+                        borderType:scrollView.borderType
+                        controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
 #else
         scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
                             hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
-#endif	
+#endif    
         windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect
-                styleMask:[[self window] styleMask]];
-        [[self window] setMaxSize:windowFrameRect.size];
+                styleMask:self.window.styleMask];
+        self.window.maxSize = windowFrameRect.size;
    }
 }
 
@@ -299,34 +299,34 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row {
 
-	return NO;
+    return NO;
 }
 
 // Display the color patches showing the EOT color coding, and highlight the text for the last EOT type
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn 					row:(int)rowIndex {
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn                     row:(int)rowIndex {
 
-	long column;
-	
-	if (tableView == percentTable) { 
-		column = [[tableColumn identifier] intValue];
-		if (column == kColorColumn) {
-			[cell setDrawsBackground:YES]; 
-			if (rowIndex <= kLastEOTTypeDisplayed) {
-				[cell setBackgroundColor:[LLStandardDataEvents eotColor:kLastEOTTypeDisplayed - rowIndex]];
-			}
-			else {
-				[cell setBackgroundColor:[NSColor whiteColor]];
-			}
-		}
-		else {
-			if (!newTrial && (lastEOTCode >= 0) && (lastEOTCode == (kLastEOTTypeDisplayed - rowIndex))) {
-				[cell setBackgroundColor:[NSColor controlHighlightColor]];
-			}
-			else {
-				[cell setBackgroundColor:[NSColor whiteColor]];
-			}
-		}
+    long column;
+    
+    if (tableView == percentTable) { 
+        column = tableColumn.identifier.intValue;
+        if (column == kColorColumn) {
+            [cell setDrawsBackground:YES]; 
+            if (rowIndex <= kLastEOTTypeDisplayed) {
+                [cell setBackgroundColor:[LLStandardDataEvents eotColor:kLastEOTTypeDisplayed - rowIndex]];
+            }
+            else {
+                [cell setBackgroundColor:[NSColor whiteColor]];
+            }
+        }
+        else {
+            if (!newTrial && (lastEOTCode >= 0) && (lastEOTCode == (kLastEOTTypeDisplayed - rowIndex))) {
+                [cell setBackgroundColor:[NSColor controlHighlightColor]];
+            }
+            else {
+                [cell setBackgroundColor:[NSColor whiteColor]];
+            }
+        }
     }
 }
 
@@ -336,24 +336,24 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     double timeLeftS;
     NSAttributedString *cellContents;
     NSString *string;
-	StimParams *pStimParam;
+    StimParams *pStimParam;
 
 // Do nothing if the data buffers have nothing in them
 
-    if ((column = [[tableColumn identifier] intValue]) != 0 || trial.stimulusType < 0) {
+    if ((column = tableColumn.identifier.intValue) != 0 || trial.stimulusType < 0) {
         return @"";
     }
-	
-	pStimParam = &stimParams[trial.stimulusType];
+    
+    pStimParam = &stimParams[trial.stimulusType];
     switch (row) {
         case 0:
-			string = [NSString stringWithFormat:@"%s Stimulation", 
-						(trial.stimulusType == kBarStimulus) ? "Bar" : "Gabor"];
-			break;
+            string = [NSString stringWithFormat:@"%s Stimulation", 
+                        (trial.stimulusType == kBarStimulus) ? "Bar" : "Gabor"];
+            break;
         case 1:
-			string = @"??";
-//			string = [NSString stringWithFormat:@"%s trial %.f%s", newTrial ? "This" : "Last", 
-//					trial.stimulusValue, (trial.stimulusType == kBarStimulus) ? "Bar" : " Gabor"];
+            string = @"??";
+//            string = [NSString stringWithFormat:@"%s trial %.f%s", newTrial ? "This" : "Last", 
+//                    trial.stimulusValue, (trial.stimulusType == kBarStimulus) ? "Bar" : " Gabor"];
             break;
         case 2:
             string = @"";
@@ -364,7 +364,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             break;
         case 4:
             string = [NSString stringWithFormat:@"Block %ld of %ld", blocksDone + 1, blockLimit];
-			break;
+            break;
         case 5:
             remainingTrials =  MAX(0, (blockLimit - blocksDone) * pStimParam->levels - trialsDoneThisBlock);
             doneTrials = trialsDoneThisBlock + blocksDone * pStimParam->levels;
@@ -373,7 +373,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             }
             else {
                 timeLeftS = ([LLSystemUtil getTimeS] - lastStartTimeS + accumulatedRunTimeS)
-													/ doneTrials * remainingTrials;
+                                                    / doneTrials * remainingTrials;
                 if (timeLeftS < 60.0) {
                     string = [NSString stringWithFormat:@"Remaining: %ld trials (%.1f s)", 
                                 remainingTrials, timeLeftS];
@@ -393,39 +393,39 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
             break;
     }
     cellContents = [[NSAttributedString alloc] initWithString:NSLocalizedString(string, nil) attributes:leftFontAttr];
-	[cellContents autorelease];
+    [cellContents autorelease];
     return cellContents;
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification;
 {
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:RFSummaryWindowVisibleKey];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RFSummaryWindowVisibleKey];
 }
 
 - (void) windowDidLoad {
     
-	long index, defaultZoom;
+    long index, defaultZoom;
 
-    [[zoomButton cell] setBordered:NO];
-    [[zoomButton cell] setBezeled:YES];
-    [[zoomButton cell] setFont:[NSFont labelFontOfSize:10.0]];
+    [zoomButton.cell setBordered:NO];
+    [zoomButton.cell setBezeled:YES];
+    zoomButton.cell.font = [NSFont labelFontOfSize:10.0];
     defaultZoom = [[NSUserDefaults standardUserDefaults] integerForKey:RFSummaryWindowZoomKey];
-    for (index = 0; index < [[zoomButton itemArray] count]; index++) {
-        if ([[zoomButton itemAtIndex:index] tag] == defaultZoom) {
+    for (index = 0; index < zoomButton.itemArray.count; index++) {
+        if ([zoomButton itemAtIndex:index].tag == defaultZoom) {
             [zoomButton selectItemAtIndex:index];
             [self setScaleFactor:defaultZoom / 100.0];
             break;
         }
     }
-	[[self window] setFrameUsingName:RFSummaryAutosaveKey];			// Needed when opened a second time
+    [self.window setFrameUsingName:RFSummaryAutosaveKey];            // Needed when opened a second time
     if ([[NSUserDefaults standardUserDefaults] boolForKey:RFSummaryWindowVisibleKey]) {
-        [[self window] makeKeyAndOrderFront:self];
+        [self.window makeKeyAndOrderFront:self];
     }
     else {
-        [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+        [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     }
     
-    [self positionZoomButton];							// position zoom must be after visible
+    [self positionZoomButton];                            // position zoom must be after visible
     [percentTable reloadData];
     [super windowDidLoad];
 }
@@ -435,14 +435,14 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) windowDidResize:(NSNotification *)aNotification {
 
-	[self positionZoomButton];
+    [self positionZoomButton];
 }
 
 - (BOOL) windowShouldClose:(NSNotification *)aNotification;
 {
-    [[self window] orderOut:self];
+    [self.window orderOut:self];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RFSummaryWindowVisibleKey];
-    [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+    [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     return NO;
 }
 
@@ -450,17 +450,17 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) blockLimit:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&blockLimit length:sizeof(long)];
+    [eventData getBytes:&blockLimit length:sizeof(long)];
 }
 
 - (void) blocksDone:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&blocksDone length:sizeof(long)];
+    [eventData getBytes:&blocksDone length:sizeof(long)];
 }
 
 - (void) blockTrialsDone:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&trialsDoneThisBlock length:sizeof(long)];
+    [eventData getBytes:&trialsDoneThisBlock length:sizeof(long)];
 }
 
 - (void)reset:(NSData *)eventData eventTime:(NSNumber *)eventTime {
@@ -471,7 +471,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
     for (index = 0; index <= kLastEOTTypeDisplayed; index++) {
         recentEOTs[index] = 0;
     }
-    trial.stimulusType = -1;							// mark ourselves empty of data
+    trial.stimulusType = -1;                            // mark ourselves empty of data
     accumulatedRunTimeS = 0;
     if (taskMode == kTaskRunning) {
         lastStartTimeS = [LLSystemUtil getTimeS];
@@ -484,7 +484,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) taskMode:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&taskMode length:sizeof(long)];
+    [eventData getBytes:&taskMode length:sizeof(long)];
     switch (taskMode) {
         case kTaskRunning:
             lastStartTimeS = [LLSystemUtil getTimeS];
@@ -499,9 +499,9 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) trialCertify:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	long certifyCode; 
-	
-	[eventData getBytes:&certifyCode length:sizeof(long)];
+    long certifyCode; 
+    
+    [eventData getBytes:&certifyCode length:sizeof(long)];
     if (certifyCode != 0L) { // -1 because computer errors stored separately
         recentComputer++;  
         dayComputer++;  
@@ -510,7 +510,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
 - (void) trialEnd:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[eventData getBytes:&eotCode length:sizeof(long)];
+    [eventData getBytes:&eotCode length:sizeof(long)];
     if (eotCode <= kLastEOTTypeDisplayed) {
         recentEOTs[eotCode]++;
         recentEOTTotal++;  
@@ -518,7 +518,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
         dayEOTTotal++;  
     }
     newTrial = NO;
-	lastEOTCode = eotCode;
+    lastEOTCode = eotCode;
     dispatch_async(dispatch_get_main_queue(), ^{
         [percentTable reloadData];
         [trialTable reloadData];
@@ -531,7 +531,7 @@ NSString *RFSummaryWindowZoomKey = @"RFSummaryWindowZoom";
 
     [eventData getBytes:&trial length:sizeof(TrialDesc)];
     newTrial = YES;
-	[trialTable reloadData];
+    [trialTable reloadData];
     [percentTable reloadData];
 }
 

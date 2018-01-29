@@ -9,7 +9,7 @@
 
 @interface LLPowerCalibrator : NSWindowController <NSWindowDelegate> {
 
-	IBOutlet NSArrayController	*arrayController;
+    IBOutlet NSArrayController    *arrayController;
     NSString                    *calibrationFolder;
     long                        entries;
     float                       *mWatts;
@@ -19,12 +19,12 @@
 
 @property (readonly) BOOL calibrated;
 
-- (id)initFromFile:(NSURL *)fileURL;
-- (id)initWithCalibrationFile:(NSString *)fileName;
-- (float)maximumMW;
-- (float)maximumV;
-- (float)minimumMW;
-- (float)minimumV;
+- (instancetype)initFromFile:(NSURL *)fileURL;
+- (instancetype)initWithCalibrationFile:(NSString *)fileName;
+@property (NS_NONATOMIC_IOSONLY, readonly) float maximumMW;
+@property (NS_NONATOMIC_IOSONLY, readonly) float maximumV;
+@property (NS_NONATOMIC_IOSONLY, readonly) float minimumMW;
+@property (NS_NONATOMIC_IOSONLY, readonly) float minimumV;
 - (float)voltageForMW:(float)targetMW;
 
 @end

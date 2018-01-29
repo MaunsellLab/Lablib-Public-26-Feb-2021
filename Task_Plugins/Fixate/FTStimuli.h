@@ -4,13 +4,13 @@ FTStimuli.h
 
 @interface FTStimuli : NSObject {
 
-	float					fixSizePix;
-	LLFixTarget				*fixSpot;
-	BOOL					fixSpotOn;
+    float                    fixSizePix;
+    LLFixTarget                *fixSpot;
+    BOOL                    fixSpotOn;
 }
 
 - (void)drawFixSpot;
 - (void)erase;
-- (LLFixTarget *)fixSpot;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLFixTarget *fixSpot;
 
 @end

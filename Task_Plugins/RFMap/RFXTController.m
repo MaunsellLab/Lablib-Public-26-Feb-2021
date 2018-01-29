@@ -13,8 +13,8 @@
 #import "RF.h"
 #import "RFXTController.h"
 
-#define kPlotBinsDefault	10
-#define	kXTickSpacing		100
+#define kPlotBinsDefault    10
+#define    kXTickSpacing        100
 
 NSString *RFXTAutosaveKey = @"RFXTWindow";
 NSString *trialWindowVisibleKey = @"trialWindowVisible";
@@ -34,16 +34,16 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
     
     zoomValue = [[sender selectedCell] tag];
     [self setScaleFactor:zoomValue / 100.0];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:(int)zoomValue] 
+    [[NSUserDefaults standardUserDefaults] setObject:@((int)zoomValue) 
                 forKey:trialWindowZoomKey];
 }
 
-- (id)init {
+- (instancetype)init {
 
     if ((self = [super initWithWindowNibName:@"RFXTController"]) != nil) {
- 		[self setShouldCascadeWindows:NO];
-		[self setWindowFrameAutosaveName:RFXTAutosaveKey];
-        [self window];							// Force the window to load now
+         [self setShouldCascadeWindows:NO];
+        self.windowFrameAutosaveName = RFXTAutosaveKey;
+        [self window];                            // Force the window to load now
     }
     return self;
 }
@@ -52,26 +52,26 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
 
     NSRect scrollerRect, buttonRect;
     
-    scrollerRect = [[scrollView horizontalScroller] frame];
-    scrollerRect.size.width = [scrollView frame].size.width - scrollerRect.size.height - 8;
+    scrollerRect = scrollView.horizontalScroller.frame;
+    scrollerRect.size.width = scrollView.frame.size.width - scrollerRect.size.height - 8;
     NSDivideRect(scrollerRect, &buttonRect, &scrollerRect, 60.0, NSMaxXEdge);
-    [[scrollView horizontalScroller] setFrame:scrollerRect];
-    [[scrollView horizontalScroller] setNeedsDisplay:YES];
-    buttonRect.origin.y += buttonRect.size.height;				// Offset because the clipRect is flipped
-    buttonRect.origin = [[[self window] contentView] convertPoint:buttonRect.origin fromView:scrollView];
-    [zoomButton setFrame:NSInsetRect(buttonRect, 1.0, 1.0)];
+    scrollView.horizontalScroller.frame = scrollerRect;
+    [scrollView.horizontalScroller setNeedsDisplay:YES];
+    buttonRect.origin.y += buttonRect.size.height;                // Offset because the clipRect is flipped
+    buttonRect.origin = [self.window.contentView convertPoint:buttonRect.origin fromView:scrollView];
+    zoomButton.frame = NSInsetRect(buttonRect, 1.0, 1.0);
     [zoomButton setNeedsDisplay:YES];
 }
 
 - (void) setScaleFactor:(double)factor;
 {
     double delta;
-    NSSize	baseViewSize;
+    NSSize    baseViewSize;
     static double scaleFactor = 1.0;
   
     if (scaleFactor != factor) {
         delta = factor / scaleFactor;
-        [[scrollView contentView] scaleUnitSquareToSize:NSMakeSize(delta, delta)];
+        [scrollView.contentView scaleUnitSquareToSize:NSMakeSize(delta, delta)];
         scaleFactor = factor;
         [self positionZoomButton];
         [scrollView display];
@@ -79,14 +79,14 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
    
 // Always set the maxSize, because this is called at initialization
 
-    baseViewSize = [xtView sizePix];
-    [[self window] setMaxSize:NSMakeSize(baseViewSize.width * factor + staticWindowFrame.width, 
-            baseViewSize.height * factor + staticWindowFrame.height)];
+    baseViewSize = xtView.sizePix;
+    self.window.maxSize = NSMakeSize(baseViewSize.width * factor + staticWindowFrame.width, 
+            baseViewSize.height * factor + staticWindowFrame.height);
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification {
-	
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] 
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@YES
                 forKey:trialWindowVisibleKey];
 }
 
@@ -102,14 +102,14 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
     [xtView setSamplePeriodMS:kSamplePeriodMS spikeChannels:kSpikeChannels spikeTickPerMS:kTimestampTickMS];
     [xtView setDurationS:5.0];   // ?? This should be controlled by a dialog and saved in preferences. 
     
-    baseViewSize = [xtView sizePix];
+    baseViewSize = xtView.sizePix;
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-    hScroller = [scrollView horizontalScroller];
-    vScroller = [scrollView verticalScroller];
+    hScroller = scrollView.horizontalScroller;
+    vScroller = scrollView.verticalScroller;
     baseScrollFrameSize = [NSScrollView frameSizeForContentSize:baseViewSize
                                 horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
-                                borderType:[scrollView borderType]
-                                controlSize:[hScroller controlSize] scrollerStyle:[hScroller scrollerStyle]];
+                                borderType:scrollView.borderType
+                                controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
 #else
     baseScrollFrameSize = [NSScrollView frameSizeForContentSize:baseViewSize
                                 hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
@@ -117,33 +117,33 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
 
     
     
-    deltaWidth = baseScrollFrameSize.width - [scrollView frame].size.width;		// allow for frame's current size
-    deltaHeight = baseScrollFrameSize.height - [scrollView frame].size.height;
-    windowFrameSize = [[self window] frame].size;
+    deltaWidth = baseScrollFrameSize.width - scrollView.frame.size.width;        // allow for frame's current size
+    deltaHeight = baseScrollFrameSize.height - scrollView.frame.size.height;
+    windowFrameSize = self.window.frame.size;
     staticWindowFrame = NSMakeSize(windowFrameSize.width + deltaWidth - baseViewSize.width, 
                windowFrameSize.height + deltaHeight - baseViewSize.height);
 
-    [[zoomButton cell] setBordered:NO];
-    [[zoomButton cell] setBezeled:YES];
-    [[zoomButton cell] setFont:[NSFont labelFontOfSize:10.0]];
+    [zoomButton.cell setBordered:NO];
+    [zoomButton.cell setBezeled:YES];
+    zoomButton.cell.font = [NSFont labelFontOfSize:10.0];
     defaultZoom = [[NSUserDefaults standardUserDefaults] integerForKey:trialWindowZoomKey];
-    for (index = 0; index < [[zoomButton itemArray] count]; index++) {
-        if ([[zoomButton itemAtIndex:index] tag] == defaultZoom) {
+    for (index = 0; index < zoomButton.itemArray.count; index++) {
+        if ([zoomButton itemAtIndex:index].tag == defaultZoom) {
             [zoomButton selectItemAtIndex:index];
             [self setScaleFactor:defaultZoom / 100.0];
             break;
         }
     }
         
-	[[self window] setFrameUsingName:RFXTAutosaveKey];			// Needed when opened a second time
+    [self.window setFrameUsingName:RFXTAutosaveKey];            // Needed when opened a second time
     if ([[NSUserDefaults standardUserDefaults] boolForKey:trialWindowVisibleKey]) {
-        [[self window] makeKeyAndOrderFront:self];
+        [self.window makeKeyAndOrderFront:self];
     }
     else {
-        [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+        [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     }
     
-    [self positionZoomButton];							// position zoom must be after visible
+    [self positionZoomButton];                            // position zoom must be after visible
     [super windowDidLoad];
 }
 
@@ -152,15 +152,15 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
 
 - (void) windowDidResize:(NSNotification *)aNotification {
 
-	[self positionZoomButton];
+    [self positionZoomButton];
 }
 
 - (BOOL) windowShouldClose:(NSNotification *)aNotification {
 
-    [[self window] orderOut:self];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] 
+    [self.window orderOut:self];
+    [[NSUserDefaults standardUserDefaults] setObject:@NO
                 forKey:trialWindowVisibleKey];
-    [NSApp addWindowsItem:[self window] title:[[self window] title] filename:NO];
+    [NSApp addWindowsItem:self.window title:self.window.title filename:NO];
     return NO;
 }
 
@@ -168,35 +168,35 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
 
 - (void)dataParam:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
-	DataParam *pParam = (DataParam *)[eventData bytes];
-	
-	if (strcmp((char *)&pParam->dataName, "eyeData") == 0) {
-		[xtView setSamplePeriodMS:pParam->timing];
-	}
-	if (strcmp((char *)&pParam->dataName, "spikeData") == 0) {
-		[xtView setSpikeTicksPerMS:pParam->timing];
-	}
+    DataParam *pParam = (DataParam *)eventData.bytes;
+    
+    if (strcmp((char *)&pParam->dataName, "eyeData") == 0) {
+        [xtView setSamplePeriodMS:pParam->timing];
+    }
+    if (strcmp((char *)&pParam->dataName, "spikeData") == 0) {
+        [xtView setSpikeTicksPerMS:pParam->timing];
+    }
 }
 
 - (void)eyeData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
-	short *pSamples;
-	long samplePair, samplePairs;
-	
-	samplePairs = [eventData length] / (2 * sizeof(short));
-	pSamples = (short *)[eventData bytes];
-	for (samplePair = 0; samplePair < samplePairs; samplePair++) {
-		[xtView sampleChannel:0 value:*pSamples++];
-		[xtView sampleChannel:1 value:*pSamples++];
-	}
+    short *pSamples;
+    long samplePair, samplePairs;
+    
+    samplePairs = eventData.length / (2 * sizeof(short));
+    pSamples = (short *)eventData.bytes;
+    for (samplePair = 0; samplePair < samplePairs; samplePair++) {
+        [xtView sampleChannel:0 value:*pSamples++];
+        [xtView sampleChannel:1 value:*pSamples++];
+    }
 }
 
 - (void)eyeWindow:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	FixWindowData fixWindowData;
+    FixWindowData fixWindowData;
     
     [eventData getBytes:&fixWindowData length:sizeof(FixWindowData)];
-    [xtView eyeRect:fixWindowData.windowUnits time:[eventTime longValue]];
+    [xtView eyeRect:fixWindowData.windowUnits time:eventTime.longValue];
 }
 
 - (void)fixate:(NSData *)eventData eventTime:(NSNumber *)eventTime {
@@ -211,39 +211,39 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
 
 - (void)reset:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-    [xtView reset:[eventTime longValue]];
+    [xtView reset:eventTime.longValue];
 }
 
 - (void) sampleZero:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-   [xtView sampleZeroTimeMS:[eventTime longValue]];
+   [xtView sampleZeroTimeMS:eventTime.longValue];
 }
 
 - (void)spikeData:(NSData *)eventData eventTime:(NSNumber *)eventTime;
 {
-	long spike, spikes;
-	short *pSpikes;
+    long spike, spikes;
+    short *pSpikes;
     
-	pSpikes = (short *)[eventData bytes];
-	spikes = [eventData length] / sizeof(short);
-	for (spike = 0; spike < spikes; spike++) {
-		[xtView spikeChannel:0 time:*pSpikes++];
-	}
+    pSpikes = (short *)eventData.bytes;
+    spikes = eventData.length / sizeof(short);
+    for (spike = 0; spike < spikes; spike++) {
+        [xtView spikeChannel:0 time:*pSpikes++];
+    }
 }
 
 - (void) spikeZero:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-   [xtView spikeZeroTimeMS:[eventTime longValue]];
+   [xtView spikeZeroTimeMS:eventTime.longValue];
 }
 
 - (void)stimulusOff:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[xtView stimulusBarColor:[NSColor whiteColor] eventTime:eventTime];
+    [xtView stimulusBarColor:[NSColor whiteColor] eventTime:eventTime];
 }
 
 - (void)stimulusOn:(NSData *)eventData eventTime:(NSNumber *)eventTime {
 
-	[xtView stimulusBarColor:[NSColor grayColor] eventTime:eventTime];
+    [xtView stimulusBarColor:[NSColor grayColor] eventTime:eventTime];
 }
 
 - (void) trialEnd:(NSData *)eventData eventTime:(NSNumber *)eventTime {
@@ -251,7 +251,7 @@ NSString *trialWindowZoomKey = @"trialWindowZoom";
     long eotCode;
     
     [eventData getBytes:&eotCode length:sizeof(long)];
-	[xtView eventName:[LLStandardDataEvents trialEndName:eotCode] eventTime:eventTime];
+    [xtView eventName:[LLStandardDataEvents trialEndName:eotCode] eventTime:eventTime];
 }
 
 - (void) trialStart:(NSData *)eventData eventTime:(NSNumber *)eventTime {

@@ -10,37 +10,37 @@
 #import "LLEyeCalibrator.h"
 #import "LLViewScale.h"
 
-#define kAlphaLevels		8
-#define kMaxSamplesDisplay	1000
+#define kAlphaLevels        8
+#define kMaxSamplesDisplay    1000
 
 #ifndef kEyes
-typedef enum {kLeftEye, kRightEye} LLWhichEye;
+typedef NS_ENUM(unsigned int, LLWhichEye) {kLeftEye, kRightEye};
 #define kEyes   (kRightEye + 1)
 #endif
 
 @interface LLEyeXYView:NSView {
 
-	NSColor			*backgroundColor;
-	NSRect			dirtyRectPix;
-    BOOL			doDotFade;
-	BOOL			doGrid;
-	BOOL			doTicks;
-    CGFloat			dotSizeDeg;
-    NSMutableArray	*drawables;
-	BOOL			drawOnlyDirtyRect;
-	NSColor			*eyeColor[kEyes];
-    NSMutableArray	*eyeWindows;
-	NSColor			*gridColor;
-	CGFloat			gridDeg;
-    long			oneInN;
-    NSMutableArray	*paths;
-	NSColor			*pointColors[kEyes][kMaxSamplesDisplay];
-	long			sampleCount[kEyes];
-    NSLock			*sampleLock;
+    NSColor         *backgroundColor;
+    NSRect          dirtyRectPix;
+    BOOL            doDotFade;
+    BOOL            doGrid;
+    BOOL            doTicks;
+    CGFloat         dotSizeDeg;
+    NSMutableArray  *drawables;
+    BOOL            drawOnlyDirtyRect;
+    NSColor         *eyeColor[kEyes];
+    NSMutableArray  *eyeWindows;
+    NSColor         *gridColor;
+    CGFloat         gridDeg;
+    long            oneInN;
+    NSMutableArray  *paths;
+    NSColor         *pointColors[kEyes][kMaxSamplesDisplay];
+    long            sampleCount[kEyes];
+    NSLock          *sampleLock;
     NSMutableArray  *sampleRectsDeg[kEyes];
-	long			samplesToSave;
+    long            samplesToSave;
     NSRect          theBounds;
-	CGFloat			tickDeg;
+    CGFloat         tickDeg;
 }
 
 - (void)addDrawable:(id <LLDrawable>)drawable;
@@ -48,11 +48,11 @@ typedef enum {kLeftEye, kRightEye} LLWhichEye;
 - (void)addSample:(NSPoint)samplePointDeg forEye:(long)eyeIndex;
 - (void)centerDisplay;
 - (void)clearSamples;
-- (CGFloat)dotSizeDeg;
+@property (NS_NONATOMIC_IOSONLY) CGFloat dotSizeDeg;
 - (void)drawPointsInRect:(NSRect)rect forEye:(long)eyeIndex;
-- (NSColor *)eyeColor;
-- (NSColor *)eyeLColor;
-- (NSColor *)eyeRColor;
+@property (NS_NONATOMIC_IOSONLY, copy) NSColor *eyeColor;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *eyeLColor;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSColor *eyeRColor;
 - (long)oneInN;
 - (NSPoint)pixPointFromDegPoint:(NSPoint)eyePointDeg;
 - (NSRect)pixRectFromDegRect:(NSRect)eyeRectDeg;
@@ -61,9 +61,7 @@ typedef enum {kLeftEye, kRightEye} LLWhichEye;
 - (void)setDoGrid:(BOOL)state;
 - (void)setDotFade:(BOOL)state;
 - (void)setDoDotFade:(BOOL)state;
-- (void)setDotSizeDeg:(CGFloat)sizeDeg;
 - (void)setDrawOnlyDirtyRect:(BOOL)state;
-- (void)setEyeColor:(NSColor *)newColor;
 - (void)setEyeColor:(NSColor *)newColor forEye:(long)eyeIndex;
 - (void)setGridDeg:(CGFloat)spacingDeg;
 - (void)setGrid:(BOOL)state;

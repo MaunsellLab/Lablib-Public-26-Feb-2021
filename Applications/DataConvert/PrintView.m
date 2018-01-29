@@ -2,19 +2,19 @@
 
 @implementation PrintView
 
-#define kPrintFontSize	6
-#define kXLimitPix 	2048
-#define kXMarginPix	2
+#define kPrintFontSize    6
+#define kXLimitPix     2048
+#define kXMarginPix    2
 
-static NSSize			charSize;
-static DataFile			*document;
-static long			printableLines;
-static short			printableLinesPerPage;
-static long			lines;
-static short			linesPerPage;
-static long			pages;
-static NSMutableDictionary	*printFontAttributes;
-static long			printWidthPix;
+static NSSize            charSize;
+static DataFile            *document;
+static long            printableLines;
+static short            printableLinesPerPage;
+static long            lines;
+static short            linesPerPage;
+static long            pages;
+static NSMutableDictionary    *printFontAttributes;
+static long            printWidthPix;
 
 - (void)dealloc
 {
@@ -39,7 +39,7 @@ static long			printWidthPix;
     for (line = topLine; line <= bottomLine; line++) {
         switch (line % linesPerPage) {
         case 0:
-            [[[document fileURL] lastPathComponent] drawAtPoint:NSMakePoint(kXMarginPix, line * charSize.height)
+            [document.fileURL.lastPathComponent drawAtPoint:NSMakePoint(kXMarginPix, line * charSize.height)
                                                         withAttributes:printFontAttributes];
             pageString = [[NSString alloc] initWithFormat:@"Page %ld of %ld", line / linesPerPage + 1, pages];
             stringXOffset = [pageString sizeWithAttributes:printFontAttributes].width;
@@ -65,19 +65,19 @@ static long			printWidthPix;
     }
 }
 
-- (	PrintView *)initWithInfo:(DataFile *)dataFile printInfo:(NSPrintInfo *)printInfo
+- (    PrintView *)initWithInfo:(DataFile *)dataFile printInfo:(NSPrintInfo *)printInfo
 {
     NSFont *font = [NSFont userFixedPitchFontOfSize:kPrintFontSize];
     
     document = dataFile;
     printFontAttributes = [[NSMutableDictionary alloc] init];
-    [printFontAttributes setObject:font forKey:NSFontAttributeName];
+    printFontAttributes[NSFontAttributeName] = font;
     [printFontAttributes retain];
 
     charSize = [@"X" sizeWithAttributes:printFontAttributes];
-    printWidthPix = [printInfo paperSize].width - [printInfo leftMargin] - [printInfo rightMargin];
-    linesPerPage = ([printInfo paperSize].height - [printInfo topMargin] - [printInfo bottomMargin]) / charSize.height;
-    printableLinesPerPage = linesPerPage - 2;				// two lines left for the header
+    printWidthPix = printInfo.paperSize.width - printInfo.leftMargin - printInfo.rightMargin;
+    linesPerPage = (printInfo.paperSize.height - printInfo.topMargin - printInfo.bottomMargin) / charSize.height;
+    printableLinesPerPage = linesPerPage - 2;                // two lines left for the header
 
     self = [super init];
     return self;
@@ -115,7 +115,7 @@ static long			printWidthPix;
         pages++;
         lines += 2 + (printableLines % printableLinesPerPage);
     }
-    [self setFrame:NSMakeRect(0, 0, printWidthPix, ((float)lines) * charSize.height - 1)];
+    self.frame = NSMakeRect(0, 0, printWidthPix, ((float)lines) * charSize.height - 1);
 
 }
 

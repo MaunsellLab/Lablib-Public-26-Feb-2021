@@ -8,13 +8,12 @@
 #import "LLMatlabController.h"
 #import <Lablib/LLSystemUtil.h>
 
-#define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
-//#define kMatlabTrialNumKey          [NSString stringWithFormat:@"%@TrialNum%ld", matFileName, subjectNumber]
+//#define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
 #define kTrialStartEventName        @"trialStart"
 
 @implementation LLMatlabController : NSObject
 
-// The task need to have defined all the task events with the dataDoc before the Matlab controller is activated
+// The task must have defined all the task events with the dataDoc before the Matlab controller is activated
 
 - (void)activate:(LLTaskPlugIn *)plugin;
 {
@@ -25,11 +24,10 @@
     NSString *bundledEventStops[] = {@"calibration", @"zero", @"window", @"eyeCal", @"Break", nil};
 
     task = plugin;
-
-    numEvents = [[task dataDoc] numEvents];
+    numEvents = task.dataDoc.numEvents;
     trialStartTime = -1;
-    eventDef = [[task dataDoc] eventNamed:kTrialStartEventName];
-    trialStartEventCode = [eventDef code];
+    eventDef = [task.dataDoc eventNamed:kTrialStartEventName];
+    trialStartEventCode = eventDef.code;
     trialEventCounts = calloc(numEvents, sizeof(long));             // count of each event in current trial
 
     // Make a dictionary, bundledEvents, for all the events that are to be bundled as samples or timestamps.
@@ -40,8 +38,8 @@
     bundledString = [[NSMutableString alloc] init];
     bundledEvents = [[NSMutableDictionary alloc] init];
     for (event = 0; event < numEvents; event++) {
-        eventDef = [[task dataDoc] eventDefForCode:event];
-        eventName = [eventDef name];
+        eventDef = [task.dataDoc eventDefForCode:event];
+        eventName = eventDef.name;
         for (index = 0; bundledEventPrefixes[index] != nil; index++) {
             if ([eventName hasPrefix:bundledEventPrefixes[index]]) {
                 for (stop = 0; bundledEventStops[stop] != nil; stop++) {
@@ -51,18 +49,20 @@
                     }
                 }
                 if (bundledEventStops[stop] == nil) {
-                    [bundledEvents setObject:[[[NSMutableString alloc] init] autorelease] forKey:eventName];
+                    bundledEvents[eventName] = [[[NSMutableString alloc] init] autorelease];
                 }
                 break;
             }
         }
     }
-
-    engine = [task matlabEngine];
-    [engine addMatlabPathForPlugin:[plugin name]];
-    [engine evalString:matlabInitScriptCommand];
-    [self loadMatlabWorkspace];
-    [[task dataDoc] addObserver:self];
+    engine = task.matlabEngine;
+    if (engine != nil) {
+        [engine addMatlabPathForPlugin:plugin.name];
+        [engine evalString:matlabInitScriptCommand];
+        [self checkMatlabDataPath:nil];
+        [self loadMatlabWorkspace];
+        [task.dataDoc addObserver:self];
+    }
 }
 
 - (void)checkMatlabDataPath:(NSString *)dirName;
@@ -72,10 +72,10 @@
     NSString *path;
 
     if (dirName == nil) {
-        path = [NSString stringWithFormat:@"%@%ld", kMatlabDataPath, subjectNumber];
+        path = [self dataPathWithSubject:subjectNumber subFolder:nil];
     }
     else {
-        path = [NSString stringWithFormat:@"%@%ld/%@", kMatlabDataPath, subjectNumber, dirName];
+        path = [self dataPathWithSubject:subjectNumber subFolder:dirName];
     }
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     if (!exists) {                                              // guarantee that the directory will be there
@@ -130,7 +130,7 @@
                        [eventString substringWithRange:NSMakeRange(0, leftBracketRange.location)],
                        subscript + 1,
                        [eventString substringWithRange:NSMakeRange(rightBracketRange.location + 1,
-                       ([eventString length] - rightBracketRange.location - 1))]];
+                       (eventString.length - rightBracketRange.location - 1))]];
     }
     if (convertedString == nil) {
         convertedString = [NSMutableString stringWithString:eventString];
@@ -138,11 +138,26 @@
     return convertedString;
 }
 
+- (NSString *)dataPathWithSubject:(long)subjectNumber subFolder:(NSString *)subDir;
+{
+    NSString *dataPath, *dataFolder;
+
+    dataFolder = [[NSUserDefaults standardUserDefaults] objectForKey:[[task host]
+                                                        performSelector:NSSelectorFromString(@"currentDataKey")]];
+    dataPath = [NSString stringWithFormat:@"%@%@%ld/%@", dataFolder,
+                ([dataFolder characterAtIndex:[dataFolder length] - 1] != '/') ? @"/" : @"",
+                subjectNumber,
+                (subDir != nil) ? subDir : @""];
+    return dataPath;
+}
+
 - (void)deactivate;
 {
-    [self saveMatlabWorkspace];
-    [engine evalString:@"clear all; close all;"];
-    [[task dataDoc] removeObserver:self];
+    if (engine != nil) {
+        [self saveMatlabWorkspace];
+        [engine evalString:@"clear all; close all;"];
+        [task.dataDoc removeObserver:self];
+    }
     free(trialEventCounts);
     [bundledEvents release];
     [bundledString release];
@@ -159,20 +174,17 @@
     [super dealloc];
 }
 
-- (id)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
+- (instancetype)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
 {
     if ((self = [super init]) != nil) {
         matFileName = [fileName retain];
         matlabScriptCommand = [[NSString alloc] initWithFormat:@"dParams = %@(dParams, file, trials);", matFileName];
         matlabInitScriptCommand = [[NSString alloc]
-                        initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
+                                   initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
         subjectNumber = number;
         dateFormatter = [[NSDateFormatter alloc] init];
         fileManager = [[NSFileManager alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        [self checkMatlabDataPath:nil];
-        [self checkMatlabDataPath:@"MatFiles"];
-        [self checkMatlabDataPath:@"PDFs"];
+        dateFormatter.dateFormat = @"yyyy-MM-dd";
     }
     return self;
 }
@@ -186,7 +198,8 @@
     NSString *path, *replyString;
 
     [self checkMatlabDataPath:@"MatFiles"];
-    path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
+
+    path = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     [engine evalString:matlabInitScriptCommand];                       // clear the current Matlab workspace
@@ -194,18 +207,14 @@
     if (exists && !isDir) {
         [engine evalString:[NSString stringWithFormat:@"load '%@'", path]];
         replyString = [engine evalString:@"length(trials)" postResult:NO];
-//        NSLog(@"loadMatlabWorkspace: length(trials) query: %@", replyString);
         stringRange = [replyString rangeOfString:@">> ans ="];
         if (stringRange.location != NSNotFound) {
-//            NSLog(@"loadMatlabWorkspace: contains answer string");
             replyString = [replyString substringFromIndex:stringRange.location + stringRange.length];
-//            NSLog(@"loadMatlabWorkspace: reduced query response: %@", replyString);
             aScanner = [NSScanner scannerWithString:replyString];
             [aScanner scanInteger:&trialNum];
         }
         [engine evalString:matlabScriptCommand];
     }
-//    NSLog(@"loadMatlabWorkspace: trialNum: %ld", trialNum);
     [engine evalString:@"file.startTimeVec = now;"];                    // reset time base for this subject
     for (e = 0; e < numEvents; e++) {                                   // clear any trial event counts;
         trialEventCounts[e] = 0;
@@ -218,7 +227,7 @@
     BOOL exists, isDir;
     NSString *path;
 
-    path = [NSString stringWithFormat:@"%@%ld/MatFiles", kMatlabDataPath, subjectNumber];
+    path = [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"];
     [fileManager fileExistsAtPath:path isDirectory:&isDir];
     path = [path stringByAppendingString:[NSString stringWithFormat:@"/%@.mat", [dateFormatter stringFromDate:[NSDate date]]]];
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
@@ -233,8 +242,8 @@
         NSLog(@"MatlabController: openMatlabDataFile, no subject number specified");
         return nil;
     }
-    fileName = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
-                [dateFormatter stringFromDate:[NSDate date]]];
+    fileName = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
+            [dateFormatter stringFromDate:[NSDate date]]];
     return fileName;
 }
 
@@ -262,21 +271,21 @@
     if (stringRange.length > 0) {
         eventName = [eventName substringToIndex:stringRange.location];
     }
-    eventDef = [[task dataDoc] eventNamed:eventName];
+    eventDef = [task.dataDoc eventNamed:eventName];
     theEvent.data = eventData;
-    theEvent.time = [eventTime unsignedLongValue];
+    theEvent.time = eventTime.unsignedLongValue;
     theEvent.trialTime = (trialStartTime == -1) ? -1 : theEvent.time - trialStartTime;
 
     // trialStart is always used as the boundary between trials. We write all the buffered values out, and then clear
     // buffers to start the next trial.
 
-    if ([eventDef code] == trialStartEventCode) {
+    if (eventDef.code == trialStartEventCode) {
         [self writeBundledData];                                // write out buffered data
         for (e = 0; e < numEvents; e++) {
             trialEventCounts[e] = 0;
         }
         trialNum++;
-        trialStartTime = [eventTime unsignedLongValue];
+        trialStartTime = eventTime.unsignedLongValue;
         eventString = [self convertToMatlabString:
                        [NSString stringWithFormat:@"trials(%ld).trialStartTime = %ld;", trialNum, trialStartTime]];
         [engine evalString:eventString];
@@ -294,13 +303,13 @@
     //  formatted data values.  We append these to the appropriate string.  Later, at the next trialStart
     //  event, we will use this string to create a Matlab command to make an array, using -writeBundledDataToMatlab.
 
-    else if ((bufferString = [bundledEvents objectForKey:eventDef.name]) != nil) {  //
-        if (trialNum > 0) {										// no bundled events before first trial
+    else if ((bufferString = bundledEvents[eventDef.name]) != nil) {  //
+        if (trialNum > 0) {                                        // no bundled events before first trial
             if ((dataString = [eventDef eventDataElementsAsString:&theEvent]) != nil) {
                 [bufferString appendString:dataString];
             }
             else if (!warned) {
-                [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:
+                [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:
                     [NSString stringWithFormat:
                      @"processEventNamed: Can't bundle data of type\"%@\", doing nothing.", eventDef.name]];
                 warned = YES;
@@ -313,20 +322,20 @@
     // in one trial, so those are rejected.
 
     else {
-        if ((trialEventCounts[eventDef.code] == 0) || ![eventDef isStringData]) {
+        if ((trialEventCounts[eventDef.code] == 0) || !eventDef.stringData) {
             suffix = (trialEventCounts[eventDef.code] == 0 || [prefix hasPrefix:@"file"] )
                     ? nil : [NSString stringWithFormat:@"(%ld)",trialEventCounts[eventDef.code] + 1];
             eventStrings = [eventDef eventDataAsStrings:&theEvent prefix:nil suffix:suffix];
             eventString = [NSMutableString stringWithString:@""];
-            for (string = 0; string < [eventStrings count]; string++) {
+            for (string = 0; string < eventStrings.count; string++) {
                 [eventString appendString:[self convertToMatlabString:
-                               [NSString stringWithFormat:@"%@%@;%@", prefix, [eventStrings objectAtIndex:string],
-                               (string < [eventStrings count] - 1) ? @"\n" : @""]]];
+                               [NSString stringWithFormat:@"%@%@;%@", prefix, eventStrings[string],
+                               (string < eventStrings.count - 1) ? @"\n" : @""]]];
             }
             [engine evalString:eventString];
         }
         else if (!multiStringWarned) {
-            [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText: [NSString stringWithFormat:
+            [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText: [NSString stringWithFormat:
                     @"processEventNamed: Can't handle multiple string events (\"%@\") within a trial", eventDef.name]];
             multiStringWarned = YES;
         }
@@ -350,9 +359,8 @@
     NSString *path;
 
     [self checkMatlabDataPath:@"PDFs"];
-    path = [NSString stringWithFormat:@"%@%ld/PDFs/%@", kMatlabDataPath, subjectNumber,
+    path = [NSString stringWithFormat:@"%@/%@.pdf", [self dataPathWithSubject:subjectNumber subFolder:@"PDFs"],
             [dateFormatter stringFromDate:[NSDate date]]];
-    //    [engine evalString:[NSString stringWithFormat:@"print('%@', '-dpdf')", path]];
     [engine evalString:[NSString stringWithFormat:@"saveFigureAsPDF(1, '%@')", path]];
 }
 
@@ -362,10 +370,9 @@
     NSString *path;
 
     [self checkMatlabDataPath:@"MatFiles"];
-    path = [NSString stringWithFormat:@"%@%ld/MatFiles/%@.mat", kMatlabDataPath, subjectNumber,
+    path = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"save '%@'", path]];
-//    [[task defaults] setObject:[NSNumber numberWithLong:trialNum] forKey:kMatlabTrialNumKey];
 }
 
 /*
@@ -385,48 +392,31 @@
     NSArray *valueStrings;
     NSMutableString *bundleString, *matlabString;
 
-
     prefix = [NSString stringWithFormat:@"trials(%ld).", trialNum];
     enumerator = [bundledEvents keyEnumerator];
     while ((key = [enumerator nextObject])) {
-        bundleString = [bundledEvents objectForKey:key];
-        if ([bundleString length] != 0) {
+        bundleString = bundledEvents[key];
+        if (bundleString.length != 0) {
             valueStrings = [bundleString componentsSeparatedByString:@","];
-            values = [valueStrings count] - 1;				// extra "," leaves blank string at end
-            def = [[task dataDoc] eventNamed:key];			// get event definition
-            matlabString = [NSMutableString stringWithFormat:@"%@%@ = [", prefix, [def name]];
+            values = valueStrings.count - 1;                // extra "," leaves blank string at end
+            def = [task.dataDoc eventNamed:key];            // get event definition
+            matlabString = [NSMutableString stringWithFormat:@"%@%@ = [", prefix, def.name];
             for (v = 0; v < values; v++) {
-                [matlabString appendString:[NSString stringWithFormat:@"%@ ", [valueStrings objectAtIndex:v]]];
-                if (((v % 2000) == 0) && (v > 0)) {			// command too long for poor old Matlab
+                [matlabString appendString:[NSString stringWithFormat:@"%@ ", valueStrings[v]]];
+                if (((v % 2000) == 0) && (v > 0)) {            // command too long for poor old Matlab
                     [matlabString appendString:[NSString stringWithFormat:@"];\n%@%@ = [%@%@ ",
-                                                prefix, [def name], prefix, [def name]]];
+                                                prefix, def.name, prefix, def.name]];
                 }
-                if (((v % 25) == 0) && (v > 0)) {			// line too long for poor old Matlab
+                if (((v % 25) == 0) && (v > 0)) {            // line too long for poor old Matlab
                     [matlabString appendString:[NSString stringWithFormat:@" ...\n"]];
                 }
             }
-            [matlabString appendString:@"];\n"];				// terminate Matlab command
+            [matlabString appendString:@"];\n"];                // terminate Matlab command
             [engine evalString:matlabString];
             [bundleString setString:@""];
-            [bundledEvents setObject:bundleString forKey:key];           // clear for the next trial;
+            bundledEvents[key] = bundleString;           // clear for the next trial;
         }
     }
 }
-
-//===============================================================================================================
-//
-// The following are methods supporting LLDataEvents.  They are called by virtue of making the LLMatlabController
-// an event observer when we activate (addObserver:self).
-//
-//===============================================================================================================
-// File events.  These are typically declared once, at the start of running, or at a reset
-//
-
-
-
-
-//===============================================================================================================
-// Trial events.  These are typically declared every trial, at the start of running, or at a reset
-//
 
 @end

@@ -19,18 +19,18 @@ extern NSString *LLSTUAPerVKey;
 
 @interface LLStimulusTrain : NSWindowController {
 
-	StimTrainData			stimTrain;
+    StimTrainData            stimTrain;
 
-    IBOutlet NSTextField	*amplitudeField;
-    IBOutlet NSTextField	*DAChannelField;
-    IBOutlet NSTextField	*durationField;
-    IBOutlet NSTextField	*frequencyField;
-    IBOutlet NSTextField	*gateBitField;
-    IBOutlet NSButton		*gateCheckBox;
-    IBOutlet NSTextField	*markerBitField;
-    IBOutlet NSButton		*pulsesCheckBox;
-    IBOutlet NSTextField	*pulseWidthField;
-    IBOutlet NSTextField	*uAPerVField;
+    IBOutlet NSTextField    *amplitudeField;
+    IBOutlet NSTextField    *DAChannelField;
+    IBOutlet NSTextField    *durationField;
+    IBOutlet NSTextField    *frequencyField;
+    IBOutlet NSTextField    *gateBitField;
+    IBOutlet NSButton        *gateCheckBox;
+    IBOutlet NSTextField    *markerBitField;
+    IBOutlet NSButton        *pulsesCheckBox;
+    IBOutlet NSTextField    *pulseWidthField;
+    IBOutlet NSTextField    *uAPerVField;
 }
 
 - (IBAction)changeAmplitude:(id)sender;
@@ -44,6 +44,6 @@ extern NSString *LLSTUAPerVKey;
 - (IBAction)changePulseWidth:(id)sender;
 - (IBAction)changeUAPerV:(id)sender;
 
-- (StimTrainData *)trainData;
+@property (NS_NONATOMIC_IOSONLY, readonly) StimTrainData *trainData;
 
 @end

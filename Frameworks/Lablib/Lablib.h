@@ -24,6 +24,8 @@
 	}\
 }
 
+#import <Lablib/NSString+ShellExecution.h>
+
 #import <Lablib/LLBar.h>
 #import <Lablib/LLBinocCalibrator.h>
 #import <Lablib/LLBinomDist.h>
@@ -63,6 +65,7 @@
 #import <Lablib/LLNormDist.h>
 #import <Lablib/LLNumberMatchTransformer.h>
 #import <Lablib/LLNumberNonMatchTransformer.h>
+#import <Lablib/LLObserverKeys.h>
 #import <Lablib/LLOldGabor.h>
 #import <Lablib/LLParameterController.h>
 #import <Lablib/LLPlaid.h>

@@ -11,10 +11,10 @@
 #import "LLSynthDataSettings.h"
 #import "LLSynthBinocSaccade.h"
 
-#define kLLSynthADChannels				8
-#define kLLSynthDigitalBits				16
-#define kLLSynthSamplePeriodMS			5.0
-#define kLLSynthTimestampPeriodMS		1
+#define kLLSynthADChannels                8
+#define kLLSynthDigitalBits                16
+#define kLLSynthSamplePeriodMS            5.0
+#define kLLSynthTimestampPeriodMS        1
 
 #ifndef kEyes
 typedef enum {kLeftEye, kRightEye} WhichEye;
@@ -49,45 +49,44 @@ extern NSString *LLSynthVBLRateKey;
 
 @interface LLSynthDataDevice : LLDataDevice {
 
-	NSUserDefaults		*defaults;
-	NSAffineTransform	*degToUnits[kEyes];
-    LLEyeCalibrator 	*eyeCalibrator;
-    NSPoint 			eyePosition[kEyes];
-    NSPoint				eyeTargetDeg;
-    BOOL				eyeTargetPresent;
-    double				lastLeverDownTimeS;
-    double				lastLeverUpTimeS;
-    double				lastSpikeTimeS;
- 	long				lastSpontBreakCheckTimeS;
-    double				lastSpontDownCheckTimeS;
-    double				lastSpontUpCheckTimeS;
-	double 				leverDownTimeS;
-    double				leverUpTimeS;
-    BOOL				leverIsDown;
-    double				nextRateTimeS;
-    double				nextSaccadeTimeS;
-    double 				nextSampleTimeS;
-    double				nextSpikeRateHz;
-    double				nextSpikeTimeS;						// next time for periodic spike
-    double 				nextVBLTimeS;						// next time for a vertical blank timestamp
-	NSPoint				offsetDeg;
-    BOOL				randomSpikes;
-	LLSynthBinocSaccade	*saccade;
-	NSMutableData		*sampleData[kLLSynthADChannels];
-    double				spikeRateHz;
-	LLSynthDataSettings	*synthSettings;
-	NSMutableData		*timestampData[kLLSynthDigitalBits];
-	double				timestampRefS;
-	NSAffineTransformStruct transform[kEyes];
+    NSUserDefaults        *defaults;
+    NSAffineTransform    *degToUnits[kEyes];
+    LLEyeCalibrator     *eyeCalibrator;
+    NSPoint             eyePosition[kEyes];
+    NSPoint                eyeTargetDeg;
+    BOOL                eyeTargetPresent;
+    double                lastLeverDownTimeS;
+    double                lastLeverUpTimeS;
+    double                lastSpikeTimeS;
+     long                lastSpontBreakCheckTimeS;
+    double                lastSpontDownCheckTimeS;
+    double                lastSpontUpCheckTimeS;
+    double                 leverDownTimeS;
+    double                leverUpTimeS;
+    BOOL                leverIsDown;
+    double                nextRateTimeS;
+    double                nextSaccadeTimeS;
+    double                 nextSampleTimeS;
+    double                nextSpikeRateHz;
+    double                nextSpikeTimeS;                        // next time for periodic spike
+    double                 nextVBLTimeS;                        // next time for a vertical blank timestamp
+    NSPoint                offsetDeg;
+    BOOL                randomSpikes;
+    LLSynthBinocSaccade    *saccade;
+    NSMutableData        *sampleData[kLLSynthADChannels];
+    double                spikeRateHz;
+    LLSynthDataSettings    *synthSettings;
+    NSMutableData        *timestampData[kLLSynthDigitalBits];
+    double                timestampRefS;
+    NSAffineTransformStruct transform[kEyes];
 }
 
 - (void)doLeverDown;
 - (void)doLeverUp;
-- (long)leverLatencyMS;
+@property (NS_NONATOMIC_IOSONLY) long leverLatencyMS;
 - (void)loadAffineTransforms;
 - (void)setEyeTargetOff;
 - (void)setEyeTargetOn:(NSPoint)target;
-- (void)setLeverLatencyMS:(long)leverLatencyMS;
 - (void)setNextSaccadeTimeS:(double)nextTimeS;
 - (void)setOffsetDeg:(NSPoint)newOffset;
 - (void)setSpikePeriodic;

@@ -23,8 +23,8 @@ static void preventSleepCallback(CFRunLoopTimerRef timer, void *info);
     NSArray *librarySearchPaths;
     NSEnumerator *searchPathEnum;
     NSString *currPath;
-	NSDirectoryEnumerator *bundleEnum;
-	NSString *currBundlePath;
+    NSDirectoryEnumerator *bundleEnum;
+    NSString *currBundlePath;
     NSMutableArray *bundleSearchPaths = [NSMutableArray array];
     NSMutableArray *allBundles = [NSMutableArray array];
 
@@ -34,15 +34,15 @@ static void preventSleepCallback(CFRunLoopTimerRef timer, void *info);
     while (currPath = [searchPathEnum nextObject]) {
         [bundleSearchPaths addObject:[currPath stringByAppendingPathComponent:appSubpath]];
     }
-    [bundleSearchPaths addObject:[[NSBundle mainBundle] builtInPlugInsPath]];
+    [bundleSearchPaths addObject:[NSBundle mainBundle].builtInPlugInsPath];
 
     searchPathEnum = [bundleSearchPaths objectEnumerator];
     while (currPath = [searchPathEnum nextObject]) {
         bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:currPath];
         if (bundleEnum) {
             while (currBundlePath = [bundleEnum nextObject]) {
-                if ([[currBundlePath pathExtension] isEqualToString:extention]) {
-					[allBundles addObject:[currPath stringByAppendingPathComponent:currBundlePath]];
+                if ([currBundlePath.pathExtension isEqualToString:extention]) {
+                    [allBundles addObject:[currPath stringByAppendingPathComponent:currBundlePath]];
                 }
             }
         }
@@ -68,50 +68,50 @@ static void preventSleepCallback(CFRunLoopTimerRef timer, void *info);
 extern void CGSSetDebugOptions(int); 
 extern void CGSDeferredUpdates(int);
 
-+ (void)setBeamSynchronization:(long)mode;	// set beam synchronization (for 10.4)
-{	
-	CGSSetDebugOptions(mode ? 0 : 0x08000000);
-	CGSDeferredUpdates((int)mode);
++ (void)setBeamSynchronization:(long)mode;    // set beam synchronization (for 10.4)
+{    
+    CGSSetDebugOptions(mode ? 0 : 0x08000000);
+    CGSDeferredUpdates((int)mode);
 }
 
 + (NSString *)formattedDateString:(NSDate *)date format:(NSString *)format;
 {
     NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
     
-    [formatter setDateFormat:format];
+    formatter.dateFormat = format;
     return [formatter stringFromDate:date];
 }
 
 + (double)getTimeS {
 
     struct timeval tod;
-	
+    
     gettimeofday(&tod, NULL);
     return tod.tv_sec + tod.tv_usec * 1.0E-6;
 }
 
 + (void)preventSleep;
 {
-	CFRunLoopTimerRef timer;
-	CFRunLoopTimerContext context = {0, NULL, NULL, NULL, NULL};
-		
-	timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 60, 0, 0, preventSleepCallback, &context);
-	if (timer != NULL) {
-		CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
-	}
+    CFRunLoopTimerRef timer;
+    CFRunLoopTimerContext context = {0, NULL, NULL, NULL, NULL};
+        
+    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 60, 0, 0, preventSleepCallback, &context);
+    if (timer != NULL) {
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
+    }
 }
 
 + (void)registerDefaultsFromFilePath:(NSString *)filePath defaults:(NSUserDefaults *)defaults;
 {
     NSDictionary *userDefaultsValuesDict;
-	
-	userDefaultsValuesDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
-	if (userDefaultsValuesDict == nil) {
+    
+    userDefaultsValuesDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
+    if (userDefaultsValuesDict == nil) {
         [LLSystemUtil runAlertPanelWithMessageText:[self className] informativeText:[NSString stringWithFormat:
                         @"registerDefaultsFromFileName: Failed to parse file \"%@\"", filePath]];
-		exit(0);
-	}
-	[defaults registerDefaults:userDefaultsValuesDict];
+        exit(0);
+    }
+    [defaults registerDefaults:userDefaultsValuesDict];
 }
 
 // Create and run an alert panel
@@ -122,8 +122,8 @@ extern void CGSDeferredUpdates(int);
 
     NSAlert *theAlert = [[NSAlert alloc] init];
     
-    [theAlert setMessageText:messageText];
-    [theAlert setInformativeText:infoText];
+    theAlert.messageText = messageText;
+    theAlert.informativeText = infoText;
     [theAlert performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
     [theAlert release];
 }
@@ -135,33 +135,33 @@ extern void CGSDeferredUpdates(int);
 // of the period during which the computationFraction must occur.
 
 + (BOOL)setThreadPriorityPeriodMS:(float)periodMS computationFraction:(float)computationFraction
-							constraintFraction:(float)constraintFraction {
+                            constraintFraction:(float)constraintFraction {
 
-	struct thread_time_constraint_policy TTCPolicy; 
+    struct thread_time_constraint_policy TTCPolicy; 
     long result; 
-	long busSpeedHz = [LLSystemUtil busSpeedHz];
+    long busSpeedHz = [LLSystemUtil busSpeedHz];
 
-	computationFraction = MIN(MAX(0.0, computationFraction), 1.0);
-	constraintFraction = MIN(MAX(0.0, constraintFraction), 1.0);
-	constraintFraction = MAX(constraintFraction, computationFraction);
-    TTCPolicy.period = busSpeedHz * periodMS / 1000.0;					// HZ/n 
-    TTCPolicy.computation = TTCPolicy.period * computationFraction;		// HZ/n; 
-    TTCPolicy.constraint = TTCPolicy.period * constraintFraction;		// HZ/n; 
+    computationFraction = MIN(MAX(0.0, computationFraction), 1.0);
+    constraintFraction = MIN(MAX(0.0, constraintFraction), 1.0);
+    constraintFraction = MAX(constraintFraction, computationFraction);
+    TTCPolicy.period = busSpeedHz * periodMS / 1000.0;                    // HZ/n 
+    TTCPolicy.computation = TTCPolicy.period * computationFraction;        // HZ/n; 
+    TTCPolicy.constraint = TTCPolicy.period * constraintFraction;        // HZ/n; 
     TTCPolicy.preemptible = YES; 
-	
-	result = thread_policy_set(mach_thread_self(), THREAD_TIME_CONSTRAINT_POLICY, 
-		(int *)&TTCPolicy,  THREAD_TIME_CONSTRAINT_POLICY_COUNT);
-	return (result == KERN_SUCCESS); 
+    
+    result = thread_policy_set(mach_thread_self(), THREAD_TIME_CONSTRAINT_POLICY, 
+        (int *)&TTCPolicy,  THREAD_TIME_CONSTRAINT_POLICY_COUNT);
+    return (result == KERN_SUCCESS); 
 }
 
 + (NSTimeInterval)timeFromNow:(long)timeMS {
 
-	return ([NSDate timeIntervalSinceReferenceDate] + timeMS / 1000.0);
+    return ([NSDate timeIntervalSinceReferenceDate] + timeMS / 1000.0);
 }
 
 + (BOOL)timeIsPast:(NSTimeInterval)time {
 
-	return ([NSDate timeIntervalSinceReferenceDate]  >= time);
+    return ([NSDate timeIntervalSinceReferenceDate]  >= time);
 }
 
 static void preventSleepCallback(CFRunLoopTimerRef timer, void *info) {

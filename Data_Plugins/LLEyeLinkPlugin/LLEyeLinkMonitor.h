@@ -31,7 +31,7 @@ typedef struct {
 
 - (void)doAlarm:(NSString *)message;
 - (void)initValues:(EyeLinkMonitorValues *)pValues;
-- (id)initWithID:(NSString *)ID description:(NSString *)description;
+- (instancetype)initWithID:(NSString *)ID description:(NSString *)description;
 - (void)resetCounters;
 - (void)sequenceValues:(EyeLinkMonitorValues)current;
 - (NSString *)valueString:(EyeLinkMonitorValues *)pValues;

@@ -20,16 +20,16 @@
     }
     [plotValues addObject:values];
     [plotColors addObject:color];
-    [enable addObject:[NSNumber numberWithBool:YES]];
+    [enable addObject:@YES];
     plotPoints = MAX(plotPoints, [values count]);
 }
 
 - (void) dealloc {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-	[plotColors release];
-	[enable release];
-	[plotValues release];
+    [plotColors release];
+    [enable release];
+    [plotValues release];
     [scale release];
     [defaultColors release];
     [super dealloc];
@@ -39,18 +39,18 @@
 {
     long index, plot;
     float xAxisMin, xAxisMax, xDrawMin, xDrawMax, yAxisMin, yAxisMax, plotWidth, xOriginForPlot;
-	double mean, upperError, lowerError;
+    double mean, upperError, lowerError;
     NSArray *values;
     id<LLDistribution> dataPoint;
     NSRect b, b1;
     NSBezierPath *dataPath;
-	BOOL noPoints, enabled; 
+    BOOL noPoints, enabled; 
     float maxY = -FLT_MAX;
     float minY = FLT_MAX;
 
-	// Clear and highlight the bounds
+    // Clear and highlight the bounds
 
-    b = [self bounds];
+    b = self.bounds;
     [[NSColor whiteColor] set];
     [NSBezierPath fillRect:b];
     if (highlightPlot) {
@@ -68,25 +68,25 @@
 // Set up the scaling for the plot.  We plot within a region of the view that leaves a fraction of the plotting
 // space (kExtraSpaceFraction) empty on either side.  For drawing the plots, we need to set up a scaling that
 // will put all the points (plotPoints) in that space
-	
+    
     xAxisMin = (useXDisplayValues) ? xMinDisplayValue : 0;
     xAxisMax = (useXDisplayValues) ? xMaxDisplayValue : MAX(plotPoints - 1, 0);
     yAxisMin = (useYDisplayValues) ? yMinDisplayValue : [scale yMin];
     yAxisMax = (useYDisplayValues) ? yMaxDisplayValue : [scale yMax];
-	plotWidth = xAxisMax - xAxisMin;
+    plotWidth = xAxisMax - xAxisMin;
 
     [scale setXOrigin:-kXAxisExtraSpace width:plotPoints - 1 + 2 * kXAxisExtraSpace];
-	if (plotPoints <= 1) {
-		[scale setXOrigin:(xAxisMin - 0.5) width:1.0];
-	}
-	else {
-		[scale setXOrigin:-(plotPoints - 1) * kExtraSpaceFraction
+    if (plotPoints <= 1) {
+        [scale setXOrigin:(xAxisMin - 0.5) width:1.0];
+    }
+    else {
+        [scale setXOrigin:-(plotPoints - 1) * kExtraSpaceFraction
             width:((plotPoints - 1) * (1 + 2 * kExtraSpaceFraction))];
-	}
+    }
 
 // Draw any highlighted regions on the x or y axes
     
-		if ((xHighlight.minValue != xHighlight.maxValue) && (plotPoints > 1)) {
+        if ((xHighlight.minValue != xHighlight.maxValue) && (plotPoints > 1)) {
         if (xHighlight.color != nil) {
             [xHighlight.color set];
         }
@@ -96,7 +96,7 @@
         [NSBezierPath fillRect:NSMakeRect([scale scaledX:xHighlight.minValue], 
             [scale scaledY:yAxisMin], 
             [scale scaledXInc:(xHighlight.maxValue - xHighlight.minValue)],
-            [self bounds].size.height - bottomMarginPix - topMarginPix)];
+            self.bounds.size.height - bottomMarginPix - topMarginPix)];
     }
     if (yHighlight.minValue != yHighlight.maxValue) {
         if (yHighlight.color != nil) {
@@ -105,61 +105,61 @@
         else {
             [[NSColor lightGrayColor] set];
         }
-		xDrawMin = (xAxisMin < xAxisMax) ? xAxisMin : [scale xMin] + 0.25 * [scale width];
-		xDrawMax = (xAxisMin < xAxisMax) ? plotPoints - 1 : [scale xMax] - 0.25 * [scale width];
+        xDrawMin = (xAxisMin < xAxisMax) ? xAxisMin : [scale xMin] + 0.25 * [scale width];
+        xDrawMax = (xAxisMin < xAxisMax) ? plotPoints - 1 : [scale xMax] - 0.25 * [scale width];
         [NSBezierPath fillRect:NSMakeRect([scale scaledX:xDrawMin],
-							[scale scaledY:yHighlight.minValue], 
-							[scale scaledXInc:(xDrawMax - xDrawMin)], 
-							[scale scaledYInc:(yHighlight.maxValue - yHighlight.minValue)])];
+                            [scale scaledY:yHighlight.minValue], 
+                            [scale scaledXInc:(xDrawMax - xDrawMin)], 
+                            [scale scaledYInc:(yHighlight.maxValue - yHighlight.minValue)])];
     }
 
 // Plot the lines and the error bars
 
     dataPath = [[[NSBezierPath alloc] init] autorelease];
-    for (plot = 0; plot < [plotValues count]; plot++) {		// For each of the lines to plot
-		enabled = [[enable objectAtIndex:plot] boolValue];
-        values = [plotValues objectAtIndex:plot];
-        [(NSColor *)[plotColors objectAtIndex:plot] set];
-		noPoints = YES;
-        for (index = 0; index < plotPoints && index < [values count]; index++) {
-            dataPoint = [values objectAtIndex:index];
-			if ([dataPoint n] == 0) {
-				continue;
-			}
-			mean = [dataPoint mean];
-			if (isinf(mean)) {
-				continue;
-			}
-			minY = MIN(minY, mean);
-			maxY = MAX(maxY, mean);
-			upperError = [dataPoint upperError];
-			lowerError = [dataPoint lowerError];
-			if (noPoints) {
-				[dataPath moveToPoint:[scale scaledPoint:NSMakePoint(index, mean)]];
-				noPoints = NO;
-			}
-			else {
-				[dataPath lineToPoint:[scale scaledPoint:NSMakePoint(index, mean)]];
-			}
-			if (isfinite(upperError)) {
-				[dataPath moveToPoint:[scale scaledPoint:NSMakePoint(index, upperError)]];
-				maxY = MAX(maxY, upperError);
-			}
-			if (isfinite(lowerError)) {
-				[dataPath lineToPoint:[scale scaledPoint:NSMakePoint(index, lowerError)]];
-				minY = MIN(minY, lowerError);
-			}
+    for (plot = 0; plot < plotValues.count; plot++) {        // For each of the lines to plot
+        enabled = [enable[plot] boolValue];
+        values = plotValues[plot];
+        [(NSColor *)plotColors[plot] set];
+        noPoints = YES;
+        for (index = 0; index < plotPoints && index < values.count; index++) {
+            dataPoint = values[index];
+            if ([dataPoint n] == 0) {
+                continue;
+            }
+            mean = [dataPoint mean];
+            if (isinf(mean)) {
+                continue;
+            }
+            minY = MIN(minY, mean);
+            maxY = MAX(maxY, mean);
+            upperError = [dataPoint upperError];
+            lowerError = [dataPoint lowerError];
+            if (noPoints) {
+                [dataPath moveToPoint:[scale scaledPoint:NSMakePoint(index, mean)]];
+                noPoints = NO;
+            }
+            else {
+                [dataPath lineToPoint:[scale scaledPoint:NSMakePoint(index, mean)]];
+            }
+            if (isfinite(upperError)) {
+                [dataPath moveToPoint:[scale scaledPoint:NSMakePoint(index, upperError)]];
+                maxY = MAX(maxY, upperError);
+            }
+            if (isfinite(lowerError)) {
+                [dataPath lineToPoint:[scale scaledPoint:NSMakePoint(index, lowerError)]];
+                minY = MIN(minY, lowerError);
+            }
             [dataPath moveToPoint:[scale scaledPoint:NSMakePoint(index, mean)]];
-			if (enabled) {
-				[LLViewUtilities fillCircleAtScaledX:index scaledY:mean withScale:scale radiusPix:3];
-			}
+            if (enabled) {
+                [LLViewUtilities fillCircleAtScaledX:index scaledY:mean withScale:scale radiusPix:3];
+            }
         }
-		if (noPoints) {
-			continue;
-		}
-		if (enabled) {			// do the rest for maxBin
-			[dataPath stroke];
-		}
+        if (noPoints) {
+            continue;
+        }
+        if (enabled) {            // do the rest for maxBin
+            [dataPath stroke];
+        }
         [dataPath removeAllPoints];
     }
     
@@ -169,57 +169,57 @@
 //    [scale setXOrigin:xAxisMin - xTickSpacing * kXAxisExtraSpace 
 //            width:xAxisMax + xTickSpacing * kXAxisExtraSpace - 
 //            (xAxisMin - xTickSpacing * kXAxisExtraSpace)];
-	if (plotWidth == 0) {
-		xOriginForPlot = xAxisMin - 0.5;
-		[scale setXOrigin:xOriginForPlot width:1.0];
-	}
-	else {
-		xOriginForPlot = xAxisMin - plotWidth * kExtraSpaceFraction;
-		[scale setXOrigin:xOriginForPlot
+    if (plotWidth == 0) {
+        xOriginForPlot = xAxisMin - 0.5;
+        [scale setXOrigin:xOriginForPlot width:1.0];
+    }
+    else {
+        xOriginForPlot = xAxisMin - plotWidth * kExtraSpaceFraction;
+        [scale setXOrigin:xOriginForPlot
             width:(plotWidth * (1 + 2 * kExtraSpaceFraction))];
-	}
+    }
 
     [LLPlotAxes drawXAxisWithScale:scale from:xAxisMin to:xAxisMax atY:yAxisMin tickSpacing:xTickSpacing
                   tickLabelSpacing:1 tickLabels:xTickLabels label:xAxisLabel];
     [LLPlotAxes drawYAxisWithScale:scale from:yAxisMin to:yAxisMax 
         atX:xOriginForPlot tickSpacing:kMaxMinTicks tickLabelSpacing:2  
-		tickLabels:yTickLabels label:yAxisLabel];
+        tickLabels:yTickLabels label:yAxisLabel];
 //    [LLPlotAxes drawYAxisWithScale:scale from:yAxisMin to:yAxisMax 
 //        atX:xAxisMin - xTickSpacing * kXAxisExtraSpace
 //         tickSpacing:kMaxMinTicks tickLabelSpacing:2  tickLabels:nil label:yAxisLabel];
         
 // Draw the title
 
-	[LLViewUtilities drawString:title 
+    [LLViewUtilities drawString:title 
         centerAndBottomAtPoint:NSMakePoint([scale scaledX:(xAxisMin + xAxisMax) / 2.0],
-        [self bounds].size.height - textLineHeightPix) rotation:0.0 withAttributes:nil];
+        self.bounds.size.height - textLineHeightPix) rotation:0.0 withAttributes:nil];
 
 // Annouce our maximum value.  
-	if (((minY != FLT_MAX) || (maxY != -FLT_MAX)) && (isfinite(minY) && isfinite(maxY))) {
-		if ([scale autoAdjustYMin:minY yMax:maxY object:self]) {
-			[self display];
-		}
+    if (((minY != FLT_MAX) || (maxY != -FLT_MAX)) && (isfinite(minY) && isfinite(maxY))) {
+        if ([scale autoAdjustYMin:minY yMax:maxY object:self]) {
+            [self display];
+        }
     }
 }
 
 - (void)disableAll;
 {
-	long index;
-	
-	for (index = 0; index < [enable count]; index++) {
-		[enable replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:NO]];
-	}
-	[self setNeedsDisplayOnMainThread:YES];
+    long index;
+    
+    for (index = 0; index < enable.count; index++) {
+        enable[index] = @NO;
+    }
+    [self setNeedsDisplayOnMainThread:YES];
 }
 
 - (void)enableAll;
 {
-	long index;
-	
-	for (index = 0; index < [enable count]; index++) {
-		[enable replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:YES]];
-	}
-	[self setNeedsDisplayOnMainThread:YES];
+    long index;
+    
+    for (index = 0; index < enable.count; index++) {
+        enable[index] = @YES;
+    }
+    [self setNeedsDisplayOnMainThread:YES];
 }
 
 // Handler for change in y max or min on scaling
@@ -229,7 +229,7 @@
     [self setNeedsDisplayOnMainThread:YES];
 }
 
-- (id) initWithFrame:(NSRect)frame;
+- (instancetype) initWithFrame:(NSRect)frame;
 {
     if ( self = [super initWithFrame:frame]) {
         [self initializeWithScale:nil];
@@ -237,7 +237,7 @@
     return self;
 }
 
-- (id) initWithFrame:(NSRect)frame scaling:(LLViewScale *)plotScale;
+- (instancetype) initWithFrame:(NSRect)frame scaling:(LLViewScale *)plotScale;
 {    
     if (self = [super initWithFrame:frame]) {
         [self initializeWithScale:plotScale];
@@ -247,7 +247,7 @@
 
 - (void)initializeWithScale:(LLViewScale *)plotScale;
 {
-	NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+    NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
         
     textLineHeightPix = [layoutManager defaultLineHeightForFont:[NSFont userFontOfSize:0]];
     if (plotScale == nil) {
@@ -258,8 +258,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleScaleChange:)
             name:@"LLYScaleChanged" object:scale];
     xTickSpacing = 1.0;
-	[scale setAutoAdjustYMin:NO];
-	yTickSpacing = kMaxMinTicks;
+    [scale setAutoAdjustYMin:NO];
+    yTickSpacing = kMaxMinTicks;
     plotColors = [[NSMutableArray alloc] init];
     plotValues = [[NSMutableArray alloc] init];
     enable = [[NSMutableArray alloc] init];
@@ -269,7 +269,7 @@
 
 - (BOOL)isOpaque;
 {
-	return YES;
+    return YES;
 }
 
 // For a double click, enable all plots.  Otherwise, if more than one plot is active, make
@@ -277,33 +277,32 @@
 
 - (void)mouseDown:(NSEvent *)theEvent;
 {
-	long index, numEnabled, firstIndex;
-	
-	if ([enable count] < 2) {
-		return;
-	}
-	if ([theEvent clickCount] > 1) {
-		[self enableAll];
-	}
-	else {
-		for (index = numEnabled = 0, firstIndex = -1; index < [enable count]; index++) {
-			if ([[enable objectAtIndex:index] boolValue]) {
-				firstIndex = (firstIndex < 0) ? index : firstIndex;
-				if (++numEnabled > 1) {
-					break;
-				}
-			}
-		}
-		[self disableAll];
-		if (numEnabled > 1) {
-			[enable replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
-		}
-		else {
-			[enable replaceObjectAtIndex:((firstIndex + 1) % [enable count])
-									withObject:[NSNumber numberWithBool:YES]];
-		}
-	}
-	[self setNeedsDisplayOnMainThread:YES];
+    long index, numEnabled, firstIndex;
+    
+    if (enable.count < 2) {
+        return;
+    }
+    if (theEvent.clickCount > 1) {
+        [self enableAll];
+    }
+    else {
+        for (index = numEnabled = 0, firstIndex = -1; index < enable.count; index++) {
+            if ([enable[index] boolValue]) {
+                firstIndex = (firstIndex < 0) ? index : firstIndex;
+                if (++numEnabled > 1) {
+                    break;
+                }
+            }
+        }
+        [self disableAll];
+        if (numEnabled > 1) {
+            enable[0] = @YES;
+        }
+        else {
+            enable[((firstIndex + 1) % enable.count)] = @YES;
+        }
+    }
+    [self setNeedsDisplayOnMainThread:YES];
 }
 
 - (long)points;
@@ -318,11 +317,11 @@
 
 - (void)setColor:(NSColor *)newColor forPlot:(long)plotIndex;
 {
-	if (plotIndex < [plotColors count]) {
-		[plotColors replaceObjectAtIndex:plotIndex withObject:newColor];
-	}
+    if (plotIndex < plotColors.count) {
+        plotColors[plotIndex] = newColor;
+    }
 }
-	
+    
 - (void)setPoints:(long)pointsToPlot;
 {
     plotPoints = pointsToPlot;
@@ -338,7 +337,7 @@
         [scale release];
     }
     scale = newScale;
-    b = [self bounds];
+    b = self.bounds;
     plotWidthPix = b.size.width - leftMarginPix - kRightMarginPix;
     plotHeightPix = b.size.height - bottomMarginPix - topMarginPix;
     [scale setViewRectForScale:NSMakeRect(leftMarginPix, bottomMarginPix, 
@@ -397,7 +396,7 @@
 - (void)setNeedsDisplayOnMainThread:(BOOL)state;
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self setNeedsDisplay:state];
+        self.needsDisplay = state;
     });
 }
 
@@ -428,7 +427,7 @@
 {
     xMaxDisplayValue = xMax;
     xMinDisplayValue = xMin;
-    useXDisplayValues = YES;						
+    useXDisplayValues = YES;                        
 }
 
 - (void) setYAxisLabel:(NSString *)label {
@@ -454,7 +453,7 @@
 
     yMaxDisplayValue = yMax;
     yMinDisplayValue = yMin;
-    useYDisplayValues = YES;						
+    useYDisplayValues = YES;                        
 }
 
 - (float)xMaxDisplayValue;
