@@ -35,6 +35,8 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 #define		kStimOnSound			@"5C"
 #define		kStimOffSound			@"5C"
 #define 	kWrongSound             @"Wrong"
+//#define 	k200msSound		        @"200Hz200msSq"
+//#define 	k300msSound		        @"200Hz300msSq"
 
 @interface LLTaskPlugIn : NSObject {
 

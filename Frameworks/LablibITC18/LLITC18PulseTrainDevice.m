@@ -59,6 +59,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	if (itcExists) {
 		digitalOutputWord = bits;
 		ITC18_WriteAuxiliaryDigitalOutput(itc, digitalOutputWord);
+        NSLog(@"Bits set: %x", digitalOutputWord);
 	}
 }
 
@@ -75,6 +76,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	if (itcExists) {
 		digitalOutputWord |= bits;
 		ITC18_WriteAuxiliaryDigitalOutput(itc, digitalOutputWord);
+        NSLog(@"Bits ON: %x", digitalOutputWord);
 	}
 }
 
