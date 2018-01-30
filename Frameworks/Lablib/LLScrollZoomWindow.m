@@ -83,7 +83,18 @@ NSString *windowZoomKey = @"WindowZoom";
   
 - (void)setWindowMaxSize;
 {
-    NSSize maxSize;
+    if ([NSThread isMainThread]) {
+        [self setWindowMaxSizeDoer];
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setWindowMaxSizeDoer];
+        });
+    }
+}
+
+- (void)setWindowMaxSizeDoer;
+{
     NSWindow *window;
     NSRect frame;
     __block NSSize maxContentSize;
@@ -91,40 +102,31 @@ NSString *windowZoomKey = @"WindowZoom";
     __block NSScroller *hScroller, *vScroller;
     __block NSRect scrollFrameRect, windowFrameRect;
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        scaleFactor = (baseMaxContentSize.width / scrollView.contentView.bounds.size.width) /
-            (baseMaxContentSize.width / scrollView.contentView.frame.size.width);
-        maxContentSize.width = baseMaxContentSize.width * scaleFactor;
-        maxContentSize.height = baseMaxContentSize.height * scaleFactor;
-    });
-    scrollFrameRect.origin = NSMakePoint(0, 0);
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-    dispatch_async(dispatch_get_main_queue(), ^{
-        hScroller = scrollView.horizontalScroller;
-        vScroller = scrollView.verticalScroller;
-        scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
-                                horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
-                                borderType:scrollView.borderType
-                                controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
-    });
-#else
-    dispatch_async(dispatch_get_main_queue(), ^{
-    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
-                    hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
-    });
-#endif    
     window = self.window;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect styleMask:window.styleMask];
-    });
+    scrollFrameRect.origin = NSMakePoint(0, 0);
+    scaleFactor = (baseMaxContentSize.width / scrollView.contentView.bounds.size.width) /
+    (baseMaxContentSize.width / scrollView.contentView.frame.size.width);
+    maxContentSize.width = baseMaxContentSize.width * scaleFactor;
+    maxContentSize.height = baseMaxContentSize.height * scaleFactor;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
+    hScroller = scrollView.horizontalScroller;
+    vScroller = scrollView.verticalScroller;
+    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                                         horizontalScrollerClass:[hScroller class] verticalScrollerClass:[vScroller class]
+                                                      borderType:scrollView.borderType
+                                                     controlSize:hScroller.controlSize scrollerStyle:hScroller.scrollerStyle];
+#else
+    scrollFrameRect.size = [NSScrollView frameSizeForContentSize:maxContentSize
+                                           hasHorizontalScroller:YES hasVerticalScroller:YES borderType:[scrollView borderType]];
+#endif
+    windowFrameRect = [NSWindow frameRectForContentRect:scrollFrameRect styleMask:window.styleMask];
     window.maxSize = windowFrameRect.size;
     frame = window.frame;
-    maxSize = window.maxSize;
-//    if (maxSize.width < frame.size.width || maxSize.height < frame.size.height) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-       [window setFrame:NSMakeRect(frame.origin.x, frame.origin.y, maxSize.width, maxSize.height) display:YES];
-    });
-//    }
+    if (window.maxSize.width < frame.size.width || window.maxSize.height < frame.size.height) {
+        [window setFrame:NSMakeRect(frame.origin.x, frame.origin.y,
+                                    MIN(window.maxSize.width, frame.size.width),
+                                    MIN(window.maxSize.height, frame.size.height)) display:YES];
+    }
 }
 
 // Subclassed must call this from within their -windowDidLoad method ([super windowDidLoad])
@@ -182,8 +184,7 @@ NSString *windowZoomKey = @"WindowZoom";
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification;
 {
-    [defaults setObject:@YES
-        forKey:[NSString stringWithFormat:@"%@%@", viewName, windowVisibleKey]];
+    [defaults setObject:@YES forKey:[NSString stringWithFormat:@"%@%@", viewName, windowVisibleKey]];
 }
 
 // We use a delegate method to detect when the window has resized, and 

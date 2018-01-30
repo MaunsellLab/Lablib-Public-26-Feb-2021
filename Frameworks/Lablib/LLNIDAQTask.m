@@ -198,7 +198,6 @@ static long nextTaskID = 0;         // class variable to persist across all inst
             @(waitTimeS), @"waitTimeS",
             nil];
     return [self sendDictionary:dict];
-
 }
 
 - (instancetype)initWithSocket:(LLSockets *)theSocket;
@@ -229,7 +228,6 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     return NO;
 }
-
 
 - (BOOL)sendDictionary:(NSMutableDictionary *)dict;
 {
