@@ -29,9 +29,9 @@
     [self.eyeLeftCalibrator release];
     [self.eyeRightCalibrator release];
     free(self.currentEyesDeg);
-    [stimWindow release];
-    [synthDataDevice release];
-    [lastDataCollectionDate release];
+    [self.stimWindow release];
+    [self.synthDataDevice release];
+    [self.lastDataCollectionDate release];
     [self.settingsController release];
     [self.observerKeys release];
     [self.host release];
@@ -54,7 +54,8 @@
             newMode = kTaskIdle;
             break;
     }
-    [self setMode:newMode];
+    self.mode = newMode;
+//    [self setMode:newMode];
 }
 
 //- (LLBinocCalibrator *)eyeCalibrator;
@@ -110,15 +111,15 @@
 {
 }
 
-- (NSDate *)lastDataCollectionDate;
-{
-    return lastDataCollectionDate;
-}
-
-- (long)mode;
-{
-    return mode;
-}
+//- (NSDate *)lastDataCollectionDate;
+//{
+//    return lastDataCollectionDate;
+//}
+////
+//- (long)mode;
+//{
+//    return mode;
+//}
 
 //- (LLMonitorController *)monitorController;
 //{
@@ -167,60 +168,60 @@
 //    [eyeCalibrator retain];
 //}
 //
-- (void)setLastDataCollectionDate:(NSDate *)newDate;
-{
-    NSDate *theDate;
-    
-    theDate = lastDataCollectionDate;
-    lastDataCollectionDate = [newDate retain];
-    [theDate release];
-}
+//- (void)setLastDataCollectionDate:(NSDate *)newDate;
+//{
+//    NSDate *theDate;
+//    
+//    theDate = lastDataCollectionDate;
+//    lastDataCollectionDate = [newDate retain];
+//    [theDate release];
+//}
 
-- (void)setMode:(long)newMode;
-{
-    mode = newMode;
-}
+//- (void)setMode:(long)newMode;
+//{
+//    mode = newMode;
+//}
 
 //- (void)setMonitorController:(LLMonitorController *)controller;
 //{
 //    monitorController = controller;
 //}
+//
+//- (void)setSocket:(LLSockets *)newSocket;
+//{
+//    [socket release];
+//    socket = newSocket;
+//    [socket retain];
+//}
+//
+//- (void)setStimWindow:(LLStimWindow *)newStimWindow;
+//{
+//    [stimWindow release];
+//    stimWindow = newStimWindow;
+////    [stimWindow retain];
+////}
+//
+//- (void)setSynthDataDevice:(LLSynthDataDevice *)device;
+//{
+//    [synthDataDevice release];
+//    synthDataDevice = device;
+//    [synthDataDevice retain];
+//}
 
-- (void)setSocket:(LLSockets *)newSocket;
-{
-    [socket release];
-    socket = newSocket;
-    [socket retain];
-}
-
-- (void)setStimWindow:(LLStimWindow *)newStimWindow;
-{
-    [stimWindow release];
-    stimWindow = newStimWindow;
-    [stimWindow retain];
-}
-
-- (void)setSynthDataDevice:(LLSynthDataDevice *)device;
-{
-    [synthDataDevice release];
-    synthDataDevice = device;
-    [synthDataDevice retain];
-}
-
-- (LLSockets *)socket;
-{
-    return socket;
-}
-
-- (LLStateSystem *)stateSystem;
-{
-    return stateSystem;
-}
-
-- (LLStimWindow *)stimWindow;
-{
-    return stimWindow;
-}
+//- (LLSockets *)socket;
+//{
+//    return socket;
+//}
+//
+//- (LLStateSystem *)stateSystem;
+//{
+//    return stateSystem;
+////}
+//
+//- (LLStimWindow *)stimWindow;
+//{
+//    return stimWindow;
+//}
 
 - (void)stopSoundFileNamed:(NSString *)soundFileName;
 {
@@ -250,10 +251,10 @@
     }
     [self stopSoundFileNamed:soundFileName];
 }
-
-- (LLSynthDataDevice *)synthDataDevice;
-{
-    return synthDataDevice;
-}
+//
+//- (LLSynthDataDevice *)synthDataDevice;
+//{
+//    return synthDataDevice;
+//}
 
 @end

@@ -105,8 +105,8 @@ LLTaskPlugIn    *task = nil;
     self.collectorTimer = [NSTimer scheduledTimerWithTimeInterval:kSamplePeriodS target:self
             selector:@selector(dataCollect:) userInfo:nil repeats:YES];
 
-    [self.dataDoc addObserver:stateSystem];
-    [stateSystem startWithCheckIntervalMS:5];                // Start the experiment state system
+    [self.dataDoc addObserver:self.stateSystem];
+    [self.stateSystem startWithCheckIntervalMS:5];                // Start the experiment state system
     
     self.active = YES;
 }
@@ -176,9 +176,9 @@ LLTaskPlugIn    *task = nil;
 // Stop data collection
 
     [self.dataController setDataEnabled:@NO];
-    [stateSystem stop];
+    [self.stateSystem stop];
     [self.collectorTimer invalidate];
-    [self.dataDoc removeObserver:stateSystem];
+    [self.dataDoc removeObserver:self.stateSystem];
     [self.dataDoc removeObserver:eyeXYController];
     [self.dataDoc removeObserver:summaryController];
     [self.dataDoc removeObserver:xtController];
@@ -206,8 +206,8 @@ LLTaskPlugIn    *task = nil;
 
 - (void)dealloc;
 {
-    while (stateSystem.running) {};        // wait for state system to stop, then release it
-    [stateSystem release];
+    while (self.stateSystem.running) {};        // wait for state system to stop, then release it
+    [self.stateSystem release];
     
     [actionsMenuItem release];
     [settingsMenuItem release];
@@ -302,7 +302,7 @@ LLTaskPlugIn    *task = nil;
 // Initialize other task objects
 
     scheduler = [[LLScheduleController alloc] init];
-    stateSystem = [[FTStateSystem alloc] init];
+    self.stateSystem = [[FTStateSystem alloc] init];
 
 // Set up control panel and observer for control panel
 

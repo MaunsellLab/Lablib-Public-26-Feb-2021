@@ -41,15 +41,15 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 
     DisplayModeParam        displayMode;
 //    LLBinocCalibrator       *eyeCalibrator;
-    NSDate                  *lastDataCollectionDate;
-    long                    mode;
+//    NSDate                  *lastDataCollectionDate;
+//    long                    mode;
     NSDictionary            *monkeySoundDict;
 //    LLMonitorController     *monitorController;
     NSDictionary            *mouseSoundDict;
-    LLSockets               *socket;
-    LLStateSystem           *stateSystem;
-    LLStimWindow            *stimWindow;
-    LLSynthDataDevice       *synthDataDevice;
+//    LLSockets               *socket;
+//    LLStateSystem           *stateSystem;
+//    LLStimWindow            *stimWindow;
+//    LLSynthDataDevice       *synthDataDevice;
     LLTaskStatus            *taskStatus;
 }
 
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL handlesEvents;
 @property (NS_NONATOMIC_IOSONLY, retain) id host;
 @property (NS_NONATOMIC_IOSONLY) BOOL initialized;
-@property (NS_NONATOMIC_IOSONLY, copy) NSDate *lastDataCollectionDate;
+@property (NS_NONATOMIC_IOSONLY, retain) NSDate *lastDataCollectionDate;
 @property (NS_NONATOMIC_IOSONLY) BOOL leverDown;
 @property (NS_NONATOMIC_IOSONLY, strong) LLMatlabEngine *matlabEngine;
 @property (NS_NONATOMIC_IOSONLY) long mode;
@@ -76,10 +76,10 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, retain) LLObserverKeys *observerKeys;
 @property (NS_NONATOMIC_IOSONLY, assign) LLNE500Pump *rewardPump;
 @property (NS_NONATOMIC_IOSONLY, retain) LLSettingsController *settingsController;
-@property (NS_NONATOMIC_IOSONLY, strong) LLSockets *socket;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) LLStateSystem *stateSystem;
-@property (NS_NONATOMIC_IOSONLY, strong) LLStimWindow *stimWindow;
-@property (NS_NONATOMIC_IOSONLY, strong) LLSynthDataDevice *synthDataDevice;
+@property (NS_NONATOMIC_IOSONLY, retain) LLSockets *socket;
+@property (NS_NONATOMIC_IOSONLY, retain) LLStateSystem *stateSystem;
+@property (NS_NONATOMIC_IOSONLY, retain) LLStimWindow *stimWindow;
+@property (NS_NONATOMIC_IOSONLY, retain) LLSynthDataDevice *synthDataDevice;
 @property (NS_NONATOMIC_IOSONLY, assign) double trialStartTimeS;
 @property (NS_NONATOMIC_IOSONLY) BOOL usesGit;
 @property (NS_NONATOMIC_IOSONLY) BOOL writingDataFile;

@@ -134,8 +134,8 @@ LLTaskPlugIn    *task = nil;
     self.collectorTimer = [NSTimer scheduledTimerWithTimeInterval:kSamplePeriodS target:self
             selector:@selector(dataCollect:) userInfo:nil repeats:YES];
 
-    [task.self.dataDoc addObserver:stateSystem];
-    [stateSystem startWithCheckIntervalMS:5];                // Start the experiment state system
+    [task.self.dataDoc addObserver:self.stateSystem];
+    [self.stateSystem startWithCheckIntervalMS:5];                // Start the experiment state system
     
 // Most users want the fixation spot to hold still during RFMap, so we set it to zero 
 // here, and restore it when we exit
@@ -230,10 +230,10 @@ LLTaskPlugIn    *task = nil;
     
 // Stop the state system, which will stop the stimulus
 
-    [stateSystem stop];
-    while (stateSystem.running) {};
+    [self.stateSystem stop];
+    while (self.stateSystem.running) {};
 
-    [task.self.dataDoc removeObserver:stateSystem];
+    [task.self.dataDoc removeObserver:self.stateSystem];
     [task.self.dataDoc removeObserver:eyeXYController];
     [task.self.dataDoc removeObserver:summaryController];
     [task.self.dataDoc removeObserver:xtController];
@@ -266,9 +266,9 @@ LLTaskPlugIn    *task = nil;
 
 - (void)dealloc;
 {
-    while (stateSystem.running) {};        // wait for state system to stop, then release it
-    [task.self.dataDoc removeObserver:stateSystem];
-    [stateSystem release];
+    while (self.stateSystem.running) {};        // wait for state system to stop, then release it
+    [task.self.dataDoc removeObserver:self.stateSystem];
+    [self.stateSystem release];
     [actionsMenuItem release];
     [settingsMenuItem release];
     [scheduler release];
@@ -284,7 +284,7 @@ LLTaskPlugIn    *task = nil;
 - (void)displayPosition:(NSTimer*)theTimer;
 {
     NSString *displayString;
-    NSPoint stimCenterDeg =stimWindow.mouseLocationDeg;
+    NSPoint stimCenterDeg = self.stimWindow.mouseLocationDeg;
 
     switch ([[NSUserDefaults standardUserDefaults] boolForKey:RFDisplayUnitsKey]) {
     case kAzimuthElevation:
@@ -463,7 +463,7 @@ LLTaskPlugIn    *task = nil;
 // Initialize other task objects
 
     scheduler = [[LLScheduleController alloc] init];
-    stateSystem = [[RFStateSystem alloc] init];
+    self.stateSystem = [[RFStateSystem alloc] init];
 
 // Set up control panel and observer for control panel
 
@@ -496,7 +496,7 @@ LLTaskPlugIn    *task = nil;
 - (IBAction)postPosition:(id)sender;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"RFMapStimulusPositionDeg"
-        object:[NSValue valueWithPoint:stimWindow.mouseLocationDeg]];
+        object:[NSValue valueWithPoint:self.stimWindow.mouseLocationDeg]];
 }
 
 - (void)setMode:(long)newMode;
