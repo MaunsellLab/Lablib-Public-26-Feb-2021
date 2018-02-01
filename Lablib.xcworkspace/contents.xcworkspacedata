@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Frameworks/Lablib/InfoPlist.strings">
+   </FileRef>
+   <FileRef
       location = "group:Things to Do.txt">
    </FileRef>
    <FileRef
