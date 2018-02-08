@@ -24,6 +24,10 @@
 	<true/>
 	<key>WindowState</key>
 	<dict>
+		<key>bundleDividerCollapsed</key>
+		<false/>
+		<key>bundlePositionOfDivider</key>
+		<real>1011</real>
 		<key>dividerCollapsed</key>
 		<false/>
 		<key>eventLogLevel</key>
@@ -31,11 +35,11 @@
 		<key>name</key>
 		<string>ScriptWindowState</string>
 		<key>positionOfDivider</key>
-		<real>900</real>
+		<real>455</real>
 		<key>savedFrame</key>
-		<string>288 87 1931 1331 0 0 2560 1418 </string>
-		<key>selectedTabView</key>
-		<string>event log</string>
+		<string>13 755 1310 647 0 0 2560 1417 </string>
+		<key>selectedTab</key>
+		<string>result</string>
 	</dict>
 </dict>
 </plist>
