@@ -10,7 +10,6 @@
 
  */
 
-
 #import "LLGitController.h"
 #import "NSString+ShellExecution.h"
 
@@ -36,13 +35,15 @@
 
 - (NSString *)status:(NSString *)taskName;
 {
-    NSString *gitCommand;
+    NSString *gitCommand, *output;
     NSString *workTree = [NSString stringWithFormat:@"/Users/Shared/Data/%@", taskName];
 
     self.commandPreamble = [NSString stringWithFormat:@"git --git-dir=%@/.git --work-tree=%@", workTree, workTree];
+    gitCommand = [NSString stringWithFormat:@"%@ remote update", self.commandPreamble];
+    output = [gitCommand runAsCommand];
+    NSLog(@"%@", output);
     gitCommand = [NSString stringWithFormat:@"%@ status", self.commandPreamble];
-    NSString *output = [gitCommand runAsCommand];
-    return output;
+    return [gitCommand runAsCommand];;
 }
 
 - (void)pull;
@@ -63,6 +64,8 @@
     NSLog(@"%@", output);
 }
 
+// Pull any new files in the repository, then push any new files to the repository
+
 - (void)updateRepository:(LLTaskPlugIn *)task;
 {
     NSString *status;
@@ -72,8 +75,8 @@
     }
     status = [self status:task.name];
     NSLog(@"%@", status);
-    if ([status containsString:@"use \"git pull\" to merge the remote branch"]) {
-        NSLog(@"LLGitController: pull %@", task.name);
+    if ([status containsString:@"use \"git pull\" to merge the remote branch"]) {  // changes to pull
+        NSLog(@"LLGitController: doing pull for %@", task.name);
         [self pull];
         status = [self status:task.name];
         NSLog(@"%@", status);

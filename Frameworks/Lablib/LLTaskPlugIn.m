@@ -55,23 +55,7 @@
             break;
     }
     self.mode = newMode;
-//    [self setMode:newMode];
 }
-
-//- (LLBinocCalibrator *)eyeCalibrator;
-//{
-//    return eyeCalibrator;
-//}
-
-//- (LLEyeCalibrator *)eyeLeftCalibrator;
-//{
-//    return [eyeCalibrator calibratorForEye:kLeftEye];
-//}
-//
-//- (LLEyeCalibrator *)eyeRightCalibrator;
-//{
-//    return [eyeCalibrator calibratorForEye:kRightEye];
-//}
 
 // Overwrite this method to handle OS events.  It should return YES if it consumes the event,
 // and must return NO otherwise;
@@ -99,32 +83,17 @@
                           @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong",
                           @"wrong", nil];
         self.writingDataFile = NO;
-        self.usesGit = NO;
         self.name = @"Unnamed Task PlugIn";
         self.observerKeys = [[LLObserverKeys alloc] init];
         self.currentEyesDeg = malloc(2 * sizeof(NSPoint));
-    }
+        self.usesGit = NO;
+   }
     return self;
 }
 
 - (void)initializationDidFinish;
 {
 }
-
-//- (NSDate *)lastDataCollectionDate;
-//{
-//    return lastDataCollectionDate;
-//}
-////
-//- (long)mode;
-//{
-//    return mode;
-//}
-
-//- (LLMonitorController *)monitorController;
-//{
-//    return monitorController;
-//}
 
 - (void)playSoundNamed:(NSString *)soundName ifDefaultsKey:(NSString *)key;
 {
@@ -161,68 +130,6 @@
     return displayMode;
 }
 
-//- (void)setEyeCalibrator:(LLBinocCalibrator *)calibrator;
-//{
-//    [eyeCalibrator release];
-//    eyeCalibrator = calibrator;
-//    [eyeCalibrator retain];
-//}
-//
-//- (void)setLastDataCollectionDate:(NSDate *)newDate;
-//{
-//    NSDate *theDate;
-//    
-//    theDate = lastDataCollectionDate;
-//    lastDataCollectionDate = [newDate retain];
-//    [theDate release];
-//}
-
-//- (void)setMode:(long)newMode;
-//{
-//    mode = newMode;
-//}
-
-//- (void)setMonitorController:(LLMonitorController *)controller;
-//{
-//    monitorController = controller;
-//}
-//
-//- (void)setSocket:(LLSockets *)newSocket;
-//{
-//    [socket release];
-//    socket = newSocket;
-//    [socket retain];
-//}
-//
-//- (void)setStimWindow:(LLStimWindow *)newStimWindow;
-//{
-//    [stimWindow release];
-//    stimWindow = newStimWindow;
-////    [stimWindow retain];
-////}
-//
-//- (void)setSynthDataDevice:(LLSynthDataDevice *)device;
-//{
-//    [synthDataDevice release];
-//    synthDataDevice = device;
-//    [synthDataDevice retain];
-//}
-
-//- (LLSockets *)socket;
-//{
-//    return socket;
-//}
-//
-//- (LLStateSystem *)stateSystem;
-//{
-//    return stateSystem;
-////}
-//
-//- (LLStimWindow *)stimWindow;
-//{
-//    return stimWindow;
-//}
-
 - (void)stopSoundFileNamed:(NSString *)soundFileName;
 {
     NSSound *sound = [NSSound soundNamed:soundFileName];
@@ -251,10 +158,5 @@
     }
     [self stopSoundFileNamed:soundFileName];
 }
-//
-//- (LLSynthDataDevice *)synthDataDevice;
-//{
-//    return synthDataDevice;
-//}
 
 @end
