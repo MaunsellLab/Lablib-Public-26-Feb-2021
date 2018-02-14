@@ -15,11 +15,16 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Clone Project x86</string>
+	<string>Clone Project</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>aplt</string>
+	<key>LSMinimumSystemVersionByArchitecture</key>
+	<dict>
+		<key>x86_64</key>
+		<string>10.6</string>
+	</dict>
 	<key>LSRequiresCarbon</key>
 	<true/>
 	<key>WindowState</key>
@@ -37,7 +42,7 @@
 		<key>positionOfDivider</key>
 		<real>455</real>
 		<key>savedFrame</key>
-		<string>13 755 1310 647 0 0 2560 1417 </string>
+		<string>36 289 1310 647 0 0 2560 1417 </string>
 		<key>selectedTab</key>
 		<string>result</string>
 	</dict>

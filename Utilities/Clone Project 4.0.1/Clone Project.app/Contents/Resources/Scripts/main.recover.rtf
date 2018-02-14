@@ -1,0 +1,2526 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red76\green78\blue78;\red0\green0\blue0;\red64\green128\blue0;
+\red251\green0\blue7;\red0\green0\blue255;\red108\green5\blue211;\red0\green22\blue176;\red68\green21\blue176;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c29999\c30457\c30457;\csgenericrgb\c0\c0\c0;\csgenericrgb\c25000\c50001\c0;
+\cssrgb\c100000\c0\c0;\csgenericrgb\c0\c0\c100000;\csgenericrgb\c42337\c1841\c82833;\csgenericrgb\c0\c8656\c68986;\csgenericrgb\c26552\c8264\c69162;
+}
+\deftab480
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 -- clone Project  v. 4.0  app script   (Xcode 9 compatible)\cf3 \
+\cf2 -- JHRM 2018\cf3 \
+\cf2 -- This is a bit of a dog's meal, because it was written making a lot of assumptions about which folders files would be in.\cf3 \
+\cf2 -- Things have changed a lot since then.  It would be a good thing to refactor this sometime.  The main improvement would\cf3 \
+\cf2 -- come from following a path that processed each subfolder individually, in a nested way.  Currently the file list goes \cf3 \
+\cf2 -- only one level deep, and it makes assumptions about what will be found where.  It is not robust to future changes. \cf3 \
+\cf2 -- A little bit of careful organization would make this script much smaller and more robust. \cf3 \
+\
+\
+\cf2 -- need to get "kOP" converted as well in .m and .h files\cf3 \
+\
+\cf2 -- Global variables\cf3 \
+
+\b \cf3 property
+\b0 \cf3  \cf4 nibFolder\cf3  : \cf3 "English.lproj"\cf3  \cf2 -- location of Interface Builder files in Xcode project folder\cf3 \
+
+\b \cf3 property
+\b0 \cf3  \cf4 xibFolder\cf3  : \cf3 "Base.lproj"\cf3  \cf2 -- modern location of Interface Builder files\cf3 \
+
+\b \cf3 property
+\b0 \cf3  \cf4 matlabFolder\cf3  : \cf3 "Matlab"\cf3  \cf2 -- location of Matlab files\cf3 \
+
+\b \cf3 property
+\b0 \cf3  \cf4 replaceScriptName\cf3  : \cf3 "myscript.txt"\cf3  \cf2 -- file created containing sed script for unix bash shell\cf3 \
+
+\b \cf3 property
+\b0 \cf3  \cf4 oldProjectName\cf3  : \cf3 "oldproject"\cf3  \cf2 -- project folder name of project to be duplicated\cf3 \
+
+\b \cf3 property
+\b0 \cf3  \cf4 myPath\cf3  : \cf3 "/Users/"\cf3  \cf2 -- POSIX path to location of files or folders\cf3 \
+
+\b \cf3 property
+\b0 \cf3  \cf4 fileSuffix\cf3  : \cf3 ".plist"\cf3  \cf2 -- file suffix changed with context \cf3 \
+
+\b \cf3 global
+\b0 \cf3  \cf4 fileList\cf3  \cf2 --  all Files found in project folder and sub folders\cf3 \
+
+\b \cf3 global
+\b0 \cf3  \cf4 kernel_beginning\cf3 \
+\cf2 -- list of illegal prefixes\cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 myReservedList\cf3  
+\b \cf3 to
+\b0 \cf3  \{\cf3 "NS"\cf3 , \cf3 "NSS"\cf3 , \cf3 "VBL"\cf3 , \cf3 "VBLC"\cf3 , \cf3 "LL"\cf3 , \cf3 "CC"\cf3 , \cf3 "GG"\cf3 , \cf3 "PB"\cf3 , \cf3 "PBX"\cf3 , \cf3 "PBXF"\cf3 , \cf3 "PBXV"\cf3 , \cf3 "PBXB"\cf3 , \cf3 "IT"\cf3 , \cf3 "ITC"\cf3 , \cf3 "BO"\cf3 , \cf3 "BOO"\cf3 , \cf3 "BOOL"\cf3 \}\
+\
+\cf2 --//////////  subroutines\cf3 \
+\
+\cf2 -- doOneFolder: input argument is a Finder folder reference\cf3 \
+
+\b \cf3 to
+\b0 \cf3  \cf5 doOneFolder\cf3 (\cf4 theFolder\cf3 , \cf4 buildPath\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 )\
+	\cf2 -- Process subfolders first (recursively)\cf3 \
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "Finder"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 folderList\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf3 get
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 every
+\b0 \cf3  
+\i \cf6 folder
+\i0 \cf3  
+\b \cf3 in
+\b0 \cf3  \cf4 theFolder\cf3 ) \cf2 -- get a list of all the subfolders\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 f\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 1\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 length\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 folderList\cf3 \
+		\cf2 --set oldMyPath to myPath\cf3 \
+		\cf2 --set myPath to myPath & (item f of folderList) as string\cf3 \
+		\cf2 --set cmd to "cd " & (POSIX path of (theFolder as text)) & (item f of folderList)\cf3 \
+		\cf2 --display dialog myPath\cf3 \
+		\cf5 doOneFolder\cf3 (((\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 ) & (
+\i \cf6 item
+\i0 \cf3  \cf4 f\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 folderList\cf3 )) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 alias
+\i0 \cf3 , \cf4 buildPath\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 )\
+		\cf2 --doOneFoflder((item f of folderList) as alias, buildPath, old_prefix, new_prefix, oldProjectName, newProjectName)\cf3 \
+		\cf2 --doOneFolder((item f of folderList), buildPath, old_prefix, new_prefix, oldProjectName, newProjectName)\cf3 \
+		\cf2 --set myPath to oldMyPath\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+	\cf2 -- Once the subfolders have been processed, process each of the files in this folder\cf3 \
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "Finder"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 fileList\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 get
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 every
+\b0 \cf3  
+\i \cf6 file
+\i0 \cf3  
+\b \cf3 in
+\b0 \cf3  \cf4 theFolder\cf3 \
+		
+\b \cf6 count
+\b0 \cf3  \cf7 result\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 numFiles\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 result\cf3 \
+		\cf5 prepareProgBar\cf3 (\cf4 numFiles\cf3 , \cf3 1\cf3 ) 
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3  \cf2 -- Prepare Progress Bar\cf3 \
+		\cf5 fadeinProgBar\cf3 (\cf3 1\cf3 ) 
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3  \cf2 -- Open the desired Progress Bar window style.\cf3 \
+		\cf2 -- rename prefixes within files  and file names of project files  \cf3 \
+		
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 n\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 1\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 numFiles\cf3  \cf2 -- Do all files\cf3 \
+			\cf5 incrementProgBar\cf3 (\cf4 n\cf3 , \cf4 numFiles\cf3 , \cf3 1\cf3 ) 
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3  \cf2 -- Increment the progress bar\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf3 get
+\b0 \cf3  
+\i \cf6 item
+\i0 \cf3  \cf4 n\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 fileList\cf3 ) \cf2 -- Get the next file to process\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 pathToCurrentFile\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 ) & (
+\i \cf6 item
+\i0 \cf3  \cf4 n\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 fileList\cf3 ) \cf2 -- Get the next file to process\cf3 \
+			
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 starts with
+\b0 \cf3  \cf4 old_prefix\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- If its name has got the old prefix...\cf3 \
+				
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 does not
+\b0 \cf3  
+\b \cf3 start with
+\b0 \cf3  \cf4 oldProjectName\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- If user did not start project name with the prefix...\cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf4 filename_kernel\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ""\cf3  \cf2 -- extract filename without prefix\cf3 \
+					
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 n\cf3  
+\b \cf3 from
+\b0 \cf3  \cf4 kernel_beginning\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf6 count
+\b0 \cf3  \cf4 currentFile\cf3 )\
+						
+\b \cf3 set
+\b0 \cf3  \cf4 filename_kernel\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 filename_kernel\cf3  & (
+\i \cf6 item
+\i0 \cf3  \cf4 n\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 currentFile\cf3 )\
+					
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+					
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 ) \cf2 -- replace prefixes in file\cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 new_prefix\cf3  & \cf4 filename_kernel\cf3 ) \cf2 -- change the name of the file\cf3 \
+				
+\b \cf3 else
+\b0 \cf3  \cf2 -- old project name includes old prefix \cf3 \
+					
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".xcodeproj"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- non-special case were project name does not include prefix\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".xcodeproj"\cf3 \
+					
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".pch"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- precompiled header for project\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 "_Prefix.pch"\cf3 \
+					
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".m"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- principal class for project\cf3 \
+						
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+						
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  (\cf4 oldProjectName\cf3  & \cf3 ".m"\cf3 ) 
+\b \cf3 then
+\b0 \cf3 \
+							
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".m"\cf3 \
+						
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+					
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".h"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- header of principal class for project\cf3 \
+						
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+						
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  (\cf4 oldProjectName\cf3  & \cf3 ".h"\cf3 ) 
+\b \cf3 then
+\b0 \cf3  \cf2 -- should only happen once		\cf3 \
+							
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".h"\cf3 \
+						
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  (\cf4 oldProjectName\cf3  & \cf3 "_Prefix.h"\cf3 ) 
+\b \cf3 then
+\b0 \cf3  \cf2 -- should only happen once	\cf3 \
+							
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 "_Prefix.h"\cf3 \
+						
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+					
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  = \cf4 oldProjectName\cf3  & \cf3 ".nib"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- principal nib for project\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 folder
+\i0 \cf3  \cf4 nibFolder\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".nib"\cf3 \
+					
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  = \cf4 oldProjectName\cf3  & \cf3 ".xib"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- principal xib for project\cf3 \
+						
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".xib"\cf3 \
+					
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".plist"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- property list for project\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf4 fileSuffix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ".plist"\cf3 \
+						
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+						
+\b \cf3 set
+\b0 \cf3  \cf4 testChar\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf8 ASCII number
+\b0 \cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf3 first
+\b0 \cf3  
+\i \cf6 item
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 oldProjectName\cf3 )\
+						
+\b \cf3 if
+\b0 \cf3  \cf4 testChar\cf3  \uc0\u8805  \cf3 65\cf3  
+\b \cf3 and
+\b0 \cf3  \cf4 testChar\cf3  \uc0\u8804  \cf3 90\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- is it uppercase ?\cf3 \
+							
+\b \cf3 set
+\b0 \cf3  \cf4 locase\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ""\cf3 \
+							
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 n\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 2\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf6 count
+\b0 \cf3  \cf4 oldProjectName\cf3 )\
+								
+\b \cf3 set
+\b0 \cf3  \cf4 locase\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 locase\cf3  & (
+\i \cf6 item
+\i0 \cf3  \cf4 n\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 oldProjectName\cf3 )\
+							
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+							
+\b \cf3 set
+\b0 \cf3  \cf4 locase\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf8 ASCII character
+\b0 \cf3  (\cf4 testChar\cf3  + \cf3 32\cf3 )) & \cf4 locase\cf3 \
+						
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+						
+\b \cf3 my
+\b0 \cf3  \cf5 simpleReplaceText\cf3 (\cf4 currentFile\cf3 , \cf4 locase\cf3 , \cf4 newProjectName\cf3 ) \cf2 -- catch any lowercase instances of project name 		\cf3 \
+						\cf2 -- rename only .plist files containing the projectname \cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3  \cf6 into\cf3  \cf4 currentFile\cf3  \cf6 at\cf3  \cf4 oldProjectName\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf4 newProjectName\cf3 )\
+					
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+				
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+				\
+			
+\b \cf3 else
+\b0 \cf3  \cf2 -- project files that don't include prefix also need to be updated\cf3 \
+				
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".xcodeproj"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- non-special case where project name does not include prefix\cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".xcodeproj"\cf3 \
+				
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".pch"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 "_Prefix.pch"\cf3 \
+				
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".m"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+					
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  (\cf4 oldProjectName\cf3  & \cf3 ".m"\cf3 ) 
+\b \cf3 then
+\b0 \cf3  \cf2 -- should only happen once\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".m"\cf3 \
+					
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+				
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".h"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+					
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  (\cf4 oldProjectName\cf3  & \cf3 ".h"\cf3 ) 
+\b \cf3 then
+\b0 \cf3  \cf2 -- should only happen once		\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".h"\cf3 \
+					
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  (\cf4 oldProjectName\cf3  & \cf3 "_Prefix.h"\cf3 ) 
+\b \cf3 then
+\b0 \cf3  \cf2 -- should only happen once	\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 "_Prefix.h"\cf3 \
+					
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+				
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  = \cf4 oldProjectName\cf3  & \cf3 ".nib"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 folder
+\i0 \cf3  \cf4 nibFolder\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".nib"\cf3 \
+				
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  = \cf4 oldProjectName\cf3  & \cf3 ".xib"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+					
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 folder
+\i0 \cf3  \cf4 xibFolder\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 ".xib"\cf3 \
+				
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 ".plist"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf4 fileSuffix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ".plist"\cf3 \
+					
+\b \cf3 my
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 , \cf4 currentFile\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 )\
+					
+\b \cf3 set
+\b0 \cf3  \cf4 testChar\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf8 ASCII number
+\b0 \cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf3 first
+\b0 \cf3  
+\i \cf6 item
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 oldProjectName\cf3 )\
+					
+\b \cf3 if
+\b0 \cf3  \cf4 testChar\cf3  \uc0\u8805  \cf3 65\cf3  
+\b \cf3 and
+\b0 \cf3  \cf4 testChar\cf3  \uc0\u8804  \cf3 90\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- is it uppercase ?\cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf4 locase\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ""\cf3 \
+						
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 n\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 2\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf6 count
+\b0 \cf3  \cf4 oldProjectName\cf3 )\
+							
+\b \cf3 set
+\b0 \cf3  \cf4 locase\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 locase\cf3  & (
+\i \cf6 item
+\i0 \cf3  \cf4 n\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 oldProjectName\cf3 )\
+						
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+						
+\b \cf3 set
+\b0 \cf3  \cf4 locase\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf8 ASCII character
+\b0 \cf3  (\cf4 testChar\cf3  + \cf3 32\cf3 )) & \cf4 locase\cf3 \
+					
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+					
+\b \cf3 my
+\b0 \cf3  \cf5 simpleReplaceText\cf3 (\cf4 currentFile\cf3 , \cf4 locase\cf3 , \cf4 newProjectName\cf3 ) \cf2 -- catch any lowercase instances of project name 		\cf3 \
+					\cf2 -- rename only .plist files containing the projectname \cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 document file
+\i0 \cf3  \cf4 currentFile\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3  \cf6 into\cf3  \cf4 currentFile\cf3  \cf6 at\cf3  \cf4 oldProjectName\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf4 newProjectName\cf3 )\
+				
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+		\
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 doOneFolder\cf3 \
+\
+\cf2 -- subroutine to replace old file names and prefixes with the new ones\cf3 \
+
+\b \cf3 to
+\b0 \cf3  \cf5 replaceTextInFile\cf3 (\cf4 theFolder\cf3 , \cf4 theFile\cf3 , \cf4 oldtext1\cf3 , \cf4 newtext1\cf3 , \cf4 oldtext2\cf3 , \cf4 newtext2\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf4 tempFile\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "mytemp.h"\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 myFolderPath\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+	\cf2 -- Create a script for sed\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 fileName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 myFolderPath\cf3  & \cf4 replaceScriptName\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 fileID\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf8 open for access
+\b0 \cf3  
+\i \cf6 POSIX file
+\i0 \cf3  \cf4 fileName\cf3  
+\b \cf3 with
+\b0 \cf3  \cf8 write permission\cf3 \
+	
+\b \cf8 write
+\b0 \cf3  \cf3 "s/\\\\([^a-jl-zA-Z]\\\\)"\cf3  & \cf4 oldtext2\cf3  & \cf3 "/\\\\1"\cf3  & \cf4 newtext2\cf3  & \cf3 "/g"\cf3  & (
+\b \cf8 ASCII character
+\b0 \cf3  \cf3 10\cf3 ) & \cf3 "/^"\cf3  & \cf4 oldtext2\cf3  & \cf3 "/\{ "\cf3  & (
+\b \cf8 ASCII character
+\b0 \cf3  \cf3 10\cf3 ) & \cf3 "s/"\cf3  & \cf4 oldtext2\cf3  & \cf3 "/"\cf3  & \cf4 newtext2\cf3  & \cf3 "/1"\cf3  & (
+\b \cf8 ASCII character
+\b0 \cf3  \cf3 10\cf3 ) & \cf3 "\}"\cf3  \cf8 to\cf3  \cf4 fileID\cf3 \
+	
+\b \cf8 close access
+\b0 \cf3  \cf4 fileID\cf3 \
+	\cf2 --end if\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 ShellPath\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 ShellPath\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 ShellPath\cf3  \cf6 at\cf3  (\cf3 " "\cf3 ) 
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 "\\\\%"\cf3 ) \cf2 -- uses global variable to overcome POSIX issue with spaces in names\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 ShellPath\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 ShellPath\cf3  \cf6 at\cf3  \cf3 "%"\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 " "\cf3 )\
+	\cf2 -- replace occurences of oldProject with newProject\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 cmd\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "cat  "\cf3  & \cf4 ShellPath\cf3  & \cf4 theFile\cf3  & \cf3 " > "\cf3  & \cf4 ShellPath\cf3  & \cf4 tempFile\cf3  & \cf3 " ; "\cf3  & \cf3 "  > "\cf3  & \cf4 ShellPath\cf3  & \cf4 theFile\cf3  & \cf3 " ; "\cf3  & \cf3 " sed -e 's/"\cf3  & \cf4 oldtext1\cf3  & \cf3 "/"\cf3  & \cf4 newtext1\cf3  & \cf3 "/g' "\cf3  & \cf4 ShellPath\cf3  & \cf4 tempFile\cf3  & \cf3 " > "\cf3  & \cf4 ShellPath\cf3  & \cf4 theFile\cf3  & \cf3 " ; "\cf3  & \cf3 " >"\cf3  & \cf4 ShellPath\cf3  & \cf4 tempFile\cf3 \
+	
+\b \cf8 do shell script
+\b0 \cf3  \cf4 cmd\cf3 \
+	\cf2 -- replace occurences of oldPrefix with newPrefix\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 cmd\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "cat "\cf3  & \cf4 ShellPath\cf3  & \cf4 theFile\cf3  & \cf3 " > "\cf3  & \cf4 ShellPath\cf3  & \cf4 tempFile\cf3  & \cf3 " ; "\cf3  & \cf3 " > "\cf3  & \cf4 ShellPath\cf3  & \cf4 theFile\cf3  & \cf3 " ; "\cf3  & \cf3 " sed -f "\cf3  & \cf4 ShellPath\cf3  & \cf4 replaceScriptName\cf3  & \cf3 " "\cf3  & \cf4 ShellPath\cf3  & \cf4 tempFile\cf3  & \cf3 " > "\cf3  & \cf4 ShellPath\cf3  & \cf4 theFile\cf3  & \cf3 " ; "\cf3  & \cf3 " rm -f "\cf3  & \cf4 ShellPath\cf3  & \cf4 tempFile\cf3 \
+	
+\b \cf8 do shell script
+\b0 \cf3  \cf4 cmd\cf3 \
+	\cf2 -- delete the temp file\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 cmd\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "rm "\cf3  & \cf4 ShellPath\cf3  & \cf4 replaceScriptName\cf3  \cf2 -- remove sed script file from new project folder\cf3 \
+	
+\b \cf8 do shell script
+\b0 \cf3  \cf4 cmd\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 replaceTextInFile\cf3 \
+\
+\cf2 -- simple form of replaceTextinFile subroutine to handle plist and project files \cf3 \
+
+\b \cf3 to
+\b0 \cf3  \cf5 simpleReplaceText\cf3 (\cf4 theFile\cf3 , \cf4 oldtext\cf3 , \cf4 newText\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf4 tempFile\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "temp"\cf3  & \cf4 fileSuffix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3  \cf2 -- use global variable fileSuffix\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 ShellPath\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 myPath\cf3  \cf6 at\cf3  (\cf3 " "\cf3 ) 
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 "\\\\%"\cf3 ) \cf2 -- uses global variable to overcome POSIX issue with spaces in names\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 ShellPath\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 ShellPath\cf3  \cf6 at\cf3  \cf3 "%"\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 " "\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf4 cmd\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "bash; cd "\cf3  & \cf4 ShellPath\cf3  & \cf3 "; cat "\cf3  & \cf4 theFile\cf3  & \cf3 " > "\cf3  & \cf4 tempFile\cf3  & \cf3 "; >"\cf3  & \cf4 theFile\cf3  & \cf3 "; sed -e 's/"\cf3  & \cf4 oldtext\cf3  & \cf3 "/"\cf3  & \cf4 newText\cf3  & \cf3 "/g' "\cf3  & \cf4 tempFile\cf3  & \cf3 " > "\cf3  & \cf4 theFile\cf3  & \cf3 "; rm -f "\cf3  & \cf4 tempFile\cf3  \cf2 -- and clean up!\cf3 \
+	
+\b \cf8 do shell script
+\b0 \cf3  \cf4 cmd\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 simpleReplaceText\cf3 \
+\
+\cf2 -- universal search and replace subroutine -- operates strictly in AppleScript on a string or document\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 mainString\cf3  \cf6 at\cf3  \cf4 searchString\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf4 replaceString\cf3 \
+	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 while
+\b0 \cf3  \cf4 mainString\cf3  
+\b \cf3 contains
+\b0 \cf3  \cf4 searchString\cf3  \cf2 -- will not do anything if search string not found\cf3 \
+		\cf2 -- we use offset command here to derive the position within the document where the search string first appears    \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 foundOffset\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf8 offset
+\b0 \cf3  \cf8 of\cf3  \cf4 searchString\cf3  \cf8 in\cf3  \cf4 mainString\cf3 \
+		\cf2 -- begin assembling remade string by getting all text up to the search location, minus the first character of the search string   \cf3 \
+		
+\b \cf3 if
+\b0 \cf3  \cf4 foundOffset\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 1\cf3  
+\b \cf3 then
+\b0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 stringStart\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ""\cf3  \cf2 -- search string starts at beginning, most likely to occur when searching a small string\cf3 \
+		
+\b \cf3 else
+\b0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 stringStart\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 thru
+\b0 \cf3  (\cf4 foundOffset\cf3  - \cf3 1\cf3 ) 
+\b \cf3 of
+\b0 \cf3  \cf4 mainString\cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		\cf2 -- get the end part of the remade string   \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 stringEnd\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3  (\cf4 foundOffset\cf3  + (
+\b \cf6 count
+\b0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 searchString\cf3 )) 
+\b \cf3 thru
+\b0 \cf3  \cf3 -1\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 mainString\cf3 \
+		\cf2 -- remake mainString to start, replace string and end string   \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 mainString\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 stringStart\cf3  & \cf4 replaceString\cf3  & \cf4 stringEnd\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+	
+\b \cf3 return
+\b0 \cf3  \cf4 mainString\cf3  \cf2 -- ship it back to the caller \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 searchReplace\cf3 \
+\
+
+\b \cf3 to
+\b0 \cf3  \cf5 upCase\cf3 (\cf4 aString\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf4 buffer\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ""\cf3 \
+	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 i\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 1\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf6 count
+\b0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 aString\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 testChar\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf8 ASCII number
+\b0 \cf3  
+\i \cf6 item
+\i0 \cf3  \cf4 i\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 aString\cf3 )\
+		\
+		
+\b \cf3 if
+\b0 \cf3  \cf4 testChar\cf3  \uc0\u8805  \cf3 97\cf3  
+\b \cf3 and
+\b0 \cf3  \cf4 testChar\cf3  \uc0\u8804  \cf3 122\cf3  
+\b \cf3 then
+\b0 \cf3 \
+			\cf2 -- if lowercase ascii character then change to uppercase version\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 buffer\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 buffer\cf3  & (
+\b \cf8 ASCII character
+\b0 \cf3  (\cf4 testChar\cf3  - \cf3 32\cf3 ))\
+			\
+		
+\b \cf3 else
+\b0 \cf3 \
+			\cf2 -- do not chage character\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 buffer\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 buffer\cf3  & (
+\b \cf8 ASCII character
+\b0 \cf3  (\cf4 testChar\cf3 ))\
+			\
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		\
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+	\
+	
+\b \cf3 return
+\b0 \cf3  \cf4 buffer\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 upCase\cf3 \
+\
+\cf2 -- T.J. Mahaffey | 9.9.2004\cf3 \
+\cf2 -- 1951FDG | 8.4.2011\cf3 \
+\cf2 -- The code contained herein is free. Re-use at will, but please include a web bookmark or weblocation file to my website if you do.\cf3 \
+\cf2 -- Or simply some kind of acknowledgement in your code.\cf3 \
+\
+\cf2 -- Prepare progress bar subroutine.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 prepareProgBar\cf3 (\cf4 someMaxCount\cf3 , \cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 background color\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \{\cf3 65535\cf3 , \cf3 65535\cf3 , \cf3 65535\cf3 \}\
+		
+\b \cf3 set
+\b0 \cf3  \cf7 has shadow\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 true
+\i0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 level\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf6 item
+\i0 \cf3  \cf3 7\cf3  
+\b \cf3 of
+\b0 \cf3  \{\cf3 0\cf3 , \cf3 3\cf3 , \cf3 8\cf3 , \cf3 20\cf3 , \cf3 24\cf3 , \cf3 101\cf3 , \cf3 1001\cf3 \}\
+		
+\b \cf3 set
+\b0 \cf3  \cf7 title\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ""\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 content\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 0\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 minimum value\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 0\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 maximum value\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 someMaxCount\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 prepareProgBar\cf3 \
+\
+\cf2 -- Increment progress bar subroutine.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 incrementProgBar\cf3 (\cf4 itemNumber\cf3 , \cf4 someMaxCount\cf3 , \cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 title\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "Processing "\cf3  & \cf4 itemNumber\cf3  & \cf3 " of "\cf3  & \cf4 someMaxCount\cf3  & \cf3 " - "\cf3  & (
+\i \cf6 item
+\i0 \cf3  \cf4 itemNumber\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 fileList\cf3 )\
+		
+\b \cf3 set
+\b0 \cf3  \cf7 content\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 itemNumber\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 incrementProgBar\cf3 \
+\
+\cf2 -- Fade in a progress bar window.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 fadeinProgBar\cf3 (\cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf6 center
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 alpha value\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 0\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 visible\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 true
+\i0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 fadeValue\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 0.1\cf3 \
+		
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 i\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 0\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 9\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf7 alpha value\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 fadeValue\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 fadeValue\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 fadeValue\cf3  + \cf3 0.1\cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+		
+\b \cf6 start
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 with
+\b0 \cf3  \cf7 uses threaded animation\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 fadeinProgBar\cf3 \
+\
+\cf2 -- Fade out a progress bar window.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 fadeoutProgBar\cf3 (\cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf6 stop
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 with
+\b0 \cf3  \cf7 uses threaded animation\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 fadeValue\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 0.9\cf3 \
+		
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf4 i\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 1\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 9\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf7 alpha value\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 fadeValue\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 fadeValue\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 fadeValue\cf3  - \cf3 0.1\cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 visible\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 false
+\i0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 fadeoutProgBar\cf3 \
+\
+\cf2 -- Show progress bar window.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 showProgBar\cf3 (\cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf6 center
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 visible\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 true
+\i0 \cf3 \
+		
+\b \cf6 start
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 with
+\b0 \cf3  \cf7 uses threaded animation\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 showProgBar\cf3 \
+\
+\cf2 -- Hide progress bar window.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 hideProgBar\cf3 (\cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf6 stop
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 with
+\b0 \cf3  \cf7 uses threaded animation\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 visible\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 false
+\i0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 hideProgBar\cf3 \
+\
+\cf2 -- Enable 'barber pole' behavior of a progress bar.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 barberPole\cf3 (\cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 indeterminate\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 true
+\i0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 barberPole\cf3 \
+\
+\cf2 -- Disable 'barber pole' behavior of a progress bar.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 killBarberPole\cf3 (\cf4 windowName\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 indeterminate\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 progress indicator
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf6 window
+\i0 \cf3  \cf4 windowName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 false
+\i0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 killBarberPole\cf3 \
+\
+\cf2 -- Launch ProgBar.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 startProgBar\cf3 ()\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf6 launch
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 startProgBar\cf3 \
+\
+\cf2 -- Quit ProgBar.\cf3 \
+
+\b \cf3 on
+\b0 \cf3  \cf5 stopProgBar\cf3 ()\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "ProgBar"\cf3 \
+		
+\b \cf6 quit
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 stopProgBar\cf3 \
+\
+\cf2 --////////////  User input\cf3 \
+\
+
+\b \cf3 set
+\b0 \cf3  \cf4 buttonPressed\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "RESUBMIT"\cf3  \cf2 -- at least try one time\cf3 \
+
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 while
+\b0 \cf3  \cf4 buttonPressed\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 "RESUBMIT"\cf3 \
+	\cf2 --  User chooses project folder to copy\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf8 choose folder
+\b0 \cf3  \cf8 with prompt\cf3  \cf3 "To duplicate: choose Plugin project to use as source"\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 alias
+\i0 \cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 oldProjectName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf8 info for
+\b0 \cf3  \cf4 theFolder\cf3 )\
+	\
+	\cf2 -- this extracts the path to folder in which the duplicated project folder resides and gives it the name myHome\cf3 \
+	\cf2 -- POSIX format because used by shell scripts\cf3 \
+	
+\b \cf3 try
+\b0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 oldDelimiter\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 AppleScript's\cf3  \cf7 text item delimiters\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 myHome\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 theFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 AppleScript's\cf3  \cf7 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "/"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 totl\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf6 count
+\b0 \cf3  (
+\b \cf3 every
+\b0 \cf3  
+\i \cf6 text item
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 myHome\cf3 )\
+		
+\b \cf3 set
+\b0 \cf3  \cf4 ending\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 totl\cf3  - \cf3 2\cf3  \cf2 -- remove current folder name from path\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 myHome\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\i \cf6 text items
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 thru
+\b0 \cf3  \cf4 ending\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 myHome\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 ) & \cf3 "/"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 AppleScript's\cf3  \cf7 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 oldDelimiter\cf3 \
+	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf3 "error occurred attempting to extract path to new project folder"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf7 AppleScript's\cf3  \cf7 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 oldDelimiter\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+	\
+	\cf2 -- User chooses the name they wish to give the project copy\cf3 \
+	
+\b \cf8 display dialog
+\b0 \cf3  \cf3 "Name of new plugin?"\cf3  \cf8 default answer\cf3  \cf3 "newPlugin"\cf3  \cf8 buttons\cf3  \{\cf3 " OK"\cf3 \} \cf8 default button\cf3  \cf3 1\cf3 \
+	
+\b \cf3 copy
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf7 result\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 list
+\i0 \cf3  
+\b \cf3 to
+\b0 \cf3  \{\cf4 button_pressed\cf3 , \cf4 text_returned\cf3 \}\
+	
+\b \cf3 set
+\b0 \cf3  \cf4 newProjectName\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 text_returned\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 newProjectName\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 newProjectName\cf3  \cf6 at\cf3  \cf3 " "\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 ""\cf3 ) \cf2 -- remove all spaces\cf3 \
+	\
+	\
+	\cf2 -- User provides the current prefix of the original project\cf3 \
+	
+\b \cf8 display dialog
+\b0 \cf3  (\cf3 "What is the current prefix for "\cf3  & \cf4 oldProjectName\cf3  & \cf3 " ?"\cf3 ) \cf8 default answer\cf3  \cf3 "FT"\cf3  \cf8 buttons\cf3  \{\cf3 "OK"\cf3 \} \cf8 default button\cf3  \cf3 1\cf3 \
+	
+\b \cf3 copy
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf7 result\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 list
+\i0 \cf3  
+\b \cf3 to
+\b0 \cf3  \{\cf4 button_pressed\cf3 , \cf4 text_returned\cf3 \}\
+	
+\b \cf3 set
+\b0 \cf3  \cf4 old_prefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 text_returned\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 old_prefix\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 old_prefix\cf3  \cf6 at\cf3  \cf3 " "\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 ""\cf3 ) \cf2 -- remove all spaces\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 old_prefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 upCase\cf3 (\cf4 old_prefix\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf4 kernel_beginning\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf6 count
+\b0 \cf3  \cf4 old_prefix\cf3 ) + \cf3 1\cf3 \
+	
+\b \cf3 if
+\b0 \cf3  \cf4 myReservedList\cf3  
+\b \cf3 contains
+\b0 \cf3  \cf4 old_prefix\cf3  
+\b \cf3 then
+\b0 \cf3 \
+		
+\b \cf8 beep
+\b0 \cf3 \
+		
+\b \cf8 display dialog
+\b0 \cf3  \cf3 "WARNING -- Your original prefix is on the reserved list. Usage of this prefix is not allowed. The project is not clonable. Exit now."\cf3  \cf8 with icon\cf3  
+\i \cf9 stop
+\i0 \cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf2 -- abort program\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+	\
+	\cf2 -- User chooses new prefix to replace old prefix\cf3 \
+	
+\b \cf3 repeat
+\b0 \cf3 \
+		
+\b \cf8 display dialog
+\b0 \cf3  (\cf3 "What is the new prefix for "\cf3  & \cf4 newProjectName\cf3  & \cf3 " ? "\cf3 ) \cf8 default answer\cf3  \cf3 ""\cf3  \cf8 buttons\cf3  \{\cf3 "OK"\cf3 \} \cf8 default button\cf3  \cf3 1\cf3 \
+		
+\b \cf3 copy
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf7 result\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 list
+\i0 \cf3  
+\b \cf3 to
+\b0 \cf3  \{\cf4 button_pressed\cf3 , \cf4 text_returned\cf3 \}\
+		
+\b \cf3 set
+\b0 \cf3  \cf4 new_prefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 text_returned\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+		
+\b \cf3 try
+\b0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 n\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 48\cf3  \cf2 -- zero\cf3 \
+			
+\b \cf3 repeat
+\b0 \cf3  \cf3 10\cf3  
+\b \cf3 times
+\b0 \cf3 \
+				
+\b \cf3 if
+\b0 \cf3  (
+\b \cf8 offset
+\b0 \cf3  \cf8 of\cf3  (
+\b \cf8 ASCII character
+\b0 \cf3  \cf4 n\cf3 ) \cf8 in\cf3  \cf4 new_prefix\cf3 ) > \cf3 0\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 error
+\b0 \cf3  \cf3 "Numbers are not allowed for the prefix"\cf3 \
+				
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf4 n\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 n\cf3  + \cf3 1\cf3 \
+			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 new_prefix\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 new_prefix\cf3  \cf6 at\cf3  \cf3 " "\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 ""\cf3 ) \cf2 -- remove all spaces\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 new_prefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 upCase\cf3 (\cf4 new_prefix\cf3 )\
+			
+\b \cf3 if
+\b0 \cf3  \cf4 myReservedList\cf3  
+\b \cf3 contains
+\b0 \cf3  \cf4 new_prefix\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf8 beep
+\b0 \cf3 \
+				
+\b \cf8 display dialog
+\b0 \cf3  \cf3 "WARNING! -- Your new prefix is on the reserved list. Usage of this prefix is not allowed. Adding X, Y or Z to the beginning would be acceptable."\cf3  \cf8 with icon\cf3  
+\i \cf9 stop
+\i0 \cf3 \
+			
+\b \cf3 else
+\b0 \cf3 \
+				
+\b \cf3 exit
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3 \
+			
+\b \cf8 display dialog
+\b0 \cf3  \cf3 "Numbers are not allowed for the prefix"\cf3  \cf8 with icon\cf3  
+\i \cf9 stop
+\i0 \cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+	\
+	\
+	\cf2 -- end of setup  //////////////////////////\cf3 \
+	\
+	
+\b \cf8 display dialog
+\b0 \cf3  (\cf3 "This is what will be used:\
+original project:		 "\cf3  & \cf4 oldProjectName\cf3  & \cf3 "\
+new project:		 "\cf3  & \cf4 newProjectName\cf3  & \cf3 "\
+original prefix:		"\cf3  & \cf4 old_prefix\cf3  & \cf3 "\
+new prefix:		"\cf3  & \cf4 new_prefix\cf3 ) \cf8 buttons\cf3  \{\cf3 "OK"\cf3 , \cf3 "RESUBMIT"\cf3 , \cf3 "EXIT"\cf3 \} \cf8 default button\cf3  \cf3 1\cf3  \cf8 with icon\cf3  
+\i \cf9 note
+\i0 \cf3 \
+	
+\b \cf3 copy
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf7 result\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 list
+\i0 \cf3  
+\b \cf3 to
+\b0 \cf3  \{\cf4 buttonPressed\cf3 \}\
+	\
+	
+\b \cf3 if
+\b0 \cf3  \cf4 buttonPressed\cf3  
+\b \cf3 is not
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 "EXIT"\cf3  
+\b \cf3 then
+\b0 \cf3  \cf2 -- this checks to see if any answers were a null string\cf3 \
+		
+\b \cf3 if
+\b0 \cf3  \cf4 newProjectName\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 ""\cf3  
+\b \cf3 then
+\b0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 buttonPressed\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "RESUBMIT"\cf3 \
+			
+\b \cf8 display dialog
+\b0 \cf3  \cf3 "Error - one or more entries was null - please redo your answers."\cf3  \cf8 with icon\cf3  
+\i \cf9 stop
+\i0 \cf3 \
+		
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 old_prefix\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 ""\cf3  
+\b \cf3 then
+\b0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 buttonPressed\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "RESUBMIT"\cf3 \
+			
+\b \cf8 display dialog
+\b0 \cf3  \cf3 "Error - one or more entries was null - please redo your answers."\cf3  \cf8 with icon\cf3  
+\i \cf9 stop
+\i0 \cf3 \
+		
+\b \cf3 else
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3  \cf4 new_prefix\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 ""\cf3  
+\b \cf3 then
+\b0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 buttonPressed\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "RESUBMIT"\cf3 \
+			
+\b \cf8 display dialog
+\b0 \cf3  \cf3 "Error - one or more entries was null - please redo your answers."\cf3  \cf8 with icon\cf3  
+\i \cf9 stop
+\i0 \cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+	\
+
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+\
+
+\b \cf3 if
+\b0 \cf3  \cf4 buttonPressed\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 "EXIT"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+	
+\b \cf3 return
+\b0 \cf3  \cf2 -- abort program by user request\cf3 \
+
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\
+\cf2 --////// end of User Input\cf3 \
+\
+\
+\cf2 -- Duplicate original Xcode project folder \cf3 \
+
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "Finder"\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 newFolder\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf6 duplicate
+\b0 \cf3  \cf4 theFolder\cf3 \
+
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+\
+\cf2 -- set POSIX path for duplicated Folder for shell scripts\cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 myPath\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 myHome\cf3  & \cf4 oldProjectName\cf3  & \cf3 " copy/"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\
+\cf2 -- create new project\cf3 \
+\cf2 -- Launch ProgBar for the first time.\cf3 \
+\cf5 startProgBar\cf3 () 
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3 \
+\
+
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "Finder"\cf3 \
+	\
+	\cf2 -- clean out duplicated project build folder before making list of project items \cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf4 myBuildPath\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newFolder\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 text
+\i0 \cf3 \
+	
+\b \cf3 try
+\b0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 myBuildPath\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 myBuildPath\cf3  & \cf3 "build"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 alias
+\i0 \cf3 \
+		
+\b \cf3 if
+\b0 \cf3  (
+\b \cf8 list folder
+\b0 \cf3  \cf4 myBuildPath\cf3  
+\b \cf3 without
+\b0 \cf3  \cf8 invisibles\cf3 ) 
+\b \cf3 is not
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \{\} 
+\b \cf3 then
+\b0 \cf3 \
+			
+\b \cf6 delete
+\b0 \cf3  
+\i \cf6 items
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 myBuildPath\cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+\cf5 doOneFolder\cf3 (\cf4 newFolder\cf3 , \cf4 myBuildPath\cf3 , \cf4 old_prefix\cf3 , \cf4 new_prefix\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 ) \cf2 -- process all folders recursively\cf3 \
+
+\b \cf3 tell
+\b0 \cf3  
+\i \cf6 application
+\i0 \cf3  \cf3 "Finder"\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf7 name\cf3  
+\b \cf3 of
+\b0 \cf3  \cf4 newFolder\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 newProjectName\cf3  \cf2 -- finally rename duplicate folder to new project name\cf3 \
+	\cf5 stopProgBar\cf3 () 
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3  \cf2 -- Conclude the progress bar. This 'resets' the progress bar's state.\cf3 \
+
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3  \cf2 -- end finder script for renaming everything\cf3 \
+\
+\cf2 -- Go into Project .xcodeproj package and replace all prefixes and names to fix broken links within xcode paths and targets \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 myPath\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 myHome\cf3  & \cf4 newProjectName\cf3  & \cf3 "/"\cf3  & \cf4 newProjectName\cf3  & \cf3 ".xcodeproj"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 fileSuffix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 ".pbxproj"\cf3  \cf2 -- set global variable\cf3 \
+\
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 oldProjectName\cf3 , \cf4 newProjectName\cf3 )\
+\
+\cf2 -- --------more detailed search of project file structure to prevent incorrect replacements\cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 pathoprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "path = "\cf3  & \cf4 old_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 pathnprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "path = "\cf3  & \cf4 new_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 pathoprefix\cf3 , \cf4 pathnprefix\cf3 )\
+\
+
+\b \cf3 set
+\b0 \cf3  \cf4 nameoprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "name = "\cf3  & \cf4 old_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 namenprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "name = "\cf3  & \cf4 new_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 nameoprefix\cf3 , \cf4 namenprefix\cf3 )\
+\
+
+\b \cf3 set
+\b0 \cf3  \cf4 nameoprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "HEADER = "\cf3  & \cf4 old_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 namenprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "HEADER = "\cf3  & \cf4 new_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 nameoprefix\cf3 , \cf4 namenprefix\cf3 )\
+\
+
+\b \cf3 set
+\b0 \cf3  \cf4 nibpathoprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "path = "\cf3  & \cf4 nibFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 old_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 nibpathnprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "path = "\cf3  & \cf4 nibFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 new_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 nibpathoprefix\cf3 , \cf4 nibpathnprefix\cf3 )\
+\
+
+\b \cf3 set
+\b0 \cf3  \cf4 nibpathoprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "name = "\cf3  & \cf4 nibFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 old_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 nibpathnprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "name = "\cf3  & \cf4 nibFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 new_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 nibpathoprefix\cf3 , \cf4 nibpathnprefix\cf3 )\
+\
+
+\b \cf3 set
+\b0 \cf3  \cf4 xibpathoprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "path = "\cf3  & \cf4 xibFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 old_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 xibpathnprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "path = "\cf3  & \cf4 xibFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 new_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 xibpathoprefix\cf3 , \cf4 xibpathnprefix\cf3 )\
+\
+
+\b \cf3 set
+\b0 \cf3  \cf4 matlabPathoprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "name = "\cf3  & \cf4 matlabFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 old_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 matlabPathnprefix\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "name = "\cf3  & \cf4 matlabFolder\cf3  & \cf3 "\\\\/"\cf3  & \cf4 new_prefix\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+\cf5 simpleReplaceText\cf3 (\cf3 "project.pbxproj"\cf3 , \cf4 matlabPathoprefix\cf3 , \cf4 matlabPathnprefix\cf3 )\
+\
+\cf2 -- clean new project\cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 myPath\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 myHome\cf3  & \cf4 newProjectName\cf3  & \cf3 "/"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf6 string
+\i0 \cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 ShellPath\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 myPath\cf3  \cf6 at\cf3  (\cf3 " "\cf3 ) 
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 "\\\\%"\cf3 ) \cf2 -- uses global variable to overcome POSIX issue with spaces in names\cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 ShellPath\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 searchReplace\cf3  \cf6 into\cf3  \cf4 ShellPath\cf3  \cf6 at\cf3  \cf3 "%"\cf3  
+\b \cf3 given
+\b0 \cf3  \cf4 replaceString\cf3 :\cf3 " "\cf3 )\
+\cf2 --set cmd to "rm " & ShellPath & replaceScriptName -- remove sed script file from new project folder\cf3 \
+\cf2 --do shell script cmd\cf3 \
+
+\b \cf3 set
+\b0 \cf3  \cf4 cmd\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "cd "\cf3  & \cf4 ShellPath\cf3  & \cf3 "; xcodebuild -alltargets clean"\cf3 \
+
+\b \cf8 do shell script
+\b0 \cf3  \cf4 cmd\cf3 \
+\
+\cf2 -- end of copyXproject\cf3 \
+
+\b \cf6 activate
+\b0 \cf3 \
+
+\b \cf8 display dialog
+\b0 \cf3  \cf4 newProjectName\cf3  & \cf3 " has been created!"\cf3  \cf8 with icon\cf3  
+\i \cf9 note
+\i0 \cf3 \
+\
+}

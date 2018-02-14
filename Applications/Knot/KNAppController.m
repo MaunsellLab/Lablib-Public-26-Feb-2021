@@ -516,9 +516,7 @@ char *idString = "Knot Version 2.2";
     transformer = [[[LLTaskStatusTransformer alloc] init] autorelease];
     [transformer setTransformerType:kLLTaskStatusNoFile];
     [NSValueTransformer setValueTransformer:transformer forName:@"TaskStatusNoFileTransformer"];
-
     self.gitController = [[LLGitController alloc] init];
-    
     return self;
 }
 

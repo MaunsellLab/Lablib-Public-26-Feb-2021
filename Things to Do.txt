@@ -13,8 +13,7 @@ didn't try to load it if not.
 
 Git support:
 
-1) For each mouse's settings, declare a project
-2) Project maps on to a folder in /Users/Shared/Data
+2) Each Plugin maintains a folder in /Users/Shared/Data
 3) Each night, the contents of /Users/Shared/Data shoould be copied into a repository on Blur
 4) Later each night, Blur should push the repository to GitHub
 
