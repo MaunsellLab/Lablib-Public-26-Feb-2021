@@ -40,16 +40,8 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @interface LLTaskPlugIn : NSObject {
 
     DisplayModeParam        displayMode;
-//    LLBinocCalibrator       *eyeCalibrator;
-//    NSDate                  *lastDataCollectionDate;
-//    long                    mode;
     NSDictionary            *monkeySoundDict;
-//    LLMonitorController     *monitorController;
     NSDictionary            *mouseSoundDict;
-//    LLSockets               *socket;
-//    LLStateSystem           *stateSystem;
-//    LLStimWindow            *stimWindow;
-//    LLSynthDataDevice       *synthDataDevice;
     LLTaskStatus            *taskStatus;
 }
 

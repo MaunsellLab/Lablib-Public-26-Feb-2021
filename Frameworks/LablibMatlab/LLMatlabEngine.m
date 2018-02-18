@@ -36,12 +36,14 @@ Engine  *pEngine;
 {
     NSEnumerator *enumerator;
     NSString *matlabPath;
+    NSString *searchSuffix = [NSString stringWithFormat:@"/%@.plugin", pluginName];
     NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleExecutable"];
     NSMutableArray *bundlePaths = [NSMutableArray arrayWithArray:[LLSystemUtil allBundlesWithExtension:@"plugin"
-                                                                                            appSubPath:[NSString stringWithFormat:@"Application Support/%@/Plugins", appName]]];
+                            appSubPath:[NSString stringWithFormat:@"Application Support/%@/Plugins", appName]]];
+    
     enumerator = [bundlePaths objectEnumerator];
     while ((matlabPath = [enumerator nextObject])) {
-        if ([matlabPath containsString:pluginName]) {
+        if ([matlabPath hasSuffix:searchSuffix]) {
             matlabPath = [matlabPath stringByAppendingString:@"/Contents/Resources/Matlab/"];
             engEvalString(pEngine, [NSString stringWithFormat:@"addpath('%@')", matlabPath].UTF8String);
             break;

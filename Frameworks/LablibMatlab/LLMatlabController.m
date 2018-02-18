@@ -8,7 +8,6 @@
 #import "LLMatlabController.h"
 #import <Lablib/LLSystemUtil.h>
 
-//#define kMatlabDataPath             @"/Users/Shared/Data/Matlab/"
 #define kTrialStartEventName        @"trialStart"
 
 @implementation LLMatlabController : NSObject
@@ -180,11 +179,16 @@
         matFileName = [fileName retain];
         matlabScriptCommand = [[NSString alloc] initWithFormat:@"dParams = %@(dParams, file, trials);", matFileName];
         matlabInitScriptCommand = [[NSString alloc]
-                                   initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
+                initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
         subjectNumber = number;
         dateFormatter = [[NSDateFormatter alloc] init];
         fileManager = [[NSFileManager alloc] init];
         dateFormatter.dateFormat = @"yyyy-MM-dd";
+
+
+
+        [engine evalString:@"path"];
+
     }
     return self;
 }
@@ -198,7 +202,6 @@
     NSString *path, *replyString;
 
     [self checkMatlabDataPath:@"MatFiles"];
-
     path = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
     exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
@@ -363,7 +366,6 @@
             [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"saveFigureAsPDF(1, '%@')", path]];
 }
-
 
 - (void)saveMatlabWorkspace;
 {

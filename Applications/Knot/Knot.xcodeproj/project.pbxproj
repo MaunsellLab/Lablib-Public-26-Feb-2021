@@ -60,6 +60,10 @@
 		69A4A1701FCA18B4002F6F8C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69A4A16B1FCA18B3002F6F8C /* MainMenu.xib */; };
 		69A4A1751FCA18F8002F6F8C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 69A4A1731FCA18F8002F6F8C /* InfoPlist.strings */; };
 		69A4A1761FCA18F8002F6F8C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 69A4A1731FCA18F8002F6F8C /* InfoPlist.strings */; };
+		69B1234420328F980064A57C /* 200Hz300msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69B1234020328F960064A57C /* 200Hz300msSq.aiff */; };
+		69B1234520328F980064A57C /* 200Hz200msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69B1234120328F970064A57C /* 200Hz200msSq.aiff */; };
+		69B1234620328F980064A57C /* 200Hz500msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69B1234220328F970064A57C /* 200Hz500msSq.aiff */; };
+		69B1234720328F980064A57C /* 200Hz400msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69B1234320328F970064A57C /* 200Hz400msSq.aiff */; };
 		69C346DB1EE3593B00C278F8 /* Matlab in Resources */ = {isa = PBXBuildFile; fileRef = 69C346DA1EE3593B00C278F8 /* Matlab */; };
 		69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 69DACB3A0A1787EE00B914AA /* KnotPlugin.icns */; };
 		69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */; };
@@ -141,6 +145,10 @@
 		69A4A1711FCA18C7002F6F8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KNSummaryController.xib; sourceTree = "<group>"; };
 		69A4A1721FCA18C7002F6F8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		69A4A1741FCA18F8002F6F8C /* Base */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		69B1234020328F960064A57C /* 200Hz300msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 200Hz300msSq.aiff; path = ../../Resources/Sounds/200Hz300msSq.aiff; sourceTree = "<group>"; };
+		69B1234120328F970064A57C /* 200Hz200msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 200Hz200msSq.aiff; path = ../../Resources/Sounds/200Hz200msSq.aiff; sourceTree = "<group>"; };
+		69B1234220328F970064A57C /* 200Hz500msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 200Hz500msSq.aiff; path = ../../Resources/Sounds/200Hz500msSq.aiff; sourceTree = "<group>"; };
+		69B1234320328F970064A57C /* 200Hz400msSq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = 200Hz400msSq.aiff; path = ../../Resources/Sounds/200Hz400msSq.aiff; sourceTree = "<group>"; };
 		69B9AE720482FBDD00F95509 /* KNSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KNSummaryController.h; sourceTree = "<group>"; };
 		69B9AE730482FBDD00F95509 /* KNSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KNSummaryController.m; sourceTree = "<group>"; };
 		69C346DA1EE3593B00C278F8 /* Matlab */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Matlab; sourceTree = "<group>"; };
@@ -295,8 +303,6 @@
 				69F11F4C0B1E70380068A6CF /* 7C.aiff */,
 				69F11F4D0B1E70380068A6CF /* 7G.aiff */,
 				69F11F540B1E70410068A6CF /* Correct.aiff */,
-				69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */,
-				699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */,
 				69F11F560B1E704A0068A6CF /* Wrong.aiff */,
 				699981DE0A8A7B5400101ABF /* shortCorrect.aiff */,
 				699981DF0A8A7B5400101ABF /* shortNotCorrect.aiff */,
@@ -305,6 +311,12 @@
 				69EE5FC51E994C2A00BC3787 /* MouseLeverDown.wav */,
 				69EE5FC61E994C2A00BC3787 /* MouseWaitForLever.wav */,
 				69EE5FC71E994C2A00BC3787 /* MouseWrong.wav */,
+				69E3C29C0C4ABF1A003C6763 /* 200Hz100msSq.aiff */,
+				69B1234120328F970064A57C /* 200Hz200msSq.aiff */,
+				69B1234020328F960064A57C /* 200Hz300msSq.aiff */,
+				69B1234320328F970064A57C /* 200Hz400msSq.aiff */,
+				69B1234220328F970064A57C /* 200Hz500msSq.aiff */,
+				699981DD0A8A7B5400101ABF /* loud200Hz200msSq.aiff */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -457,12 +469,14 @@
 				69FF455D07C8106E0041B08D /* Knot.icns in Resources */,
 				69DACB3B0A1787EE00B914AA /* KnotPlugin.icns in Resources */,
 				699981E50A8A7B5400101ABF /* loud200Hz200msSq.aiff in Resources */,
+				69B1234420328F980064A57C /* 200Hz300msSq.aiff in Resources */,
 				699981E60A8A7B5400101ABF /* shortCorrect.aiff in Resources */,
 				69A4A16F1FCA18B4002F6F8C /* MainMenu.xib in Resources */,
 				69EE5FCC1E994C2A00BC3787 /* MouseWrong.wav in Resources */,
 				69EE5FC81E994C2A00BC3787 /* MouseCorrect.wav in Resources */,
 				69EE5FCB1E994C2A00BC3787 /* MouseWaitForLever.wav in Resources */,
 				699981E70A8A7B5400101ABF /* shortNotCorrect.aiff in Resources */,
+				69B1234520328F980064A57C /* 200Hz200msSq.aiff in Resources */,
 				69F11F470B1E70260068A6CF /* 4G.aiff in Resources */,
 				69F11F4E0B1E70380068A6CF /* 5C.aiff in Resources */,
 				69F11F4F0B1E70380068A6CF /* 5G.aiff in Resources */,
@@ -471,12 +485,14 @@
 				69F11F520B1E70380068A6CF /* 7C.aiff in Resources */,
 				69F11F530B1E70380068A6CF /* 7G.aiff in Resources */,
 				69F11F550B1E70410068A6CF /* Correct.aiff in Resources */,
+				69B1234720328F980064A57C /* 200Hz400msSq.aiff in Resources */,
 				69C346DB1EE3593B00C278F8 /* Matlab in Resources */,
 				69A4A1751FCA18F8002F6F8C /* InfoPlist.strings in Resources */,
 				69A4A16D1FCA18B4002F6F8C /* KNSummaryController.xib in Resources */,
 				69EE5FCA1E994C2A00BC3787 /* MouseLeverDown.wav in Resources */,
 				69EE5FC91E994C2A00BC3787 /* MouseFailed.wav in Resources */,
 				69F11F570B1E704A0068A6CF /* Wrong.aiff in Resources */,
+				69B1234620328F980064A57C /* 200Hz500msSq.aiff in Resources */,
 				69E3C29D0C4ABF1A003C6763 /* 200Hz100msSq.aiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

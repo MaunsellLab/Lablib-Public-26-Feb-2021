@@ -14,7 +14,7 @@
 #define kDriftTimeLimitMS    0.010
 #define kDriftFractionLimit    0.001
 #define kGarbageLength        3                    // Invalid entries at the start of sequence
-#define    kITC18TicksPerMS    800L                // Time base for ITC18
+#define kITC18TicksPerMS    800L                // Time base for ITC18
 #define kITC18TickTimeUS    1.25
 #define kMaxDAChannels        8
 #define kOverSample            4

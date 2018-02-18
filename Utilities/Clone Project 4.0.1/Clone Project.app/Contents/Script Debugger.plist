@@ -79,9 +79,9 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 						<dict>
 							<key>3</key>
 							<array>
-								<integer>438</integer>
-								<integer>554</integer>
-								<integer>222</integer>
+								<integer>440</integer>
+								<integer>552</integer>
+								<integer>223</integer>
 							</array>
 							<key>5</key>
 							<array>
@@ -117,7 +117,7 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 								<key>LNSTextViewWrapLines</key>
 								<true/>
 								<key>LNSVisibleRect</key>
-								<string>{{0, 0}, {667, 120}}</string>
+								<string>{{0, 0}, {667, 410}}</string>
 							</dict>
 						</dict>
 						<key>explorerState</key>
@@ -202,7 +202,7 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 						</dict>
 					</dict>
 					<key>stackVisible</key>
-					<true/>
+					<false/>
 					<key>variablesState</key>
 					<dict>
 						<key>dividerPos</key>
@@ -222,7 +222,7 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 					</dict>
 				</dict>
 				<key>eventLogHeight</key>
-				<real>60</real>
+				<real>66</real>
 				<key>eventLogViewState</key>
 				<dict>
 					<key>format</key>
@@ -325,9 +325,9 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 						<array>
 							<dict>
 								<key>length</key>
-								<integer>3</integer>
+								<integer>9</integer>
 								<key>location</key>
-								<integer>9809</integer>
+								<integer>5461</integer>
 							</dict>
 						</array>
 						<key>LNSTextViewShowInvisibles</key>
@@ -339,11 +339,11 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 						<key>LNSTextViewWrapLines</key>
 						<false/>
 						<key>LNSVisibleRect</key>
-						<string>{{0, 2321}, {993, 987}}</string>
+						<string>{{0, 526}, {1046, 1139}}</string>
 						<key>ShowLineNumbers</key>
 						<false/>
 						<key>showCodeCoverage</key>
-						<true/>
+						<false/>
 					</dict>
 					<key>instanceID</key>
 					<string>42A57504-55EA-4641-BB8D-AD37AE449131-49121-0000333077C8FF05</string>
@@ -359,7 +359,7 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 					<key>tab.bps</key>
 					<real>433</real>
 					<key>tab.debug</key>
-					<real>682</real>
+					<real>439</real>
 					<key>tab.rsrcs</key>
 					<real>433</real>
 				</dict>
@@ -368,7 +368,7 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 				<key>windowControllerID</key>
 				<string>8E4ED031-E20B-4A89-BB88-8633FFFBA779-49121-0000331AD47C6DBD</string>
 				<key>windowFrame</key>
-				<string>178 189 1736 1177 0 0 2560 1417 </string>
+				<string>17 114 1775 1295 0 0 2560 1417 </string>
 			</dict>
 		</dict>
 		<key>windowControllers</key>
@@ -383,7 +383,7 @@ WVtga3SDh4+Yqq2yAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=</string>
 					<key>miniaturized</key>
 					<false/>
 					<key>windowFrame</key>
-					<string>178 189 1736 1177 0 0 2560 1417 </string>
+					<string>17 114 1775 1295 0 0 2560 1417 </string>
 				</dict>
 			</dict>
 		</array>
