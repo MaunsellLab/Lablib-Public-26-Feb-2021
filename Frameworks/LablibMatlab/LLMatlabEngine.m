@@ -40,7 +40,7 @@ Engine  *pEngine;
     NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleExecutable"];
     NSMutableArray *bundlePaths = [NSMutableArray arrayWithArray:[LLSystemUtil allBundlesWithExtension:@"plugin"
                             appSubPath:[NSString stringWithFormat:@"Application Support/%@/Plugins", appName]]];
-    
+
     enumerator = [bundlePaths objectEnumerator];
     while ((matlabPath = [enumerator nextObject])) {
         if ([matlabPath hasSuffix:searchSuffix]) {
@@ -51,7 +51,7 @@ Engine  *pEngine;
     }
     if (matlabPath == nil) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLMatlabEngine:"
-                                   informativeText:[NSString stringWithFormat:@"Failed to find Matlab resources for %@", pluginName]];
+                informativeText:[NSString stringWithFormat:@"Failed to find Matlab resources for %@", pluginName]];
     }
 }
 

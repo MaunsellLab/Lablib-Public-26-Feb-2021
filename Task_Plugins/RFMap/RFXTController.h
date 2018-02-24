@@ -13,7 +13,6 @@ extern NSString	*trialWindowZoomKey;
 
 @private
     NSSize			staticWindowFrame;
-
     IBOutlet		NSScrollView *scrollView;
     IBOutlet		LLXTView *xtView;
     IBOutlet		NSPopUpButton *zoomButton;

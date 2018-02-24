@@ -15,10 +15,6 @@
 #define 	kCorrectSound			@"Correct"
 #define 	kNotCorrectSound		@"NotCorrect"
 
-typedef struct {
-	long	stimulusType;
-} TrialDesc;
-
 extern long 			eotCode;			// End Of Trial code
 extern LLEyeWindow		*fixWindow;
 extern long				intervalIndex;

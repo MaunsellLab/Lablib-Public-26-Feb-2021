@@ -8,21 +8,23 @@
  */
 
 #import "RFMapStimuli.h"
-#import "RFStateSystem.h"
 
 typedef NS_ENUM(unsigned int, RFChannel) {kLeverChannel = 0, kVBLChannel, kFirstSpikeChannel};
 typedef NS_ENUM(unsigned int, RFStimulus) {kBarStimulus = 0, kGaborStimulus, kDotsStimulus, kPlaidStimulus, kStimTypes};
 typedef NS_ENUM(unsigned int, RFBehavior) {kBehaviorAlways = 0, kBehaviorRunning, kBehaviorFixating};
 typedef NS_ENUM(unsigned int, RFCoordinate) {kAzimuthElevation = 0, kEccentricityAngle};
 
-#define     kLeverBit                (0x0001 << kLeverChannel)
-#define        kRewardBit                0x0001
-#define        kSpikeChannels            2
-#define        kSamplePeriodMS            5
-#define        kSamplePeriodS            (kSamplePeriodMS / 1000.0)
-#define        kTimestampTickMS        1
+#define     kLeverBit           (0x0001 << kLeverChannel)
+#define     kRewardBit          0x0001
+#define     kSpikeChannels      2
+#define     kSamplePeriodMS     5
+#define     kSamplePeriodS      (kSamplePeriodMS / 1000.0)
+#define     kTimestampTickMS    1
+#define     kMaxLevels          8
 
-#define     kMaxLevels                8
+typedef struct {
+    long    stimulusType;
+} TrialDesc;
 
 typedef struct {
     long    levels;                // number of active stimulus levels
