@@ -327,7 +327,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0920;
 			};
 			buildConfigurationList = 69B8D128088DABDB002FCFD4 /* Build configuration list for PBXProject "RFMap" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -458,6 +458,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CCC1F954DA000C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 			};
 			name = Development;
 		};
@@ -465,6 +466,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CCC1F954DA000C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 			};
 			name = Deployment;
 		};
@@ -472,6 +474,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CCC1F954DA000C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 			};
 			name = Default;
 		};

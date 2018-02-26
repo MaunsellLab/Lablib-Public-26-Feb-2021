@@ -395,7 +395,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0920;
 				TargetAttributes = {
 					69F36A7205670A9A009AED51 = {
 						DevelopmentTeam = E54G4AFC7H;
@@ -620,6 +620,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 			};
 			name = Development;
 		};
@@ -627,6 +628,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 			};
 			name = Deployment;
 		};
@@ -634,6 +636,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 			};
 			name = Default;
 		};
