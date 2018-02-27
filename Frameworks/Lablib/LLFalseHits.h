@@ -1,5 +1,5 @@
 //
-//  LLFalseAlarms.h
+//  LLFalseHits.h
 //  Lablib
 //
 //  Created by John Maunsell on 2/26/18.
@@ -7,11 +7,15 @@
 
 #define kBins       10
 
-@interface LLFalseAlarms : NSObject {
+@interface LLFalseHits : NSObject {
 @private
     long n[kBins];                          // number of times a time bin was occupied
     NSString *maxTimeMSKey;
     NSString *minTimeMSKey;
+    long numCorrectBeforeMaxTime;
+    long numCorrectAfterMaxTime;
+    long numMissed;
+    long numWrong;
     NSString *responseTimeMSKey;
     long sum[kBins];                        // number of FAs in each time bin
     NSString *tooFastTimeMSKey;

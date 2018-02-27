@@ -263,9 +263,6 @@ NSString *LLFixCalRTYKey = @"LLFixCalRTY";
 
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
 {
-//    [taskDefaults release];
-//    taskDefaults = newDefaults;
-//    [taskDefaults retain];
     [calibrators[kLeftEye] setDefaults:[NSUserDefaults standardUserDefaults]];
     [calibrators[kRightEye] setDefaults:[NSUserDefaults standardUserDefaults]];
 }

@@ -3,13 +3,14 @@
 //  Lablib
 //
 //  Created by John Maunsell on 12/23/04.
-//  Copyright 2004. All rights reserved.
+//  Copyright 2018. All rights reserved.
 //
 
 #import "LLDataDoc.h"
 #import "LLDisplays.h"
 #import "LLBinocCalibrator.h"
 #import "LLDataDeviceController.h"
+#import "LLFalseHits.h"
 #import "LLMatlabEngine.h"
 #import "LLMonitorController.h"
 #import "LLObserverKeys.h"
@@ -55,6 +56,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, strong) LLBinocCalibrator *eyeCalibrator;
 @property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeLeftCalibrator;
 @property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeRightCalibrator;
+@property (NS_NONATOMIC_IOSONLY, retain) LLFalseHits *falseHits;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL handlesEvents;
 @property (NS_NONATOMIC_IOSONLY, retain) id host;
 @property (NS_NONATOMIC_IOSONLY) BOOL initialized;

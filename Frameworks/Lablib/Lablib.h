@@ -48,7 +48,7 @@
 #import <Lablib/LLEyeWindow.h>
 #import <Lablib/LLEyeXYView.h>
 #import <Lablib/LLFactorToOctaveStepTransformer.h>
-#import <Lablib/LLFalseAlarms.h>
+#import <Lablib/LLFalseHits.h>
 #import <Lablib/LLFilterExp.h>
 #import <Lablib/LLFixTarget.h>
 #import <Lablib/LLHistView.h>

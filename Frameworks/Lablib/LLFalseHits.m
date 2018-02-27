@@ -1,10 +1,12 @@
 //
-//  LLFalseAlarms.m
+//  LLFalseHits.m
 //  Lablib
 //
 //  Created by John Maunsell on 2/26/18.
 /*
- Estimates the false alarm rate.  Assumes that the reaction time is controlled by four parameters:
+ Estimates the false hit rate.  False alarms are all early responses, whether a stimulus has been presented or not.
+ In distinction, false hits are response that occur without a stimulus during the period when they are counted as a
+ hit.  An estimate of false hits must takeinto account four parameters:
     minTime -- earliest time in the trial when a valid stimulus can appear
     maxTime -- lastest time in the trial when a valid stimulus can appear
     tooFastTime -- the minimum allowable RT; earlier responses are considered wrong
@@ -13,24 +15,28 @@
  number of false alarms that occur during the interval that can contain valid responses and false alarms
  (minTime + tooFastTime to maxTime -- there can be no false alarms beyond maxTime).  It compiles a rate of FAs
  as a function of time.  It also computes the probability that a guess during a bin in that interval would be
- scored as correct (i.e., the probability that the response window overlies the bin).  The FA  rate is the
- probabilitiest sum of the FA rate times the probability that a guess would be scored as correct.  Thus, the
- rate should approximate the lower asymptote on the psychometric function (gamma).
+ scored as correct (i.e., the probability that the response window overlies the bin).  The FH  rate is the
+ probabilitiest sum of the response rate times the probability that that response would be scored as correct.  Thus,
+ the rate should approximate the lower asymptote on the psychometric function (gamma).  There will be some distortion
+ of the estimate if the reaction time window is long compared to the min to max period (because FAs can't be measured
+ in the RT window after the maxStimTime.
 
  The method monitors the four parameters (which are handed to the initializer as NSString *keys to entries in
  [NSUserDefaults standardUserDefaults].  If these parameters change, LLFalseAlarm will rebin, transferring the old
  data to any overlapping bins, and discarding the rest.
 
- Note that the FA rate returned generally won't correspond closely to the percentage of early (kEOTWrong) trials.
- Those typically include in their count responses that occur before any time in the trial. This code is specifically
- directed at estimating the fraction of trials on which the animal produced a false alarm that could have been
- counted as a correct.  It should generally be compared to the percentage correct.
+ The FH rate  returned is an estimate of FH / (FH + Miss), which should be directly comparable to the standard
+ measure of Hits (Hits / Hits+Miss). Note that the FH rate returned generally won't correspond closely to the
+ percentage of early (kEOTWrong) trials. Those typically include in their count responses that occur before any
+ time in the trial. This code is specifically directed at estimating the fraction of trials on which the animal
+ produced a false alarm that could have been counted as a correct.  It should generally be compared to the
+ percentage correct.
 */
 
-#import "LLFalseAlarms.h"
+#import "LLFalseHits.h"
 #import "LLStandardDataEvents.h"
 
-@implementation LLFalseAlarms
+@implementation LLFalseHits
 
 - (void)clear;
 {
@@ -54,10 +60,15 @@
 - (void)dumpValues;
 {
     NSLog(@"rate: %.2f; Taking from %ld to %ld", self.rate, self.minTimeMS + self.tooFastTimeMS, self.maxTimeMS);
-    NSLog(@"minMS: %ld maxMS: %ld responseMS: %ld tooFast: %ld", self.minTimeMS, self.maxTimeMS, self.responseTimeMS, self.tooFastTimeMS);
-    NSLog(@"n:    %5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld", n[0], n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[8], n[9]);
-    NSLog(@"sum:  %5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld\n", sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9]);
-    NSLog(@"prob: %5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f\n", validProb[0], validProb[1], validProb[2], validProb[3], validProb[4], validProb[5], validProb[6], validProb[7], validProb[8], validProb[9]);
+    NSLog(@"minMS: %ld maxMS: %ld responseMS: %ld tooFast: %ld",
+                                        self.minTimeMS, self.maxTimeMS, self.responseTimeMS, self.tooFastTimeMS);
+    NSLog(@"n:    %5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld",
+                                        n[0], n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[8], n[9]);
+    NSLog(@"sum:  %5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld\n",
+                                        sum[0], sum[1], sum[2], sum[3], sum[4], sum[5], sum[6], sum[7], sum[8], sum[9]);
+    NSLog(@"prob: %5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f%5.2f\n",
+                                        validProb[0], validProb[1], validProb[2], validProb[3], validProb[4],
+                                        validProb[5], validProb[6], validProb[7], validProb[8], validProb[9]);
 }
 
 - (instancetype)initWithMaxMSKey:(NSString *)theMaxKey minMSKey:(NSString *)theMinKey
@@ -138,16 +149,19 @@
     [self dumpValues];
 
     // Compute the probability that a FA will be inside the response window. This is used to compute the
-    // FA rate that is computed by updateWithResponse.
+    // FA rate that is computed by updateWithResponse.  The response window start is moved in uniform
+    // steps from minTime to maxTime, although we are monitoring minTime+tooFast to maxTime.
 
     for (bin = 0; bin < kBins; bin++) {
         binTimeMS = newStartTimeMS + (bin + 0.5) * (newEndTimeMS - newStartTimeMS) / kBins;
         for (binOffset = validProb[bin] = 0; binOffset < kBins; binOffset++) {       // offset the response window
-            respWindowStart = newStartTimeMS + binOffset * (newMaxMS - newStartTimeMS) / (kBins);
-            respWindowEnd = respWindowStart + MAX(newRespTimeMS, ((float)newMaxMS - newStartTimeMS) / kBins);
+            respWindowStart = newMinMS + binOffset * (newMaxMS - newMinMS) / (kBins);
+            respWindowEnd = respWindowStart + MAX(newRespTimeMS, ((float)newMaxMS - newStartTimeMS) / kBins)
+                        - newTooFastMS;         // NB: We expect tooFastMS to be deducted from the response window
             if (binTimeMS > respWindowStart && binTimeMS <= respWindowEnd) {
                 validProb[bin] += 1.0 / kBins;
             }
+            NSLog(@"%ld %ld: %ld -- %ld to %ld, %.2f", bin, binOffset, binTimeMS, respWindowStart, respWindowEnd, validProb[bin]);
         }
     }
 }
@@ -166,7 +180,7 @@
 - (void)updateWithResponse:(long)eotCode atTrialTimeMS:(long)trialTimeMS;
 {
     long bin, endBin, minTimeMS, maxTimeMS;
-    float newRate;
+    float newRate, newRespondRate;
 
     if (eotCode != kEOTCorrect && eotCode != kEOTWrong && eotCode != kEOTFailed) {
         return;
@@ -179,24 +193,34 @@
     if (trialTimeMS < minTimeMS || (trialTimeMS >= maxTimeMS && eotCode != kEOTFailed)) {
         return;
     }
-    endBin = (eotCode == kEOTFailed) ? kBins :
-                        floor(((float)trialTimeMS - minTimeMS) / (maxTimeMS - minTimeMS) * kBins);
+    endBin = MIN(kBins, floor(((float)trialTimeMS - minTimeMS) / (maxTimeMS - minTimeMS) * kBins));
     for (bin = 0; bin < endBin; bin++) {
         n[bin]++;
     }
-    if (eotCode == kEOTWrong) {     // Wrong (FA): increment FA count
-        sum[endBin]++;
-        n[endBin]++;
+    if (eotCode == kEOTWrong) {
+        sum[MIN(endBin, kBins - 1)]++;
+        n[MIN(endBin, kBins - 1)]++;
     }
-    // Overall FA rate is taken as the sum of the bin probabilities that there will be a spontaneous release
-    // times the probability that the bin will fall on the response window
-    newRate = 1.0;
+
+    // We want to compare ourselves to the nominal correct rate in a psychometric function.  That is taken
+    // as the number of corrects divided by the number of corrects plus the number of misses.  So we want a
+    // value that is the inferred FHs relative to some number of misses.  To get this, we work out the probability
+    // of getting a response on a trial with no stimulus (newResponseRate), which gives us the number of misses
+    // (when subtracted from one).  We also get the number of FHs by multiplying each bin's response rate
+    // by the probability that the response will occur in a reaction time window (validProb).
+
+    newRate = 1.0;                                              // invert probability for multiplying
+    newRespondRate = 1.0;
     for (bin = 0; bin < kBins; bin++) {
         if (n[bin] > 0) {
-            newRate *= 1.0 - ((float)sum[bin] / n[bin] * validProb[bin]); // rate times probability in response window
+            newRespondRate *= 1.0 - ((float)sum[bin] / n[bin]);             // rate of response
+            newRate *= 1.0 - ((float)sum[bin] / n[bin] * validProb[bin]);   // rate * probability in response window
         }
     }
-    self.rate = 1.0 - newRate;
+    newRespondRate = 1.0 - newRespondRate;  // re-invert to real rates
+    newRate = 1.0 - newRate;
+    self.rate = newRate  / (1.0 - (newRespondRate - newRate));  // FHs divided by FH + misses
+
     [self dumpValues];
 }
 

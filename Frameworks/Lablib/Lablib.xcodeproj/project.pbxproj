@@ -145,8 +145,8 @@
 		69C094520BDA3B8A00DB7DE8 /* LLPointDist.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C094500BDA3B8A00DB7DE8 /* LLPointDist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69C094530BDA3B8A00DB7DE8 /* LLPointDist.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C094510BDA3B8A00DB7DE8 /* LLPointDist.m */; };
 		69C5686D0797798D001CD54C /* LLStimWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CC9D4077F12FC0025E7D2 /* LLStimWindow.m */; };
-		69C710BF20445F5A00BDDF57 /* LLFalseAlarms.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C710BD20445F5A00BDDF57 /* LLFalseAlarms.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69C710C020445F5A00BDDF57 /* LLFalseAlarms.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C710BE20445F5A00BDDF57 /* LLFalseAlarms.m */; };
+		69C710BF20445F5A00BDDF57 /* LLFalseHits.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C710BD20445F5A00BDDF57 /* LLFalseHits.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69C710C020445F5A00BDDF57 /* LLFalseHits.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C710BE20445F5A00BDDF57 /* LLFalseHits.m */; };
 		69CCB7EE0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CCB7EC0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69CCB7EF0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CCB7ED0769FA4500283AB6 /* LLFactorToOctaveStepTransformer.m */; };
 		69CEA76706711F74009CEDDA /* LLStimulusTrain.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CEA76506711F74009CEDDA /* LLStimulusTrain.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -441,8 +441,8 @@
 		69BE4BE805829644001C9624 /* Lablib_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Lablib_Prefix.h; sourceTree = "<group>"; };
 		69C094500BDA3B8A00DB7DE8 /* LLPointDist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPointDist.h; sourceTree = "<group>"; };
 		69C094510BDA3B8A00DB7DE8 /* LLPointDist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPointDist.m; sourceTree = "<group>"; };
-		69C710BD20445F5A00BDDF57 /* LLFalseAlarms.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LLFalseAlarms.h; sourceTree = "<group>"; };
-		69C710BE20445F5A00BDDF57 /* LLFalseAlarms.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LLFalseAlarms.m; sourceTree = "<group>"; };
+		69C710BD20445F5A00BDDF57 /* LLFalseHits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LLFalseHits.h; sourceTree = "<group>"; };
+		69C710BE20445F5A00BDDF57 /* LLFalseHits.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LLFalseHits.m; sourceTree = "<group>"; };
 		69C7FF83047ECBF500F95509 /* LLXTEventPlot.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLXTEventPlot.h; sourceTree = "<group>"; };
 		69C7FF84047ECBF500F95509 /* LLXTEventPlot.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LLXTEventPlot.m; sourceTree = "<group>"; };
 		69C82A4D047C1DFA00A80164 /* LLXTView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLXTView.h; sourceTree = "<group>"; };
@@ -687,8 +687,8 @@
 				69CFF82C0477F8E000F95509 /* LLEyeCalibrator.m */,
 				69CFF8270477D3B900F95509 /* LLEyeWindow.h */,
 				69CFF8280477D3B900F95509 /* LLEyeWindow.m */,
-				69C710BD20445F5A00BDDF57 /* LLFalseAlarms.h */,
-				69C710BE20445F5A00BDDF57 /* LLFalseAlarms.m */,
+				69C710BD20445F5A00BDDF57 /* LLFalseHits.h */,
+				69C710BE20445F5A00BDDF57 /* LLFalseHits.m */,
 				69EDA65B0EAE93E100B3D1D5 /* LLFilterExp.h */,
 				69EDA65C0EAE93E100B3D1D5 /* LLFilterExp.m */,
 				696DF6520EB8E53A0004FC8E /* LLLaserCalibrator.h */,
@@ -1032,7 +1032,7 @@
 				69B7F50E06790CFA003728FD /* LLRandomDots.h in Headers */,
 				69914CC906863C46001800F9 /* LLTextUtil.h in Headers */,
 				69BCEEC906B2D32B0046C824 /* LLDataFileReader.h in Headers */,
-				69C710BF20445F5A00BDDF57 /* LLFalseAlarms.h in Headers */,
+				69C710BF20445F5A00BDDF57 /* LLFalseHits.h in Headers */,
 				69113E8206BDDF63008A141B /* LLParameterController.h in Headers */,
 				69819575070478690075BDF4 /* LLDistribution.h in Headers */,
 				69819629070483590075BDF4 /* LLBinomDist.h in Headers */,
@@ -1272,7 +1272,7 @@
 				69E3EE2A1EEB1CE600C45A61 /* LLPluginDefaults.m in Sources */,
 				69FAC43A1FD4BBE200148EB1 /* LLGitController.m in Sources */,
 				69897B6D099BA633001EE2DA /* LLDataUtil.m in Sources */,
-				69C710C020445F5A00BDDF57 /* LLFalseAlarms.m in Sources */,
+				69C710C020445F5A00BDDF57 /* LLFalseHits.m in Sources */,
 				695C167709B15D090021A27D /* LLVisualStimulus.m in Sources */,
 				6953194B09B6227E00EC15C7 /* LLOldGabor.m in Sources */,
 				69F8D4A809D9B76300DF2F63 /* LLProgressIndicator.m in Sources */,
