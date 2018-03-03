@@ -22,17 +22,20 @@
     float validProb[kBins];                 // probability that a FA was inside the response window
 }
 
+@property (NS_NONATOMIC_IOSONLY) float faFraction;
+@property (NS_NONATOMIC_IOSONLY) float faRate;
+@property (NS_NONATOMIC_IOSONLY) float fhFraction;
+@property (NS_NONATOMIC_IOSONLY) float fhRate;
 @property (NS_NONATOMIC_IOSONLY) long maxTimeMS;
 @property (NS_NONATOMIC_IOSONLY) long minTimeMS;
+@property (NS_NONATOMIC_IOSONLY) float missFraction;
 @property (NS_NONATOMIC_IOSONLY) long responseTimeMS;
 @property (NS_NONATOMIC_IOSONLY) long tooFastTimeMS;
-@property (NS_NONATOMIC_IOSONLY) float rate;
 
 - (void)clear;
+- (void)dumpValues;
 - (instancetype)initWithMaxMSKey:(NSString *)theMaxKey minMSKey:(NSString *)theMinKey
                     tooFastMSKey:(NSString *)theTooFastKey responseTimeMSKey:(NSString *)theResponseKey;
-//- (void)maxTimeMSKey:(NSString *)theKey;
-//- (void)minTimeMSKey:(NSString *)theKey;
 - (void)setKeyFor:(NSString **)pKey toKey:(NSString *)theKey;
 - (void)updateWithResponse:(long)eotCode atTrialTimeMS:(long)trialTimeMS;
 

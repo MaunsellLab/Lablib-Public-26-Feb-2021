@@ -45,7 +45,8 @@
     for (index = 0; index < kBins; index++) {
         n[index] = sum[index] = 0;
     }
-    self.rate = 0.0;
+    self.fhFraction= self.faFraction = self.missFraction = 0.0;
+    self.fhRate = self.faRate = 0.0;
 }
 
 - (void)dealloc
@@ -59,9 +60,9 @@
 
 - (void)dumpValues;
 {
-    NSLog(@"rate: %.2f; Taking from %ld to %ld", self.rate, self.minTimeMS + self.tooFastTimeMS, self.maxTimeMS);
     NSLog(@"minMS: %ld maxMS: %ld responseMS: %ld tooFast: %ld",
                                         self.minTimeMS, self.maxTimeMS, self.responseTimeMS, self.tooFastTimeMS);
+    NSLog(@"Taking from %ld to %ld", self.minTimeMS + self.tooFastTimeMS, self.maxTimeMS);
     NSLog(@"n:    %5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld",
                                         n[0], n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[8], n[9]);
     NSLog(@"sum:  %5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld%5ld\n",
@@ -106,8 +107,8 @@
         binOccupancy = validProb[bin] = 0.0;
         binStartMS = bin * (endTimeMS - startTimeMS) / kBins;
         binEndMS = (bin + 1) * (endTimeMS - startTimeMS) / kBins;
-        windowStartMS = MAX(self.minTimeMS, binStartMS - self.responseTimeMS);
-        windowEndMS = windowStartMS + self.responseTimeMS;
+        windowStartMS = MAX(self.minTimeMS, binStartMS - (self.responseTimeMS - self.tooFastTimeMS));
+        windowEndMS = windowStartMS + (self.responseTimeMS - self.tooFastTimeMS);
         for ( ; windowStartMS < self.maxTimeMS; windowStartMS++, windowEndMS++) {
             // There are six possible window/bin configurations. One is when the response window is entirely to the
             // left (earlier) than the bin, where it can't contribute to the bin.  We have prevented this condition
@@ -124,7 +125,8 @@
         }
         validProb[bin] = binOccupancy / maxOccupancy;
 
-        NSLog(@"loadValidProb: %ld %ld ms: binOcc %.0f maxOcc %.0f, %.3f", bin, binEndMS-binStartMS, binOccupancy, maxOccupancy, validProb[bin]);
+        NSLog(@"loadValidProb: %ld %5ld to %5ld ms: binOcc %.0f maxOcc %.0f, %.3f", bin, binStartMS + self.tooFastTimeMS, binEndMS + self.tooFastTimeMS,
+            binOccupancy, maxOccupancy, validProb[bin]);
    }
 }
 
@@ -269,14 +271,15 @@ releases were undetected because they were FH (as given by the probability in va
         else {                                                  // not enough data, skip to next bin
             probBinRelease = 0.0;
         }
-        NSLog(@"bin %ld: probFH: %.3f, probFA: %.3f, probNoRelease %.3f, probBinRelease %.3f probBinFH %.3f probBinFA %.3f",
-              bin, probFH, probFA, probNoRelease, probBinRelease, probBinFH, probBinFA);
+//        NSLog(@"bin %ld: probFH: %.3f, probFA: %.3f, probNoRelease %.3f, probBinRelease %.3f probBinFH %.3f probBinFA %.3f",
+//              bin, probFH, probFA, probNoRelease, probBinRelease, probBinFH, probBinFA);
         probNoRelease = MAX(0.0, probNoRelease - probBinRelease);   // probability of entering next bin;
     }
-    self.rate = probFH  / (probFH + probNoRelease);  // FHs divided by FH + misses
-    NSLog(@"Computed raw FH rate = %.3f raw FA rate = %.3f", probFH, probFA);
-    NSLog(@"Computed  FH rate = %.3f  FA rate = %.3f", probFH  / (probFH + probNoRelease), probFA  / (probFA + probNoRelease));
-    [self dumpValues];
+    self.faFraction = probFA;
+    self.fhFraction = probFH;
+    self.missFraction = probNoRelease;
+    self.fhRate = probFH  / (probFH + probNoRelease);  // FHs divided by FH + misses
+    self.faRate = probFA  / (probFA + probNoRelease);  // FHs divided by FH + misses
 }
 
 @end
