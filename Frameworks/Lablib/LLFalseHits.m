@@ -85,6 +85,49 @@
     return self;
 }
 
+// Compute the probability that a FA will be inside the response window. This is used to compute the
+// FA rate in updateWithResponse.  The response window start is moved in small steps from minTime to maxTime to
+// capture the full range of stimulus onset times (and corresponding reaction window positions).
+
+- (void)loadValidProb;
+{
+    long bin, windowStartMS, windowEndMS, binStartMS, binEndMS;
+    float binOccupancy;
+    long startTimeMS = self.minTimeMS + self.tooFastTimeMS;;
+    long endTimeMS = self.maxTimeMS;
+    float maxOccupancy = (self.maxTimeMS - self.minTimeMS) * (endTimeMS - startTimeMS) / kBins;
+
+    // We're going to convolve the response window with each bin.  The result will be convered to a probability
+    // by considering the maximum possible value, corresponding to always being in the response window.  That's
+    // equivalent to cover all of the bin (endTimeMS - startTimeMS / kBins) for every step of the integration
+    // (self.maxTimeMS - self.minTimeMS).
+    
+    for (bin = 0; bin < kBins; bin++) {
+        binOccupancy = validProb[bin] = 0.0;
+        binStartMS = bin * (endTimeMS - startTimeMS) / kBins;
+        binEndMS = (bin + 1) * (endTimeMS - startTimeMS) / kBins;
+        windowStartMS = MAX(self.minTimeMS, binStartMS - self.responseTimeMS);
+        windowEndMS = windowStartMS + self.responseTimeMS;
+        for ( ; windowStartMS < self.maxTimeMS; windowStartMS++, windowEndMS++) {
+            // There are six possible window/bin configurations. One is when the response window is entirely to the
+            // left (earlier) than the bin, where it can't contribute to the bin.  We have prevented this condition
+            // by starting with the end of the response window aligned to the start of the bin. The second condition
+            // is when the response window has gotten to a point where it is entirely to the right of the bin.  Because
+            // the window moves to the right, there is nothing left to add to the bin, and we can stop the iterations.
+            if (binEndMS < windowStartMS) {
+                break;
+            }
+            // The remaining four four conditionshave the response window straddling the bin, inside the bin, or
+            // crossing the start or end of the bin (depending on where it is and whether it is wider or narrower
+            // than the bin.  These are all handled by clipping to the portion overlapping the bin.
+            binOccupancy += (MIN(binEndMS, windowEndMS) - MAX(binStartMS, windowStartMS));
+        }
+        validProb[bin] = binOccupancy / maxOccupancy;
+
+        NSLog(@"loadValidProb: %ld %ld ms: binOcc %.0f maxOcc %.0f, %.3f", bin, binEndMS-binStartMS, binOccupancy, maxOccupancy, validProb[bin]);
+   }
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
                        context:(void *)context;
 {
@@ -109,19 +152,34 @@
 
 - (void)rebin;
 {
-    long bin, binOffset, newBin, startTimeMS, endTimeMS, newStartTimeMS, newEndTimeMS, binTimeMS;
-    long respWindowStart, respWindowEnd, tempN[kBins], tempSum[kBins];
+    long bin, newBin, startTimeMS, endTimeMS, newStartTimeMS, newEndTimeMS, binTimeMS;
+    long tempN[kBins], tempSum[kBins];
 
     long newMaxMS = [[NSUserDefaults standardUserDefaults] integerForKey:maxTimeMSKey];
     long newMinMS = [[NSUserDefaults standardUserDefaults] integerForKey:minTimeMSKey];
     long newRespTimeMS = [[NSUserDefaults standardUserDefaults] integerForKey:responseTimeMSKey];
     long newTooFastMS = [[NSUserDefaults standardUserDefaults] integerForKey:tooFastTimeMSKey];
 
-    [self dumpValues];
     startTimeMS = self.minTimeMS + self.tooFastTimeMS;
     endTimeMS = self.maxTimeMS;
     newStartTimeMS = newMinMS + newTooFastMS;
     newEndTimeMS = newMaxMS;
+
+    if ((newRespTimeMS == self.responseTimeMS && newStartTimeMS == startTimeMS && newEndTimeMS == endTimeMS)
+                                                                        || (newEndTimeMS <= newStartTimeMS)) {
+        return;
+    }
+    self.responseTimeMS = newRespTimeMS;
+    if (newStartTimeMS == startTimeMS && newEndTimeMS == endTimeMS) {
+        [self loadValidProb];
+        return;
+    }
+    [self dumpValues];
+    self.minTimeMS = newMinMS;
+    self.maxTimeMS = newMaxMS;
+    self.tooFastTimeMS = newTooFastMS;
+    newStartTimeMS = self.minTimeMS + self.tooFastTimeMS;;
+    newEndTimeMS = self.maxTimeMS;
 
     if ((newStartTimeMS == startTimeMS && newEndTimeMS == endTimeMS) || (newEndTimeMS <= newStartTimeMS)) {
         return;
@@ -147,23 +205,7 @@
     self.responseTimeMS = newRespTimeMS;
     self.tooFastTimeMS = newTooFastMS;
     [self dumpValues];
-
-    // Compute the probability that a FA will be inside the response window. This is used to compute the
-    // FA rate that is computed by updateWithResponse.  The response window start is moved in uniform
-    // steps from minTime to maxTime, although we are monitoring minTime+tooFast to maxTime.
-
-    for (bin = 0; bin < kBins; bin++) {
-        binTimeMS = newStartTimeMS + (bin + 0.5) * (newEndTimeMS - newStartTimeMS) / kBins;
-        for (binOffset = validProb[bin] = 0; binOffset < kBins; binOffset++) {       // offset the response window
-            respWindowStart = newMinMS + binOffset * (newMaxMS - newMinMS) / (kBins);
-            respWindowEnd = respWindowStart + MAX(newRespTimeMS, ((float)newMaxMS - newStartTimeMS) / kBins)
-                        - newTooFastMS;         // NB: We expect tooFastMS to be deducted from the response window
-            if (binTimeMS > respWindowStart && binTimeMS <= respWindowEnd) {
-                validProb[bin] += 1.0 / kBins;
-            }
-            NSLog(@"%ld %ld: %ld -- %ld to %ld, %.2f", bin, binOffset, binTimeMS, respWindowStart, respWindowEnd, validProb[bin]);
-        }
-    }
+    [self loadValidProb];
 }
 
 - (void)setKeyFor:(NSString **)pKey toKey:(NSString *)theKey;
@@ -179,48 +221,61 @@
 
 - (void)updateWithResponse:(long)eotCode atTrialTimeMS:(long)trialTimeMS;
 {
-    long bin, endBin, minTimeMS, maxTimeMS;
-    float newRate, newRespondRate;
+    long bin, oldN, endBin, minTimeMS, maxTimeMS;
+    float probBinRelease, probBinFA, probBinFH, probNoFH, probFH, probFA, probNoRelease, sumFH;
 
     if (eotCode != kEOTCorrect && eotCode != kEOTWrong && eotCode != kEOTFailed) {
         return;
     }
-    if (self.maxTimeMS == 0 || self.minTimeMS == 0) {
-        return;
-    }
+//    if (self.maxTimeMS == 0 || self.minTimeMS  0) {
+//        return;
+//    }
     minTimeMS = self.minTimeMS + self.tooFastTimeMS;
     maxTimeMS = self.maxTimeMS;
     if (trialTimeMS < minTimeMS || (trialTimeMS >= maxTimeMS && eotCode != kEOTFailed)) {
         return;
     }
     endBin = MIN(kBins, floor(((float)trialTimeMS - minTimeMS) / (maxTimeMS - minTimeMS) * kBins));
+    oldN = n[0];
+    
     for (bin = 0; bin < endBin; bin++) {
         n[bin]++;
     }
     if (eotCode == kEOTWrong) {
-        sum[MIN(endBin, kBins - 1)]++;
         n[MIN(endBin, kBins - 1)]++;
+        sum[MIN(endBin, kBins - 1)]++;
     }
-
-    // We want to compare ourselves to the nominal correct rate in a psychometric function.  That is taken
-    // as the number of corrects divided by the number of corrects plus the number of misses.  So we want a
-    // value that is the inferred FHs relative to some number of misses.  To get this, we work out the probability
-    // of getting a response on a trial with no stimulus (newResponseRate), which gives us the number of misses
-    // (when subtracted from one).  We also get the number of FHs by multiplying each bin's response rate
-    // by the probability that the response will occur in a reaction time window (validProb).
-
-    newRate = 1.0;                                              // invert probability for multiplying
-    newRespondRate = 1.0;
+/*
+We want to compare ourselves to the nominal correct rate in a psychometric function. That is taken
+as the number of corrects divided by the number of corrects plus the number of misses.  So we want a
+value that is the inferred FHs relative to some number of misses. To get this, we walk across the bins,
+computing the accumlating probability of a release, and for a release, the probability of a FH or FA.
+For each bin, the probability of a release is the probability that no release will yet have occurred
+(probNoRelease) times the rate of FA for that bin (sum[bin] / n[bin], grossed up for the fact that some
+releases were undetected because they were FH (as given by the probability in validProb[bin]). The
+ probNoRelease for the next bin is simply the fraction lost to FH and FA in the current bin.
+*/
+    sumFH = probFH = probFA = 0.0;
+    probNoFH = probNoRelease = 1.0;
     for (bin = 0; bin < kBins; bin++) {
-        if (n[bin] > 0) {
-            newRespondRate *= 1.0 - ((float)sum[bin] / n[bin]);             // rate of response
-            newRate *= 1.0 - ((float)sum[bin] / n[bin] * validProb[bin]);   // rate * probability in response window
+        if (n[bin] > 5 && n[bin] - sum[bin] > 0) {                 // enough data?
+            probBinRelease = probNoRelease * (float)sum[bin] / n[bin] / (1.0 - validProb[bin]);
+            probBinFH = probBinRelease * validProb[bin];
+            probBinFA = probBinRelease - probBinFH;
+            probFH = 1.0 - (1.0 - probFH) * (1.0 - probBinFH);
+            probFA = 1.0 - (1.0 - probFA) * (1.0 - probBinFA);
+            sumFH += sum[bin] * probBinRelease * validProb[bin];
         }
+        else {                                                  // not enough data, skip to next bin
+            probBinRelease = 0.0;
+        }
+        NSLog(@"bin %ld: probFH: %.3f, probFA: %.3f, probNoRelease %.3f, probBinRelease %.3f probBinFH %.3f probBinFA %.3f",
+              bin, probFH, probFA, probNoRelease, probBinRelease, probBinFH, probBinFA);
+        probNoRelease = MAX(0.0, probNoRelease - probBinRelease);   // probability of entering next bin;
     }
-    newRespondRate = 1.0 - newRespondRate;  // re-invert to real rates
-    newRate = 1.0 - newRate;
-    self.rate = newRate  / (1.0 - (newRespondRate - newRate));  // FHs divided by FH + misses
-
+    self.rate = probFH  / (probFH + probNoRelease);  // FHs divided by FH + misses
+    NSLog(@"Computed raw FH rate = %.3f raw FA rate = %.3f", probFH, probFA);
+    NSLog(@"Computed  FH rate = %.3f  FA rate = %.3f", probFH  / (probFH + probNoRelease), probFA  / (probFA + probNoRelease));
     [self dumpValues];
 }
 
