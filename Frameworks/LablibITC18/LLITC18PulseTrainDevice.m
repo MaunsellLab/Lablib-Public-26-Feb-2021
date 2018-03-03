@@ -35,9 +35,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             free(itc);
         }
         else {
-            dataDevice.itc = itc;
+            ITC18_StopAndInitialize(itc, YES, YES); // critical to return ITC18 in a clean state
         }
-        itc = nil;
+        itc = nil;                                  // clear our pointer, not any LLITC18DataDevice pointer
         [deviceLock unlock];
     }
 }
@@ -157,7 +157,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             itc = nil;
         }
         else {
-            dataDevice = (LLITC18DataDevice *)theDataDevice;                         // save for -close
+            dataDevice = (LLITC18DataDevice *)theDataDevice;   // save for -close
             itc = dataDevice.itc;
             dataDevice.itc = nil;                              // clear dataDevice.itc to stop it from using ITC18
             itcExists = (itc != nil);
@@ -393,14 +393,13 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 }
 
 // Read the AD samples and put them into inputSamples.  The host app can track when they are ready using
-// samplesReady.  If the host doesn't pick up the data, it will be discarded when the next stimulus cycle runs.
+// samplesReady.  If the host doesn't pick up the data, they will be discarded when the next stimulus cycle runs.
 
 - (void)readData;
 {
     short index, *samples, *pSamples, *channelSamples[ITC18_NUMBEROFDACOUTPUTS];
     long sets, set;
     int available;
-//    NSAutoreleasePool *threadPool = [[NSAutoreleasePool alloc] init];        // create a threadPool for this thread
 
     @autoreleasepool {
         sets = bufferLength / (channels + 1);                                        // number of sample sets in stim
@@ -440,7 +439,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
         }
         samplesReady = YES;                                                 // flag that the input is all read in
-//        [threadPool release];
     }
 }
 
