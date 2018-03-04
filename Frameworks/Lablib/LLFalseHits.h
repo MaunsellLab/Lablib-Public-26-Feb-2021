@@ -9,19 +9,22 @@
 
 @interface LLFalseHits : NSObject {
 @private
-    long n[kBins];                          // number of times a time bin was occupied
     NSString *maxTimeMSKey;
     NSString *minTimeMSKey;
-    long numCorrectBeforeMaxTime;
-    long numCorrectAfterMaxTime;
-    long numMissed;
-    long numWrong;
+    float n[kBins];                           // number of time bin was occupied
+    long  numCorr;
+    long  numMissed;
+    long  numTrials;
+    float probBinFA[kBins];
+    float probBinFH[kBins];
+    float probBinRelease[kBins];
     NSString *responseTimeMSKey;
-    long sum[kBins];                        // number of FAs in each time bin
+    float sumFA[kBins];                     // number of FAs in each time bin
     NSString *tooFastTimeMSKey;
     float validProb[kBins];                 // probability that a FA was inside the response window
 }
 
+@property (NS_NONATOMIC_IOSONLY) float corrFraction;
 @property (NS_NONATOMIC_IOSONLY) float faFraction;
 @property (NS_NONATOMIC_IOSONLY) float faRate;
 @property (NS_NONATOMIC_IOSONLY) float fhFraction;
