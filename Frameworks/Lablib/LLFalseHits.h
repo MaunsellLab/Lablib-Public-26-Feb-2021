@@ -13,7 +13,9 @@
     NSString *minTimeMSKey;
     float n[kBins];                           // number of time bin was occupied
     long  numCorr;
+    long  numCorrLate;
     long  numMissed;
+    long  numTrialsEarly;
     long  numTrials;
     float probBinFA[kBins];
     float probBinFH[kBins];
