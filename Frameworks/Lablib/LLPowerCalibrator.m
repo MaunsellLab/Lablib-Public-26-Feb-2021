@@ -140,14 +140,13 @@
 
 - (BOOL)twoNumbersInString:(const char *)string;
 {
-    float f1, f2;
     char *strEnd1, *strEnd2;
 
-    f1 = strtof(string, &strEnd1);
+    strtof(string, &strEnd1);
     if (strEnd1 == string) {
         return NO;
     }
-    f2 = strtof(strEnd1, &strEnd2);
+    strtof(strEnd1, &strEnd2);
     if (strEnd1 == strEnd2) {
         return NO;
     }

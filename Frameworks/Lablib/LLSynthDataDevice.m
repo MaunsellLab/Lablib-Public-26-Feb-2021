@@ -54,6 +54,9 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 
 @implementation LLSynthDataDevice
 
+@synthesize dataEnabled = _dataEnabled;
+@synthesize devicePresent = _devicePresent;
+
 -  (BOOL)checkSpikeRateChange:(double)timeNowS {
 
     if (nextRateTimeS <= 0 || timeNowS < nextRateTimeS) {
@@ -194,7 +197,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         for (channel = 0; channel < kLLSynthDigitalBits; channel++)  {
             [timestampPeriodMS addObject:[NSNumber numberWithFloat:kLLSynthTimestampPeriodMS]];
         }
-        devicePresent = YES;
+        _devicePresent = YES;
     }
     return self;
 }
@@ -234,13 +237,13 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
     return @"Synthetic";
 }
 
-- (void)setDataEnabled:(NSNumber *)state;
+- (void)setDataEnabled:(BOOL)state;
 {
-    if (state.boolValue && !dataEnabled) {
+    if (state && !self.dataEnabled) {
         nextSampleTimeS = nextSpikeTimeS = nextVBLTimeS = 
                     lastSpikeTimeS = timestampRefS = [LLSystemUtil getTimeS];
     }
-    dataEnabled = state.boolValue;
+    _dataEnabled = state;
 }
 
 // We only return data for two channels: x and y eye position.  They can be 
@@ -259,7 +262,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
     static short pupilNoise = 0;
     static long pupilCount = 0;
     
-    if (!dataEnabled) {                                // no data being collected
+    if (!self.dataEnabled) {                                // no data being collected
         return nil;
     }
     timeNowS = [LLSystemUtil getTimeS];
@@ -273,7 +276,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         eyeYData[eyeIndex] = [NSMutableData dataWithLength:0];
         eyePData[eyeIndex] = [NSMutableData dataWithLength:0];
     }
-    theSample.device = deviceIndex;
+    theSample.device = self.deviceIndex;
     while (timeNowS >= nextSampleTimeS) {
         [self updateEyePositions:nextSampleTimeS];
         fixNoiseDeg = [defaults floatForKey:LLSynthEyeNoiseKey];
@@ -506,7 +509,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
 {
     long channel;
     
-    if (!dataEnabled) {                            // do nothing if data is not enabled
+    if (!self.dataEnabled) {                            // do nothing if data is not enabled
         return nil;
     }
     if (timestampChannels == 0) {

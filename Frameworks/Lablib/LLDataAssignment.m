@@ -10,65 +10,65 @@
 
 @implementation LLDataAssignment
 
-- (long)channel;
-{
-    return channel;
-}
-
+//- (long)channel;
+//{
+//    return channel;
+//}
+//
 - (void)dealloc;
 {
-    [name release];
+    [self.name release];
     [super dealloc];
 }
 
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"%@: name %@; device %ld; channel %ld; type %ld; groupIndex %ld", 
-        [self class], name, device, channel, type, groupIndex];
+        [self class], self.name, self.device, self.channel, self.type, self.groupIndex];
 }
 
-- (long)device;
-{
-    return device;
-}
-
-- (long)groupIndex;
-{
-    return groupIndex;
-}
-
+//- (long)device;
+//{
+//    return device;
+//}
+//
+//- (long)groupIndex;
+//{
+//    return groupIndex;
+//}
+//
 - (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
             type:(long)theType groupIndex:(long)index;
 {
     if (self = [super init]) {
-        [theName retain];
-        name = theName;
-        device = theDevice;
-        channel = theChannel;
-        type = theType;
-        groupIndex = index;
+        [theName retain];                       // must retain because must use variable name in init, not setter
+        _name = theName;
+        _device = theDevice;
+        _channel = theChannel;
+        _type = theType;
+        _groupIndex = index;
     }
     return self;
 }
 
-- (NSString *)name;
+//- (NSString *)name;
+//{
+//    return name;
+//}
+//
+- (void)setChannelWithNSNumber:(NSNumber *)newChannel;
 {
-    return name;
+    self.channel = newChannel.intValue;
 }
 
-- (void)setChannel:(NSNumber *)newChannel;
+- (void)setDeviceWithNSNumber:(NSNumber *)newDevice;
 {
-    channel = newChannel.intValue;
+    self.device = newDevice.intValue;
 }
 
-- (void)setDevice:(NSNumber *)newDevice;
-{
-    device = newDevice.intValue;
-}
-
-- (long)type;
-{
-    return type;
-}
+//- (long)type;
+//{
+//    return type;
+//}
 
 @end

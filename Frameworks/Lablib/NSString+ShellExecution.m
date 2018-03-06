@@ -21,7 +21,7 @@
     NSFileHandle *file = [pipe fileHandleForReading];
     [task launch];
 
-    return [[NSString alloc] initWithData:[file readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+    return [[[NSString alloc] initWithData:[file readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 }
 
 @end

@@ -13,6 +13,8 @@
 
 @implementation LLNullDataDevice
 
+@synthesize devicePresent = _devicePresent;
+
 - (void)disableSampleChannels:(NSNumber *)bitPattern;
 {
 }
@@ -34,7 +36,7 @@
     if ((self = [super init]) != nil) {
 		[samplePeriodMS addObject:[NSNumber numberWithFloat:kLLNullSamplePeriodMS]];
 		[timestampPeriodMS addObject:[NSNumber numberWithLong:kLLNullTimestampPeriodMS]];
-		devicePresent = YES;
+		_devicePresent = YES;
     }
     return self;
 }

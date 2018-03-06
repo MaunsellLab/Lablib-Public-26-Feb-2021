@@ -102,29 +102,7 @@ static long    ITCCount = 0;
 @implementation LLITC18DataDevice
 
 @synthesize itc;
-
-// I'm not sure we need to load the ITC framework. It should be picked up automatically. JHRM 120804
-
-//+ (void)initialize;
-//{
-//    NSString *ITCFrameworkPath, *myBundlePath;
-//    NSBundle *ITCFramework;
-//
-//    myBundlePath = [[NSBundle bundleForClass:[self class]] bundlePath];
-//    if (![[myBundlePath pathExtension] isEqualToString:@"plugin"]) {
-//        return;
-//    }
-//    ITCFrameworkPath = [myBundlePath stringByAppendingPathComponent:@"Contents/Frameworks/ITC.framework"];
-//    ITCFramework = [NSBundle bundleWithPath:ITCFrameworkPath];
-//    if ([ITCFramework load]) {
-//        NSLog(@"ITC framework loaded");
-//    }
-//    else
-//    {
-//        NSLog(@"Error, ITC framework failed to load\nAborting.");
-//        exit(1);
-//    }
-//}
+@synthesize dataEnabled = _dataEnabled;
 
 + (NSInteger)version;
 {
@@ -161,7 +139,7 @@ static long    ITCCount = 0;
 
 - (void)configure;
 {
-    [self setDataEnabled:@NO];
+    [self setDataEnabled:NO];
     [NSApp runModalForWindow:settingsWindow];
     [settingsWindow orderOut:self];
     [self loadInstructions];
@@ -542,7 +520,7 @@ static long    ITCCount = 0;
 
 // Now the ITC is closed, and we have a valid pointer
 
-    for (code = 0, devicePresent = NO; code < sizeof(interfaceCodes) / sizeof(long); code++) {
+    for (code = 0, self.devicePresent = NO; code < sizeof(interfaceCodes) / sizeof(long); code++) {
         NSLog(@"LLITC18DataDevice: attempting to initialize device %ld using code %ld",
                     devNum, devNum | (int)interfaceCodes[code]);
         if (ITC18_Open(itc, (int)(devNum | interfaceCodes[code])) != noErr) {
@@ -556,11 +534,11 @@ static long    ITCCount = 0;
         }
         else {
             USB18 = interfaceCodes[code] == USB18_CL;
-            devicePresent = YES;                        // successful initialization
+            self.devicePresent = YES;                        // successful initialization
             break;
         }
     }
-    if (!devicePresent) {
+    if (!self.devicePresent) {
         free(itc);
         itc = nil;
     }
@@ -569,7 +547,7 @@ static long    ITCCount = 0;
                     devNum, devNum | interfaceCodes[code]);
     }
     [deviceLock unlock];
-    return devicePresent;
+    return self.devicePresent;
 }
 
 // Read data from the ITC, appending values to the samples and timestamps buffers
@@ -676,7 +654,7 @@ static long    ITCCount = 0;
     [deviceLock unlock];
 }
 
-- (void)setDataEnabled:(NSNumber *)state;
+- (void)setDataEnabled:(BOOL)state;
 {
     int available;
     long channel;
@@ -686,7 +664,7 @@ static long    ITCCount = 0;
     if (itc == nil) {
         return;
     }
-    if (state.boolValue && !dataEnabled) {
+    if (state && !self.dataEnabled) {
         [deviceLock lock];
     
 // Scan through the sample and timestamp sampling settings, finding the fastest enabled rate.
@@ -718,12 +696,12 @@ static long    ITCCount = 0;
             ITC18_StopAndInitialize(itc, YES, YES);
             monitorStartTimeS = [LLSystemUtil getTimeS];
             ITC18_Start(itc, NO, NO, NO, NO);        // no trigger, no output, no stopOnOverflow, (reserved)
-            dataEnabled = YES;
+            _dataEnabled = YES;
             lastReadDataTimeS = 0;
         }
         [deviceLock unlock];
     }
-    else if (!state.boolValue && dataEnabled) {
+    else if (!state && self.dataEnabled) {
         [deviceLock lock];
         ITC18_Stop(itc);                                        // stop the ITC18
         [deviceLock unlock];
@@ -747,7 +725,7 @@ static long    ITCCount = 0;
             NSLog(@"sequenceStartTimeS: %f", monitorStartTimeS);
             NSLog(@"time now: %f", [LLSystemUtil getTimeS]);
             NSLog(@"justStartedITC18: %d", justStartedITC18);
-            NSLog(@"dataEnabled: %d", dataEnabled);
+            NSLog(@"dataEnabled: %d", self.dataEnabled);
             NSLog(@"values.cumulativeTimeMS: %f", values.cumulativeTimeMS);
             NSLog(@"values.samples: %ld", values.samples);
             NSLog(@"values.samplePeriodMS: %f", values.samplePeriodMS);
@@ -759,7 +737,7 @@ static long    ITCCount = 0;
         else {
             [monitor sequenceValues:values];
         }
-        dataEnabled = NO;
+        _dataEnabled = NO;
     }
 }
 

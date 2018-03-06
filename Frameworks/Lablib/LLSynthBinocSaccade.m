@@ -128,14 +128,14 @@
         currentPosition[eyeIndex].y += stepSize[eyeIndex].height;
         positions[eyeIndex].y = currentPosition[eyeIndex].y = MIN(SHRT_MAX, MAX(SHRT_MIN, currentPosition[eyeIndex].y));
     }
-    if (accelSteps[eyeIndex] > 0) {
-        accelSteps[eyeIndex]--;
-    }
-    else if (decelSteps[eyeIndex] > 0) {
-        if (--decelSteps[eyeIndex] == 0) {
-            stepSize[eyeIndex].width = stepSize[eyeIndex].height = 0;
-        }
-    }
+//    if (accelSteps[eyeIndex] > 0) {
+//        accelSteps[eyeIndex]--;
+//    }
+//    else if (decelSteps[eyeIndex] > 0) {
+//        if (--decelSteps[eyeIndex] == 0) {
+//            stepSize[eyeIndex].width = stepSize[eyeIndex].height = 0;
+//        }
+//    }
 }
 
 @end

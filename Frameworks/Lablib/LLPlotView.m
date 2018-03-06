@@ -127,7 +127,7 @@
                 continue;
             }
             mean = [dataPoint mean];
-            if (isinf(mean)) {
+            if (isinf(mean) || isnan(mean)) {
                 continue;
             }
             minY = MIN(minY, mean);

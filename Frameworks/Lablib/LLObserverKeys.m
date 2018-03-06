@@ -54,7 +54,7 @@
 
 - (id)init;
 {
-    if (self == [super init]) {
+    if (self = [super init]) {
         self.observerLock = [[NSLock alloc] init];
     }
     return self;

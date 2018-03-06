@@ -68,7 +68,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 
 - (void)assignmentDialog;
 {
-	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabled:) 
+	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabledWithNumber:)
 							withObject:[NSNumber numberWithBool:NO]];
 	[dataDevices makeObjectsPerformSelector:@selector(disableAllChannels)];
 	[digitalInMenu selectItemAtIndex:
@@ -104,8 +104,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	LLDataAssignment *assign;
 	DataAssignment *pAssign;
 
-	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabled:) 
-							withObject:[NSNumber numberWithBool:NO]];
+	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabledWithNumber:) withObject:@NO];
 	[dataDevices makeObjectsPerformSelector:@selector(disableAllChannels)];
 	[deviceLock lock];
 
@@ -249,7 +248,8 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 		for (channelIndex = 0; timestampData[0][channelIndex] != nil; channelIndex++) {};
 		break;
 	}
-	[assign setChannel:[NSNumber numberWithLong:channelIndex]];
+//    [assign setChannel:[NSNumber numberWithLong:channelIndex]];
+    [assign setChannel:channelIndex];
 }
 
 - (void)changeDataAssignment:(NSMutableData **)oldDeviceData oldChannel:(long)oldChannel 
@@ -495,7 +495,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 		assignmentEnum = [assignments[index] objectEnumerator];
 		while (assign = [assignmentEnum nextObject]) {
 			dataDevice = [dataDevices objectAtIndex:[assign device]];
-			[dataDevice setDeviceEnabled:[NSNumber numberWithBool:YES]];
+			[dataDevice setDeviceEnabled:YES];
 			if ([assign type] == kLLSampleData) {
 				[dataDevice enableSampleChannel:[assign channel]];
 			}
@@ -610,9 +610,11 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 		return NO;
 	}
 	deviceIndex = [self indexForDeviceName:[defaultsArray objectAtIndex:kLLDeviceName]];
-	[assign setDevice:[NSNumber numberWithLong:deviceIndex]];
+//    [assign setDevice:[NSNumber numberWithLong:deviceIndex]];
+    [assign setDevice:deviceIndex];
 	channelIndex = [[defaultsArray objectAtIndex:kLLChannelIndex] intValue];
-	[assign setChannel:[NSNumber numberWithLong:channelIndex]];
+//    [assign setChannel:[NSNumber numberWithLong:channelIndex]];
+    [assign setChannel:channelIndex];
 	*pTiming = [[defaultsArray objectAtIndex:kLLRateIndex] floatValue];
 	return YES;
 }
@@ -640,7 +642,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			}
 		}
 	}
-	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabled:) 
+	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabledWithNumber:)
 				withObject:[NSNumber numberWithBool:NO]];
 	[dataDevices makeObjectsPerformSelector:@selector(disableAllChannels)];
 	[deviceLock unlock]; 
@@ -648,7 +650,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 
 - (void)setDataEnabled:(NSNumber *)state;
 {
-	[dataDevices makeObjectsPerformSelector:@selector(setDataEnabled:) withObject:state];
+	[dataDevices makeObjectsPerformSelector:@selector(setDataEnabledWithNumber:) withObject:state];
 }
 
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
@@ -751,13 +753,15 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			[deviceLock lock];
 			if (aTableView == sampleTable && sampleData[newDevice][channel] == nil) {
 				[self changeDataAssignment:sampleData[device] oldChannel:channel
-						newDeviceData:sampleData[newDevice] newChannel:channel];
-				[assign setDevice:anObject];
+                                                newDeviceData:sampleData[newDevice] newChannel:channel];
+//                [assign setDevice:anObject];
+                [assign setDevice:newDevice];
 			}
 			else if (aTableView == timestampTable && timestampData[newDevice][channel] == nil) {
 				[self changeDataAssignment:timestampData[device] oldChannel:channel
 						newDeviceData:timestampData[newDevice] newChannel:channel];
-				[assign setDevice:anObject];
+                //                [assign setDevice:anObject];
+                [assign setDevice:newDevice];
 			}
 			[deviceLock unlock];
 		}
@@ -772,12 +776,14 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			if (aTableView == sampleTable && sampleData[device][newChannel] == nil) {
 				[self changeDataAssignment:sampleData[device] oldChannel:channel
 						newDeviceData:sampleData[device] newChannel:newChannel];
-				[assign setChannel:anObject];
+//                [assign setChannel:anObject];
+                [assign setChannel:newChannel];
 			}
 			else if (aTableView == timestampTable && timestampData[device][newChannel] == nil) {
 				[self changeDataAssignment:timestampData[device] oldChannel:channel
 						newDeviceData:timestampData[device] newChannel:newChannel];
-				[assign setChannel:anObject];
+//                [assign setChannel:anObject];
+                [assign setChannel:newChannel];
 			}
 			[deviceLock unlock];
 		}

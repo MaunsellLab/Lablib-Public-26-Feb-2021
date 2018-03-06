@@ -14,9 +14,9 @@
 
 @interface LLITC18DataDevice : LLDataDevice {
 
-    NSLock                *deviceLock;
+    NSLock              *deviceLock;
     long                deviceNum;
-    unsigned long        digitalOutputWord;
+    unsigned long       digitalOutputWord;
     BOOL                justStartedITC18;
     int                    instructions[kMaxInstructions];
     double                ITCSamplePeriodS;
@@ -43,17 +43,17 @@
     IBOutlet NSWindow     *settingsWindow;
 }
 
-@property (nonatomic, assign) Ptr itc;;
+@property (NS_NONATOMIC_IOSONLY, assign) Ptr itc;;
+@property (NS_NONATOMIC_IOSONLY, getter=getAvailable, readonly) int available;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id<LLMonitor> monitor;
 
 - (IBAction)ok:(id)sender;
 
 - (void)allocateSampleBuffer:(short **)ppBuffer size:(long)sizeInShorts;
 - (void)closeITC18;
-@property (NS_NONATOMIC_IOSONLY, getter=getAvailable, readonly) int available;
 - (instancetype)initWithDevice:(long)deviceNum;
 - (Ptr)itc NS_RETURNS_INNER_POINTER;
 - (void)loadInstructions;
-@property (NS_NONATOMIC_IOSONLY, readonly, strong) id<LLMonitor> monitor;
 - (BOOL)openITC18:(long)deviceNum;
 - (void)readData;
 

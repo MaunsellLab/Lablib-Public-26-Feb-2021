@@ -274,7 +274,7 @@
 - (void)updateWithResponse:(long)eotCode atTrialTimeMS:(long)trialTimeMS;
 {
     long bin, endBin, minTimeMS, rampDurMS;
-    float probNoFH, probFH, probFA, probNoRelease, probNoReleasePerMS, probNoLateRelease, probLateFH;
+    float probFH, probFA, probNoRelease, probNoReleasePerMS, probNoLateRelease, probLateFH;
 
     if (eotCode != kEOTCorrect && eotCode != kEOTWrong && eotCode != kEOTFailed) {
         return;
@@ -315,7 +315,6 @@ releases were undetected because they were FH (as given by the probability in va
  probNoRelease for the next bin is simply the fraction lost to FH and FA in the current bin.
 */
     probFH = probFA = 0.0;
-    probNoFH = probNoRelease = 1.0;
     for (bin = 0; bin < kBins; bin++) {
         if (n[bin] > 5 && n[bin] - sumFA[bin] > 0) {                        // enough data?
             probBinRelease[bin] = probNoRelease * sumFA[bin] / n[bin] / (1.0 - validProb[bin]);
@@ -340,7 +339,7 @@ releases were undetected because they were FH (as given by the probability in va
     if (_responseTimeMS > _maxTimeMS - minTimeMS) {
         probNoLateRelease = exp(log(probNoReleasePerMS) * (_responseTimeMS - (_maxTimeMS - minTimeMS)));
         probFH = 1.0 - (1.0 - probFH) * probNoLateRelease;             // 1.0 validity on these late releases
-        probNoRelease *= probNoLateRelease;
+//        probNoRelease *= probNoLateRelease;
         rampDurMS = _maxTimeMS - minTimeMS;                 // rampDurMS needed for the next code computation
     }
     else {

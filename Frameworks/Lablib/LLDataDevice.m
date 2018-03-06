@@ -3,7 +3,7 @@
 //  Lablib
 //
 //  Created by John Maunsell on 9/26/05.
-//  Copyright 2005. All rights reserved.
+//  Copyright 2018. All rights reserved.
 //
 
 #import "LLDataDevice.h"
@@ -15,11 +15,11 @@
 {
 }
 
-- (BOOL)dataEnabled;
-{
-    return dataEnabled;
-}
-
+//- (BOOL)dataEnabled;
+//{
+//    return dataEnabled;
+//}
+//
 - (void)dealloc;
 {
     [samplePeriodMS release];
@@ -27,28 +27,28 @@
     [super dealloc];
 }
 
-- (BOOL)deviceEnabled;
-{
-    return deviceEnabled;
-}
-
+//- (BOOL)deviceEnabled;
+//{
+//    return deviceEnabled;
+//}
+//
 // Report whether the hardware device exists on the current configuration
 
-- (BOOL)devicePresent;
-{
-    return devicePresent;
-}
-
+//- (BOOL)devicePresent;
+//{
+//    return devicePresent;
+//}
+//
 - (unsigned short)digitalInputBits;
 {
     return digitalInputBits;
 }
 
-- (short)deviceIndex;
-{
-    return deviceIndex;
-}
-
+//- (short)deviceIndex;
+//{
+//    return deviceIndex;
+//}
+//
 - (void)digitalOutputBits:(unsigned long)bits;
 {
 }
@@ -175,24 +175,29 @@
     controller = theController;
 }
 
-- (void)setDataEnabled:(NSNumber *)state;
+- (void)setDataEnabledWithNumber:(NSNumber *)state;
 {
-    dataEnabled = state.boolValue;
+    self.dataEnabled = state.boolValue;
 }
 
-- (void)setDeviceEnabled:(NSNumber *)state;
+- (void)setDeviceEnabledWithNumber:(NSNumber *)state;
 {
-    deviceEnabled = state.boolValue;
-    if (!deviceEnabled) {
-        dataEnabled = NO;
+    self.deviceEnabled = state.boolValue;
+}
+
+- (void)setDeviceEnabled:(BOOL)state;
+{
+    _deviceEnabled = state;                     // must use variable, otherwise we call setDeviceEnabled infinitely
+    if (!self.deviceEnabled) {
+        self.dataEnabled = NO;
     }
 }
 
-- (void)setDeviceIndex:(short)index;
-{
-    deviceIndex = index;
-}
-
+//- (void)setDeviceIndex:(short)index;
+//{
+//    deviceIndex = index;
+//}
+//
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
     if (channel >= samplePeriodMS.count) {

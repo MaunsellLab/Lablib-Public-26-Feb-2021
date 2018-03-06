@@ -72,6 +72,12 @@ static const char ljPortDir[3] = {                          // 0 input, 1 output
 
 @implementation LabJackU6DataDevice
 
+// not sure at all why I need to synthesize these here.
+
+@synthesize dataEnabled = _dataEnabled;
+@synthesize deviceEnabled = _deviceEnabled;
+@synthesize devicePresent = _devicePresent;
+
 BOOL firstTrialSample;
 long ELTrialStartTimeMS;
 
@@ -233,21 +239,23 @@ long ELTrialStartTimeMS;
     if ((self = [super init]) != nil) {
         digitalOutputBits = 0;
         pollThread = nil;
-        deviceEnabled =  dataEnabled =  devicePresent = NO;
+        _deviceEnabled =  NO;
+        _dataEnabled = NO;
+        _devicePresent = NO;
         LabJackU6SamplePeriodS = 0.002;
             
         dataLock = [[NSLock alloc] init];
         deviceLock = [[NSLock alloc] init];
 
-        deviceEnabled = NO;
+        self.deviceEnabled = NO;
         ljHandle = (void *)openUSBConnection(-1);                           // Open first available U6 on USB
         if (ljHandle == NULL) {
             NSLog(@"LabJackU6DataDevice init: Failed to find LabJackU6 hardware. Connected to USB?");
-            devicePresent = NO;
+            self.devicePresent = NO;
             return self;
         }
         NSLog(@"LabJackU6 Data Device initialized");
-        devicePresent = YES;
+        self.devicePresent = YES;
         monitor = [[LabJackU6Monitor alloc] initWithID:@"LabJackU6" description:@"LabJackU6 Monitor"];
 
         [self setupU6PortsAndRestartIfDead];
@@ -510,7 +518,7 @@ long ELTrialStartTimeMS;
     if ([self ljU6ReadPorts:&fioState EIOState:&eioState CIOState:&cioState] < 0) {
         [deviceLock unlock];
         NSLog(@"LabJackDataDevice readLeverDI: error reading DI, stopping IO ");
-        [self setDataEnabled:@NO];  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
+        self.dataEnabled = NO;  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
         return NO;
     }
     elapsedTimeS = [LLSystemUtil getTimeS] - startTimeS;
@@ -625,45 +633,34 @@ long ELTrialStartTimeMS;
 
 // This is the method is typically called at the start and end of every trial to toggle data collection.
 
-- (void)setDataEnabled:(NSNumber *)state;
+- (void)setDataEnabled:(BOOL)state;
 {
 //    long maxSamplingRateHz = 1000;
     
     if (ljHandle == NULL) {
         return;
     }
-    if (state.boolValue && !dataEnabled) {                        // toggle from OFF to ON
+    if (state && !self.dataEnabled) {                        // toggle from OFF to ON
         [self setupU6PortsAndRestartIfDead];                        // check on hardware, restart if needed.
         [deviceLock lock];
         if (pollThread == nil) {
             shouldKillPolling = NO;
             [NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
         }
-
-//        if (maxSamplingRateHz != 0) {                                // no channels enabled
-//            sampleTimeS = LabJackU6SamplePeriodS;                    // one period complete on first sample
-//            justStartedLabJackU6 = YES;
-//            [monitor initValues:&values];
-//            values.samplePeriodMS = LabJackU6SamplePeriodS * 1000.0;
-//            monitorStartTimeS = [LLSystemUtil getTimeS];
-//            lastReadDataTimeS = 0;
-//            firstTrialSample = NO;
-//        }
-        dataEnabled = YES;
+        _dataEnabled = YES;
         [deviceLock unlock];
     } 
-    else if (!state.boolValue && dataEnabled) {                    // toggle from ON to OFF
+    else if (!state && self.dataEnabled) {                    // toggle from ON to OFF
                                                                     //        [deviceLock lock]; // shouldn't need to lock -- just setting flag.
         shouldKillPolling = YES;
         while (pollThread != nil) {
             usleep(100);
         }
-//        [deviceLock unlock];
         values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
         lastReadDataTimeS = 0;
         values.sequences = 1;
         [monitor sequenceValues:values];
-        dataEnabled = NO;
+        _dataEnabled = NO;
     }
 }
 

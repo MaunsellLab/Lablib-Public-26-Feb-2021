@@ -10,21 +10,24 @@ typedef NS_ENUM(unsigned int, LLDataAssignmentType) {kLLSampleData, kLLTimestamp
 
 @interface LLDataAssignment : NSObject {
 
-    long channel;
-    long device;
-    NSString *name;
-    long type;
-    long groupIndex;
+//    long channel;
+//    long device;
+//    NSString *name;
+//    long type;
+//    long groupIndex;
 }
 
-- (long)channel;
-- (long)device;
-@property (NS_NONATOMIC_IOSONLY, readonly) long groupIndex;
-- (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
+@property (NS_NONATOMIC_IOSONLY) long channel;
+@property (NS_NONATOMIC_IOSONLY) long device;
+@property (NS_NONATOMIC_IOSONLY) long groupIndex;
+@property (NS_NONATOMIC_IOSONLY, copy) NSString *name;
+@property (NS_NONATOMIC_IOSONLY) long type;
+
+//- (long)channel;
+//- (long)device;
+- (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice
             type:(long)theType groupIndex:(long)index;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
-- (void)setChannel:(NSNumber *)newChannel;
-- (void)setDevice:(NSNumber *)newDevice;
-@property (NS_NONATOMIC_IOSONLY, readonly) long type;
+- (void)setChannelWithNSNumber:(NSNumber *)newChannel;
+- (void)setDeviceWithNSNumber:(NSNumber *)newDevice;
 
 @end

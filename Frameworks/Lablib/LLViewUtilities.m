@@ -84,10 +84,13 @@
 }
 
 + (void) fillCircleAtScaledX:(float)scaledX scaledY:(float)scaledY withScale:(LLViewScale *)scale 
-                radiusPix:(long)radiusPix {
-
+                   radiusPix:(long)radiusPix;
+{
     NSPoint pixPoint;
     
+//    if (isnan(scaledX) || isnan(scaledY) || isnan(radiusPix)) {
+//        NSLog(@"Bad value to fillCircleAtScaledX");
+//    }
     pixPoint = [scale scaledPoint:NSMakePoint(scaledX, scaledY)];
     [[NSBezierPath bezierPathWithOvalInRect:NSMakeRect(pixPoint.x - radiusPix, pixPoint.y - radiusPix,
                     radiusPix * 2, radiusPix * 2)] fill];

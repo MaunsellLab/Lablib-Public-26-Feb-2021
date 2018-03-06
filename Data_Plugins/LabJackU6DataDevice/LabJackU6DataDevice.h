@@ -18,13 +18,13 @@ typedef NS_ENUM(unsigned int, LabJackU6Channel) {kRXChannel = 0, kRYChannel, kRP
 
     unsigned long           digitalOutputBits;
     BOOL                    doingDealloc;
-    int                        eye_used;
-    double                    nextSampleTimeS;
+    int                     eye_used;
+    double                  nextSampleTimeS;
     HANDLE                  ljHandle;
-    double                    LabJackU6SamplePeriodS;
-    double                    sampleTimeS;
-    double                    monitorStartTimeS;
-    double                    lastReadDataTimeS;
+    double                  LabJackU6SamplePeriodS;
+    double                  sampleTimeS;
+    double                  monitorStartTimeS;
+    double                  lastReadDataTimeS;
     long                    laserTrigger;
     BOOL                    lever1;
     BOOL                    lever2;
@@ -33,7 +33,7 @@ typedef NS_ENUM(unsigned int, LabJackU6Channel) {kRXChannel = 0, kRYChannel, kRP
     BOOL                    justStartedLabJackU6;
     long                    pulseOn;
     long                    pulseDuration;
-    NSMutableData            *sampleData[kLabJackU6Channels];
+    NSMutableData           *sampleData[kLabJackU6Channels];
     BOOL                    shouldKillPolling;
     long                    strobedDigitalWord;
     NSMutableData            *lXData, *lYData, *lPData;
@@ -45,16 +45,16 @@ typedef NS_ENUM(unsigned int, LabJackU6Channel) {kRXChannel = 0, kRYChannel, kRP
     LabJackU6MonitorValues    values;
 }
 
-- (BOOL)readLeverDI:(BOOL *)outLever1 lever2:(BOOL *)outLever2;
-- (BOOL)ljU6WriteDO:(long)channel state:(long)state;
-
-- (void)disableSampleChannels:(NSNumber *)bitPattern;
-- (void)enableSampleChannels:(NSNumber *)bitPattern;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *name;
 @property (NS_NONATOMIC_IOSONLY, readonly) long sampleChannels;
 @property (NS_NONATOMIC_IOSONLY, readonly) NSData **sampleData;
+
+- (BOOL)readLeverDI:(BOOL *)outLever1 lever2:(BOOL *)outLever2;
+- (BOOL)ljU6WriteDO:(long)channel state:(long)state;
+- (void)disableSampleChannels:(NSNumber *)bitPattern;
+- (void)enableSampleChannels:(NSNumber *)bitPattern;
 - (float)samplePeriodMSForChannel:(long)channel;
-- (void)setDataEnabled:(NSNumber *)state;
+//- (void)setDataEnabled:(NSNumber *)state;
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 
 @end

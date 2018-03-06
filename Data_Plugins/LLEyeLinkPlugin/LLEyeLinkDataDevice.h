@@ -35,8 +35,8 @@ typedef NS_ENUM(unsigned int, EyeLinkChannel) {kRXChannel = 0, kRYChannel, kRPCh
 @property (NS_NONATOMIC_IOSONLY, readonly) long sampleChannels;
 @property (NS_NONATOMIC_IOSONLY, readonly) NSData **sampleData;
 - (float)samplePeriodMSForChannel:(long)channel;
-- (void)setDataEnabled:(NSNumber *)state;
-- (void)setDeviceEnabled:(NSNumber *)state;
+//- (void)setDataEnabled:(NSNumber *)state;
+//- (void)setDeviceEnabled:(NSNumber *)state;
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 
 @end

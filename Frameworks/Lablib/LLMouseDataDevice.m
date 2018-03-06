@@ -29,6 +29,9 @@ static    LLMouseDataSettings    *mouseSettings;
 
 @implementation LLMouseDataDevice
 
+@synthesize dataEnabled = _dataEnabled;
+@synthesize devicePresent = _devicePresent;
+
 - (void)configure;
 {
     if (mouseSettings == nil) {
@@ -70,7 +73,7 @@ static    LLMouseDataSettings    *mouseSettings;
         for (channel = 0; channel < kLLMouseDigitalBits; channel++)  {
             [timestampPeriodMS addObject:[NSNumber numberWithFloat:kLLMouseTimestampPeriodMS]];
         }
-        devicePresent = YES;
+        _devicePresent = YES;
     }
     return self;
 }
@@ -93,7 +96,7 @@ static    LLMouseDataSettings    *mouseSettings;
     NSPoint mouseLoc;
     NSMutableData *xData, *yData;
     
-    if (!dataEnabled || sampleChannels == 0) {
+    if (!self.dataEnabled || sampleChannels == 0) {
         return nil;
     }
     timeNowS = [LLSystemUtil getTimeS];
@@ -131,12 +134,12 @@ static    LLMouseDataSettings    *mouseSettings;
     return sampleData;
 }
 
-- (void)setDataEnabled:(NSNumber *)state;
+- (void)setDataEnabled:(BOOL)state;
 {
-    if (state.boolValue && !dataEnabled) {
+    if (state && !self.dataEnabled) {
         nextSampleTimeS = timestampRefS = [LLSystemUtil getTimeS];
     }
-    dataEnabled = state.boolValue;
+    _dataEnabled = state;
 }
 
 - (void)setMouseState:(long)state;
@@ -171,7 +174,7 @@ static    LLMouseDataSettings    *mouseSettings;
     unsigned short mouseButtonBits;
     long timeMS, channel, timeTicks;
 
-    if (!dataEnabled || timestampChannels == 0) {        // no individual channels enabled
+    if (!self.dataEnabled || timestampChannels == 0) {        // no individual channels enabled
         return nil;
     }
     if (!mouseDown && buttonWasDown) {                    // button just went up

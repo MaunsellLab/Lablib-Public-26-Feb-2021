@@ -20,6 +20,10 @@
 
 @implementation LLEyeLinkDataDevice
 
+@synthesize dataEnabled = _dataEnabled;
+@synthesize deviceEnabled = _deviceEnabled;
+@synthesize devicePresent = _devicePresent;
+
 volatile int shouldKillThread = 0;
 BOOL firstTrialSample;
 long ELTrialStartTimeMS;
@@ -76,9 +80,8 @@ void handler(int signal) {
         rPData = [[NSMutableData alloc] init];
 
         pollThread = nil;
-        deviceEnabled = NO;
-        dataEnabled = NO;
-        devicePresent = YES;
+        _deviceEnabled = _dataEnabled = NO;
+        _devicePresent = YES;
         EyeLinkSamplePeriodS = 0.002;
             
         dataLock = [[NSLock alloc] init];
@@ -94,18 +97,17 @@ void handler(int signal) {
         
         nextSampleTimeS += [samplePeriodMS[0] floatValue] * EyeLinkSamplePeriodS;
                 
-        NSLog(@"LLEyeLinkDataDevice: Since 10.10, the EyeLink API is generating this thread_policy_set error");
         if ((index = open_eyelink_connection(0))) {
-            deviceEnabled = devicePresent = NO;
+            _deviceEnabled = _devicePresent = NO;
         }
         else {
-            deviceEnabled = devicePresent = YES;
+            _deviceEnabled = _devicePresent = YES;
             stop_recording();                           // make sure we're stopped
         }
-        if (deviceEnabled) {                            // find out which eyes are in play
+        if (_deviceEnabled) {                            // find out which eyes are in play
             error = start_recording(0, 0, 1, 1);
             if (error != 0) {
-                deviceEnabled = devicePresent = NO;
+                _deviceEnabled = _devicePresent = NO;
             }
             else {
                 eye_used = eyelink_eye_available();
@@ -259,28 +261,26 @@ void handler(int signal) {
     return sampleData;
 }
 
-- (void)setDataEnabled:(NSNumber *)state;
+- (void)setDataEnabled:(BOOL)state;
 {
     long maxSamplingRateHz = 1000;
     
-    if (state.boolValue && !dataEnabled) {                        // toggle from OFF to ON
+    if (state && !self.dataEnabled) {                        // toggle from OFF to ON
         [deviceLock lock];
         if (maxSamplingRateHz != 0) {                                // no channels enabled
             sampleTimeS = EyeLinkSamplePeriodS;                        // one period complete on first sample
             justStartedEyeLink = YES;
-            //[deviceLock lock];
             start_recording(0,0,1,0);                               // tell device to start recording
-            //[deviceLock unlock];
             [monitor initValues:&values];
             values.samplePeriodMS = EyeLinkSamplePeriodS * 1000.0;
             monitorStartTimeS = [LLSystemUtil getTimeS];
             lastReadDataTimeS = 0;
-            dataEnabled = YES;
+            _dataEnabled = YES;
             firstTrialSample = NO;
         }
         [deviceLock unlock];
     } 
-    else if (!state.boolValue && dataEnabled) {                    // toggle from ON to OFF
+    else if (!state && self.dataEnabled) {                    // toggle from ON to OFF
         values.cumulativeTimeMS = ([LLSystemUtil getTimeS] - monitorStartTimeS) * 1000.0;
         lastReadDataTimeS = 0;
         [deviceLock lock];
@@ -288,33 +288,24 @@ void handler(int signal) {
         [deviceLock unlock];
         values.sequences = 1;
         [monitor sequenceValues:values];
-        dataEnabled = NO;
+        _dataEnabled = NO;
     }
 }
 
-- (void)setDeviceEnabled:(NSNumber *)state;
+- (void)setDeviceEnabled:(BOOL)state;
 {
-    if (!state.boolValue && deviceEnabled) {                        // Disable the device
-        [self setDataEnabled:@NO];
-        deviceEnabled = NO;
+    if (!state && self.deviceEnabled) {                        // Disable the device
+        self.dataEnabled = NO;
+        _deviceEnabled = NO;
         shouldKillThread = YES;
         while (pollThread != nil) {
             usleep(100);
         }
-        //stop_recording();
-//        signal(SIGKILL, SIG_DFL);
-//        //signal(SIGINT, SIG_DFL);
-//        signal(SIGQUIT, SIG_DFL);
-//        signal(SIGILL, SIG_DFL);
-//        signal(SIGABRT, SIG_DFL);
-//        signal(SIGSEGV, SIG_DFL);
-//        signal(SIGTERM, SIG_DFL);
     }
     
-    if (state.boolValue && !deviceEnabled) {                        // Enable the device
-        deviceEnabled = YES;
+    if (state && !self.deviceEnabled) {                        // Enable the device
+        _deviceEnabled = YES;
         signal(SIGKILL, handler);
-        //signal(SIGINT, handler);
         signal(SIGQUIT, handler);
         signal(SIGILL, handler);
         signal(SIGABRT, handler);
