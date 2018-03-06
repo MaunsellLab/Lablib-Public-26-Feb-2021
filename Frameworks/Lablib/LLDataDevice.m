@@ -15,11 +15,6 @@
 {
 }
 
-//- (BOOL)dataEnabled;
-//{
-//    return dataEnabled;
-//}
-//
 - (void)dealloc;
 {
     [samplePeriodMS release];
@@ -27,28 +22,11 @@
     [super dealloc];
 }
 
-//- (BOOL)deviceEnabled;
-//{
-//    return deviceEnabled;
-//}
-//
-// Report whether the hardware device exists on the current configuration
-
-//- (BOOL)devicePresent;
-//{
-//    return devicePresent;
-//}
-//
 - (unsigned short)digitalInputBits;
 {
     return digitalInputBits;
 }
 
-//- (short)deviceIndex;
-//{
-//    return deviceIndex;
-//}
-//
 - (void)digitalOutputBits:(unsigned long)bits;
 {
 }
@@ -170,19 +148,31 @@
     return  nil;
 }
 
-- (void)setController:(id)theController;
+//- (void)setController:(id)theController;
+//{
+//    controller = theController;
+//}
+//
+// The following methods are a convenience for when we ask an NSArray of dataDevices to -performSelector
+
+- (void)setDataDisabled;
 {
-    controller = theController;
+    self.dataEnabled = NO;                     // must use variable, otherwise we call setDeviceEnabled infinitely
 }
 
-- (void)setDataEnabledWithNumber:(NSNumber *)state;
+- (void)setDataEnabled;
 {
-    self.dataEnabled = state.boolValue;
+    self.dataEnabled = YES;                     // must use variable, otherwise we call setDeviceEnabled infinitely
 }
 
-- (void)setDeviceEnabledWithNumber:(NSNumber *)state;
+- (void)setDeviceDisabled;
 {
-    self.deviceEnabled = state.boolValue;
+    self.deviceEnabled = NO;                     // must use variable, otherwise we call setDeviceEnabled infinitely
+}
+
+- (void)setDeviceEnabled;
+{
+    self.deviceEnabled = YES;                     // must use variable, otherwise we call setDeviceEnabled infinitely
 }
 
 - (void)setDeviceEnabled:(BOOL)state;
@@ -193,11 +183,6 @@
     }
 }
 
-//- (void)setDeviceIndex:(short)index;
-//{
-//    deviceIndex = index;
-//}
-//
 - (BOOL)setSamplePeriodMS:(float)newPeriodMS channel:(long)channel;
 {
     if (channel >= samplePeriodMS.count) {

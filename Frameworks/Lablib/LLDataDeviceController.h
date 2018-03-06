@@ -6,6 +6,8 @@
 //  Copyright 2005. All rights reserved.
 //
 
+#ifndef _LLDataDeviceController_
+#define _LLDataDeviceController_
 #import "LLDataDevice.h"
 #import "LLDataAssignment.h"
 
@@ -40,12 +42,12 @@ samples) have multiple objects in the array, one for each channel.
 
 @interface LLDataDeviceController : NSWindowController {
 
-    NSMutableDictionary        *assignmentDict;
+    NSMutableDictionary     *assignmentDict;
     LLDataDevice            *dataSource;
-    NSMutableArray            *dataDevices;
-    NSUserDefaults            *defaults;
-    NSMutableDictionary        *deviceDict;
-    NSLock                    *deviceLock;
+    NSMutableArray          *dataDevices;
+    NSUserDefaults          *defaults;
+    NSMutableDictionary     *deviceDict;
+    NSLock                  *deviceLock;
     double                    lastCollectionTimeS;
     double                    minCollectionIntS;
     NSMutableArray            *sampleAssignments;
@@ -100,4 +102,6 @@ samples) have multiple objects in the array, one for each channel.
 - (IBAction)ok:(id)sender;
 
 @end
+
+#endif  // _LLDataDeviceController_
 

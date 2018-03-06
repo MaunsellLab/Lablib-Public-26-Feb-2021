@@ -68,8 +68,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 
 - (void)assignmentDialog;
 {
-	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabledWithNumber:)
-							withObject:[NSNumber numberWithBool:NO]];
+	[dataDevices makeObjectsPerformSelector:@selector(setDeviceDisabled)];
 	[dataDevices makeObjectsPerformSelector:@selector(disableAllChannels)];
 	[digitalInMenu selectItemAtIndex:
 		[self indexForDeviceName:[defaults stringForKey:LLDataDeviceDigitalInKey]]];
@@ -104,7 +103,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	LLDataAssignment *assign;
 	DataAssignment *pAssign;
 
-	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabledWithNumber:) withObject:@NO];
+	[dataDevices makeObjectsPerformSelector:@selector(setDeviceDisabled)];
 	[dataDevices makeObjectsPerformSelector:@selector(disableAllChannels)];
 	[deviceLock lock];
 
@@ -642,15 +641,19 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 			}
 		}
 	}
-	[dataDevices makeObjectsPerformSelector:@selector(setDeviceEnabledWithNumber:)
-				withObject:[NSNumber numberWithBool:NO]];
+	[dataDevices makeObjectsPerformSelector:@selector(setDeviceDisabled)];
 	[dataDevices makeObjectsPerformSelector:@selector(disableAllChannels)];
 	[deviceLock unlock]; 
 }
 
 - (void)setDataEnabled:(NSNumber *)state;
 {
-	[dataDevices makeObjectsPerformSelector:@selector(setDataEnabledWithNumber:) withObject:state];
+    if (state.boolValue) {
+        [dataDevices makeObjectsPerformSelector:@selector(setDataEnabled)];
+    }
+    else {
+        [dataDevices makeObjectsPerformSelector:@selector(setDataDisabled)];
+    }
 }
 
 - (void)setDefaults:(NSUserDefaults *)newDefaults;
