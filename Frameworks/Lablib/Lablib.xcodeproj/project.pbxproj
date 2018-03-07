@@ -118,6 +118,8 @@
 		69897B6D099BA633001EE2DA /* LLDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69897B6B099BA633001EE2DA /* LLDataUtil.m */; };
 		698F5966159000EC00366393 /* LLSynthBinocSaccade.h in Headers */ = {isa = PBXBuildFile; fileRef = 698F5964159000EC00366393 /* LLSynthBinocSaccade.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		698F5967159000EC00366393 /* LLSynthBinocSaccade.m in Sources */ = {isa = PBXBuildFile; fileRef = 698F5965159000EC00366393 /* LLSynthBinocSaccade.m */; };
+		69912F45204F8A1B0004C384 /* LLSymbolView.h in Headers */ = {isa = PBXBuildFile; fileRef = 69912F3D204F8A180004C384 /* LLSymbolView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69912F46204F8A1B0004C384 /* LLSymbolView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69912F3E204F8A180004C384 /* LLSymbolView.m */; };
 		69914CC906863C46001800F9 /* LLTextUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 69914CC706863C46001800F9 /* LLTextUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69914CCA06863C46001800F9 /* LLTextUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69914CC806863C46001800F9 /* LLTextUtil.m */; };
 		699AC1B30C752D46000D360E /* LLNoise.h in Headers */ = {isa = PBXBuildFile; fileRef = 699AC1B10C752D46000D360E /* LLNoise.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -406,6 +408,8 @@
 		698E35CF048F958700F95509 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		698F5964159000EC00366393 /* LLSynthBinocSaccade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthBinocSaccade.h; sourceTree = "<group>"; };
 		698F5965159000EC00366393 /* LLSynthBinocSaccade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSynthBinocSaccade.m; sourceTree = "<group>"; };
+		69912F3D204F8A180004C384 /* LLSymbolView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSymbolView.h; sourceTree = "<group>"; };
+		69912F3E204F8A180004C384 /* LLSymbolView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSymbolView.m; sourceTree = "<group>"; };
 		69914CC706863C46001800F9 /* LLTextUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTextUtil.h; sourceTree = "<group>"; };
 		69914CC806863C46001800F9 /* LLTextUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTextUtil.m; sourceTree = "<group>"; };
 		699542D004FFD75300F95523 /* LLSounds.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LLSounds.h; sourceTree = "<group>"; };
@@ -788,6 +792,8 @@
 				69E278000791A88A0082057D /* LLStimView.m */,
 				697CC9D3077F12FC0025E7D2 /* LLStimWindow.h */,
 				697CC9D4077F12FC0025E7D2 /* LLStimWindow.m */,
+				69912F3D204F8A180004C384 /* LLSymbolView.h */,
+				69912F3E204F8A180004C384 /* LLSymbolView.m */,
 				696E8ABF046334C800A80164 /* LLViewScale.h */,
 				696E8AC0046334C800A80164 /* LLViewScale.m */,
 				697BA2D1046494FB00A80164 /* LLViewUtilities.h */,
@@ -1073,6 +1079,7 @@
 				691C42300B25E87500DA5103 /* LLStateSystem.h in Headers */,
 				69D754C71FC8DC7400A64848 /* NSString+ShellExecution.h in Headers */,
 				696FEDD30B7B854A002D6D54 /* LLMathUtil.h in Headers */,
+				69912F45204F8A1B0004C384 /* LLSymbolView.h in Headers */,
 				69671AD20BA498BC00AA136E /* LLNumberMatchTransformer.h in Headers */,
 				69671B170BA49DB100AA136E /* LLNumberNonMatchTransformer.h in Headers */,
 				69C094520BDA3B8A00DB7DE8 /* LLPointDist.h in Headers */,
@@ -1206,6 +1213,7 @@
 				69F36CED0567EA8C009AED51 /* LLIntervalMonitor.m in Sources */,
 				69F36CEE0567EA8C009AED51 /* LLIntervalMonitorSettings.m in Sources */,
 				69F36CF10567EA8C009AED51 /* LLMonitorController.m in Sources */,
+				69912F46204F8A1B0004C384 /* LLSymbolView.m in Sources */,
 				69F36D000567EA8C009AED51 /* LLNormDist.m in Sources */,
 				69F36CF40567EA8C009AED51 /* LLPlotAxes.m in Sources */,
 				69F36CF50567EA8C009AED51 /* LLPlotColors.m in Sources */,

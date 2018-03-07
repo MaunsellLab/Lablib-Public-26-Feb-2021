@@ -20,11 +20,6 @@
 #import "LLSystemUtil.h"
 #import "LLMouseDataSettings.h"
 
-NSString *LLMouseButtonBitsKey = @"LLMouseButtonBits";
-NSString *LLMouseGainKey = @"LLMouseGain";
-NSString *LLMouseXBitsKey = @"LLMouseXBits";
-NSString *LLMouseYBitsKey = @"LLMouseYBits";
-
 static    LLMouseDataSettings    *mouseSettings;
 
 @implementation LLMouseDataDevice
@@ -49,7 +44,7 @@ static    LLMouseDataSettings    *mouseSettings;
 - (unsigned short)digitalInputBits;
 {
     if (mouseDown) {
-        return [[NSUserDefaults standardUserDefaults] integerForKey:LLMouseButtonBitsKey];
+        return [[NSUserDefaults standardUserDefaults] integerForKey:kLLMouseButtonBitsKey];
     }
     else {
         return 0x0000;
@@ -104,7 +99,7 @@ static    LLMouseDataSettings    *mouseSettings;
         return nil;
     }
     mouseLoc = [NSEvent mouseLocation];
-    mouseGain = [[NSUserDefaults standardUserDefaults] floatForKey:LLMouseGainKey];
+    mouseGain = [[NSUserDefaults standardUserDefaults] floatForKey:kLLMouseGainKey];
     xValue = (mouseLoc.x - origin.x) * mouseGain;
     yValue = (mouseLoc.y - origin.y) * mouseGain;
     xData = [NSMutableData dataWithLength:0];
@@ -189,7 +184,7 @@ static    LLMouseDataSettings    *mouseSettings;
 
     buttonWasDown = YES;
     timeMS = ([LLSystemUtil getTimeS] - timestampRefS) * 1000.0;
-    mouseButtonBits = [[NSUserDefaults standardUserDefaults] integerForKey:LLMouseButtonBitsKey];
+    mouseButtonBits = [[NSUserDefaults standardUserDefaults] integerForKey:kLLMouseButtonBitsKey];
     for (channel = 0; channel < kLLMouseDigitalBits; channel++) {
         if (mouseButtonBits & (0x01 << channel)) {
             timeTicks = timeMS * (1.0 / [timestampPeriodMS[channel] floatValue]);

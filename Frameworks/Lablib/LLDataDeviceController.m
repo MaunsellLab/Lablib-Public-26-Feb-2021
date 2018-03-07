@@ -71,9 +71,9 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	[dataDevices makeObjectsPerformSelector:@selector(setDeviceDisabled)];
 	[dataDevices makeObjectsPerformSelector:@selector(disableAllChannels)];
 	[digitalInMenu selectItemAtIndex:
-		[self indexForDeviceName:[defaults stringForKey:LLDataDeviceDigitalInKey]]];
+		[self indexForDeviceName:[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalInKey]]];
 	[digitalOutMenu selectItemAtIndex:
-		[self indexForDeviceName:[defaults stringForKey:LLDataDeviceDigitalOutKey]]];
+		[self indexForDeviceName:[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalOutKey]]];
 	[sampleTable noteNumberOfRowsChanged];
 	[timestampTable noteNumberOfRowsChanged]; 
 
@@ -85,13 +85,13 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 
 - (void)assignDigitalInputDevice:(NSString *)deviceName;
 {
-	[defaults registerDefaults:[NSDictionary dictionaryWithObject:deviceName
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:deviceName
 			forKey:LLDataDeviceDigitalInKey]];
 }
 
 - (void)assignDigitalOutputDevice:(NSString *)deviceName;
 {
-	[defaults registerDefaults:[NSDictionary dictionaryWithObject:deviceName
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObject:deviceName
 			forKey:LLDataDeviceDigitalOutKey]];
 }
 
@@ -266,7 +266,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	LLDataDevice *theDevice;
 	
 	theDevice = [dataDevices objectAtIndex:[digitalInMenu indexOfSelectedItem]];
-	[defaults setObject:[theDevice name] forKey:LLDataDeviceDigitalInKey];
+	[[NSUserDefaults standardUserDefaults] setObject:[theDevice name] forKey:LLDataDeviceDigitalInKey];
 }
 
 - (IBAction)changeDigitalOutput:(id)sender;
@@ -274,7 +274,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	LLDataDevice *theDevice;
 	
 	theDevice = [dataDevices objectAtIndex:[digitalOutMenu indexOfSelectedItem]];
-	[defaults setObject:[theDevice name] forKey:LLDataDeviceDigitalOutKey];
+	[[NSUserDefaults standardUserDefaults] setObject:[theDevice name] forKey:LLDataDeviceDigitalOutKey];
 }
 
 - (void)configureDeviceWithIndex:(long)index {
@@ -425,7 +425,6 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	[timestampAssignments release];
 	[assignmentDict release];
 	[deviceDict release];
-	[defaults release];
 	[deviceLock unlock];
 	[deviceLock release];
     [super dealloc];
@@ -452,7 +451,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 {
 	LLDataDevice *inDevice;
 	
-	inDevice = [deviceDict objectForKey:[defaults stringForKey:LLDataDeviceDigitalInKey]];
+	inDevice = [deviceDict objectForKey:[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalInKey]];
 	return [inDevice digitalInputBits];
 }
 
@@ -460,7 +459,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 {
 	LLDataDevice *outDevice;
 	
-	outDevice = [deviceDict objectForKey:[defaults stringForKey:LLDataDeviceDigitalOutKey]];
+	outDevice = [deviceDict objectForKey:[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalOutKey]];
 	[outDevice digitalOutputBits:bits];
 }
 
@@ -468,7 +467,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 {
 	LLDataDevice *outDevice;
 	
-	outDevice = [deviceDict objectForKey:[defaults stringForKey:LLDataDeviceDigitalOutKey]];
+	outDevice = [deviceDict objectForKey:[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalOutKey]];
 	[outDevice digitalOutputBitsOff:bits];
 }
 
@@ -476,7 +475,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 {
 	LLDataDevice *outDevice;
 	
-	outDevice = [deviceDict objectForKey:[defaults stringForKey:LLDataDeviceDigitalOutKey]];
+	outDevice = [deviceDict objectForKey:[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalOutKey]];
 	[outDevice digitalOutputBitsOn:bits];
 }
 
@@ -522,7 +521,6 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 {
     if ((self =  [super initWithWindowNibName:@"LLDataDeviceController"]) != nil) {
 		[self window];									// force window so we can init its contents
-		[self setDefaults:[NSUserDefaults standardUserDefaults]];
 		dataDevices = [[NSMutableArray alloc] init];
 		sampleAssignments = [[NSMutableArray alloc] init];
 		timestampAssignments = [[NSMutableArray alloc] init];
@@ -598,11 +596,11 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	NSArray *defaultsArray = nil;
 	
 	if ([assign type] == kLLSampleData) {
-		defaultsArray = [defaults arrayForKey:[NSString stringWithFormat:@"%@%@%ld",
+		defaultsArray = [[NSUserDefaults standardUserDefaults] arrayForKey:[NSString stringWithFormat:@"%@%@%ld",
 			LLDataAssignmentKey, [assign name], [assign groupIndex]]];
 	}
 	else if ([assign type] == kLLTimestampData) {
-		defaultsArray = [defaults arrayForKey:[NSString stringWithFormat:@"%@%@",
+		defaultsArray = [[NSUserDefaults standardUserDefaults] arrayForKey:[NSString stringWithFormat:@"%@%@",
 			LLDataAssignmentKey, [assign name]]];
 	}
 	if (defaultsArray == nil) {
@@ -654,13 +652,6 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
     else {
         [dataDevices makeObjectsPerformSelector:@selector(setDataDisabled)];
     }
-}
-
-- (void)setDefaults:(NSUserDefaults *)newDefaults;
-{
-	[newDefaults retain];
-	[defaults release];
-	defaults = newDefaults;
 }
 
 - (void)setMinCollectionIntervalS:(long)newIntervalS;
@@ -859,10 +850,10 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
         }
     }
     if (!result) {
-        if ([[defaults stringForKey:LLDataDeviceDigitalInKey] isEqualToString:@"Synthetic"]) {
+        if ([[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalInKey] isEqualToString:@"Synthetic"]) {
             result = YES;
         }
-        if ([[defaults stringForKey:LLDataDeviceDigitalOutKey] isEqualToString:@"Synthetic"]) {
+        if ([[[NSUserDefaults standardUserDefaults] stringForKey:LLDataDeviceDigitalOutKey] isEqualToString:@"Synthetic"]) {
             result = YES;
         }
     }
@@ -888,7 +879,7 @@ NSString *LLDataDeviceDigitalOutKey = @"LLDataDeviceDigitalOut";
 	else {
 		return;
 	}
-	[defaults setObject:[NSArray arrayWithObjects:[dataDevice name], 
+	[[NSUserDefaults standardUserDefaults] setObject:[NSArray arrayWithObjects:[dataDevice name],
 			[NSNumber numberWithLong:channel], [NSNumber numberWithFloat:timing], nil]
 			forKey:key];
 }

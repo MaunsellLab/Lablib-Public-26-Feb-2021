@@ -28,10 +28,8 @@ typedef struct {
     long type;
 } DataParam;
 
-#define kMaxDevices            8
+#define kMaxDevices         8
 #define kMaxChannels        16
-
-extern NSString *LLDataSourceKey;
 
 /*
 Assignments are stored in assignmentDict, one entry per assignment.  The keys are the
@@ -48,23 +46,23 @@ samples) have multiple objects in the array, one for each channel.
     NSUserDefaults          *defaults;
     NSMutableDictionary     *deviceDict;
     NSLock                  *deviceLock;
-    double                    lastCollectionTimeS;
-    double                    minCollectionIntS;
-    NSMutableArray            *sampleAssignments;
-    NSMutableData            *sampleData[kMaxDevices][kMaxChannels];
-    NSMutableArray            *timestampAssignments;
-    NSMutableData            *timestampData[kMaxDevices][kMaxChannels];
+    double                  lastCollectionTimeS;
+    double                  minCollectionIntS;
+    NSMutableArray          *sampleAssignments;
+    NSMutableData           *sampleData[kMaxDevices][kMaxChannels];
+    NSMutableArray          *timestampAssignments;
+    NSMutableData           *timestampData[kMaxDevices][kMaxChannels];
     
-    IBOutlet NSPopUpButton        *digitalInMenu;
-    IBOutlet NSPopUpButton        *digitalOutMenu;
-    IBOutlet NSPopUpButtonCell    *sampleDeviceMenu;
-    IBOutlet NSTableView        *sampleTable;
-    IBOutlet NSTableView        *timestampTable;
-    IBOutlet NSPopUpButtonCell    *timestampDeviceMenu;
+    IBOutlet NSPopUpButton  *digitalInMenu;
+    IBOutlet NSPopUpButton  *digitalOutMenu;
+    IBOutlet NSPopUpButtonCell  *sampleDeviceMenu;
+    IBOutlet NSTableView    *sampleTable;
+    IBOutlet NSTableView    *timestampTable;
+    IBOutlet NSPopUpButtonCell  *timestampDeviceMenu;
 }
 
 - (void)addDataDevice:(LLDataDevice *)newDevice;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *allDataParam;
+- (NSArray *)allDataParam;
 - (void)assignmentDialog;
 - (void)assignDigitalInputDevice:(NSString *)deviceName;
 - (void)assignDigitalOutputDevice:(NSString *)deviceName;
@@ -78,7 +76,7 @@ samples) have multiple objects in the array, one for each channel.
 - (void)contingentReadDataFromDevices:(BOOL)onlyIfEnabled;
 - (NSData *)dataOfType:(NSString *)typeName;
 - (LLDataDevice *)deviceWithName:(NSString *)name;
-@property (NS_NONATOMIC_IOSONLY, readonly) unsigned long digitalInputBits;
+- (unsigned long)digitalInputBits;
 - (void)digitalOutputBits:(unsigned long)bits;
 - (void)digitalOutputBitsOff:(unsigned long)bits;
 - (void)digitalOutputBitsOn:(unsigned long)bits;
@@ -89,11 +87,10 @@ samples) have multiple objects in the array, one for each channel.
 - (BOOL)readDefaults:(LLDataAssignment *)assign pTiming:(float *)pTiming;
 - (void)removeAllAssignments;
 - (void)setDataEnabled:(NSNumber *)state;
-- (void)setDefaults:(NSUserDefaults *)newDefaults;
 - (void)setMinCollectionIntervalS:(long)newIntervalS;
 - (void)startDevice;
 - (void)stopDevice;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL usingSyntheticDevice;
+- (BOOL)usingSyntheticDevice;
 - (void)writeDefaults:(LLDataAssignment *)assign;
 
 - (IBAction)changeDigitalInput:(id)sender;

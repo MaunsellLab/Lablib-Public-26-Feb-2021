@@ -83,8 +83,8 @@
         n[index] = sumFA[index] = 0.0;
     }
     numCorr = numCorrLate = numMissed = numTrials = numTrialsEarly = 0.0;
-    _fhFraction= _faFraction = _missFraction = _corrFraction = 0.0;
-    _fhRate = _faRate = 0.0;
+    self.fhFraction= self.faFraction = self.missFraction = self.corrFraction = 0.0;
+    self.fhRate = self.faRate = 0.0;
 }
 
 - (void)dealloc;
@@ -99,8 +99,8 @@
 - (void)dumpValues;
 {
     NSLog(@"minMS: %ld maxMS: %ld responseMS: %ld tooFast: %ld",
-                                        _minTimeMS, _maxTimeMS, _responseTimeMS, _tooFastTimeMS);
-    NSLog(@"Taking from %ld to %ld", _minTimeMS + _tooFastTimeMS, _maxTimeMS);
+                                        self.minTimeMS, self.maxTimeMS, self.responseTimeMS, self.tooFastTimeMS);
+    NSLog(@"Taking from %ld to %ld", self.minTimeMS + self.tooFastTimeMS, self.maxTimeMS);
     NSLog(@"prob:    %@", [self makeValuesString:validProb withFormat:@"%5.2f"]);
     NSLog(@"n:       %@", [self makeValuesString:n withFormat:@"%5.0f"]);
     NSLog(@"sumFA:   %@", [self makeValuesString:sumFA withFormat:@"%5.0f"]);
@@ -130,22 +130,22 @@
 {
     long bin, windowStartMS, windowEndMS, binStartMS, binEndMS;
     float binOccupancy;
-    long startTimeMS = _minTimeMS + _tooFastTimeMS;;
-    long endTimeMS = _maxTimeMS;
-    float maxOccupancy = (_maxTimeMS - _minTimeMS) * (endTimeMS - startTimeMS) / kBins;
+    long startTimeMS = self.minTimeMS + self.tooFastTimeMS;;
+    long endTimeMS = self.maxTimeMS;
+    float maxOccupancy = (self.maxTimeMS - self.minTimeMS) * (endTimeMS - startTimeMS) / kBins;
 
     // We're going to convolve the response window with each bin.  The result will be converted to a probability
     // by considering the maximum possible value, corresponding to always being in the response window.  That's
     // equivalent to cover all of the bin (endTimeMS - startTimeMS / kBins) for every step of the integration
-    // (_maxTimeMS - _minTimeMS).
+    // (self.maxTimeMS - self.minTimeMS).
     
     for (bin = 0; bin < kBins; bin++) {
         binOccupancy = validProb[bin] = 0.0;
         binStartMS = bin * (endTimeMS - startTimeMS) / kBins;
         binEndMS = (bin + 1) * (endTimeMS - startTimeMS) / kBins;
-        windowStartMS = MAX(_minTimeMS, binStartMS - (_responseTimeMS - _tooFastTimeMS));
-        windowEndMS = windowStartMS + (_responseTimeMS - _tooFastTimeMS);
-        for ( ; windowStartMS < _maxTimeMS; windowStartMS++, windowEndMS++) {
+        windowStartMS = MAX(self.minTimeMS, binStartMS - (self.responseTimeMS - self.tooFastTimeMS));
+        windowEndMS = windowStartMS + (self.responseTimeMS - self.tooFastTimeMS);
+        for ( ; windowStartMS < self.maxTimeMS; windowStartMS++, windowEndMS++) {
             // There are six possible window/bin configurations. One is when the response window is entirely to the
             // left (earlier) than the bin, where it can't contribute to the bin. We have eliminated this condition
             // by starting with windowEndMS aligned to the start of the bin. A second condition is when the response
@@ -161,7 +161,7 @@
         }
         validProb[bin] = binOccupancy / maxOccupancy;
 //
-//        NSLog(@"loadValidProb: %ld %5ld to %5ld ms: binOcc %.0f maxOcc %.0f, %.3f", bin, binStartMS + _tooFastTimeMS, binEndMS + _tooFastTimeMS,
+//        NSLog(@"loadValidProb: %ld %5ld to %5ld ms: binOcc %.0f maxOcc %.0f, %.3f", bin, binStartMS + self.tooFastTimeMS, binEndMS + self.tooFastTimeMS,
 //            binOccupancy, maxOccupancy, validProb[bin]);
    }
 }
@@ -213,25 +213,25 @@
     long newRespTimeMS = [[NSUserDefaults standardUserDefaults] integerForKey:responseTimeMSKey];
     long newTooFastMS = [[NSUserDefaults standardUserDefaults] integerForKey:tooFastTimeMSKey];
 
-    startTimeMS = _minTimeMS + _tooFastTimeMS;
-    endTimeMS = _maxTimeMS;
+    startTimeMS = self.minTimeMS + self.tooFastTimeMS;
+    endTimeMS = self.maxTimeMS;
     newStartTimeMS = newMinMS + newTooFastMS;
     newEndTimeMS = newMaxMS;
 
-    if ((newRespTimeMS == _responseTimeMS && newStartTimeMS == startTimeMS && newEndTimeMS == endTimeMS)
+    if ((newRespTimeMS == self.responseTimeMS && newStartTimeMS == startTimeMS && newEndTimeMS == endTimeMS)
                                                                         || (newEndTimeMS <= newStartTimeMS)) {
         return;
     }
-    _responseTimeMS = newRespTimeMS;
+    self.responseTimeMS = newRespTimeMS;
     if (newStartTimeMS == startTimeMS && newEndTimeMS == endTimeMS) {
         [self loadValidProb];
         return;
     }
-    _minTimeMS = newMinMS;
-    _maxTimeMS = newMaxMS;
-    _tooFastTimeMS = newTooFastMS;
-    newStartTimeMS = _minTimeMS + _tooFastTimeMS;;
-    newEndTimeMS = _maxTimeMS;
+    self.minTimeMS = newMinMS;
+    self.maxTimeMS = newMaxMS;
+    self.tooFastTimeMS = newTooFastMS;
+    newStartTimeMS = self.minTimeMS + self.tooFastTimeMS;;
+    newEndTimeMS = self.maxTimeMS;
 
     if ((newStartTimeMS == startTimeMS && newEndTimeMS == endTimeMS) || (newEndTimeMS <= newStartTimeMS)) {
         return;
@@ -252,10 +252,10 @@
         n[bin] = tempN[bin];
         sumFA[bin] = tempSum[bin];
     }
-    _minTimeMS = newMinMS;
-    _maxTimeMS = newMaxMS;
-    _responseTimeMS = newRespTimeMS;
-    _tooFastTimeMS = newTooFastMS;
+    self.minTimeMS = newMinMS;
+    self.maxTimeMS = newMaxMS;
+    self.responseTimeMS = newRespTimeMS;
+    self.tooFastTimeMS = newTooFastMS;
     [self loadValidProb];
 }
 
@@ -279,23 +279,23 @@
     if (eotCode != kEOTCorrect && eotCode != kEOTWrong && eotCode != kEOTFailed) {
         return;
     }
-    minTimeMS = _minTimeMS + _tooFastTimeMS;
+    minTimeMS = self.minTimeMS + self.tooFastTimeMS;
     if (trialTimeMS < minTimeMS) {
         return;
     }
-    endBin = MIN(kBins, floor(((float)trialTimeMS - minTimeMS) / (_maxTimeMS - minTimeMS) * kBins));
+    endBin = MIN(kBins, floor(((float)trialTimeMS - minTimeMS) / (self.maxTimeMS - minTimeMS) * kBins));
     for (bin = 0; bin < endBin; bin++) {            // increment all bins we passed through
         n[bin]++;
     }
     numTrials++;                                    // increment the trial counts
-    numTrialsEarly += (trialTimeMS < _maxTimeMS) ? 1 : 0;
+    numTrialsEarly += (trialTimeMS < self.maxTimeMS) ? 1 : 0;
     switch (eotCode) {                              // increment outcome counts
         case kEOTFailed:
             numMissed++;
             break;
         case kEOTCorrect:
             numCorr++;
-            numCorrLate += (trialTimeMS >= _maxTimeMS) ? 1 : 0;
+            numCorrLate += (trialTimeMS >= self.maxTimeMS) ? 1 : 0;
             break;
         case kEOTWrong:
             n[MIN(endBin, kBins - 1)]++;
@@ -314,6 +314,7 @@ For each bin, the probability of a release is the probability that no release wi
 releases were undetected because they were FH (as given by the probability in validProb[bin]). The
  probNoRelease for the next bin is simply the fraction lost to FH and FA in the current bin.
 */
+    probNoRelease = 1.0;
     probFH = probFA = 0.0;
     for (bin = 0; bin < kBins; bin++) {
         if (n[bin] > 5 && n[bin] - sumFA[bin] > 0) {                        // enough data?
@@ -335,15 +336,15 @@ releases were undetected because they were FH (as given by the probability in va
  through this inverval to add to the estimate of the probability of a FH. In this internal, every release has
  a probability of 1.0 of being a FH.
  */
-    probNoReleasePerMS = exp(log(probNoRelease) / (_maxTimeMS - minTimeMS));
-    if (_responseTimeMS > _maxTimeMS - minTimeMS) {
-        probNoLateRelease = exp(log(probNoReleasePerMS) * (_responseTimeMS - (_maxTimeMS - minTimeMS)));
+    probNoReleasePerMS = exp(log(probNoRelease) / (self.maxTimeMS - minTimeMS));
+    if (self.responseTimeMS > self.maxTimeMS - minTimeMS) {
+        probNoLateRelease = exp(log(probNoReleasePerMS) * (self.responseTimeMS - (self.maxTimeMS - minTimeMS)));
         probFH = 1.0 - (1.0 - probFH) * probNoLateRelease;             // 1.0 validity on these late releases
 //        probNoRelease *= probNoLateRelease;
-        rampDurMS = _maxTimeMS - minTimeMS;                 // rampDurMS needed for the next code computation
+        rampDurMS = self.maxTimeMS - minTimeMS;                 // rampDurMS needed for the next code computation
     }
     else {
-        rampDurMS = _responseTimeMS;
+        rampDurMS = self.responseTimeMS;
     }
 /*
  In addition to the possible period handled immediately above, there will always be a period in the interval past
@@ -358,12 +359,12 @@ releases were undetected because they were FH (as given by the probability in va
     probFH = 1.0 - (1.0 - probFH) * (1.0 - probLateFH);
 //    probNoRelease *= probNoLateRelease;
 
-    _faFraction = probFA;
-    _fhFraction = probFH;
-    _missFraction = (float)numMissed / numTrials;                       // probability of a miss;
-    _corrFraction = (float)numCorr / numTrials;                         // probability of correct;
-    _fhRate = _fhFraction  / (_fhFraction +  _missFraction);  // FHs divided by FH + misses
-    _faRate = _faFraction  / (_faFraction +  _missFraction);  // FHs divided by FH + misses
+    self.faFraction = probFA;
+    self.fhFraction = probFH;
+    self.missFraction = (float)numMissed / numTrials;                       // probability of a miss;
+    self.corrFraction = (float)numCorr / numTrials;                         // probability of correct;
+    self.fhRate = self.fhFraction  / (self.fhFraction +  self.missFraction);  // FHs divided by FH + misses
+    self.faRate = self.faFraction  / (self.faFraction +  self.missFraction);  // FHs divided by FH + misses
 }
 
 @end

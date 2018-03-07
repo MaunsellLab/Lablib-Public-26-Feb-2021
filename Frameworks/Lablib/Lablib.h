@@ -91,6 +91,7 @@
 #import <Lablib/LLStimulusTrain.h>
 #import <Lablib/LLStimWindow.h>
 #import <Lablib/LLSVDSolver.h>
+#import <Lablib/LLSymbolView.h>
 #import <Lablib/LLSynthDataDevice.h>
 #import <Lablib/LLSystemUtil.h>
 #import <Lablib/LLTaskMode.h>

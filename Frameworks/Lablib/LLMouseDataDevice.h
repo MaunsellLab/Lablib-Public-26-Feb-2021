@@ -11,13 +11,12 @@
 #define kLLMouseADChannels				8
 #define kLLMouseDigitalBits				16
 #define kLLMouseSamplePeriodMS			5
-//#define kLLMouseTimestampTickPerMS		1
 #define kLLMouseTimestampPeriodMS		1
 
-extern NSString *LLMouseButtonBitsKey;
-extern NSString *LLMouseGainKey;
-extern NSString *LLMouseXBitsKey;
-extern NSString *LLMouseYBitsKey;
+#define kLLMouseButtonBitsKey           @"LLMouseButtonBits"
+#define kLLMouseGainKey                 @"LLMouseGain"
+#define LLMouseXBitsKey                 @"LLMouseXBits"
+#define LLMouseYBitsKey                 @"LLMouseYBits"
 
 @interface LLMouseDataDevice : LLDataDevice {
 

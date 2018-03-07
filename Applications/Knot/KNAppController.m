@@ -265,8 +265,7 @@ char *idString = "Knot Version 2.2";
 // We create hardware data sources for synthetic data, mouse data, and ITC-18 data (lab I/O).
 
     dataDeviceController = [[LLDataDeviceController alloc] init];
-    [dataDeviceController setDefaults:defaults];
-    
+
 // Load any LLDataDevices that are plugins
 
     [self loadDataDevicePlugins];
@@ -602,7 +601,7 @@ char *idString = "Knot Version 2.2";
     NSEnumerator *enumerator;
 
     if ([dataDoc eventNamed:@"dataParam"]) {
-        assignmentArray = dataDeviceController.allDataParam;
+        assignmentArray = [dataDeviceController allDataParam];
         enumerator = [assignmentArray objectEnumerator];
         while ((paramValue = [enumerator nextObject])) {
             [paramValue getValue:&dataParam];

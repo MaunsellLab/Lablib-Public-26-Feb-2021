@@ -17,13 +17,13 @@
     unsigned short bits;
     
     bits = [self getBitPatternFromMatrix:buttonBits];
-    [defaults setInteger:bits forKey:LLMouseButtonBitsKey];
+    [defaults setInteger:bits forKey:kLLMouseButtonBitsKey];
     [self setMatrixStates:buttonBits bitPattern:bits];
 }
 
 - (IBAction)changeMouseGain:(id)sender;
 {
-    [defaults setFloat:[sender floatValue] forKey:LLMouseGainKey];
+    [defaults setFloat:[sender floatValue] forKey:kLLMouseGainKey];
 }
 
 - (IBAction)changeMouseXBits:(id)sender {
@@ -91,12 +91,12 @@
     short buttonBitPattern;
     long index;
         
-    buttonBitPattern = [defaults integerForKey:LLMouseButtonBitsKey];
+    buttonBitPattern = [defaults integerForKey:kLLMouseButtonBitsKey];
     for (index = 0; index < kLLMouseADChannels; index++) {
         [buttonBits cellAtRow:index column:0].state = (buttonBitPattern & (0x1 << index));
     }
     [self validateChannels];
-    mouseGainField.floatValue = [defaults integerForKey:LLMouseGainKey];
+    mouseGainField.floatValue = [defaults integerForKey:kLLMouseGainKey];
 
     [NSApp runModalForWindow:self.window];
     [self.window orderOut:self];
