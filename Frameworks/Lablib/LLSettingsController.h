@@ -15,12 +15,12 @@ extern NSString *LLSettingsChanged;
     NSString                *prefix;
     NSBundle                *plugin;
     NSString                *settingsDomain;
-    NSMutableArray            *settingsFileNames;
+    NSMutableArray          *settingsFileNames;
 
-    IBOutlet NSButton         *deleteButton;
-    IBOutlet NSButton         *duplicateButton;
-    IBOutlet NSButton         *newButton;
-    IBOutlet NSButton         *okButton;
+    IBOutlet NSButton       *deleteButton;
+    IBOutlet NSButton       *duplicateButton;
+    IBOutlet NSButton       *newButton;
+    IBOutlet NSButton       *okButton;
     IBOutlet NSTableView    *settingsTable;
 }
 
@@ -36,6 +36,7 @@ extern NSString *LLSettingsChanged;
 - (NSString *)pathToFile:(NSString *)name;
 - (BOOL)registerDefaults;
 - (void)selectSettings;
+- (void)setMatlabLaunching:(BOOL)newValue;
 - (void)synchronize;
 - (NSString *)uniqueSettingsName;
 

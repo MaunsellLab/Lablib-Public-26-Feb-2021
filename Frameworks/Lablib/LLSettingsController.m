@@ -27,6 +27,7 @@ is saved into any additional domain (settings file) that we try to maintain.
 #define kActiveSettings     @"LLActiveSettings"
 #define kPreferencesPath    [NSString stringWithFormat:@"%@/Library/Preferences", NSHomeDirectory()]
 
+BOOL matlabLaunching = NO;
 NSString *LLSettingsChanged = @"LLSettings Changed";
 NSString *kDefaultSettingsName = @"Settings 0";
 NSString *LLSettingsNameKey = @"LLSettingsName";
@@ -228,9 +229,6 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
 - (BOOL)loadSettings;
 {
     long subjectNumber;
-//    NSString *key;
-//    NSArray *allKeys;
-//    NSEnumerator *enumerator;
     NSDictionary *pluginDict, *settingsDict;
     NSMutableDictionary *knotDict;
 
@@ -255,21 +253,9 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     settingsDict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:settingsDomain];
     knotDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]
                                                     persistentDomainForName:[NSBundle mainBundle].bundleIdentifier]];
-//    allKeys = [knotDict allKeys];
-//    enumerator = [allKeys objectEnumerator];
-//    while (key = [enumerator nextObject]) {
-//        if ([key hasPrefix:prefix]) {
-//            [knotDict removeObjectForKey:key];
-//        }
-//    }
-//    [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict
-//                                            forName:[NSBundle mainBundle].bundleIdentifier];
     [knotDict addEntriesFromDictionary:settingsDict];
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:knotDict forName:[NSBundle mainBundle].bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
-//    NSLog(@"Adding domain named %@", settingsDomain);
-//    [[NSUserDefaults standardUserDefaults] addSuiteNamed:settingsDomain];
     // If there is a subject number, check whether the run times should be reset.
 
     subjectNumber = [[NSUserDefaults standardUserDefaults] integerForKey:
@@ -374,6 +360,11 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
     long settingsIndex;
     NSString *pName, *newSettingsName;
 
+    if (matlabLaunching) {
+        [LLSystemUtil runAlertPanelWithMessageText:@"LLSettingsController"
+                                    informativeText:@"Cannot change settings file until Matlab finishing launching"];
+         return;
+    }
     if (settingsDomain == nil) {
         return;
     }
@@ -414,6 +405,11 @@ NSString *LLSettingsNameKey = @"LLSettingsName";
         }
         [[NSUserDefaults standardUserDefaults] synchronize];        // make sure persistent domain is up to date
     }
+}
+
+- (void)setMatlabLaunching:(BOOL)newValue;
+{
+    matlabLaunching = newValue;
 }
 
 - (NSString *)settingsFileName;

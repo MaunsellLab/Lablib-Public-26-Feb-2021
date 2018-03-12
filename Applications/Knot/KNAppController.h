@@ -42,6 +42,7 @@
 
 @property (NS_NONATOMIC_IOSONLY, copy) NSString *currentDataKey;
 @property (NS_NONATOMIC_IOSONLY, retain) LLGitController *gitController;
+@property (NS_NONATOMIC_IOSONLY) BOOL matlabLaunching;
 
 - (void)activateCurrentTask;
 - (void)configurePlugins;

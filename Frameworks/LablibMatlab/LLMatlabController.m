@@ -55,11 +55,15 @@
         }
     }
     engine = task.matlabEngine;
+    if (engine.launching) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:NSSelectorFromString(@"launchFinished")
+                                                     name:kLLMatlabDidLaunchKey object:nil];
+    }
     if (engine != nil) {
         [engine addMatlabPathForPlugin:plugin.name];
-        [engine evalString:matlabInitScriptCommand];
+//        [engine evalString:matlabInitScriptCommand];      // loadMatlabWorkspace will run init script
         [self checkMatlabDataPath:nil];
-        [self loadMatlabWorkspace];
+//        [self loadMatlabWorkspace];                       // subject number declaration will force a load
         [task.dataDoc addObserver:self];
     }
 }
@@ -156,6 +160,7 @@
         [self saveMatlabWorkspace];
         [engine evalString:@"clear all; close all;"];
         [task.dataDoc removeObserver:self];
+        sleep(0.2);
     }
     free(trialEventCounts);
     [bundledEvents release];
@@ -173,6 +178,50 @@
     [super dealloc];
 }
 
+// Save fields that will be needed once the Matlab engine has finished launching
+
+- (void)deferredSubjectNumber:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
+    self.subjectData = eventData;
+    self.subjectTime = eventTime;
+}
+
+- (SubjectChangeType)doSubjectNumber:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
+    long newNumber  = *(long *)eventData.bytes;
+    SubjectChangeType result = kSubjectDefault;
+
+    if (engine.launching) {
+        NSLog(@"LLMatlabController: -subjectNumber:deferring because we're launching");
+        [self deferredSubjectNumber:eventData eventTime:eventTime];  // wait for Matlab engine to finish launching
+        return result;
+    }
+    if (newNumber != subjectNumber) {                           // save and load Matlab data if subject changes
+        NSLog(@"LLMatlabController: -subjectNumber: saving");
+        [self saveMatlabWorkspace];
+        self.initializedForSubject = -1;
+    }
+    if (newNumber != self.initializedForSubject) {
+        result = kSubjectReset;
+        NSLog(@"LLMatlabController: -subjectNumber: initializing (reset)");
+        self.initializedForSubject = subjectNumber = newNumber;
+        if ([self loadMatlabWorkspace]) {
+            [self processFileEventNamed:@"subjectNumber" eventData:eventData eventTime:eventTime];
+            [task.settingsController checkRunTimes:newNumber];  // need to clear run times?
+        }
+        else {
+            NSLog(@"LLMatlabController: -subjectNumber: initializing (reset and post)");
+            [engine evalString:matlabInitScriptCommand];        // clear the current Matlab workspace
+            result = kSubjectPostAndReset;
+        }
+    }
+    else {
+        NSLog(@"LLMatlabController: -subjectNumber: just sending subjectNum to Matlab");
+        [self processFileEventNamed:@"subjectNumber" eventData:eventData eventTime:eventTime];
+    }
+    return result;
+}
+
 - (instancetype)initWithMatFile:(NSString *)fileName subjectNumber:(long)number;
 {
     if ((self = [super init]) != nil) {
@@ -181,16 +230,24 @@
         matlabInitScriptCommand = [[NSString alloc]
                 initWithFormat:@"clear all; close all; dParams = []; dParams = %@(dParams);", matFileName];
         subjectNumber = number;
+        _initializedForSubject = -1;
         dateFormatter = [[NSDateFormatter alloc] init];
         fileManager = [[NSFileManager alloc] init];
         dateFormatter.dateFormat = @"yyyy-MM-dd";
-
-
-
-        [engine evalString:@"path"];
-
+//        [engine evalString:@"path"];
     }
     return self;
+}
+
+- (void)launchFinished;
+{
+    NSLog(@"LLMatlabController: -launchFinished");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (self.subjectData != nil && self.subjectTime != nil) {
+        [self subjectNumber:self.subjectData eventTime:self.subjectTime];
+    }
+    self.subjectData = nil;
+    self.subjectTime = nil;
 }
 
 - (BOOL)loadMatlabWorkspace;
@@ -201,6 +258,9 @@
     NSScanner *aScanner;
     NSString *path, *replyString;
 
+    if (engine.launching) {
+        return NO;
+    }
     [self checkMatlabDataPath:@"MatFiles"];
     path = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
@@ -248,6 +308,9 @@
     fileName = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
     return fileName;
+}
+- (void)postFileEvents;
+{
 }
 
 // Convert a DataEvent into strings for Matlab to evaluate
@@ -357,6 +420,10 @@
                      prefix:[NSString stringWithFormat:@"trials(%ld).", trialNum]];
 }
 
+- (void)reset;
+{
+}
+
 - (void)saveFigureAsPDF;
 {
     NSString *path;
@@ -375,6 +442,10 @@
     path = [NSString stringWithFormat:@"%@/%@.mat", [self dataPathWithSubject:subjectNumber subFolder:@"MatFiles"],
             [dateFormatter stringFromDate:[NSDate date]]];
     [engine evalString:[NSString stringWithFormat:@"save '%@'", path]];
+}
+
+- (void)subjectNumber:(NSData *)eventData eventTime:(NSNumber *)eventTime;
+{
 }
 
 /*

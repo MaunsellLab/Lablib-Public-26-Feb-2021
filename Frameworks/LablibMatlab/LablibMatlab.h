@@ -44,6 +44,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define kLLMatlabDidLaunchKey @"LLMatlabDidLaunch"
+
 //! Project version number for LablibMatlab.
 FOUNDATION_EXPORT double LablibMatlabVersionNumber;
 

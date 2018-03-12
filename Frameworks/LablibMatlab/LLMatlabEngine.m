@@ -16,9 +16,8 @@ typedef uint16_t char16_t;                  // Matlab engine uses a type that is
 #define kLLMatlabWindowVisibleKey   @"kLLMatlabWindowVisible"
 
 // We make pEngine a class variable because there should only be one engine running at a time.  Additionally,
-// this mean that everyone who uses "Lablib" won't have to include the path to the folde containing the Matlab
-// header engine.h.  For the same reason, we cast pEngine as (void *) to pass it around, so that everyone that uses
-// Matlab won't have to have Matlab in their search paths.
+// this means that everyone who uses "Lablib" won't have to include the path to the folder containing the Matlab
+// header, engine.h.
 
 Engine  *pEngine;
 
@@ -29,7 +28,8 @@ Engine  *pEngine;
     NSString *appMatlabString;
 
     appMatlabString = [NSString stringWithFormat:@"addpath('%@/Matlab/')", [NSBundle mainBundle].resourcePath];
-    engEvalString(pEngine, appMatlabString.UTF8String);
+    [self evalString:appMatlabString postResult:NO];
+//    engEvalString(pEngine, appMatlabString.UTF8String);
 }
 
 - (void)addMatlabPathForPlugin:(NSString *)pluginName;
@@ -45,7 +45,8 @@ Engine  *pEngine;
     while ((matlabPath = [enumerator nextObject])) {
         if ([matlabPath hasSuffix:searchSuffix]) {
             matlabPath = [matlabPath stringByAppendingString:@"/Contents/Resources/Matlab/"];
-            engEvalString(pEngine, [NSString stringWithFormat:@"addpath('%@')", matlabPath].UTF8String);
+            [self evalString:[NSString stringWithFormat:@"addpath('%@')", matlabPath] postResult:NO];
+//            engEvalString(pEngine, [NSString stringWithFormat:@"addpath('%@')", matlabPath].UTF8String);
             break;
         }
     }
@@ -65,6 +66,9 @@ Engine  *pEngine;
 
 - (void)dealloc;
 {
+    [self.launchLock release];
+    [self.commandBuffer release];
+    [self.postBuffer release];
     [engineLock release];
     [attrBlack release];
     [attrBlue release];
@@ -77,7 +81,6 @@ Engine  *pEngine;
 - (instancetype)init;
 {
     NSMutableDictionary *defaultSettings;
-    NSString *outputStr;
 
     if ((self = [super init]) == nil) {
         return nil;
@@ -97,45 +100,35 @@ Engine  *pEngine;
         attrRed = @{NSForegroundColorAttributeName: [NSColor redColor]};
         [attrRed retain];
 
-        engineLock = [[NSLock alloc] init];
+        _commandBuffer = [[NSMutableArray alloc] init];
+        _postBuffer = [[NSMutableArray alloc] init];
+        _launchLock = [[NSLock alloc] init];
 
+        engineLock = [[NSLock alloc] init];
         [[NSBundle bundleForClass:[self class]] loadNibNamed:@"LLMatlabEngine" owner:self topLevelObjects:&topLevelObjects];
         [topLevelObjects retain];
         if ([[NSUserDefaults standardUserDefaults] boolForKey:kLLMatlabWindowVisibleKey] || YES) {
             [self.window makeKeyAndOrderFront:self];
         }
-
-        NSLog(@"LLMatlabEngine: Launching Matlab");
-        if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB/bin/matlab"))) {
-            NSLog(@"LLMatlabEngine: Can't start Matlab engine");
-            return self;
-        }
-        NSLog(@"LLMatlabEngine: Matlab launched");
-        outputBuffer[kBufferLength - 1] = '\0';                     // Matlab won't null terminate C strings
-        engOutputBuffer(pEngine, (char *)outputBuffer, kBufferLength);
-
-        // Display the Matlab version that's running
-        
-        engEvalString(pEngine, "builtin('version')");
-        if (strlen(outputBuffer) > 0) {
-            outputStr = [@(outputBuffer)   // prettify: remove '\n's and '  's
-                         stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            outputStr = [outputStr stringByReplacingOccurrencesOfString:@">> ans =" withString:@""];
-            [self preparePosting:[NSString stringWithFormat:@"Matlab Version %@\n", outputStr]
-                                    enabledKey:kLLMatlabDoResponsesKey];
-        }
+        _launching = YES;                               // set here, takes a while for NSThread to run
+        [NSThread detachNewThreadSelector:@selector(launchMatlabEngine) toTarget:self withObject:nil];
     }
     return self;
 }
 
-- (void *)engine;
-{
-    return (void *)pEngine;
-}
-
+//- (void *)engine;
+//{
+//    return (void *)pEngine;
+//}
+//
 - (NSString *)evalString:(NSString *)string;
 {
     return [self evalString:string postResult:YES];
+}
+
+- (NSString *)evalString:(NSString *)string postResult:(BOOL)doPosting;
+{
+    return [self evalString:string postResult:doPosting ignoreLaunchLock:NO];
 }
 
 // Ask Matlab to evaluate a string.  We bundle every string in a "try/catch" block, so that if there is an error the
@@ -146,12 +139,29 @@ Engine  *pEngine;
 // case, the command to ask for the information at ex.stack(1) causes Matlab to give up and send a message about
 // 'index exceeds matrix limit' to stderr.  So I've put in a check on the length of the stack.
 
-- (NSString *)evalString:(NSString *)string postResult:(BOOL)doPosting;
+- (NSString *)evalString:(NSString *)string postResult:(BOOL)doPosting ignoreLaunchLock:(BOOL)ignoreLock;
 {
     NSRange errorCodeRange;
     NSString *commandStr, *outputStr, *subStr, *formatting;
 
-    if (pEngine == nil) {
+    // If we are still launching, buffer the commands. They will be executed by -launchMatlabEngine once it has
+    // the engine launched. -launchMatlabEngine locks _launchLock and sets ignoreLaunchLock to YES when it sends
+    // the buffered commands. _launchLock is used here to make sure that the string and doPosting arguments are
+    // stored in the same order. If it is locked, that means that -launchMatlabEngine is currently draining the buffers,
+    // so we just wait for that to complete.
+
+    if (!ignoreLock && self.launching) {
+        NSLog(@"LLMatlabEngine: Launching, buffering command: %@", string);
+        [self.launchLock lock];                 // get the lock
+        if (self.launching) {                   // locked and still launching
+            [self.commandBuffer addObject:string];
+            [self.postBuffer addObject:[NSNumber numberWithBool:doPosting]];
+            [self.launchLock unlock];
+            return nil;
+        }
+        [self.launchLock unlock];               // launch finished before we got the lock, do evalString now
+    }
+    if (pEngine == nil) {       // there might be no Matlab engine to run. If so, just return.
         return nil;
     }
     [engineLock lock];
@@ -198,6 +208,49 @@ Engine  *pEngine;
     else {
         return nil;
     }
+}
+
+- (void)launchMatlabEngine;
+{
+    NSString *outputStr;
+    NSNumber *doPost;
+
+    NSLog(@"LLMatlabEngine: Launching Matlab");
+    [engineLock lock];
+    if (!(pEngine = engOpen("/bin/csh -c /Applications/MATLAB/bin/matlab"))) {
+        NSLog(@"LLMatlabEngine: Can't start Matlab engine");
+        [engineLock unlock];
+        self.launching = NO;
+        return;
+    }
+    NSLog(@"LLMatlabEngine: Matlab launched");
+    outputBuffer[kBufferLength - 1] = '\0';                     // Matlab won't null terminate C strings
+    engOutputBuffer(pEngine, (char *)outputBuffer, kBufferLength);
+
+    // Display the Matlab version that's running
+
+    engEvalString(pEngine, "builtin('version')");
+    [engineLock unlock];
+    if (strlen(outputBuffer) > 0) {
+        outputStr = [@(outputBuffer)   // prettify: remove '\n's and '  's
+                     stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        outputStr = [outputStr stringByReplacingOccurrencesOfString:@">> ans =" withString:@""];
+        [self preparePosting:[NSString stringWithFormat:@"Matlab Version %@\n", outputStr]
+                  enabledKey:kLLMatlabDoResponsesKey];
+    }
+    // Any commands that arrived while we were launching Matlab will have been buffered.  Execute them now in the
+    // order that they were received.
+    [self.launchLock lock];
+    while ([self.commandBuffer count] > 0) {
+        NSLog(@"LLMatlabEngine: -launchMatlabEngine: doing command: %@", [self.commandBuffer objectAtIndex:0]);
+        doPost = [self.postBuffer objectAtIndex:0];
+        [self evalString:[self.commandBuffer objectAtIndex:0] postResult:[doPost boolValue] ignoreLaunchLock:YES];
+        [self.commandBuffer removeObjectAtIndex:0];
+        [self.postBuffer removeObjectAtIndex:0];
+    }
+    self.launching = NO;
+    [self.launchLock unlock];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLLMatlabDidLaunchKey object:self];
 }
 
 - (void)post:(NSAttributedString *)attrStr;

@@ -74,6 +74,7 @@ char *idString = "Knot Version 2.2";
         NSLog(@"Activating task %@", currentTask.name);
         [stimWindow setDisplayMode:currentTask.requestedDisplayMode];
         [self.gitController updateRepository:currentTask];
+        [currentTask.settingsController setMatlabLaunching:self.matlabLaunching];
         [currentTask activate];
         [self postDataParamEvents];
         [defaults setObject:currentTask.name forKey:kActiveTaskName];
@@ -92,6 +93,9 @@ char *idString = "Knot Version 2.2";
 
 #ifndef NO_MATLAB
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kUseMatlabKey]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                        selector:NSSelectorFromString(@"matlabLaunchFinished") name:kLLMatlabDidLaunchKey object:nil];
+        self.matlabLaunching = YES;
         matlabEngine = [[LLMatlabEngine alloc] init];               // allocate before configurePlugins
         [matlabEngine addMatlabPathForApp];
     }
@@ -101,7 +105,6 @@ char *idString = "Knot Version 2.2";
     [pluginController loadPlugins];
     [self configurePlugins];
     [self activateCurrentTask];
-
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
@@ -474,10 +477,12 @@ char *idString = "Knot Version 2.2";
 {
     long taskIndex = [taskMenu indexOfItem:sender];
     NSArray *taskPlugIns = pluginController.loadedPlugins;
-    
-    [self deactivateCurrentTask];
-    currentTask = taskPlugIns[taskIndex];
-    [self activateCurrentTask];
+
+    if (currentTask != taskPlugIns[taskIndex]) {
+        [self deactivateCurrentTask];
+        currentTask = taskPlugIns[taskIndex];
+        [self activateCurrentTask];
+    }
 }
 
 - (instancetype)init;
@@ -591,6 +596,14 @@ char *idString = "Knot Version 2.2";
     }
     fields[channel].attributedStringValue = aString;
     [aString release];
+}
+
+- (void)matlabLaunchFinished;
+{
+    NSLog(@"KNAppController: -matlabLaunchFinished");
+    self.matlabLaunching = NO;
+    [currentTask.settingsController setMatlabLaunching:self.matlabLaunching];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLLMatlabDidLaunchKey object:nil];
 }
 
 - (void)postDataParamEvents;
@@ -719,14 +732,14 @@ char *idString = "Knot Version 2.2";
     if (action == @selector(changeDataSource:)) {        // Data source
         return (!writingDataFile && (currentTask.mode == kTaskIdle));
     }
-    else if (action == @selector(recordDontRecord:)) {              // Create or close data file
+    else if (action == @selector(recordDontRecord:)) {              // create or close data file
         return (currentTask.mode == kTaskIdle);
     }
-    else if (action == @selector(doPreviousTask:)) {                // change task
-        return (!writingDataFile && currentTask != nil && (currentTask.mode == kTaskIdle));
+    else if (action == @selector(doPreviousTask:)) {                // return to previous
+        return (!self.matlabLaunching && !writingDataFile && currentTask != nil && (currentTask.mode == kTaskIdle));
     }
-    else if (action == @selector(doTaskMenu:)) {                    // change task
-        return (!writingDataFile && (currentTask.mode == kTaskIdle));
+    else if (action == @selector(doTaskMenu:)) {                    // change to a different task
+        return (!self.matlabLaunching && !writingDataFile && (currentTask.mode == kTaskIdle));
     }
     else if (action == @selector(doPluginController:)) {            // enable/disable plugins
         return (!writingDataFile && (currentTask.mode == kTaskIdle));
