@@ -25,8 +25,7 @@
 		return nil;
 	}
 
-// Attempt to get a reasonable value from the 
-// value object. 
+// Attempt to get a reasonable value from the value object.
 
     if ([value respondsToSelector: @selector(intValue)]) {
         mode = ([value intValue] & kLLTaskModeMask);		 // handles NSString and NSNumber

@@ -56,6 +56,7 @@
     }
     engine = task.matlabEngine;
     if (engine.launching) {
+        [task.controlPanel setTaskModeButtonEnabled:0];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:NSSelectorFromString(@"launchFinished")
                                                      name:kLLMatlabDidLaunchKey object:nil];
     }
@@ -248,6 +249,7 @@
     }
     self.subjectData = nil;
     self.subjectTime = nil;
+    [task.controlPanel setTaskModeButtonEnabled:1];
 }
 
 - (BOOL)loadMatlabWorkspace;

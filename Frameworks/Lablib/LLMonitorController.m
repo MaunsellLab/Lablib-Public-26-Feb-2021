@@ -23,9 +23,6 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
     }
     if ([monitorMenu indexOfItemWithTitle:[monitor IDString]] != -1) {
         [self removeMonitorWithID:[monitor IDString]];
-//        [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
-//                @"Attempting to add monitor \"%@|'a second time. The first version has been removed.",
-//                [monitor IDString]]];
     }
     [monitorMenu insertItemWithTitle:[monitor IDString] atIndex:monitors.count];
     [monitors addObject:monitor];
@@ -84,9 +81,7 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
     else {
         [configureButton setEnabled:NO];
     }
-    datestr = [LLSystemUtil formattedDateString:[NSDate date] format:@"Updated %H:%M:%S %d %b %Y"];                                 // Update the header field
-//    datestr = [[NSCalendarDate calendarDate]                                 // Update the header field
-//                descriptionWithCalendarFormat:@"Updated %H:%M:%S %d %b %Y"];
+    datestr = [LLSystemUtil formattedDateString:[NSDate date] format:@"'Updated 'MMM dd yyyy HH:mm:ss"];  
     headerField.stringValue = datestr;
     if (monitors.count == 0) {                                            // No monitors yet
         textString = [[NSAttributedString alloc] initWithString:@"\n\n(No monitors have been assigned)"];
@@ -116,7 +111,9 @@ NSString *LLMonitorUpdated = @"LL Report Updated";
     
     while (monitor = [enumerator nextObject]) {
         if ([[monitor IDString] isEqualToString:IDString]) {
-            [monitorMenu removeItemWithTitle:IDString];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+                [monitorMenu removeItemWithTitle:IDString];
+//            });
             [monitors removeObject:monitor];
             break;
         }

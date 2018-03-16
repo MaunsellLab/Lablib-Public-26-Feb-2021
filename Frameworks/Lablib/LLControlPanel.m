@@ -3,7 +3,7 @@
 //  Lablib
 //
 //  Created by John Maunsell on 12/27/04.
-//  Copyright 2011. All rights reserved.
+//  Copyright 2018. All rights reserved.
 //
 
 #import "LLControlPanel.h"
@@ -98,11 +98,18 @@ NSImage *stoppingButton;
     resetButton.enabled = state;
 }
 
+- (void)setTaskModeButtonEnabled:(long)state;
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        taskModeButton.enabled = state;
+    });
+}
+
 - (void)setTaskMode:(long)newMode;
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        taskMode = newMode;
-        switch (taskMode) {
+        _taskMode = newMode;
+        switch (_taskMode) {
         case kTaskRunning:
             [taskModeButton setTitle:NSLocalizedString(@"Stop", @"Stop")];
             [taskModeButton setToolTip:NSLocalizedString(@"Stop", @"Stop")];
@@ -122,11 +129,6 @@ NSImage *stoppingButton;
             break;
         }
     });
-}
-
-- (long)taskMode;
-{
-    return taskMode;
 }
 
 @end

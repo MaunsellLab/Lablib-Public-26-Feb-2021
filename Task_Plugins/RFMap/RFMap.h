@@ -14,12 +14,10 @@
 @interface RFMap:LLTaskPlugIn {
 
     NSMenuItem              *actionsMenuItem;
-    LLControlPanel          *controlPanel;
     NSPoint                 currentEyesUnits[kEyes];
     NSTimer                 *displayTimer;
     RFEyeXYController       *eyeXYController;                // Eye position display
     float                   originalFixOffsetDeg;            // holds incoming fix offset
-//    LLSettingsController    *settingsController;
     NSMenuItem              *settingsMenuItem;
     RFSummaryController     *summaryController;
     NSArray                 *topLevelObjects;
@@ -27,7 +25,7 @@
 
     IBOutlet NSMenu         *settingsMenu;
     IBOutlet NSMenu         *actionsMenu;
-    IBOutlet NSMenuItem     *runStopMenuItem;
+//    IBOutlet NSMenuItem     *runStopMenuItem;
 }
 
 - (void)dataCollect:(NSTimer *)timer;

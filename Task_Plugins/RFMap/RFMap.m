@@ -107,7 +107,7 @@ LLTaskPlugIn    *task = nil;
     [self.dataDoc defineEvents:[LLStandardDataEvents eventsWithDataDefs] count:[LLStandardDataEvents countOfEventsWithDataDefs]];
     [task.self.dataDoc defineEvents:RFEvents count:(sizeof(RFEvents) / sizeof(EventDefinition))];
 
-    [controlPanel.window orderFront:self];
+    [self.controlPanel.window orderFront:self];
     
     eyeXYController = [[RFEyeXYController alloc] init];
     [task.self.dataDoc addObserver:eyeXYController];
@@ -252,8 +252,8 @@ LLTaskPlugIn    *task = nil;
     [summaryController release];
     [xtController close];
     [xtController release];
-    [controlPanel displayText:@""];                                // need to collapse control panel 
-    [controlPanel.window close];                                //  for autosave frames to be correct
+    [self.controlPanel displayText:@""];                                // need to collapse control panel
+    [self.controlPanel.window close];                                //  for autosave frames to be correct
 
 // Restore the eye calibration to its original value
 
@@ -272,7 +272,7 @@ LLTaskPlugIn    *task = nil;
     [actionsMenuItem release];
     [settingsMenuItem release];
     [scheduler release];
-    [controlPanel release];
+    [self.controlPanel release];
     [taskStatus release];
     [topLevelObjects release];
     
@@ -298,7 +298,7 @@ LLTaskPlugIn    *task = nil;
                 (long)(atan2(stimCenterDeg.y, stimCenterDeg.x) * kDegPerRadian) % 180];
         break;
     }
-    [controlPanel displayText:displayString];
+    [self.controlPanel displayText:displayString];
 }
 
 - (void)doControls:(NSNotification *)notification;
@@ -467,13 +467,12 @@ LLTaskPlugIn    *task = nil;
 
 // Set up control panel and observer for control panel
 
-    controlPanel = [[LLControlPanel alloc] init];
-    [controlPanel.window setFrameUsingName:@"RFControlPanel"];
-    controlPanel.windowFrameAutosaveName = @"RFControlPanel";
-    [controlPanel.window setTitle:NSLocalizedString(@"RFMap", nil)];
+    self.controlPanel = [[LLControlPanel alloc] init];
+    [self.controlPanel.window setFrameUsingName:@"RFControlPanel"];
+    self.controlPanel.windowFrameAutosaveName = @"RFControlPanel";
+    [self.controlPanel.window setTitle:NSLocalizedString(@"RFMap", nil)];
     [[NSNotificationCenter defaultCenter] addObserver:self 
-        selector:@selector(doControls:) name:nil object:controlPanel];
-
+        selector:@selector(doControls:) name:nil object:self.controlPanel];
 }
 
 - (long)mode;
@@ -503,18 +502,23 @@ LLTaskPlugIn    *task = nil;
 {
     taskStatus.mode = newMode;
     [[NSUserDefaults standardUserDefaults] setInteger:newMode forKey:RFTaskStatusKey];
-    controlPanel.taskMode = taskStatus.mode;
+    self.controlPanel.taskMode = taskStatus.mode;
     [task.self.dataDoc putEvent:@"taskMode" withData:&newMode];
     switch (taskStatus.mode) {
-    case kTaskRunning:
-    case kTaskStopping:
-        runStopMenuItem.keyEquivalent = @".";
-        break;
-    case kTaskIdle:
-        runStopMenuItem.keyEquivalent = @"r";
-        break;
-    default:
-        break;
+        case kTaskRunning:
+            runStopMenuItem.title = @"Stop";
+            runStopMenuItem.keyEquivalent = @".";
+            break;
+        case kTaskStopping:
+            runStopMenuItem.title = @"Stop Now";
+            runStopMenuItem.keyEquivalent = @".";
+            break;
+        case kTaskIdle:
+            runStopMenuItem.title = @"Run";
+            runStopMenuItem.keyEquivalent = @"r";
+            break;
+        default:
+            break;
     }
 }
 
@@ -525,12 +529,12 @@ LLTaskPlugIn    *task = nil;
     if (taskStatus.dataFileOpen != state) {
         taskStatus.dataFileOpen = state;
         if (taskStatus.dataFileOpen) {
-            [controlPanel displayFileName:task.self.dataDoc.filePath.lastPathComponent.stringByDeletingPathExtension];
-            [controlPanel setResetButtonEnabled:NO];
+            [self.controlPanel displayFileName:task.self.dataDoc.filePath.lastPathComponent.stringByDeletingPathExtension];
+            [self.controlPanel setResetButtonEnabled:NO];
         }
         else {
-            [controlPanel displayFileName:@""];
-            [controlPanel setResetButtonEnabled:YES];
+            [self.controlPanel displayFileName:@""];
+            [self.controlPanel setResetButtonEnabled:YES];
         }
     }
 }

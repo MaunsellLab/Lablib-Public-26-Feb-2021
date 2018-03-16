@@ -15,15 +15,15 @@ extern NSString *LLResetButtonKey;
     IBOutlet NSTextField    *fileNameDisplay;
     long                    originalHeightPix;
     IBOutlet NSButton        *resetButton;
-    long                    taskMode;
     IBOutlet NSButton        *taskModeButton;
 }
+
+@property (nonatomic) long taskMode;
 
 - (void)displayFileName:(NSString *)fileName;
 - (void)displayText:(NSString *)text;
 - (void)setResetButtonEnabled:(long)state;
-@property (NS_NONATOMIC_IOSONLY) long taskMode;
-
+- (void)setTaskModeButtonEnabled:(long)state;
 - (IBAction)doTaskMode:(id)sender;
 - (IBAction)doJuice:(id)sender;
 - (IBAction)doReset:(id)sender;

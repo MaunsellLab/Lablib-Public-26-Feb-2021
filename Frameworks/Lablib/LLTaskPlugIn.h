@@ -6,6 +6,7 @@
 //  Copyright 2018. All rights reserved.
 //
 
+#import "LLControlPanel.h"
 #import "LLDataDoc.h"
 #import "LLDisplays.h"
 #import "LLBinocCalibrator.h"
@@ -44,10 +45,13 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
     NSDictionary            *monkeySoundDict;
     NSDictionary            *mouseSoundDict;
     LLTaskStatus            *taskStatus;
+
+    IBOutlet NSMenuItem     *runStopMenuItem;
 }
 
 @property (NS_NONATOMIC_IOSONLY) BOOL active;
 @property (NS_NONATOMIC_IOSONLY, retain) NSTimer *collectorTimer;
+@property (NS_NONATOMIC_IOSONLY, retain) LLControlPanel *controlPanel;
 @property (NS_NONATOMIC_IOSONLY) NSPoint currentEyeDeg;
 @property (NS_NONATOMIC_IOSONLY) NSPoint *currentEyesDeg;
 @property (NS_NONATOMIC_IOSONLY, strong) LLDataDeviceController *dataController;
@@ -78,6 +82,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY) BOOL usesGit;
 @property (NS_NONATOMIC_IOSONLY) BOOL writingDataFile;
 
+
 - (void)activate;
 - (IBAction)deactivate:(id)sender;
 - (IBAction)doRunStop:(id)sender;
@@ -87,5 +92,6 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 - (DisplayModeParam)requestedDisplayMode;
 - (void)stopSoundFileNamed:(NSString *)soundFileName;
 - (void)stopSoundNamed:(NSString *)soundName;
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 @end

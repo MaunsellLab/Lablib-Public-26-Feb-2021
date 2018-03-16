@@ -48,7 +48,7 @@
             break;
         case kTaskRunning:
             newMode = kTaskStopping;
-            break;
+           break;
         case kTaskStopping:
         default:
             newMode = kTaskIdle;
@@ -158,5 +158,13 @@
     }
     [self stopSoundFileNamed:soundFileName];
 }
+
+// We block the Run command until matlab has finished launching
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
+{
+    return (menuItem.action != @selector(doRunStop:)) || !self.matlabEngine.launching;
+}
+
 
 @end

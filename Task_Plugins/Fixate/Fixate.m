@@ -76,7 +76,7 @@ LLTaskPlugIn    *task = nil;
     [self.dataDoc defineEvents:[LLStandardDataEvents eventsWithDataDefs] count:[LLStandardDataEvents countOfEventsWithDataDefs]];
     [self.dataDoc defineEvents:FTEvents count:(sizeof(FTEvents) / sizeof(EventDefinition))];
 
-    [controlPanel.window orderFront:self];
+    [self.controlPanel.window orderFront:self];
 
     eyeXYController = [[FTEyeXYController alloc] init];
     [self.dataDoc addObserver:eyeXYController];
@@ -197,7 +197,7 @@ LLTaskPlugIn    *task = nil;
     [summaryController release];
     [xtController close];
     [xtController release];
-    [controlPanel.window close];
+    [self.controlPanel.window close];
 
     [stimuli release];
     [self.settingsController extractSettings];
@@ -213,7 +213,7 @@ LLTaskPlugIn    *task = nil;
     [settingsMenuItem release];
     
     [scheduler release];
-    [controlPanel release];
+    [self.controlPanel release];
     [topLevelObjects release];
     [self.settingsController release];
 
@@ -306,12 +306,12 @@ LLTaskPlugIn    *task = nil;
 
 // Set up control panel and observer for control panel
 
-    controlPanel = [[LLControlPanel alloc] init];
-    controlPanel.windowFrameAutosaveName = @"FTControlPanel";
-    [controlPanel.window setFrameUsingName:@"FTControlPanel"];
-    controlPanel.window.title = @"Fixate";
+    self.controlPanel = [[LLControlPanel alloc] init];
+    self.controlPanel.windowFrameAutosaveName = @"FTControlPanel";
+    [self.controlPanel.window setFrameUsingName:@"FTControlPanel"];
+    self.controlPanel.window.title = @"Fixate";
     [[NSNotificationCenter defaultCenter] addObserver:self 
-        selector:@selector(doControls:) name:nil object:controlPanel];
+        selector:@selector(doControls:) name:nil object:self.controlPanel];
 }
 
 - (long)mode;
@@ -323,27 +323,27 @@ LLTaskPlugIn    *task = nil;
 {
     return @"Fixate";
 }
-/*
-- (NSNumber *)pluginVersion; 
-{
-    return [NSNumber numberWithLong:kLLPluginVersion];
-}
-*/
+
 - (void)setMode:(long)newMode;
 {
     taskStatus.mode = newMode;
-    controlPanel.taskMode = taskStatus.mode;
+    self.controlPanel.taskMode = taskStatus.mode;
     [self.dataDoc putEvent:@"taskMode" withData:&newMode];
     switch (taskStatus.mode) {
-    case kTaskRunning:
-    case kTaskStopping:
-        runStopMenuItem.keyEquivalent = @".";
-        break;
-    case kTaskIdle:
-        runStopMenuItem.keyEquivalent = @"r";
-        break;
-    default:
-        break;
+        case kTaskRunning:
+            runStopMenuItem.title = @"Stop";
+            runStopMenuItem.keyEquivalent = @".";
+            break;
+        case kTaskStopping:
+            runStopMenuItem.title = @"Stop Now";
+            runStopMenuItem.keyEquivalent = @".";
+            break;
+        case kTaskIdle:
+            runStopMenuItem.title = @"Run";
+            runStopMenuItem.keyEquivalent = @"r";
+            break;
+        default:
+            break;
     }
 }
 // Respond to changes in the stimulus settings
@@ -353,13 +353,12 @@ LLTaskPlugIn    *task = nil;
     if (taskStatus.dataFileOpen != state) {
         taskStatus.dataFileOpen = state;
         if (taskStatus.dataFileOpen) {
-//            announceEvents();
-            [controlPanel displayFileName:self.dataDoc.filePath.lastPathComponent.stringByDeletingPathExtension];
-            [controlPanel setResetButtonEnabled:NO];
+            [self.controlPanel displayFileName:self.dataDoc.filePath.lastPathComponent.stringByDeletingPathExtension];
+            [self.controlPanel setResetButtonEnabled:NO];
         }
         else {
-            [controlPanel displayFileName:@""];
-            [controlPanel setResetButtonEnabled:YES];
+            [self.controlPanel displayFileName:@""];
+            [self.controlPanel setResetButtonEnabled:YES];
         }
     }
 }
