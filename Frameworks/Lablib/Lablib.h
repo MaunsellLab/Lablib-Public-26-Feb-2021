@@ -76,6 +76,7 @@
 #import <Lablib/LLPluginDefaults.h>
 #import <Lablib/LLPointDist.h>
 #import <Lablib/LLProgressIndicator.h>
+#import <Lablib/LLPulseProfile.h>
 #import <Lablib/LLPulseTrain.h>
 #import <Lablib/LLPulseTrainDevice.h>
 #import <Lablib/LLRandomDots.h>

@@ -49,35 +49,35 @@ extern NSString *LLSynthVBLRateKey;
 
 @interface LLSynthDataDevice : LLDataDevice {
 
-    NSUserDefaults        *defaults;
-    NSAffineTransform    *degToUnits[kEyes];
+    NSUserDefaults      *defaults;
+    NSAffineTransform   *degToUnits[kEyes];
     LLEyeCalibrator     *eyeCalibrator;
     NSPoint             eyePosition[kEyes];
-    NSPoint                eyeTargetDeg;
+    NSPoint             eyeTargetDeg;
     BOOL                eyeTargetPresent;
-    double                lastLeverDownTimeS;
-    double                lastLeverUpTimeS;
-    double                lastSpikeTimeS;
-     long                lastSpontBreakCheckTimeS;
-    double                lastSpontDownCheckTimeS;
-    double                lastSpontUpCheckTimeS;
-    double                 leverDownTimeS;
-    double                leverUpTimeS;
+    double              lastLeverDownTimeS;
+    double              lastLeverUpTimeS;
+    double              lastSpikeTimeS;
+     long               lastSpontBreakCheckTimeS;
+    double              lastSpontDownCheckTimeS;
+    double              lastSpontUpCheckTimeS;
+    double              leverDownTimeS;
+    double              leverUpTimeS;
     BOOL                leverIsDown;
-    double                nextRateTimeS;
-    double                nextSaccadeTimeS;
-    double                 nextSampleTimeS;
-    double                nextSpikeRateHz;
-    double                nextSpikeTimeS;                        // next time for periodic spike
-    double                 nextVBLTimeS;                        // next time for a vertical blank timestamp
-    NSPoint                offsetDeg;
+    double              nextRateTimeS;
+    double              nextSaccadeTimeS;
+    double              nextSampleTimeS;
+    double              nextSpikeRateHz;
+    double              nextSpikeTimeS;                        // next time for periodic spike
+    double              nextVBLTimeS;                        // next time for a vertical blank timestamp
+    NSPoint             offsetDeg;
     BOOL                randomSpikes;
-    LLSynthBinocSaccade    *saccade;
-    NSMutableData        *sampleData[kLLSynthADChannels];
-    double                spikeRateHz;
-    LLSynthDataSettings    *synthSettings;
-    NSMutableData        *timestampData[kLLSynthDigitalBits];
-    double                timestampRefS;
+    LLSynthBinocSaccade *saccade;
+    NSMutableData       *sampleData[kLLSynthADChannels];
+    double              spikeRateHz;
+    LLSynthDataSettings *synthSettings;
+    NSMutableData       *timestampData[kLLSynthDigitalBits];
+    double              timestampRefS;
     NSAffineTransformStruct transform[kEyes];
 }
 

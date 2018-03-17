@@ -32,7 +32,7 @@ typedef NS_ENUM(long, SubjectChangeType) {kSubjectReset, kSubjectPostAndReset, k
     long                trialStartTime;
 }
 
-@property (NS_NONATOMIC_IOSONLY) BOOL initializedForSubject;
+@property (NS_NONATOMIC_IOSONLY) long initializedForSubject;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL loadMatlabWorkspace;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *matlabFileName;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL matlabFileExists;

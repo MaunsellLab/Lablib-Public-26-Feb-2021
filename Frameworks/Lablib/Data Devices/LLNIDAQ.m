@@ -14,9 +14,9 @@
 #import "LLNIDAQ.h"
 #import "LLNIDAQTask.h"
 
-#define kActiveChannels         2
-#define kAnalogOutChannel0Name  @"ao0"
-#define kAnalogOutChannel1Name  @"ao1"
+//#define kAOChannels             2
+#define kAOChannel0Name         @"ao0"
+#define kAOChannel1Name         @"ao1"
 #define kDigitalOutChannelName  @"port0/line2"
 #define kMinSamples             2
 #define kOutputRateHz           10000
@@ -64,8 +64,8 @@
 
     analogOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
     [analogOutput createAOTask];
-    [analogOutput createVoltageChannelWithName:kAnalogOutChannel0Name maxVolts:10 minVolts:-10];
-    [analogOutput createVoltageChannelWithName:kAnalogOutChannel1Name maxVolts:10 minVolts:-10];
+    [analogOutput createVoltageChannelWithName:kAOChannel0Name maxVolts:10 minVolts:-10];
+    [analogOutput createVoltageChannelWithName:kAOChannel1Name maxVolts:10 minVolts:-10];
     digitalOutput = [[LLNIDAQTask alloc] initWithSocket:socket];
     [digitalOutput createDOTask];
     [digitalOutput createChannelWithName:kDigitalOutChannelName];
@@ -104,7 +104,7 @@
 
 - (BOOL)loadCalibration:(short)channel url:(NSURL *)url;
 {
-    NSString *channelNames[kAOChannels] = {kAnalogOutChannel0Name, kAnalogOutChannel1Name};
+    NSString *channelNames[kAOChannels] = {kAOChannel0Name, kAOChannel1Name};
 
     if (calibrator[channel] != nil) {
         [calibrator[channel] release];
@@ -146,6 +146,85 @@
     [digitalOutput alterState:@"unreserve"];
 }
 
+- (id)pairedPulsesWithChannel0:(LLPulseProfile *)pulse0 channel1:(LLPulseProfile *)pulse1 autoStart:(BOOL)autoStart
+                digitalTrigger:(BOOL)digitalTrigger;
+{
+    long sample, pulse, activeChannels, numChannelSamples, numTrainSamples;
+    float limitMS;
+    Float64 preV, postV, offV, pulseV, *train, *pTrain;
+    LLPulseProfile *profiles[kAOChannels] = {pulse0, pulse1};
+
+    if (pulse0 == nil) {
+        return nil;
+    }
+    if (pulse1 == nil) {
+        activeChannels = 1;
+        numChannelSamples = pulse0.totalDurationMS + 1;
+    }
+    else {
+        activeChannels = 2;
+        numChannelSamples = MAX(pulse0.totalDurationMS, pulse1.totalDurationMS) + 1;
+    }
+    numTrainSamples = numChannelSamples * activeChannels;
+    train = malloc(numTrainSamples * sizeof(Float64));
+    for (pulse = 0; pulse < activeChannels; pulse++) {
+        pulseV = [calibrator[pulse] voltageForMW:profiles[pulse].pulsePowerMW];
+        preV = [calibrator[pulse] voltageForMW:profiles[pulse].prePowerMW];
+        postV = [calibrator[pulse] voltageForMW:profiles[pulse].postPowerMW];
+        offV = [calibrator[pulse] voltageForMW:profiles[pulse].offPowerMW];
+        sample = 0;
+        pTrain = &train[pulse];
+        limitMS = profiles[pulse].preDelayMS;
+        while (sample < limitMS * kSamplesPerMS) {      // delay before pre period
+            *pTrain = offV;
+            pTrain += activeChannels;
+        }
+        limitMS += profiles[pulse].preRampMS;
+        while (sample < limitMS * kSamplesPerMS) {      // ramp from off to pre period
+            *pTrain = offV + (preV - offV) / profiles[pulse].preRampMS * kSamplesPerMS;
+            pTrain += activeChannels;
+        }
+        limitMS += profiles[pulse].preDurationMS;
+        while (sample < limitMS * kSamplesPerMS) {      // pre period
+            *pTrain = preV;
+            pTrain += activeChannels;
+        }
+        limitMS += profiles[pulse].pulseRampMS;
+        while (sample < limitMS * kSamplesPerMS) {      // ramp from pre to pulse
+            *pTrain = preV + (pulseV - preV) / profiles[pulse].pulseRampMS * kSamplesPerMS;
+            pTrain += activeChannels;
+        }
+        limitMS += profiles[pulse].pulseDurationMS;
+        while (sample < limitMS * kSamplesPerMS) {      // pulse
+            *pTrain = pulseV;
+            pTrain += activeChannels;
+        }
+        limitMS += profiles[pulse].postRampMS;
+        while (sample < limitMS * kSamplesPerMS) {      // ramp from pulse to post
+            *pTrain = pulseV - (pulseV - postV) / profiles[pulse].postRampMS * kSamplesPerMS;
+            pTrain += activeChannels;
+        }
+        limitMS += profiles[pulse].postDurationMS;
+        while (sample < limitMS * kSamplesPerMS) {      // post period
+            *pTrain = postV;
+            pTrain += activeChannels;
+        }
+        limitMS += profiles[pulse].offRampMS;
+        while (sample < limitMS * kSamplesPerMS) {      // ramp from post to off period
+            *pTrain = postV - (postV - offV) / profiles[pulse].offRampMS * kSamplesPerMS;
+            pTrain += activeChannels;
+        }
+        while (sample < numChannelSamples) {            // off period
+            *pTrain = offV;
+            pTrain += activeChannels;
+        }
+    }
+    [analogOutput doTrain:train numSamples:numTrainSamples outputRateHz:kOutputRateHz digitalTrigger:digitalTrigger
+       triggerChannelName:kTriggerChanName autoStart:autoStart waitTimeS:0.0];
+    free(train);
+    return(analogOutput);
+}
+
 - (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
        duration1MS:(long)dur1MS autoStart:(BOOL)autoStart digitalTrigger:(BOOL)digitalTrigger;
 {
@@ -174,7 +253,7 @@
     delay0Samples = delay0MS * kSamplesPerMS;
     delay1Samples = delay1MS * kSamplesPerMS;
     numChannelSamples = MAX(pulse0Samples + delay0Samples, pulse1Samples + delay1Samples) + 1;
-    numTrainSamples = numChannelSamples * kActiveChannels;
+    numTrainSamples = numChannelSamples * kAOChannels;
     train = malloc(numTrainSamples * sizeof(Float64));
     pulse0V = [calibrator[0] voltageForMW:pulse0MW];
     pulse1V = [calibrator[1] voltageForMW:pulse1MW];
@@ -197,8 +276,8 @@
 - (void)setChannel:(long)channel powerTo:(float)powerMW;
 {
     long sample;
-    long numSamples = kMinSamples * kActiveChannels;       // NIDAQ requires 2 samples per channel minimum
-    Float64 outputV[kMinSamples * kActiveChannels];        // min 2 samples per channel
+    long numSamples = kMinSamples * kAOChannels;       // NIDAQ requires 2 samples per channel minimum
+    Float64 outputV[kMinSamples * kAOChannels];        // min 2 samples per channel
     
     for (sample  = 0; sample < numSamples; sample++) {
         outputV[sample] = calibrator[channel].calibrated ? [calibrator[channel] voltageForMW:powerMW] : powerMW;
@@ -206,7 +285,7 @@
 
     [analogOutput configureTimingSampleClockWithRate:kOutputRateHz mode:@"finite" samplesPerChannel:kMinSamples];
     [analogOutput configureTriggerDisableStart];            // start output on write/start
-    [analogOutput writeSamples:outputV numSamples:kMinSamples * kActiveChannels autoStart:YES timeoutS:-1];
+    [analogOutput writeSamples:outputV numSamples:kMinSamples * kAOChannels autoStart:YES timeoutS:-1];
     [analogOutput waitUntilDone:kWaitTimeS];
     [analogOutput stop];
     [analogOutput alterState:@"unreserve"];
@@ -215,7 +294,7 @@
 - (void)setPowerToMinimum;
 {
     long sample;
-    Float64 off0V, off1V, *pTrain, train[kMinSamples * kActiveChannels];        // min 2 samples per channel
+    Float64 off0V, off1V, *pTrain, train[kMinSamples * kAOChannels];        // min 2 samples per channel
 
     off0V = [calibrator[0] voltageForMW:[calibrator[0] minimumMW]];
     off1V = [calibrator[1] voltageForMW:[calibrator[1] minimumMW]];
@@ -223,7 +302,7 @@
         *pTrain++ = off1V;
         *pTrain++ = off0V;
     }
-    [analogOutput doTrain:train numSamples:kMinSamples * kActiveChannels outputRateHz:kOutputRateHz
+    [analogOutput doTrain:train numSamples:kMinSamples * kAOChannels outputRateHz:kOutputRateHz
            digitalTrigger:NO triggerChannelName:kTriggerChanName autoStart:YES waitTimeS:kWaitTimeS];
 }
 

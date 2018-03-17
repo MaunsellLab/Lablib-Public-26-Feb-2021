@@ -8,6 +8,7 @@
 #import "LLSockets.h"
 #import "LLNIDAQTask.h"
 #import "LLPowerCalibrator.h"
+#import "LLPulseProfile.h"
 
 #define kAOChannels 2
 
@@ -30,6 +31,8 @@
 - (float)maximumMWForChannel:(long)channel;
 - (float)minimumMWForChannel:(long)channel;
 - (void)outputDigitalValue:(short)value;
+- (id)pairedPulsesWithChannel0:(LLPulseProfile *)pulse0 channel1:(LLPulseProfile *)pulse1 autoStart:(BOOL)autoStart
+        digitalTrigger:(BOOL)digitalTrigger;
 - (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW
        duration1MS:(long)dur1MS autoStart:(BOOL)autoStart digitalTrigger:(BOOL)digitalTrigger;
 - (id)pairedPulsesWithPulse0MW:(float)pulse0MW duration0MS:(long)dur0MS pulse1MW:(float)pulse1MW

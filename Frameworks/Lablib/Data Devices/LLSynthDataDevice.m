@@ -117,6 +117,7 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
         digitalInputBits &= ~leverBit;
         lastLeverUpTimeS = leverUpTimeS;
         leverUpTimeS = lastSpontDownCheckTimeS = 0;
+        NSLog(@"LLSynthDataDevice: lever up now");
    }
 
 // Spontaneous lever up?
@@ -129,7 +130,8 @@ NSString *LLSynthVBLRateKey = @"LLSynthVBLRate";
             if ((rand() % 1000) > noChangeProb * 1000.0) {
                 digitalInputBits &= ~leverBit;
                 lastLeverUpTimeS = lastSpontDownCheckTimeS = timeNow;
-           }
+                NSLog(@"LLSynthDataDevice: lever up now");
+          }
         }
         lastSpontUpCheckTimeS = timeNow;
     }
