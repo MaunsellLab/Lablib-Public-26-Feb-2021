@@ -4,6 +4,8 @@
 //
 //  Created by John Maunsell on 3/13/17.
 //
+//  The NIDAQ supports only one each of AO, AI, DO, and DI tasks (each) simultaneously:
+//  https://knowledge.ni.com/KnowledgeArticleDetails?id=kA00Z0000019KWYSA2
 
 #import "LLNIDAQTask.h"
 
@@ -58,7 +60,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kAnalogOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"%@ AOTask %ld", [socket rigID].capitalizedString, taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@ AOTask %ld", [self.socket rigID].capitalizedString, taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createAOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
@@ -74,7 +76,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     }
     taskType = kDigitalOutputType;
     [taskName release];
-    taskName = [[NSString stringWithFormat:@"%@ DOTask %ld", [socket rigID].capitalizedString, taskID++] retain];
+    taskName = [[NSString stringWithFormat:@"%@ DOTask %ld", [self.socket rigID].capitalizedString, taskID++] retain];
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"createDOTask", @"command",
             taskName, @"taskName", nil];
     return [self sendDictionary:dict];
@@ -135,12 +137,12 @@ static long nextTaskID = 0;         // class variable to persist across all inst
         channelMinV[channel] = @(minV);
     }
     if (firstTime) {
-        originalTimeoutS = [socket timeoutS];
-        [socket setTimeoutS:2.5];
+        originalTimeoutS = [self.socket timeoutS];
+        [self.socket setTimeoutS:2.5];
     }
     result = [self sendDictionary:dict];
     if (firstTime) {
-        [socket setTimeoutS:originalTimeoutS];
+        [self.socket setTimeoutS:originalTimeoutS];
         firstTime = NO;
     }
     return result;
@@ -156,7 +158,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     [channelNames release];
     [channelMaxV release];
     [channelMinV release];
-    [socket release];
+    [self.socket release];
     [super dealloc];
 }
 
@@ -203,8 +205,8 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 - (instancetype)initWithSocket:(LLSockets *)theSocket;
 {
     if ((self = [super init]) != nil) {
-        socket = theSocket;
-        [socket retain];
+        _socket = theSocket;
+        [_socket retain];
         channelNames = [[NSMutableArray alloc] init];
         channelMaxV = [[NSMutableArray alloc] init];
         channelMinV = [[NSMutableArray alloc] init];
@@ -218,8 +220,11 @@ static long nextTaskID = 0;         // class variable to persist across all inst
 {
     NSMutableDictionary *dict, *returnDict;
 
+    if (self.socket == nil) {                                       // allow debugging when no socket is active
+        return YES;
+    }
     dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"isDone", @"command", taskName, @"taskName", nil];
-    returnDict = [socket writeDictionary:dict];
+    returnDict = [self.socket writeDictionary:dict];
     if (returnDict == nil) {
         return NO;
     }
@@ -236,7 +241,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     NSMutableDictionary *returnDict;
     static long retries = 0;
 
-    returnDict = [socket writeDictionary:dict];
+    returnDict = [self.socket writeDictionary:dict];
     if (returnDict == nil) {
         return NO;
     }

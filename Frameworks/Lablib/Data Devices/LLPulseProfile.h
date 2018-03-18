@@ -11,6 +11,8 @@
 
 }
 
+@property (NS_NONATOMIC_IOSONLY) float startPowerMW;
+
 @property (NS_NONATOMIC_IOSONLY) float preDelayMS;
 @property (NS_NONATOMIC_IOSONLY) float preRampMS;
 @property (NS_NONATOMIC_IOSONLY) float preDurationMS;
@@ -24,8 +26,8 @@
 @property (NS_NONATOMIC_IOSONLY) float postDurationMS;
 @property (NS_NONATOMIC_IOSONLY) float postPowerMW;
 
-@property (NS_NONATOMIC_IOSONLY) float offRampMS;
-@property (NS_NONATOMIC_IOSONLY) float offPowerMW;
+@property (NS_NONATOMIC_IOSONLY) float endRampMS;
+@property (NS_NONATOMIC_IOSONLY) float endPowerMW;
 
 - (float)totalDurationMS;
 - (void)zeroAll;

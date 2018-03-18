@@ -330,7 +330,7 @@ NSString *statusStrings[kLLSocketNumStatusStrings] = {
     rigID = [self rigID];
     deviceName = deviceNameDict[rigID.lowercaseString];
     if (deviceName == nil) {
-        [self postToConsole:[NSString stringWithFormat:@"%@ is an unknown  rig ID\n", rigID]
+        [self postToConsole:[NSString stringWithFormat:@"%@ is an unknown rig ID\n", rigID]
                   textColor:[NSColor redColor]];
         return nil;
     }
