@@ -149,17 +149,19 @@
         return pT;
     }
     for (sample = 0; sample < numSamples - 1; sample++) {           // n-1 to ensure final value is exactly endV
-        *pT = startV + (sample + 1) * (endV - startV) / numSamples; // n+1 to ensure we start ramp with first value
-        pT += inc;
+        *pT++ = startV + (sample + 1) * (endV - startV) / numSamples; // n+1 to ensure we start ramp with first value
+        *pT++ = 0.0;
+//        pT += inc;
     }
-    *pT = endV;                                                     // end exactly on endV
-    pT += inc;
+    *pT++ = endV;                                                     // end exactly on endV
+    *pT++ = 0.0;
+//    pT += inc;
     return pT;
 }
 - (id)pairedPulsesWithChannel0:(LLPulseProfile *)pulse0 channel1:(LLPulseProfile *)pulse1 autoStart:(BOOL)autoStart
                 digitalTrigger:(BOOL)digitalTrigger;
 {
-    long pulse, activeChan, numChannelSamples, numTrainSamples;
+    long pulse, numChannelSamples, numTrainSamples;
     Float64 startV, preV, postV, pulseV, endV, *train, *pT;
     LLPulseProfile *profiles[kAOChannels] = {pulse0, pulse1};
 
@@ -167,51 +169,55 @@
         return nil;
     }
     if (pulse1 == nil) {
-        activeChan = 1;
         numChannelSamples = pulse0.totalDurationMS * kSamplesPerMS;
     }
     else {
-        activeChan = 2;
         numChannelSamples = MAX(pulse0.totalDurationMS, pulse1.totalDurationMS) * kSamplesPerMS;
     }
     if (numChannelSamples <= 0) {                       // don't do anything if the total time is zero
         return nil;
     }
-    numTrainSamples = numChannelSamples * activeChan;
+    numTrainSamples = numChannelSamples * kAOChannels;
     train = malloc(numTrainSamples * sizeof(Float64) + 100);        // extra for rounding errors
-    for (pulse = 0; pulse < activeChan; pulse++) {
+    pulse = 0;
+//    for (pulse = 0; pulse < activeChan; pulse++) {
         // If the pre ramp and duration are zero, pass the start power through to the pulse
         if (profiles[pulse].preRampMS == 0 && profiles[pulse].preDurationMS == 0) {
             profiles[pulse].prePowerMW = profiles[pulse].startPowerMW;
         }
-        // If the pulse ramp and duration are zero, pass the delay power through to the end ramp
-        if (profiles[pulse].pulseRampMS == 0 && profiles[pulse].pulseDurationMS == 0) {
-            profiles[pulse].pulsePowerMW = profiles[pulse].prePowerMW;
-        }
+    // If the pulse ramp and duration are zero, pass the delay power through to the post ramp
+    if (profiles[pulse].pulseRampMS == 0 && profiles[pulse].pulseDurationMS == 0) {
+        profiles[pulse].pulsePowerMW = profiles[pulse].prePowerMW;
+    }
+    // If the post ramp and duration are zero, pass the pulse power through to the end ramp
+    if (profiles[pulse].postRampMS == 0 && profiles[pulse].postDurationMS == 0) {
+        profiles[pulse].postPowerMW = profiles[pulse].pulsePowerMW;
+    }
         startV = [calibrator[pulse] voltageForMW:profiles[pulse].startPowerMW];
         preV = [calibrator[pulse] voltageForMW:profiles[pulse].prePowerMW];
         pulseV = [calibrator[pulse] voltageForMW:profiles[pulse].pulsePowerMW];
         postV = [calibrator[pulse] voltageForMW:profiles[pulse].postPowerMW];
         endV = [calibrator[pulse] voltageForMW:profiles[pulse].endPowerMW];
 //        sample = 0;
-        pT = &train[pulse];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].preDelayMS
+//        pT = &train[pulse];
+        pT = train;
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].preDelayMS
                      startV:(float)startV endV:(float)startV];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].preRampMS
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].preRampMS
                      startV:(float)startV endV:(float)preV];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].preDurationMS
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].preDurationMS
                      startV:(float)preV endV:(float)preV];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].pulseRampMS
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].pulseRampMS
                      startV:(float)preV endV:(float)pulseV];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].pulseDurationMS
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].pulseDurationMS
                      startV:(float)pulseV endV:(float)pulseV];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].postRampMS
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].postRampMS
                      startV:(float)pulseV endV:(float)postV];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].postDurationMS
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].postDurationMS
                      startV:(float)postV endV:(float)postV];
-        pT = [self makeRamp:pT increment:activeChan durMS:(long)profiles[pulse].endRampMS
+        pT = [self makeRamp:pT increment:kAOChannels durMS:(long)profiles[pulse].endRampMS
                      startV:(float)postV endV:(float)endV];
-    }
+//    }
     numTrainSamples = pT - train;                           // trim to the actual number of samples
 //    for (sample = 0; sample < numTrainSamples; sample++) {
 //        NSLog(@"%4ld: %.4f", sample, train[sample]);
