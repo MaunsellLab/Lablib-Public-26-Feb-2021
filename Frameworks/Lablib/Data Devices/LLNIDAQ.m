@@ -161,7 +161,7 @@
                 digitalTrigger:(BOOL)digitalTrigger;
 {
     long sample, pulse, numChannelSamples, numTrainSamples;
-    Float64 startV, preV, postV, pulseV, endV, *train, *pT;
+    Float64 startV, preV, postV, pulseV, endV, *train, *pT, lastValue;
     LLPulseProfile *theProfile;
     LLPulseProfile *profiles[kAOChannels] = {pulse0, pulse1};
 
@@ -177,15 +177,17 @@
     if (numChannelSamples <= 0) {                       // don't do anything if the total time is zero
         return nil;
     }
+    numChannelSamples += 100;                                       // leave room for integer rounding errors
     numTrainSamples = numChannelSamples * kAOChannels;              // we're configured for kAOChannels AO channels
-    train = malloc(numTrainSamples * sizeof(Float64) + 100);        // extra for rounding errors
+    train = malloc(numTrainSamples * sizeof(Float64));              // extra for rounding errors
     for (pulse = 0; pulse < kAOChannels; pulse++) {
         pT = &train[pulse];                                         // offset by AO channel count
         theProfile = profiles[pulse];
         // If the profile is nil, just zero out the samples for this channel
         if (theProfile == nil) {
             for (sample = 0; sample < numChannelSamples; sample++) {
-                *pT++ = 0;
+                *pT = 0;
+                pT += kAOChannels;                                  // hop over samples for other channels
             }
             continue;
         }
@@ -196,10 +198,6 @@
         // If the pulse ramp and duration are zero, pass the delay power through to the post ramp
         if (theProfile.pulseRampMS == 0 && theProfile.pulseDurationMS == 0) {
             theProfile.pulsePowerMW = theProfile.prePowerMW;
-        }
-        // If the post ramp and duration are zero, pass the pulse power through to the end ramp
-        if (theProfile.postRampMS == 0 && theProfile.postDurationMS == 0) {
-            theProfile.postPowerMW = theProfile.pulsePowerMW;
         }
         startV = [calibrator[pulse] voltageForMW:theProfile.startPowerMW];
         preV = [calibrator[pulse] voltageForMW:theProfile.prePowerMW];
@@ -215,8 +213,18 @@
         pT = [self makeRamp:pT durMS:(long)theProfile.postRampMS startV:(float)pulseV endV:(float)postV];
         pT = [self makeRamp:pT durMS:(long)theProfile.postDurationMS startV:(float)postV endV:(float)postV];
         pT = [self makeRamp:pT durMS:(long)theProfile.endRampMS startV:(float)postV endV:(float)endV];
+//        // If the post ramp and duration are zero, force the end voltage to endV
+//        if (theProfile.postDurationMS == 0 && theProfile.postRampMS == 0) {
+//            *pT = endV;
+//            pT += kAOChannels;
+//        }
+        lastValue = pT[-kAOChannels];
+        while (pT < train + numTrainSamples) {
+            *pT = lastValue;
+            pT += kAOChannels;
+        }
     }
-    numTrainSamples = pT - train;                           // trim to the actual number of samples
+    numTrainSamples = pT - train - 1;                           // trim to the actual number of samples
     [analogOutput doTrain:train numSamples:numTrainSamples outputRateHz:kOutputRateHz digitalTrigger:digitalTrigger
        triggerChannelName:kTriggerChanName autoStart:autoStart waitTimeS:0.0];
     free(train);
