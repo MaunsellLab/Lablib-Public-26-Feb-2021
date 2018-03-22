@@ -296,7 +296,6 @@ struct screenMode {
         displayPhysical = [[LLDisplayPhysical alloc] init];
         CGGetActiveDisplayList(kMaxDisplay, displayIDs, &numDisplays);
         for (index = 0; index < numDisplays; index++) {
-//            EDID[index] = [[LLDisplayEDID alloc] initWithDisplayID:displayIDs[index]];
             [self loadDisplayParameters:index];
         }
     }

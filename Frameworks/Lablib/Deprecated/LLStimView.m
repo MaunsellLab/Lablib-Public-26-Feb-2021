@@ -60,7 +60,7 @@
         NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
 		NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 0,
 		NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
-        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0,
+//        NSOpenGLPFAWindow, (NSOpenGLPixelFormatAttribute) 0,
         0 };
 
     [self setPostsFrameChangedNotifications:YES];
