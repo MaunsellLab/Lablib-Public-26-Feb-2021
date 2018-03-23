@@ -115,16 +115,22 @@ extern void CGSDeferredUpdates(int);
 }
 
 // Create and run an alert panel
+// We are not allowed to run alerts in some situations, such as within a -drawRect method. We revert to using NSLog
+// if the alertDialog won't work.
 
 + (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText
 {
     SEL selector = NSSelectorFromString(@"runModal");
 
     NSAlert *theAlert = [[NSAlert alloc] init];
-    
     theAlert.messageText = messageText;
     theAlert.informativeText = infoText;
-    [theAlert performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
+    @try {
+        [theAlert performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
+    }
+    @catch (NSException *ex) {
+        NSLog(@"%@ %@", messageText, infoText);
+    }
     [theAlert release];
 }
 
