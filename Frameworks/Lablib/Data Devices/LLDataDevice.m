@@ -253,6 +253,8 @@
         [LLSystemUtil runAlertPanelWithMessageText:@"LLDataDevice" informativeText:[NSString stringWithFormat:
                 @"Requested %lu timestamp ticks per ms for channel %ld of device \"%@\"",
                 (unsigned long)timestampPeriodMS.count, channel, [self name]]];
+        NSLog(@"LLDataDevice -timestampPeriodMSForChannel: Requested channel %ld of %ld channels",
+              channel, timestampPeriodMS.count);
         exit(0);
     }
     return [timestampPeriodMS[channel] floatValue];

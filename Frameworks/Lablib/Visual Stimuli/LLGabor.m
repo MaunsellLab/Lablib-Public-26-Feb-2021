@@ -253,20 +253,7 @@ NSString *LLGaborTemporalPhaseDegKey = @"temporalPhaseDeg";
 
 - (void)drawCircularStencil;
 {
-//    long index;
-//    GLfloat projectionMatrix[16];
-//    BOOL projectionChanged = NO;
-    
-/*    glGetFloatv(GL_PROJECTION_MATRIX, projectionMatrix);
-    for (index = 0; index < 16; index++) {
-        if (projectionMatrix[index] != lastProjectionMatrix[index]) {
-            lastProjectionMatrix[index] = projectionMatrix[index];
-            projectionChanged = YES;
-        }
-    }
-    if (radiusDeg != lastGabor.radiusDeg || elevationDeg != lastGabor.elevationDeg
-                    || azimuthDeg != lastGabor.azimuthDeg || projectionChanged) { */
-        if (displayListNum > 0 && 
+        if (displayListNum > 0 &&
             radiusDeg == displayListGabor.radiusDeg &&
             azimuthDeg == displayListGabor.azimuthDeg &&
             elevationDeg == displayListGabor.elevationDeg) {
@@ -275,7 +262,6 @@ NSString *LLGaborTemporalPhaseDegKey = @"temporalPhaseDeg";
         else {
             [self drawCircularStencilGL];                    // else draw in immediate mode
         }
-/*    } */
 }
 
 - (void)drawCircularStencilGL;

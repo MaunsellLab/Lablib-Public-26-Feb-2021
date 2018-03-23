@@ -707,4 +707,16 @@ long ELTrialStartTimeMS;
     return result;
 }
 
+// We're not set up for timestamp data, but we have to respond sensibly to requests from our controller
+
+- (float)timestampPeriodMSForChannel:(long)channel;
+{
+    return(1);
+}
+
+- (long)timestampTicksPerMSForChannel:(long)channel;
+{
+    return(1);
+}
+
 @end
