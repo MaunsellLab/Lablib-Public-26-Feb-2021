@@ -24,17 +24,27 @@
 {
     [monkeySoundDict release];
     [mouseSoundDict release];
-    [self.dataDoc release];
-    [self.eyeCalibrator release];
-    [self.eyeLeftCalibrator release];
-    [self.eyeRightCalibrator release];
     free(self.currentEyesDeg);
-    [self.stimWindow release];
-    [self.synthDataDevice release];
-    [self.lastDataCollectionDate release];
-    [self.settingsController release];
-    [self.observerKeys release];
-    [self.host release];
+    self.collectorTimer = nil;
+    self.controlPanel = nil;
+    self.dataController = nil;
+    self.dataDoc = nil;
+    self.defaults = nil;
+    self.eyeCalibrator = nil;
+    self.eyeLeftCalibrator = nil;
+    self.eyeRightCalibrator = nil;
+    self.falseHits = nil;
+    self.matlabEngine = nil;
+    self.monitorController = nil;
+    self.name = nil;
+    self.socket = nil;
+    self.stimWindow = nil;
+    self.stateSystem = nil;
+    self.synthDataDevice = nil;
+    self.lastDataCollectionDate = nil;
+    self.settingsController = nil;
+    self.observerKeys = nil;
+    self.host = nil;
     [super dealloc];
 }
 
@@ -82,11 +92,11 @@
                           @"MouseCorrect", @"correct", @"MouseFailed", @"failed", @"MouseWaitForLever", @"fixon",
                           @"MouseLeverDown", @"fixate", @"5C", @"stimon", @"5C", @"stimoff", @"MouseWrong",
                           @"wrong", nil];
-        self.writingDataFile = NO;
-        self.name = @"Unnamed Task PlugIn";
-        self.observerKeys = [[LLObserverKeys alloc] init];
-        self.currentEyesDeg = malloc(2 * sizeof(NSPoint));
-        self.usesGit = NO;
+        _writingDataFile = NO;
+        _name = @"Unnamed Task PlugIn";
+        _observerKeys = [[LLObserverKeys alloc] init];
+        _currentEyesDeg = malloc(2 * sizeof(NSPoint));
+        _usesGit = NO;
    }
     return self;
 }

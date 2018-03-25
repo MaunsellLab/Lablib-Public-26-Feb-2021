@@ -66,9 +66,10 @@ Engine  *pEngine;
 
 - (void)dealloc;
 {
-    [self.launchLock release];
-    [self.commandBuffer release];
-    [self.postBuffer release];
+    self.launchLock = nil;
+    self.commandBuffer = nil;
+    self.controller = nil;
+    self.postBuffer = nil;
     [engineLock release];
     [attrBlack release];
     [attrBlue release];

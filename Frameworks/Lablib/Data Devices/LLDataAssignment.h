@@ -10,11 +10,6 @@ typedef NS_ENUM(unsigned int, LLDataAssignmentType) {kLLSampleData, kLLTimestamp
 
 @interface LLDataAssignment : NSObject {
 
-//    long channel;
-//    long device;
-//    NSString *name;
-//    long type;
-//    long groupIndex;
 }
 
 @property (NS_NONATOMIC_IOSONLY) long channel;

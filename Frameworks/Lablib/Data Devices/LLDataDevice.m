@@ -19,6 +19,7 @@
 {
     [samplePeriodMS release];
     [timestampPeriodMS release];
+    self.controller = nil;
     [super dealloc];
 }
 

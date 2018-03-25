@@ -53,51 +53,6 @@ struct screenMode {
     size_t bitsPerPixel;
 };
 
-//- (CGDisplayModeRef)bestMatchForMode:(DisplayParam *)pDP forDisplayID:(CGDirectDisplayID)displayID;
-//{    
-//    long index;
-//    CGDisplayModeRef mode = NULL;
-//    float bestDifference = FLT_MAX;
-//    
-//// Get a copy of the current display mode
-//    
-//    CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(displayID);
-//    
-//// Loop through all display modes to determine the closest match.
-//// CGDisplayBestModeForParameters is deprecated on 10.6 so we will emulate it's behavior
-//// Try to find a mode with the requested depth and equal or greater dimensions first.
-//// If no match is found, try to find a mode with greater depth and same or greater dimensions.
-//// If still no match is found, just use the current mode.
-//
-//    CFArrayRef allModes = CGDisplayCopyAllDisplayModes(displayID, NULL);
-//    for (index = 0; index < CFArrayGetCount(allModes); index++)    {
-//        mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, index);
-//        if ([self bitsPerPixelForMode:mode] != pDP->pixelBits) {            // must match pixel depth
-//            continue;
-//        }
-//        if ((CGDisplayModeGetWidth(mode) == pDP->widthPix) && (CGDisplayModeGetHeight(mode) == pDP->heightPix)) {
-//            if (CGDisplayModeGetRefreshRate(mode) == pDP->frameRateHz) {
-//                displayMode = mode;
-//                break;
-//            }
-//            else {
-//                if (fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz) < bestDifference) {
-//                    bestDifference = fabs(CGDisplayModeGetRefreshRate(mode) - pDP->frameRateHz);
-//                    displayMode = mode;
-//                }
-//            }
-//        }
-//    }
-//    CFRelease(allModes);
-//    if (displayMode == NULL) {
-//        [LLSystemUtil runAlertPanelWithMessageText:@"LLDisplayPhysical" informativeText:
-//                 [NSString stringWithFormat:@"Could not match requested display mode: %ld bpp (%ld x %ld).",
-//                 pDP->pixelBits, pDP->widthPix, pDP->heightPix]];
-//        exit(0);
-//    }
-//    return displayMode;
-//}
-
 // CGDisplayModeCopyPixelEncoding was deprecated in 10.11,with not alternative listed for finding the pixel depth
 // for displays.  I found the following methods to pull up a dictionary that contains display parameters.  This
 // is currently undocumented by Apple.  JHRM 151125

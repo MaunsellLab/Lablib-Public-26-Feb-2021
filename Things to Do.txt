@@ -1,13 +1,5 @@
-I've converted Lablib to xcconf file support.  Seems a lot more robust.  Took a long time to sort out all the settings
-to get the build right, and then divide them between project configurationa and task configurations.
-
-Currently Knot is putting Lablib and LablibITC18 into its resources.  I've taken all the ITC18 source files out of the
-ITC18 plugin.  That required adding a "main.m" file, but that seem to work OK.  This will undoubtedly cause problems
-on rigs that don't have the ITC libraries, but I can't deal with everything now.  We have different plugins that
-need the ITC18 library, and it seems to make sense to do it this way.
-
-Perhaps in the future Knot xcconf files could include scripts that tested whether the ITC framework is there, and
-didn't try to load it if not. 
+Down the road, we'll want better support for running Knot on machines without ITCs, EyeLinks, Matlab, etc.
+It would be good if this could be handled at run time with some library checks
 
 +++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -16,13 +8,6 @@ Git support:
 2) Each Plugin maintains a folder in /Users/Shared/Data
 3) Each night, the contents of /Users/Shared/Data shoould be copied into a repository on Blur
 4) Later each night, Blur should push the repository to GitHub
-
-+++++++++++++++++++++++++++++++++++++++++++++++
-Upgrade to Lablib to manage distributions better:
-
-Create a Package that can go on Blur for distribution purposes.  It should do the following:
-	Install Knot & DataConvert into /Applications
-	Install baseline Plugins into /Library/Application Support/Knot
 
 _____________________________________________
 ÊEye calibration and stimulus drawing is not tracking offsets of the fixation point.  I believe what is required is for each plugin to look at the position of the fixation point at the start of each trial, and move the eye calibration appropriately.  The stimulus drawing should be following the eye calibration correctly already.

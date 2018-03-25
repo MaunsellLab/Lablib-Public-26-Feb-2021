@@ -10,14 +10,9 @@
 
 @implementation LLDataAssignment
 
-//- (long)channel;
-//{
-//    return channel;
-//}
-//
 - (void)dealloc;
 {
-    [self.name release];
+    self.name = nil;
     [super dealloc];
 }
 
@@ -27,17 +22,7 @@
         [self class], self.name, self.device, self.channel, self.type, self.groupIndex];
 }
 
-//- (long)device;
-//{
-//    return device;
-//}
-//
-//- (long)groupIndex;
-//{
-//    return groupIndex;
-//}
-//
-- (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice 
+- (instancetype)initWithName:(NSString *)theName channel:(long)theChannel device:(long)theDevice
             type:(long)theType groupIndex:(long)index;
 {
     if (self = [super init]) {
@@ -51,11 +36,6 @@
     return self;
 }
 
-//- (NSString *)name;
-//{
-//    return name;
-//}
-//
 - (void)setChannelWithNSNumber:(NSNumber *)newChannel;
 {
     self.channel = newChannel.intValue;
@@ -65,10 +45,5 @@
 {
     self.device = newDevice.intValue;
 }
-
-//- (long)type;
-//{
-//    return type;
-//}
 
 @end

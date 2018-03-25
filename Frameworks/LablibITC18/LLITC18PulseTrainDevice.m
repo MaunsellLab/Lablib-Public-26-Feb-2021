@@ -151,24 +151,26 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 - (instancetype)initWithDataDevice:(LLDataDevice *)theDataDevice;
 {
-    if ((self = [super init]) != nil && theDataDevice != nil) {
-        deviceLock = [[NSLock alloc] init];
-        if (![theDataDevice.name hasPrefix:@"ITC-18"]) {
-            itc = nil;
-        }
-        else {
-            dataDevice = (LLITC18DataDevice *)theDataDevice;   // save for -close
-            itc = dataDevice.itc;
-            dataDevice.itc = nil;                              // clear dataDevice.itc to stop it from using ITC18
-            itcExists = (itc != nil);
-            if (itcExists) {
-                [deviceLock lock];
-                FIFOSize = ITC18_GetFIFOSize(itc);
-                [deviceLock unlock];
+    if ((self = [super init]) != nil) {
+        if (theDataDevice != nil) {
+            deviceLock = [[NSLock alloc] init];
+            if (![theDataDevice.name hasPrefix:@"ITC-18"]) {
+                itc = nil;
             }
+            else {
+                dataDevice = (LLITC18DataDevice *)theDataDevice;   // save for -close
+                itc = dataDevice.itc;
+                dataDevice.itc = nil;                              // clear dataDevice.itc to stop it from using ITC18
+                itcExists = (itc != nil);
+                if (itcExists) {
+                    [deviceLock lock];
+                    FIFOSize = ITC18_GetFIFOSize(itc);
+                    [deviceLock unlock];
+                }
+            }
+            weOwnITC = FALSE;
         }
     }
-    weOwnITC = FALSE;
     return self;
 }
 
@@ -327,6 +329,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
                         pulseValues.length) withBytes:pulseValues.bytes];
         }
     }
+    [pulseValues release];
     
 // If there the gate has a front and back porch, add the porches to the output values
     
@@ -437,6 +440,10 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
         for (index = 0; index < channels; index++) {
             [inputSamples[index] release];                                  // release samples from previous stim cycle
             inputSamples[index] = [[NSData dataWithBytes:channelSamples[index] length:(sets * sizeof(short))] retain];
+        }
+        free(samples);
+        for (index = 0; index < channels; index++) {
+            free(channelSamples[index]);
         }
         samplesReady = YES;                                                 // flag that the input is all read in
     }

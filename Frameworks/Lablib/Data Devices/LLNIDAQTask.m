@@ -158,7 +158,7 @@ static long nextTaskID = 0;         // class variable to persist across all inst
     [channelNames release];
     [channelMaxV release];
     [channelMinV release];
-    [self.socket release];
+    self.socket = nil;
     [super dealloc];
 }
 

@@ -31,8 +31,7 @@ typedef uint32_t *NIDAQTask;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL createAOTask;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL createDOTask;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL deleteTask;
-@property (NS_NONATOMIC_IOSONLY, readonly) LLSockets *socket;
-
+@property (NS_NONATOMIC_IOSONLY, retain) LLSockets *socket;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL start;
 @property (NS_NONATOMIC_IOSONLY, readonly) BOOL stop;
 

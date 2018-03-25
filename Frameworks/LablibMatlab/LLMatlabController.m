@@ -176,6 +176,8 @@
     [matFileName release];
     [matlabScriptCommand release];
     [matlabInitScriptCommand release];
+    self.subjectData = nil;
+    self.subjectTime = nil;
     [super dealloc];
 }
 

@@ -207,15 +207,15 @@ LLTaskPlugIn    *task = nil;
 - (void)dealloc;
 {
     while (self.stateSystem.running) {};        // wait for state system to stop, then release it
-    [self.stateSystem release];
+    self.stateSystem = nil;
     
     [actionsMenuItem release];
     [settingsMenuItem release];
     
     [scheduler release];
-    [self.controlPanel release];
+    self.controlPanel = nil;
     [topLevelObjects release];
-    [self.settingsController release];
+    self.settingsController = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self]; 
 
@@ -291,8 +291,8 @@ LLTaskPlugIn    *task = nil;
 
     taskStatus = [[LLTaskStatus alloc] init];
     taskStatus.mode = kTaskIdle;
-    self.settingsController =
-                [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"FT"];
+    task.settingsController =
+                [[[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"FT"] autorelease];
 
 // Load the items in the nib
 
@@ -306,7 +306,7 @@ LLTaskPlugIn    *task = nil;
 
 // Set up control panel and observer for control panel
 
-    self.controlPanel = [[LLControlPanel alloc] init];
+    task.controlPanel = [[LLControlPanel alloc] init];
     self.controlPanel.windowFrameAutosaveName = @"FTControlPanel";
     [self.controlPanel.window setFrameUsingName:@"FTControlPanel"];
     self.controlPanel.window.title = @"Fixate";

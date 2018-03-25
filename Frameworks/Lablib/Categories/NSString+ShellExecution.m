@@ -11,14 +11,16 @@
 
 -(NSString *)runAsCommand;
 {
-    NSPipe *pipe = [NSPipe pipe];
+    NSTask *task;
+    NSFileHandle *file;
+    NSPipe *pipe;
 
-    NSTask *task = [[NSTask alloc] init];
+    task = [[NSTask alloc] init];
+    pipe = [NSPipe pipe];
     [task setLaunchPath: @"/bin/sh"];
     [task setArguments:@[@"-c", [NSString stringWithFormat:@"%@", self]]];
     [task setStandardOutput:pipe];
-
-    NSFileHandle *file = [pipe fileHandleForReading];
+    file = [pipe fileHandleForReading];
     [task launch];
 
     return [[[NSString alloc] initWithData:[file readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];

@@ -268,11 +268,11 @@ LLTaskPlugIn    *task = nil;
 {
     while (self.stateSystem.running) {};        // wait for state system to stop, then release it
     [task.self.dataDoc removeObserver:self.stateSystem];
-    [self.stateSystem release];
+    self.stateSystem = nil;
     [actionsMenuItem release];
     [settingsMenuItem release];
     [scheduler release];
-    [self.controlPanel release];
+    self.controlPanel = nil;
     [taskStatus release];
     [topLevelObjects release];
     
@@ -439,8 +439,8 @@ LLTaskPlugIn    *task = nil;
     LLMultiplierTransformer *transformer;
     
     task = self;
-    self.settingsController =
-                [[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"RF"];
+    task.settingsController =
+        [[[LLSettingsController alloc] initForPlugin:[NSBundle bundleForClass:[self class]] prefix:@"RF"] autorelease];
 
 // Set up the value transformers that are needed for some of the key bindings
 
@@ -463,14 +463,14 @@ LLTaskPlugIn    *task = nil;
 // Initialize other task objects
 
     scheduler = [[LLScheduleController alloc] init];
-    self.stateSystem = [[RFStateSystem alloc] init];
+    task.stateSystem = [[RFStateSystem alloc] init];
 
 // Set up control panel and observer for control panel
 
-    self.controlPanel = [[LLControlPanel alloc] init];
-    [self.controlPanel.window setFrameUsingName:@"RFControlPanel"];
-    self.controlPanel.windowFrameAutosaveName = @"RFControlPanel";
-    [self.controlPanel.window setTitle:NSLocalizedString(@"RFMap", nil)];
+    task.controlPanel = [[LLControlPanel alloc] init];
+    [task.controlPanel.window setFrameUsingName:@"RFControlPanel"];
+    task.controlPanel.windowFrameAutosaveName = @"RFControlPanel";
+    [task.controlPanel.window setTitle:NSLocalizedString(@"RFMap", nil)];
     [[NSNotificationCenter defaultCenter] addObserver:self 
         selector:@selector(doControls:) name:nil object:self.controlPanel];
 }
@@ -506,15 +506,15 @@ LLTaskPlugIn    *task = nil;
     [task.self.dataDoc putEvent:@"taskMode" withData:&newMode];
     switch (taskStatus.mode) {
         case kTaskRunning:
-            runStopMenuItem.title = @"Stop";
+            runStopMenuItem.title = NSLocalizedString(@"Stop", @"Stop");
             runStopMenuItem.keyEquivalent = @".";
             break;
         case kTaskStopping:
-            runStopMenuItem.title = @"Stop Now";
+            runStopMenuItem.title = NSLocalizedString(@"Stop Now", @"Stop Now");
             runStopMenuItem.keyEquivalent = @".";
             break;
         case kTaskIdle:
-            runStopMenuItem.title = @"Run";
+            runStopMenuItem.title = NSLocalizedString(@"Run", @"Run");
             runStopMenuItem.keyEquivalent = @"r";
             break;
         default:

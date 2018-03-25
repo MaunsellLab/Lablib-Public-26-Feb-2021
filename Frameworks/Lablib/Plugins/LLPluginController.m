@@ -24,9 +24,9 @@ NSString *pluginDisableKey = @"LLPluginDisable";
 - (void)dealloc;
 {
     [defaults release];
-    [self.loadedPlugins release];
     [validTaskPlugins release];
     [enabled release];
+    self.loadedPlugins = nil;
     [super dealloc];
 }
 
@@ -40,9 +40,9 @@ NSString *pluginDisableKey = @"LLPluginDisable";
     if ((self =  [super initWithWindowNibName:@"LLPluginController"]) != nil) {
         defaults = theDefaults;
         [defaults retain];
-        validTaskPlugins = [[NSMutableArray alloc] init];
-        self.loadedPlugins = [[NSMutableArray alloc] init];
         enabled = [[NSMutableArray alloc] init];
+        validTaskPlugins = [[NSMutableArray alloc] init];
+        _loadedPlugins = [[NSMutableArray alloc] init];
     }
     return self;
 }

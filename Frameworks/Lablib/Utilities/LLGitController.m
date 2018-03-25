@@ -20,6 +20,7 @@
     NSString *output;
 
     output = [[NSString stringWithFormat:@"%@ add .", self.commandPreamble] runAsCommand];    // add without deleting
+    NSLog(@"%@", output);
 }
 
 - (void)commit;
@@ -31,6 +32,12 @@
     output = [[NSString stringWithFormat:@"%@ commit -m \"Lablib Commit %@\"", self.commandPreamble, dateTime]
               runAsCommand];
     NSLog(@"%@", output);
+}
+
+- (oneway void)dealloc;
+{
+    self.commandPreamble = nil;
+    [super dealloc];
 }
 
 - (NSString *)status:(NSString *)taskName;

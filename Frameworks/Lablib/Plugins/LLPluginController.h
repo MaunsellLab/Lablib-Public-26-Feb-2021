@@ -18,7 +18,6 @@
    
     NSUserDefaults            *defaults;
     NSMutableArray            *enabled;
-//    NSMutableArray            *loadedPlugins;
     NSMutableArray            *validTaskPlugins;
 
     IBOutlet NSTableView    *pluginTable;

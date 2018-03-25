@@ -12,11 +12,12 @@
 
 - (instancetype)init;
 {
-    if ((self = [super init]) != nil)
+    if ((self = [super init]) != nil) {
         _preDelayMS =  _preRampMS = _preDurationMS = _prePowerMW = 0.0;         // can't use self safely yet
         _pulseRampMS = _pulseDurationMS = _pulsePowerMW = 0.0;
         _postRampMS = _postDurationMS = _postPowerMW = 0.0;
         _endRampMS = _endPowerMW = 0.0;
+    }
     return self;
 }
 

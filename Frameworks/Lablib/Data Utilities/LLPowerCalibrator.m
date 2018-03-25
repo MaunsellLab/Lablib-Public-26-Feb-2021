@@ -86,8 +86,8 @@
             if (strEnd1 != c) {
                 f2 = strtof(strEnd1, &strEnd2);
                 if (strEnd1 != strEnd2) {                   // found two valid floating point numbers
-                    volts[index] = f1;
-                    mWatts[index] = f2;
+                    volts[entries] = f1;
+                    mWatts[entries] = f2;
                     entries++;
                 }
             }

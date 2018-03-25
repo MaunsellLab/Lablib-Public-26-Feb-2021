@@ -48,14 +48,14 @@
 
 - (void)dealloc;
 {
-    [self.observerLock release];
+    self.observerLock = nil;
     [super dealloc];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     if (self = [super init]) {
-        self.observerLock = [[NSLock alloc] init];
+        _observerLock = [[NSLock alloc] init];
     }
     return self;
 }

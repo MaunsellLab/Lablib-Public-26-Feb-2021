@@ -535,16 +535,14 @@ static long    ITCCount = 0;
         else {
             USB18 = interfaceCodes[code] == USB18_CL;
             self.devicePresent = YES;                        // successful initialization
+            NSLog(@"LLITC18DataDevice: succeeded initialize device %ld using code %ld",
+                  devNum, devNum | interfaceCodes[code]);
             break;
         }
     }
     if (!self.devicePresent) {
         free(itc);
         itc = nil;
-    }
-    else {
-        NSLog(@"LLITC18DataDevice: succeeded initialize device %ld using code %ld",
-                    devNum, devNum | interfaceCodes[code]);
     }
     [deviceLock unlock];
     return self.devicePresent;

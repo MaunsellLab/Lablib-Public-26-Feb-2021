@@ -400,8 +400,9 @@ char *idString = "Knot Version 2.2";
 - (void) dealloc;
 {
     [defaults release];
+    self.currentDataKey = nil;
+    self.gitController = nil;
     [super dealloc];
-    NSLog(@"Knot dealloc is done");
 }
 
 - (IBAction)doAO0CalibrationBrowse:(id)sender;
@@ -520,7 +521,7 @@ char *idString = "Knot Version 2.2";
     transformer = [[[LLTaskStatusTransformer alloc] init] autorelease];
     [transformer setTransformerType:kLLTaskStatusNoFile];
     [NSValueTransformer setValueTransformer:transformer forName:@"TaskStatusNoFileTransformer"];
-    self.gitController = [[LLGitController alloc] init];
+    _gitController = [[LLGitController alloc] init];
     return self;
 }
 
