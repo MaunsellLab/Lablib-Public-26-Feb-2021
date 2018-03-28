@@ -244,7 +244,7 @@
 		69B6B22D206347F40091C4EA /* LLBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B6B212206347F30091C4EA /* LLBar.xib */; };
 		69B6B22E206347F40091C4EA /* LLControlPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B6B213206347F30091C4EA /* LLControlPanel.xib */; };
 		69B6B232206349050091C4EA /* NSString+ShellExecution.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B6B230206349050091C4EA /* NSString+ShellExecution.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69B6B233206349050091C4EA /* NSString+ShellExecution.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B6B231206349050091C4EA /* NSString+ShellExecution.m */; };
+		69B6B233206349050091C4EA /* NSString+ShellExecution.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B6B231206349050091C4EA /* NSString+ShellExecution.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		69B6B23B20634A160091C4EA /* LLDisplayPhysical.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B6B23520634A150091C4EA /* LLDisplayPhysical.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B6B23C20634A160091C4EA /* LLDisplays.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B6B23620634A150091C4EA /* LLDisplays.m */; };
 		69B6B23D20634A160091C4EA /* LLDisplayUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B6B23720634A150091C4EA /* LLDisplayUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -548,17 +548,17 @@
 		0867D691FE84028FC02AAC07 /* Lablib Framework */ = {
 			isa = PBXGroup;
 			children = (
-				69C895CB03E8275C00A80164 /* Notes.txt */,
-				69B81617045E1B7300A80164 /* Things to Do.txt */,
-				69B6B1F6206347630091C4EA /* Info-Lablib.plist */,
-				6970BC271F9508170058CE60 /* External Configurations */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
+				6970BC271F9508170058CE60 /* External Configurations */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
+				32C88DFF0371C24200C91783 /* Headers */,
+				69B6B1F6206347630091C4EA /* Info-Lablib.plist */,
+				69C895CB03E8275C00A80164 /* Notes.txt */,
+				69B6B1E5206347310091C4EA /* Plists */,
+				034768DFFF38A50411DB9C8B /* Products */,
 				69B6B1C1206345760091C4EA /* Protocols */,
 				69B6B1F8206347F30091C4EA /* Resources */,
-				32C88DFF0371C24200C91783 /* Headers */,
-				69B6B1E5206347310091C4EA /* Plists */,
-				0867D69AFE84028FC02AAC07 /* Frameworks */,
-				034768DFFF38A50411DB9C8B /* Products */,
+				69B81617045E1B7300A80164 /* Things to Do.txt */,
 			);
 			name = "Lablib Framework";
 			sourceTree = "<group>";
@@ -1188,6 +1188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69B6B233206349050091C4EA /* NSString+ShellExecution.m in Sources */,
 				69B6B0CD20632F490091C4EA /* LLScheduleController.m in Sources */,
 				6999638F205DB9220094B012 /* LLPulseProfile.m in Sources */,
 				69B6B1B7206344B40091C4EA /* LLVisualStimulus.m in Sources */,
@@ -1275,7 +1276,6 @@
 				69B6B0BB20632F490091C4EA /* LLSockets.m in Sources */,
 				69B6B0FA206331900091C4EA /* LLBinomDist.m in Sources */,
 				69B6B12D206332530091C4EA /* LLTrialBlock.m in Sources */,
-				69B6B233206349050091C4EA /* NSString+ShellExecution.m in Sources */,
 				69B6B137206332530091C4EA /* LLSVDSolver.m in Sources */,
 				69B6B139206332530091C4EA /* LLSmoothHist.m in Sources */,
 				69996386205DB8400094B012 /* LLStimulusTrain.m in Sources */,
