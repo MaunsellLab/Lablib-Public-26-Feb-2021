@@ -51,7 +51,6 @@
 #define LJU6_COUNTER_FIO        6
 #define LJU6_STROBE_FIO         7           // Strobe bit for digital output on EIO and CIO
 
-
 typedef struct libusb_device_handle libusb_device_handle;
 
 extern int libusb_reset_device(libusb_device_handle *dev);
@@ -500,6 +499,7 @@ long ELTrialStartTimeMS;
 - (BOOL)readLeverDI:(BOOL *)outLever1 lever2:(BOOL *)outLever2;
 {
     BOOL lever1State, lever2State;
+    long result;
     unsigned int fioState = 0L;
     unsigned int eioState = 0L;
     unsigned int cioState = 0L;
@@ -515,10 +515,11 @@ long ELTrialStartTimeMS;
     
     [deviceLock lock];
     startTimeS = [LLSystemUtil getTimeS];
-    if ([self ljU6ReadPorts:&fioState EIOState:&eioState CIOState:&cioState] < 0) {
+    result = [self ljU6ReadPorts:&fioState EIOState:&eioState CIOState:&cioState];
+    if (result < 0) {
         [deviceLock unlock];
-        NSLog(@"LabJackDataDevice readLeverDI: error reading DI, stopping IO ");
-        self.dataEnabled = NO;  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
+        NSLog(@"LabJackDataDevice -readLeverDI: error reading DI: received %ld", result);
+//        self.dataEnabled = NO;  // USB errors causing this, and the U6 isn't working anyway, so stop the threads
         return NO;
     }
     elapsedTimeS = [LLSystemUtil getTimeS] - startTimeS;
@@ -538,7 +539,6 @@ long ELTrialStartTimeMS;
     [self debounceState:&lever2State lastState:&lastLever2State lastTimeS:&lastLever2TransitionTimeS];
     *outLever1 = lever1State;
     *outLever2 = lever2State;
-//    [deviceLock unlock];
     return(YES);
 }
 
@@ -635,8 +635,6 @@ long ELTrialStartTimeMS;
 
 - (void)setDataEnabled:(BOOL)state;
 {
-//    long maxSamplingRateHz = 1000;
-    
     if (ljHandle == NULL) {
         return;
     }
@@ -647,11 +645,10 @@ long ELTrialStartTimeMS;
             shouldKillPolling = NO;
             [NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
         }
-        _dataEnabled = YES;
+        self.dataEnabled = YES;
         [deviceLock unlock];
     } 
-    else if (!state && self.dataEnabled) {                    // toggle from ON to OFF
-                                                                    //        [deviceLock lock]; // shouldn't need to lock -- just setting flag.
+    else if (!state && self.dataEnabled) {                  // toggle from ON to OFF
         shouldKillPolling = YES;
         while (pollThread != nil) {
             usleep(100);
@@ -660,7 +657,7 @@ long ELTrialStartTimeMS;
         lastReadDataTimeS = 0;
         values.sequences = 1;
         [monitor sequenceValues:values];
-        _dataEnabled = NO;
+        self.dataEnabled = NO;
     }
 }
 

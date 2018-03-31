@@ -341,11 +341,11 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             sPtr += channels;                            // skip over analog values
             *(sPtr)++ = gateBits;                        // set the gate bits
         }
-        [trainValues appendData:porchValues];             // stim train, back porch
+        [trainValues appendData:porchValues];            // stim train, back porch
         [porchValues appendData:trainValues];            // front porch, stim train, back porch
-        [trainValues release];                            // release unneeded data
-        trainValues = porchValues;                        // make trainValues point to the whole set
-        bufferLength += 2 * porchBufferLength;            // tally the buffer length with both porches
+        [trainValues release];                           // release unneeded data
+        trainValues = porchValues;                       // make trainValues point to the whole set
+        bufferLength += 2 * porchBufferLength;           // tally the buffer length with both porches
     }
     
 // Make the last digital output word in the buffer close the gate (0x00)
