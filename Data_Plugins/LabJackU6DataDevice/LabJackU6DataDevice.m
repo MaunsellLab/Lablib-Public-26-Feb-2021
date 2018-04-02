@@ -645,7 +645,7 @@ long ELTrialStartTimeMS;
             shouldKillPolling = NO;
             [NSThread detachNewThreadSelector:@selector(pollSamples) toTarget:self withObject:nil];
         }
-        self.dataEnabled = YES;
+        _dataEnabled = YES;
         [deviceLock unlock];
     } 
     else if (!state && self.dataEnabled) {                  // toggle from ON to OFF
@@ -657,7 +657,7 @@ long ELTrialStartTimeMS;
         lastReadDataTimeS = 0;
         values.sequences = 1;
         [monitor sequenceValues:values];
-        self.dataEnabled = NO;
+        _dataEnabled = NO;
     }
 }
 
