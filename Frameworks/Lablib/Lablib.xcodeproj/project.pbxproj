@@ -548,12 +548,12 @@
 		0867D691FE84028FC02AAC07 /* Lablib Framework */ = {
 			isa = PBXGroup;
 			children = (
+				69C895CB03E8275C00A80164 /* Notes.txt */,
+				69B6B1F6206347630091C4EA /* Info-Lablib.plist */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				6970BC271F9508170058CE60 /* External Configurations */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				32C88DFF0371C24200C91783 /* Headers */,
-				69B6B1F6206347630091C4EA /* Info-Lablib.plist */,
-				69C895CB03E8275C00A80164 /* Notes.txt */,
 				69B6B1E5206347310091C4EA /* Plists */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				69B6B1C1206345760091C4EA /* Protocols */,
