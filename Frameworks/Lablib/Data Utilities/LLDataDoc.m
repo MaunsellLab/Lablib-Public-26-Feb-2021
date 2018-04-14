@@ -368,14 +368,10 @@ This variant accepts only events definitions that include data definitions.
     NSNumber *eventTime;
     LLDataEventDef *eventDef;
     id anObserver;
-//    NSAutoreleasePool *threadPool;
-//    NSDate *nextRelease;
     SEL methodSelector;
 
 // Initialize and get the start time for this schedule
 
-//    threadPool = [[NSAutoreleasePool alloc] init];
-//    nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
     @autoreleasepool {
         for (; data != nil; ) {
             [eventLock lock];                                            // Lock before check starts
@@ -434,12 +430,14 @@ This variant accepts only events definitions that include data definitions.
                 // Dispatch the event to all observers that accept it
 
                 methodSelector = NSSelectorFromString([NSString stringWithFormat:@"%@:eventTime:", [eventDef name]]);
+                [observerLock lock];
                 for (obs = 0; obs < observerArray.count; obs++) {
                     anObserver = observerArray[obs];
                     if ([anObserver respondsToSelector:methodSelector]) {
                         [anObserver performSelector:methodSelector withObject:eventData withObject:eventTime];
                     }
                 }
+                [observerLock unlock];
 
     // Clean up this event, then go look for more
 
@@ -453,17 +451,9 @@ This variant accepts only events definitions that include data definitions.
                 }
                 [eventLock unlock];
                 [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
-//                if (nextRelease.timeIntervalSinceNow < 0.0) {
-//                    [nextRelease release];
-//                    nextRelease = [[NSDate alloc] initWithTimeIntervalSinceNow:kLLAutoreleaseIntervalS];
-//                    [threadPool release];
-//                    threadPool = [[NSAutoreleasePool alloc] init];
-//                }
             }
         }
     }
-//    [nextRelease release];
-//    [threadPool release];
 }
 
 - (NSString *)fileName { 

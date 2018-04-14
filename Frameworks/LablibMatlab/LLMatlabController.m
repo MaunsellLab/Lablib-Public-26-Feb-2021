@@ -161,7 +161,7 @@
         [self saveMatlabWorkspace];
         [engine evalString:@"clear all; close all;"];
         [task.dataDoc removeObserver:self];
-        sleep(0.2);
+        sleep(0.1);
     }
     free(trialEventCounts);
     [bundledEvents release];
