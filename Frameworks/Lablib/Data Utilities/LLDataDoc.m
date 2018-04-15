@@ -375,11 +375,11 @@ This variant accepts only events definitions that include data definitions.
     @autoreleasepool {
         for (; data != nil; ) {
             [eventLock lock];                                            // Lock before check starts
-            if (lastRead < data.length) {                                // Undispatched event?
+            if (lastRead < data.length) {                                // undispatched events?
 
-    // Get the event code from the buffer
+    // get the event code from the buffer
 
-                numEvents = eventDict.count;                            // Get event code
+                numEvents = eventDict.count;                            // get event code
                 if (numEvents < 0x100) {
                     [self getEventBytes:(void *)&charCode length:sizeof(charCode)];
                     eventCode = charCode;
@@ -392,7 +392,7 @@ This variant accepts only events definitions that include data definitions.
                     [self getEventBytes:(void *)&eventCode length:sizeof(eventCode)];
                 }
 
-    // Use the code to get the description of the event (name, number of bytes)
+    // use the code to get the description of the event (name, number of bytes)
 
                 eventDef = eventsByCode[eventCode];
                 if ([eventDef code] != eventCode) {
@@ -402,7 +402,7 @@ This variant accepts only events definitions that include data definitions.
                     exit(0);
                 }
 
-    // Get the event data from the buffer, if this event has data
+    // get the event has data, read it from the buffer
 
                 dataBytes = [eventDef dataBytes];
                 if (dataBytes == 0) {
@@ -410,9 +410,9 @@ This variant accepts only events definitions that include data definitions.
                 }
                 else {
                     if (dataBytes > 0) {
-                        numBytes = dataBytes;                            // Fixed length data, get length
+                        numBytes = dataBytes;                            // fixed length data, get length
                     }
-                    else {                                                // Variable length data, get length
+                    else {                                               // negative means length data, get length
                         [self getEventBytes:(void *)&numBytes length:sizeof(unsigned long)];
                     }
                     eventData = [data subdataWithRange:NSMakeRange(lastRead, numBytes)];
@@ -425,7 +425,7 @@ This variant accepts only events definitions that include data definitions.
                 [self getEventBytes:&eTime length:sizeof(unsigned long)];
                 eventTime = @(eTime);
                 [eventTime retain];
-                [eventLock unlock];                                        // Free lock while we dispatch data bytes
+                [eventLock unlock];                                        // free buffer while we dispatch data bytes
 
                 // Dispatch the event to all observers that accept it
 
@@ -444,10 +444,10 @@ This variant accepts only events definitions that include data definitions.
                 [eventTime release];
                 [eventData release];
             }
-            else {                                                        // No events left, sleep
-                if (!retainEvents) {                                    // If we're not retaining events, clear the buffer
-                    data.length = 0;                                 // Not safe to use clearEvents, because events
-                    lastRead = data.length;                           // might get posted between the unlock and lock.
+            else {                                                  // no events unread, sleep
+                if (!retainEvents) {                                // if we're not retaining events, clear the buffer
+                    data.length = 0;                                // not safe to use clearEvents, because events
+                    lastRead = data.length;                         //   might get posted between the unlock and lock.
                 }
                 [eventLock unlock];
                 [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.025]];
@@ -533,7 +533,7 @@ This variant accepts only events definitions that include data definitions.
     return eventDict.count;
 }
 
-- (void) putEvent:(NSString *)eventKey;
+- (void)putEvent:(NSString *)eventKey;
 {
     LLDataEventDef *eventDef;
 
@@ -556,7 +556,7 @@ This variant accepts only events definitions that include data definitions.
     [self eventToBuffer:[eventDef code] dataPtr:(char *)NULL bytes:0 writeLength:NO];
 }
 
-- (void) putEvent:(NSString *)eventKey withData:(void *)pData;
+- (void)putEvent:(NSString *)eventKey withData:(void *)pData;
 {
     LLDataEventDef *eventDef;
     long dataBytes;
