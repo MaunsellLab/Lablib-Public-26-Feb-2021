@@ -446,33 +446,33 @@ static PrintView    *printView;
     [eventView setNeedsDisplay:YES];
 }
 
-- (void)printShowingPrintPanel:(BOOL)flag
-{
-    NSPrintInfo *printInfo = self.printInfo;
-    NSPrintOperation *printOp;
-    NSPrintPanel *printPanel;
-    
-    printView = [[PrintView alloc] initWithInfo:self printInfo:printInfo];
-    switch (printMode) {
-    case kPrintHex:
-        [printView printableLines:hexTextLines];
-        break;
-    case kPrintEvents:
-    default:
-        [printView printableLines:dataReader.enabledEventsInFile];
-        break;
-    }
-    printOp = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
-    printPanel = [NSPrintPanel printPanel];
-     //    [printOp setAccessoryView:printSelectPanel];
-     //  [printPanel addAccessoryController:printSelectPanel];
-    printOp.printPanel = printPanel;
-    printOp.showsPrintPanel = flag;
-    printOp.showsProgressPanel = flag;
-    [printOp runOperation];
-    [printView release];
-}
-
+//- (void)printShowingPrintPanel:(BOOL)flag
+//{
+//    NSPrintInfo *printInfo = self.printInfo;
+//    NSPrintOperation *printOp;
+//    NSPrintPanel *printPanel;
+//    
+//    printView = [[PrintView alloc] initWithInfo:self printInfo:printInfo];
+//    switch (printMode) {
+//    case kPrintHex:
+//        [printView printableLines:hexTextLines];
+//        break;
+//    case kPrintEvents:
+//    default:
+//        [printView printableLines:dataReader.enabledEventsInFile];
+//        break;
+//    }
+//    printOp = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
+//    printPanel = [NSPrintPanel printPanel];
+//     //    [printOp setAccessoryView:printSelectPanel];
+//     //  [printPanel addAccessoryController:printSelectPanel];
+//    printOp.printPanel = printPanel;
+//    printOp.showsPrintPanel = flag;
+//    printOp.showsProgressPanel = flag;
+//    [printOp runOperation];
+//    [printView release];
+//}
+//
 - (IBAction)printSelectType:(id)sender 
 {
     printMode = [sender selectedRow];

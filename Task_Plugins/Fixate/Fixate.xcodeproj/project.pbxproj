@@ -265,7 +265,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 			};
 			buildConfigurationList = 69B8D113088DABA8002FCFD4 /* Build configuration list for PBXProject "Fixate" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -374,6 +374,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
@@ -385,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
@@ -396,6 +398,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CC71F954C9000C6527B /* AllTaskPlugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = FT_Prefix.h;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.fixate;
@@ -407,6 +410,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Development;
 		};
@@ -414,6 +419,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Deployment;
 		};
@@ -421,6 +428,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CC51F954C5B00C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Default;
 		};

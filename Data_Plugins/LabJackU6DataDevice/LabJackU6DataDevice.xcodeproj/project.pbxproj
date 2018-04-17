@@ -202,7 +202,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LabJackU6DataDevice" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -284,6 +284,8 @@
 			baseConfigurationReference = 6970BC3A1F9523810058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Development;
 		};
@@ -292,6 +294,8 @@
 			baseConfigurationReference = 6970BC3A1F9523810058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Deployment;
 		};
@@ -300,6 +304,8 @@
 			baseConfigurationReference = 6970BC3A1F9523810058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Default;
 		};
@@ -307,6 +313,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6970BC3C1F95238B0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = LabJackU6_Prefix.h;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LabJackU6DataDevice;
@@ -318,6 +325,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6970BC3C1F95238B0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = LabJackU6_Prefix.h;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LabJackU6DataDevice;
@@ -329,6 +337,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6970BC3C1F95238B0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = LabJackU6_Prefix.h;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LabJackU6DataDevice;

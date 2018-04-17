@@ -395,7 +395,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				TargetAttributes = {
 					69F36A7205670A9A009AED51 = {
 						DevelopmentTeam = E54G4AFC7H;
@@ -554,6 +554,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
@@ -565,6 +566,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
@@ -576,6 +578,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 697BCA201F9A7DE2005DE82A /* AllAppsNoMatlab.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
@@ -587,6 +590,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
@@ -598,6 +602,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
@@ -609,6 +614,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.knot;
@@ -621,6 +627,8 @@
 			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Development;
 		};
@@ -629,6 +637,8 @@
 			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Deployment;
 		};
@@ -637,6 +647,8 @@
 			baseConfigurationReference = 696A9CD61F9552A800C6527B /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Default;
 		};

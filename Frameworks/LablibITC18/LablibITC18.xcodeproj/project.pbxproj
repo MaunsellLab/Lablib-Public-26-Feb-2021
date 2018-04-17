@@ -278,7 +278,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibITC18" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -398,6 +398,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 699DE0651F993B56000FD3C9 /* FrameworkITC18.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Development;
 		};
@@ -405,6 +406,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 699DE0651F993B56000FD3C9 /* FrameworkITC18.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Deployment;
 		};
@@ -412,6 +414,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 699DE0651F993B56000FD3C9 /* FrameworkITC18.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Default;
 		};
@@ -420,6 +423,8 @@
 			baseConfigurationReference = 6970BC301F951D520058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Development;
 		};
@@ -428,6 +433,8 @@
 			baseConfigurationReference = 6970BC301F951D520058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Deployment;
 		};
@@ -436,6 +443,8 @@
 			baseConfigurationReference = 6970BC301F951D520058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 			};
 			name = Default;
 		};
@@ -443,6 +452,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					/Library/Frameworks,
@@ -455,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					/Library/Frameworks,
@@ -467,6 +478,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69AB36161F94107000E7DA2F /* Plugin.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					/Library/Frameworks,
