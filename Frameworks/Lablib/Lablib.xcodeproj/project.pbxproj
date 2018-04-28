@@ -1108,7 +1108,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				TargetAttributes = {
 					69F36CA50567EA35009AED51 = {
 						ProvisioningStyle = Automatic;
@@ -1297,6 +1297,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69AB36191F94154300E7DA2F /* Development.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Development;
 		};
@@ -1304,6 +1305,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69AB36191F94154300E7DA2F /* Development.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Deployment;
 		};
@@ -1311,6 +1313,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69AB36191F94154300E7DA2F /* Development.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Default;
 		};
@@ -1319,6 +1322,8 @@
 			baseConfigurationReference = 6970BC281F9508410058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				OBJROOT = "";
 				SYMROOT = "";
 			};
@@ -1329,6 +1334,8 @@
 			baseConfigurationReference = 6970BC281F9508410058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				OBJROOT = "";
 				SYMROOT = "";
 			};
@@ -1339,6 +1346,8 @@
 			baseConfigurationReference = 6970BC281F9508410058CE60 /* AllProjects.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				OBJROOT = "";
 				SYMROOT = "";
 			};
