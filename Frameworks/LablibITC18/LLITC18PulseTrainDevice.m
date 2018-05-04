@@ -36,6 +36,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
         }
         else {
             ITC18_StopAndInitialize(itc, YES, YES); // critical to return ITC18 in a clean state
+            dataDevice.itc = itc;                   // restore dataDevice.itc to allow access to ITC18
         }
         itc = nil;                                  // clear our pointer, not any LLITC18DataDevice pointer
         [deviceLock unlock];
@@ -127,7 +128,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // ITC-18 latching is not the same thing as edge triggering.  A short pulse will produce a positive
 // value at the next read, but a steady level can also produce a series of positive values.
 
-- (instancetype)init;
+- (id)init;
 {
     if ((self = [super init]) != nil) {
         [self doInitializationWithDevice:0];
@@ -135,7 +136,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     return self;
 }
 
-- (instancetype)initWithDevice:(long)numDevice;
+- (id)initWithDevice:(long)numDevice;
 {
     if ((self = [super init]) != nil) {
         [self doInitializationWithDevice:numDevice];
@@ -149,7 +150,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // pointer to nil insures that it will not take any action on the ITC18 while we control it.  We restore the
 // LLDataDevice pointer in our -close method.
 
-- (instancetype)initWithDataDevice:(LLDataDevice *)theDataDevice;
+- (id)initWithDataDevice:(LLDataDevice *)theDataDevice;
 {
     if ((self = [super init]) != nil) {
         if (theDataDevice != nil) {
