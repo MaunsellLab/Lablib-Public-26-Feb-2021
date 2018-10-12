@@ -17,6 +17,7 @@ COPY_PHASE_STRIP = NO
 // Linking
 // Packaging
 // Search Paths
+ALWAYS_SEARCH_USER_PATHS = NO
 HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
 FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
 // Signing

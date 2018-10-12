@@ -149,8 +149,8 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"LLHistView (%lx) hidden: %d dataLength: %ld origin (%f,%f) width %f height %f",
-                (unsigned long)&self, hidden, dataLength, _frame.origin.x, _frame.origin.y,
-                _frame.size.width, _frame.size.height];
+                (unsigned long)&self, hidden, dataLength, self.frame.origin.x, self.frame.origin.y,
+                self.frame.size.width, self.frame.size.height];
 }
 
 - (void)disableAll;
