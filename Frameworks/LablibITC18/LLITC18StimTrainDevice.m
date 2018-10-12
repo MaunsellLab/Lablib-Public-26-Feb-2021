@@ -274,7 +274,6 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 	return YES;
 }
 
-
 - (void)stimulate {
 
 	if (itcExists) {
