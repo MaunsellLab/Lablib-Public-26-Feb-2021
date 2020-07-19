@@ -13,7 +13,7 @@ PRODUCT_BUNDLE_IDENTIFIER = lablib.lablibITC18
 PRODUCT_NAME = LablibITC18
 WRAPPER_EXTENSION = plugin
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
+FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS) /Library/Frameworks /Users/Shared/Lablib/Lablib-Core/Frameworks/Lablib/build/Development
 // Signing
 // Testing
 // Text-Based API

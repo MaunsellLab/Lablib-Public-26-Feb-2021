@@ -13,23 +13,17 @@
 		69FAC4341FD35FF500148EB1 /* LLEyeLinkMonitorSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69FAC4321FD35FF500148EB1 /* LLEyeLinkMonitorSettings.xib */; };
 		69FAC4381FD3603F00148EB1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 69FAC4361FD3603E00148EB1 /* InfoPlist.strings */; };
 		FC0ED5220CA067EA00BE2453 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		FC0ED5260CA067EA00BE2453 /* LLEyeLinkDataDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC0ED4640CA064BC00BE2453 /* LLEyeLinkDataDevice.h */; };
-		FC4059810CD6669100F2E428 /* LLEyeLinkMonitor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC4059800CD6669100F2E428 /* LLEyeLinkMonitor.h */; };
 		FC40598E0CD666E300F2E428 /* LLEyeLinkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = FC40598D0CD666E300F2E428 /* LLEyeLinkMonitor.m */; };
-		FC4059990CD6682F00F2E428 /* LLEyeLinkMonitorSettings.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC4059980CD6682F00F2E428 /* LLEyeLinkMonitorSettings.h */; };
 		FC4059A00CD6687000F2E428 /* LLEyeLinkMonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = FC40599F0CD6687000F2E428 /* LLEyeLinkMonitorSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		FC0ED5240CA067EA00BE2453 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolderSpec = 16;
 			files = (
-				FC0ED5260CA067EA00BE2453 /* LLEyeLinkDataDevice.h in CopyFiles */,
-				FC4059810CD6669100F2E428 /* LLEyeLinkMonitor.h in CopyFiles */,
-				FC4059990CD6682F00F2E428 /* LLEyeLinkMonitorSettings.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,11 +181,11 @@
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibEyeLinkPlugin" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
 				Base,
+				en,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* LablibITC18 */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;

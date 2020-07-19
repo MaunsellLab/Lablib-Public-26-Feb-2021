@@ -2,7 +2,7 @@
 //  LabJackU6MonitorSettings.h
 //  Lablib
 //
-//  Copyright (c) 2016. All rights reserved.
+//  Copyright (c) 2016-2020. All rights reserved.
 //
 
 @interface LabJackU6MonitorSettings : NSWindowController {

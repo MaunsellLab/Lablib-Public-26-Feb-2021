@@ -13,11 +13,12 @@ INFOPLIST_FILE = Info.plist
 WRAPPER_EXTENSION = app
 // Search Paths
 //HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
-FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug /Documents/Lablib/Frameworks/LablibITC18/build/Development
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Users/Shared/Lablib/Lablib-Core/Frameworks/Lablib/build/Development /Users/Shared/Lablib/Lablib-Core/Frameworks/LablibMatlab/build/Debug /Users/Shared/Lablib/Lablib-Core/Frameworks/LablibITC18/build/Development
 // Signing
 // Testing
 // Text-Based API
 // Versioning
+VALIDATE_WORKSPACE_SKIPPED_SDK_FRAMEWORKS = OpenGL
 
 // Apple LLVM 9.0 Address Sanitizer
 // Apple LLVM 9.0 Code Generation

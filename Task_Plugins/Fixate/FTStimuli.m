@@ -6,6 +6,7 @@ December 26, 2004 John Maunsell
 
 #import "FTStimuli.h"
 #import "FT.h"
+#define GL_SILENCE_DEPRECATION
 #import <OpenGL/gl.h>
 
 @implementation FTStimuli

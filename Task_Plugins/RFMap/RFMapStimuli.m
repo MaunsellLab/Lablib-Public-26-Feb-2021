@@ -7,12 +7,13 @@ December 26, 2004 John Maunsell
 #import "RFMapStimuli.h"
 #import "RF.h"
 #import <Carbon/Carbon.h>
+#define GL_SILENCE_DEPRECATION
 #import <OpenGL/gl.h>
 
 #define kAutoreleaseIntS    10
-#define kMidGray                0.5
-#define kGridGray                0.6
-#define kRadiansPerDeg            (kPI / 180.0)
+#define kMidGray            0.5
+#define kGridGray           0.6
+#define kRadiansPerDeg      (kPI / 180.0)
 
 static NSString *RFMonitorIDString = @"RFMapStimulus";
 

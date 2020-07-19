@@ -18,12 +18,13 @@ COPY_PHASE_STRIP = NO
 // Packaging
 // Search Paths
 ALWAYS_SEARCH_USER_PATHS = NO
-HEADER_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibMatlab
-FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Documents/Lablib/Frameworks/Lablib/build/Development
+HEADER_SEARCH_PATHS = $(inherited) /Users/Shared/Lablib/Lablib-Core/Frameworks/LablibMatlab
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Users/Shared/Lablib/Lablib-Core/Frameworks/Lablib/build/Development
 // Signing
 // Testing
 // Text-Based API
 // Versioning
+VALIDATE_WORKSPACE_SKIPPED_SDK_FRAMEWORKS = OpenGL
 
 // Apple LLVM 9.0 Address Sanitizer
 // Apple LLVM 9.0 Code Generation

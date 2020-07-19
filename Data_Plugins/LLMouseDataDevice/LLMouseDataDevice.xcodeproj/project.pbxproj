@@ -145,6 +145,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* LLMouseDataDevice */;
@@ -179,7 +180,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LLMouseDataDevice.plugin";
+			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LLMouseDataDevice.plugin\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

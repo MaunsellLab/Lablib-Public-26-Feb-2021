@@ -1117,13 +1117,14 @@
 			};
 			buildConfigurationList = 69CA1DE1088DA53700D7ADEE /* Build configuration list for PBXProject "Lablib" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				Base,
+				en,
+				de,
+				fr,
+				ja,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* Lablib Framework */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;

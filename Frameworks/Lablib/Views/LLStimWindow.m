@@ -8,6 +8,7 @@
 
 #import "LLStimWindow.h"
 #import "LLSystemUtil.h"
+#define GL_SILENCE_DEPRECATION
 #import <OpenGL/gl.h>
 
 #define kDefaultDisplayIndex    1        // Index of stim display when more than one display

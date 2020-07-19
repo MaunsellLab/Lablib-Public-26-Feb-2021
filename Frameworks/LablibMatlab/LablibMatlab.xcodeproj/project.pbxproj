@@ -300,6 +300,7 @@
 			baseConfigurationReference = 699DE0611F993411000FD3C9 /* FrameworkMatlab.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 			};
 			name = Debug;
 		};
@@ -308,6 +309,7 @@
 			baseConfigurationReference = 699DE0611F993411000FD3C9 /* FrameworkMatlab.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 			};
 			name = Release;
 		};

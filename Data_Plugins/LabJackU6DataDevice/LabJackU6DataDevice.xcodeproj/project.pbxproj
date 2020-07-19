@@ -17,10 +17,7 @@
 		E97BF1EB1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97BF1EA1AC58D97004E8F19 /* LabJackU6MonitorSettings.xib */; };
 		FC0ED5150CA067EA00BE2453 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		FC0ED5220CA067EA00BE2453 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		FC0ED5260CA067EA00BE2453 /* LabJackU6DataDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC0ED4640CA064BC00BE2453 /* LabJackU6DataDevice.h */; };
-		FC4059810CD6669100F2E428 /* LabJackU6Monitor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC4059800CD6669100F2E428 /* LabJackU6Monitor.h */; };
 		FC40598E0CD666E300F2E428 /* LabJackU6Monitor.m in Sources */ = {isa = PBXBuildFile; fileRef = FC40598D0CD666E300F2E428 /* LabJackU6Monitor.m */; };
-		FC4059990CD6682F00F2E428 /* LabJackU6MonitorSettings.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FC4059980CD6682F00F2E428 /* LabJackU6MonitorSettings.h */; };
 		FC4059A00CD6687000F2E428 /* LabJackU6MonitorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = FC40599F0CD6687000F2E428 /* LabJackU6MonitorSettings.m */; };
 /* End PBXBuildFile section */
 
@@ -29,11 +26,8 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolderSpec = 16;
 			files = (
-				FC0ED5260CA067EA00BE2453 /* LabJackU6DataDevice.h in CopyFiles */,
-				FC4059810CD6669100F2E428 /* LabJackU6Monitor.h in CopyFiles */,
-				FC4059990CD6682F00F2E428 /* LabJackU6MonitorSettings.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +58,7 @@
 		FC0ED4650CA064BC00BE2453 /* LabJackU6DataDevice.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LabJackU6DataDevice.m; sourceTree = "<group>"; };
 		FC4059800CD6669100F2E428 /* LabJackU6Monitor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LabJackU6Monitor.h; sourceTree = "<group>"; };
 		FC40598D0CD666E300F2E428 /* LabJackU6Monitor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LabJackU6Monitor.m; sourceTree = "<group>"; };
-		FC4059980CD6682F00F2E428 /* LabJackU6MonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LabJackU6MonitorSettings.h; sourceTree = "<group>"; };
+		FC4059980CD6682F00F2E428 /* LabJackU6MonitorSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabJackU6MonitorSettings.h; sourceTree = "<group>"; };
 		FC40599F0CD6687000F2E428 /* LabJackU6MonitorSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LabJackU6MonitorSettings.m; sourceTree = "<group>"; };
 		FCDA921E0CC017D4001C4E70 /* LabJackU6DataDevice.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LabJackU6DataDevice.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -203,6 +197,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					FC0ED5120CA067EA00BE2453 = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LabJackU6DataDevice" */;
 			compatibilityVersion = "Xcode 8.0";
@@ -248,7 +247,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LabJackU6DataDevice.plugin";
+			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LabJackU6DataDevice.plugin\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -314,10 +313,13 @@
 			baseConfigurationReference = 6970BC3C1F95238B0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = E54G4AFC7H;
 				GCC_PREFIX_HEADER = LabJackU6_Prefix.h;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LabJackU6DataDevice;
 				PRODUCT_NAME = LabJackU6DataDevice;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Development;
 		};
@@ -326,10 +328,13 @@
 			baseConfigurationReference = 6970BC3C1F95238B0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = E54G4AFC7H;
 				GCC_PREFIX_HEADER = LabJackU6_Prefix.h;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LabJackU6DataDevice;
 				PRODUCT_NAME = LabJackU6DataDevice;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Deployment;
 		};
@@ -338,10 +343,13 @@
 			baseConfigurationReference = 6970BC3C1F95238B0058CE60 /* AllDataPlugins.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = E54G4AFC7H;
 				GCC_PREFIX_HEADER = LabJackU6_Prefix.h;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = lablib.LabJackU6DataDevice;
 				PRODUCT_NAME = LabJackU6DataDevice;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Default;
 		};

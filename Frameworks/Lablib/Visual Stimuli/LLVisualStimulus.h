@@ -26,6 +26,7 @@
 #define kKeyPad8KeyCode            91
 #define kKeyPad9KeyCode            92
 
+#define GL_SILENCE_DEPRECATION
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #import "LLDisplays.h"

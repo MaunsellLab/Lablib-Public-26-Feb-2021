@@ -12,7 +12,7 @@ OTHER_LDFLAGS = -weak_framework LablibMatlab
 INFOPLIST_FILE = Info.plist
 WRAPPER_EXTENSION = plugin
 // Search Paths
-FRAMEWORK_SEARCH_PATHS = $(inherited) /Documents/Lablib/Frameworks/LablibITC18/build/Development /Documents/Lablib/Frameworks/LablibMatlab/build/Debug
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Users/Shared/Lablib/Lablib-Core/Frameworks/LablibITC18/build/Development /Users/Shared/Lablib/Lablib-Core/Frameworks/LablibMatlab/build/Debug
 // Signing
 // Testing
 // Text-Based API

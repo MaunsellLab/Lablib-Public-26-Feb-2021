@@ -141,9 +141,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
-               BuildableName = "LabJackU6DataDevice.plugin"
-               BlueprintName = "LabJackU6 Plugin"
-               ReferencedContainer = "container:Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
+               BuildableName = "LablibEyeLink.plugin"
+               BlueprintName = "LablibEyeLink Plugin"
+               ReferencedContainer = "container:Data_Plugins/LLEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -155,9 +155,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC0ED5120CA067EA00BE2453"
-               BuildableName = "LablibEyeLink.plugin"
-               BlueprintName = "LablibEyeLink Plugin"
-               ReferencedContainer = "container:Data_Plugins/LLEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
+               BuildableName = "LabJackU6DataDevice.plugin"
+               BlueprintName = "LabJackU6 Plugin"
+               ReferencedContainer = "container:Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -181,8 +181,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -192,8 +190,8 @@
             ReferencedContainer = "container:Applications/Knot/Knot.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
+      <Testables>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Development"
@@ -233,8 +231,6 @@
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Development"

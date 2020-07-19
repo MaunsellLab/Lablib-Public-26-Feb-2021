@@ -279,17 +279,22 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					69F368B0056705B9009AED51 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 69B8D103088DAB78002FCFD4 /* Build configuration list for PBXProject "LablibITC18" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
 				Base,
+				en,
+				de,
+				fr,
+				ja,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* LablibITC18 */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -339,7 +344,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LablibITC18.plugin";
+			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/Development/LablibITC18.plugin\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -399,6 +404,11 @@
 			baseConfigurationReference = 699DE0651F993B56000FD3C9 /* FrameworkITC18.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/LablibITC18_Framework.plist";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Development;
 		};
@@ -407,6 +417,11 @@
 			baseConfigurationReference = 699DE0651F993B56000FD3C9 /* FrameworkITC18.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/LablibITC18_Framework.plist";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Deployment;
 		};
@@ -415,6 +430,11 @@
 			baseConfigurationReference = 699DE0651F993B56000FD3C9 /* FrameworkITC18.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/LablibITC18_Framework.plist";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Default;
 		};

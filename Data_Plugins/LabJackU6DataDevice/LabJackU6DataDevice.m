@@ -212,10 +212,10 @@ long ELTrialStartTimeMS;
     [deviceLock lock];
     result = ehFeedback(ljHandle, sendDataBuff, sizeof(sendDataBuff), &errorCode, &errorFrame, NULL, 0);
     [deviceLock unlock];
-    if (result < 0) {
-        NSLog(@"ehFeedback error, see stdout");     // note we will get a more informative error on stdout
-        return;
-    }
+//    if (result < 0) {
+//        NSLog(@"ehFeedback error, see stdout");     // note we will get a more informative error on stdout
+//        return;
+//    }
     if (errorCode) {
         NSLog(@"%@", [NSString stringWithFormat:@"ehFeedback: error with command, errorcode was %d", errorCode]);
         return;
@@ -385,10 +385,10 @@ long ELTrialStartTimeMS;
     [deviceLock lock];
     result = ehFeedback(ljHandle, sendDataBuff, 2, &errorCode, &errorFrame, NULL, 0);
     [deviceLock unlock];
-    if (result < 0) {
-        NSLog(@"ljU6WriteDO: ehFeedback error, see stdout");
-        return NO;
-    }
+//    if (result < 0) {
+//        NSLog(@"ljU6WriteDO: ehFeedback error, see stdout");
+//        return NO;
+//    }
     if (errorCode) {
         NSLog(@"%@", [NSString stringWithFormat:@"ljU6WriteDO: error with command, errorcode was %d", errorCode]);
         return NO;

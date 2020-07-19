@@ -25,6 +25,8 @@
 #import "LLTaskStatus.h"
 #import "LLUserDefaults.h"
 
+//@class LLMatlabEngine;
+
 typedef NS_ENUM(NSInteger, SoundTypes) {
     kMonkeySounds,
     kMouseSounds
