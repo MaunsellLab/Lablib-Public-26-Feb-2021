@@ -23,6 +23,12 @@
 
 #define kAdjusted(color, contrast)  (kLLMidGray + (color - kLLMidGray) / 100.0 * contrast)
 
+@interface LLStimWindow()
+
+@property BOOL visibleOnScreen;
+
+@end
+
 @implementation LLStimWindow
 
 // We needed to add the following method when we went to 10.7 and changed from capturing the screen device to making
@@ -147,12 +153,17 @@
 
 - (void)grayScreen;
 {
-    [self lock];
-    glClearColor(kLLMidGray, kLLMidGray, kLLMidGray, 0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    [[NSOpenGLContext currentContext] flushBuffer];
-    glFinish();
-    [self unlock];
+    if (self.visibleOnScreen) {
+        [self lock];
+        glClearColor(kLLMidGray, kLLMidGray, kLLMidGray, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        [[NSOpenGLContext currentContext] flushBuffer];
+        glFinish();
+        [self unlock];
+    }
+    else {
+        NSLog(@"LLStimWindow: grayScreen: Screen not visible");
+    }
 }
 
 - (instancetype)initWithDisplayIndex:(long)dIndex contentRect:(NSRect)cRect;
@@ -221,7 +232,6 @@
     [self makeKeyAndOrderFront:nil];
 //    [self grayScreen];
     contentBounds = self.contentView.bounds;
-
     monitor = [[LLIntervalMonitor alloc] initWithID:@"Stimulus" description:@"Stimulus frame intervals"];
     [monitor setTargetIntervalMS:1000.0 / display.frameRateHz];
     return self;
@@ -236,8 +246,17 @@
 {
     [openGLLock lock];
     [stimOpenGLContext makeCurrentContext];
-    if (self.contentView) {
-        [self.contentView lockFocus];
+    if ([NSThread isMainThread]) {
+        if (self.contentView) {
+            [self.contentView lockFocusIfCanDraw];
+        }
+    }
+    else {
+        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+            if (self.contentView) {
+                [self.contentView lockFocusIfCanDraw];
+            }
+        });
     }
 }
 
@@ -354,10 +373,23 @@
 - (void)unlock;
 {
     glFlush();                                                        // flush any pending commands
-    if (self.contentView) {
+    if ([NSThread isMainThread]) {
         [self.contentView unlockFocus];
     }
+    else {
+        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+            [self.contentView unlockFocus];
+        });
+    }
     [openGLLock unlock];
+}
+
+- (void)windowDidChangeOcclusionState:(NSNotification *)notification
+{
+    self.visibleOnScreen = self.occlusionState & NSWindowOcclusionStateVisible;
+    if (self.visibleOnScreen) {
+        [self grayScreen];
+    }
 }
 
 -(NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize;
