@@ -315,6 +315,11 @@ NSString *LLRadiusDegKey = @"radiusDeg";
     [self updateFloatDefault:kdlPhiDeg key:LLKdlPhiDegKey];
 }
 
+- (void)setNilValueForKey:(NSString*)key
+{
+    NSLog(@"LLVisualStimulus: setNilValueForKey %@", key);
+//    [super setNilValueForKey:key];
+}
 - (void)setRadiusDeg:(float)newRadius;
 {
     radiusDeg = newRadius;

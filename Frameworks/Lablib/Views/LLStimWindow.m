@@ -219,7 +219,7 @@
     [stimOpenGLContext makeCurrentContext];
     [stimOpenGLContext setValues:&swapParam forParameter:NSOpenGLCPSwapInterval];
     [self makeKeyAndOrderFront:nil];
-    [self grayScreen];
+//    [self grayScreen];
     contentBounds = self.contentView.bounds;
 
     monitor = [[LLIntervalMonitor alloc] initWithID:@"Stimulus" description:@"Stimulus frame intervals"];
@@ -324,7 +324,7 @@
         glViewport(0, 0, (int)display.widthPix, (int)display.heightPix);
         [openGLLock unlock];
     }
-    [self grayScreen];
+//    [self grayScreen];
     return YES;
 }
 

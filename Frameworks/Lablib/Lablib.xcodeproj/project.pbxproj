@@ -1092,6 +1092,7 @@
 				69F36CA20567EA35009AED51 /* Resources */,
 				69F36CA30567EA35009AED51 /* Sources */,
 				69F36CA40567EA35009AED51 /* Frameworks */,
+				690E3A8B24C5CD0800A47665 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1183,6 +1184,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		690E3A8B24C5CD0800A47665 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf /Library/Application\\ Support/Knot/Plugins/LLNIDAQ.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/MetalTest.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/TPOP.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/OptiPulse2.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/OKernel.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/StimQuench.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/OptiPulse.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/Staircase.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/PlaidRFMap.plugin\nrm -rf /Library/Application\\ Support/Knot/Plugins/IncDec.plugin\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		69F36CA30567EA35009AED51 /* Sources */ = {
