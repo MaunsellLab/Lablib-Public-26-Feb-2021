@@ -24,14 +24,18 @@ NSString *mWKey = @"mW";
     
     mW = [self maximumMW];
     if (mW < inputMW) {
-        [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [   LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
                       @"Requested value (%f) beyond calibrated range (%f).", inputMW, mW]];
+        });
         return -FLT_MAX;
     }
     [self getValuesForCalibrationIndex:0 voltagePtr:&lastVoltage mWPtr:&lastMW];
     if (lastMW > inputMW) {
-        [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LLSystemUtil runAlertPanelWithMessageText:self.className informativeText:[NSString stringWithFormat:
                        @"Requested value (%f) below calibrated range (%f).", inputMW, lastMW]];
+        });
         return -FLT_MAX;
     }
     calibrationArray = [NSMutableArray arrayWithArray:[taskDefaults arrayForKey:LLLaserCalibratorArrayKey]];

@@ -242,8 +242,14 @@
     return monitor;
 }
 
+// We get an NSOpenGLBalanceCurrentContext() error if we try to access self.contentView before the window has
+// appeared on the screen.  Check that the window is visible.
+
 - (void)lock;
 {
+    if (!self.visibleOnScreen) {
+        return;
+    }
     [openGLLock lock];
     [stimOpenGLContext makeCurrentContext];
     if ([NSThread isMainThread]) {
@@ -370,8 +376,15 @@
     [displays showDisplayParametersPanel:displayIndex];
 }
 
+// Locking won't happen if lock is called before the window is ready.  Test whether the openGLLock is actually
+// locked before doing the unlock.
+
 - (void)unlock;
 {
+    if ([openGLLock tryLock]) {
+        [openGLLock unlock];
+        return;
+    }
     glFlush();                                                        // flush any pending commands
     if ([NSThread isMainThread]) {
         [self.contentView unlockFocus];
