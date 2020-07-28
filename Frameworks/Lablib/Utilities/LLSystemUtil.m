@@ -120,18 +120,42 @@ extern void CGSDeferredUpdates(int);
 
 + (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText
 {
-    SEL selector = NSSelectorFromString(@"runModal");
+    [LLSystemUtil runAlertPanelWithMessageText:messageText informativeText:infoText terminateAfter:NO];
+}
 
-    NSAlert *theAlert = [[NSAlert alloc] init];
+// Create and run an alert panel
+// We are not allowed to run alerts in some situations, such as within a -drawRect method. We revert to using NSLog
+// if the alertDialog won't work.
+
++ (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText
+                      terminateAfter:(BOOL)terminate;
+{
+    SEL selector = NSSelectorFromString(@"runModal");
+    __block NSAlert *theAlert;
+
+    // initializing an NSAlert involves window manager actions that can only happen on the main thread
+    if ([NSThread isMainThread]) {
+        theAlert = [[NSAlert alloc] init];
+    }
+    else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            theAlert = [[NSAlert alloc] init];
+        });
+    }
     theAlert.messageText = messageText;
+    if (terminate) {
+        infoText = [NSString stringWithFormat:@"%@ This error is fatal. Knot will quit.", infoText];
+    }
     theAlert.informativeText = infoText;
     @try {
-        [theAlert performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
+        [theAlert performSelectorOnMainThread:selector withObject:nil waitUntilDone:terminate];
     }
     @catch (NSException *ex) {
         NSLog(@"%@ %@", messageText, infoText);
     }
-    [theAlert release];
+    if (terminate) {
+        [NSApp terminate:nil];
+    }
 }
 
 // Set the current (calling) thread's priority for real time performance.  The periodMS argument

@@ -32,6 +32,8 @@
 		69ABB4011F941C1E0081A601 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
 		69ABB4021F941C220081A601 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F2BB2F04D31F6300F95507 /* IOKit.framework */; };
 		69ABB4031F941C230081A601 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F2BB2F04D31F6300F95507 /* IOKit.framework */; };
+		69C6053A24D0BD0600C457E7 /* LLITC18WhiteNoiseDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C6053924D0BD0600C457E7 /* LLITC18WhiteNoiseDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69C6053C24D0BD3200C457E7 /* LLITC18WhiteNoiseDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C6053B24D0BD3200C457E7 /* LLITC18WhiteNoiseDevice.m */; };
 		69D31B5E097C5C98001102CA /* LLITC18.h in Headers */ = {isa = PBXBuildFile; fileRef = 69D31ADC097C5B44001102CA /* LLITC18.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69D82D1D0B06A1FB00E8C369 /* LLITC18DataDevice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69FBCE84097C1CD6008D9A0E /* LLITC18DataDevice.plist */; };
 		69F368B2056705B9009AED51 /* Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* Prefix.h */; };
@@ -79,6 +81,8 @@
 		69A4A1661FCA155F002F6F8C /* Base */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		69AB36161F94107000E7DA2F /* Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Plugin.xcconfig; sourceTree = SOURCE_ROOT; };
 		69ABB3F91F941BF30081A601 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		69C6053924D0BD0600C457E7 /* LLITC18WhiteNoiseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18WhiteNoiseDevice.h; sourceTree = "<group>"; };
+		69C6053B24D0BD3200C457E7 /* LLITC18WhiteNoiseDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLITC18WhiteNoiseDevice.m; sourceTree = "<group>"; };
 		69D31ADC097C5B44001102CA /* LLITC18.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18.h; sourceTree = "<group>"; };
 		69D82C9E0B069FF500E8C369 /* LablibITC18.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LablibITC18.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		69EF10BB0E68AA0700BF48C7 /* LLITC18PulseTrainDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLITC18PulseTrainDevice.h; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				69080C6904FCF4AF00F95530 /* LLITCMonitor.m */,
 				6971395F0506215500F95523 /* LLITCMonitorSettings.h */,
 				697139600506215500F95523 /* LLITCMonitorSettings.m */,
+				69C6053924D0BD0600C457E7 /* LLITC18WhiteNoiseDevice.h */,
+				69C6053B24D0BD3200C457E7 /* LLITC18WhiteNoiseDevice.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -228,6 +234,7 @@
 				6917B197091EFCC40082A1F4 /* LLITC18DataDevice.h in Headers */,
 				69F368B5056705B9009AED51 /* LLITCMonitor.h in Headers */,
 				69F368B6056705B9009AED51 /* LLITCMonitorSettings.h in Headers */,
+				69C6053A24D0BD0600C457E7 /* LLITC18WhiteNoiseDevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +370,7 @@
 			files = (
 				696A9CDB1F95620400C6527B /* main.m in Sources */,
 				690F2EB51F9172560034150E /* LLITC18PulseTrainDevice.m in Sources */,
+				69C6053C24D0BD3200C457E7 /* LLITC18WhiteNoiseDevice.m in Sources */,
 				69F368BC056705B9009AED51 /* LLITCMonitor.m in Sources */,
 				69F368BD056705B9009AED51 /* LLITCMonitorSettings.m in Sources */,
 				6917B198091EFCC40082A1F4 /* LLITC18DataDevice.m in Sources */,

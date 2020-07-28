@@ -1,12 +1,12 @@
 //
-//  LLITC18PulseTrainDevice.h
+//  LLITC18WhiteNoiseDevice.h
 //  Lablib
 //
 //  Created by John Maunsell.
 //  Copyright (c) 2008-2020. All rights reserved.
 //
 
-#import <Lablib/LLPulseTrainDevice.h>
+#import <Lablib/LLWhiteNoiseDevice.h>
 #import <Lablib/LLDataDevice.h>
 #import <LablibITC18/LLITC18DataDevice.h>
 #pragma clang diagnostic push
@@ -15,21 +15,10 @@
 #import <ITC/ITC18.h>
 #pragma clang diagnostic pop
 
-@interface LLITC18PulseTrainDevice : NSObject <LLPulseTrainDevice>  {
+@interface LLITC18WhiteNoiseDevice : NSObject <LLWhiteNoiseDevice>  {
 
 @private
-	long				bufferLength;				// instructions in stimulus
-	long				channels;					// number of active channels
-	float				DASampleSetPeriodUS;
-    LLITC18DataDevice   *dataDevice;                // LLITCDataDevice from which we inherited control
-    NSLock				*deviceLock;
-	unsigned short		digitalOutputWord;
-	long				FIFOSize;
 	NSData				*inputSamples[ITC18_NUMBEROFDACOUTPUTS];
-	Ptr					itc;
-	BOOL				itcExists;
-	BOOL				samplesReady;
-    BOOL                weOwnITC;
 }
 
 - (void)close;
@@ -39,7 +28,7 @@
 - (void)doInitializationWithDevice:(long)numDevice;
 - (instancetype)initWithDevice:(long)numDevice;
 - (instancetype)initWithDataDevice:(LLDataDevice *)theDataDevice;
-- (BOOL)makeInstructionsFromTrainData:(PulseTrainData *)pTrain channels:(long)channels;
+- (BOOL)makeInstructionsFromTrainData:(WhiteNoiseData *)pNoise channels:(long)channels;
 - (BOOL)open:(long)numDevice;
 - (BOOL)outputDigitalEvent:(long)event withData:(long)data;
 

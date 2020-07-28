@@ -3,7 +3,7 @@
 //  Lablib
 //
 //  Created by John Maunsell on Aug 29 2008
-//  Copyright (c) 2008. All rights reserved. 
+//  Copyright (c) 2008-2020. All rights reserved.
 //
 
 #import "LLITC18PulseTrainDevice.h"
@@ -11,13 +11,13 @@
 #import <Lablib/LLSystemUtil.h>
 #import <unistd.h>
 
-#define kDriftTimeLimitMS    0.010
-#define kDriftFractionLimit    0.001
-#define kGarbageLength        3                    // Invalid entries at the start of sequence
+#define kDriftTimeLimitMS   0.010
+#define kDriftFractionLimit 0.001
+#define kGarbageLength      3                    // Invalid entries at the start of sequence
 #define kITC18TicksPerMS    800L                // Time base for ITC18
 #define kITC18TickTimeUS    1.25
-#define kMaxDAChannels        8
-#define kOverSample            4
+#define kMaxDAChannels      8
+#define kOverSample         4
 
 static short ADInstructions[] = {ITC18_INPUT_AD0, ITC18_INPUT_AD1, ITC18_INPUT_AD2,  ITC18_INPUT_AD3};
 static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPUT_DA2,  ITC18_OUTPUT_DA3};

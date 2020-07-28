@@ -63,6 +63,7 @@
 #import <Lablib/LLMultiplierTransformer.h>
 #import <Lablib/LLNE500Pump.h>
 #import <Lablib/LLNoise.h>
+#import <Lablib/LLNoiseProfile.h>
 #import <Lablib/LLNormDist.h>
 #import <Lablib/LLNumberMatchTransformer.h>
 #import <Lablib/LLNumberNonMatchTransformer.h>
@@ -106,4 +107,5 @@
 #import <Lablib/LLUserDefaults.h>
 #import <Lablib/LLViewScale.h>
 #import <Lablib/LLVisualStimulus.h>
+#import <Lablib/LLWhiteNoiseDevice.h>
 #import <Lablib/LLXTView.h>

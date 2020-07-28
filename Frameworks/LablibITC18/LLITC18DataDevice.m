@@ -79,14 +79,14 @@ all requested sampling rates are checked and lowered if necessary
 
 #define kUseLLDataDevices                            // needed for versioning
 
-extern size_t malloc_size(void *ptr);
+extern size_t malloc_size(const void *ptr);
 
-#define kIsDigitalInput(i)            ((instructions[i] & ITC18_INPUT_DIGITAL) && (instructions[i] != ITC18_INPUT_SKIP))
-#define kDigitalOverSample            4
-#define kDriftTimeLimitMS            0.010
-#define kDriftFractionLimit            0.001
-#define kGarbageLength                3
-#define    kReadDataIntervalS            (USB18 ? 0.005 : 0.000)
+#define kIsDigitalInput(i)      ((instructions[i] & ITC18_INPUT_DIGITAL) && (instructions[i] != ITC18_INPUT_SKIP))
+#define kDigitalOverSample      4
+#define kDriftTimeLimitMS       0.010
+#define kDriftFractionLimit     0.001
+#define kGarbageLength          3
+#define kReadDataIntervalS      (USB18 ? 0.005 : 0.000)
 
 #define chunksAtOneTickPerInstructHz    (kLLITC18TicksPerMS * 1000.0 / numInstructions)
 #define maxSampleRateHz                    (chunksAtOneTickPerInstructHz / ITC18_MINIMUM_TICKS)

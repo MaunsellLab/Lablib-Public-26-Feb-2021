@@ -39,6 +39,8 @@
 		6999638C205DB8400094B012 /* LLDataAssignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 69996372205DB83F0094B012 /* LLDataAssignment.m */; };
 		6999638F205DB9220094B012 /* LLPulseProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6999638D205DB9210094B012 /* LLPulseProfile.m */; };
 		69996390205DB9220094B012 /* LLPulseProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 6999638E205DB9220094B012 /* LLPulseProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69ABF23E24C8B14C0035E02F /* LLNoiseProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 69ABF23C24C8B14C0035E02F /* LLNoiseProfile.m */; };
+		69ABF23F24C8B14C0035E02F /* LLNoiseProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 69ABF23D24C8B14C0035E02F /* LLNoiseProfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B252E7095F63FE005B4E29 /* LLDataEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B252E6095F63FE005B4E29 /* LLDataEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B6B07720632D6B0091C4EA /* LLFilterExp.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B6B05920632D6A0091C4EA /* LLFilterExp.m */; };
 		69B6B07820632D6B0091C4EA /* LLEyeCalibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B6B05A20632D6A0091C4EA /* LLEyeCalibrator.m */; };
@@ -252,6 +254,7 @@
 		69B6B23F20634A160091C4EA /* LLDisplays.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B6B23920634A150091C4EA /* LLDisplays.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B6B24020634A160091C4EA /* LLDisplayUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 69B6B23A20634A150091C4EA /* LLDisplayUtilities.c */; };
 		69BE4BEA05829644001C9624 /* Lablib_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BE4BE805829644001C9624 /* Lablib_Prefix.h */; };
+		69C6053824D0BC8F00C457E7 /* LLWhiteNoiseDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C6053724D0BC8F00C457E7 /* LLWhiteNoiseDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36CA70567EA5D009AED51 /* Lablib.h in Headers */ = {isa = PBXBuildFile; fileRef = 69C8966703E82C5F00A80164 /* Lablib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69F36D0E0567EA9E009AED51 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D6A5FE840307C02AAC07 /* AppKit.framework */; };
 		69F36D0F0567EA9E009AED51 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 698E35CF048F958700F95509 /* Carbon.framework */; };
@@ -300,6 +303,8 @@
 		6999638D205DB9210094B012 /* LLPulseProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPulseProfile.m; sourceTree = "<group>"; };
 		6999638E205DB9220094B012 /* LLPulseProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPulseProfile.h; sourceTree = "<group>"; };
 		69AB36191F94154300E7DA2F /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = SOURCE_ROOT; };
+		69ABF23C24C8B14C0035E02F /* LLNoiseProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LLNoiseProfile.m; path = "Data Devices/LLNoiseProfile.m"; sourceTree = SOURCE_ROOT; };
+		69ABF23D24C8B14C0035E02F /* LLNoiseProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLNoiseProfile.h; path = "Data Devices/LLNoiseProfile.h"; sourceTree = SOURCE_ROOT; };
 		69B252E6095F63FE005B4E29 /* LLDataEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDataEvents.h; sourceTree = "<group>"; };
 		69B6B05920632D6A0091C4EA /* LLFilterExp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFilterExp.m; sourceTree = "<group>"; };
 		69B6B05A20632D6A0091C4EA /* LLEyeCalibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLEyeCalibrator.m; sourceTree = "<group>"; };
@@ -515,6 +520,7 @@
 		69B6B23A20634A150091C4EA /* LLDisplayUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LLDisplayUtilities.c; sourceTree = "<group>"; };
 		69B81617045E1B7300A80164 /* Things to Do.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Things to Do.txt"; sourceTree = "<group>"; };
 		69BE4BE805829644001C9624 /* Lablib_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Lablib_Prefix.h; sourceTree = "<group>"; };
+		69C6053724D0BC8F00C457E7 /* LLWhiteNoiseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLWhiteNoiseDevice.h; sourceTree = "<group>"; };
 		69C895CB03E8275C00A80164 /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
 		69C8966703E82C5F00A80164 /* Lablib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lablib.h; sourceTree = "<group>"; };
 		69E9F6FF043D260E00F95509 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -633,6 +639,8 @@
 				6999635A205DB83F0094B012 /* LLNIDAQTask.h */,
 				69996367205DB83F0094B012 /* LLNIDAQTask.m */,
 				69996361205DB83F0094B012 /* LLNE500Pump.m */,
+				69ABF23D24C8B14C0035E02F /* LLNoiseProfile.h */,
+				69ABF23C24C8B14C0035E02F /* LLNoiseProfile.m */,
 				6999636D205DB83F0094B012 /* LLNullDataDevice.h */,
 				6999635D205DB83F0094B012 /* LLNullDataDevice.m */,
 				6999638E205DB9220094B012 /* LLPulseProfile.h */,
@@ -866,6 +874,7 @@
 				69B6B1C5206345760091C4EA /* LLMonitor.h */,
 				69B6B1C3206345760091C4EA /* LLPulseTrainDevice.h */,
 				69B6B1C2206345760091C4EA /* LLStimTrainDevice.h */,
+				69C6053724D0BC8F00C457E7 /* LLWhiteNoiseDevice.h */,
 				69B6B1CE206345BF0091C4EA /* LLXTPlot.h */,
 			);
 			path = Protocols;
@@ -1013,6 +1022,7 @@
 				69B6B09F20632EB50091C4EA /* LLPluginController.h in Headers */,
 				69B6B0CA20632F490091C4EA /* LLTaskMode.h in Headers */,
 				69B6B192206333F00091C4EA /* LLEOTHistoryView.h in Headers */,
+				69C6053824D0BC8F00C457E7 /* LLWhiteNoiseDevice.h in Headers */,
 				69B6B133206332530091C4EA /* LLTextUtil.h in Headers */,
 				69B6B1CA206345770091C4EA /* LLDistribution.h in Headers */,
 				69B6B08420632D6B0091C4EA /* LLDataEventDef.h in Headers */,
@@ -1032,6 +1042,7 @@
 				69B6B16C206333F00091C4EA /* LLPlotView.h in Headers */,
 				69B6B130206332530091C4EA /* LLUserDefaults.h in Headers */,
 				69B6B125206332530091C4EA /* LLObserverKeys.h in Headers */,
+				69ABF23F24C8B14C0035E02F /* LLNoiseProfile.h in Headers */,
 				69B6B07C20632D6B0091C4EA /* LLFalseHits.h in Headers */,
 				69B6B1E1206346210091C4EA /* LLXTView.h in Headers */,
 				69B6B1DD206346210091C4EA /* LLXTEventPlot.h in Headers */,
@@ -1268,6 +1279,7 @@
 				69B6B07E20632D6B0091C4EA /* LLStandardDataEvents.m in Sources */,
 				69996381205DB8400094B012 /* LLNIDAQTask.m in Sources */,
 				69B6B0BA20632F490091C4EA /* LLMonitorController.m in Sources */,
+				69ABF23E24C8B14C0035E02F /* LLNoiseProfile.m in Sources */,
 				6999637B205DB8400094B012 /* LLNE500Pump.m in Sources */,
 				69B6B07820632D6B0091C4EA /* LLEyeCalibrator.m in Sources */,
 				69B6B18D206333F00091C4EA /* LLScrollZoomWindow.m in Sources */,

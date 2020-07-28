@@ -23,8 +23,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 // Close the ITC18.  
 
-- (void)close {
-
+- (void)close;
+{
 	if (itc != nil) {
 		[deviceLock lock];
 		ITC18_Close(itc);
@@ -34,13 +34,13 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	}
 }
 
-- (BOOL)dataEnabled {
-	
+- (BOOL)dataEnabled;
+{
 	return dataEnabled;
 }
 
-- (void)dealloc {
-
+- (void)dealloc;
+{
 	[self close];
 	[deviceLock release];
 	[super dealloc];
@@ -130,7 +130,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 	else {
         ITC18_Close(itc);
 	}
-
 	for (code = 0, itcExists = NO; code < sizeof(interfaceCodes) / sizeof(long); code++) {
 		NSLog(@"LLITC18DataDevice: attempting to initialize device %d using code %d",
 					deviceNum, deviceNum | interfaceCodes[code]);
@@ -164,13 +163,13 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 }
 
 /* 
-Get new stimulation parameter and load the instruction sequence in the ITC-18.  We create a buffer
+Get new stimulation parameters and load the instruction sequence in the ITC-18.  We create a buffer
 in which alternate words are DA values and digital output words (to gate the train and mark the pulses).  
 We load the entire stimulus into the buffer, so that no servicing is needed.
 */
 
-- (BOOL)setTrainParameters:(StimTrainData *)pTrain {
-
+- (BOOL)setTrainParameters:(StimTrainData *)pTrain;
+{
 	short values[2], gateAndPulseBits, gateBits, *sPtr;
 	long index, DASamples, sampleIndex, ticksPerInstruction, DASamplesPerPulse;
 	long bufferLength, pulseCount;
@@ -184,7 +183,7 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 	}
 	
 // First determine the DASample period.  We require the entire stimulus to fit within the ITC-18 FIFO.
-// We divide by a factor of 4 to allow for DA and Digital (2x) and a factor of safety (2x)
+// We divide by a factor of 4 to allow for DA and Digital (2x) and a safety factor (2x)
     
 	ticksPerInstruction = ITC18_MINIMUM_TICKS;
 	while ((pTrain->durationMS * 1000.0) / (kITC18TickTimeUS * ticksPerInstruction) > FIFOSize / 4.0) {
@@ -205,7 +204,8 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 	gateBits = ((pTrain->doGate) ? (0x1 << pTrain->gateBit) : 0);
 	gateAndPulseBits = gateBits | ((pTrain->doPulseMarkers) ? (0x1 << pTrain->pulseMarkerBit) : 0);
 					
-// Create and load an array with output values that make up one pulse (DA and digital)
+// Create and load an array with output values that make up one pulse (DA and digital).  Each pulse is biphasic
+// with each phase having a duration specified by DASamplesPerPulse
 
 	if (DASamplesPerPulse > 0) {
 		pulseValues = [[NSMutableData alloc] initWithLength:DASamplesPerPulse * 4 * sizeof(short)];
@@ -274,8 +274,8 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 	return YES;
 }
 
-- (void)stimulate {
-
+- (void)stimulate;
+{
 	if (itcExists) {
 		ITC18_Start(itc, NO, YES, NO, NO);				// Start with no external trigger, output enabled
 	}

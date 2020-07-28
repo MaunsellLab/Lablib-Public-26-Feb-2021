@@ -210,7 +210,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "python /Users/maunsell/Desktop/457nmControl-master/TestSockets.py"
+               scriptText = "python /Users/maunsell/Desktop/457nmControl-master/TestSockets.py&#10;"
                shellToInvoke = "/bash">
             </ActionContent>
          </ExecutionAction>

@@ -32,6 +32,8 @@ typedef NS_OPTIONS(unsigned int, LLMouseButtonDown) {
 + (void)preventSleep;                            // Stop the computer from sleeping
 + (void)registerDefaultsFromFilePath:(NSString *)filePath defaults:(NSUserDefaults *)defaults;
 + (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText;
++ (void)runAlertPanelWithMessageText:(NSString *)messageText informativeText:(NSString *)infoText
+                      terminateAfter:(BOOL)terminate;
 + (BOOL)setThreadPriorityPeriodMS:(float)periodMS computationFraction:(float)computationFraction
                             constraintFraction:(float)constraintFraction;
 + (NSTimeInterval)timeFromNow:(long)timeMS;
