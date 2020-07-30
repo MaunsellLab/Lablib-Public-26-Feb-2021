@@ -24,9 +24,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 @interface LLITC18WhiteNoiseDevice()
 
-@property long bufferLength;                // instructions in stimulus
+@property long bufferLength;                // instructions in stimulus reading and writing
 @property long channels;                    // number of active channels
-@property float DASampleSetPeriodUS;
+@property float sampleSetPeriodUS;
 @property (retain) LLITC18DataDevice *dataDevice; // LLITCDataDevice from which we inherited control
 @property (retain) NSLock *deviceLock;
 @property unsigned short digitalOutputWord;
@@ -241,34 +241,32 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     return self.itcExists;
 }
 
-- (BOOL)makeInstructionsFromTrainData:(WhiteNoiseData *)pNoise channels:(long)activeChannels;
+- (BOOL)makeInstructionsFromNoiseData:(WhiteNoiseData *)pNoise channels:(long)activeChannels;
 {
-    short values[kMaxChannels + 1], gateAndPulseBits, gateBits, *sPtr;
-    long index, DASampleSetsInTrain, DASampleSetsPerPhase, sampleSetIndex, ticksPerInstruction;
-    long gatePorchUS, sampleSetsInPorch, porchBufferLength;
-    long pulseCount, DASamplesPerPulse, durationUS, instructionsPerSampleSet, valueIndex;
-    int writeAvailable, result;
-    float instructionPeriodUS, pulsePeriodUS, rangeFraction[kMaxChannels];
-    NSMutableData *trainValues, *pulseValues, *porchValues;
+    long index, sampleSetTimeMS;
+    short sampleValues[kMaxChannels + 1];
+    float sampleV, sampleP, v[2], mw[2];
+    int writeAvailable;
     int ITCInstructions[kMaxChannels + 1];
-
+    BOOL pulseState;
+    
     if (!self.itcExists) {
         return NO; 
     }
     
-// We take common values from the first entry, on the assumption that others have been checked and are the same
+    // We take common values from the first entry, on the assumption that others have been checked and are the same
     
     self.channels = MIN(activeChannels, ITC18_NUMBEROFDACOUTPUTS);
-    instructionsPerSampleSet = self.channels + 1;                            // channels plus a digital word
-    gatePorchUS = (pNoise->doGate) ? pNoise->gatePorchMS * 1000.0 : 0;
-    durationUS = pNoise->durationMS * 1000.0;
+    long instructsPerSampleSet = self.channels + 1;                            // channels plus a digital word
+    long gatePorchUS = (pNoise->doGate) ? pNoise->gatePorchMS * 1000.0 : 0;
+    long durationUS = pNoise->durationMS * 1000.0;
     
 // First determine the DASample period.  We require the entire stimulus to fit within the ITC-18 FIFO.
 // We divide down to allow for enough DA (channels) and digital (1) samples, plus a 2x safety factor
     
-    ticksPerInstruction = ITC18_MINIMUM_TICKS;
+    long ticksPerInstruction = ITC18_MINIMUM_TICKS;
     while ((durationUS + 2 * gatePorchUS) / (kITC18TickTimeUS * ticksPerInstruction) > 
-                                            self.FIFOSize / (instructionsPerSampleSet * 2)) {
+                                            self.FIFOSize / (instructsPerSampleSet * 2)) {
         ticksPerInstruction++;
     }
     if (ticksPerInstruction > ITC18_MAXIMUM_TICKS) {
@@ -277,86 +275,93 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     
 // Precompute some important values
     
-    instructionPeriodUS = ticksPerInstruction * kITC18TickTimeUS;
-    self.DASampleSetPeriodUS = instructionPeriodUS * instructionsPerSampleSet;
-    DASampleSetsPerPhase = round(pNoise->pulseWidthMS * 1000.0 / self.DASampleSetPeriodUS);
-    sampleSetsInPorch = gatePorchUS / self.DASampleSetPeriodUS;        // DA samples in the gate porch
-    DASampleSetsInTrain = durationUS / self.DASampleSetPeriodUS;        // DA samples in entire train
-    self.bufferLength = MAX(DASampleSetsInTrain * instructionsPerSampleSet, instructionsPerSampleSet);
-    pulsePeriodUS = (pNoise->frequencyHZ > 0) ? 1.0 / pNoise->frequencyHZ * 1000000.0 : 0;
-    gateBits = ((pNoise->doGate) ? (0x1 << pNoise->gateBit) : 0);
-    gateAndPulseBits = gateBits | ((pNoise->doPulseMarkers) ? (0x1 << pNoise->pulseMarkerBit) : 0);
+    float instructPeriodUS = ticksPerInstruction * kITC18TickTimeUS;
+    self.sampleSetPeriodUS = instructsPerSampleSet * instructPeriodUS;
+    long sampleSetsPerMS = 1000.0 / self.sampleSetPeriodUS;
+    long numPorchSampleSets = gatePorchUS / self.sampleSetPeriodUS;     // DA samples in each gate porch
+    long numStimSampleSets = durationUS / self.sampleSetPeriodUS;       // DA samples in train (without porches)
+    long numTrainSamples = (durationUS + 2 * gatePorchUS) / instructPeriodUS;
+    double vRangeFract = pNoise->pulseAmpV / pNoise->fullRangeV;
+//    DASampleSetsPerPhase = round(pNoise->pulseWidthMS * 1000.0 / self.sampleSetPeriodUS);
+    self.bufferLength = MAX(numTrainSamples, instructsPerSampleSet);
+    long numPulses = pNoise->durationMS / pNoise->pulseWidthMS;
+    short gateBits = ((pNoise->doGate) ? (0x1 << pNoise->gateBit) : 0);
+    short gateAndPulseBits = gateBits | ((pNoise->doPulseMarkers) ? (0x1 << pNoise->pulseMarkerBit) : 0);
+    v[0] = mw[0] = 0.0;
+    v[1] = pNoise->pulseAmpV;
+    mw[1] = pNoise->pulseAmpMW;
+
+// Create the arrays that will hold the times and amplitudes of the pulses, and also an array for the entire output
+// sequence (trainValues). It is created zeroed.  If there is a gating signal,
+// we load that into the digital output values. bufferLength is always at least as long as instructsPerSampleSet.
     
-// Create and load an array with output values that make up one pulse (DA plus digital).  These will be inserted
-// into trainValues repeatedly in the next section.
-    
-    DASamplesPerPulse = DASampleSetsPerPhase;
-    if (DASamplesPerPulse > 0) {
-        for (index = 0; index < self.channels; index++) {
-            rangeFraction[index] = pNoise[index].pulseAmpV / pNoise[index].fullRangeV;
-        }
-        pulseValues = [[NSMutableData alloc] initWithLength:DASamplesPerPulse *
-                                                   instructionsPerSampleSet * sizeof(short)];
-        for (index = 0; index < self.channels; index++) {
-            values[index] = rangeFraction[index] * 0x7fff;        // amplitude might be positive or negative
-        }
-        values[index] = gateAndPulseBits;                        // digital output word
-        for (sampleSetIndex = 0; sampleSetIndex < DASampleSetsPerPhase; sampleSetIndex++) {
-            [pulseValues replaceBytesInRange:NSMakeRange(sampleSetIndex * sizeof(short) * instructionsPerSampleSet, 
-                        sizeof(short) * instructionsPerSampleSet) withBytes:&values];
-        }
-    }
-    
-// Create an array for the entire output sequence (trainValues).  It is created zeroed.  If there is a gating signal,
-// we add that to the digital output values.  bufferLength is always at least as long as instructionsPerSampleSet.
-    
-    trainValues = [[NSMutableData alloc] initWithLength:self.bufferLength * sizeof(short)];
-    if (gateBits > 0) {
-        sPtr = trainValues.mutableBytes;
-        for (index = 0; index < DASampleSetsInTrain; index++) {
-            sPtr += self.channels;                            // skip over analog values
-            *(sPtr)++ = gateBits;                        // set the gate bits
-        }
-    }
-    
-// Modify the output sequence by inserting the pulses.  If the stimulation frequency is zero
-// (pulsePeriodUS set to 0), we load no pulses.  If the duration is shorter than one pulse, nothing
-// is loaded.  If the pulseWidth is zero, nothing is loaded.
-    
-    if ((pulsePeriodUS > 0) && (DASampleSetsPerPhase > 0)) {
-        for (pulseCount = 0; ; pulseCount++) {
-            sampleSetIndex = pulseCount * pulsePeriodUS / self.DASampleSetPeriodUS;
-            valueIndex = sampleSetIndex * instructionsPerSampleSet;
-            if (valueIndex + DASamplesPerPulse + 1 >= self.bufferLength) {
-                break;
+    long zeroSample = pNoise->zeroTimeMS * sampleSetsPerMS;                // sample at start of visual stimulus
+//    long rampEndSample = self.preRampDurMS * samplesPerMS;      // sample at end of ramp
+    long rampEndSampleSet = pNoise->rampDurMS / sampleSetsPerMS;
+    long pulsePhaseMS = rand() % (long)pNoise->pulseWidthMS;    // random pulse phase (to nearest ms)
+
+    //    NSLog(@"%ld: time: %ld voltage %.2f power %.2f", pulseIndex, timesMS[pulseIndex], voltages[pulseIndex], powersMW[pulseIndex]);
+    self.timesMS = [[NSMutableData alloc] initWithLength:numPulses * sizeof(long)];
+    long *tPtr = self.timesMS.mutableBytes;
+    self.voltages = [[NSMutableData alloc] initWithLength:numPulses * sizeof(float)];
+    float *vPtr = self.voltages.mutableBytes;
+    self.powersMW = [[NSMutableData alloc] initWithLength:numPulses * sizeof(float)];
+    float *pPtr = self.powersMW.mutableBytes;
+    NSMutableData *trainValues = [[NSMutableData alloc] initWithLength:self.bufferLength * sizeof(short)];
+    short *sPtr = trainValues.mutableBytes;
+    long pulseIndex = -1;                                                           // force a new pulse entring loop
+    for (long sampleSet = 0; sampleSet < numStimSampleSets; sampleSet++) {
+        sampleSetTimeMS = (sampleSet * self.sampleSetPeriodUS / 1000.0);
+        if ((sampleSetTimeMS + pulsePhaseMS) / pNoise->pulseWidthMS > pulseIndex) { // start of a new pulse
+            pulseIndex++;
+            *tPtr++ = (sampleSet - zeroSample) / sampleSetsPerMS;                      // save start time of new pulse
+            pulseState = rand() % 2;                                                // select random state
+            sampleP = mw[pulseState];                                 // save power of new pulse
+            sampleV = v[pulseState];                                   // save voltage of new pulse
+            if (pulseState && sampleSet < rampEndSampleSet) {                       // if we're in the ramp, rescale
+                float factor = MIN(sampleSet / rampEndSampleSet, 1.0);
+                sampleP *= factor;
+                sampleV *= factor;
             }
-            [trainValues replaceBytesInRange:NSMakeRange(valueIndex * sizeof(short), 
-                        pulseValues.length) withBytes:pulseValues.bytes];
+            *pPtr++ = sampleP;
+            *vPtr++ = sampleV;
+            for (index = 0; index < self.channels; index++) {                       // create new values for train
+                sampleValues[index] = sampleV * vRangeFract * 0x7fff;  // might be positive or negative
+            }
+            sampleValues[index] = gateAndPulseBits;                   // digital output word (pulseBits on even pulses)
+            sampleValues[index] = (pulseIndex % 2) ? gateBits : gateAndPulseBits;
+//            NSLog(@"%ld: time: %ld voltage %.2f power %.2f", pulseIndex, timesMS[pulseIndex], voltages[pulseIndex], powersMW[pulseIndex]);
+        }
+        for (index = 0; index < self.channels + 1; index++) {                  // load values for one sample set
+            *sPtr++ = sampleValues[index];
         }
     }
-    [pulseValues release];
+
+// If there the gate has a front and back porch, add those to the output values
     
-// If there the gate has a front and back porch, add the porches to the output values
-    
-    if (sampleSetsInPorch > 0) {
-        porchBufferLength = sampleSetsInPorch * instructionsPerSampleSet;
-        porchValues = [[NSMutableData alloc] initWithLength:(porchBufferLength * sizeof(short))];
+    if (numPorchSampleSets > 0) {
+        long porchBufferLength = numPorchSampleSets * instructsPerSampleSet;
+        NSMutableData *porchValues = [[NSMutableData alloc]
+                                      initWithLength:porchBufferLength * sizeof(short)];
         sPtr = porchValues.mutableBytes;
-        for (index = 0; index < sampleSetsInPorch; index++) {
-            sPtr += self.channels;                            // skip over analog values
-            *(sPtr)++ = gateBits;                        // set the gate bits
+        short scaledOffV = 0.0 * vRangeFract * 0x7fff;
+        for (index = 0; index < numPorchSampleSets; index++) {
+            for (long c = 0; c < self.channels; c++) {
+                *sPtr++ = scaledOffV;                       // analog values are off values during porch
+            }
+            *sPtr++ = gateBits;                             // load the gate values in the digital word
         }
-        [trainValues appendData:porchValues];            // stim train, back porch
-        [porchValues appendData:trainValues];            // front porch, stim train, back porch
-        [trainValues release];                           // release unneeded data
-        trainValues = porchValues;                       // make trainValues point to the whole set
-        self.bufferLength += 2 * porchBufferLength;           // tally the buffer length with both porches
+        [trainValues appendData:porchValues];               // stim train and back porch
+        [porchValues appendData:trainValues];               // front porch, stim train, and back porch
+        [trainValues release];                              // release unneeded data
+        trainValues = porchValues;                          // make trainValues point to the whole set
+        self.bufferLength += 2 * porchBufferLength;     // tally the buffer length with both porches
     }
     
 // Make the last digital output word in the buffer close the gate (0x00)
     
     [trainValues resetBytesInRange:NSMakeRange((self.bufferLength - 1) * sizeof(short), sizeof(short))];
-
+    
 // Set up the ITC for the stimulus train.  Do everything except the start.  For every DA output,
 // we also do a read on the corresponding AD channel
     
@@ -370,13 +375,13 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     ITC18_SetSequence(self.itc, (int)(self.channels + 1), ITCInstructions);
     ITC18_StopAndInitialize(self.itc, YES, YES);
     ITC18_GetFIFOWriteAvailable(self.itc, &writeAvailable);
-    if (writeAvailable < DASampleSetsInTrain) {
+    if (writeAvailable < numStimSampleSets) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18WhiteNoiseDevice"
                 informativeText:@"An ITC18 Laboratory Interface card was found, but the write buffer was full."];
         [trainValues release];
         return NO;
     }
-    result = ITC18_WriteFIFO(self.itc, (int)self.bufferLength, (short *)trainValues.bytes);
+    int result = ITC18_WriteFIFO(self.itc, (int)self.bufferLength, (short *)trainValues.bytes);
     [trainValues release];
     if (result != noErr) { 
         NSLog(@"Error ITC18_WriteFIFO, result: %d", result);
@@ -386,154 +391,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     self.samplesReady = NO;
     [self.deviceLock unlock];
     return YES;
-}
-
-- (BOOL)makeStimUsingProfile:(LLNoiseProfile *)profile meanPowerMW:(float)meanPowerMW;
-{
-    short values[kMaxChannels + 1], gateAndPulseBits, gateBits, *sPtr;
-    long index, DASampleSetsInTrain, DASampleSetsPerPhase, sampleSetIndex, ticksPerInstruction;
-    long gatePorchUS, sampleSetsInPorch, porchBufferLength;
-    long pulseCount, DASamplesPerPulse, durationUS, instructionsPerSampleSet, valueIndex;
-    int writeAvailable, result;
-    float instructionPeriodUS, pulsePeriodUS, rangeFraction[kMaxChannels];
-    NSMutableData *trainValues, *pulseValues, *porchValues;
-    int ITCInstructions[kMaxChannels + 1];
-
-    if (!self.itcExists) {
-        return NO;
-    }
-    self.channels = 1;                                                  // Configured for one channel
-
-    // We take common values from the first entry, on the assumption that others have been checked and are the same
-    
-    instructionsPerSampleSet = self.channels + 1;                            // channels plus a digital word
-    gatePorchUS = (pNoise->doGate) ? pNoise->gatePorchMS * 1000.0 : 0;
-    durationUS = pNoise->durationMS * 1000.0;
-    
-// First determine the DASample period.  We require the entire stimulus to fit within the ITC-18 FIFO.
-// We divide down to allow for enough DA (channels) and digital (1) samples, plus a 2x safety factor
-    
-    ticksPerInstruction = ITC18_MINIMUM_TICKS;
-    while ((durationUS + 2 * gatePorchUS) / (kITC18TickTimeUS * ticksPerInstruction) >
-                                            self.FIFOSize / (instructionsPerSampleSet * 2)) {
-        ticksPerInstruction++;
-    }
-    if (ticksPerInstruction > ITC18_MAXIMUM_TICKS) {
-        return NO;
-    }
-    
-// Precompute some important values
-    
-    instructionPeriodUS = ticksPerInstruction * kITC18TickTimeUS;
-    self.DASampleSetPeriodUS = instructionPeriodUS * instructionsPerSampleSet;
-    DASampleSetsPerPhase = round(pNoise->pulseWidthMS * 1000.0 / self.DASampleSetPeriodUS);
-    sampleSetsInPorch = gatePorchUS / self.DASampleSetPeriodUS;        // DA samples in the gate porch
-    DASampleSetsInTrain = durationUS / self.DASampleSetPeriodUS;        // DA samples in entire train
-    self.bufferLength = MAX(DASampleSetsInTrain * instructionsPerSampleSet, instructionsPerSampleSet);
-    pulsePeriodUS = (pNoise->frequencyHZ > 0) ? 1.0 / pNoise->frequencyHZ * 1000000.0 : 0;
-    gateBits = ((pNoise->doGate) ? (0x1 << pNoise->gateBit) : 0);
-    gateAndPulseBits = gateBits | ((pNoise->doPulseMarkers) ? (0x1 << pNoise->pulseMarkerBit) : 0);
-    
-// Create and load an array with output values that make up one pulse (DA plus digital).  These will be inserted
-// into trainValues repeatedly in the next section.
-    
-    DASamplesPerPulse = DASampleSetsPerPhase;
-    if (DASamplesPerPulse > 0) {
-        for (index = 0; index < self.channels; index++) {
-            rangeFraction[index] = pNoise[index].pulseAmpV / pNoise[index].fullRangeV;
-        }
-        pulseValues = [[NSMutableData alloc] initWithLength:DASamplesPerPulse *
-                                                   instructionsPerSampleSet * sizeof(short)];
-        for (index = 0; index < self.channels; index++) {
-            values[index] = rangeFraction[index] * 0x7fff;        // amplitude might be positive or negative
-        }
-        values[index] = gateAndPulseBits;                        // digital output word
-        for (sampleSetIndex = 0; sampleSetIndex < DASampleSetsPerPhase; sampleSetIndex++) {
-            [pulseValues replaceBytesInRange:NSMakeRange(sampleSetIndex * sizeof(short) * instructionsPerSampleSet,
-                        sizeof(short) * instructionsPerSampleSet) withBytes:&values];
-        }
-    }
-    
-// Create an array for the entire output sequence (trainValues).  It is created zeroed.  If there is a gating signal,
-// we add that to the digital output values.  bufferLength is always at least as long as instructionsPerSampleSet.
-    
-    trainValues = [[NSMutableData alloc] initWithLength:self.bufferLength * sizeof(short)];
-    if (gateBits > 0) {
-        sPtr = trainValues.mutableBytes;
-        for (index = 0; index < DASampleSetsInTrain; index++) {
-            sPtr += self.channels;                            // skip over analog values
-            *(sPtr)++ = gateBits;                        // set the gate bits
-        }
-    }
-    
-// Modify the output sequence by inserting the pulses.  If the stimulation frequency is zero
-// (pulsePeriodUS set to 0), we load no pulses.  If the duration is shorter than one pulse, nothing
-// is loaded.  If the pulseWidth is zero, nothing is loaded.
-    
-    if ((pulsePeriodUS > 0) && (DASampleSetsPerPhase > 0)) {
-        for (pulseCount = 0; ; pulseCount++) {
-            sampleSetIndex = pulseCount * pulsePeriodUS / self.DASampleSetPeriodUS;
-            valueIndex = sampleSetIndex * instructionsPerSampleSet;
-            if (valueIndex + DASamplesPerPulse + 1 >= self.bufferLength) {
-                break;
-            }
-            [trainValues replaceBytesInRange:NSMakeRange(valueIndex * sizeof(short),
-                        pulseValues.length) withBytes:pulseValues.bytes];
-        }
-    }
-    [pulseValues release];
-    
-// If there the gate has a front and back porch, add the porches to the output values
-    
-    if (sampleSetsInPorch > 0) {
-        porchBufferLength = sampleSetsInPorch * instructionsPerSampleSet;
-        porchValues = [[NSMutableData alloc] initWithLength:(porchBufferLength * sizeof(short))];
-        sPtr = porchValues.mutableBytes;
-        for (index = 0; index < sampleSetsInPorch; index++) {
-            sPtr += self.channels;                            // skip over analog values
-            *(sPtr)++ = gateBits;                        // set the gate bits
-        }
-        [trainValues appendData:porchValues];            // stim train, back porch
-        [porchValues appendData:trainValues];            // front porch, stim train, back porch
-        [trainValues release];                           // release unneeded data
-        trainValues = porchValues;                       // make trainValues point to the whole set
-        self.bufferLength += 2 * porchBufferLength;           // tally the buffer length with both porches
-    }
-    
-// Make the last digital output word in the buffer close the gate (0x00)
-    
-    [trainValues resetBytesInRange:NSMakeRange((self.bufferLength - 1) * sizeof(short), sizeof(short))];
-
-// Set up the ITC for the stimulus train.  Do everything except the start.  For every DA output,
-// we also do a read on the corresponding AD channel
-    
-    for (index = 0; index < self.channels; index++) {
-        ITCInstructions[index] =
-            ADInstructions[pNoise[index].DAChannel] | DAInstructions[pNoise[index].DAChannel] |
-                        ITC18_INPUT_UPDATE | ITC18_OUTPUT_UPDATE;
-    }
-    ITCInstructions[index] = ITC18_OUTPUT_DIGITAL1 | ITC18_INPUT_SKIP | ITC18_OUTPUT_UPDATE;
-    [self.deviceLock lock];
-    ITC18_SetSequence(self.itc, (int)(self.channels + 1), ITCInstructions);
-    ITC18_StopAndInitialize(self.itc, YES, YES);
-    ITC18_GetFIFOWriteAvailable(self.itc, &writeAvailable);
-    if (writeAvailable < DASampleSetsInTrain) {
-        [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18WhiteNoiseDevice"
-                informativeText:@"An ITC18 Laboratory Interface card was found, but the write buffer was full."];
-        [trainValues release];
-        return NO;
-    }
-    result = ITC18_WriteFIFO(self.itc, (int)self.bufferLength, (short *)trainValues.bytes);
-    [trainValues release];
-    if (result != noErr) {
-        NSLog(@"Error ITC18_WriteFIFO, result: %d", result);
-        return NO;
-    }
-    ITC18_SetSamplingInterval(self.itc, (int)ticksPerInstruction, NO);
-    self.samplesReady = NO;
-    [self.deviceLock unlock];
-    return YES;
-
 }
 
 - (BOOL)outputDigitalEvent:(long)event withData:(long)data;
@@ -604,11 +461,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 - (NSData **)sampleData;
 {
-    if (!self.itcExists) {                                // return nil data when no device is present
-        return nil;
-//        return inputSamples;
-    }
-    if (!self.samplesReady) {                            // or the samples aren't all read in yet
+    if (!self.itcExists || !self.samplesReady) {       // no device is present or samples aren't all read yet
         return nil;
     }
     else {
@@ -619,7 +472,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 
 - (float)samplePeriodUS;
 {
-    return self.DASampleSetPeriodUS;
+    return self.sampleSetPeriodUS;
 }
 
 // Report whether it is safe to call sampleData
@@ -630,58 +483,50 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 }
 /* 
  Get new stimulation parameter data and load the instruction sequence in the ITC-18.  The array argument may 
- contain parameter descriptions for up to 8 different channels.  In the current configuration, all channels
- have synchronous pulses (all biphasic or all monophasic, all synchronous, same frequency).  Only the number of
+ contain parameter descriptions for up to 8 different channels. In the current configuration, all channels
+ have synchronous pulses (all monophasic, all synchronous, same frequency).  Only the number of
  channels and their amplitudes can vary.
 
- We create a buffer
- in which alternate words are DA values and digital output words (to gate the train and mark the pulses).  
- We load the entire stimulus into the buffer, so that no servicing is needed.
+ We create a buffer in which alternate words are DA values and digital output words (to gate the train and mark
+ the pulses). We load the entire stimulus into the buffer, so that no servicing is needed.
+ 
+ If a single channel is being used, it can be simpler to use setNoiseParameters.
  */
 
 - (BOOL)setNoiseArray:(NSArray *)array;
 {
-    BOOL doPulseMarkers, doGate;
-    long index, DAchannels, durationMS, gateBit, pulseMarkerBit, pulseWidthMS;
-    float frequencyHZ, fullRangeV;
     WhiteNoiseData noiseData[kMaxDAChannels];
     NSValue *value;
     
-    DAchannels = array.count;  
-    if (!self.itcExists || (DAchannels == 0)) {
+    if (!self.itcExists || (array.count == 0)) {
         return YES;
     }
-    
+
 // Check that the entries are within limits, then unload the data
     
-    if (DAchannels > ITC18_NUMBEROFDACOUTPUTS) {
+    if (array.count > ITC18_NUMBEROFDACOUTPUTS) {
         [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18WhiteNoiseDevice"
                                  informativeText: @"Too many channels requested.  Ignoring request."];
         return NO;
     }
-    for (index = 0; index < DAchannels; index++) {
+    for (long index = 0; index < array.count; index++) {
         value = array[index];
         [value getValue:&noiseData[index]];
-        if (index == 0) {
-            doPulseMarkers = noiseData[index].doPulseMarkers;
-            doGate = noiseData[index].doGate;
-            durationMS = noiseData[index].durationMS;
-            gateBit = noiseData[index].gateBit;
-            pulseMarkerBit = noiseData[index].pulseMarkerBit;
-            pulseWidthMS = noiseData[index].pulseWidthMS;
-            frequencyHZ = noiseData[index].frequencyHZ;
-            fullRangeV = noiseData[index].fullRangeV;
+        if (index > 0) {
+            if (noiseData[index].doPulseMarkers != noiseData[0].doPulseMarkers ||
+                        noiseData[index].doGate != noiseData[0].doGate ||
+                        noiseData[index].durationMS != noiseData[0].durationMS ||
+                        noiseData[index].gateBit != noiseData[0].gateBit ||
+                        noiseData[index].pulseMarkerBit != noiseData[0].pulseMarkerBit ||
+                        noiseData[index].pulseWidthMS != noiseData[0].pulseWidthMS ||
+                        noiseData[index].fullRangeV != noiseData[0].fullRangeV) {
+                [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18WhiteNoiseDevice:setNoiseArray:"
+                            informativeText: @"Incompatible values requested on different DA channels."];
+                return NO;
+            }
         }
-        else if (doPulseMarkers != noiseData[index].doPulseMarkers|| doGate != noiseData[index].doGate ||
-                    durationMS != noiseData[index].durationMS || gateBit != noiseData[index].gateBit ||
-                    pulseMarkerBit != noiseData[index].pulseMarkerBit || pulseWidthMS != noiseData[index].pulseWidthMS
-                    || frequencyHZ != noiseData[index].frequencyHZ || fullRangeV != noiseData[index].fullRangeV) {
-            [LLSystemUtil runAlertPanelWithMessageText:@"LLITC18WhiteNoiseDevice"
-                                     informativeText: @"Incompatible values requested on different DA channels."];
-            return NO;
-        }            
     } 
-    return [self makeInstructionsFromTrainData:noiseData channels:DAchannels];
+    return [self makeInstructionsFromNoiseData:noiseData channels:array.count];
 }
 
 /* 
@@ -692,7 +537,7 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
 
 - (BOOL)setNoiseParameters:(WhiteNoiseData *)pNoise;
 {
-    return [self makeInstructionsFromTrainData:pNoise channels:1];
+    return [self makeInstructionsFromNoiseData:pNoise channels:1];
 }
 
 - (void)stimulate;
@@ -705,4 +550,5 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
     [self.deviceLock unlock];
     [NSThread detachNewThreadSelector:@selector(readData) toTarget:self withObject:nil];
 }
+
 @end

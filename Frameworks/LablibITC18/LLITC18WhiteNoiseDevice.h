@@ -16,10 +16,17 @@
 #pragma clang diagnostic pop
 
 @interface LLITC18WhiteNoiseDevice : NSObject <LLWhiteNoiseDevice>  {
-
-@private
-	NSData				*inputSamples[ITC18_NUMBEROFDACOUTPUTS];
+    
+	NSData *inputSamples[ITC18_NUMBEROFDACOUTPUTS];
 }
+
+@property (retain) NSMutableData *powersMW;
+@property (retain) NSData *pulseTimesMS;
+@property (retain) NSData *pulseVoltage;
+@property (retain) NSData *pulsePowersMW;
+@property (retain) NSData *pulseTrain;
+@property (retain) NSMutableData *timesMS;
+@property (retain) NSMutableData *voltages;
 
 - (void)close;
 - (void)digitalOutputBits:(unsigned long)bits;
@@ -28,7 +35,7 @@
 - (void)doInitializationWithDevice:(long)numDevice;
 - (instancetype)initWithDevice:(long)numDevice;
 - (instancetype)initWithDataDevice:(LLDataDevice *)theDataDevice;
-- (BOOL)makeInstructionsFromTrainData:(WhiteNoiseData *)pNoise channels:(long)channels;
+- (BOOL)makeInstructionsFromNoiseData:(WhiteNoiseData *)pNoise channels:(long)channels;
 - (BOOL)open:(long)numDevice;
 - (BOOL)outputDigitalEvent:(long)event withData:(long)data;
 
