@@ -250,10 +250,11 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     int ITCInstructions[kMaxChannels + 1];
     BOOL pulseState;
     
-    if (!self.itcExists) {
-        return NO; 
-    }
-    
+//    if (!self.itcExists) {
+//        return NO;
+//    }
+    self.FIFOSize = 100000;
+//
     // We take common values from the first entry, on the assumption that others have been checked and are the same
     
     self.channels = MIN(activeChannels, ITC18_NUMBEROFDACOUTPUTS);
@@ -282,7 +283,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     long numStimSampleSets = durationUS / self.sampleSetPeriodUS;       // DA samples in train (without porches)
     long numTrainSamples = (durationUS + 2 * gatePorchUS) / instructPeriodUS;
     double vRangeFract = pNoise->pulseAmpV / pNoise->fullRangeV;
-//    DASampleSetsPerPhase = round(pNoise->pulseWidthMS * 1000.0 / self.sampleSetPeriodUS);
     self.bufferLength = MAX(numTrainSamples, instructsPerSampleSet);
     long numPulses = pNoise->durationMS / pNoise->pulseWidthMS;
     short gateBits = ((pNoise->doGate) ? (0x1 << pNoise->gateBit) : 0);
@@ -297,7 +297,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     
     long zeroSample = pNoise->zeroTimeMS * sampleSetsPerMS;                // sample at start of visual stimulus
 //    long rampEndSample = self.preRampDurMS * samplesPerMS;      // sample at end of ramp
-    long rampEndSampleSet = pNoise->rampDurMS / sampleSetsPerMS;
+    long rampEndSampleSet = pNoise->rampDurMS * sampleSetsPerMS;
     long pulsePhaseMS = rand() % (long)pNoise->pulseWidthMS;    // random pulse phase (to nearest ms)
 
     //    NSLog(@"%ld: time: %ld voltage %.2f power %.2f", pulseIndex, timesMS[pulseIndex], voltages[pulseIndex], powersMW[pulseIndex]);
@@ -319,7 +319,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             sampleP = mw[pulseState];                                 // save power of new pulse
             sampleV = v[pulseState];                                   // save voltage of new pulse
             if (pulseState && sampleSet < rampEndSampleSet) {                       // if we're in the ramp, rescale
-                float factor = MIN(sampleSet / rampEndSampleSet, 1.0);
+                float factor = MIN((float)sampleSet / rampEndSampleSet, 1.0);
                 sampleP *= factor;
                 sampleV *= factor;
             }
@@ -330,7 +330,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             }
             sampleValues[index] = gateAndPulseBits;                   // digital output word (pulseBits on even pulses)
             sampleValues[index] = (pulseIndex % 2) ? gateBits : gateAndPulseBits;
-//            NSLog(@"%ld: time: %ld voltage %.2f power %.2f", pulseIndex, timesMS[pulseIndex], voltages[pulseIndex], powersMW[pulseIndex]);
+            NSLog(@"%3ld: time: %3ld voltage %.2f power %.2f", pulseIndex, (sampleSet - zeroSample) / sampleSetsPerMS,
+                  sampleV, sampleP);
         }
         for (index = 0; index < self.channels + 1; index++) {                  // load values for one sample set
             *sPtr++ = sampleValues[index];
@@ -361,6 +362,14 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // Make the last digital output word in the buffer close the gate (0x00)
     
     [trainValues resetBytesInRange:NSMakeRange((self.bufferLength - 1) * sizeof(short), sizeof(short))];
+
+    
+    if (!self.itcExists) {
+        return NO;
+    }
+    
+
+    
     
 // Set up the ITC for the stimulus train.  Do everything except the start.  For every DA output,
 // we also do a read on the corresponding AD channel
