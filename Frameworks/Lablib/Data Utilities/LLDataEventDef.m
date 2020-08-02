@@ -12,11 +12,12 @@
 #define        kStructDataType        -1
 
 typedef enum {kNoDataType, kCharType, kUnsignedCharType, kBooleanType, kShortType, kUnsignedShortType,
-            kLongType, kUnsignedLongType, kFloatType, kDoubleType, kStringType, kCGFloatType} LLVariableFormatLLDataTypeType;
+            kLongType, kUnsignedLongType, kFloatType, kDoubleType, kStringType, kCGFloatType, kSigned32Int}
+            LLVariableFormatLLDataTypeType;
             
 static NSString *LLDataTypeStrings[] = {@"no data", @"char", @"unsigned char", @"boolean", 
                             @"short", @"unsigned short", @"long", @"unsigned long", 
-                            @"float", @"double", @"string", @"CGFloat"};
+                            @"float", @"double", @"string", @"CGFloat", @"int32_t"};
                             
 @implementation LLDataEventDef
 
@@ -93,7 +94,6 @@ static NSString *LLDataTypeStrings[] = {@"no data", @"char", @"unsigned char", @
         [dataDef.dataName release];
     }
     [dataDefs release];
-
     [name release];
     [super dealloc];
 }
@@ -115,9 +115,9 @@ static NSString *LLDataTypeStrings[] = {@"no data", @"char", @"unsigned char", @
     // only the Boolean type, which is a single byte by itself, but two bytes in a structure
     
 #if defined(__LP64__) && __LP64__
-    static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1, 8};
+    static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1, 8, 4};
 #else
-    static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1, 4};
+    static unsigned short LLDataTypeBytes[] = {0, 1, 1, 1, 2, 2, 4, 4, 4, 8, 1, 4, 4};
 #endif
 
 // An index of -1 is a structure, for which we return -1
@@ -492,7 +492,7 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
 
     if ([self simpleTypeIndex:pDef] >= 0) {                // it's a simple data type
         [dataDefs addObject:[NSValue valueWithBytes:pDef objCType:@encode(LLDataDef)]];
-//        NSLog(@"   \"%@\" \"%@\" in \"%@\" (offset %d, %d elem, %d bytes total)", 
+//        NSLog(@"   \"%@\" \"%@\" in \"%@\" (offset %d, %d elem, %d bytes total)",
 //            pDef->typeName, pDef->dataName, name, pDef->offsetBytes, pDef->elements, bytes);
         offsetBytes = pDef->offsetBytes + bytes * pDef->elements;
         return YES;
@@ -616,6 +616,9 @@ must be parsed repeatedly (struct array), it can be reset for each struct.
         break;
     case kLongType:
         theString = [NSString stringWithFormat:@" %ld", ((long *)dPtr)[index]];
+        break;
+    case kSigned32Int:
+        theString = [NSString stringWithFormat:@" %d", ((int32_t *)dPtr)[index]];
         break;
     case kUnsignedLongType:
         theString = [NSString stringWithFormat:@" %lu", ((unsigned long *)dPtr)[index]];

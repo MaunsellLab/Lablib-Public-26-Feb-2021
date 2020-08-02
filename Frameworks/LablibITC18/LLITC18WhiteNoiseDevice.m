@@ -295,14 +295,14 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
 // sequence (trainValues). It is created zeroed.  If there is a gating signal,
 // we load that into the digital output values. bufferLength is always at least as long as instructsPerSampleSet.
     
-    long zeroSample = pNoise->zeroTimeMS * sampleSetsPerMS;                // sample at start of visual stimulus
+//    long zeroSample = pNoise->zeroTimeMS * sampleSetsPerMS;                // sample at start of visual stimulus
 //    long rampEndSample = self.preRampDurMS * samplesPerMS;      // sample at end of ramp
     long rampEndSampleSet = pNoise->rampDurMS * sampleSetsPerMS;
     long pulsePhaseMS = rand() % (long)pNoise->pulseWidthMS;    // random pulse phase (to nearest ms)
 
     //    NSLog(@"%ld: time: %ld voltage %.2f power %.2f", pulseIndex, timesMS[pulseIndex], voltages[pulseIndex], powersMW[pulseIndex]);
-    self.timesMS = [[NSMutableData alloc] initWithLength:numPulses * sizeof(long)];
-    long *tPtr = self.timesMS.mutableBytes;
+    self.timesMS = [[NSMutableData alloc] initWithLength:numPulses * sizeof(int32_t)];
+    int32_t *tPtr = self.timesMS.mutableBytes;
     self.voltages = [[NSMutableData alloc] initWithLength:numPulses * sizeof(float)];
     float *vPtr = self.voltages.mutableBytes;
     self.powersMW = [[NSMutableData alloc] initWithLength:numPulses * sizeof(float)];
@@ -313,11 +313,12 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     for (long sampleSet = 0; sampleSet < numStimSampleSets; sampleSet++) {
         sampleSetTimeMS = (sampleSet * self.sampleSetPeriodUS / 1000.0);
         if ((sampleSetTimeMS + pulsePhaseMS) / pNoise->pulseWidthMS > pulseIndex) { // start of a new pulse
+//            *tPtr++ = (int32_t)(sampleSet - zeroSample) / sampleSetsPerMS;        // save start time of new pulse
             pulseIndex++;
-            *tPtr++ = (sampleSet - zeroSample) / sampleSetsPerMS;                      // save start time of new pulse
+            *tPtr++ = (int32_t)(pulseIndex * pNoise->pulseWidthMS + pulsePhaseMS);  // save start time of new pulse
             pulseState = rand() % 2;                                                // select random state
-            sampleP = mw[pulseState];                                 // save power of new pulse
-            sampleV = v[pulseState];                                   // save voltage of new pulse
+            sampleP = mw[pulseState];                                               // save power of new pulse
+            sampleV = v[pulseState];                                                // save voltage of new pulse
             if (pulseState && sampleSet < rampEndSampleSet) {                       // if we're in the ramp, rescale
                 float factor = MIN((float)sampleSet / rampEndSampleSet, 1.0);
                 sampleP *= factor;
@@ -330,7 +331,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             }
             sampleValues[index] = gateAndPulseBits;                   // digital output word (pulseBits on even pulses)
             sampleValues[index] = (pulseIndex % 2) ? gateBits : gateAndPulseBits;
-            NSLog(@"%3ld: time: %3ld voltage %.2f power %.2f", pulseIndex, (sampleSet - zeroSample) / sampleSetsPerMS,
+            NSLog(@"%3ld: time: %4ld voltage %.2f power %.2f", pulseIndex, pulseIndex * pNoise->pulseWidthMS + pulsePhaseMS,
                   sampleV, sampleP);
         }
         for (index = 0; index < self.channels + 1; index++) {                  // load values for one sample set
