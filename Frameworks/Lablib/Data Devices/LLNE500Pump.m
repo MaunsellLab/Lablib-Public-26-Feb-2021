@@ -7,11 +7,12 @@
 // The NE500 Pump is controlled through a StarTech TCP-RS232 converter.  The code here will work with only two
 // changes to the default settings for the StarTech device.  The first step is to get the pump and StarTech device
 // on the same network as the computer you're using, and to manually set the computer to the same subnet.  The
-// StarTech default address is 10.1.1.1, so the computer might be 10.1.1.2.  Once that is arrange, you need to use
-// a browser to change the StarTech setting.  These changes can be made using a browser and going 10.1.1.1.  The
-// login and password are both "admin" for the StarTech device.  Under UART Control, change the StarTech baudrate
-// 19200, which is all the NE500 pump can handle.  Under TCP mode, change the Port Number to 100, which is what
-// we use by convention (although any other port number should work if you set it appropriately in this code.
+// StarTech default address is 10.1.1.1 (or maybe 10.0.254.254), so the computer might be 10.1.1.2 (or 10.0.254.250).
+// Once that is arrange, you need to use a browser to change the StarTech setting.  These changes can be made using a
+// browser and going 10.1.1.1 (or 10.0.254.254).  The login and password are both "admin" for the StarTech device.
+// Under UART Control, change the StarTech baudrate 19200, which is all the NE500 pump can handle.  Under TCP mode,
+// change the Port Number to 100, which is what we use by convention (although any other port number should work if
+// you set it appropriately in this code.
 
 #import "LLNE500Pump.h"
 #include <LLSystemUtil.h>
