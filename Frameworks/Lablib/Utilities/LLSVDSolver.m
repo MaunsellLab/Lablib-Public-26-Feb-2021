@@ -5,7 +5,7 @@
 //  Copyright 2006. All rights reserved.
 //
 
-#import "LLSVDSolver.h"
+#import <Lablib/LLSVDSolver.h>
 
 #define FMAX(a,b) (maxarg1=(a),maxarg2=(b),(maxarg1) > (maxarg2) ?\
 				   (maxarg1) : (maxarg2))

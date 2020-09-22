@@ -6,7 +6,7 @@
 //  Copyright 2018. All rights reserved.
 //
 
-#import "LLDataDevice.h"
+#import <Lablib/LLDataDevice.h>
 #import "LLSystemUtil.h"
 
 @implementation LLDataDevice

@@ -6,7 +6,7 @@
 //  Copyright (c) 2004. All rights reserved.
 //
 
-#import "LLVisualStimulus.h"
+#import <Lablib/LLVisualStimulus.h>
 
 typedef NS_ENUM(unsigned int, LLTargetShape) {kLLCircle, kLLSquare, kLLDiamond, kLLCross, kLLShapes};
 

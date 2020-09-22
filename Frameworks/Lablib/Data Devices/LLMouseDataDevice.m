@@ -16,7 +16,7 @@
 // up event, so it will not register in the event stream. The mouse down will be seen.
 
 #import "LLMouseDataDevice.h" 
-#import "LLDataDeviceController.h"
+#import <Lablib/LLDataDeviceController.h>
 #import "LLSystemUtil.h"
 #import "LLMouseDataSettings.h"
 

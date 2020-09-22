@@ -6,7 +6,7 @@
 //  Copyright (c) 2008. All rights reserved.
 //
 
-#import "LLPulseTrainDevice.h"
+#import <Lablib/LLPulseTrainDevice.h>
 
 extern NSString *LLPTPulseTypeKey;
 extern NSString *LLPTAmplitudeKey;

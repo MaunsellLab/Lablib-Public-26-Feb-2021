@@ -6,7 +6,7 @@
 //  Copyright 2004. All rights reserved.
 //
 
-#import "LLNormDist.h"
+#import <Lablib/LLNormDist.h>
 
 @interface LLStatValues : LLNormDist {
 

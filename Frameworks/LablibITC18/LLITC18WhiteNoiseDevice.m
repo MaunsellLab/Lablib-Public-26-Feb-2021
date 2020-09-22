@@ -6,7 +6,7 @@
 //  Copyright (c) 2008-2020. All rights reserved.
 //
 
-#import "LLITC18WhiteNoiseDevice.h"
+#import <LablibITC18/LLITC18WhiteNoiseDevice.h>
 #import <LablibITC18/LLITC18DataDevice.h>
 #import <Lablib/LLSystemUtil.h>
 #import <unistd.h>

@@ -5,7 +5,7 @@
 //  Copyright (c) 2004. All rights reserved.
 //
 
-#import "LLStimTrainDevice.h"
+#import <Lablib/LLStimTrainDevice.h>
 
 extern NSString *LLSTAmplitudeKey;
 extern NSString *LLSTDuractionKey;

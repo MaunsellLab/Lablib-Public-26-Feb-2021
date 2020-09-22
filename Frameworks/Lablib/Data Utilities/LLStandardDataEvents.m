@@ -6,10 +6,10 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLStandardDataEvents.h"
-#import "LLDisplays.h"
-#import "LLEyeCalibrator.h"
-#import "LLDataDeviceController.h"
+#import <Lablib/LLStandardDataEvents.h>
+#import <Lablib/LLDisplays.h>
+#import <Lablib/LLEyeCalibrator.h>
+#import <Lablib/LLDataDeviceController.h>
 
 // Definitation for the contents of Cocoa structures that might appear in data events
 

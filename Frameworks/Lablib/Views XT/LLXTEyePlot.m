@@ -6,7 +6,7 @@
 //  Copyright (c) 2005. All rights reserved.
 //
 
-#import "LLXTEyePlot.h"
+#import <Lablib/LLXTEyePlot.h>
 
 #define kStrokeFactor    0.50
 #define kFillFactor     0.05

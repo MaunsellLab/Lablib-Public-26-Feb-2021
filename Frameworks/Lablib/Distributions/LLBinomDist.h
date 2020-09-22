@@ -6,7 +6,7 @@
 //  Copyright 2004. All rights reserved.
 //
 
-#import "LLDistribution.h"
+#import <Lablib/LLDistribution.h>
 
 @interface LLBinomDist : NSObject <LLDistribution> {
 

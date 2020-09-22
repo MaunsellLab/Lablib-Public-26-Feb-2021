@@ -29,7 +29,7 @@ prevented by the flag).
 
 */
 
-#import "LLVisualStimulus.h"
+#import <Lablib/LLVisualStimulus.h>
 #import "LLTextUtil.h"
 
 NSString *LLAzimuthDegKey = @"azimuthDeg";

@@ -7,7 +7,7 @@
 //  The NIDAQ supports only one each of AO, AI, DO, and DI tasks (each) simultaneously:
 //  https://knowledge.ni.com/KnowledgeArticleDetails?id=kA00Z0000019KWYSA2
 
-#import "LLNIDAQTask.h"
+#import <Lablib/LLNIDAQTask.h>
 
 static long nextTaskID = 0;         // class variable to persist across all instances
 

@@ -6,8 +6,8 @@
 //  Copyright (c) 2005. All rights reserved.
 //
 
-#import "LLSynthDataSettings.h"
-#import "LLSynthDataDevice.h"
+#import <Lablib/LLSynthDataSettings.h>
+#import <Lablib/LLSynthDataDevice.h>
 
 @implementation LLSynthDataSettings
 

@@ -5,8 +5,8 @@
 //  Copyright (c) 2009. All rights reserved.
 //
 
-#import "LLVisualStimulus.h"
-#import "LLDataEventDef.h"
+#import <Lablib/LLVisualStimulus.h>
+#import <Lablib/LLDataEventDef.h>
 
 #define kLLPlaidEventDesc \
 {{@"float", @"azimuthDeg", 1, offsetof(Plaid, azimuthDeg)},\

@@ -6,10 +6,10 @@
 //  Copyright (c) 2005. All rights reserved.
 //
 
-#import "LLDataDevice.h"
-#import "LLEyeCalibrator.h"
-#import "LLSynthDataSettings.h"
-#import "LLSynthBinocSaccade.h"
+#import <Lablib/LLDataDevice.h>
+#import <Lablib/LLEyeCalibrator.h>
+#import <Lablib/LLSynthDataSettings.h>
+#import <Lablib/LLSynthBinocSaccade.h>
 
 #define kLLSynthADChannels                8
 #define kLLSynthDigitalBits                16

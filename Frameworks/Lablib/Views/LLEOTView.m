@@ -7,8 +7,8 @@
 //
 
 #import "LLEOTView.h"
-#import "LLStandardDataEvents.h"
-#import "LLPlotColors.h"
+#import <Lablib/LLStandardDataEvents.h>
+#import <Lablib/LLPlotColors.h>
 
 @implementation LLEOTView
 

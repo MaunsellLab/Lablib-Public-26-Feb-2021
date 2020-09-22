@@ -9,7 +9,7 @@
 #ifndef _LLDataDevice_
 #define _LLDataDevice_
 
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLStandardDataEvents.h>
 
 // We need a forward declaration of LLDataDeviceController, because it references LLDataDevice in its header
 

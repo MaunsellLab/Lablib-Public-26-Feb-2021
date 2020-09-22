@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLPlotColors.h"
+#import <Lablib/LLPlotColors.h>
 
 static float colorValues[][kGuns] = {
     {0.0, 0.0, 1.0},        // blue

@@ -6,7 +6,7 @@
 //  Copyright 2017.
 //
 
-#import "LLPowerCalibrator.h"
+#import <Lablib/LLPowerCalibrator.h>
 #import "LLSystemUtil.h"
 
 #define kdefaultCalibrationFolderURL @"file:///Library/Application%20Support/Knot/Calibrations/"

@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLDataDoc.h" 
+#import <Lablib/LLDataDoc.h> 
 
 #define kLLEyeWindowEventDesc \
 {{@"long",    @"index", 1, offsetof(FixWindowData, index)},\

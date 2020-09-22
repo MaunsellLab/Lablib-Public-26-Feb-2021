@@ -6,7 +6,7 @@
 //
 //
 
-#import "LLSockets.h"
+#import <Lablib/LLSockets.h>
 
 typedef NS_ENUM(unsigned int, TaskType) {kNoType,
     kAnalogOutputType,

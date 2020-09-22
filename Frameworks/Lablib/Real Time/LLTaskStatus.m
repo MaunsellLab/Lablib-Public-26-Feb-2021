@@ -5,7 +5,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLTaskStatus.h"
+#import <Lablib/LLTaskStatus.h>
 
 @implementation LLTaskStatus
 

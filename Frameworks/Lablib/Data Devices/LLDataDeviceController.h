@@ -8,8 +8,8 @@
 
 #ifndef _LLDataDeviceController_
 #define _LLDataDeviceController_
-#import "LLDataDevice.h"
-#import "LLDataAssignment.h"
+#import <Lablib/LLDataDevice.h>
+#import <Lablib/LLDataAssignment.h>
 
 typedef struct {
     NSString *name;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLStandardDataEvents.h>
 
 extern NSString *LLTaskModeChange;
 

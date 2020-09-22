@@ -6,7 +6,7 @@
 //  Copyright 2005. All rights reserved.
 //
 
-#import "LLDataEventDef.h"
+#import <Lablib/LLDataEventDef.h>
 #import "LLSystemUtil.h"
 
 #define        kStructDataType        -1

@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLEyeCalibrator.h"
+#import <Lablib/LLEyeCalibrator.h>
 
 @interface LLSynthSaccade : NSObject {
 

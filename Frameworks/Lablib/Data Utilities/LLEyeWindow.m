@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLEyeWindow.h"
+#import <Lablib/LLEyeWindow.h>
 
 
 @implementation LLEyeWindow

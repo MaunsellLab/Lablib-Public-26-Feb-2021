@@ -6,7 +6,7 @@
 //  Copyright (c) 2006. All rights reserved.
 //
 
-#import "LLStateSystem.h"
+#import <Lablib/LLStateSystem.h>
 #import "LLSystemUtil.h"
 
 @implementation LLStateSystem

@@ -7,7 +7,7 @@
 * 
 */
 
-#import "LLDisplayUtilities.h"
+#import <Lablib/LLDisplayUtilities.h>
 #import <math.h>
 #import <stdio.h>
 

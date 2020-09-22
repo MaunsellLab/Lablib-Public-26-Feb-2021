@@ -10,7 +10,7 @@
 //
 
 #import "LLEyeXYView.h"
-#import "LLEyeCalibrator.h"
+#import <Lablib/LLEyeCalibrator.h>
 #import "LLPlotAxes.h"
 #import "LLViewUtilities.h"
 

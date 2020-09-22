@@ -6,7 +6,7 @@
 //  Copyright (c) 2016. All rights reserved.
 //
 
-#import "LLDataDoc.h"
+#import <Lablib/LLDataDoc.h>
 #import "LLStandardFileNames.h"
 #import "LLSystemUtil.h"
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2003-2006. All rights reserved.
 //
 
-#import "LLStimWindow.h"
+#import <Lablib/LLStimWindow.h>
 #import "LLSystemUtil.h"
 #define GL_SILENCE_DEPRECATION
 #import <OpenGL/gl.h>

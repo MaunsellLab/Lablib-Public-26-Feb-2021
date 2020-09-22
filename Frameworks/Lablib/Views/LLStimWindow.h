@@ -6,8 +6,8 @@
 //  Copyright (c) 2004. All rights reserved.
 //
 
-#import "LLDisplays.h"
-#import "LLIntervalMonitor.h"
+#import <Lablib/LLDisplays.h>
+#import <Lablib/LLIntervalMonitor.h>
 
 @interface LLStimWindow : NSWindow <NSWindowDelegate> { 
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLViewScale.h"
+#import <Lablib/LLViewScale.h>
 
 #define kDefaultBins		50
 #define kHighlightPix		1

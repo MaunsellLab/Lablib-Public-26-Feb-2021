@@ -7,7 +7,7 @@
 //
 
 #import "LLTaskStatusTitleTransformer.h"
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLStandardDataEvents.h>
 
 @implementation LLTaskStatusTitleTransformer
 

@@ -70,8 +70,8 @@
  data to any overlapping bins, and discarding the rest.
 */
 
-#import "LLFalseHits.h"
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLFalseHits.h>
+#import <Lablib/LLStandardDataEvents.h>
 
 @implementation LLFalseHits
 

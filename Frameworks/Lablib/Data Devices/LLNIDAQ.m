@@ -11,8 +11,8 @@
 // specified.  In that case, the trigger will begin the output/acquisiton.  Note that a digital or analog trigger will
 // do nothing if the task has not been started by a start() or autostart.
 
-#import "LLNIDAQ.h"
-#import "LLNIDAQTask.h"
+#import <Lablib/LLNIDAQ.h>
+#import <Lablib/LLNIDAQTask.h>
 
 #define kAOChannel0Name         @"ao0"
 #define kAOChannel1Name         @"ao1"

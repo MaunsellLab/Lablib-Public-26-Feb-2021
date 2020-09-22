@@ -6,8 +6,8 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLEyeWindow.h"
-#import "LLSVDSolver.h"
+#import <Lablib/LLEyeWindow.h>
+#import <Lablib/LLSVDSolver.h>
 
 #define kLLEyeCalibratorOffsets         4
 

@@ -6,8 +6,8 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLPlotColors.h"
-#import "LLViewScale.h"
+#import <Lablib/LLPlotColors.h>
+#import <Lablib/LLViewScale.h>
 
 #define kHighlightPix        1
 #define kLLMarginPix            2

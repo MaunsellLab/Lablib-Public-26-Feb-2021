@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLMonitorController.h"
+#import <Lablib/LLMonitorController.h>
 #import "LLSystemUtil.h"
 
 NSString *LLMonitorUpdated = @"LL Report Updated";

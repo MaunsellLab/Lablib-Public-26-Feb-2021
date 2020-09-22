@@ -6,9 +6,9 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLDisplayPhysical.h"
-#import "LLDisplayUtilities.h"
-#import "LLDisplays.h"
+#import <Lablib/LLDisplayPhysical.h>
+#import <Lablib/LLDisplayUtilities.h>
+#import <Lablib/LLDisplays.h>
 #import "LLSystemUtil.h"
 
 #define kMMPerInch        25.40

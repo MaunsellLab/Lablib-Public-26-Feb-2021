@@ -6,7 +6,7 @@
 //  Copyright (c) 2003-2012. All rights reserved.
 //
 
-#import "LLDrawable.h"
+#import <Lablib/LLDrawable.h>
 
 @interface LLEyeWindow:NSObject {
 

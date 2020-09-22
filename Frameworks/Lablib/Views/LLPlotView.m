@@ -8,7 +8,7 @@
 
 #import "LLPlotView.h"
 #import "LLPlotAxes.h"
-#import "LLDistribution.h"
+#import <Lablib/LLDistribution.h>
 #import "LLViewUtilities.h"
 
 @implementation LLPlotView

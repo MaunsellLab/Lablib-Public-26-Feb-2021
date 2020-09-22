@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLXTSpikePlot.h"
+#import <Lablib/LLXTSpikePlot.h>
 #import "LLViewUtilities.h"
 
 @implementation LLXTSpikePlot

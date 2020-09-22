@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLXTPlot.h"
+#import <Lablib/LLXTPlot.h>
 
 @interface LLXTEventPlot : NSObject <LLXTPlot> {
 

@@ -5,10 +5,10 @@
 //  Created by John Maunsell on 3/13/17.
 //
 
-#import "LLSockets.h"
-#import "LLNIDAQTask.h"
-#import "LLPowerCalibrator.h"
-#import "LLPulseProfile.h"
+#import <Lablib/LLSockets.h>
+#import <Lablib/LLNIDAQTask.h>
+#import <Lablib/LLPowerCalibrator.h>
+#import <Lablib/LLPulseProfile.h>
 
 #define kAOChannels 2
 

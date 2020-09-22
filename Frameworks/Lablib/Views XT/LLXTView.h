@@ -6,11 +6,11 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLViewScale.h"
-#import "LLXTEventPlot.h"
-#import "LLXTEyePlot.h"
-#import "LLXTSpikePlot.h"
-#import "LLXTStimPlot.h"
+#import <Lablib/LLViewScale.h>
+#import <Lablib/LLXTEventPlot.h>
+#import <Lablib/LLXTEyePlot.h>
+#import <Lablib/LLXTSpikePlot.h>
+#import <Lablib/LLXTStimPlot.h>
 
 #define kEyePlots            2
 #define kSpikePlots            2

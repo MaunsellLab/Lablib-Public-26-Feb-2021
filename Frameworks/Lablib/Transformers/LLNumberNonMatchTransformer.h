@@ -6,7 +6,7 @@
 //  Copyright 2007. All rights reserved.
 //
 
-#import "LLNumberMatchTransformer.h"
+#import <Lablib/LLNumberMatchTransformer.h>
 
 @interface LLNumberNonMatchTransformer : LLNumberMatchTransformer {
 

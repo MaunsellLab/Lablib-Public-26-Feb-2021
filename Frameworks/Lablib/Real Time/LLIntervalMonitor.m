@@ -11,7 +11,7 @@
 //  removed warnGreaterMSKey and warnLessMSKey (weren't being used)
 //  panel modified to display correct interval with setInterval is used
 
-#import "LLIntervalMonitor.h"
+#import <Lablib/LLIntervalMonitor.h>
 #import "LLSystemUtil.h"
 
 #define kRangeMinLimitS    -0.010

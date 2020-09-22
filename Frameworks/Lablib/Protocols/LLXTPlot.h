@@ -9,7 +9,7 @@
  *
  */
 
-#import "LLViewScale.h"
+#import <Lablib/LLViewScale.h>
 
 @protocol LLXTPlot <NSObject>
 

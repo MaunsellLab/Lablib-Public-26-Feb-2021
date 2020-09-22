@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLMonitor.h"
+#import <Lablib/LLMonitor.h>
 
 @interface LLMonitorController : NSWindowController {
 

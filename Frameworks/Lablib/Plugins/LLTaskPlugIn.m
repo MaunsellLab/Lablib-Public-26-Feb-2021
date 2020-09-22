@@ -6,7 +6,7 @@
 //  Copyright 2004. All rights reserved.
 //
 
-#import "LLTaskPlugIn.h"
+#import <Lablib/LLTaskPlugIn.h>
 
 @implementation LLTaskPlugIn
 

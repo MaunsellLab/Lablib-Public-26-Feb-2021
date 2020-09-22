@@ -5,7 +5,7 @@
 //  Copyright (c) 2004. All rights reserved.
 //
 
-#import "LLVisualStimulus.h"
+#import <Lablib/LLVisualStimulus.h>
 
 #define kRDImagePix                256                        // must be a power of 2
 

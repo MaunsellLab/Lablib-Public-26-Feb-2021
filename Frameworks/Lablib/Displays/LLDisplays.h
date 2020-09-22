@@ -5,8 +5,8 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLDisplayPhysical.h"
-#import "LLDisplayUtilities.h"
+#import <Lablib/LLDisplayPhysical.h>
+#import <Lablib/LLDisplayUtilities.h>
 
 #define kPI                  (atan(1) * 4)
 #define k2PI                 (atan(1) * 4 * 2)

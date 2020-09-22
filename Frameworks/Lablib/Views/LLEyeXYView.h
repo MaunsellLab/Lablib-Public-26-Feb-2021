@@ -6,9 +6,9 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLEyeWindow.h"
-#import "LLEyeCalibrator.h"
-#import "LLViewScale.h"
+#import <Lablib/LLEyeWindow.h>
+#import <Lablib/LLEyeCalibrator.h>
+#import <Lablib/LLViewScale.h>
 
 #define kAlphaLevels        8
 #define kMaxSamplesDisplay    1000

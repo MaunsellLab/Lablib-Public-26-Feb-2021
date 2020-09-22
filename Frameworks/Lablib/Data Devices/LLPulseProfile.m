@@ -6,7 +6,7 @@
 //  Created by John Maunsell on March 17, 2018
 //  Copyright (c) 2018. All rights reserved.
 
-#import "LLPulseProfile.h"
+#import <Lablib/LLPulseProfile.h>
 
 @implementation LLPulseProfile
 

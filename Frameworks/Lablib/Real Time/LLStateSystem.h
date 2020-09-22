@@ -6,8 +6,8 @@
 //  Copyright (c) 2006. All rights reserved.
 //
 
-#import "LLState.h"
-#import "LLStateSystemController.h"
+#import <Lablib/LLState.h>
+#import <Lablib/LLStateSystemController.h>
 
 @interface LLStateSystem : NSObject {
 

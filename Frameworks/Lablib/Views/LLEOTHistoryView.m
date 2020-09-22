@@ -5,7 +5,7 @@
 //  Copyright (c) 2004. All rights reserved.
 //
 
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLStandardDataEvents.h>
 #import "LLEOTHistoryView.h"
 
 @implementation LLEOTHistoryView

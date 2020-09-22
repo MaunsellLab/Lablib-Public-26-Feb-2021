@@ -6,7 +6,7 @@
 //  Copyright (c) 2012. All rights reserved.
 //
 
-#import "LLSynthBinocSaccade.h"
+#import <Lablib/LLSynthBinocSaccade.h>
 
 #define kAccelDegPerSPerS		5000.0
 #define	kCenteringProb			0.50

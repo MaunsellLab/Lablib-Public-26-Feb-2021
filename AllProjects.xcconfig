@@ -19,7 +19,7 @@ COPY_PHASE_STRIP = NO
 // Search Paths
 ALWAYS_SEARCH_USER_PATHS = NO
 HEADER_SEARCH_PATHS = $(inherited) /Users/Shared/Lablib/Lablib-Core/Frameworks/LablibMatlab
-FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Users/Shared/Lablib/Lablib-Core/Frameworks/Lablib/build/Development
+FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks /Users/Shared/Lablib/Lablib-Core/Frameworks/Lablib/build/Development /Users/Shared/Lablib/Lablib-Core/Frameworks/LablibMatlab/build/Debug
 // Signing
 // Testing
 // Text-Based API
@@ -52,6 +52,7 @@ CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES
 CLANG_WARN_INFINITE_RECURSION = YES
 CLANG_WARN_STRICT_PROTOTYPES = YES
 CLANG_WARN_COMMA = YES
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES
 CLANG_WARN_UNREACHABLE_CODE = YES
 GCC_WARN_64_TO_32_BIT_CONVERSION = YES
 GCC_WARN_UNKNOWN_PRAGMAS = YES

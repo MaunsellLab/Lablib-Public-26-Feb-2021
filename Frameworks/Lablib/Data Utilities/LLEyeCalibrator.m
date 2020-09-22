@@ -6,8 +6,8 @@
 //  Copyright (c) 2006. All rights reserved.
 //
 
-#import "LLEyeCalibrator.h"
-#import "LLSettingsController.h"
+#import <Lablib/LLEyeCalibrator.h>
+#import <Lablib/LLSettingsController.h>
 
 #define kCircleRadiusDeg        0.15
 #define kCrossArmDeg            0.25

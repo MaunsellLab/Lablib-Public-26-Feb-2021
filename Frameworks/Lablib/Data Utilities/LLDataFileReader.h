@@ -6,8 +6,8 @@
 //  Copyright (c) 2017. All rights reserved.
 //
 
-#import "LLDataDoc.h"
-#import "LLDataEventDef.h"
+#import <Lablib/LLDataDoc.h>
+#import <Lablib/LLDataEventDef.h>
 
 #define kADChannels            8
 

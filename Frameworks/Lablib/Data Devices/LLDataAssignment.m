@@ -6,7 +6,7 @@
 //  Copyright 2005. All rights reserved.
 //
 
-#import "LLDataAssignment.h"
+#import <Lablib/LLDataAssignment.h>
 
 @implementation LLDataAssignment
 

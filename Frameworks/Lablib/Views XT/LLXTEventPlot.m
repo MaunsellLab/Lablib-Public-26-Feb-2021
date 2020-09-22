@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLXTEventPlot.h"
+#import <Lablib/LLXTEventPlot.h>
 #import "LLViewUtilities.h"
 
 @implementation LLXTEventPlot

@@ -6,7 +6,7 @@
 // this class might want to maintain a dictionary of what is and is not observed, but we really shouldn't need that
 // if this class is used correctly.
 
-#import "LLObserverKeys.h"
+#import <Lablib/LLObserverKeys.h>
 
 @implementation LLObserverKeys
 

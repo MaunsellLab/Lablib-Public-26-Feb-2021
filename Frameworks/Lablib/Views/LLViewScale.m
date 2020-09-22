@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLViewScale.h"
+#import <Lablib/LLViewScale.h>
 #define kDefaultUserHeight    1.0
 #define kDefaultUserWidth    1.0
 #define kInsideFactor        0.75

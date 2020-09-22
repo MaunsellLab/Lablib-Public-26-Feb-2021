@@ -6,8 +6,8 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLDisplays.h"
-#import "LLDisplayPhysical.h"
+#import <Lablib/LLDisplays.h>
+#import <Lablib/LLDisplayPhysical.h>
 #import "LLSystemUtil.h"
 #import <IOKit/graphics/IOGraphicsLib.h>
 

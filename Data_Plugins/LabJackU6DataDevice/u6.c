@@ -711,11 +711,11 @@ long eAIN(HANDLE Handle, u6CalibrationInfo *CalibrationInfo, long ChannelP, long
         return -1;
     }
 
-    if(Settling < 0 && Settling > 4)
-    {
-        printf("eAIN error: Invalid Settling value\n");
-        return -1;
-    }
+//    if(Settling < 0 && Settling > 4)
+//    {
+//        printf("eAIN error: Invalid Settling value\n");
+//        return -1;
+//    }
 
     /* Setting up Feedback command to read analog input */
     sendDataBuff[0] = 3;    //IOType is AIN24AR
@@ -856,11 +856,11 @@ long eTCConfig(HANDLE Handle, long *aEnableTimers, long *aEnableCounters, long T
     int sendDataBuffSize, i;
     long error;
 
-    if(TCPinOffset < 0 && TCPinOffset > 8)
-    {
-        printf("eTCConfig error: Invalid TCPinOffset.\n");
-        return -1;
-    }
+//    if(TCPinOffset < 0 && TCPinOffset > 8)
+//    {
+//        printf("eTCConfig error: Invalid TCPinOffset.\n");
+//        return -1;
+//    }
 
     /* ConfigTimerClock */
     if(TimerClockBaseIndex == LJ_tc4MHZ || TimerClockBaseIndex ==  LJ_tc12MHZ || TimerClockBaseIndex == LJ_tc48MHZ ||

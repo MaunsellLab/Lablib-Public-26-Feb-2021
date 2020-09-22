@@ -6,8 +6,8 @@
 //  Copyright 2005. All rights reserved.
 //
 
-#import "LLDataEvents.h"
-#import "LLDataReader.h"
+#import <Lablib/LLDataEvents.h>
+#import <Lablib/LLDataReader.h>
 
 @interface LLDataEventDef : NSObject {
 

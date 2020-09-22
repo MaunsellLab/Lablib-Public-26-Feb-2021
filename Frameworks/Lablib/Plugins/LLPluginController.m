@@ -7,7 +7,7 @@
 //
 
 #import "LLPluginController.h"
-#import "LLTaskPlugIn.h"
+#import <Lablib/LLTaskPlugIn.h>
 #import "LLSystemUtil.h"
 
 typedef struct {

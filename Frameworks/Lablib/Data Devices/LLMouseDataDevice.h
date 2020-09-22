@@ -6,7 +6,7 @@
 //  Copyright (c) 2005. All rights reserved.
 //
 
-#import "LLDataDevice.h"
+#import <Lablib/LLDataDevice.h>
 
 #define kLLMouseADChannels				8
 #define kLLMouseDigitalBits				16

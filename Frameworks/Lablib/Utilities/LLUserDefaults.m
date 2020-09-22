@@ -6,7 +6,7 @@
 //  Copyright 2005. All rights reserved.
 //
 
-#import "LLUserDefaults.h"
+#import <Lablib/LLUserDefaults.h>
 
 
 @implementation LLUserDefaults

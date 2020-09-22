@@ -47,7 +47,7 @@
 
 enum {kReceiveJSON = 1, kStop};
 
-#import "LLSockets.h"
+#import <Lablib/LLSockets.h>
 
 NSString *statusStrings[kLLSocketNumStatusStrings] = {
     @"NSStreamStatusNotOpen",

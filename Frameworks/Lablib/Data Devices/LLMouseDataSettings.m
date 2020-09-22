@@ -8,7 +8,7 @@
 
 #import "LLMouseDataSettings.h"
 #import "LLMouseDataDevice.h"
-#import "LLDataDeviceController.h"
+#import <Lablib/LLDataDeviceController.h>
 
 @implementation LLMouseDataSettings
 

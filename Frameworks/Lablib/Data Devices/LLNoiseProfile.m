@@ -6,8 +6,8 @@
 //  Created by John Maunsell on March 17, 2018
 //  Copyright 2018-2020. All rights reserved.
 
-#import "LLNoiseProfile.h"
-#import "LLNIDAQ.h"
+#import <Lablib/LLNoiseProfile.h>
+#import <Lablib/LLNIDAQ.h>
 #import "LLSystemUtil.h"
 
 @implementation LLNoiseProfile

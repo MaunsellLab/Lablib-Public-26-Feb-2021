@@ -12,8 +12,8 @@ this device is restricted to only two channels (x and y eye position) and they
 are yoked to a single sampling rate
 
 */
-#import "LLSynthDataDevice.h"
-#import "LLSynthDataSettings.h"
+#import <Lablib/LLSynthDataDevice.h>
+#import <Lablib/LLSynthDataSettings.h>
 #import "LLSystemUtil.h"
 #import "LLSynthSaccade.h"
 

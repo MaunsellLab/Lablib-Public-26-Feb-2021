@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLNormDist.h"
+#import <Lablib/LLNormDist.h>
 
 #define dMean	(sum / n)
 #define dSD		(sqrt(dVar))

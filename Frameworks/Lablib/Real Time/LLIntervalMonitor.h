@@ -6,8 +6,8 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLMonitor.h"
-#import "LLIntervalMonitorSettings.h"
+#import <Lablib/LLMonitor.h>
+#import <Lablib/LLIntervalMonitorSettings.h>
 
 extern NSString    *doSuccessGreaterKey;
 extern NSString    *doSuccessLessKey;

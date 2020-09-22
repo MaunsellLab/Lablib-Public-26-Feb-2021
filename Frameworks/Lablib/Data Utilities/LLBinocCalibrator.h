@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 All rights reserved.
 //
 
-#import "LLEyeCalibrator.h"
+#import <Lablib/LLEyeCalibrator.h>
 
 #ifndef kEyes
 typedef NS_ENUM(unsigned int, kWhichEye) {kLeftEye, kRightEye};

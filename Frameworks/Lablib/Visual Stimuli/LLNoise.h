@@ -6,7 +6,7 @@
 //  Copyright 2005. All rights reserved.
 //    A subclass of the LLGabor object where a noise texture replaces a cycle texture.
 
-#import "LLGabor.h"
+#import <Lablib/LLGabor.h>
 
 typedef struct {
     double orientationDegBand;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 All rights reserved.
 //
 
-#import "LLBinocCalibrator.h"
+#import <Lablib/LLBinocCalibrator.h>
 
 #define kDefaultCorrectFactor    0.025
 #define kDefaultOffsetDeg        1.0

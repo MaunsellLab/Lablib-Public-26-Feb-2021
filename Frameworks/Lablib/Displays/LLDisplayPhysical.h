@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLDisplayUtilities.h"
+#import <Lablib/LLDisplayUtilities.h>
 
 #define kLLScreenDomainName        @"lablib.knot.screen"
 #define kMaxDisplay                16

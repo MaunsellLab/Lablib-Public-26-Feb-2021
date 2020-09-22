@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLXTStimPlot.h"
+#import <Lablib/LLXTStimPlot.h>
 #import "LLViewUtilities.h"
 
 typedef struct {

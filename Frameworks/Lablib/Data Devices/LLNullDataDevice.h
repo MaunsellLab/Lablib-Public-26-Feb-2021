@@ -6,7 +6,7 @@
 //  Copyright 2005. All rights reserved.
 //
 
-#import "LLDataDevice.h"
+#import <Lablib/LLDataDevice.h>
 
 @interface LLNullDataDevice : LLDataDevice {
 

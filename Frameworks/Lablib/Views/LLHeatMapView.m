@@ -8,8 +8,8 @@
 
 #import "LLHeatMapView.h"
 #import "LLPlotAxes.h"
-#import "LLDistribution.h"
-#import "LLNormDist.h"
+#import <Lablib/LLDistribution.h>
+#import <Lablib/LLNormDist.h>
 #import "LLViewUtilities.h"
 
 @implementation LLHeatMapView

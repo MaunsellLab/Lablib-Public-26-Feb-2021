@@ -21,7 +21,7 @@ defaults are written they always go into the application domain.  That means tha
 is saved into any additional domain (settings file) that we try to maintain.
 */
 
-#import "LLSettingsController.h"
+#import <Lablib/LLSettingsController.h>
 #import "LLSystemUtil.h"
 
 #define kActiveSettings     @"LLActiveSettings"

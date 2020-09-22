@@ -6,8 +6,8 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLDataEvents.h"
-#import "LLDataEventDef.h"
+#import <Lablib/LLDataEvents.h>
+#import <Lablib/LLDataEventDef.h>
 
 #define kLLAutoreleaseIntervalS        10
 #define    kLLInitialBufferSize        1000000

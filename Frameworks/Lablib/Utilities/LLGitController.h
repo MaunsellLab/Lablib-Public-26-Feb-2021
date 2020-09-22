@@ -8,7 +8,7 @@
 #ifndef LLGitController_h
 #define LLGitController_h
 
-#import "LLTaskPlugIn.h"
+#import <Lablib/LLTaskPlugIn.h>
 
 @interface LLGitController : NSObject {
 

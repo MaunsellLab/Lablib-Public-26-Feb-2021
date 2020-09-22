@@ -9,7 +9,7 @@
  *
  */
 
-#import "LLNoiseProfile.h"
+#import <Lablib/LLNoiseProfile.h>
 
 #define kMaxChannels        16
 

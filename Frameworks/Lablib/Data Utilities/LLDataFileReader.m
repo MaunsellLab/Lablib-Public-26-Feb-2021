@@ -11,7 +11,7 @@
 #import "LLDataFileReader.h"
 #import "LLProgressIndicator.h"
 #import "LLSystemUtil.h"
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLStandardDataEvents.h>
 
 typedef enum {kSingleDevice = 1, kMultiDevice} LLDeviceType;
 

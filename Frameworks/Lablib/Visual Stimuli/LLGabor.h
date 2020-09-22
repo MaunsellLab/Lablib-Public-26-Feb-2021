@@ -5,7 +5,7 @@
 //  Copyright (c) 2006. All rights reserved.
 //
 
-#import "LLVisualStimulus.h"
+#import <Lablib/LLVisualStimulus.h>
 
 typedef struct {
     float    azimuthDeg;                // Center of gabor 

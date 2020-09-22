@@ -6,7 +6,7 @@
 //  Copyright 2005. All rights reserved.
 //
 
-#import "LLDataDeviceController.h"
+#import <Lablib/LLDataDeviceController.h>
 #import "LLNullDataDevice.h" 
 #import "LLSystemUtil.h"
 

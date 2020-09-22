@@ -91,7 +91,7 @@
 // Contrast now goes from -1 to 1 to allow straight-forward counter-phasing
 // makeDisplayLists now also sets baseGabor
 
-#import "LLGabor.h"
+#import <Lablib/LLGabor.h>
 #import "LLTextUtil.h"
 #import "LLMultiplierTransformer.h"
 

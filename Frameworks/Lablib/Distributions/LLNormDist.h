@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLDistribution.h"
+#import <Lablib/LLDistribution.h>
 
 @interface LLNormDist : NSObject  <LLDistribution> {
 

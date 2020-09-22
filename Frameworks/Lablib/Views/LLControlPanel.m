@@ -6,8 +6,8 @@
 //  Copyright 2018. All rights reserved.
 //
 
-#import "LLControlPanel.h"
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLControlPanel.h>
+#import <Lablib/LLStandardDataEvents.h>
 
 #define kTextDeltaPix    30
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2003. All rights reserved.
 //
 
-#import "LLStateSystemController.h"
+#import <Lablib/LLStateSystemController.h>
 
 #define kAutoreleaseIntervalS   10
 

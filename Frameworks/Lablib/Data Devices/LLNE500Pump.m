@@ -14,7 +14,7 @@
 // change the Port Number to 100, which is what we use by convention (although any other port number should work if
 // you set it appropriately in this code.
 
-#import "LLNE500Pump.h"
+#import <Lablib/LLNE500Pump.h>
 #include <LLSystemUtil.h>
 
 #define kBufferLength   1024

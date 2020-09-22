@@ -10,8 +10,8 @@
 //            greater and less reversals in initWindow fixed
 //            changeSuccessLessMS fixed
 
-#import "LLIntervalMonitorSettings.h"
-#import "LLIntervalMonitor.h"
+#import <Lablib/LLIntervalMonitorSettings.h>
+#import <Lablib/LLIntervalMonitor.h>
 
 @implementation LLIntervalMonitorSettings
 

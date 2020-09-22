@@ -5,7 +5,7 @@
 //  Copyright (c) 2005. All rights reserved.
 //
 
-#import "LLStandardDataEvents.h"
+#import <Lablib/LLStandardDataEvents.h>
 
 @interface LLTaskStatus : NSObject {
 
