@@ -7,7 +7,7 @@
 //
 
 #import <Lablib/LLDataDevice.h>
-#import "LLITCMonitor.h"
+#import <LablibITC18/LLITCMonitor.h>
 
 #define kMaxInstructions             12
 #define kMinSampleBuffer            8192
@@ -18,29 +18,29 @@
     long                deviceNum;
     unsigned long       digitalOutputWord;
     BOOL                justStartedITC18;
-    int                    instructions[kMaxInstructions];
-    double                ITCSamplePeriodS;
+    int                 instructions[kMaxInstructions];
+    double              ITCSamplePeriodS;
     long                ITCTicksPerInstruction;
-    double                lastReadDataTimeS;
+    double              lastReadDataTimeS;
     LLITCMonitor        *monitor;
-    double                monitorStartTimeS; 
-    double                nextSampleTimeS[kLLITC18ADChannels];
+    double              monitorStartTimeS;
+    double              nextSampleTimeS[kLLITC18ADChannels];
     long                numInstructions;
-    short                *samples;
-    NSMutableData        *sampleData[kLLITC18ADChannels];
-    NSLock                *sampleLock;
-    NSData                *sampleResults[kLLITC18ADChannels];
-    double                sampleTimeS;
-    unsigned short        timestampActiveBits;
-    NSMutableData        *timestampData[kLLITC18DigitalBits];
-    NSLock                *timestampLock;
-    NSData                *timestampResults[kLLITC18DigitalBits];
-    double                timestampTickS[kLLITC18DigitalBits];
+    short               *samples;
+    NSMutableData       *sampleData[kLLITC18ADChannels];
+    NSLock              *sampleLock;
+    NSData              *sampleResults[kLLITC18ADChannels];
+    double              sampleTimeS;
+    unsigned short      timestampActiveBits;
+    NSMutableData       *timestampData[kLLITC18DigitalBits];
+    NSLock              *timestampLock;
+    NSData              *timestampResults[kLLITC18DigitalBits];
+    double              timestampTickS[kLLITC18DigitalBits];
     NSArray             *topLevelObjects;
     BOOL                USB18;
     ITCMonitorValues    values;
 
-    IBOutlet NSWindow     *settingsWindow;
+    IBOutlet NSWindow   *settingsWindow;
 }
 
 @property (NS_NONATOMIC_IOSONLY, assign) Ptr itc;;

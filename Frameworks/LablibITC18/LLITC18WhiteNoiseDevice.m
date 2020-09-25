@@ -313,7 +313,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     for (long sampleSet = 0; sampleSet < numStimSampleSets; sampleSet++) {
         sampleSetTimeMS = (sampleSet * self.sampleSetPeriodUS / 1000.0);
         if ((sampleSetTimeMS + pulsePhaseMS) / pNoise->pulseWidthMS > pulseIndex) { // start of a new pulse
-//            *tPtr++ = (int32_t)(sampleSet - zeroSample) / sampleSetsPerMS;        // save start time of new pulse
             pulseIndex++;
             *tPtr++ = (int32_t)(pulseIndex * pNoise->pulseWidthMS + pulsePhaseMS);  // save start time of new pulse
             pulseState = rand() % 2;                                                // select random state
@@ -331,8 +330,8 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             }
             sampleValues[index] = gateAndPulseBits;                   // digital output word (pulseBits on even pulses)
             sampleValues[index] = (pulseIndex % 2) ? gateBits : gateAndPulseBits;
-            NSLog(@"%3ld: time: %4ld voltage %.2f power %.2f", pulseIndex, pulseIndex * pNoise->pulseWidthMS + pulsePhaseMS,
-                  sampleV, sampleP);
+//            NSLog(@"%3ld: time: %4ld voltage %.2f power %.2f", pulseIndex, pulseIndex * pNoise->pulseWidthMS + pulsePhaseMS,
+//                  sampleV, sampleP);
         }
         for (index = 0; index < self.channels + 1; index++) {                  // load values for one sample set
             *sPtr++ = sampleValues[index];

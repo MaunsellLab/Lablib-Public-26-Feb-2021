@@ -3,11 +3,11 @@
 //  Lablib
 //
 //  Created by John Maunsell on Wed Jan 29 2003.
-//  Copyright (c) 2003 . All rights reserved.
+//  Copyright (c) 2003-2020. All rights reserved.
 //
 
-#import "LLITC18.h"
-#import "LLITCMonitorSettings.h"
+#import <LablibITC18/LLITC18.h>
+#import <LablibITC18/LLITCMonitorSettings.h>
 #import <Lablib/LLMonitor.h>
 
 extern NSString    *doWarnDriftKey;
