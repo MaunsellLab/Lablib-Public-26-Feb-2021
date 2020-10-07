@@ -59,7 +59,7 @@
 		6973FCEC0A43267E00A68677 /* Release Notes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "Release Notes.txt"; path = "../../Documentation/Release Notes.txt"; sourceTree = SOURCE_ROOT; };
 		6975F4160B332F1000312509 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };
 		697BCA221F9A8254005DE82A /* AllApps.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllApps.xcconfig; path = ../AllApps.xcconfig; sourceTree = "<group>"; };
-		699B7E3A24C683DB00F14D13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		699B7E3A24C683DB00F14D13 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		69A9E3E90588E51800F6A0DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69A9E3EA0588E51800F6A0DD /* DataConvert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataConvert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69AA8A8D083F7DFD00DAB812 /* PrintView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintView.h; sourceTree = "<group>"; };

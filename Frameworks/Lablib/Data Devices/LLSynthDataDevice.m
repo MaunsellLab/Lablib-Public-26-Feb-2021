@@ -17,7 +17,7 @@ are yoked to a single sampling rate
 #import "LLSystemUtil.h"
 #import "LLSynthSaccade.h"
 
-typedef enum {kXChannel = 0, kYChannel, kRXChannel, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel} LLChannel;
+typedef enum {kRXChannel = 0, kRYChannel, kRPChannel, kLXChannel, kLYChannel, kLPChannel, kXChannel, kYChannel} LLChannel;
 
 #define kLeverJitter 0.50
 #define kUnitsPerDeg 500.0
