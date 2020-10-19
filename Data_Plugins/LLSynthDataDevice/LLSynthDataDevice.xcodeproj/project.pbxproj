@@ -18,7 +18,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* LLSynthDataDevice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSynthDataDevice_Prefix.pch; sourceTree = "<group>"; };
-		6926B43124D3638F00B28763 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6926B43124D3638F00B28763 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6970BC331F9520910058CE60 /* AllProjects.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AllProjects.xcconfig; path = ../../AllProjects.xcconfig; sourceTree = "<group>"; };
 		6970BC371F9520C00058CE60 /* AllDataPlugins.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = AllDataPlugins.xcconfig; path = ../AllDataPlugins.xcconfig; sourceTree = "<group>"; };
 		69E8CA930B0A4A8000DBD2A2 /* Lablib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lablib.framework; path = ../../Frameworks/Lablib/build/Development/Lablib.framework; sourceTree = SOURCE_ROOT; };

@@ -78,7 +78,7 @@
 		694879FA0486AF9300FE06D7 /* RFStopState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFStopState.m; sourceTree = "<group>"; };
 		694879FD0486B06A00FE06D7 /* RFIdleState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFIdleState.h; sourceTree = "<group>"; };
 		694879FE0486B06A00FE06D7 /* RFIdleState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFIdleState.m; sourceTree = "<group>"; };
-		69493B2624C4E6090058956C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		69493B2624C4E6090058956C /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		695EFEEB1AC6243800D9D458 /* RFBehaviorController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFBehaviorController.xib; sourceTree = "<group>"; };
 		695EFEEC1AC6243800D9D458 /* RFEyeXYController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFEyeXYController.xib; sourceTree = "<group>"; };
 		695EFEED1AC6243800D9D458 /* RFMap.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RFMap.xib; sourceTree = "<group>"; };

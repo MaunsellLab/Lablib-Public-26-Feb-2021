@@ -606,7 +606,7 @@
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = E54G4AFC7H;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
@@ -623,7 +623,7 @@
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = E54G4AFC7H;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;
@@ -640,7 +640,7 @@
 			baseConfigurationReference = 696A9CD41F95529A00C6527B /* AllApps.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = E54G4AFC7H;
 				GCC_PREFIX_HEADER = Knot_Prefix.h;

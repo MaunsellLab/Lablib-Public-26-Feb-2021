@@ -11,10 +11,10 @@
 #import <Lablib/LLSynthDataSettings.h>
 #import <Lablib/LLSynthBinocSaccade.h>
 
-#define kLLSynthADChannels                8
-#define kLLSynthDigitalBits                16
-#define kLLSynthSamplePeriodMS            5.0
-#define kLLSynthTimestampPeriodMS        1
+#define kLLSynthADChannels          8
+#define kLLSynthDigitalBits         16
+#define kLLSynthSamplePeriodMS      5.0
+#define kLLSynthTimestampPeriodMS   1
 
 #ifndef kEyes
 typedef enum {kLeftEye, kRightEye} WhichEye;
@@ -58,7 +58,7 @@ extern NSString *LLSynthVBLRateKey;
     double              lastLeverDownTimeS;
     double              lastLeverUpTimeS;
     double              lastSpikeTimeS;
-     long               lastSpontBreakCheckTimeS;
+    long                lastSpontBreakCheckTimeS;
     double              lastSpontDownCheckTimeS;
     double              lastSpontUpCheckTimeS;
     double              leverDownTimeS;
@@ -81,9 +81,10 @@ extern NSString *LLSynthVBLRateKey;
     NSAffineTransformStruct transform[kEyes];
 }
 
+@property long leverLatencyMS;
+
 - (void)doLeverDown;
 - (void)doLeverUp;
-@property (NS_NONATOMIC_IOSONLY) long leverLatencyMS;
 - (void)loadAffineTransforms;
 - (void)setEyeTargetOff;
 - (void)setEyeTargetOn:(NSPoint)target;
