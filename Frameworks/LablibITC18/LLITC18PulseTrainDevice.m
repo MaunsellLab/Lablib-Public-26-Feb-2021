@@ -556,6 +556,6 @@ We load the entire stimulus into the buffer, so that no servicing is needed.
     [deviceLock lock];
     ITC18_Start(itc, NO, YES, NO, NO);                // Start with no external trigger, output enabled
     [deviceLock unlock];
-    [NSThread detachNewThreadSelector:@selector(readData) toTarget:self withObject:nil];
+//    [NSThread detachNewThreadSelector:@selector(readData) toTarget:self withObject:nil];
 }
 @end
