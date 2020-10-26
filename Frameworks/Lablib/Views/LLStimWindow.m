@@ -252,18 +252,18 @@
     }
     [openGLLock lock];
     [stimOpenGLContext makeCurrentContext];
-//    if ([NSThread isMainThread]) {
+    if ([NSThread isMainThread]) {
         if (self.contentView) {
             [self.contentView lockFocusIfCanDraw];
         }
-//    }
-//    else {
-//        dispatch_sync(dispatch_get_main_queue(), ^(void) {
-//            if (self.contentView) {
-//                [self.contentView lockFocusIfCanDraw];
-//            }
-//        });
-//    }
+    }
+    else {
+        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+            if (self.contentView) {
+                [self.contentView lockFocusIfCanDraw];
+            }
+        });
+    }
 }
 
 // Returns whether the mouse is current in the window
@@ -387,14 +387,14 @@
     }
     [stimOpenGLContext makeCurrentContext];
     glFlush();                                                        // flush any pending commands
-//    if ([NSThread isMainThread]) {
+    if ([NSThread isMainThread]) {
         [self.contentView unlockFocus];
-//    }
-//    else {
-//        dispatch_sync(dispatch_get_main_queue(), ^(void) {
-//            [self.contentView unlockFocus];
-//        });
-//    }
+    }
+    else {
+        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+            [self.contentView unlockFocus];
+        });
+    }
     [openGLLock unlock];
 }
 
