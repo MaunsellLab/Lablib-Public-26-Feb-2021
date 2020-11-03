@@ -226,6 +226,7 @@
     }
     self.contentView = [[[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, display.widthPix, display.heightPix)
                                                   pixelFormat:fmt] autorelease];
+    theContentView = self.contentView;
     stimOpenGLContext = [self.contentView openGLContext];
     [stimOpenGLContext makeCurrentContext];
     [stimOpenGLContext setValues:&swapParam forParameter:NSOpenGLCPSwapInterval];
@@ -252,18 +253,21 @@
     }
     [openGLLock lock];
     [stimOpenGLContext makeCurrentContext];
-    if ([NSThread isMainThread]) {
-        if (self.contentView) {
-            [self.contentView lockFocusIfCanDraw];
-        }
+    if (theContentView) {
+        [theContentView lockFocusIfCanDraw];
     }
-    else {
-        dispatch_sync(dispatch_get_main_queue(), ^(void) {
-            if (self.contentView) {
-                [self.contentView lockFocusIfCanDraw];
-            }
-        });
-    }
+//    if ([NSThread isMainThread]) {
+//        if (self.contentView) {
+//            [self.contentView lockFocusIfCanDraw];
+//        }
+//    }
+//    else {
+//        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+//            if (self.contentView) {
+//                [self.contentView lockFocusIfCanDraw];
+//            }
+//        });
+//    }
 }
 
 // Returns whether the mouse is current in the window
@@ -387,15 +391,22 @@
     }
     [stimOpenGLContext makeCurrentContext];
     glFlush();                                                        // flush any pending commands
-    if ([NSThread isMainThread]) {
-        [self.contentView unlockFocus];
-    }
-    else {
-        dispatch_sync(dispatch_get_main_queue(), ^(void) {
-            [self.contentView unlockFocus];
-        });
-    }
+    [theContentView unlockFocus];
     [openGLLock unlock];
+//    if ([NSThread isMainThread]) {
+//        [stimOpenGLContext makeCurrentContext];
+//        glFlush();                                                        // flush any pending commands
+//        [self.contentView unlockFocus];
+//        [openGLLock unlock];
+//    }
+//    else {
+//        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+//            [stimOpenGLContext makeCurrentContext];
+//            glFlush();                                                        // flush any pending commands
+//            [self.contentView unlockFocus];
+//            [openGLLock unlock];
+//        });
+//    }
 }
 
 - (void)windowDidChangeOcclusionState:(NSNotification *)notification
