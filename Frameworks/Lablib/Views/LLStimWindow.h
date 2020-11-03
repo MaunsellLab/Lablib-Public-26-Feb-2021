@@ -13,17 +13,18 @@
 
 @protected
     NSRect                  contentBounds;
-    double                    contrast;
+    double                  contrast;
     DisplayParam            display;
     long                    displayIndex;
-    LLDisplays                *displays;
+    LLDisplays              *displays;
     long                    durationMS;
     BOOL                    fullscreen;
-    LLIntervalMonitor         *monitor;
-    NSLock                    *openGLLock;
-    NSPoint                    scaleOffsetDeg;
+    LLIntervalMonitor       *monitor;
+    NSLock                  *openGLLock;
+    NSPoint                 scaleOffsetDeg;
     NSOpenGLContext         *stimOpenGLContext;
     BOOL                    stimulating;
+    NSView                  *theContentView;                    // can't access content view outside main thread
 }
 
 @property (NS_NONATOMIC_IOSONLY, readonly) NSPoint centerPointPix;
