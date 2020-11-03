@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, SoundTypes) {
 @property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeLeftCalibrator;
 @property (NS_NONATOMIC_IOSONLY, strong) LLEyeCalibrator *eyeRightCalibrator;
 @property (NS_NONATOMIC_IOSONLY, retain) LLFalseHits *falseHits;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL handlesEvents;
+@property (readonly) BOOL handlesEvents;
 @property (NS_NONATOMIC_IOSONLY, retain) id host;
 @property (NS_NONATOMIC_IOSONLY) BOOL initialized;
 @property (NS_NONATOMIC_IOSONLY, retain) NSDate *lastDataCollectionDate;

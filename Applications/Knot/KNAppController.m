@@ -670,7 +670,7 @@ char *idString = "Knot Version 2.2";
         [mouseDataDevice setMouseState:kLLLeftMouseDown];
     }
     else if (theEvent.type == NSEventTypeLeftMouseUp) {                 // NB: Button clicks absorb mouseUp events
-        [mouseDataDevice setMouseState:FALSE];
+        [mouseDataDevice setMouseState:NO];
     }
 
 // Pass the event to the current task, if it handles such events
