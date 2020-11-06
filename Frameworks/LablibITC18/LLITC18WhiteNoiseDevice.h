@@ -35,7 +35,7 @@
 - (void)doInitializationWithDevice:(long)numDevice;
 - (instancetype)initWithDevice:(long)numDevice;
 - (instancetype)initWithDataDevice:(LLDataDevice *)theDataDevice;
-- (BOOL)makeInstructionsFromNoiseData:(WhiteNoiseData *)pNoise channels:(long)channels;
+- (BOOL)makeInstructionsFromNoiseData:(WhiteNoiseData *)pNoise channels:(long)channels maxDurMS:(long)maxDurMS;
 - (BOOL)open:(long)numDevice;
 - (BOOL)outputDigitalEvent:(long)event withData:(long)data;
 

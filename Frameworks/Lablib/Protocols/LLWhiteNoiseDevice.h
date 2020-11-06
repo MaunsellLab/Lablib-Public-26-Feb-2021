@@ -37,6 +37,7 @@ typedef struct {
 
 - (BOOL)setNoiseArray:(NSArray *)noiseArray;
 - (BOOL)setNoiseParameters:(WhiteNoiseData *)pNoise;
+- (BOOL)setNoiseParameters:(WhiteNoiseData *)pNoise maxDurMS:(long)maxDurMS;
 - (void)stimulate;
 
 @end
