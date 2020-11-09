@@ -434,7 +434,11 @@ This variant accepts only events definitions that include data definitions.
                 for (obs = 0; obs < observerArray.count; obs++) {
                     anObserver = observerArray[obs];
                     if ([anObserver respondsToSelector:methodSelector]) {
+//                        double startTimeS = [LLSystemUtil getTimeS];
                         [anObserver performSelector:methodSelector withObject:eventData withObject:eventTime];
+//                        if ([LLSystemUtil getTimeS] - startTimeS > 0.100) {
+//                            NSLog(@"Long dispatch for %@ on event named %@", anObserver, [eventDef name]);
+//                        }
                     }
                 }
                 [observerLock unlock];
