@@ -254,7 +254,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     BOOL pulseState;
     
     self.FIFOSize = 100000;
-//
+    
     // We take common values from the first entry, on the assumption that others have been checked and are the same
     
     self.channels = MIN(activeChannels, ITC18_NUMBEROFDACOUTPUTS);
