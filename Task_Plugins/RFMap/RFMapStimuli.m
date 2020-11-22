@@ -251,7 +251,6 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
     long index, startGridDeg, stopGridDeg, gridDeg;
     float gridSpacingDeg, lineLength;
     BOOL modeValid,mouseValid;
-//    NSAutoreleasePool *threadPool;
     NSPoint stimCenterDeg;
     NSRect stimRectDeg;
      Rect shieldRect = {-500, -500, 500, 500};
@@ -260,7 +259,6 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
     BOOL cursorHidden = NO;
 
     @autoreleasepool {
-//    threadPool = [[NSAutoreleasePool alloc] init];        // create a threadPool for this thread
         stimulusOn = YES;
 
         if (task.stimWindow.fullscreen) {
@@ -278,11 +276,9 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
 
     // We better have a dots movie ready to go in case someone switches from something else to dots midstimulus
 
-    //    if (stimType == kDotsStimulus) {
-            [task.stimWindow lock];
-            [dots makeMovie:5000];
-            [task.stimWindow unlock];
-    //    }
+        [task.stimWindow lock];
+        [dots makeMovie:5000];
+        [task.stimWindow unlock];
         [monitor reset];
         while (!stopStimulus) {
 
@@ -416,7 +412,6 @@ static NSString *RFMonitorIDString = @"RFMapStimulus";
         }
         stimulusOn = NO;
     }
-//    [threadPool release];
 }
 
 - (BOOL)stimulusOn;
