@@ -318,6 +318,7 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             else {
                 pulseState = 0;                                                     // no stim past maxDurMS;
             }
+//            NSLog(@"starting pulse %ld with state %d", pulseIndex, pulseState);
             sampleP = mw[pulseState];                                               // save power of new pulse
             sampleV = v[pulseState];                                                // save voltage of new pulse
             if (pulseState && sampleSet < rampEndSampleSet) {                       // if we're in the ramp, rescale
@@ -327,8 +328,11 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             }
             *pPtr++ = sampleP;
             *vPtr++ = sampleV;
+//            if (pulseIndex >= 85) {
+//                NSLog(@"   sampleV = %.3f", sampleV);
+//            }
             for (index = 0; index < self.channels; index++) {                       // create new values for train
-                sampleValues[index] = sampleV * vRangeFract * 0x7fff;  // might be positive or negative
+                sampleValues[index] = sampleV * vRangeFract * 0x7fff;               // might be positive or negative
             }
             sampleValues[index] = gateAndPulseBits;                   // digital output word (pulseBits on even pulses)
             sampleValues[index] = (pulseIndex % 2) ? gateBits : gateAndPulseBits;
@@ -337,6 +341,9 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
         }
         for (index = 0; index < self.channels + 1; index++) {                  // load values for one sample set
             *sPtr++ = sampleValues[index];
+//            if (pulseIndex >= 85 && !(index % 2)) {
+//                NSLog(@"   sample instruction %ld = %x", sampleSet, sampleValues[index]);
+//            }
         }
     }
 
@@ -358,14 +365,12 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
         [porchValues appendData:trainValues];               // front porch, stim train, and back porch
         [trainValues release];                              // release unneeded data
         trainValues = porchValues;                          // make trainValues point to the whole set
-        self.bufferLength += 2 * porchBufferLength;     // tally the buffer length with both porches
+        self.bufferLength += 2 * porchBufferLength;         // tally the buffer length with both porches
     }
     
 // Make the last digital output word in the buffer close the gate (0x00)
     
     [trainValues resetBytesInRange:NSMakeRange((self.bufferLength - 1) * sizeof(short), sizeof(short))];
-
-    
     if (!self.itcExists) {
         return NO;
     }

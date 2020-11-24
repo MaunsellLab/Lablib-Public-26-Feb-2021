@@ -4,37 +4,53 @@
    <FileRef
       location = "group:Things to Do.txt">
    </FileRef>
-   <FileRef
-      location = "container:Frameworks/Lablib/Lablib.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Frameworks/Lablib/../LablibITC18/LablibITC18.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Frameworks/LablibMatlab/LablibMatlab.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Applications/Knot/Knot.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Applications/DataConvert/DataConvert.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Data_Plugins/LLEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Data_Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Data_Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Task_Plugins/Fixate/Fixate.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Task_Plugins/RFMap/RFMap.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Frameworks">
+      <FileRef
+         location = "container:Frameworks/Lablib/Lablib.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Frameworks/Lablib/../LablibITC18/LablibITC18.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Frameworks/LablibMatlab/LablibMatlab.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Applications">
+      <FileRef
+         location = "group:Applications/Knot/Knot.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Applications/DataConvert/DataConvert.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Data Device Plugins">
+      <FileRef
+         location = "group:Data_Plugins/LabJackU6DataDevice/LabJackU6DataDevice.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Data_Plugins/LLEyeLinkPlugin/LablibEyeLinkPlugin.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Data_Plugins/LLMouseDataDevice/LLMouseDataDevice.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Data_Plugins/LLSynthDataDevice/LLSynthDataDevice.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Experiment Plugins">
+      <FileRef
+         location = "group:Task_Plugins/Fixate/Fixate.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Task_Plugins/RFMap/RFMap.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

@@ -5,7 +5,7 @@
  *  Protocol specifying required methods for a pulse train object
  *
  *  Created by John Maunsell on Aug 29 2008
- *  Copyright (c) 2008. All rights reserved.
+ *  Copyright (c) 2008-2020. All rights reserved.
  *
  */
 
