@@ -282,7 +282,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
     long numPorchSampleSets = gatePorchUS / self.sampleSetPeriodUS;     // DA samples in each gate porch
     long numStimSampleSets = durationUS / self.sampleSetPeriodUS;       // DA samples in train (without porches)
     long numTrainSamples = (durationUS + 2 * gatePorchUS) / instructPeriodUS;
-//    double vRangeFract = pNoise->pulseAmpV / pNoise->fullRangeV;
     self.bufferLength = MAX(numTrainSamples, instructsPerSampleSet);
     long numPulses = pNoise->durationMS / pNoise->pulseWidthMS;
     short gateBits = ((pNoise->doGate) ? (0x1 << pNoise->gateBit) : 0);
@@ -318,7 +317,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             else {
                 pulseState = 0;                                                     // no stim past maxDurMS;
             }
-//            NSLog(@"starting pulse %ld with state %d", pulseIndex, pulseState);
             sampleP = mw[pulseState];                                               // save power of new pulse
             sampleV = v[pulseState];                                                // save voltage of new pulse
             if (pulseState && sampleSet < rampEndSampleSet) {                       // if we're in the ramp, rescale
@@ -328,9 +326,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             }
             *pPtr++ = sampleP;
             *vPtr++ = sampleV;
-//            if (pulseIndex >= 85) {
-//                NSLog(@"   sampleV = %.3f", sampleV);
-//            }
             for (index = 0; index < self.channels; index++) {                       // create new values for train
                 sampleValues[index] = sampleV / pNoise->fullRangeV * 0x7fff;
             }
@@ -341,9 +336,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
         }
         for (index = 0; index < self.channels + 1; index++) {                  // load values for one sample set
             *sPtr++ = sampleValues[index];
-//            if (pulseIndex >= 85 && !(index % 2)) {
-//                NSLog(@"   sample instruction %ld = %x", sampleSet, sampleValues[index]);
-//            }
         }
     }
 
