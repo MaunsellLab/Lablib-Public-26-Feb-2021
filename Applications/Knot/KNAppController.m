@@ -495,6 +495,18 @@ char *idString = "Knot Version 2.2";
     if ((self = [super init]) == nil) {
         return nil;
     }
+    
+    // In normal runs, we want to redirect NSLog statements to a file.  But not when debugging with Xcode.
+    // In Xcode we set an argument in the scheme to signal that we should not redirect log statements.
+    NSDictionary<NSString *, NSString *> *env = [NSProcessInfo processInfo].environment;
+    if ([env objectForKey:@"RUN_FROM_XCODE"] == nil) {
+        NSLog(@"Redirecting NSLog output to file");
+        [self redirectLogToDocuments];                  // send NSLog output to log file
+    }
+    else {
+        NSLog(@"Running within XCode, not redirecting NSLog output");
+    }
+
     self.delegate = self;
     [LLSystemUtil preventSleep];                            // don't let the computer sleep
     
@@ -656,6 +668,15 @@ char *idString = "Knot Version 2.2";
         [recordDontRecordMenuItem setTitle:NSLocalizedString(@"Record Data To File", nil)];
         recordDontRecordMenuItem.keyEquivalent = @"s";        // NB: Implies command-s (no shift)
     }
+}
+
+- (void)redirectLogToDocuments;
+{
+    NSArray *allPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [allPaths objectAtIndex:0];
+    NSString *pathForLog = [documentsDirectory stringByAppendingPathComponent:@"KnotLog.txt"];
+    
+    freopen([pathForLog cStringUsingEncoding:NSASCIIStringEncoding], "a+", stderr);
 }
 
 // As the NSApp, we get all OS events via sendEvent.  We pass these along to LLTaskPlugins that want
