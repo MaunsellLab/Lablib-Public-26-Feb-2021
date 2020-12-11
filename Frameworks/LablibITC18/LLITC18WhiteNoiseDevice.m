@@ -329,7 +329,6 @@ static short DAInstructions[] = {ITC18_OUTPUT_DA0, ITC18_OUTPUT_DA1, ITC18_OUTPU
             for (index = 0; index < self.channels; index++) {                       // create new values for train
                 sampleValues[index] = sampleV / pNoise->fullRangeV * 0x7fff;
             }
-            sampleValues[index] = gateAndPulseBits;                   // digital output word (pulseBits on even pulses)
             sampleValues[index] = (pulseIndex % 2) ? gateBits : gateAndPulseBits;
 //            NSLog(@"%3ld: time: %4ld voltage %.2f power %.2f", pulseIndex,
 //                  pulseIndex * pNoise->pulseWidthMS + pulsePhaseMS, sampleV, sampleP);
